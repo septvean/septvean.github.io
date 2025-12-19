@@ -1,3 +1,3 @@
-# GitHub Page
+# GitHub Pages
 
 <https://septvean.github.io>
