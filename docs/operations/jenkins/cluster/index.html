@@ -19,7 +19,7 @@
 所有构建都应该下放到 Agents。
 2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI / 任务调度 / 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离/干净/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：" />
 
-    <title>Jenkins 集群（Master &#43; Agent） | Documents</title>
+    <title>Jenkins 集群（Master &#43; Agent） | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -42,7 +42,7 @@
     property="og:title"
     content="Jenkins 集群（Master + Agent）"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content="下面是一份 企业级 Jenkins 集群（Master &#43; Agent &#43; 高可用 &#43; Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。
 1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） &#43; 多个 Agents
 目的：
@@ -50,7 +50,7 @@
 所有构建都应该下放到 Agents。
 2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI / 任务调度 / 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离/干净/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/operations/jenkins/cluster/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/jenkins/cluster/" />
 
 <meta property="article:section" content="Operations" />
 
@@ -71,7 +71,7 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Jenkins 集群（Master + Agent）",
-      "url" : "https://docs.v2ep.com/operations/jenkins/cluster/",
+      "url" : "https://documents.v2ep.com/operations/jenkins/cluster/",
       "headline": "Jenkins 集群（Master + Agent）",
       "description": "下面是一份 企业级 Jenkins 集群（Master \u002b Agent \u002b 高可用 \u002b Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。\n1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） \u002b 多个 Agents\n目的：\n分布式执行构建任务 解耦 UI \/ 调度 和 构建 支持大型并发 CI\/CD 隔离构建环境（Java\/Python\/Node\/Docker\/K8s） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 \u002b 管理 UI”。\n所有构建都应该下放到 Agents。\n2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI \/ 任务调度 \/ 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网\/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离\/干净\/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：",
       "wordCount" : "508",
@@ -79,20 +79,20 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/operations/jenkins/cluster/"
+          "@id": "https://documents.v2ep.com/operations/jenkins/cluster/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -163,7 +163,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/operations/jenkins/cluster/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/jenkins/cluster/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -206,14 +206,14 @@
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -239,7 +239,7 @@
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -287,7 +287,7 @@
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1819,7 +1819,7 @@
     >
         1. Jenkins 集群是什么？
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#1-jenkins-集群是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Jenkins 集群是什么？" aria-label="Anchor to: 1. Jenkins 集群是什么？" href="#1-jenkins-%e9%9b%86%e7%be%a4%e6%98%af%e4%bb%80%e4%b9%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#1-jenkins-集群是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Jenkins 集群是什么？" aria-label="Anchor to: 1. Jenkins 集群是什么？" href="#1-jenkins-%e9%9b%86%e7%be%a4%e6%98%af%e4%bb%80%e4%b9%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1838,7 +1838,7 @@
     >
         2. Jenkins 集群架构图（通用版）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#2-jenkins-集群架构图通用版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. Jenkins 集群架构图（通用版）" aria-label="Anchor to: 2. Jenkins 集群架构图（通用版）" href="#2-jenkins-%e9%9b%86%e7%be%a4%e6%9e%b6%e6%9e%84%e5%9b%be%e9%80%9a%e7%94%a8%e7%89%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#2-jenkins-集群架构图通用版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. Jenkins 集群架构图（通用版）" aria-label="Anchor to: 2. Jenkins 集群架构图（通用版）" href="#2-jenkins-%e9%9b%86%e7%be%a4%e6%9e%b6%e6%9e%84%e5%9b%be%e9%80%9a%e7%94%a8%e7%89%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1858,7 +1858,7 @@
     >
         3. Jenkins Agent 类型（四种主流）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#3-jenkins-agent-类型四种主流" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. Jenkins Agent 类型（四种主流）" aria-label="Anchor to: 3. Jenkins Agent 类型（四种主流）" href="#3-jenkins-agent-%e7%b1%bb%e5%9e%8b%e5%9b%9b%e7%a7%8d%e4%b8%bb%e6%b5%81">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#3-jenkins-agent-类型四种主流" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. Jenkins Agent 类型（四种主流）" aria-label="Anchor to: 3. Jenkins Agent 类型（四种主流）" href="#3-jenkins-agent-%e7%b1%bb%e5%9e%8b%e5%9b%9b%e7%a7%8d%e4%b8%bb%e6%b5%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1903,7 +1903,7 @@
     >
         4. 部署 Jenkins 集群（最佳实践架构）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#4-部署-jenkins-集群最佳实践架构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 部署 Jenkins 集群（最佳实践架构）" aria-label="Anchor to: 4. 部署 Jenkins 集群（最佳实践架构）" href="#4-%e9%83%a8%e7%bd%b2-jenkins-%e9%9b%86%e7%be%a4%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%9e%b6%e6%9e%84">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#4-部署-jenkins-集群最佳实践架构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 部署 Jenkins 集群（最佳实践架构）" aria-label="Anchor to: 4. 部署 Jenkins 集群（最佳实践架构）" href="#4-%e9%83%a8%e7%bd%b2-jenkins-%e9%9b%86%e7%be%a4%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%9e%b6%e6%9e%84">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1918,7 +1918,7 @@
     >
         🅰️ 方案 A：Jenkins（Master） + SSH Agents
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-方案-ajenkinsmaster--ssh-agents" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅰️ 方案 A：Jenkins（Master） &#43; SSH Agents" aria-label="Anchor to: 🅰️ 方案 A：Jenkins（Master） &#43; SSH Agents" href="#-%e6%96%b9%e6%a1%88-ajenkinsmaster--ssh-agents">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-方案-ajenkinsmaster--ssh-agents" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅰️ 方案 A：Jenkins（Master） &#43; SSH Agents" aria-label="Anchor to: 🅰️ 方案 A：Jenkins（Master） &#43; SSH Agents" href="#-%e6%96%b9%e6%a1%88-ajenkinsmaster--ssh-agents">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1927,7 +1927,7 @@
     >
         1. Agent 机器创建 jenkins 用户
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#1-agent-机器创建-jenkins-用户" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Agent 机器创建 jenkins 用户" aria-label="Anchor to: 1. Agent 机器创建 jenkins 用户" href="#1-agent-%e6%9c%ba%e5%99%a8%e5%88%9b%e5%bb%ba-jenkins-%e7%94%a8%e6%88%b7">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#1-agent-机器创建-jenkins-用户" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Agent 机器创建 jenkins 用户" aria-label="Anchor to: 1. Agent 机器创建 jenkins 用户" href="#1-agent-%e6%9c%ba%e5%99%a8%e5%88%9b%e5%bb%ba-jenkins-%e7%94%a8%e6%88%b7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1939,7 +1939,7 @@
     >
         2. 在 Jenkins Master 添加 SSH 源码凭证
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#2-在-jenkins-master-添加-ssh-源码凭证" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 在 Jenkins Master 添加 SSH 源码凭证" aria-label="Anchor to: 2. 在 Jenkins Master 添加 SSH 源码凭证" href="#2-%e5%9c%a8-jenkins-master-%e6%b7%bb%e5%8a%a0-ssh-%e6%ba%90%e7%a0%81%e5%87%ad%e8%af%81">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#2-在-jenkins-master-添加-ssh-源码凭证" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 在 Jenkins Master 添加 SSH 源码凭证" aria-label="Anchor to: 2. 在 Jenkins Master 添加 SSH 源码凭证" href="#2-%e5%9c%a8-jenkins-master-%e6%b7%bb%e5%8a%a0-ssh-%e6%ba%90%e7%a0%81%e5%87%ad%e8%af%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1949,7 +1949,7 @@
     >
         3. 绑定 SSH Agent
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#3-绑定-ssh-agent" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 绑定 SSH Agent" aria-label="Anchor to: 3. 绑定 SSH Agent" href="#3-%e7%bb%91%e5%ae%9a-ssh-agent">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#3-绑定-ssh-agent" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 绑定 SSH Agent" aria-label="Anchor to: 3. 绑定 SSH Agent" href="#3-%e7%bb%91%e5%ae%9a-ssh-agent">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1961,7 +1961,7 @@
     >
         🅱️ 方案 B：JNLP Agent（反向连接）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-方案-bjnlp-agent反向连接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅱️ 方案 B：JNLP Agent（反向连接）" aria-label="Anchor to: 🅱️ 方案 B：JNLP Agent（反向连接）" href="#-%e6%96%b9%e6%a1%88-bjnlp-agent%e5%8f%8d%e5%90%91%e8%bf%9e%e6%8e%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-方案-bjnlp-agent反向连接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅱️ 方案 B：JNLP Agent（反向连接）" aria-label="Anchor to: 🅱️ 方案 B：JNLP Agent（反向连接）" href="#-%e6%96%b9%e6%a1%88-bjnlp-agent%e5%8f%8d%e5%90%91%e8%bf%9e%e6%8e%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1979,7 +1979,7 @@
     >
         🅾️ 方案 C：Docker Agent（构建更干净）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-方案-cdocker-agent构建更干净" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅾️ 方案 C：Docker Agent（构建更干净）" aria-label="Anchor to: 🅾️ 方案 C：Docker Agent（构建更干净）" href="#-%e6%96%b9%e6%a1%88-cdocker-agent%e6%9e%84%e5%bb%ba%e6%9b%b4%e5%b9%b2%e5%87%80">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-方案-cdocker-agent构建更干净" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅾️ 方案 C：Docker Agent（构建更干净）" aria-label="Anchor to: 🅾️ 方案 C：Docker Agent（构建更干净）" href="#-%e6%96%b9%e6%a1%88-cdocker-agent%e6%9e%84%e5%bb%ba%e6%9b%b4%e5%b9%b2%e5%87%80">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2012,7 +2012,7 @@
     >
         🅿️ 方案 D：Kubernetes 动态 Agent（企业级最推荐）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-方案-dkubernetes-动态-agent企业级最推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅿️ 方案 D：Kubernetes 动态 Agent（企业级最推荐）" aria-label="Anchor to: 🅿️ 方案 D：Kubernetes 动态 Agent（企业级最推荐）" href="#-%e6%96%b9%e6%a1%88-dkubernetes-%e5%8a%a8%e6%80%81-agent%e4%bc%81%e4%b8%9a%e7%ba%a7%e6%9c%80%e6%8e%a8%e8%8d%90">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-方案-dkubernetes-动态-agent企业级最推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🅿️ 方案 D：Kubernetes 动态 Agent（企业级最推荐）" aria-label="Anchor to: 🅿️ 方案 D：Kubernetes 动态 Agent（企业级最推荐）" href="#-%e6%96%b9%e6%a1%88-dkubernetes-%e5%8a%a8%e6%80%81-agent%e4%bc%81%e4%b8%9a%e7%ba%a7%e6%9c%80%e6%8e%a8%e8%8d%90">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2036,7 +2036,7 @@
     >
         ➤ 安装 Kubernetes 插件
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-安装-kubernetes-插件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ 安装 Kubernetes 插件" aria-label="Anchor to: ➤ 安装 Kubernetes 插件" href="#-%e5%ae%89%e8%a3%85-kubernetes-%e6%8f%92%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-安装-kubernetes-插件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ 安装 Kubernetes 插件" aria-label="Anchor to: ➤ 安装 Kubernetes 插件" href="#-%e5%ae%89%e8%a3%85-kubernetes-%e6%8f%92%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2046,7 +2046,7 @@
     >
         ➤ 配置 Kubernetes Cloud
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-配置-kubernetes-cloud" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ 配置 Kubernetes Cloud" aria-label="Anchor to: ➤ 配置 Kubernetes Cloud" href="#-%e9%85%8d%e7%bd%ae-kubernetes-cloud">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-配置-kubernetes-cloud" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ 配置 Kubernetes Cloud" aria-label="Anchor to: ➤ 配置 Kubernetes Cloud" href="#-%e9%85%8d%e7%bd%ae-kubernetes-cloud">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2063,7 +2063,7 @@
     >
         ➤ Pod Template 示例
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-pod-template-示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ Pod Template 示例" aria-label="Anchor to: ➤ Pod Template 示例" href="#-pod-template-%e7%a4%ba%e4%be%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-pod-template-示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ Pod Template 示例" aria-label="Anchor to: ➤ Pod Template 示例" href="#-pod-template-%e7%a4%ba%e4%be%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2087,7 +2087,7 @@
     >
         ➤ Jenkinsfile 动态调度
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#-jenkinsfile-动态调度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ Jenkinsfile 动态调度" aria-label="Anchor to: ➤ Jenkinsfile 动态调度" href="#-jenkinsfile-%e5%8a%a8%e6%80%81%e8%b0%83%e5%ba%a6">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#-jenkinsfile-动态调度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ➤ Jenkinsfile 动态调度" aria-label="Anchor to: ➤ Jenkinsfile 动态调度" href="#-jenkinsfile-%e5%8a%a8%e6%80%81%e8%b0%83%e5%ba%a6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2122,7 +2122,7 @@
     >
         5. Jenkins 集群持久化存储（非常关键）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#5-jenkins-集群持久化存储非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. Jenkins 集群持久化存储（非常关键）" aria-label="Anchor to: 5. Jenkins 集群持久化存储（非常关键）" href="#5-jenkins-%e9%9b%86%e7%be%a4%e6%8c%81%e4%b9%85%e5%8c%96%e5%ad%98%e5%82%a8%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#5-jenkins-集群持久化存储非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. Jenkins 集群持久化存储（非常关键）" aria-label="Anchor to: 5. Jenkins 集群持久化存储（非常关键）" href="#5-jenkins-%e9%9b%86%e7%be%a4%e6%8c%81%e4%b9%85%e5%8c%96%e5%ad%98%e5%82%a8%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2154,7 +2154,7 @@
     >
         6. Jenkins 集群高可用（HA）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#6-jenkins-集群高可用ha" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. Jenkins 集群高可用（HA）" aria-label="Anchor to: 6. Jenkins 集群高可用（HA）" href="#6-jenkins-%e9%9b%86%e7%be%a4%e9%ab%98%e5%8f%af%e7%94%a8ha">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#6-jenkins-集群高可用ha" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. Jenkins 集群高可用（HA）" aria-label="Anchor to: 6. Jenkins 集群高可用（HA）" href="#6-jenkins-%e9%9b%86%e7%be%a4%e9%ab%98%e5%8f%af%e7%94%a8ha">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2165,7 +2165,7 @@
     >
         方式 A：Active/Standby（Keepalived）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#方式-aactivestandbykeepalived" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 A：Active/Standby（Keepalived）" aria-label="Anchor to: 方式 A：Active/Standby（Keepalived）" href="#%e6%96%b9%e5%bc%8f-aactivestandbykeepalived">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#方式-aactivestandbykeepalived" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 A：Active/Standby（Keepalived）" aria-label="Anchor to: 方式 A：Active/Standby（Keepalived）" href="#%e6%96%b9%e5%bc%8f-aactivestandbykeepalived">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2179,7 +2179,7 @@
     >
         方式 B：Master + Backup
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#方式-bmaster--backup" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 B：Master &#43; Backup" aria-label="Anchor to: 方式 B：Master &#43; Backup" href="#%e6%96%b9%e5%bc%8f-bmaster--backup">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#方式-bmaster--backup" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 B：Master &#43; Backup" aria-label="Anchor to: 方式 B：Master &#43; Backup" href="#%e6%96%b9%e5%bc%8f-bmaster--backup">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2192,7 +2192,7 @@
     >
         方式 C：K8s StatefulSet 单点（最常用）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#方式-ck8s-statefulset-单点最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 C：K8s StatefulSet 单点（最常用）" aria-label="Anchor to: 方式 C：K8s StatefulSet 单点（最常用）" href="#%e6%96%b9%e5%bc%8f-ck8s-statefulset-%e5%8d%95%e7%82%b9%e6%9c%80%e5%b8%b8%e7%94%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#方式-ck8s-statefulset-单点最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 C：K8s StatefulSet 单点（最常用）" aria-label="Anchor to: 方式 C：K8s StatefulSet 单点（最常用）" href="#%e6%96%b9%e5%bc%8f-ck8s-statefulset-%e5%8d%95%e7%82%b9%e6%9c%80%e5%b8%b8%e7%94%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2207,7 +2207,7 @@
     >
         7. Jenkins 集群最佳实践（企业生产环境）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/jenkins/cluster/#7-jenkins-集群最佳实践企业生产环境" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. Jenkins 集群最佳实践（企业生产环境）" aria-label="Anchor to: 7. Jenkins 集群最佳实践（企业生产环境）" href="#7-jenkins-%e9%9b%86%e7%be%a4%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e4%bc%81%e4%b8%9a%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#7-jenkins-集群最佳实践企业生产环境" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. Jenkins 集群最佳实践（企业生产环境）" aria-label="Anchor to: 7. Jenkins 集群最佳实践（企业生产环境）" href="#7-jenkins-%e9%9b%86%e7%be%a4%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e4%bc%81%e4%b8%9a%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

@@ -20,7 +20,7 @@ E 表示 ElasticSearch，F 表示 Filebeat，L 表示 Logstash，K 表示 Kibana
 Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的作用） Logstash：负责数据清洗、解析、标准化 ElasticSearch：存储和搜索日志数据 Kibana：可视化、查询、告警 相比最原始 ELK：
 性能更高（Filebeat 比 Logstash 轻几十倍） 资源消耗更低（Filebeat 占用内存 CPU 极小） 架构更清晰（采集 - 传输 -&gt; 清洗 -&gt; 存储） 🔥 一张图看懂 EFLK 体系 &#43;------------------&#43; | Filebeat | &lt;- 采集日志 | (轻量级 Agent) | &#43;------------------&#43; | v &#43;------------------&#43; | Logstash | &lt;- 解析、清洗、转换结构化 | filter &#43; codec | &#43;------------------&#43; | v &#43;---------------------------&#43; | ElasticSearch | &lt;- 存储 &#43; 检索 &#43; 聚合 &#43;---------------------------&#43; | v &#43;---------------------------&#43; | Kibana | &lt;- 分析 &#43; 可视化 &#43; 告警 &#43;---------------------------&#43; 如果你的业务量更大，可以扩展为：" />
 
-    <title>EFLK 日志收集系统 | Documents</title>
+    <title>EFLK 日志收集系统 | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -43,7 +43,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     property="og:title"
     content="EFLK 日志收集系统"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content=" 🚀 什么是 EFLK？ EFLK = ElasticSearch &#43; Filebeat &#43; Logstash &#43; Kibana
 它是经典 ELK（ElasticSearch &#43; Logstash &#43; Kibana）的改进版，
 E 表示 ElasticSearch，F 表示 Filebeat，L 表示 Logstash，K 表示 Kibana。
@@ -52,7 +52,7 @@ E 表示 ElasticSearch，F 表示 Filebeat，L 表示 Logstash，K 表示 Kibana
 Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的作用） Logstash：负责数据清洗、解析、标准化 ElasticSearch：存储和搜索日志数据 Kibana：可视化、查询、告警 相比最原始 ELK：
 性能更高（Filebeat 比 Logstash 轻几十倍） 资源消耗更低（Filebeat 占用内存 CPU 极小） 架构更清晰（采集 - 传输 -&gt; 清洗 -&gt; 存储） 🔥 一张图看懂 EFLK 体系 &#43;------------------&#43; | Filebeat | &lt;- 采集日志 | (轻量级 Agent) | &#43;------------------&#43; | v &#43;------------------&#43; | Logstash | &lt;- 解析、清洗、转换结构化 | filter &#43; codec | &#43;------------------&#43; | v &#43;---------------------------&#43; | ElasticSearch | &lt;- 存储 &#43; 检索 &#43; 聚合 &#43;---------------------------&#43; | v &#43;---------------------------&#43; | Kibana | &lt;- 分析 &#43; 可视化 &#43; 告警 &#43;---------------------------&#43; 如果你的业务量更大，可以扩展为：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/database/elasticsearch/eflk/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/elasticsearch/eflk/" />
 
 <meta property="article:section" content="Database" />
 
@@ -74,7 +74,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "EFLK 日志收集系统",
-      "url" : "https://docs.v2ep.com/database/elasticsearch/eflk/",
+      "url" : "https://documents.v2ep.com/database/elasticsearch/eflk/",
       "headline": "EFLK 日志收集系统",
       "description": " 🚀 什么是 EFLK？ EFLK = ElasticSearch \u002b Filebeat \u002b Logstash \u002b Kibana\n它是经典 ELK（ElasticSearch \u002b Logstash \u002b Kibana）的改进版，\nE 表示 ElasticSearch，F 表示 Filebeat，L 表示 Logstash，K 表示 Kibana。\n通常 EFLK 与 ELFK（ElasticSearch \u002b Filebeat \u002b Kafka \u002b Logstash \u002b Kibana）都是日志系统常用缩写。\n核心思想：\nFilebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的作用） Logstash：负责数据清洗、解析、标准化 ElasticSearch：存储和搜索日志数据 Kibana：可视化、查询、告警 相比最原始 ELK：\n性能更高（Filebeat 比 Logstash 轻几十倍） 资源消耗更低（Filebeat 占用内存 CPU 极小） 架构更清晰（采集 - 传输 -\u003e 清洗 -\u003e 存储） 🔥 一张图看懂 EFLK 体系 \u002b------------------\u002b | Filebeat | \u003c- 采集日志 | (轻量级 Agent) | \u002b------------------\u002b | v \u002b------------------\u002b | Logstash | \u003c- 解析、清洗、转换结构化 | filter \u002b codec | \u002b------------------\u002b | v \u002b---------------------------\u002b | ElasticSearch | \u003c- 存储 \u002b 检索 \u002b 聚合 \u002b---------------------------\u002b | v \u002b---------------------------\u002b | Kibana | \u003c- 分析 \u002b 可视化 \u002b 告警 \u002b---------------------------\u002b 如果你的业务量更大，可以扩展为：",
       "wordCount" : "568",
@@ -82,20 +82,20 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/database/elasticsearch/eflk/"
+          "@id": "https://documents.v2ep.com/database/elasticsearch/eflk/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -166,7 +166,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/database/elasticsearch/eflk/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/elasticsearch/eflk/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -209,14 +209,14 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -242,7 +242,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -290,7 +290,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1821,7 +1821,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         🚀 什么是 EFLK？
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-什么是-eflk" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🚀 什么是 EFLK？" aria-label="Anchor to: 🚀 什么是 EFLK？" href="#-%e4%bb%80%e4%b9%88%e6%98%af-eflk">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-什么是-eflk" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🚀 什么是 EFLK？" aria-label="Anchor to: 🚀 什么是 EFLK？" href="#-%e4%bb%80%e4%b9%88%e6%98%af-eflk">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1847,7 +1847,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         🔥 一张图看懂 EFLK 体系
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-一张图看懂-eflk-体系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 一张图看懂 EFLK 体系" aria-label="Anchor to: 🔥 一张图看懂 EFLK 体系" href="#-%e4%b8%80%e5%bc%a0%e5%9b%be%e7%9c%8b%e6%87%82-eflk-%e4%bd%93%e7%b3%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-一张图看懂-eflk-体系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 一张图看懂 EFLK 体系" aria-label="Anchor to: 🔥 一张图看懂 EFLK 体系" href="#-%e4%b8%80%e5%bc%a0%e5%9b%be%e7%9c%8b%e6%87%82-eflk-%e4%bd%93%e7%b3%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1878,7 +1878,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         📌 EFLK 各组件职责
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-eflk-各组件职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📌 EFLK 各组件职责" aria-label="Anchor to: 📌 EFLK 各组件职责" href="#-eflk-%e5%90%84%e7%bb%84%e4%bb%b6%e8%81%8c%e8%b4%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-eflk-各组件职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📌 EFLK 各组件职责" aria-label="Anchor to: 📌 EFLK 各组件职责" href="#-eflk-%e5%90%84%e7%bb%84%e4%bb%b6%e8%81%8c%e8%b4%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1887,7 +1887,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         1. Filebeat — 轻量级日志采集器
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#1-filebeat--轻量级日志采集器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Filebeat — 轻量级日志采集器" aria-label="Anchor to: 1. Filebeat — 轻量级日志采集器" href="#1-filebeat--%e8%bd%bb%e9%87%8f%e7%ba%a7%e6%97%a5%e5%bf%97%e9%87%87%e9%9b%86%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#1-filebeat--轻量级日志采集器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Filebeat — 轻量级日志采集器" aria-label="Anchor to: 1. Filebeat — 轻量级日志采集器" href="#1-filebeat--%e8%bd%bb%e9%87%8f%e7%ba%a7%e6%97%a5%e5%bf%97%e9%87%87%e9%9b%86%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1903,7 +1903,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         2. Logstash — 数据清洗与解析
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#2-logstash--数据清洗与解析" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. Logstash — 数据清洗与解析" aria-label="Anchor to: 2. Logstash — 数据清洗与解析" href="#2-logstash--%e6%95%b0%e6%8d%ae%e6%b8%85%e6%b4%97%e4%b8%8e%e8%a7%a3%e6%9e%90">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#2-logstash--数据清洗与解析" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. Logstash — 数据清洗与解析" aria-label="Anchor to: 2. Logstash — 数据清洗与解析" href="#2-logstash--%e6%95%b0%e6%8d%ae%e6%b8%85%e6%b4%97%e4%b8%8e%e8%a7%a3%e6%9e%90">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1919,7 +1919,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         3. ElasticSearch — 搜索/存储引擎
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#3-elasticsearch--搜索存储引擎" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. ElasticSearch — 搜索/存储引擎" aria-label="Anchor to: 3. ElasticSearch — 搜索/存储引擎" href="#3-elasticsearch--%e6%90%9c%e7%b4%a2%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#3-elasticsearch--搜索存储引擎" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. ElasticSearch — 搜索/存储引擎" aria-label="Anchor to: 3. ElasticSearch — 搜索/存储引擎" href="#3-elasticsearch--%e6%90%9c%e7%b4%a2%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1940,7 +1940,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         4. Kibana — 可视化与运维界面
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#4-kibana--可视化与运维界面" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. Kibana — 可视化与运维界面" aria-label="Anchor to: 4. Kibana — 可视化与运维界面" href="#4-kibana--%e5%8f%af%e8%a7%86%e5%8c%96%e4%b8%8e%e8%bf%90%e7%bb%b4%e7%95%8c%e9%9d%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#4-kibana--可视化与运维界面" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. Kibana — 可视化与运维界面" aria-label="Anchor to: 4. Kibana — 可视化与运维界面" href="#4-kibana--%e5%8f%af%e8%a7%86%e5%8c%96%e4%b8%8e%e8%bf%90%e7%bb%b4%e7%95%8c%e9%9d%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1955,7 +1955,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         🧱 EFLK 生产级架构最佳实践
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-eflk-生产级架构最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 EFLK 生产级架构最佳实践" aria-label="Anchor to: 🧱 EFLK 生产级架构最佳实践" href="#-eflk-%e7%94%9f%e4%ba%a7%e7%ba%a7%e6%9e%b6%e6%9e%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-eflk-生产级架构最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 EFLK 生产级架构最佳实践" aria-label="Anchor to: 🧱 EFLK 生产级架构最佳实践" href="#-eflk-%e7%94%9f%e4%ba%a7%e7%ba%a7%e6%9e%b6%e6%9e%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1980,7 +1980,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         🔧 关键配置示例
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-关键配置示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔧 关键配置示例" aria-label="Anchor to: 🔧 关键配置示例" href="#-%e5%85%b3%e9%94%ae%e9%85%8d%e7%bd%ae%e7%a4%ba%e4%be%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-关键配置示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔧 关键配置示例" aria-label="Anchor to: 🔧 关键配置示例" href="#-%e5%85%b3%e9%94%ae%e9%85%8d%e7%bd%ae%e7%a4%ba%e4%be%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1989,7 +1989,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         1. Filebeat -&gt; Logstash
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#1-filebeat---logstash" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Filebeat -&gt; Logstash" aria-label="Anchor to: 1. Filebeat -&gt; Logstash" href="#1-filebeat---logstash">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#1-filebeat---logstash" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Filebeat -&gt; Logstash" aria-label="Anchor to: 1. Filebeat -&gt; Logstash" href="#1-filebeat---logstash">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2006,7 +2006,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
     >
         2. Logstash Pipeline（解析 NGINX）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#2-logstash-pipeline解析-nginx" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. Logstash Pipeline（解析 NGINX）" aria-label="Anchor to: 2. Logstash Pipeline（解析 NGINX）" href="#2-logstash-pipeline%e8%a7%a3%e6%9e%90-nginx">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#2-logstash-pipeline解析-nginx" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. Logstash Pipeline（解析 NGINX）" aria-label="Anchor to: 2. Logstash Pipeline（解析 NGINX）" href="#2-logstash-pipeline%e8%a7%a3%e6%9e%90-nginx">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2037,7 +2037,7 @@ output {
     >
         3. ElasticSearch ILM（自动冷热迁移）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#3-elasticsearch-ilm自动冷热迁移" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. ElasticSearch ILM（自动冷热迁移）" aria-label="Anchor to: 3. ElasticSearch ILM（自动冷热迁移）" href="#3-elasticsearch-ilm%e8%87%aa%e5%8a%a8%e5%86%b7%e7%83%ad%e8%bf%81%e7%a7%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#3-elasticsearch-ilm自动冷热迁移" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. ElasticSearch ILM（自动冷热迁移）" aria-label="Anchor to: 3. ElasticSearch ILM（自动冷热迁移）" href="#3-elasticsearch-ilm%e8%87%aa%e5%8a%a8%e5%86%b7%e7%83%ad%e8%bf%81%e7%a7%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2067,7 +2067,7 @@ output {
     >
         📦 EFLK 常见使用场景
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-eflk-常见使用场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📦 EFLK 常见使用场景" aria-label="Anchor to: 📦 EFLK 常见使用场景" href="#-eflk-%e5%b8%b8%e8%a7%81%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-eflk-常见使用场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📦 EFLK 常见使用场景" aria-label="Anchor to: 📦 EFLK 常见使用场景" href="#-eflk-%e5%b8%b8%e8%a7%81%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2076,7 +2076,7 @@ output {
     >
         🔹 系统日志（/var/log/messages / syslog）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-系统日志varlogmessages--syslog" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 系统日志（/var/log/messages / syslog）" aria-label="Anchor to: 🔹 系统日志（/var/log/messages / syslog）" href="#-%e7%b3%bb%e7%bb%9f%e6%97%a5%e5%bf%97varlogmessages--syslog">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-系统日志varlogmessages--syslog" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 系统日志（/var/log/messages / syslog）" aria-label="Anchor to: 🔹 系统日志（/var/log/messages / syslog）" href="#-%e7%b3%bb%e7%bb%9f%e6%97%a5%e5%bf%97varlogmessages--syslog">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2086,7 +2086,7 @@ output {
     >
         🔹 Nginx / Apache 日志
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-nginx--apache-日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 Nginx / Apache 日志" aria-label="Anchor to: 🔹 Nginx / Apache 日志" href="#-nginx--apache-%e6%97%a5%e5%bf%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-nginx--apache-日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 Nginx / Apache 日志" aria-label="Anchor to: 🔹 Nginx / Apache 日志" href="#-nginx--apache-%e6%97%a5%e5%bf%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2096,7 +2096,7 @@ output {
     >
         🔹 Docker / Kubernetes 日志
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-docker--kubernetes-日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 Docker / Kubernetes 日志" aria-label="Anchor to: 🔹 Docker / Kubernetes 日志" href="#-docker--kubernetes-%e6%97%a5%e5%bf%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-docker--kubernetes-日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 Docker / Kubernetes 日志" aria-label="Anchor to: 🔹 Docker / Kubernetes 日志" href="#-docker--kubernetes-%e6%97%a5%e5%bf%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2106,7 +2106,7 @@ output {
     >
         🔹 应用 Trace / APM
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-应用-trace--apm" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 应用 Trace / APM" aria-label="Anchor to: 🔹 应用 Trace / APM" href="#-%e5%ba%94%e7%94%a8-trace--apm">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-应用-trace--apm" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 应用 Trace / APM" aria-label="Anchor to: 🔹 应用 Trace / APM" href="#-%e5%ba%94%e7%94%a8-trace--apm">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2116,7 +2116,7 @@ output {
     >
         🔹 安全日志 / 审计日志
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-安全日志--审计日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 安全日志 / 审计日志" aria-label="Anchor to: 🔹 安全日志 / 审计日志" href="#-%e5%ae%89%e5%85%a8%e6%97%a5%e5%bf%97--%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-安全日志--审计日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 安全日志 / 审计日志" aria-label="Anchor to: 🔹 安全日志 / 审计日志" href="#-%e5%ae%89%e5%85%a8%e6%97%a5%e5%bf%97--%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2126,7 +2126,7 @@ output {
     >
         ⚠️ EFLK 运维最佳实践（核心总结）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-eflk-运维最佳实践核心总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚠️ EFLK 运维最佳实践（核心总结）" aria-label="Anchor to: ⚠️ EFLK 运维最佳实践（核心总结）" href="#-eflk-%e8%bf%90%e7%bb%b4%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%a0%b8%e5%bf%83%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-eflk-运维最佳实践核心总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚠️ EFLK 运维最佳实践（核心总结）" aria-label="Anchor to: ⚠️ EFLK 运维最佳实践（核心总结）" href="#-eflk-%e8%bf%90%e7%bb%b4%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%a0%b8%e5%bf%83%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2135,7 +2135,7 @@ output {
     >
         Filebeat 使用 loadbalance 输出到多个 Logstash
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#filebeat-使用-loadbalance-输出到多个-logstash" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Filebeat 使用 loadbalance 输出到多个 Logstash" aria-label="Anchor to: Filebeat 使用 loadbalance 输出到多个 Logstash" href="#filebeat-%e4%bd%bf%e7%94%a8-loadbalance-%e8%be%93%e5%87%ba%e5%88%b0%e5%a4%9a%e4%b8%aa-logstash">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#filebeat-使用-loadbalance-输出到多个-logstash" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Filebeat 使用 loadbalance 输出到多个 Logstash" aria-label="Anchor to: Filebeat 使用 loadbalance 输出到多个 Logstash" href="#filebeat-%e4%bd%bf%e7%94%a8-loadbalance-%e8%be%93%e5%87%ba%e5%88%b0%e5%a4%9a%e4%b8%aa-logstash">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2145,7 +2145,7 @@ output {
     >
         Logstash 用 pipeline workers 提升性能
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#logstash-用-pipeline-workers-提升性能" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Logstash 用 pipeline workers 提升性能" aria-label="Anchor to: Logstash 用 pipeline workers 提升性能" href="#logstash-%e7%94%a8-pipeline-workers-%e6%8f%90%e5%8d%87%e6%80%a7%e8%83%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#logstash-用-pipeline-workers-提升性能" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Logstash 用 pipeline workers 提升性能" aria-label="Anchor to: Logstash 用 pipeline workers 提升性能" href="#logstash-%e7%94%a8-pipeline-workers-%e6%8f%90%e5%8d%87%e6%80%a7%e8%83%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2155,7 +2155,7 @@ output {
     >
         ElasticSearch 分片控制
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#elasticsearch-分片控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ElasticSearch 分片控制" aria-label="Anchor to: ElasticSearch 分片控制" href="#elasticsearch-%e5%88%86%e7%89%87%e6%8e%a7%e5%88%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#elasticsearch-分片控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ElasticSearch 分片控制" aria-label="Anchor to: ElasticSearch 分片控制" href="#elasticsearch-%e5%88%86%e7%89%87%e6%8e%a7%e5%88%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2165,7 +2165,7 @@ output {
     >
         ILM 管理冷热数据
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#ilm-管理冷热数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ILM 管理冷热数据" aria-label="Anchor to: ILM 管理冷热数据" href="#ilm-%e7%ae%a1%e7%90%86%e5%86%b7%e7%83%ad%e6%95%b0%e6%8d%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#ilm-管理冷热数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ILM 管理冷热数据" aria-label="Anchor to: ILM 管理冷热数据" href="#ilm-%e7%ae%a1%e7%90%86%e5%86%b7%e7%83%ad%e6%95%b0%e6%8d%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2175,7 +2175,7 @@ output {
     >
         Kibana 做可视化 Dashboard + 警报
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#kibana-做可视化-dashboard--警报" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Kibana 做可视化 Dashboard &#43; 警报" aria-label="Anchor to: Kibana 做可视化 Dashboard &#43; 警报" href="#kibana-%e5%81%9a%e5%8f%af%e8%a7%86%e5%8c%96-dashboard--%e8%ad%a6%e6%8a%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#kibana-做可视化-dashboard--警报" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Kibana 做可视化 Dashboard &#43; 警报" aria-label="Anchor to: Kibana 做可视化 Dashboard &#43; 警报" href="#kibana-%e5%81%9a%e5%8f%af%e8%a7%86%e5%8c%96-dashboard--%e8%ad%a6%e6%8a%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2191,7 +2191,7 @@ output {
     >
         EFLK 中 Kafka 的职责
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#eflk-中-kafka-的职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: EFLK 中 Kafka 的职责" aria-label="Anchor to: EFLK 中 Kafka 的职责" href="#eflk-%e4%b8%ad-kafka-%e7%9a%84%e8%81%8c%e8%b4%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#eflk-中-kafka-的职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: EFLK 中 Kafka 的职责" aria-label="Anchor to: EFLK 中 Kafka 的职责" href="#eflk-%e4%b8%ad-kafka-%e7%9a%84%e8%81%8c%e8%b4%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2201,7 +2201,7 @@ output {
     >
         1. 日志缓冲（Buffer）——吸收 Filebeat 的突发流量
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#1-日志缓冲buffer吸收-filebeat-的突发流量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 日志缓冲（Buffer）——吸收 Filebeat 的突发流量" aria-label="Anchor to: 1. 日志缓冲（Buffer）——吸收 Filebeat 的突发流量" href="#1-%e6%97%a5%e5%bf%97%e7%bc%93%e5%86%b2buffer%e5%90%b8%e6%94%b6-filebeat-%e7%9a%84%e7%aa%81%e5%8f%91%e6%b5%81%e9%87%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#1-日志缓冲buffer吸收-filebeat-的突发流量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 日志缓冲（Buffer）——吸收 Filebeat 的突发流量" aria-label="Anchor to: 1. 日志缓冲（Buffer）——吸收 Filebeat 的突发流量" href="#1-%e6%97%a5%e5%bf%97%e7%bc%93%e5%86%b2buffer%e5%90%b8%e6%94%b6-filebeat-%e7%9a%84%e7%aa%81%e5%8f%91%e6%b5%81%e9%87%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2218,7 +2218,7 @@ output {
     >
         2. 生产者/消费者解耦（Decouple）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#2-生产者消费者解耦decouple" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 生产者/消费者解耦（Decouple）" aria-label="Anchor to: 2. 生产者/消费者解耦（Decouple）" href="#2-%e7%94%9f%e4%ba%a7%e8%80%85%e6%b6%88%e8%b4%b9%e8%80%85%e8%a7%a3%e8%80%a6decouple">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#2-生产者消费者解耦decouple" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 生产者/消费者解耦（Decouple）" aria-label="Anchor to: 2. 生产者/消费者解耦（Decouple）" href="#2-%e7%94%9f%e4%ba%a7%e8%80%85%e6%b6%88%e8%b4%b9%e8%80%85%e8%a7%a3%e8%80%a6decouple">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2237,7 +2237,7 @@ output {
     >
         3. 日志持久化（Durability）——持久可靠队列
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#3-日志持久化durability持久可靠队列" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 日志持久化（Durability）——持久可靠队列" aria-label="Anchor to: 3. 日志持久化（Durability）——持久可靠队列" href="#3-%e6%97%a5%e5%bf%97%e6%8c%81%e4%b9%85%e5%8c%96durability%e6%8c%81%e4%b9%85%e5%8f%af%e9%9d%a0%e9%98%9f%e5%88%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#3-日志持久化durability持久可靠队列" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 日志持久化（Durability）——持久可靠队列" aria-label="Anchor to: 3. 日志持久化（Durability）——持久可靠队列" href="#3-%e6%97%a5%e5%bf%97%e6%8c%81%e4%b9%85%e5%8c%96durability%e6%8c%81%e4%b9%85%e5%8f%af%e9%9d%a0%e9%98%9f%e5%88%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2253,7 +2253,7 @@ output {
     >
         4. 削峰填谷（Backpressure Handling）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#4-削峰填谷backpressure-handling" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 削峰填谷（Backpressure Handling）" aria-label="Anchor to: 4. 削峰填谷（Backpressure Handling）" href="#4-%e5%89%8a%e5%b3%b0%e5%a1%ab%e8%b0%b7backpressure-handling">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#4-削峰填谷backpressure-handling" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 削峰填谷（Backpressure Handling）" aria-label="Anchor to: 4. 削峰填谷（Backpressure Handling）" href="#4-%e5%89%8a%e5%b3%b0%e5%a1%ab%e8%b0%b7backpressure-handling">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2268,7 +2268,7 @@ output {
     >
         5. 水平扩展（Scalability）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#5-水平扩展scalability" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 水平扩展（Scalability）" aria-label="Anchor to: 5. 水平扩展（Scalability）" href="#5-%e6%b0%b4%e5%b9%b3%e6%89%a9%e5%b1%95scalability">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#5-水平扩展scalability" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 水平扩展（Scalability）" aria-label="Anchor to: 5. 水平扩展（Scalability）" href="#5-%e6%b0%b4%e5%b9%b3%e6%89%a9%e5%b1%95scalability">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2283,7 +2283,7 @@ output {
     >
         6. 消息重试/重放（Replay）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#6-消息重试重放replay" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 消息重试/重放（Replay）" aria-label="Anchor to: 6. 消息重试/重放（Replay）" href="#6-%e6%b6%88%e6%81%af%e9%87%8d%e8%af%95%e9%87%8d%e6%94%bereplay">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#6-消息重试重放replay" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 消息重试/重放（Replay）" aria-label="Anchor to: 6. 消息重试/重放（Replay）" href="#6-%e6%b6%88%e6%81%af%e9%87%8d%e8%af%95%e9%87%8d%e6%94%bereplay">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2296,7 +2296,7 @@ output {
     >
         7. 消息顺序保证（Ordering）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#7-消息顺序保证ordering" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 消息顺序保证（Ordering）" aria-label="Anchor to: 7. 消息顺序保证（Ordering）" href="#7-%e6%b6%88%e6%81%af%e9%a1%ba%e5%ba%8f%e4%bf%9d%e8%af%81ordering">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#7-消息顺序保证ordering" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 消息顺序保证（Ordering）" aria-label="Anchor to: 7. 消息顺序保证（Ordering）" href="#7-%e6%b6%88%e6%81%af%e9%a1%ba%e5%ba%8f%e4%bf%9d%e8%af%81ordering">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2312,7 +2312,7 @@ output {
     >
         8. 接入多下游（Fan-out）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#8-接入多下游fan-out" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 接入多下游（Fan-out）" aria-label="Anchor to: 8. 接入多下游（Fan-out）" href="#8-%e6%8e%a5%e5%85%a5%e5%a4%9a%e4%b8%8b%e6%b8%b8fan-out">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#8-接入多下游fan-out" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 接入多下游（Fan-out）" aria-label="Anchor to: 8. 接入多下游（Fan-out）" href="#8-%e6%8e%a5%e5%85%a5%e5%a4%9a%e4%b8%8b%e6%b8%b8fan-out">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2329,7 +2329,7 @@ output {
     >
         🔥 总结：Kafka 在 EFKL 流程中的职责一句话概括
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/elasticsearch/eflk/#-总结kafka-在-efkl-流程中的职责一句话概括" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 总结：Kafka 在 EFKL 流程中的职责一句话概括" aria-label="Anchor to: 🔥 总结：Kafka 在 EFKL 流程中的职责一句话概括" href="#-%e6%80%bb%e7%bb%93kafka-%e5%9c%a8-efkl-%e6%b5%81%e7%a8%8b%e4%b8%ad%e7%9a%84%e8%81%8c%e8%b4%a3%e4%b8%80%e5%8f%a5%e8%af%9d%e6%a6%82%e6%8b%ac">
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/eflk/#-总结kafka-在-efkl-流程中的职责一句话概括" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 总结：Kafka 在 EFKL 流程中的职责一句话概括" aria-label="Anchor to: 🔥 总结：Kafka 在 EFKL 流程中的职责一句话概括" href="#-%e6%80%bb%e7%bb%93kafka-%e5%9c%a8-efkl-%e6%b5%81%e7%a8%8b%e4%b8%ad%e7%9a%84%e8%81%8c%e8%b4%a3%e4%b8%80%e5%8f%a5%e8%af%9d%e6%a6%82%e6%8b%ac">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

@@ -15,7 +15,7 @@
   <meta name="description" content=" 🔥 Python 高级用法大全（最强版） 以下把 Python 高级用法分成 12 大类，覆盖你可能遇到的绝大部分高级需求。
 1. 迭代器 / 生成器 / 惰性计算（核心） 自定义迭代器 class Counter: def __init__(self, n): self.i = 0 self.n = n def __iter__(self): return self def __next__(self): if self.i &lt; self.n: self.i &#43;= 1 return self.i raise StopIteration 生成器（yield） def gen(): for i in range(10): yield i yield from（委托另一个迭代器） def wrapper(): yield from range(5) 2. 装饰器（Decorator） 基本装饰器 def log(fn): def wrapper(*a, **kw): print(f&#34;call: {fn.__name__}&#34;) return fn(*a, **kw) return wrapper 带参数装饰器 def prefix(p): def deco(fn): def wrapper(*a, **kw): print(p) return fn(*a, **kw) return wrapper return deco 类装饰器 class Deco: def __init__(self, fn): self.fn = fn def __call__(self, *a, **kw): return self.fn(*a, **kw) 3. 上下文管理器（context manager） 自定义上下文 class Timer: def __enter__(self): self.start = time.time() def __exit__(self, *exc): print(time.time() - self.start) contextlib.suppress from contextlib import suppress with suppress(KeyError): {}[&#34;x&#34;] contextmanager 装饰器 from contextlib import contextmanager @contextmanager def open_file(path): f = open(path) try: yield f finally: f.close() 4. 闭包（Closure） def make_adder(x): def adder(y): return x &#43; y return adder 5. 高阶函数（Higher-order Functions） 使用函数作为参数：" />
 
-    <title>Python 高级用法 | Documents</title>
+    <title>Python 高级用法 | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,11 +38,11 @@
     property="og:title"
     content="Python 高级用法"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content=" 🔥 Python 高级用法大全（最强版） 以下把 Python 高级用法分成 12 大类，覆盖你可能遇到的绝大部分高级需求。
 1. 迭代器 / 生成器 / 惰性计算（核心） 自定义迭代器 class Counter: def __init__(self, n): self.i = 0 self.n = n def __iter__(self): return self def __next__(self): if self.i &lt; self.n: self.i &#43;= 1 return self.i raise StopIteration 生成器（yield） def gen(): for i in range(10): yield i yield from（委托另一个迭代器） def wrapper(): yield from range(5) 2. 装饰器（Decorator） 基本装饰器 def log(fn): def wrapper(*a, **kw): print(f&#34;call: {fn.__name__}&#34;) return fn(*a, **kw) return wrapper 带参数装饰器 def prefix(p): def deco(fn): def wrapper(*a, **kw): print(p) return fn(*a, **kw) return wrapper return deco 类装饰器 class Deco: def __init__(self, fn): self.fn = fn def __call__(self, *a, **kw): return self.fn(*a, **kw) 3. 上下文管理器（context manager） 自定义上下文 class Timer: def __enter__(self): self.start = time.time() def __exit__(self, *exc): print(time.time() - self.start) contextlib.suppress from contextlib import suppress with suppress(KeyError): {}[&#34;x&#34;] contextmanager 装饰器 from contextlib import contextmanager @contextmanager def open_file(path): f = open(path) try: yield f finally: f.close() 4. 闭包（Closure） def make_adder(x): def adder(y): return x &#43; y return adder 5. 高阶函数（Higher-order Functions） 使用函数作为参数：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/backend/python/official/python-advanced/" />
+<meta property="og:url" content="https://documents.v2ep.com/backend/python/official/python-advanced/" />
 
 <meta property="article:section" content="Backend" />
 
@@ -59,7 +59,7 @@
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "Python 高级用法",
-      "url" : "https://docs.v2ep.com/backend/python/official/python-advanced/",
+      "url" : "https://documents.v2ep.com/backend/python/official/python-advanced/",
       "headline": "Python 高级用法",
       "description": " 🔥 Python 高级用法大全（最强版） 以下把 Python 高级用法分成 12 大类，覆盖你可能遇到的绝大部分高级需求。\n1. 迭代器 \/ 生成器 \/ 惰性计算（核心） 自定义迭代器 class Counter: def __init__(self, n): self.i = 0 self.n = n def __iter__(self): return self def __next__(self): if self.i \u003c self.n: self.i \u002b= 1 return self.i raise StopIteration 生成器（yield） def gen(): for i in range(10): yield i yield from（委托另一个迭代器） def wrapper(): yield from range(5) 2. 装饰器（Decorator） 基本装饰器 def log(fn): def wrapper(*a, **kw): print(f\u0022call: {fn.__name__}\u0022) return fn(*a, **kw) return wrapper 带参数装饰器 def prefix(p): def deco(fn): def wrapper(*a, **kw): print(p) return fn(*a, **kw) return wrapper return deco 类装饰器 class Deco: def __init__(self, fn): self.fn = fn def __call__(self, *a, **kw): return self.fn(*a, **kw) 3. 上下文管理器（context manager） 自定义上下文 class Timer: def __enter__(self): self.start = time.time() def __exit__(self, *exc): print(time.time() - self.start) contextlib.suppress from contextlib import suppress with suppress(KeyError): {}[\u0022x\u0022] contextmanager 装饰器 from contextlib import contextmanager @contextmanager def open_file(path): f = open(path) try: yield f finally: f.close() 4. 闭包（Closure） def make_adder(x): def adder(y): return x \u002b y return adder 5. 高阶函数（Higher-order Functions） 使用函数作为参数：",
       "wordCount" : "345",
@@ -67,20 +67,20 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/backend/python/official/python-advanced/"
+          "@id": "https://documents.v2ep.com/backend/python/official/python-advanced/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -151,7 +151,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/backend/python/official/python-advanced/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/backend/python/official/python-advanced/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -194,14 +194,14 @@
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -227,7 +227,7 @@
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -275,7 +275,7 @@
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1814,7 +1814,7 @@
     >
         🔥 Python 高级用法大全（最强版）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#-python-高级用法大全最强版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 Python 高级用法大全（最强版）" aria-label="Anchor to: 🔥 Python 高级用法大全（最强版）" href="#-python-%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95%e5%a4%a7%e5%85%a8%e6%9c%80%e5%bc%ba%e7%89%88">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#-python-高级用法大全最强版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 Python 高级用法大全（最强版）" aria-label="Anchor to: 🔥 Python 高级用法大全（最强版）" href="#-python-%e9%ab%98%e7%ba%a7%e7%94%a8%e6%b3%95%e5%a4%a7%e5%85%a8%e6%9c%80%e5%bc%ba%e7%89%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1824,7 +1824,7 @@
     >
         1. 迭代器 / 生成器 / 惰性计算（核心）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#1-迭代器--生成器--惰性计算核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 迭代器 / 生成器 / 惰性计算（核心）" aria-label="Anchor to: 1. 迭代器 / 生成器 / 惰性计算（核心）" href="#1-%e8%bf%ad%e4%bb%a3%e5%99%a8--%e7%94%9f%e6%88%90%e5%99%a8--%e6%83%b0%e6%80%a7%e8%ae%a1%e7%ae%97%e6%a0%b8%e5%bf%83">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#1-迭代器--生成器--惰性计算核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 迭代器 / 生成器 / 惰性计算（核心）" aria-label="Anchor to: 1. 迭代器 / 生成器 / 惰性计算（核心）" href="#1-%e8%bf%ad%e4%bb%a3%e5%99%a8--%e7%94%9f%e6%88%90%e5%99%a8--%e6%83%b0%e6%80%a7%e8%ae%a1%e7%ae%97%e6%a0%b8%e5%bf%83">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1833,7 +1833,7 @@
     >
         自定义迭代器
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#自定义迭代器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 自定义迭代器" aria-label="Anchor to: 自定义迭代器" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e8%bf%ad%e4%bb%a3%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#自定义迭代器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 自定义迭代器" aria-label="Anchor to: 自定义迭代器" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e8%bf%ad%e4%bb%a3%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1853,7 +1853,7 @@
     >
         生成器（yield）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#生成器yield" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生成器（yield）" aria-label="Anchor to: 生成器（yield）" href="#%e7%94%9f%e6%88%90%e5%99%a8yield">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#生成器yield" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生成器（yield）" aria-label="Anchor to: 生成器（yield）" href="#%e7%94%9f%e6%88%90%e5%99%a8yield">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1865,7 +1865,7 @@
     >
         yield from（委托另一个迭代器）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#yield-from委托另一个迭代器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: yield from（委托另一个迭代器）" aria-label="Anchor to: yield from（委托另一个迭代器）" href="#yield-from%e5%a7%94%e6%89%98%e5%8f%a6%e4%b8%80%e4%b8%aa%e8%bf%ad%e4%bb%a3%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#yield-from委托另一个迭代器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: yield from（委托另一个迭代器）" aria-label="Anchor to: yield from（委托另一个迭代器）" href="#yield-from%e5%a7%94%e6%89%98%e5%8f%a6%e4%b8%80%e4%b8%aa%e8%bf%ad%e4%bb%a3%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1876,7 +1876,7 @@
     >
         2. 装饰器（Decorator）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#2-装饰器decorator" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 装饰器（Decorator）" aria-label="Anchor to: 2. 装饰器（Decorator）" href="#2-%e8%a3%85%e9%a5%b0%e5%99%a8decorator">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#2-装饰器decorator" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 装饰器（Decorator）" aria-label="Anchor to: 2. 装饰器（Decorator）" href="#2-%e8%a3%85%e9%a5%b0%e5%99%a8decorator">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1885,7 +1885,7 @@
     >
         基本装饰器
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#基本装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 基本装饰器" aria-label="Anchor to: 基本装饰器" href="#%e5%9f%ba%e6%9c%ac%e8%a3%85%e9%a5%b0%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#基本装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 基本装饰器" aria-label="Anchor to: 基本装饰器" href="#%e5%9f%ba%e6%9c%ac%e8%a3%85%e9%a5%b0%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1899,7 +1899,7 @@
     >
         带参数装饰器
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#带参数装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 带参数装饰器" aria-label="Anchor to: 带参数装饰器" href="#%e5%b8%a6%e5%8f%82%e6%95%b0%e8%a3%85%e9%a5%b0%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#带参数装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 带参数装饰器" aria-label="Anchor to: 带参数装饰器" href="#%e5%b8%a6%e5%8f%82%e6%95%b0%e8%a3%85%e9%a5%b0%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1915,7 +1915,7 @@
     >
         类装饰器
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#类装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 类装饰器" aria-label="Anchor to: 类装饰器" href="#%e7%b1%bb%e8%a3%85%e9%a5%b0%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#类装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 类装饰器" aria-label="Anchor to: 类装饰器" href="#%e7%b1%bb%e8%a3%85%e9%a5%b0%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1929,7 +1929,7 @@
     >
         3. 上下文管理器（context manager）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#3-上下文管理器context-manager" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 上下文管理器（context manager）" aria-label="Anchor to: 3. 上下文管理器（context manager）" href="#3-%e4%b8%8a%e4%b8%8b%e6%96%87%e7%ae%a1%e7%90%86%e5%99%a8context-manager">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#3-上下文管理器context-manager" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 上下文管理器（context manager）" aria-label="Anchor to: 3. 上下文管理器（context manager）" href="#3-%e4%b8%8a%e4%b8%8b%e6%96%87%e7%ae%a1%e7%90%86%e5%99%a8context-manager">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1938,7 +1938,7 @@
     >
         自定义上下文
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#自定义上下文" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 自定义上下文" aria-label="Anchor to: 自定义上下文" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%8a%e4%b8%8b%e6%96%87">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#自定义上下文" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 自定义上下文" aria-label="Anchor to: 自定义上下文" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e4%b8%8a%e4%b8%8b%e6%96%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1952,7 +1952,7 @@
     >
         contextlib.suppress
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#contextlibsuppress" class="gdoc-page__anchor clip flex align-center" title="Anchor to: contextlib.suppress" aria-label="Anchor to: contextlib.suppress" href="#contextlibsuppress">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#contextlibsuppress" class="gdoc-page__anchor clip flex align-center" title="Anchor to: contextlib.suppress" aria-label="Anchor to: contextlib.suppress" href="#contextlibsuppress">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1965,7 +1965,7 @@
     >
         contextmanager 装饰器
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#contextmanager-装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: contextmanager 装饰器" aria-label="Anchor to: contextmanager 装饰器" href="#contextmanager-%e8%a3%85%e9%a5%b0%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#contextmanager-装饰器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: contextmanager 装饰器" aria-label="Anchor to: contextmanager 装饰器" href="#contextmanager-%e8%a3%85%e9%a5%b0%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1982,7 +1982,7 @@
     >
         4. 闭包（Closure）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#4-闭包closure" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 闭包（Closure）" aria-label="Anchor to: 4. 闭包（Closure）" href="#4-%e9%97%ad%e5%8c%85closure">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#4-闭包closure" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 闭包（Closure）" aria-label="Anchor to: 4. 闭包（Closure）" href="#4-%e9%97%ad%e5%8c%85closure">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1995,7 +1995,7 @@
     >
         5. 高阶函数（Higher-order Functions）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#5-高阶函数higher-order-functions" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 高阶函数（Higher-order Functions）" aria-label="Anchor to: 5. 高阶函数（Higher-order Functions）" href="#5-%e9%ab%98%e9%98%b6%e5%87%bd%e6%95%b0higher-order-functions">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#5-高阶函数higher-order-functions" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 高阶函数（Higher-order Functions）" aria-label="Anchor to: 5. 高阶函数（Higher-order Functions）" href="#5-%e9%ab%98%e9%98%b6%e5%87%bd%e6%95%b0higher-order-functions">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2013,7 +2013,7 @@
     >
         6. 元类（Metaclass）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#6-元类metaclass" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 元类（Metaclass）" aria-label="Anchor to: 6. 元类（Metaclass）" href="#6-%e5%85%83%e7%b1%bbmetaclass">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#6-元类metaclass" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 元类（Metaclass）" aria-label="Anchor to: 6. 元类（Metaclass）" href="#6-%e5%85%83%e7%b1%bbmetaclass">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2027,7 +2027,7 @@
     >
         7. 描述符（Descriptor）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#7-描述符descriptor" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 描述符（Descriptor）" aria-label="Anchor to: 7. 描述符（Descriptor）" href="#7-%e6%8f%8f%e8%bf%b0%e7%ac%a6descriptor">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#7-描述符descriptor" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 描述符（Descriptor）" aria-label="Anchor to: 7. 描述符（Descriptor）" href="#7-%e6%8f%8f%e8%bf%b0%e7%ac%a6descriptor">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2046,7 +2046,7 @@
     >
         8. 协程 / asyncio（异步编程）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#8-协程--asyncio异步编程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 协程 / asyncio（异步编程）" aria-label="Anchor to: 8. 协程 / asyncio（异步编程）" href="#8-%e5%8d%8f%e7%a8%8b--asyncio%e5%bc%82%e6%ad%a5%e7%bc%96%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#8-协程--asyncio异步编程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 协程 / asyncio（异步编程）" aria-label="Anchor to: 8. 协程 / asyncio（异步编程）" href="#8-%e5%8d%8f%e7%a8%8b--asyncio%e5%bc%82%e6%ad%a5%e7%bc%96%e7%a8%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2055,7 +2055,7 @@
     >
         async/await
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#asyncawait" class="gdoc-page__anchor clip flex align-center" title="Anchor to: async/await" aria-label="Anchor to: async/await" href="#asyncawait">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#asyncawait" class="gdoc-page__anchor clip flex align-center" title="Anchor to: async/await" aria-label="Anchor to: async/await" href="#asyncawait">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2067,7 +2067,7 @@
     >
         并发执行
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#并发执行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 并发执行" aria-label="Anchor to: 并发执行" href="#%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#并发执行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 并发执行" aria-label="Anchor to: 并发执行" href="#%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2077,7 +2077,7 @@
     >
         9. 类型注解（typing）与 Pydantic
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#9-类型注解typing与-pydantic" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 类型注解（typing）与 Pydantic" aria-label="Anchor to: 9. 类型注解（typing）与 Pydantic" href="#9-%e7%b1%bb%e5%9e%8b%e6%b3%a8%e8%a7%a3typing%e4%b8%8e-pydantic">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#9-类型注解typing与-pydantic" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 类型注解（typing）与 Pydantic" aria-label="Anchor to: 9. 类型注解（typing）与 Pydantic" href="#9-%e7%b1%bb%e5%9e%8b%e6%b3%a8%e8%a7%a3typing%e4%b8%8e-pydantic">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2086,7 +2086,7 @@
     >
         泛型类型
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#泛型类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 泛型类型" aria-label="Anchor to: 泛型类型" href="#%e6%b3%9b%e5%9e%8b%e7%b1%bb%e5%9e%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#泛型类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 泛型类型" aria-label="Anchor to: 泛型类型" href="#%e6%b3%9b%e5%9e%8b%e7%b1%bb%e5%9e%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2096,7 +2096,7 @@
     >
         TypedDict
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#typeddict" class="gdoc-page__anchor clip flex align-center" title="Anchor to: TypedDict" aria-label="Anchor to: TypedDict" href="#typeddict">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#typeddict" class="gdoc-page__anchor clip flex align-center" title="Anchor to: TypedDict" aria-label="Anchor to: TypedDict" href="#typeddict">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2108,7 +2108,7 @@
     >
         10. 内置魔术方法（dunder methods）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#10-内置魔术方法dunder-methods" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 内置魔术方法（dunder methods）" aria-label="Anchor to: 10. 内置魔术方法（dunder methods）" href="#10-%e5%86%85%e7%bd%ae%e9%ad%94%e6%9c%af%e6%96%b9%e6%b3%95dunder-methods">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#10-内置魔术方法dunder-methods" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 内置魔术方法（dunder methods）" aria-label="Anchor to: 10. 内置魔术方法（dunder methods）" href="#10-%e5%86%85%e7%bd%ae%e9%ad%94%e6%9c%af%e6%96%b9%e6%b3%95dunder-methods">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2117,7 +2117,7 @@
     >
         自定义行为
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#自定义行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 自定义行为" aria-label="Anchor to: 自定义行为" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e8%a1%8c%e4%b8%ba">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#自定义行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 自定义行为" aria-label="Anchor to: 自定义行为" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e8%a1%8c%e4%b8%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2131,7 +2131,7 @@
     >
         实现切片
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#实现切片" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 实现切片" aria-label="Anchor to: 实现切片" href="#%e5%ae%9e%e7%8e%b0%e5%88%87%e7%89%87">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#实现切片" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 实现切片" aria-label="Anchor to: 实现切片" href="#%e5%ae%9e%e7%8e%b0%e5%88%87%e7%89%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2143,7 +2143,7 @@
     >
         11. 函数式技巧：lambda、partial、柯里化
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#11-函数式技巧lambdapartial柯里化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 函数式技巧：lambda、partial、柯里化" aria-label="Anchor to: 11. 函数式技巧：lambda、partial、柯里化" href="#11-%e5%87%bd%e6%95%b0%e5%bc%8f%e6%8a%80%e5%b7%a7lambdapartial%e6%9f%af%e9%87%8c%e5%8c%96">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#11-函数式技巧lambdapartial柯里化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 函数式技巧：lambda、partial、柯里化" aria-label="Anchor to: 11. 函数式技巧：lambda、partial、柯里化" href="#11-%e5%87%bd%e6%95%b0%e5%bc%8f%e6%8a%80%e5%b7%a7lambdapartial%e6%9f%af%e9%87%8c%e5%8c%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2152,7 +2152,7 @@
     >
         lambda
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#lambda" class="gdoc-page__anchor clip flex align-center" title="Anchor to: lambda" aria-label="Anchor to: lambda" href="#lambda">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#lambda" class="gdoc-page__anchor clip flex align-center" title="Anchor to: lambda" aria-label="Anchor to: lambda" href="#lambda">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2162,7 +2162,7 @@
     >
         partial
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#partial" class="gdoc-page__anchor clip flex align-center" title="Anchor to: partial" aria-label="Anchor to: partial" href="#partial">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#partial" class="gdoc-page__anchor clip flex align-center" title="Anchor to: partial" aria-label="Anchor to: partial" href="#partial">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2173,7 +2173,7 @@
     >
         12. 内置高级数据结构
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#12-内置高级数据结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. 内置高级数据结构" aria-label="Anchor to: 12. 内置高级数据结构" href="#12-%e5%86%85%e7%bd%ae%e9%ab%98%e7%ba%a7%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#12-内置高级数据结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. 内置高级数据结构" aria-label="Anchor to: 12. 内置高级数据结构" href="#12-%e5%86%85%e7%bd%ae%e9%ab%98%e7%ba%a7%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2182,7 +2182,7 @@
     >
         collections
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#collections" class="gdoc-page__anchor clip flex align-center" title="Anchor to: collections" aria-label="Anchor to: collections" href="#collections">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#collections" class="gdoc-page__anchor clip flex align-center" title="Anchor to: collections" aria-label="Anchor to: collections" href="#collections">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2197,7 +2197,7 @@
     >
         heapq（最小堆）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#heapq最小堆" class="gdoc-page__anchor clip flex align-center" title="Anchor to: heapq（最小堆）" aria-label="Anchor to: heapq（最小堆）" href="#heapq%e6%9c%80%e5%b0%8f%e5%a0%86">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#heapq最小堆" class="gdoc-page__anchor clip flex align-center" title="Anchor to: heapq（最小堆）" aria-label="Anchor to: heapq（最小堆）" href="#heapq%e6%9c%80%e5%b0%8f%e5%a0%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2207,7 +2207,7 @@
     >
         functools.lru_cache（缓存）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#functoolslru_cache缓存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: functools.lru_cache（缓存）" aria-label="Anchor to: functools.lru_cache（缓存）" href="#functoolslru_cache%e7%bc%93%e5%ad%98">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#functoolslru_cache缓存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: functools.lru_cache（缓存）" aria-label="Anchor to: functools.lru_cache（缓存）" href="#functoolslru_cache%e7%bc%93%e5%ad%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2218,7 +2218,7 @@
     >
         🎯 额外加分：Python 中真正高级的主题
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/official/python-advanced/#-额外加分python-中真正高级的主题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 额外加分：Python 中真正高级的主题" aria-label="Anchor to: 🎯 额外加分：Python 中真正高级的主题" href="#-%e9%a2%9d%e5%a4%96%e5%8a%a0%e5%88%86python-%e4%b8%ad%e7%9c%9f%e6%ad%a3%e9%ab%98%e7%ba%a7%e7%9a%84%e4%b8%bb%e9%a2%98">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/python-advanced/#-额外加分python-中真正高级的主题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 额外加分：Python 中真正高级的主题" aria-label="Anchor to: 🎯 额外加分：Python 中真正高级的主题" href="#-%e9%a2%9d%e5%a4%96%e5%8a%a0%e5%88%86python-%e4%b8%ad%e7%9c%9f%e6%ad%a3%e9%ab%98%e7%ba%a7%e7%9a%84%e4%b8%bb%e9%a2%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

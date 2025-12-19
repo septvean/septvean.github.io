@@ -18,7 +18,7 @@
 result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(User.id, User.name) rows = session.execute(stmt).all() 返回格式
 [(1, &#34;martin&#34;), (2, &#34;john&#34;), ...] 3. 使用过滤条件（=、&gt;、&lt;、LIKE、IN） 3.1 等于 stmt = select(User).where(User.status == 1) 3.2 多条件 AND stmt = select(User).where( User.age &gt; 18, User.status == 1 ) 3.3 OR 条件 from sqlalchemy import or_ stmt = select(User).where( or_(User.age &lt; 18, User.status == 0) ) 3.4 IN stmt = select(User).where(User.id.in_([1, 2, 3])) 3.5 LIKE stmt = select(User).where(User.name.like(&#34;%martin%&#34;)) 4. 排序 ORDER BY stmt = select(User).order_by(User.id.desc()) 5. 分页 LIMIT OFFSET stmt = ( select(User) .order_by(User.id.desc()) .limit(10) .offset(0) ) 6. JOIN（最常用） 内连接 JOIN" />
 
-    <title>Select | Documents</title>
+    <title>Select | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -41,14 +41,14 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     property="og:title"
     content="Select"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content="下面给你一份 SQLAlchemy 2.0 ORM select() 最清晰、最完整、最实战的教程，涵盖基础、进阶、JOIN、过滤、多表、分页、聚合、子查询、返回值处理等内容。
 内容经过整理，完全适配 SQLAlchemy 2.0（sync &#43; async 通用）。
 1. 基础：最简单的 select from sqlalchemy import select from models import User stmt = select(User) result = session.execute(stmt).scalars().all() 返回格式（ORM 模式）
 result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(User.id, User.name) rows = session.execute(stmt).all() 返回格式
 [(1, &#34;martin&#34;), (2, &#34;john&#34;), ...] 3. 使用过滤条件（=、&gt;、&lt;、LIKE、IN） 3.1 等于 stmt = select(User).where(User.status == 1) 3.2 多条件 AND stmt = select(User).where( User.age &gt; 18, User.status == 1 ) 3.3 OR 条件 from sqlalchemy import or_ stmt = select(User).where( or_(User.age &lt; 18, User.status == 0) ) 3.4 IN stmt = select(User).where(User.id.in_([1, 2, 3])) 3.5 LIKE stmt = select(User).where(User.name.like(&#34;%martin%&#34;)) 4. 排序 ORDER BY stmt = select(User).order_by(User.id.desc()) 5. 分页 LIMIT OFFSET stmt = ( select(User) .order_by(User.id.desc()) .limit(10) .offset(0) ) 6. JOIN（最常用） 内连接 JOIN" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/backend/python/sqlalchemy/select/" />
+<meta property="og:url" content="https://documents.v2ep.com/backend/python/sqlalchemy/select/" />
 
 <meta property="article:section" content="Backend" />
 
@@ -68,7 +68,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "Select",
-      "url" : "https://docs.v2ep.com/backend/python/sqlalchemy/select/",
+      "url" : "https://documents.v2ep.com/backend/python/sqlalchemy/select/",
       "headline": "Select",
       "description": "下面给你一份 SQLAlchemy 2.0 ORM select() 最清晰、最完整、最实战的教程，涵盖基础、进阶、JOIN、过滤、多表、分页、聚合、子查询、返回值处理等内容。\n内容经过整理，完全适配 SQLAlchemy 2.0（sync \u002b async 通用）。\n1. 基础：最简单的 select from sqlalchemy import select from models import User stmt = select(User) result = session.execute(stmt).scalars().all() 返回格式（ORM 模式）\nresult.scalars().all() -\u003e list[User] 2. 只查询部分字段 stmt = select(User.id, User.name) rows = session.execute(stmt).all() 返回格式\n[(1, \u0022martin\u0022), (2, \u0022john\u0022), ...] 3. 使用过滤条件（=、\u003e、\u003c、LIKE、IN） 3.1 等于 stmt = select(User).where(User.status == 1) 3.2 多条件 AND stmt = select(User).where( User.age \u003e 18, User.status == 1 ) 3.3 OR 条件 from sqlalchemy import or_ stmt = select(User).where( or_(User.age \u003c 18, User.status == 0) ) 3.4 IN stmt = select(User).where(User.id.in_([1, 2, 3])) 3.5 LIKE stmt = select(User).where(User.name.like(\u0022%martin%\u0022)) 4. 排序 ORDER BY stmt = select(User).order_by(User.id.desc()) 5. 分页 LIMIT OFFSET stmt = ( select(User) .order_by(User.id.desc()) .limit(10) .offset(0) ) 6. JOIN（最常用） 内连接 JOIN",
       "wordCount" : "350",
@@ -76,20 +76,20 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/backend/python/sqlalchemy/select/"
+          "@id": "https://documents.v2ep.com/backend/python/sqlalchemy/select/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -160,7 +160,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/backend/python/sqlalchemy/select/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/backend/python/sqlalchemy/select/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -203,14 +203,14 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -236,7 +236,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -284,7 +284,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1825,7 +1825,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         1. 基础：最简单的 select
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#1-基础最简单的-select" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 基础：最简单的 select" aria-label="Anchor to: 1. 基础：最简单的 select" href="#1-%e5%9f%ba%e7%a1%80%e6%9c%80%e7%ae%80%e5%8d%95%e7%9a%84-select">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#1-基础最简单的-select" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 基础：最简单的 select" aria-label="Anchor to: 1. 基础：最简单的 select" href="#1-%e5%9f%ba%e7%a1%80%e6%9c%80%e7%ae%80%e5%8d%95%e7%9a%84-select">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1841,7 +1841,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         2. 只查询部分字段
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#2-只查询部分字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 只查询部分字段" aria-label="Anchor to: 2. 只查询部分字段" href="#2-%e5%8f%aa%e6%9f%a5%e8%af%a2%e9%83%a8%e5%88%86%e5%ad%97%e6%ae%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#2-只查询部分字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 只查询部分字段" aria-label="Anchor to: 2. 只查询部分字段" href="#2-%e5%8f%aa%e6%9f%a5%e8%af%a2%e9%83%a8%e5%88%86%e5%ad%97%e6%ae%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1854,7 +1854,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         3. 使用过滤条件（=、&gt;、&lt;、LIKE、IN）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#3-使用过滤条件likein" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 使用过滤条件（=、&gt;、&lt;、LIKE、IN）" aria-label="Anchor to: 3. 使用过滤条件（=、&gt;、&lt;、LIKE、IN）" href="#3-%e4%bd%bf%e7%94%a8%e8%bf%87%e6%bb%a4%e6%9d%a1%e4%bb%b6likein">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#3-使用过滤条件likein" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 使用过滤条件（=、&gt;、&lt;、LIKE、IN）" aria-label="Anchor to: 3. 使用过滤条件（=、&gt;、&lt;、LIKE、IN）" href="#3-%e4%bd%bf%e7%94%a8%e8%bf%87%e6%bb%a4%e6%9d%a1%e4%bb%b6likein">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1863,7 +1863,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         3.1 等于
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#31-等于" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.1 等于" aria-label="Anchor to: 3.1 等于" href="#31-%e7%ad%89%e4%ba%8e">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#31-等于" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.1 等于" aria-label="Anchor to: 3.1 等于" href="#31-%e7%ad%89%e4%ba%8e">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1873,7 +1873,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         3.2 多条件 AND
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#32-多条件-and" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.2 多条件 AND" aria-label="Anchor to: 3.2 多条件 AND" href="#32-%e5%a4%9a%e6%9d%a1%e4%bb%b6-and">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#32-多条件-and" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.2 多条件 AND" aria-label="Anchor to: 3.2 多条件 AND" href="#32-%e5%a4%9a%e6%9d%a1%e4%bb%b6-and">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1886,7 +1886,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         3.3 OR 条件
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#33-or-条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.3 OR 条件" aria-label="Anchor to: 3.3 OR 条件" href="#33-or-%e6%9d%a1%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#33-or-条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.3 OR 条件" aria-label="Anchor to: 3.3 OR 条件" href="#33-or-%e6%9d%a1%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1900,7 +1900,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         3.4 IN
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#34-in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.4 IN" aria-label="Anchor to: 3.4 IN" href="#34-in">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#34-in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.4 IN" aria-label="Anchor to: 3.4 IN" href="#34-in">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1910,7 +1910,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         3.5 LIKE
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#35-like" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.5 LIKE" aria-label="Anchor to: 3.5 LIKE" href="#35-like">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#35-like" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.5 LIKE" aria-label="Anchor to: 3.5 LIKE" href="#35-like">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1920,7 +1920,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         4. 排序 ORDER BY
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#4-排序-order-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 排序 ORDER BY" aria-label="Anchor to: 4. 排序 ORDER BY" href="#4-%e6%8e%92%e5%ba%8f-order-by">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#4-排序-order-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 排序 ORDER BY" aria-label="Anchor to: 4. 排序 ORDER BY" href="#4-%e6%8e%92%e5%ba%8f-order-by">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1930,7 +1930,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         5. 分页 LIMIT OFFSET
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#5-分页-limit-offset" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 分页 LIMIT OFFSET" aria-label="Anchor to: 5. 分页 LIMIT OFFSET" href="#5-%e5%88%86%e9%a1%b5-limit-offset">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#5-分页-limit-offset" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 分页 LIMIT OFFSET" aria-label="Anchor to: 5. 分页 LIMIT OFFSET" href="#5-%e5%88%86%e9%a1%b5-limit-offset">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1945,7 +1945,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         6. JOIN（最常用）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#6-join最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. JOIN（最常用）" aria-label="Anchor to: 6. JOIN（最常用）" href="#6-join%e6%9c%80%e5%b8%b8%e7%94%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#6-join最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. JOIN（最常用）" aria-label="Anchor to: 6. JOIN（最常用）" href="#6-join%e6%9c%80%e5%b8%b8%e7%94%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1966,7 +1966,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         7. 多表 JOIN + 指定字段
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#7-多表-join--指定字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 多表 JOIN &#43; 指定字段" aria-label="Anchor to: 7. 多表 JOIN &#43; 指定字段" href="#7-%e5%a4%9a%e8%a1%a8-join--%e6%8c%87%e5%ae%9a%e5%ad%97%e6%ae%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#7-多表-join--指定字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 多表 JOIN &#43; 指定字段" aria-label="Anchor to: 7. 多表 JOIN &#43; 指定字段" href="#7-%e5%a4%9a%e8%a1%a8-join--%e6%8c%87%e5%ae%9a%e5%ad%97%e6%ae%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1981,7 +1981,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         8. DISTINCT（去重）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#8-distinct去重" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. DISTINCT（去重）" aria-label="Anchor to: 8. DISTINCT（去重）" href="#8-distinct%e5%8e%bb%e9%87%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#8-distinct去重" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. DISTINCT（去重）" aria-label="Anchor to: 8. DISTINCT（去重）" href="#8-distinct%e5%8e%bb%e9%87%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1991,7 +1991,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         9. GROUP BY、聚合函数
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#9-group-by聚合函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. GROUP BY、聚合函数" aria-label="Anchor to: 9. GROUP BY、聚合函数" href="#9-group-by%e8%81%9a%e5%90%88%e5%87%bd%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#9-group-by聚合函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. GROUP BY、聚合函数" aria-label="Anchor to: 9. GROUP BY、聚合函数" href="#9-group-by%e8%81%9a%e5%90%88%e5%87%bd%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2008,7 +2008,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         10. 子查询 Subquery
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#10-子查询-subquery" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 子查询 Subquery" aria-label="Anchor to: 10. 子查询 Subquery" href="#10-%e5%ad%90%e6%9f%a5%e8%af%a2-subquery">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#10-子查询-subquery" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 子查询 Subquery" aria-label="Anchor to: 10. 子查询 Subquery" href="#10-%e5%ad%90%e6%9f%a5%e8%af%a2-subquery">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2024,7 +2024,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         11. exists / not exists
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#11-exists--not-exists" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. exists / not exists" aria-label="Anchor to: 11. exists / not exists" href="#11-exists--not-exists">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#11-exists--not-exists" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. exists / not exists" aria-label="Anchor to: 11. exists / not exists" href="#11-exists--not-exists">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2038,7 +2038,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         12. scalar()、scalars()、mappings() 返回值解释
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#12-scalarscalarsmappings-返回值解释" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. scalar()、scalars()、mappings() 返回值解释" aria-label="Anchor to: 12. scalar()、scalars()、mappings() 返回值解释" href="#12-scalarscalarsmappings-%e8%bf%94%e5%9b%9e%e5%80%bc%e8%a7%a3%e9%87%8a">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#12-scalarscalarsmappings-返回值解释" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. scalar()、scalars()、mappings() 返回值解释" aria-label="Anchor to: 12. scalar()、scalars()、mappings() 返回值解释" href="#12-scalarscalarsmappings-%e8%bf%94%e5%9b%9e%e5%80%bc%e8%a7%a3%e9%87%8a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2047,7 +2047,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         scalar()
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#scalar" class="gdoc-page__anchor clip flex align-center" title="Anchor to: scalar()" aria-label="Anchor to: scalar()" href="#scalar">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#scalar" class="gdoc-page__anchor clip flex align-center" title="Anchor to: scalar()" aria-label="Anchor to: scalar()" href="#scalar">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2058,7 +2058,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         scalars()
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#scalars" class="gdoc-page__anchor clip flex align-center" title="Anchor to: scalars()" aria-label="Anchor to: scalars()" href="#scalars">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#scalars" class="gdoc-page__anchor clip flex align-center" title="Anchor to: scalars()" aria-label="Anchor to: scalars()" href="#scalars">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2069,7 +2069,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         mappings()
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#mappings" class="gdoc-page__anchor clip flex align-center" title="Anchor to: mappings()" aria-label="Anchor to: mappings()" href="#mappings">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#mappings" class="gdoc-page__anchor clip flex align-center" title="Anchor to: mappings()" aria-label="Anchor to: mappings()" href="#mappings">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2082,7 +2082,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         13. 多条件动态构建查询（实战最常用）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#13-多条件动态构建查询实战最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. 多条件动态构建查询（实战最常用）" aria-label="Anchor to: 13. 多条件动态构建查询（实战最常用）" href="#13-%e5%a4%9a%e6%9d%a1%e4%bb%b6%e5%8a%a8%e6%80%81%e6%9e%84%e5%bb%ba%e6%9f%a5%e8%af%a2%e5%ae%9e%e6%88%98%e6%9c%80%e5%b8%b8%e7%94%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#13-多条件动态构建查询实战最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. 多条件动态构建查询（实战最常用）" aria-label="Anchor to: 13. 多条件动态构建查询（实战最常用）" href="#13-%e5%a4%9a%e6%9d%a1%e4%bb%b6%e5%8a%a8%e6%80%81%e6%9e%84%e5%bb%ba%e6%9f%a5%e8%af%a2%e5%ae%9e%e6%88%98%e6%9c%80%e5%b8%b8%e7%94%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2100,7 +2100,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         14. ORM 模型与 SQL 拼接输出 SQL
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#14-orm-模型与-sql-拼接输出-sql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. ORM 模型与 SQL 拼接输出 SQL" aria-label="Anchor to: 14. ORM 模型与 SQL 拼接输出 SQL" href="#14-orm-%e6%a8%a1%e5%9e%8b%e4%b8%8e-sql-%e6%8b%bc%e6%8e%a5%e8%be%93%e5%87%ba-sql">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#14-orm-模型与-sql-拼接输出-sql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. ORM 模型与 SQL 拼接输出 SQL" aria-label="Anchor to: 14. ORM 模型与 SQL 拼接输出 SQL" href="#14-orm-%e6%a8%a1%e5%9e%8b%e4%b8%8e-sql-%e6%8b%bc%e6%8e%a5%e8%be%93%e5%87%ba-sql">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2112,7 +2112,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         15. AsyncSession（异步版本）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#15-asyncsession异步版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 15. AsyncSession（异步版本）" aria-label="Anchor to: 15. AsyncSession（异步版本）" href="#15-asyncsession%e5%bc%82%e6%ad%a5%e7%89%88%e6%9c%ac">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#15-asyncsession异步版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 15. AsyncSession（异步版本）" aria-label="Anchor to: 15. AsyncSession（异步版本）" href="#15-asyncsession%e5%bc%82%e6%ad%a5%e7%89%88%e6%9c%ac">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2129,7 +2129,7 @@ result.scalars().all() -&gt; list[User] 2. 只查询部分字段 stmt = select(U
     >
         📌 完整示例：SELECT + JOIN + 分页 + 排序 + 搜索
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/backend/python/sqlalchemy/select/#-完整示例select--join--分页--排序--搜索" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📌 完整示例：SELECT &#43; JOIN &#43; 分页 &#43; 排序 &#43; 搜索" aria-label="Anchor to: 📌 完整示例：SELECT &#43; JOIN &#43; 分页 &#43; 排序 &#43; 搜索" href="#-%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8bselect--join--%e5%88%86%e9%a1%b5--%e6%8e%92%e5%ba%8f--%e6%90%9c%e7%b4%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/select/#-完整示例select--join--分页--排序--搜索" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📌 完整示例：SELECT &#43; JOIN &#43; 分页 &#43; 排序 &#43; 搜索" aria-label="Anchor to: 📌 完整示例：SELECT &#43; JOIN &#43; 分页 &#43; 排序 &#43; 搜索" href="#-%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8bselect--join--%e5%88%86%e9%a1%b5--%e6%8e%92%e5%ba%8f--%e6%90%9c%e7%b4%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

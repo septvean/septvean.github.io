@@ -16,7 +16,7 @@
 🧱 1. 锁的核心概念（必须先理解） MySQL 主流存储引擎是 InnoDB，锁机制围绕事务、行级锁、MVCC 等展开。理解锁的目的：
 为什么需要锁？ 保证事务隔离 防止并发冲突 保证数据一致性 提高并发性能（行锁比表锁更 granular） MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合 锁：阻塞写，部分情况下阻塞读 MVCC：让读尽量不加锁 事务隔离级别：控制读写冲突何时需要锁 掌握这三者的关系，是理解 MySQL 并发行为的基础。" />
 
-    <title>MySQL 锁 | Documents</title>
+    <title>MySQL 锁 | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,12 +39,12 @@
     property="og:title"
     content="MySQL 锁"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content="覆盖：核心概念、锁类型、加锁方式、锁等待、死锁、诊断、优化、实战案例。
 🧱 1. 锁的核心概念（必须先理解） MySQL 主流存储引擎是 InnoDB，锁机制围绕事务、行级锁、MVCC 等展开。理解锁的目的：
 为什么需要锁？ 保证事务隔离 防止并发冲突 保证数据一致性 提高并发性能（行锁比表锁更 granular） MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合 锁：阻塞写，部分情况下阻塞读 MVCC：让读尽量不加锁 事务隔离级别：控制读写冲突何时需要锁 掌握这三者的关系，是理解 MySQL 并发行为的基础。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/database/mysql/locks/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/mysql/locks/" />
 
 <meta property="article:section" content="Database" />
 
@@ -62,7 +62,7 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL 锁",
-      "url" : "https://docs.v2ep.com/database/mysql/locks/",
+      "url" : "https://documents.v2ep.com/database/mysql/locks/",
       "headline": "MySQL 锁",
       "description": "覆盖：核心概念、锁类型、加锁方式、锁等待、死锁、诊断、优化、实战案例。\n🧱 1. 锁的核心概念（必须先理解） MySQL 主流存储引擎是 InnoDB，锁机制围绕事务、行级锁、MVCC 等展开。理解锁的目的：\n为什么需要锁？ 保证事务隔离 防止并发冲突 保证数据一致性 提高并发性能（行锁比表锁更 granular） MySQL 中“锁 \u002b MVCC \u002b 事务隔离级别”三者配合 锁：阻塞写，部分情况下阻塞读 MVCC：让读尽量不加锁 事务隔离级别：控制读写冲突何时需要锁 掌握这三者的关系，是理解 MySQL 并发行为的基础。",
       "wordCount" : "426",
@@ -70,20 +70,20 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/database/mysql/locks/"
+          "@id": "https://documents.v2ep.com/database/mysql/locks/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -154,7 +154,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/database/mysql/locks/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/mysql/locks/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -197,14 +197,14 @@
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -230,7 +230,7 @@
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -278,7 +278,7 @@
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1810,7 +1810,7 @@
     >
         🧱 1. 锁的核心概念（必须先理解）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-1-锁的核心概念必须先理解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 1. 锁的核心概念（必须先理解）" aria-label="Anchor to: 🧱 1. 锁的核心概念（必须先理解）" href="#-1-%e9%94%81%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5%e5%bf%85%e9%a1%bb%e5%85%88%e7%90%86%e8%a7%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-1-锁的核心概念必须先理解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 1. 锁的核心概念（必须先理解）" aria-label="Anchor to: 🧱 1. 锁的核心概念（必须先理解）" href="#-1-%e9%94%81%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5%e5%bf%85%e9%a1%bb%e5%85%88%e7%90%86%e8%a7%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1820,7 +1820,7 @@
     >
         为什么需要锁？
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#为什么需要锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为什么需要锁？" aria-label="Anchor to: 为什么需要锁？" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#为什么需要锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为什么需要锁？" aria-label="Anchor to: 为什么需要锁？" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1835,7 +1835,7 @@
     >
         MySQL 中“锁 + MVCC + 事务隔离级别”三者配合
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#mysql-中锁--mvcc--事务隔离级别三者配合" class="gdoc-page__anchor clip flex align-center" title="Anchor to: MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合" aria-label="Anchor to: MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合" href="#mysql-%e4%b8%ad%e9%94%81--mvcc--%e4%ba%8b%e5%8a%a1%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab%e4%b8%89%e8%80%85%e9%85%8d%e5%90%88">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#mysql-中锁--mvcc--事务隔离级别三者配合" class="gdoc-page__anchor clip flex align-center" title="Anchor to: MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合" aria-label="Anchor to: MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合" href="#mysql-%e4%b8%ad%e9%94%81--mvcc--%e4%ba%8b%e5%8a%a1%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab%e4%b8%89%e8%80%85%e9%85%8d%e5%90%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1850,7 +1850,7 @@
     >
         🧱 2. MySQL（InnoDB）锁类型全图
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-2-mysqlinnodb锁类型全图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 2. MySQL（InnoDB）锁类型全图" aria-label="Anchor to: 🧱 2. MySQL（InnoDB）锁类型全图" href="#-2-mysqlinnodb%e9%94%81%e7%b1%bb%e5%9e%8b%e5%85%a8%e5%9b%be">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-2-mysqlinnodb锁类型全图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 2. MySQL（InnoDB）锁类型全图" aria-label="Anchor to: 🧱 2. MySQL（InnoDB）锁类型全图" href="#-2-mysqlinnodb%e9%94%81%e7%b1%bb%e5%9e%8b%e5%85%a8%e5%9b%be">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1860,7 +1860,7 @@
     >
         2.1 从“锁的粒度”区分
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#21-从锁的粒度区分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.1 从“锁的粒度”区分" aria-label="Anchor to: 2.1 从“锁的粒度”区分" href="#21-%e4%bb%8e%e9%94%81%e7%9a%84%e7%b2%92%e5%ba%a6%e5%8c%ba%e5%88%86">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#21-从锁的粒度区分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.1 从“锁的粒度”区分" aria-label="Anchor to: 2.1 从“锁的粒度”区分" href="#21-%e4%bb%8e%e9%94%81%e7%9a%84%e7%b2%92%e5%ba%a6%e5%8c%ba%e5%88%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1907,7 +1907,7 @@
     >
         2.2 从“锁的属性”区分
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#22-从锁的属性区分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.2 从“锁的属性”区分" aria-label="Anchor to: 2.2 从“锁的属性”区分" href="#22-%e4%bb%8e%e9%94%81%e7%9a%84%e5%b1%9e%e6%80%a7%e5%8c%ba%e5%88%86">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#22-从锁的属性区分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.2 从“锁的属性”区分" aria-label="Anchor to: 2.2 从“锁的属性”区分" href="#22-%e4%bb%8e%e9%94%81%e7%9a%84%e5%b1%9e%e6%80%a7%e5%8c%ba%e5%88%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1952,7 +1952,7 @@
     >
         🧱 3. InnoDB 行锁（InnoDB 的核心锁）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-3-innodb-行锁innodb-的核心锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 3. InnoDB 行锁（InnoDB 的核心锁）" aria-label="Anchor to: 🧱 3. InnoDB 行锁（InnoDB 的核心锁）" href="#-3-innodb-%e8%a1%8c%e9%94%81innodb-%e7%9a%84%e6%a0%b8%e5%bf%83%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-3-innodb-行锁innodb-的核心锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 3. InnoDB 行锁（InnoDB 的核心锁）" aria-label="Anchor to: 🧱 3. InnoDB 行锁（InnoDB 的核心锁）" href="#-3-innodb-%e8%a1%8c%e9%94%81innodb-%e7%9a%84%e6%a0%b8%e5%bf%83%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1961,7 +1961,7 @@
     >
         行锁分类
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#行锁分类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 行锁分类" aria-label="Anchor to: 行锁分类" href="#%e8%a1%8c%e9%94%81%e5%88%86%e7%b1%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#行锁分类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 行锁分类" aria-label="Anchor to: 行锁分类" href="#%e8%a1%8c%e9%94%81%e5%88%86%e7%b1%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1996,7 +1996,7 @@
     >
         加锁行为由三个因素决定
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#加锁行为由三个因素决定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 加锁行为由三个因素决定" aria-label="Anchor to: 加锁行为由三个因素决定" href="#%e5%8a%a0%e9%94%81%e8%a1%8c%e4%b8%ba%e7%94%b1%e4%b8%89%e4%b8%aa%e5%9b%a0%e7%b4%a0%e5%86%b3%e5%ae%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#加锁行为由三个因素决定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 加锁行为由三个因素决定" aria-label="Anchor to: 加锁行为由三个因素决定" href="#%e5%8a%a0%e9%94%81%e8%a1%8c%e4%b8%ba%e7%94%b1%e4%b8%89%e4%b8%aa%e5%9b%a0%e7%b4%a0%e5%86%b3%e5%ae%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2012,7 +2012,7 @@
     >
         🧱 4. 锁是如何加上的？（必须理解的规则）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-4-锁是如何加上的必须理解的规则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 4. 锁是如何加上的？（必须理解的规则）" aria-label="Anchor to: 🧱 4. 锁是如何加上的？（必须理解的规则）" href="#-4-%e9%94%81%e6%98%af%e5%a6%82%e4%bd%95%e5%8a%a0%e4%b8%8a%e7%9a%84%e5%bf%85%e9%a1%bb%e7%90%86%e8%a7%a3%e7%9a%84%e8%a7%84%e5%88%99">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-4-锁是如何加上的必须理解的规则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 4. 锁是如何加上的？（必须理解的规则）" aria-label="Anchor to: 🧱 4. 锁是如何加上的？（必须理解的规则）" href="#-4-%e9%94%81%e6%98%af%e5%a6%82%e4%bd%95%e5%8a%a0%e4%b8%8a%e7%9a%84%e5%bf%85%e9%a1%bb%e7%90%86%e8%a7%a3%e7%9a%84%e8%a7%84%e5%88%99">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2022,7 +2022,7 @@
     >
         4.1 精准等值查询 + 唯一索引 -&gt; 行锁
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#41-精准等值查询--唯一索引---行锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.1 精准等值查询 &#43; 唯一索引 -&gt; 行锁" aria-label="Anchor to: 4.1 精准等值查询 &#43; 唯一索引 -&gt; 行锁" href="#41-%e7%b2%be%e5%87%86%e7%ad%89%e5%80%bc%e6%9f%a5%e8%af%a2--%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95---%e8%a1%8c%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#41-精准等值查询--唯一索引---行锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.1 精准等值查询 &#43; 唯一索引 -&gt; 行锁" aria-label="Anchor to: 4.1 精准等值查询 &#43; 唯一索引 -&gt; 行锁" href="#41-%e7%b2%be%e5%87%86%e7%ad%89%e5%80%bc%e6%9f%a5%e8%af%a2--%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95---%e8%a1%8c%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2033,7 +2033,7 @@
     >
         4.2 等值查询但非唯一索引 -&gt; next-key lock / gap lock
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#42-等值查询但非唯一索引---next-key-lock--gap-lock" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.2 等值查询但非唯一索引 -&gt; next-key lock / gap lock" aria-label="Anchor to: 4.2 等值查询但非唯一索引 -&gt; next-key lock / gap lock" href="#42-%e7%ad%89%e5%80%bc%e6%9f%a5%e8%af%a2%e4%bd%86%e9%9d%9e%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95---next-key-lock--gap-lock">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#42-等值查询但非唯一索引---next-key-lock--gap-lock" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.2 等值查询但非唯一索引 -&gt; next-key lock / gap lock" aria-label="Anchor to: 4.2 等值查询但非唯一索引 -&gt; next-key lock / gap lock" href="#42-%e7%ad%89%e5%80%bc%e6%9f%a5%e8%af%a2%e4%bd%86%e9%9d%9e%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95---next-key-lock--gap-lock">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2044,7 +2044,7 @@
     >
         4.3 范围查询 -&gt; next-key
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#43-范围查询---next-key" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.3 范围查询 -&gt; next-key" aria-label="Anchor to: 4.3 范围查询 -&gt; next-key" href="#43-%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2---next-key">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#43-范围查询---next-key" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.3 范围查询 -&gt; next-key" aria-label="Anchor to: 4.3 范围查询 -&gt; next-key" href="#43-%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2---next-key">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2055,7 +2055,7 @@
     >
         4.4 未使用索引 -&gt; 全表锁（行锁退化为表锁）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#44-未使用索引---全表锁行锁退化为表锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.4 未使用索引 -&gt; 全表锁（行锁退化为表锁）" aria-label="Anchor to: 4.4 未使用索引 -&gt; 全表锁（行锁退化为表锁）" href="#44-%e6%9c%aa%e4%bd%bf%e7%94%a8%e7%b4%a2%e5%bc%95---%e5%85%a8%e8%a1%a8%e9%94%81%e8%a1%8c%e9%94%81%e9%80%80%e5%8c%96%e4%b8%ba%e8%a1%a8%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#44-未使用索引---全表锁行锁退化为表锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.4 未使用索引 -&gt; 全表锁（行锁退化为表锁）" aria-label="Anchor to: 4.4 未使用索引 -&gt; 全表锁（行锁退化为表锁）" href="#44-%e6%9c%aa%e4%bd%bf%e7%94%a8%e7%b4%a2%e5%bc%95---%e5%85%a8%e8%a1%a8%e9%94%81%e8%a1%8c%e9%94%81%e9%80%80%e5%8c%96%e4%b8%ba%e8%a1%a8%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2066,7 +2066,7 @@
     >
         4.5 INSERT 会加 Insert Intention Lock
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#45-insert-会加-insert-intention-lock" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.5 INSERT 会加 Insert Intention Lock" aria-label="Anchor to: 4.5 INSERT 会加 Insert Intention Lock" href="#45-insert-%e4%bc%9a%e5%8a%a0-insert-intention-lock">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#45-insert-会加-insert-intention-lock" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.5 INSERT 会加 Insert Intention Lock" aria-label="Anchor to: 4.5 INSERT 会加 Insert Intention Lock" href="#45-insert-%e4%bc%9a%e5%8a%a0-insert-intention-lock">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2076,7 +2076,7 @@
     >
         🧱 5. MySQL 锁等待与死锁
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-5-mysql-锁等待与死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 5. MySQL 锁等待与死锁" aria-label="Anchor to: 🧱 5. MySQL 锁等待与死锁" href="#-5-mysql-%e9%94%81%e7%ad%89%e5%be%85%e4%b8%8e%e6%ad%bb%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-5-mysql-锁等待与死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 5. MySQL 锁等待与死锁" aria-label="Anchor to: 🧱 5. MySQL 锁等待与死锁" href="#-5-mysql-%e9%94%81%e7%ad%89%e5%be%85%e4%b8%8e%e6%ad%bb%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2085,7 +2085,7 @@
     >
         5.1 查看锁等待
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#51-查看锁等待" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.1 查看锁等待" aria-label="Anchor to: 5.1 查看锁等待" href="#51-%e6%9f%a5%e7%9c%8b%e9%94%81%e7%ad%89%e5%be%85">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#51-查看锁等待" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.1 查看锁等待" aria-label="Anchor to: 5.1 查看锁等待" href="#51-%e6%9f%a5%e7%9c%8b%e9%94%81%e7%ad%89%e5%be%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2097,7 +2097,7 @@
     >
         5.2 查看等待链
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#52-查看等待链" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.2 查看等待链" aria-label="Anchor to: 5.2 查看等待链" href="#52-%e6%9f%a5%e7%9c%8b%e7%ad%89%e5%be%85%e9%93%be">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#52-查看等待链" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.2 查看等待链" aria-label="Anchor to: 5.2 查看等待链" href="#52-%e6%9f%a5%e7%9c%8b%e7%ad%89%e5%be%85%e9%93%be">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2107,7 +2107,7 @@
     >
         🧱 6. 死锁排查（最重要）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-6-死锁排查最重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 6. 死锁排查（最重要）" aria-label="Anchor to: 🧱 6. 死锁排查（最重要）" href="#-6-%e6%ad%bb%e9%94%81%e6%8e%92%e6%9f%a5%e6%9c%80%e9%87%8d%e8%a6%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-6-死锁排查最重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 6. 死锁排查（最重要）" aria-label="Anchor to: 🧱 6. 死锁排查（最重要）" href="#-6-%e6%ad%bb%e9%94%81%e6%8e%92%e6%9f%a5%e6%9c%80%e9%87%8d%e8%a6%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2116,7 +2116,7 @@
     >
         6.1 查看死锁日志
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#61-查看死锁日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6.1 查看死锁日志" aria-label="Anchor to: 6.1 查看死锁日志" href="#61-%e6%9f%a5%e7%9c%8b%e6%ad%bb%e9%94%81%e6%97%a5%e5%bf%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#61-查看死锁日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6.1 查看死锁日志" aria-label="Anchor to: 6.1 查看死锁日志" href="#61-%e6%9f%a5%e7%9c%8b%e6%ad%bb%e9%94%81%e6%97%a5%e5%bf%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2133,7 +2133,7 @@
     >
         🧱 7. 锁优化策略（最终总结）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-7-锁优化策略最终总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 7. 锁优化策略（最终总结）" aria-label="Anchor to: 🧱 7. 锁优化策略（最终总结）" href="#-7-%e9%94%81%e4%bc%98%e5%8c%96%e7%ad%96%e7%95%a5%e6%9c%80%e7%bb%88%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-7-锁优化策略最终总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 7. 锁优化策略（最终总结）" aria-label="Anchor to: 🧱 7. 锁优化策略（最终总结）" href="#-7-%e9%94%81%e4%bc%98%e5%8c%96%e7%ad%96%e7%95%a5%e6%9c%80%e7%bb%88%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2142,7 +2142,7 @@
     >
         7.1 SQL 层面优化
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#71-sql-层面优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.1 SQL 层面优化" aria-label="Anchor to: 7.1 SQL 层面优化" href="#71-sql-%e5%b1%82%e9%9d%a2%e4%bc%98%e5%8c%96">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#71-sql-层面优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.1 SQL 层面优化" aria-label="Anchor to: 7.1 SQL 层面优化" href="#71-sql-%e5%b1%82%e9%9d%a2%e4%bc%98%e5%8c%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2158,7 +2158,7 @@
     >
         7.2 事务层面优化
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#72-事务层面优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.2 事务层面优化" aria-label="Anchor to: 7.2 事务层面优化" href="#72-%e4%ba%8b%e5%8a%a1%e5%b1%82%e9%9d%a2%e4%bc%98%e5%8c%96">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#72-事务层面优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.2 事务层面优化" aria-label="Anchor to: 7.2 事务层面优化" href="#72-%e4%ba%8b%e5%8a%a1%e5%b1%82%e9%9d%a2%e4%bc%98%e5%8c%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2173,7 +2173,7 @@
     >
         7.3 高并发场景的设计优化
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#73-高并发场景的设计优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.3 高并发场景的设计优化" aria-label="Anchor to: 7.3 高并发场景的设计优化" href="#73-%e9%ab%98%e5%b9%b6%e5%8f%91%e5%9c%ba%e6%99%af%e7%9a%84%e8%ae%be%e8%ae%a1%e4%bc%98%e5%8c%96">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#73-高并发场景的设计优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.3 高并发场景的设计优化" aria-label="Anchor to: 7.3 高并发场景的设计优化" href="#73-%e9%ab%98%e5%b9%b6%e5%8f%91%e5%9c%ba%e6%99%af%e7%9a%84%e8%ae%be%e8%ae%a1%e4%bc%98%e5%8c%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2190,7 +2190,7 @@
     >
         7.4 配置层面优化（回复2 内容融合）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#74-配置层面优化回复2-内容融合" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.4 配置层面优化（回复2 内容融合）" aria-label="Anchor to: 7.4 配置层面优化（回复2 内容融合）" href="#74-%e9%85%8d%e7%bd%ae%e5%b1%82%e9%9d%a2%e4%bc%98%e5%8c%96%e5%9b%9e%e5%a4%8d2-%e5%86%85%e5%ae%b9%e8%9e%8d%e5%90%88">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#74-配置层面优化回复2-内容融合" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.4 配置层面优化（回复2 内容融合）" aria-label="Anchor to: 7.4 配置层面优化（回复2 内容融合）" href="#74-%e9%85%8d%e7%bd%ae%e5%b1%82%e9%9d%a2%e4%bc%98%e5%8c%96%e5%9b%9e%e5%a4%8d2-%e5%86%85%e5%ae%b9%e8%9e%8d%e5%90%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2225,7 +2225,7 @@
     >
         🧱 8. 最重要的实战案例（全覆盖）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-8-最重要的实战案例全覆盖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 8. 最重要的实战案例（全覆盖）" aria-label="Anchor to: 🧱 8. 最重要的实战案例（全覆盖）" href="#-8-%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e5%ae%9e%e6%88%98%e6%a1%88%e4%be%8b%e5%85%a8%e8%a6%86%e7%9b%96">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-8-最重要的实战案例全覆盖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 8. 最重要的实战案例（全覆盖）" aria-label="Anchor to: 🧱 8. 最重要的实战案例（全覆盖）" href="#-8-%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e5%ae%9e%e6%88%98%e6%a1%88%e4%be%8b%e5%85%a8%e8%a6%86%e7%9b%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2234,7 +2234,7 @@
     >
         案例 1：范围查询导致大面积加锁
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#案例-1范围查询导致大面积加锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 案例 1：范围查询导致大面积加锁" aria-label="Anchor to: 案例 1：范围查询导致大面积加锁" href="#%e6%a1%88%e4%be%8b-1%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2%e5%af%bc%e8%87%b4%e5%a4%a7%e9%9d%a2%e7%a7%af%e5%8a%a0%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#案例-1范围查询导致大面积加锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 案例 1：范围查询导致大面积加锁" aria-label="Anchor to: 案例 1：范围查询导致大面积加锁" href="#%e6%a1%88%e4%be%8b-1%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2%e5%af%bc%e8%87%b4%e5%a4%a7%e9%9d%a2%e7%a7%af%e5%8a%a0%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2250,7 +2250,7 @@
     >
         案例 2：未走索引导致全表锁
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#案例-2未走索引导致全表锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 案例 2：未走索引导致全表锁" aria-label="Anchor to: 案例 2：未走索引导致全表锁" href="#%e6%a1%88%e4%be%8b-2%e6%9c%aa%e8%b5%b0%e7%b4%a2%e5%bc%95%e5%af%bc%e8%87%b4%e5%85%a8%e8%a1%a8%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#案例-2未走索引导致全表锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 案例 2：未走索引导致全表锁" aria-label="Anchor to: 案例 2：未走索引导致全表锁" href="#%e6%a1%88%e4%be%8b-2%e6%9c%aa%e8%b5%b0%e7%b4%a2%e5%bc%95%e5%af%bc%e8%87%b4%e5%85%a8%e8%a1%a8%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2265,7 +2265,7 @@
     >
         案例 3：死锁典型（两个事务访问顺序不一致）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#案例-3死锁典型两个事务访问顺序不一致" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 案例 3：死锁典型（两个事务访问顺序不一致）" aria-label="Anchor to: 案例 3：死锁典型（两个事务访问顺序不一致）" href="#%e6%a1%88%e4%be%8b-3%e6%ad%bb%e9%94%81%e5%85%b8%e5%9e%8b%e4%b8%a4%e4%b8%aa%e4%ba%8b%e5%8a%a1%e8%ae%bf%e9%97%ae%e9%a1%ba%e5%ba%8f%e4%b8%8d%e4%b8%80%e8%87%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#案例-3死锁典型两个事务访问顺序不一致" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 案例 3：死锁典型（两个事务访问顺序不一致）" aria-label="Anchor to: 案例 3：死锁典型（两个事务访问顺序不一致）" href="#%e6%a1%88%e4%be%8b-3%e6%ad%bb%e9%94%81%e5%85%b8%e5%9e%8b%e4%b8%a4%e4%b8%aa%e4%ba%8b%e5%8a%a1%e8%ae%bf%e9%97%ae%e9%a1%ba%e5%ba%8f%e4%b8%8d%e4%b8%80%e8%87%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2281,7 +2281,7 @@
     >
         🧱 9. 最终总结（极速复盘）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/locks/#-9-最终总结极速复盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 9. 最终总结（极速复盘）" aria-label="Anchor to: 🧱 9. 最终总结（极速复盘）" href="#-9-%e6%9c%80%e7%bb%88%e6%80%bb%e7%bb%93%e6%9e%81%e9%80%9f%e5%a4%8d%e7%9b%98">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/locks/#-9-最终总结极速复盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 9. 最终总结（极速复盘）" aria-label="Anchor to: 🧱 9. 最终总结（极速复盘）" href="#-9-%e6%9c%80%e7%bb%88%e6%80%bb%e7%bb%93%e6%9e%81%e9%80%9f%e5%a4%8d%e7%9b%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

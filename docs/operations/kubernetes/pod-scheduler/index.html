@@ -14,7 +14,7 @@
 
   <meta name="description" content=" 🧩 一张图看懂调度流程（ASCII 版） ┌───────────────────────────────┐ API Server 接收 Pod (Pod 处于 Pending 状态) └───────────────┬───────────────┘ │ Scheduler Watch 到新 Pod │ ▼ ┌───────────────────────────────┐ ① 预选阶段 (Filter / Predicate) └───────────────┬───────────────┘ │ ┌─────────────────────────┴──────────────────────┐ ▼ ▼ ┌──────────────────────────┐ ┌───────────────────────────┐ 过滤掉不满足条件的节点 - 资源不足（CPU/Mem） 故障、不可调度节点剔除 - 不符合 NodeSelector - Node notReady - 不符合 NodeAffinity - Taint 不可容忍 - 端口冲突 / 设备不可用 └──────────────────────────┘ └───────────────────────────┘ │ ▼ ┌───────────────────────────────┐ ② 评分阶段（Score） └───────────────┬───────────────┘ │ 对每个可调度节点评分： - Least Loaded（负载最小） - Selector Spread（分散度） - Affinity 优先级 - Node 资源利用率等 │ ▼ ┌───────────────────────────────┐ ③ 选出得分最高的节点 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ ④ 调度绑定（Bind） Scheduler -&gt; API Server {pod: nodeName} └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Kubelet Watch 到 Pod -&gt; 拉镜像、创建容器 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Pod 进入 Running 状态 └───────────────────────────────┘ 🔵 Pod 调度 4 大阶段（1.33 版本） 1. 预选阶段（Filter stage / Predicate） Scheduler 会把不满足要求的节点排除：" />
 
-    <title>Kubernetes Pod 调度流程图（Scheduler 执行顺序） | Documents</title>
+    <title>Kubernetes Pod 调度流程图（Scheduler 执行顺序） | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -37,10 +37,10 @@
     property="og:title"
     content="Kubernetes Pod 调度流程图（Scheduler 执行顺序）"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content=" 🧩 一张图看懂调度流程（ASCII 版） ┌───────────────────────────────┐ API Server 接收 Pod (Pod 处于 Pending 状态) └───────────────┬───────────────┘ │ Scheduler Watch 到新 Pod │ ▼ ┌───────────────────────────────┐ ① 预选阶段 (Filter / Predicate) └───────────────┬───────────────┘ │ ┌─────────────────────────┴──────────────────────┐ ▼ ▼ ┌──────────────────────────┐ ┌───────────────────────────┐ 过滤掉不满足条件的节点 - 资源不足（CPU/Mem） 故障、不可调度节点剔除 - 不符合 NodeSelector - Node notReady - 不符合 NodeAffinity - Taint 不可容忍 - 端口冲突 / 设备不可用 └──────────────────────────┘ └───────────────────────────┘ │ ▼ ┌───────────────────────────────┐ ② 评分阶段（Score） └───────────────┬───────────────┘ │ 对每个可调度节点评分： - Least Loaded（负载最小） - Selector Spread（分散度） - Affinity 优先级 - Node 资源利用率等 │ ▼ ┌───────────────────────────────┐ ③ 选出得分最高的节点 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ ④ 调度绑定（Bind） Scheduler -&gt; API Server {pod: nodeName} └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Kubelet Watch 到 Pod -&gt; 拉镜像、创建容器 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Pod 进入 Running 状态 └───────────────────────────────┘ 🔵 Pod 调度 4 大阶段（1.33 版本） 1. 预选阶段（Filter stage / Predicate） Scheduler 会把不满足要求的节点排除：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/" />
 
 <meta property="article:section" content="Operations" />
 
@@ -56,7 +56,7 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes Pod 调度流程图（Scheduler 执行顺序）",
-      "url" : "https://docs.v2ep.com/operations/kubernetes/pod-scheduler/",
+      "url" : "https://documents.v2ep.com/operations/kubernetes/pod-scheduler/",
       "headline": "Kubernetes Pod 调度流程图（Scheduler 执行顺序）",
       "description": " 🧩 一张图看懂调度流程（ASCII 版） ┌───────────────────────────────┐ API Server 接收 Pod (Pod 处于 Pending 状态) └───────────────┬───────────────┘ │ Scheduler Watch 到新 Pod │ ▼ ┌───────────────────────────────┐ ① 预选阶段 (Filter \/ Predicate) └───────────────┬───────────────┘ │ ┌─────────────────────────┴──────────────────────┐ ▼ ▼ ┌──────────────────────────┐ ┌───────────────────────────┐ 过滤掉不满足条件的节点 - 资源不足（CPU\/Mem） 故障、不可调度节点剔除 - 不符合 NodeSelector - Node notReady - 不符合 NodeAffinity - Taint 不可容忍 - 端口冲突 \/ 设备不可用 └──────────────────────────┘ └───────────────────────────┘ │ ▼ ┌───────────────────────────────┐ ② 评分阶段（Score） └───────────────┬───────────────┘ │ 对每个可调度节点评分： - Least Loaded（负载最小） - Selector Spread（分散度） - Affinity 优先级 - Node 资源利用率等 │ ▼ ┌───────────────────────────────┐ ③ 选出得分最高的节点 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ ④ 调度绑定（Bind） Scheduler -\u003e API Server {pod: nodeName} └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Kubelet Watch 到 Pod -\u003e 拉镜像、创建容器 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Pod 进入 Running 状态 └───────────────────────────────┘ 🔵 Pod 调度 4 大阶段（1.33 版本） 1. 预选阶段（Filter stage \/ Predicate） Scheduler 会把不满足要求的节点排除：",
       "wordCount" : "276",
@@ -64,20 +64,20 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/operations/kubernetes/pod-scheduler/"
+          "@id": "https://documents.v2ep.com/operations/kubernetes/pod-scheduler/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -148,7 +148,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -191,14 +191,14 @@
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -224,7 +224,7 @@
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -272,7 +272,7 @@
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1803,7 +1803,7 @@
     >
         🧩 一张图看懂调度流程（ASCII 版）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#-一张图看懂调度流程ascii-版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧩 一张图看懂调度流程（ASCII 版）" aria-label="Anchor to: 🧩 一张图看懂调度流程（ASCII 版）" href="#-%e4%b8%80%e5%bc%a0%e5%9b%be%e7%9c%8b%e6%87%82%e8%b0%83%e5%ba%a6%e6%b5%81%e7%a8%8bascii-%e7%89%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#-一张图看懂调度流程ascii-版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧩 一张图看懂调度流程（ASCII 版）" aria-label="Anchor to: 🧩 一张图看懂调度流程（ASCII 版）" href="#-%e4%b8%80%e5%bc%a0%e5%9b%be%e7%9c%8b%e6%87%82%e8%b0%83%e5%ba%a6%e6%b5%81%e7%a8%8bascii-%e7%89%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1868,7 +1868,7 @@
     >
         🔵 Pod 调度 4 大阶段（1.33 版本）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#-pod-调度-4-大阶段133-版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 Pod 调度 4 大阶段（1.33 版本）" aria-label="Anchor to: 🔵 Pod 调度 4 大阶段（1.33 版本）" href="#-pod-%e8%b0%83%e5%ba%a6-4-%e5%a4%a7%e9%98%b6%e6%ae%b5133-%e7%89%88%e6%9c%ac">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#-pod-调度-4-大阶段133-版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 Pod 调度 4 大阶段（1.33 版本）" aria-label="Anchor to: 🔵 Pod 调度 4 大阶段（1.33 版本）" href="#-pod-%e8%b0%83%e5%ba%a6-4-%e5%a4%a7%e9%98%b6%e6%ae%b5133-%e7%89%88%e6%9c%ac">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1877,7 +1877,7 @@
     >
         1. 预选阶段（Filter stage / Predicate）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#1-预选阶段filter-stage--predicate" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 预选阶段（Filter stage / Predicate）" aria-label="Anchor to: 1. 预选阶段（Filter stage / Predicate）" href="#1-%e9%a2%84%e9%80%89%e9%98%b6%e6%ae%b5filter-stage--predicate">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#1-预选阶段filter-stage--predicate" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 预选阶段（Filter stage / Predicate）" aria-label="Anchor to: 1. 预选阶段（Filter stage / Predicate）" href="#1-%e9%a2%84%e9%80%89%e9%98%b6%e6%ae%b5filter-stage--predicate">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1900,7 +1900,7 @@
     >
         2. 评分阶段（Score stage / Priority）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#2-评分阶段score-stage--priority" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 评分阶段（Score stage / Priority）" aria-label="Anchor to: 2. 评分阶段（Score stage / Priority）" href="#2-%e8%af%84%e5%88%86%e9%98%b6%e6%ae%b5score-stage--priority">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#2-评分阶段score-stage--priority" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 评分阶段（Score stage / Priority）" aria-label="Anchor to: 2. 评分阶段（Score stage / Priority）" href="#2-%e8%af%84%e5%88%86%e9%98%b6%e6%ae%b5score-stage--priority">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1920,7 +1920,7 @@
     >
         3. 选择得分最高的节点
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#3-选择得分最高的节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 选择得分最高的节点" aria-label="Anchor to: 3. 选择得分最高的节点" href="#3-%e9%80%89%e6%8b%a9%e5%be%97%e5%88%86%e6%9c%80%e9%ab%98%e7%9a%84%e8%8a%82%e7%82%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#3-选择得分最高的节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 选择得分最高的节点" aria-label="Anchor to: 3. 选择得分最高的节点" href="#3-%e9%80%89%e6%8b%a9%e5%be%97%e5%88%86%e6%9c%80%e9%ab%98%e7%9a%84%e8%8a%82%e7%82%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1935,7 +1935,7 @@
     >
         4. 调度绑定（Binding）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#4-调度绑定binding" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 调度绑定（Binding）" aria-label="Anchor to: 4. 调度绑定（Binding）" href="#4-%e8%b0%83%e5%ba%a6%e7%bb%91%e5%ae%9abinding">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#4-调度绑定binding" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 调度绑定（Binding）" aria-label="Anchor to: 4. 调度绑定（Binding）" href="#4-%e8%b0%83%e5%ba%a6%e7%bb%91%e5%ae%9abinding">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1948,7 +1948,7 @@
     >
         🔵 Pod 调度完成后（由 Kubelet 接管）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#-pod-调度完成后由-kubelet-接管" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 Pod 调度完成后（由 Kubelet 接管）" aria-label="Anchor to: 🔵 Pod 调度完成后（由 Kubelet 接管）" href="#-pod-%e8%b0%83%e5%ba%a6%e5%ae%8c%e6%88%90%e5%90%8e%e7%94%b1-kubelet-%e6%8e%a5%e7%ae%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#-pod-调度完成后由-kubelet-接管" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 Pod 调度完成后（由 Kubelet 接管）" aria-label="Anchor to: 🔵 Pod 调度完成后（由 Kubelet 接管）" href="#-pod-%e8%b0%83%e5%ba%a6%e5%ae%8c%e6%88%90%e5%90%8e%e7%94%b1-kubelet-%e6%8e%a5%e7%ae%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1967,7 +1967,7 @@
     >
         🔵 调度失败会怎样？
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#-调度失败会怎样" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 调度失败会怎样？" aria-label="Anchor to: 🔵 调度失败会怎样？" href="#-%e8%b0%83%e5%ba%a6%e5%a4%b1%e8%b4%a5%e4%bc%9a%e6%80%8e%e6%a0%b7">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#-调度失败会怎样" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 调度失败会怎样？" aria-label="Anchor to: 🔵 调度失败会怎样？" href="#-%e8%b0%83%e5%ba%a6%e5%a4%b1%e8%b4%a5%e4%bc%9a%e6%80%8e%e6%a0%b7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1992,7 +1992,7 @@
     >
         🔵 一句话总结
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/pod-scheduler/#-一句话总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 一句话总结" aria-label="Anchor to: 🔵 一句话总结" href="#-%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/pod-scheduler/#-一句话总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 一句话总结" aria-label="Anchor to: 🔵 一句话总结" href="#-%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

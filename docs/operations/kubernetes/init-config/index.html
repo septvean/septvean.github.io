@@ -15,7 +15,7 @@
   <meta name="description" content="初始 kubeadm 配置
 apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: advertiseAddress: 172.16.0.116 bindPort: 6443 nodeRegistration: criSocket: unix:///var/run/containerd/containerd.sock kubeletExtraArgs: fail-swap-on: &#34;false&#34; taints: - effect: PreferNoSchedule key: node-role.kubernetes.io/master --- apiServer: extraArgs: service-node-port-range: &#34;10000-50000&#34; apiVersion: kubeadm.k8s.io/v1beta4 # clusterName: kubernetes controlPlaneEndpoint: 172.16.0.118:8443 etcd: external: endpoints: - http://172.16.0.113:2379 - http://172.16.0.114:2379 - http://172.16.0.115:2379 # imageRepository: registry.server.com kind: ClusterConfiguration kubernetesVersion: 1.33.3 networking: dnsDomain: cluster.local serviceSubnet: 10.96.0.0/12 podSubnet: 10.244.0.0/16 --- apiVersion: kubelet.config.k8s.io/v1beta1 cgroupDriver: systemd kind: KubeletConfiguration failSwapOn: false --- apiVersion: kubeproxy.config.k8s.io/v1alpha1 kind: KubeProxyConfiguration mode: ipvs ipvs: strictARP: true 下面根据给出的初始 kubeadm 配置，按 Kubernetes 1.33 &#43; Calico（推荐 eBPF &#43; VXLAN）最佳实践 做了优化与补充，输出 可直接使用的 kubeadm YAML（保留你原有字段并补足必要安全/可用性项），并在后面给出逐段详解与注意事项，包含为什么这样配置、什么时候需要修改，以及与 Calico 的配套建议（eBPF / VXLAN / kube-proxy 处理等）。" />
 
-    <title>Kubernetes 初始化配置 | Documents</title>
+    <title>Kubernetes 初始化配置 | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,11 +38,11 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     property="og:title"
     content="Kubernetes 初始化配置"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content="初始 kubeadm 配置
 apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: advertiseAddress: 172.16.0.116 bindPort: 6443 nodeRegistration: criSocket: unix:///var/run/containerd/containerd.sock kubeletExtraArgs: fail-swap-on: &#34;false&#34; taints: - effect: PreferNoSchedule key: node-role.kubernetes.io/master --- apiServer: extraArgs: service-node-port-range: &#34;10000-50000&#34; apiVersion: kubeadm.k8s.io/v1beta4 # clusterName: kubernetes controlPlaneEndpoint: 172.16.0.118:8443 etcd: external: endpoints: - http://172.16.0.113:2379 - http://172.16.0.114:2379 - http://172.16.0.115:2379 # imageRepository: registry.server.com kind: ClusterConfiguration kubernetesVersion: 1.33.3 networking: dnsDomain: cluster.local serviceSubnet: 10.96.0.0/12 podSubnet: 10.244.0.0/16 --- apiVersion: kubelet.config.k8s.io/v1beta1 cgroupDriver: systemd kind: KubeletConfiguration failSwapOn: false --- apiVersion: kubeproxy.config.k8s.io/v1alpha1 kind: KubeProxyConfiguration mode: ipvs ipvs: strictARP: true 下面根据给出的初始 kubeadm 配置，按 Kubernetes 1.33 &#43; Calico（推荐 eBPF &#43; VXLAN）最佳实践 做了优化与补充，输出 可直接使用的 kubeadm YAML（保留你原有字段并补足必要安全/可用性项），并在后面给出逐段详解与注意事项，包含为什么这样配置、什么时候需要修改，以及与 Calico 的配套建议（eBPF / VXLAN / kube-proxy 处理等）。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/operations/kubernetes/init-config/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/kubernetes/init-config/" />
 
 <meta property="article:section" content="Operations" />
 
@@ -59,7 +59,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes 初始化配置",
-      "url" : "https://docs.v2ep.com/operations/kubernetes/init-config/",
+      "url" : "https://documents.v2ep.com/operations/kubernetes/init-config/",
       "headline": "Kubernetes 初始化配置",
       "description": "初始 kubeadm 配置\napiVersion: kubeadm.k8s.io\/v1beta4 kind: InitConfiguration localAPIEndpoint: advertiseAddress: 172.16.0.116 bindPort: 6443 nodeRegistration: criSocket: unix:\/\/\/var\/run\/containerd\/containerd.sock kubeletExtraArgs: fail-swap-on: \u0022false\u0022 taints: - effect: PreferNoSchedule key: node-role.kubernetes.io\/master --- apiServer: extraArgs: service-node-port-range: \u002210000-50000\u0022 apiVersion: kubeadm.k8s.io\/v1beta4 # clusterName: kubernetes controlPlaneEndpoint: 172.16.0.118:8443 etcd: external: endpoints: - http:\/\/172.16.0.113:2379 - http:\/\/172.16.0.114:2379 - http:\/\/172.16.0.115:2379 # imageRepository: registry.server.com kind: ClusterConfiguration kubernetesVersion: 1.33.3 networking: dnsDomain: cluster.local serviceSubnet: 10.96.0.0\/12 podSubnet: 10.244.0.0\/16 --- apiVersion: kubelet.config.k8s.io\/v1beta1 cgroupDriver: systemd kind: KubeletConfiguration failSwapOn: false --- apiVersion: kubeproxy.config.k8s.io\/v1alpha1 kind: KubeProxyConfiguration mode: ipvs ipvs: strictARP: true 下面根据给出的初始 kubeadm 配置，按 Kubernetes 1.33 \u002b Calico（推荐 eBPF \u002b VXLAN）最佳实践 做了优化与补充，输出 可直接使用的 kubeadm YAML（保留你原有字段并补足必要安全\/可用性项），并在后面给出逐段详解与注意事项，包含为什么这样配置、什么时候需要修改，以及与 Calico 的配套建议（eBPF \/ VXLAN \/ kube-proxy 处理等）。",
       "wordCount" : "1939",
@@ -67,20 +67,20 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/operations/kubernetes/init-config/"
+          "@id": "https://documents.v2ep.com/operations/kubernetes/init-config/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -151,7 +151,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/operations/kubernetes/init-config/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/kubernetes/init-config/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -194,14 +194,14 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -227,7 +227,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -275,7 +275,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1959,7 +1959,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         逐段说明与优化理由（逐项详解）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#逐段说明与优化理由逐项详解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 逐段说明与优化理由（逐项详解）" aria-label="Anchor to: 逐段说明与优化理由（逐项详解）" href="#%e9%80%90%e6%ae%b5%e8%af%b4%e6%98%8e%e4%b8%8e%e4%bc%98%e5%8c%96%e7%90%86%e7%94%b1%e9%80%90%e9%a1%b9%e8%af%a6%e8%a7%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#逐段说明与优化理由逐项详解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 逐段说明与优化理由（逐项详解）" aria-label="Anchor to: 逐段说明与优化理由（逐项详解）" href="#%e9%80%90%e6%ae%b5%e8%af%b4%e6%98%8e%e4%b8%8e%e4%bc%98%e5%8c%96%e7%90%86%e7%94%b1%e9%80%90%e9%a1%b9%e8%af%a6%e8%a7%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1968,7 +1968,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         一、InitConfiguration / nodeRegistration
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#一initconfiguration--noderegistration" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、InitConfiguration / nodeRegistration" aria-label="Anchor to: 一、InitConfiguration / nodeRegistration" href="#%e4%b8%80initconfiguration--noderegistration">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#一initconfiguration--noderegistration" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、InitConfiguration / nodeRegistration" aria-label="Anchor to: 一、InitConfiguration / nodeRegistration" href="#%e4%b8%80initconfiguration--noderegistration">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1988,7 +1988,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         二、ClusterConfiguration — apiServer / certSANs / controlPlaneEndpoint
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#二clusterconfiguration--apiserver--certsans--controlplaneendpoint" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、ClusterConfiguration — apiServer / certSANs / controlPlaneEndpoint" aria-label="Anchor to: 二、ClusterConfiguration — apiServer / certSANs / controlPlaneEndpoint" href="#%e4%ba%8cclusterconfiguration--apiserver--certsans--controlplaneendpoint">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#二clusterconfiguration--apiserver--certsans--controlplaneendpoint" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、ClusterConfiguration — apiServer / certSANs / controlPlaneEndpoint" aria-label="Anchor to: 二、ClusterConfiguration — apiServer / certSANs / controlPlaneEndpoint" href="#%e4%ba%8cclusterconfiguration--apiserver--certsans--controlplaneendpoint">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2008,7 +2008,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         三、etcd 外部配置（极其重要）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#三etcd-外部配置极其重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、etcd 外部配置（极其重要）" aria-label="Anchor to: 三、etcd 外部配置（极其重要）" href="#%e4%b8%89etcd-%e5%a4%96%e9%83%a8%e9%85%8d%e7%bd%ae%e6%9e%81%e5%85%b6%e9%87%8d%e8%a6%81">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#三etcd-外部配置极其重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、etcd 外部配置（极其重要）" aria-label="Anchor to: 三、etcd 外部配置（极其重要）" href="#%e4%b8%89etcd-%e5%a4%96%e9%83%a8%e9%85%8d%e7%bd%ae%e6%9e%81%e5%85%b6%e9%87%8d%e8%a6%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2025,7 +2025,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         四、networking: podSubnet 与 Calico
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#四networking-podsubnet-与-calico" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、networking: podSubnet 与 Calico" aria-label="Anchor to: 四、networking: podSubnet 与 Calico" href="#%e5%9b%9bnetworking-podsubnet-%e4%b8%8e-calico">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#四networking-podsubnet-与-calico" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、networking: podSubnet 与 Calico" aria-label="Anchor to: 四、networking: podSubnet 与 Calico" href="#%e5%9b%9bnetworking-podsubnet-%e4%b8%8e-calico">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2042,7 +2042,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         五、KubeletConfiguration
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#五kubeletconfiguration" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、KubeletConfiguration" aria-label="Anchor to: 五、KubeletConfiguration" href="#%e4%ba%94kubeletconfiguration">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#五kubeletconfiguration" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、KubeletConfiguration" aria-label="Anchor to: 五、KubeletConfiguration" href="#%e4%ba%94kubeletconfiguration">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2065,7 +2065,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         六、KubeProxyConfiguration（ipvs）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#六kubeproxyconfigurationipvs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、KubeProxyConfiguration（ipvs）" aria-label="Anchor to: 六、KubeProxyConfiguration（ipvs）" href="#%e5%85%adkubeproxyconfigurationipvs">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#六kubeproxyconfigurationipvs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、KubeProxyConfiguration（ipvs）" aria-label="Anchor to: 六、KubeProxyConfiguration（ipvs）" href="#%e5%85%adkubeproxyconfigurationipvs">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2085,7 +2085,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         与 Calico（eBPF + VXLAN）配合的特别说明（必须读）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#与-calicoebpf--vxlan配合的特别说明必须读" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 与 Calico（eBPF &#43; VXLAN）配合的特别说明（必须读）" aria-label="Anchor to: 与 Calico（eBPF &#43; VXLAN）配合的特别说明（必须读）" href="#%e4%b8%8e-calicoebpf--vxlan%e9%85%8d%e5%90%88%e7%9a%84%e7%89%b9%e5%88%ab%e8%af%b4%e6%98%8e%e5%bf%85%e9%a1%bb%e8%af%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#与-calicoebpf--vxlan配合的特别说明必须读" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 与 Calico（eBPF &#43; VXLAN）配合的特别说明（必须读）" aria-label="Anchor to: 与 Calico（eBPF &#43; VXLAN）配合的特别说明（必须读）" href="#%e4%b8%8e-calicoebpf--vxlan%e9%85%8d%e5%90%88%e7%9a%84%e7%89%b9%e5%88%ab%e8%af%b4%e6%98%8e%e5%bf%85%e9%a1%bb%e8%af%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2114,7 +2114,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         证书与证书重生（常见流程）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#证书与证书重生常见流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 证书与证书重生（常见流程）" aria-label="Anchor to: 证书与证书重生（常见流程）" href="#%e8%af%81%e4%b9%a6%e4%b8%8e%e8%af%81%e4%b9%a6%e9%87%8d%e7%94%9f%e5%b8%b8%e8%a7%81%e6%b5%81%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#证书与证书重生常见流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 证书与证书重生（常见流程）" aria-label="Anchor to: 证书与证书重生（常见流程）" href="#%e8%af%81%e4%b9%a6%e4%b8%8e%e8%af%81%e4%b9%a6%e9%87%8d%e7%94%9f%e5%b8%b8%e8%a7%81%e6%b5%81%e7%a8%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2131,7 +2131,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         操作建议（实操步骤简要）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#操作建议实操步骤简要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 操作建议（实操步骤简要）" aria-label="Anchor to: 操作建议（实操步骤简要）" href="#%e6%93%8d%e4%bd%9c%e5%bb%ba%e8%ae%ae%e5%ae%9e%e6%93%8d%e6%ad%a5%e9%aa%a4%e7%ae%80%e8%a6%81">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#操作建议实操步骤简要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 操作建议（实操步骤简要）" aria-label="Anchor to: 操作建议（实操步骤简要）" href="#%e6%93%8d%e4%bd%9c%e5%bb%ba%e8%ae%ae%e5%ae%9e%e6%93%8d%e6%ad%a5%e9%aa%a4%e7%ae%80%e8%a6%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2163,7 +2163,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         常见校验 &amp; 故障排查命令（给你快速检查清单）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#常见校验--故障排查命令给你快速检查清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见校验 &amp; 故障排查命令（给你快速检查清单）" aria-label="Anchor to: 常见校验 &amp; 故障排查命令（给你快速检查清单）" href="#%e5%b8%b8%e8%a7%81%e6%a0%a1%e9%aa%8c--%e6%95%85%e9%9a%9c%e6%8e%92%e6%9f%a5%e5%91%bd%e4%bb%a4%e7%bb%99%e4%bd%a0%e5%bf%ab%e9%80%9f%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#常见校验--故障排查命令给你快速检查清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见校验 &amp; 故障排查命令（给你快速检查清单）" aria-label="Anchor to: 常见校验 &amp; 故障排查命令（给你快速检查清单）" href="#%e5%b8%b8%e8%a7%81%e6%a0%a1%e9%aa%8c--%e6%95%85%e9%9a%9c%e6%8e%92%e6%9f%a5%e5%91%bd%e4%bb%a4%e7%bb%99%e4%bd%a0%e5%bf%ab%e9%80%9f%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2183,7 +2183,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         把上面 YAML 进一步生成两个版本：(A) Calico eBPF（推荐） 的完整 install-playbook 与 (B) Calico IPIP/VXLAN + kube-proxy(ipvs) 的保守版本，并给出一键部署命令（包括必要的内核模块、sysctl、conntrack 调整）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#把上面-yaml-进一步生成两个版本a-calico-ebpf推荐-的完整-install-playbook-与-b-calico-ipipvxlan--kube-proxyipvs-的保守版本并给出一键部署命令包括必要的内核模块sysctlconntrack-调整" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 把上面 YAML 进一步生成两个版本：(A) Calico eBPF（推荐） 的完整 install-playbook 与 (B) Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 的保守版本，并给出一键部署命令（包括必要的内核模块、sysctl、conntrack 调整）" aria-label="Anchor to: 把上面 YAML 进一步生成两个版本：(A) Calico eBPF（推荐） 的完整 install-playbook 与 (B) Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 的保守版本，并给出一键部署命令（包括必要的内核模块、sysctl、conntrack 调整）" href="#%e6%8a%8a%e4%b8%8a%e9%9d%a2-yaml-%e8%bf%9b%e4%b8%80%e6%ad%a5%e7%94%9f%e6%88%90%e4%b8%a4%e4%b8%aa%e7%89%88%e6%9c%aca-calico-ebpf%e6%8e%a8%e8%8d%90-%e7%9a%84%e5%ae%8c%e6%95%b4-install-playbook-%e4%b8%8e-b-calico-ipipvxlan--kube-proxyipvs-%e7%9a%84%e4%bf%9d%e5%ae%88%e7%89%88%e6%9c%ac%e5%b9%b6%e7%bb%99%e5%87%ba%e4%b8%80%e9%94%ae%e9%83%a8%e7%bd%b2%e5%91%bd%e4%bb%a4%e5%8c%85%e6%8b%ac%e5%bf%85%e8%a6%81%e7%9a%84%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97sysctlconntrack-%e8%b0%83%e6%95%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#把上面-yaml-进一步生成两个版本a-calico-ebpf推荐-的完整-install-playbook-与-b-calico-ipipvxlan--kube-proxyipvs-的保守版本并给出一键部署命令包括必要的内核模块sysctlconntrack-调整" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 把上面 YAML 进一步生成两个版本：(A) Calico eBPF（推荐） 的完整 install-playbook 与 (B) Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 的保守版本，并给出一键部署命令（包括必要的内核模块、sysctl、conntrack 调整）" aria-label="Anchor to: 把上面 YAML 进一步生成两个版本：(A) Calico eBPF（推荐） 的完整 install-playbook 与 (B) Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 的保守版本，并给出一键部署命令（包括必要的内核模块、sysctl、conntrack 调整）" href="#%e6%8a%8a%e4%b8%8a%e9%9d%a2-yaml-%e8%bf%9b%e4%b8%80%e6%ad%a5%e7%94%9f%e6%88%90%e4%b8%a4%e4%b8%aa%e7%89%88%e6%9c%aca-calico-ebpf%e6%8e%a8%e8%8d%90-%e7%9a%84%e5%ae%8c%e6%95%b4-install-playbook-%e4%b8%8e-b-calico-ipipvxlan--kube-proxyipvs-%e7%9a%84%e4%bf%9d%e5%ae%88%e7%89%88%e6%9c%ac%e5%b9%b6%e7%bb%99%e5%87%ba%e4%b8%80%e9%94%ae%e9%83%a8%e7%bd%b2%e5%91%bd%e4%bb%a4%e5%8c%85%e6%8b%ac%e5%bf%85%e8%a6%81%e7%9a%84%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97sysctlconntrack-%e8%b0%83%e6%95%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2200,7 +2200,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         A. Calico eBPF（推荐） 一键安装 Playbook
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#a-calico-ebpf推荐-一键安装-playbook" class="gdoc-page__anchor clip flex align-center" title="Anchor to: A. Calico eBPF（推荐） 一键安装 Playbook" aria-label="Anchor to: A. Calico eBPF（推荐） 一键安装 Playbook" href="#a-calico-ebpf%e6%8e%a8%e8%8d%90-%e4%b8%80%e9%94%ae%e5%ae%89%e8%a3%85-playbook">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#a-calico-ebpf推荐-一键安装-playbook" class="gdoc-page__anchor clip flex align-center" title="Anchor to: A. Calico eBPF（推荐） 一键安装 Playbook" aria-label="Anchor to: A. Calico eBPF（推荐） 一键安装 Playbook" href="#a-calico-ebpf%e6%8e%a8%e8%8d%90-%e4%b8%80%e9%94%ae%e5%ae%89%e8%a3%85-playbook">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2218,7 +2218,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         1. 节点预检 + 内核 / sysctl / conntrack 调整（在每个 Node 上执行）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#1-节点预检--内核--sysctl--conntrack-调整在每个-node-上执行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 节点预检 &#43; 内核 / sysctl / conntrack 调整（在每个 Node 上执行）" aria-label="Anchor to: 1. 节点预检 &#43; 内核 / sysctl / conntrack 调整（在每个 Node 上执行）" href="#1-%e8%8a%82%e7%82%b9%e9%a2%84%e6%a3%80--%e5%86%85%e6%a0%b8--sysctl--conntrack-%e8%b0%83%e6%95%b4%e5%9c%a8%e6%af%8f%e4%b8%aa-node-%e4%b8%8a%e6%89%a7%e8%a1%8c">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#1-节点预检--内核--sysctl--conntrack-调整在每个-node-上执行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 节点预检 &#43; 内核 / sysctl / conntrack 调整（在每个 Node 上执行）" aria-label="Anchor to: 1. 节点预检 &#43; 内核 / sysctl / conntrack 调整（在每个 Node 上执行）" href="#1-%e8%8a%82%e7%82%b9%e9%a2%84%e6%a3%80--%e5%86%85%e6%a0%b8--sysctl--conntrack-%e8%b0%83%e6%95%b4%e5%9c%a8%e6%af%8f%e4%b8%aa-node-%e4%b8%8a%e6%89%a7%e8%a1%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2281,7 +2281,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         2. 在 control-plane 上的一键安装脚本（应用 Calico Operator + Installation CR）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#2-在-control-plane-上的一键安装脚本应用-calico-operator--installation-cr" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 在 control-plane 上的一键安装脚本（应用 Calico Operator &#43; Installation CR）" aria-label="Anchor to: 2. 在 control-plane 上的一键安装脚本（应用 Calico Operator &#43; Installation CR）" href="#2-%e5%9c%a8-control-plane-%e4%b8%8a%e7%9a%84%e4%b8%80%e9%94%ae%e5%ae%89%e8%a3%85%e8%84%9a%e6%9c%ac%e5%ba%94%e7%94%a8-calico-operator--installation-cr">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#2-在-control-plane-上的一键安装脚本应用-calico-operator--installation-cr" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 在 control-plane 上的一键安装脚本（应用 Calico Operator &#43; Installation CR）" aria-label="Anchor to: 2. 在 control-plane 上的一键安装脚本（应用 Calico Operator &#43; Installation CR）" href="#2-%e5%9c%a8-control-plane-%e4%b8%8a%e7%9a%84%e4%b8%80%e9%94%ae%e5%ae%89%e8%a3%85%e8%84%9a%e6%9c%ac%e5%ba%94%e7%94%a8-calico-operator--installation-cr">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2343,7 +2343,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         3. 验证步骤（安装完成后）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#3-验证步骤安装完成后" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 验证步骤（安装完成后）" aria-label="Anchor to: 3. 验证步骤（安装完成后）" href="#3-%e9%aa%8c%e8%af%81%e6%ad%a5%e9%aa%a4%e5%ae%89%e8%a3%85%e5%ae%8c%e6%88%90%e5%90%8e">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#3-验证步骤安装完成后" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 验证步骤（安装完成后）" aria-label="Anchor to: 3. 验证步骤（安装完成后）" href="#3-%e9%aa%8c%e8%af%81%e6%ad%a5%e9%aa%a4%e5%ae%89%e8%a3%85%e5%ae%8c%e6%88%90%e5%90%8e">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2361,7 +2361,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         B. Calico IPIP/VXLAN + kube-proxy(ipvs) 保守版（兼容性优先）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#b-calico-ipipvxlan--kube-proxyipvs-保守版兼容性优先" class="gdoc-page__anchor clip flex align-center" title="Anchor to: B. Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 保守版（兼容性优先）" aria-label="Anchor to: B. Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 保守版（兼容性优先）" href="#b-calico-ipipvxlan--kube-proxyipvs-%e4%bf%9d%e5%ae%88%e7%89%88%e5%85%bc%e5%ae%b9%e6%80%a7%e4%bc%98%e5%85%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#b-calico-ipipvxlan--kube-proxyipvs-保守版兼容性优先" class="gdoc-page__anchor clip flex align-center" title="Anchor to: B. Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 保守版（兼容性优先）" aria-label="Anchor to: B. Calico IPIP/VXLAN &#43; kube-proxy(ipvs) 保守版（兼容性优先）" href="#b-calico-ipipvxlan--kube-proxyipvs-%e4%bf%9d%e5%ae%88%e7%89%88%e5%85%bc%e5%ae%b9%e6%80%a7%e4%bc%98%e5%85%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2371,7 +2371,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         1. 节点预检 + 内核模块 / sysctl / conntrack 调整（在每个 Node 执行）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#1-节点预检--内核模块--sysctl--conntrack-调整在每个-node-执行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 节点预检 &#43; 内核模块 / sysctl / conntrack 调整（在每个 Node 执行）" aria-label="Anchor to: 1. 节点预检 &#43; 内核模块 / sysctl / conntrack 调整（在每个 Node 执行）" href="#1-%e8%8a%82%e7%82%b9%e9%a2%84%e6%a3%80--%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97--sysctl--conntrack-%e8%b0%83%e6%95%b4%e5%9c%a8%e6%af%8f%e4%b8%aa-node-%e6%89%a7%e8%a1%8c">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#1-节点预检--内核模块--sysctl--conntrack-调整在每个-node-执行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 节点预检 &#43; 内核模块 / sysctl / conntrack 调整（在每个 Node 执行）" aria-label="Anchor to: 1. 节点预检 &#43; 内核模块 / sysctl / conntrack 调整（在每个 Node 执行）" href="#1-%e8%8a%82%e7%82%b9%e9%a2%84%e6%a3%80--%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97--sysctl--conntrack-%e8%b0%83%e6%95%b4%e5%9c%a8%e6%af%8f%e4%b8%aa-node-%e6%89%a7%e8%a1%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2417,7 +2417,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         2. 在 control-plane 上的一键安装脚本（Calico + ipvs）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#2-在-control-plane-上的一键安装脚本calico--ipvs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 在 control-plane 上的一键安装脚本（Calico &#43; ipvs）" aria-label="Anchor to: 2. 在 control-plane 上的一键安装脚本（Calico &#43; ipvs）" href="#2-%e5%9c%a8-control-plane-%e4%b8%8a%e7%9a%84%e4%b8%80%e9%94%ae%e5%ae%89%e8%a3%85%e8%84%9a%e6%9c%accalico--ipvs">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#2-在-control-plane-上的一键安装脚本calico--ipvs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 在 control-plane 上的一键安装脚本（Calico &#43; ipvs）" aria-label="Anchor to: 2. 在 control-plane 上的一键安装脚本（Calico &#43; ipvs）" href="#2-%e5%9c%a8-control-plane-%e4%b8%8a%e7%9a%84%e4%b8%80%e9%94%ae%e5%ae%89%e8%a3%85%e8%84%9a%e6%9c%accalico--ipvs">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2472,7 +2472,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         3. 验证步骤（安装完成后）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#3-验证步骤安装完成后-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 验证步骤（安装完成后）" aria-label="Anchor to: 3. 验证步骤（安装完成后）" href="#3-%e9%aa%8c%e8%af%81%e6%ad%a5%e9%aa%a4%e5%ae%89%e8%a3%85%e5%ae%8c%e6%88%90%e5%90%8e-1">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#3-验证步骤安装完成后-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 验证步骤（安装完成后）" aria-label="Anchor to: 3. 验证步骤（安装完成后）" href="#3-%e9%aa%8c%e8%af%81%e6%ad%a5%e9%aa%a4%e5%ae%89%e8%a3%85%e5%ae%8c%e6%88%90%e5%90%8e-1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2489,7 +2489,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     >
         常见操作/回滚与安全提示（两种方案共通）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/kubernetes/init-config/#常见操作回滚与安全提示两种方案共通" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见操作/回滚与安全提示（两种方案共通）" aria-label="Anchor to: 常见操作/回滚与安全提示（两种方案共通）" href="#%e5%b8%b8%e8%a7%81%e6%93%8d%e4%bd%9c%e5%9b%9e%e6%bb%9a%e4%b8%8e%e5%ae%89%e5%85%a8%e6%8f%90%e7%a4%ba%e4%b8%a4%e7%a7%8d%e6%96%b9%e6%a1%88%e5%85%b1%e9%80%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/init-config/#常见操作回滚与安全提示两种方案共通" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见操作/回滚与安全提示（两种方案共通）" aria-label="Anchor to: 常见操作/回滚与安全提示（两种方案共通）" href="#%e5%b8%b8%e8%a7%81%e6%93%8d%e4%bd%9c%e5%9b%9e%e6%bb%9a%e4%b8%8e%e5%ae%89%e5%85%a8%e6%8f%90%e7%a4%ba%e4%b8%a4%e7%a7%8d%e6%96%b9%e6%a1%88%e5%85%b1%e9%80%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

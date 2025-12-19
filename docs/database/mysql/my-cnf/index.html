@@ -17,7 +17,7 @@
 [mysqld] 主服务配置段
 [mysqld] # ------------------------------- # 基础 # ------------------------------- user = mysql server_id = 101 port = 3306 pid-file = /var/run/mysqld/mysqld.pid socket = /var/run/mysqld/mysqld.sock basedir = /usr/local/mysql datadir = /data/mysql tmpdir = /data/mysql/tmp # ------------------------------- # 连接参数 # ------------------------------- max_connections = 400 max_connect_errors = 10000 wait_timeout = 28800 interactive_timeout = 28800 # ------------------------------- # InnoDB 核心配置 # ------------------------------- default_storage_engine = InnoDB innodb_buffer_pool_size = 10G innodb_buffer_pool_instances = 8 innodb_log_file_size = 1G innodb_log_buffer_size = 64M innodb_flush_method = O_DIRECT innodb_flush_log_at_trx_commit = 1 innodb_file_per_table = 1 innodb_io_capacity = 2000 innodb_io_capacity_max = 4000 innodb_read_io_threads = 4 innodb_write_io_threads = 4 # ------------------------------- # 事务与锁 # ------------------------------- innodb_lock_wait_timeout = 50 transaction_isolation = READ-COMMITTED # ------------------------------- # 二进制日志（binlog） # ------------------------------- log_bin = mysql-bin binlog_format = ROW binlog_row_image = FULL sync_binlog = 1 expire_logs_days = 7 binlog_cache_size = 4M gtid_mode = ON enforce_gtid_consistency = ON log_slave_updates = ON # ------------------------------- # 慢查询日志 # ------------------------------- slow_query_log = 1 slow_query_log_file = /var/log/mysql/slow.log long_query_time = 1 log_queries_not_using_indexes = 0 # ------------------------------- # 错误日志 # ------------------------------- log_error = /var/log/mysql/error.log # ------------------------------- # 字符集 # ------------------------------- character_set_server = utf8mb4 collation_server = utf8mb4_general_ci # ------------------------------- # 其他 # ------------------------------- skip_name_resolve = 1 二、my.cnf 参数完整详解（运维必须掌握） 以下对 最常用、最重要、生产必需的参数 进行分类讲解。" />
 
-    <title>MySQL 配置文件 my.cnf | Documents</title>
+    <title>MySQL 配置文件 my.cnf | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -40,13 +40,13 @@
     property="og:title"
     content="MySQL 配置文件 my.cnf"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content=" 一、完整 my.cnf（生产级） 以下 my.cnf 适用于 MySQL 8.x，内存约 16GB 的服务器（如需 4GB/8GB/32GB/64GB）。
 ⚠️ 仅包含实际生产最重要、最常用、必须配置的参数（不包含无意义/过时参数）
 [mysqld] 主服务配置段
 [mysqld] # ------------------------------- # 基础 # ------------------------------- user = mysql server_id = 101 port = 3306 pid-file = /var/run/mysqld/mysqld.pid socket = /var/run/mysqld/mysqld.sock basedir = /usr/local/mysql datadir = /data/mysql tmpdir = /data/mysql/tmp # ------------------------------- # 连接参数 # ------------------------------- max_connections = 400 max_connect_errors = 10000 wait_timeout = 28800 interactive_timeout = 28800 # ------------------------------- # InnoDB 核心配置 # ------------------------------- default_storage_engine = InnoDB innodb_buffer_pool_size = 10G innodb_buffer_pool_instances = 8 innodb_log_file_size = 1G innodb_log_buffer_size = 64M innodb_flush_method = O_DIRECT innodb_flush_log_at_trx_commit = 1 innodb_file_per_table = 1 innodb_io_capacity = 2000 innodb_io_capacity_max = 4000 innodb_read_io_threads = 4 innodb_write_io_threads = 4 # ------------------------------- # 事务与锁 # ------------------------------- innodb_lock_wait_timeout = 50 transaction_isolation = READ-COMMITTED # ------------------------------- # 二进制日志（binlog） # ------------------------------- log_bin = mysql-bin binlog_format = ROW binlog_row_image = FULL sync_binlog = 1 expire_logs_days = 7 binlog_cache_size = 4M gtid_mode = ON enforce_gtid_consistency = ON log_slave_updates = ON # ------------------------------- # 慢查询日志 # ------------------------------- slow_query_log = 1 slow_query_log_file = /var/log/mysql/slow.log long_query_time = 1 log_queries_not_using_indexes = 0 # ------------------------------- # 错误日志 # ------------------------------- log_error = /var/log/mysql/error.log # ------------------------------- # 字符集 # ------------------------------- character_set_server = utf8mb4 collation_server = utf8mb4_general_ci # ------------------------------- # 其他 # ------------------------------- skip_name_resolve = 1 二、my.cnf 参数完整详解（运维必须掌握） 以下对 最常用、最重要、生产必需的参数 进行分类讲解。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/database/mysql/my-cnf/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/mysql/my-cnf/" />
 
 <meta property="article:section" content="Database" />
 
@@ -65,7 +65,7 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL 配置文件 my.cnf",
-      "url" : "https://docs.v2ep.com/database/mysql/my-cnf/",
+      "url" : "https://documents.v2ep.com/database/mysql/my-cnf/",
       "headline": "MySQL 配置文件 my.cnf",
       "description": " 一、完整 my.cnf（生产级） 以下 my.cnf 适用于 MySQL 8.x，内存约 16GB 的服务器（如需 4GB\/8GB\/32GB\/64GB）。\n⚠️ 仅包含实际生产最重要、最常用、必须配置的参数（不包含无意义\/过时参数）\n[mysqld] 主服务配置段\n[mysqld] # ------------------------------- # 基础 # ------------------------------- user = mysql server_id = 101 port = 3306 pid-file = \/var\/run\/mysqld\/mysqld.pid socket = \/var\/run\/mysqld\/mysqld.sock basedir = \/usr\/local\/mysql datadir = \/data\/mysql tmpdir = \/data\/mysql\/tmp # ------------------------------- # 连接参数 # ------------------------------- max_connections = 400 max_connect_errors = 10000 wait_timeout = 28800 interactive_timeout = 28800 # ------------------------------- # InnoDB 核心配置 # ------------------------------- default_storage_engine = InnoDB innodb_buffer_pool_size = 10G innodb_buffer_pool_instances = 8 innodb_log_file_size = 1G innodb_log_buffer_size = 64M innodb_flush_method = O_DIRECT innodb_flush_log_at_trx_commit = 1 innodb_file_per_table = 1 innodb_io_capacity = 2000 innodb_io_capacity_max = 4000 innodb_read_io_threads = 4 innodb_write_io_threads = 4 # ------------------------------- # 事务与锁 # ------------------------------- innodb_lock_wait_timeout = 50 transaction_isolation = READ-COMMITTED # ------------------------------- # 二进制日志（binlog） # ------------------------------- log_bin = mysql-bin binlog_format = ROW binlog_row_image = FULL sync_binlog = 1 expire_logs_days = 7 binlog_cache_size = 4M gtid_mode = ON enforce_gtid_consistency = ON log_slave_updates = ON # ------------------------------- # 慢查询日志 # ------------------------------- slow_query_log = 1 slow_query_log_file = \/var\/log\/mysql\/slow.log long_query_time = 1 log_queries_not_using_indexes = 0 # ------------------------------- # 错误日志 # ------------------------------- log_error = \/var\/log\/mysql\/error.log # ------------------------------- # 字符集 # ------------------------------- character_set_server = utf8mb4 collation_server = utf8mb4_general_ci # ------------------------------- # 其他 # ------------------------------- skip_name_resolve = 1 二、my.cnf 参数完整详解（运维必须掌握） 以下对 最常用、最重要、生产必需的参数 进行分类讲解。",
       "wordCount" : "389",
@@ -73,20 +73,20 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/database/mysql/my-cnf/"
+          "@id": "https://documents.v2ep.com/database/mysql/my-cnf/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -157,7 +157,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/database/mysql/my-cnf/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/mysql/my-cnf/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -200,14 +200,14 @@
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -233,7 +233,7 @@
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -281,7 +281,7 @@
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1812,7 +1812,7 @@
     >
         一、完整 my.cnf（生产级）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#一完整-mycnf生产级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、完整 my.cnf（生产级）" aria-label="Anchor to: 一、完整 my.cnf（生产级）" href="#%e4%b8%80%e5%ae%8c%e6%95%b4-mycnf%e7%94%9f%e4%ba%a7%e7%ba%a7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#一完整-mycnf生产级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、完整 my.cnf（生产级）" aria-label="Anchor to: 一、完整 my.cnf（生产级）" href="#%e4%b8%80%e5%ae%8c%e6%95%b4-mycnf%e7%94%9f%e4%ba%a7%e7%ba%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1903,7 +1903,7 @@ skip_name_resolve = 1
     >
         二、my.cnf 参数完整详解（运维必须掌握）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#二mycnf-参数完整详解运维必须掌握" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、my.cnf 参数完整详解（运维必须掌握）" aria-label="Anchor to: 二、my.cnf 参数完整详解（运维必须掌握）" href="#%e4%ba%8cmycnf-%e5%8f%82%e6%95%b0%e5%ae%8c%e6%95%b4%e8%af%a6%e8%a7%a3%e8%bf%90%e7%bb%b4%e5%bf%85%e9%a1%bb%e6%8e%8c%e6%8f%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#二mycnf-参数完整详解运维必须掌握" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、my.cnf 参数完整详解（运维必须掌握）" aria-label="Anchor to: 二、my.cnf 参数完整详解（运维必须掌握）" href="#%e4%ba%8cmycnf-%e5%8f%82%e6%95%b0%e5%ae%8c%e6%95%b4%e8%af%a6%e8%a7%a3%e8%bf%90%e7%bb%b4%e5%bf%85%e9%a1%bb%e6%8e%8c%e6%8f%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1913,7 +1913,7 @@ skip_name_resolve = 1
     >
         1. 基础参数
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#1-基础参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 基础参数" aria-label="Anchor to: 1. 基础参数" href="#1-%e5%9f%ba%e7%a1%80%e5%8f%82%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#1-基础参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 基础参数" aria-label="Anchor to: 1. 基础参数" href="#1-%e5%9f%ba%e7%a1%80%e5%8f%82%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1922,7 +1922,7 @@ skip_name_resolve = 1
     >
         server_id
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#server_id" class="gdoc-page__anchor clip flex align-center" title="Anchor to: server_id" aria-label="Anchor to: server_id" href="#server_id">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#server_id" class="gdoc-page__anchor clip flex align-center" title="Anchor to: server_id" aria-label="Anchor to: server_id" href="#server_id">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1932,7 +1932,7 @@ skip_name_resolve = 1
     >
         datadir
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#datadir" class="gdoc-page__anchor clip flex align-center" title="Anchor to: datadir" aria-label="Anchor to: datadir" href="#datadir">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#datadir" class="gdoc-page__anchor clip flex align-center" title="Anchor to: datadir" aria-label="Anchor to: datadir" href="#datadir">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1942,7 +1942,7 @@ skip_name_resolve = 1
     >
         socket
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#socket" class="gdoc-page__anchor clip flex align-center" title="Anchor to: socket" aria-label="Anchor to: socket" href="#socket">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#socket" class="gdoc-page__anchor clip flex align-center" title="Anchor to: socket" aria-label="Anchor to: socket" href="#socket">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1952,7 +1952,7 @@ skip_name_resolve = 1
     >
         tmpdir
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#tmpdir" class="gdoc-page__anchor clip flex align-center" title="Anchor to: tmpdir" aria-label="Anchor to: tmpdir" href="#tmpdir">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#tmpdir" class="gdoc-page__anchor clip flex align-center" title="Anchor to: tmpdir" aria-label="Anchor to: tmpdir" href="#tmpdir">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1962,7 +1962,7 @@ skip_name_resolve = 1
     >
         2. 连接参数
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#2-连接参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 连接参数" aria-label="Anchor to: 2. 连接参数" href="#2-%e8%bf%9e%e6%8e%a5%e5%8f%82%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#2-连接参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 连接参数" aria-label="Anchor to: 2. 连接参数" href="#2-%e8%bf%9e%e6%8e%a5%e5%8f%82%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2003,7 +2003,7 @@ skip_name_resolve = 1
     >
         3. 线程、缓存、会话相关
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#3-线程缓存会话相关" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 线程、缓存、会话相关" aria-label="Anchor to: 3. 线程、缓存、会话相关" href="#3-%e7%ba%bf%e7%a8%8b%e7%bc%93%e5%ad%98%e4%bc%9a%e8%af%9d%e7%9b%b8%e5%85%b3">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#3-线程缓存会话相关" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 线程、缓存、会话相关" aria-label="Anchor to: 3. 线程、缓存、会话相关" href="#3-%e7%ba%bf%e7%a8%8b%e7%bc%93%e5%ad%98%e4%bc%9a%e8%af%9d%e7%9b%b8%e5%85%b3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2012,7 +2012,7 @@ skip_name_resolve = 1
     >
         thread_cache_size
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#thread_cache_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: thread_cache_size" aria-label="Anchor to: thread_cache_size" href="#thread_cache_size">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#thread_cache_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: thread_cache_size" aria-label="Anchor to: thread_cache_size" href="#thread_cache_size">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2022,7 +2022,7 @@ skip_name_resolve = 1
     >
         table_open_cache
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#table_open_cache" class="gdoc-page__anchor clip flex align-center" title="Anchor to: table_open_cache" aria-label="Anchor to: table_open_cache" href="#table_open_cache">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#table_open_cache" class="gdoc-page__anchor clip flex align-center" title="Anchor to: table_open_cache" aria-label="Anchor to: table_open_cache" href="#table_open_cache">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2032,7 +2032,7 @@ skip_name_resolve = 1
     >
         query_cache
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#query_cache" class="gdoc-page__anchor clip flex align-center" title="Anchor to: query_cache" aria-label="Anchor to: query_cache" href="#query_cache">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#query_cache" class="gdoc-page__anchor clip flex align-center" title="Anchor to: query_cache" aria-label="Anchor to: query_cache" href="#query_cache">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2042,7 +2042,7 @@ skip_name_resolve = 1
     >
         4. InnoDB 存储引擎（核心重点）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#4-innodb-存储引擎核心重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. InnoDB 存储引擎（核心重点）" aria-label="Anchor to: 4. InnoDB 存储引擎（核心重点）" href="#4-innodb-%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e6%a0%b8%e5%bf%83%e9%87%8d%e7%82%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#4-innodb-存储引擎核心重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. InnoDB 存储引擎（核心重点）" aria-label="Anchor to: 4. InnoDB 存储引擎（核心重点）" href="#4-innodb-%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e6%a0%b8%e5%bf%83%e9%87%8d%e7%82%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2052,7 +2052,7 @@ skip_name_resolve = 1
     >
         innodb_buffer_pool_size
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_buffer_pool_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_buffer_pool_size" aria-label="Anchor to: innodb_buffer_pool_size" href="#innodb_buffer_pool_size">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_buffer_pool_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_buffer_pool_size" aria-label="Anchor to: innodb_buffer_pool_size" href="#innodb_buffer_pool_size">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2066,7 +2066,7 @@ skip_name_resolve = 1
     >
         innodb_buffer_pool_instances
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_buffer_pool_instances" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_buffer_pool_instances" aria-label="Anchor to: innodb_buffer_pool_instances" href="#innodb_buffer_pool_instances">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_buffer_pool_instances" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_buffer_pool_instances" aria-label="Anchor to: innodb_buffer_pool_instances" href="#innodb_buffer_pool_instances">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2079,7 +2079,7 @@ skip_name_resolve = 1
     >
         innodb_log_file_size
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_log_file_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_log_file_size" aria-label="Anchor to: innodb_log_file_size" href="#innodb_log_file_size">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_log_file_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_log_file_size" aria-label="Anchor to: innodb_log_file_size" href="#innodb_log_file_size">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2093,7 +2093,7 @@ skip_name_resolve = 1
     >
         innodb_log_buffer_size
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_log_buffer_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_log_buffer_size" aria-label="Anchor to: innodb_log_buffer_size" href="#innodb_log_buffer_size">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_log_buffer_size" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_log_buffer_size" aria-label="Anchor to: innodb_log_buffer_size" href="#innodb_log_buffer_size">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2106,7 +2106,7 @@ skip_name_resolve = 1
     >
         innodb_flush_method = O_DIRECT
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_flush_method--o_direct" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_flush_method = O_DIRECT" aria-label="Anchor to: innodb_flush_method = O_DIRECT" href="#innodb_flush_method--o_direct">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_flush_method--o_direct" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_flush_method = O_DIRECT" aria-label="Anchor to: innodb_flush_method = O_DIRECT" href="#innodb_flush_method--o_direct">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2116,7 +2116,7 @@ skip_name_resolve = 1
     >
         innodb_flush_log_at_trx_commit
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_flush_log_at_trx_commit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_flush_log_at_trx_commit" aria-label="Anchor to: innodb_flush_log_at_trx_commit" href="#innodb_flush_log_at_trx_commit">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_flush_log_at_trx_commit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_flush_log_at_trx_commit" aria-label="Anchor to: innodb_flush_log_at_trx_commit" href="#innodb_flush_log_at_trx_commit">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2148,7 +2148,7 @@ skip_name_resolve = 1
     >
         innodb_file_per_table
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_file_per_table" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_file_per_table" aria-label="Anchor to: innodb_file_per_table" href="#innodb_file_per_table">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_file_per_table" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_file_per_table" aria-label="Anchor to: innodb_file_per_table" href="#innodb_file_per_table">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2158,7 +2158,7 @@ skip_name_resolve = 1
     >
         innodb_lock_wait_timeout
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#innodb_lock_wait_timeout" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_lock_wait_timeout" aria-label="Anchor to: innodb_lock_wait_timeout" href="#innodb_lock_wait_timeout">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#innodb_lock_wait_timeout" class="gdoc-page__anchor clip flex align-center" title="Anchor to: innodb_lock_wait_timeout" aria-label="Anchor to: innodb_lock_wait_timeout" href="#innodb_lock_wait_timeout">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2168,7 +2168,7 @@ skip_name_resolve = 1
     >
         5. Binlog 与复制（生产关键）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#5-binlog-与复制生产关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. Binlog 与复制（生产关键）" aria-label="Anchor to: 5. Binlog 与复制（生产关键）" href="#5-binlog-%e4%b8%8e%e5%a4%8d%e5%88%b6%e7%94%9f%e4%ba%a7%e5%85%b3%e9%94%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#5-binlog-与复制生产关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. Binlog 与复制（生产关键）" aria-label="Anchor to: 5. Binlog 与复制（生产关键）" href="#5-binlog-%e4%b8%8e%e5%a4%8d%e5%88%b6%e7%94%9f%e4%ba%a7%e5%85%b3%e9%94%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2177,7 +2177,7 @@ skip_name_resolve = 1
     >
         log_bin
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#log_bin" class="gdoc-page__anchor clip flex align-center" title="Anchor to: log_bin" aria-label="Anchor to: log_bin" href="#log_bin">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#log_bin" class="gdoc-page__anchor clip flex align-center" title="Anchor to: log_bin" aria-label="Anchor to: log_bin" href="#log_bin">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2187,7 +2187,7 @@ skip_name_resolve = 1
     >
         binlog_format
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#binlog_format" class="gdoc-page__anchor clip flex align-center" title="Anchor to: binlog_format" aria-label="Anchor to: binlog_format" href="#binlog_format">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#binlog_format" class="gdoc-page__anchor clip flex align-center" title="Anchor to: binlog_format" aria-label="Anchor to: binlog_format" href="#binlog_format">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2223,7 +2223,7 @@ skip_name_resolve = 1
     >
         sync_binlog
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#sync_binlog" class="gdoc-page__anchor clip flex align-center" title="Anchor to: sync_binlog" aria-label="Anchor to: sync_binlog" href="#sync_binlog">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#sync_binlog" class="gdoc-page__anchor clip flex align-center" title="Anchor to: sync_binlog" aria-label="Anchor to: sync_binlog" href="#sync_binlog">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2259,7 +2259,7 @@ skip_name_resolve = 1
     >
         expire_logs_days
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#expire_logs_days" class="gdoc-page__anchor clip flex align-center" title="Anchor to: expire_logs_days" aria-label="Anchor to: expire_logs_days" href="#expire_logs_days">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#expire_logs_days" class="gdoc-page__anchor clip flex align-center" title="Anchor to: expire_logs_days" aria-label="Anchor to: expire_logs_days" href="#expire_logs_days">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2269,7 +2269,7 @@ skip_name_resolve = 1
     >
         gtid_mode = ON
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#gtid_mode--on" class="gdoc-page__anchor clip flex align-center" title="Anchor to: gtid_mode = ON" aria-label="Anchor to: gtid_mode = ON" href="#gtid_mode--on">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#gtid_mode--on" class="gdoc-page__anchor clip flex align-center" title="Anchor to: gtid_mode = ON" aria-label="Anchor to: gtid_mode = ON" href="#gtid_mode--on">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2279,7 +2279,7 @@ skip_name_resolve = 1
     >
         log_slave_updates
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#log_slave_updates" class="gdoc-page__anchor clip flex align-center" title="Anchor to: log_slave_updates" aria-label="Anchor to: log_slave_updates" href="#log_slave_updates">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#log_slave_updates" class="gdoc-page__anchor clip flex align-center" title="Anchor to: log_slave_updates" aria-label="Anchor to: log_slave_updates" href="#log_slave_updates">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2289,7 +2289,7 @@ skip_name_resolve = 1
     >
         6. 慢查询日志
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#6-慢查询日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 慢查询日志" aria-label="Anchor to: 6. 慢查询日志" href="#6-%e6%85%a2%e6%9f%a5%e8%af%a2%e6%97%a5%e5%bf%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#6-慢查询日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 慢查询日志" aria-label="Anchor to: 6. 慢查询日志" href="#6-%e6%85%a2%e6%9f%a5%e8%af%a2%e6%97%a5%e5%bf%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2298,7 +2298,7 @@ skip_name_resolve = 1
     >
         slow_query_log
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#slow_query_log" class="gdoc-page__anchor clip flex align-center" title="Anchor to: slow_query_log" aria-label="Anchor to: slow_query_log" href="#slow_query_log">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#slow_query_log" class="gdoc-page__anchor clip flex align-center" title="Anchor to: slow_query_log" aria-label="Anchor to: slow_query_log" href="#slow_query_log">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2308,7 +2308,7 @@ skip_name_resolve = 1
     >
         long_query_time
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#long_query_time" class="gdoc-page__anchor clip flex align-center" title="Anchor to: long_query_time" aria-label="Anchor to: long_query_time" href="#long_query_time">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#long_query_time" class="gdoc-page__anchor clip flex align-center" title="Anchor to: long_query_time" aria-label="Anchor to: long_query_time" href="#long_query_time">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2318,7 +2318,7 @@ skip_name_resolve = 1
     >
         log_queries_not_using_indexes
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#log_queries_not_using_indexes" class="gdoc-page__anchor clip flex align-center" title="Anchor to: log_queries_not_using_indexes" aria-label="Anchor to: log_queries_not_using_indexes" href="#log_queries_not_using_indexes">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#log_queries_not_using_indexes" class="gdoc-page__anchor clip flex align-center" title="Anchor to: log_queries_not_using_indexes" aria-label="Anchor to: log_queries_not_using_indexes" href="#log_queries_not_using_indexes">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2328,7 +2328,7 @@ skip_name_resolve = 1
     >
         7. 字符集
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#7-字符集" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 字符集" aria-label="Anchor to: 7. 字符集" href="#7-%e5%ad%97%e7%ac%a6%e9%9b%86">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#7-字符集" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 字符集" aria-label="Anchor to: 7. 字符集" href="#7-%e5%ad%97%e7%ac%a6%e9%9b%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2337,7 +2337,7 @@ skip_name_resolve = 1
     >
         character_set_server = utf8mb4
     </h4>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#character_set_server--utf8mb4" class="gdoc-page__anchor clip flex align-center" title="Anchor to: character_set_server = utf8mb4" aria-label="Anchor to: character_set_server = utf8mb4" href="#character_set_server--utf8mb4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#character_set_server--utf8mb4" class="gdoc-page__anchor clip flex align-center" title="Anchor to: character_set_server = utf8mb4" aria-label="Anchor to: character_set_server = utf8mb4" href="#character_set_server--utf8mb4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2347,7 +2347,7 @@ skip_name_resolve = 1
     >
         8. 其他核心参数
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/mysql/my-cnf/#8-其他核心参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 其他核心参数" aria-label="Anchor to: 8. 其他核心参数" href="#8-%e5%85%b6%e4%bb%96%e6%a0%b8%e5%bf%83%e5%8f%82%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/my-cnf/#8-其他核心参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 其他核心参数" aria-label="Anchor to: 8. 其他核心参数" href="#8-%e5%85%b6%e4%bb%96%e6%a0%b8%e5%bf%83%e5%8f%82%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

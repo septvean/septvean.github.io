@@ -16,7 +16,7 @@
 注意：不同 Nginx 版本在启用 HTTP/2 的语法上可能略有差别（http2;、http2 on; 或 listen &hellip; http2;）。我在示例中使用通用写法 listen 443 ssl; &#43; http2;，如果你当前版本报语法错误，按你环境改为 http2 on; 或 listen 443 ssl http2; 即可（在注释处标明）。
 # /etc/nginx/nginx.conf user nginx; worker_processes auto; # 推荐 auto，根据 CPU 核心数自动设置 worker_rlimit_nofile 65535; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { use epoll; worker_connections 4096; # 每 worker 的最大连接数（可按需调整） multi_accept on; accept_mutex off; } http { # 基础 include mime.types; default_type application/octet-stream; sendfile on; tcp_nopush on; tcp_nodelay on; keepalive_timeout 65s; types_hash_max_size 2048; server_tokens off; # 日志格式 log_format main &#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39; &#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39; &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;; access_log /var/log/nginx/access.log main; # 缓冲与请求限制（可针对 2G 内存/双核适当下调） client_max_body_size 20m; client_body_buffer_size 64k; client_header_buffer_size 8k; large_client_header_buffers 4 16k; client_body_timeout 20s; client_header_timeout 20s; send_timeout 20s; # Gzip 压缩 gzip on; gzip_http_version 1.1; gzip_comp_level 5; gzip_min_length 1024; gzip_proxied any; gzip_vary on; gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml&#43;rss text/javascript; # SSL 优化（替换为你的证书） ssl_session_cache shared:SSL:50m; ssl_session_timeout 1d; ssl_session_tickets off; # 推荐的安全协议与密码套件（支持 TLS1.2/1.3） ssl_protocols TLSv1.2 TLSv1.3; # 对于 TLS1.3，Cipher 配置由 OpenSSL 控制；下面为 TLS1.2 ciphers ssl_ciphers &#39;ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:&#39; &#39;ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:&#39; &#39;ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384&#39;; ssl_prefer_server_ciphers off; # OCSP Stapling（启用后需要正确的 ssl_trusted_certificate） resolver 1.1.1.1 8.8.8.8 valid=300s; resolver_timeout 5s; # 安全头（可按需打开/修改） add_header X-Frame-Options SAMEORIGIN; add_header X-Content-Type-Options nosniff; add_header X-XSS-Protection &#34;1; mode=block&#34;; # Limit / rate limiting # 每个 IP 允许的并发请求数与速率控制（按需调整） limit_conn_zone $binary_remote_addr zone=addr:10m; limit_req_zone $binary_remote_addr zone=req_zone:10m rate=10r/s; # Upstream 常用示例（添加 keepalive） upstream app_backend { server 127.0.0.1:8000 max_fails=3 fail_timeout=30s; server 127.0.0.1:8001 max_fails=3 fail_timeout=30s; keepalive 16; } # Proxy 默认设置（可 include 到 conf.d/proxy.conf） map $http_upgrade $connection_upgrade { default upgrade; &#39;&#39; close; } # include 站点与额外配置 include /etc/nginx/conf.d/*.conf; } 示例：生产级 server（HTTP-&gt;HTTPS、HTTP/2、SSL、Proxy）" />
 
-    <title>Nginx 生产级 nginx.conf | Documents</title>
+    <title>Nginx 生产级 nginx.conf | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,12 +39,12 @@
     property="og:title"
     content="Nginx 生产级 nginx.conf"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content=" 生产级 nginx.conf 下面是一份生产级 nginx.conf 模板，包含 HTTP-&gt;HTTPS 强制跳转、HTTP/2、SSL（现代安全配置）、性能优化（worker、连接、缓冲、gzip、keepalive、upstream keepalive）、安全性（HSTS、OCSP、session）以及常用 proxy/fastcgi 设置。配置里带注释，按需替换证书路径、域名和上游服务地址。
 注意：不同 Nginx 版本在启用 HTTP/2 的语法上可能略有差别（http2;、http2 on; 或 listen … http2;）。我在示例中使用通用写法 listen 443 ssl; &#43; http2;，如果你当前版本报语法错误，按你环境改为 http2 on; 或 listen 443 ssl http2; 即可（在注释处标明）。
 # /etc/nginx/nginx.conf user nginx; worker_processes auto; # 推荐 auto，根据 CPU 核心数自动设置 worker_rlimit_nofile 65535; error_log /var/log/nginx/error.log warn; pid /var/run/nginx.pid; events { use epoll; worker_connections 4096; # 每 worker 的最大连接数（可按需调整） multi_accept on; accept_mutex off; } http { # 基础 include mime.types; default_type application/octet-stream; sendfile on; tcp_nopush on; tcp_nodelay on; keepalive_timeout 65s; types_hash_max_size 2048; server_tokens off; # 日志格式 log_format main &#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39; &#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39; &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;; access_log /var/log/nginx/access.log main; # 缓冲与请求限制（可针对 2G 内存/双核适当下调） client_max_body_size 20m; client_body_buffer_size 64k; client_header_buffer_size 8k; large_client_header_buffers 4 16k; client_body_timeout 20s; client_header_timeout 20s; send_timeout 20s; # Gzip 压缩 gzip on; gzip_http_version 1.1; gzip_comp_level 5; gzip_min_length 1024; gzip_proxied any; gzip_vary on; gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml&#43;rss text/javascript; # SSL 优化（替换为你的证书） ssl_session_cache shared:SSL:50m; ssl_session_timeout 1d; ssl_session_tickets off; # 推荐的安全协议与密码套件（支持 TLS1.2/1.3） ssl_protocols TLSv1.2 TLSv1.3; # 对于 TLS1.3，Cipher 配置由 OpenSSL 控制；下面为 TLS1.2 ciphers ssl_ciphers &#39;ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:&#39; &#39;ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:&#39; &#39;ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384&#39;; ssl_prefer_server_ciphers off; # OCSP Stapling（启用后需要正确的 ssl_trusted_certificate） resolver 1.1.1.1 8.8.8.8 valid=300s; resolver_timeout 5s; # 安全头（可按需打开/修改） add_header X-Frame-Options SAMEORIGIN; add_header X-Content-Type-Options nosniff; add_header X-XSS-Protection &#34;1; mode=block&#34;; # Limit / rate limiting # 每个 IP 允许的并发请求数与速率控制（按需调整） limit_conn_zone $binary_remote_addr zone=addr:10m; limit_req_zone $binary_remote_addr zone=req_zone:10m rate=10r/s; # Upstream 常用示例（添加 keepalive） upstream app_backend { server 127.0.0.1:8000 max_fails=3 fail_timeout=30s; server 127.0.0.1:8001 max_fails=3 fail_timeout=30s; keepalive 16; } # Proxy 默认设置（可 include 到 conf.d/proxy.conf） map $http_upgrade $connection_upgrade { default upgrade; &#39;&#39; close; } # include 站点与额外配置 include /etc/nginx/conf.d/*.conf; } 示例：生产级 server（HTTP-&gt;HTTPS、HTTP/2、SSL、Proxy）" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/operations/nginx/config/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/nginx/config/" />
 
 <meta property="article:section" content="Operations" />
 
@@ -62,7 +62,7 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nginx 生产级 nginx.conf",
-      "url" : "https://docs.v2ep.com/operations/nginx/config/",
+      "url" : "https://documents.v2ep.com/operations/nginx/config/",
       "headline": "Nginx 生产级 nginx.conf",
       "description": " 生产级 nginx.conf 下面是一份生产级 nginx.conf 模板，包含 HTTP-\u003eHTTPS 强制跳转、HTTP\/2、SSL（现代安全配置）、性能优化（worker、连接、缓冲、gzip、keepalive、upstream keepalive）、安全性（HSTS、OCSP、session）以及常用 proxy\/fastcgi 设置。配置里带注释，按需替换证书路径、域名和上游服务地址。\n注意：不同 Nginx 版本在启用 HTTP\/2 的语法上可能略有差别（http2;、http2 on; 或 listen … http2;）。我在示例中使用通用写法 listen 443 ssl; \u002b http2;，如果你当前版本报语法错误，按你环境改为 http2 on; 或 listen 443 ssl http2; 即可（在注释处标明）。\n# \/etc\/nginx\/nginx.conf user nginx; worker_processes auto; # 推荐 auto，根据 CPU 核心数自动设置 worker_rlimit_nofile 65535; error_log \/var\/log\/nginx\/error.log warn; pid \/var\/run\/nginx.pid; events { use epoll; worker_connections 4096; # 每 worker 的最大连接数（可按需调整） multi_accept on; accept_mutex off; } http { # 基础 include mime.types; default_type application\/octet-stream; sendfile on; tcp_nopush on; tcp_nodelay on; keepalive_timeout 65s; types_hash_max_size 2048; server_tokens off; # 日志格式 log_format main \u0027$remote_addr - $remote_user [$time_local] \u0022$request\u0022 \u0027 \u0027$status $body_bytes_sent \u0022$http_referer\u0022 \u0027 \u0027\u0022$http_user_agent\u0022 \u0022$http_x_forwarded_for\u0022\u0027; access_log \/var\/log\/nginx\/access.log main; # 缓冲与请求限制（可针对 2G 内存\/双核适当下调） client_max_body_size 20m; client_body_buffer_size 64k; client_header_buffer_size 8k; large_client_header_buffers 4 16k; client_body_timeout 20s; client_header_timeout 20s; send_timeout 20s; # Gzip 压缩 gzip on; gzip_http_version 1.1; gzip_comp_level 5; gzip_min_length 1024; gzip_proxied any; gzip_vary on; gzip_types text\/plain text\/css application\/json application\/javascript text\/xml application\/xml application\/xml\u002brss text\/javascript; # SSL 优化（替换为你的证书） ssl_session_cache shared:SSL:50m; ssl_session_timeout 1d; ssl_session_tickets off; # 推荐的安全协议与密码套件（支持 TLS1.2\/1.3） ssl_protocols TLSv1.2 TLSv1.3; # 对于 TLS1.3，Cipher 配置由 OpenSSL 控制；下面为 TLS1.2 ciphers ssl_ciphers \u0027ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:\u0027 \u0027ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:\u0027 \u0027ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384\u0027; ssl_prefer_server_ciphers off; # OCSP Stapling（启用后需要正确的 ssl_trusted_certificate） resolver 1.1.1.1 8.8.8.8 valid=300s; resolver_timeout 5s; # 安全头（可按需打开\/修改） add_header X-Frame-Options SAMEORIGIN; add_header X-Content-Type-Options nosniff; add_header X-XSS-Protection \u00221; mode=block\u0022; # Limit \/ rate limiting # 每个 IP 允许的并发请求数与速率控制（按需调整） limit_conn_zone $binary_remote_addr zone=addr:10m; limit_req_zone $binary_remote_addr zone=req_zone:10m rate=10r\/s; # Upstream 常用示例（添加 keepalive） upstream app_backend { server 127.0.0.1:8000 max_fails=3 fail_timeout=30s; server 127.0.0.1:8001 max_fails=3 fail_timeout=30s; keepalive 16; } # Proxy 默认设置（可 include 到 conf.d\/proxy.conf） map $http_upgrade $connection_upgrade { default upgrade; \u0027\u0027 close; } # include 站点与额外配置 include \/etc\/nginx\/conf.d\/*.conf; } 示例：生产级 server（HTTP-\u003eHTTPS、HTTP\/2、SSL、Proxy）",
       "wordCount" : "517",
@@ -70,20 +70,20 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/operations/nginx/config/"
+          "@id": "https://documents.v2ep.com/operations/nginx/config/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -154,7 +154,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/operations/nginx/config/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/nginx/config/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -197,14 +197,14 @@
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -230,7 +230,7 @@
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -278,7 +278,7 @@
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1809,7 +1809,7 @@
     >
         生产级 nginx.conf
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/nginx/config/#生产级-nginxconf" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生产级 nginx.conf" aria-label="Anchor to: 生产级 nginx.conf" href="#%e7%94%9f%e4%ba%a7%e7%ba%a7-nginxconf">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/nginx/config/#生产级-nginxconf" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生产级 nginx.conf" aria-label="Anchor to: 生产级 nginx.conf" href="#%e7%94%9f%e4%ba%a7%e7%ba%a7-nginxconf">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2004,7 +2004,7 @@
     >
         部署/检查步骤（必做）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/nginx/config/#部署检查步骤必做" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 部署/检查步骤（必做）" aria-label="Anchor to: 部署/检查步骤（必做）" href="#%e9%83%a8%e7%bd%b2%e6%a3%80%e6%9f%a5%e6%ad%a5%e9%aa%a4%e5%bf%85%e5%81%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/nginx/config/#部署检查步骤必做" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 部署/检查步骤（必做）" aria-label="Anchor to: 部署/检查步骤（必做）" href="#%e9%83%a8%e7%bd%b2%e6%a3%80%e6%9f%a5%e6%ad%a5%e9%aa%a4%e5%bf%85%e5%81%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2030,7 +2030,7 @@
     >
         小结与调优建议
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/operations/nginx/config/#小结与调优建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 小结与调优建议" aria-label="Anchor to: 小结与调优建议" href="#%e5%b0%8f%e7%bb%93%e4%b8%8e%e8%b0%83%e4%bc%98%e5%bb%ba%e8%ae%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/nginx/config/#小结与调优建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 小结与调优建议" aria-label="Anchor to: 小结与调优建议" href="#%e5%b0%8f%e7%bb%93%e4%b8%8e%e8%b0%83%e4%bc%98%e5%bb%ba%e8%ae%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

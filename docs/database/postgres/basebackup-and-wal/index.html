@@ -18,7 +18,7 @@
 物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 &#43; 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。
 1. 文件结构（推荐标准） /pgdata/ # PG 数据目录 /base_backup/ # 物理备份（每日） 2025-02-01/ 2025-02-02/ ... /wal_archive/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... /backup_scripts/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：" />
 
-    <title>PostgreSQL 物理备份 &#43; WAL 详细的 增量备份 方案 | Documents</title>
+    <title>PostgreSQL 物理备份 &#43; WAL 详细的 增量备份 方案 | ☘️ My Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -41,14 +41,14 @@
     property="og:title"
     content="PostgreSQL 物理备份 + WAL 详细的 增量备份 方案"
   />
-  <meta property="og:site_name" content="Documents" />
+  <meta property="og:site_name" content="☘️ My Documents" />
   <meta property="og:description" content="下面是一份 物理备份 &#43; WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。
 原理 -&gt; 目录结构 -&gt; 配置 -&gt; 备份流程 -&gt; 增量恢复流程 -&gt; 自动化脚本 -&gt; 最佳实践
 🔥 核心思想（仅 3 点）
 物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 &#43; 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。
 1. 文件结构（推荐标准） /pgdata/ # PG 数据目录 /base_backup/ # 物理备份（每日） 2025-02-01/ 2025-02-02/ ... /wal_archive/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... /backup_scripts/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://docs.v2ep.com/database/postgres/basebackup-and-wal/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/basebackup-and-wal/" />
 
 <meta property="article:section" content="Database" />
 
@@ -68,7 +68,7 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 物理备份 + WAL 详细的 增量备份 方案",
-      "url" : "https://docs.v2ep.com/database/postgres/basebackup-and-wal/",
+      "url" : "https://documents.v2ep.com/database/postgres/basebackup-and-wal/",
       "headline": "PostgreSQL 物理备份 + WAL 详细的 增量备份 方案",
       "description": "下面是一份 物理备份 \u002b WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。\n原理 -\u003e 目录结构 -\u003e 配置 -\u003e 备份流程 -\u003e 增量恢复流程 -\u003e 自动化脚本 -\u003e 最佳实践\n🔥 核心思想（仅 3 点）\n物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 \u002b 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。\n1. 文件结构（推荐标准） \/pgdata\/ # PG 数据目录 \/base_backup\/ # 物理备份（每日） 2025-02-01\/ 2025-02-02\/ ... \/wal_archive\/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... \/backup_scripts\/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：",
       "wordCount" : "380",
@@ -76,20 +76,20 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://docs.v2ep.com/database/postgres/basebackup-and-wal/"
+          "@id": "https://documents.v2ep.com/database/postgres/basebackup-and-wal/"
       },
-      "copyrightHolder" : "Documents",
+      "copyrightHolder" : "☘️ My Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "Documents",
-          "url": "https://docs.v2ep.com/",
+          "name": "☘️ My Documents",
+          "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
-              "url": "https://docs.v2ep.com/brand.svg",
+              "url": "https://documents.v2ep.com/brand.svg",
               "width":"32",
               "height":"32"
           }
@@ -160,7 +160,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://docs.v2ep.com/database/postgres/basebackup-and-wal/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/basebackup-and-wal/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -203,14 +203,14 @@
       </label>
     
     <div>
-      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://docs.v2ep.com/">
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
         <img
           class="gdoc-brand__img"
           src="/brand.svg"
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">Documents</div>
+          <div class="gdoc-brand__title">☘️ My Documents</div>
           
         </div>
       </a>
@@ -236,7 +236,7 @@
         </span>
 
         <span class="gdoc-menu-header__home">
-          <a href="https://docs.v2ep.com/" class="gdoc-header__link">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
             <svg class="gdoc-icon gdoc_home">
               <title>Back to homepage</title>
               <use xlink:href="#gdoc_home"></use>
@@ -284,7 +284,7 @@
       placeholder="Search..."
       aria-label="Search"
       maxlength="64"
-      data-site-base-url="https://docs.v2ep.com/"
+      data-site-base-url="https://documents.v2ep.com/"
       data-site-lang="en"
     />
     <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
@@ -1824,7 +1824,7 @@
     >
         1. 文件结构（推荐标准）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#1-文件结构推荐标准" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 文件结构（推荐标准）" aria-label="Anchor to: 1. 文件结构（推荐标准）" href="#1-%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84%e6%8e%a8%e8%8d%90%e6%a0%87%e5%87%86">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#1-文件结构推荐标准" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 文件结构（推荐标准）" aria-label="Anchor to: 1. 文件结构（推荐标准）" href="#1-%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84%e6%8e%a8%e8%8d%90%e6%a0%87%e5%87%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1845,7 +1845,7 @@
     >
         2. PostgreSQL WAL 归档配置（最关键）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#2-postgresql-wal-归档配置最关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. PostgreSQL WAL 归档配置（最关键）" aria-label="Anchor to: 2. PostgreSQL WAL 归档配置（最关键）" href="#2-postgresql-wal-%e5%bd%92%e6%a1%a3%e9%85%8d%e7%bd%ae%e6%9c%80%e5%85%b3%e9%94%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#2-postgresql-wal-归档配置最关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. PostgreSQL WAL 归档配置（最关键）" aria-label="Anchor to: 2. PostgreSQL WAL 归档配置（最关键）" href="#2-postgresql-wal-%e5%bd%92%e6%a1%a3%e9%85%8d%e7%bd%ae%e6%9c%80%e5%85%b3%e9%94%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1866,7 +1866,7 @@
     >
         3. 物理备份（pg_basebackup）＝ 基线备份
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#3-物理备份pg_basebackup-基线备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 物理备份（pg_basebackup）＝ 基线备份" aria-label="Anchor to: 3. 物理备份（pg_basebackup）＝ 基线备份" href="#3-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bdpg_basebackup-%e5%9f%ba%e7%ba%bf%e5%a4%87%e4%bb%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#3-物理备份pg_basebackup-基线备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 物理备份（pg_basebackup）＝ 基线备份" aria-label="Anchor to: 3. 物理备份（pg_basebackup）＝ 基线备份" href="#3-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bdpg_basebackup-%e5%9f%ba%e7%ba%bf%e5%a4%87%e4%bb%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1889,7 +1889,7 @@
     >
         4. 物理 + WAL = 如何构成“增量备份”
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#4-物理--wal--如何构成增量备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 物理 &#43; WAL = 如何构成“增量备份”" aria-label="Anchor to: 4. 物理 &#43; WAL = 如何构成“增量备份”" href="#4-%e7%89%a9%e7%90%86--wal--%e5%a6%82%e4%bd%95%e6%9e%84%e6%88%90%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#4-物理--wal--如何构成增量备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 物理 &#43; WAL = 如何构成“增量备份”" aria-label="Anchor to: 4. 物理 &#43; WAL = 如何构成“增量备份”" href="#4-%e7%89%a9%e7%90%86--wal--%e5%a6%82%e4%bd%95%e6%9e%84%e6%88%90%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1898,7 +1898,7 @@
     >
         物理备份：一次
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#物理备份一次" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 物理备份：一次" aria-label="Anchor to: 物理备份：一次" href="#%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e4%b8%80%e6%ac%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#物理备份一次" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 物理备份：一次" aria-label="Anchor to: 物理备份：一次" href="#%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e4%b8%80%e6%ac%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1907,7 +1907,7 @@
     >
         WAL 归档：持续记录增量变化
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#wal-归档持续记录增量变化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: WAL 归档：持续记录增量变化" aria-label="Anchor to: WAL 归档：持续记录增量变化" href="#wal-%e5%bd%92%e6%a1%a3%e6%8c%81%e7%bb%ad%e8%ae%b0%e5%bd%95%e5%a2%9e%e9%87%8f%e5%8f%98%e5%8c%96">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#wal-归档持续记录增量变化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: WAL 归档：持续记录增量变化" aria-label="Anchor to: WAL 归档：持续记录增量变化" href="#wal-%e5%bd%92%e6%a1%a3%e6%8c%81%e7%bb%ad%e8%ae%b0%e5%bd%95%e5%a2%9e%e9%87%8f%e5%8f%98%e5%8c%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1946,7 +1946,7 @@
     >
         5. 增量恢复（时间点恢复）完整流程
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#5-增量恢复时间点恢复完整流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 增量恢复（时间点恢复）完整流程" aria-label="Anchor to: 5. 增量恢复（时间点恢复）完整流程" href="#5-%e5%a2%9e%e9%87%8f%e6%81%a2%e5%a4%8d%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d%e5%ae%8c%e6%95%b4%e6%b5%81%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#5-增量恢复时间点恢复完整流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 增量恢复（时间点恢复）完整流程" aria-label="Anchor to: 5. 增量恢复（时间点恢复）完整流程" href="#5-%e5%a2%9e%e9%87%8f%e6%81%a2%e5%a4%8d%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d%e5%ae%8c%e6%95%b4%e6%b5%81%e7%a8%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1956,7 +1956,7 @@
     >
         ✨ Step 1：停止 PostgreSQL
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-step-1停止-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 1：停止 PostgreSQL" aria-label="Anchor to: ✨ Step 1：停止 PostgreSQL" href="#-step-1%e5%81%9c%e6%ad%a2-postgresql">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-step-1停止-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 1：停止 PostgreSQL" aria-label="Anchor to: ✨ Step 1：停止 PostgreSQL" href="#-step-1%e5%81%9c%e6%ad%a2-postgresql">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1966,7 +1966,7 @@
     >
         ✨ Step 2：清空原数据库目录
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-step-2清空原数据库目录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 2：清空原数据库目录" aria-label="Anchor to: ✨ Step 2：清空原数据库目录" href="#-step-2%e6%b8%85%e7%a9%ba%e5%8e%9f%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9b%ae%e5%bd%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-step-2清空原数据库目录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 2：清空原数据库目录" aria-label="Anchor to: ✨ Step 2：清空原数据库目录" href="#-step-2%e6%b8%85%e7%a9%ba%e5%8e%9f%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9b%ae%e5%bd%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1976,7 +1976,7 @@
     >
         ✨ Step 3：恢复某次物理备份
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-step-3恢复某次物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 3：恢复某次物理备份" aria-label="Anchor to: ✨ Step 3：恢复某次物理备份" href="#-step-3%e6%81%a2%e5%a4%8d%e6%9f%90%e6%ac%a1%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-step-3恢复某次物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 3：恢复某次物理备份" aria-label="Anchor to: ✨ Step 3：恢复某次物理备份" href="#-step-3%e6%81%a2%e5%a4%8d%e6%9f%90%e6%ac%a1%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -1987,7 +1987,7 @@
     >
         ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-step-4创建恢复配置postgresql--12" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）" aria-label="Anchor to: ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）" href="#-step-4%e5%88%9b%e5%bb%ba%e6%81%a2%e5%a4%8d%e9%85%8d%e7%bd%aepostgresql--12">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-step-4创建恢复配置postgresql--12" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）" aria-label="Anchor to: ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）" href="#-step-4%e5%88%9b%e5%bb%ba%e6%81%a2%e5%a4%8d%e9%85%8d%e7%bd%aepostgresql--12">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2008,7 +2008,7 @@
     >
         ✨ Step 5：启动 PostgreSQL
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-step-5启动-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 5：启动 PostgreSQL" aria-label="Anchor to: ✨ Step 5：启动 PostgreSQL" href="#-step-5%e5%90%af%e5%8a%a8-postgresql">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-step-5启动-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 5：启动 PostgreSQL" aria-label="Anchor to: ✨ Step 5：启动 PostgreSQL" href="#-step-5%e5%90%af%e5%8a%a8-postgresql">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2019,7 +2019,7 @@
     >
         6. 自动化脚本（企业必备）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#6-自动化脚本企业必备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 自动化脚本（企业必备）" aria-label="Anchor to: 6. 自动化脚本（企业必备）" href="#6-%e8%87%aa%e5%8a%a8%e5%8c%96%e8%84%9a%e6%9c%ac%e4%bc%81%e4%b8%9a%e5%bf%85%e5%a4%87">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#6-自动化脚本企业必备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 自动化脚本（企业必备）" aria-label="Anchor to: 6. 自动化脚本（企业必备）" href="#6-%e8%87%aa%e5%8a%a8%e5%8c%96%e8%84%9a%e6%9c%ac%e4%bc%81%e4%b8%9a%e5%bf%85%e5%a4%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2028,7 +2028,7 @@
     >
         每日基线备份（backup_full.sh）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#每日基线备份backup_fullsh" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 每日基线备份（backup_full.sh）" aria-label="Anchor to: 每日基线备份（backup_full.sh）" href="#%e6%af%8f%e6%97%a5%e5%9f%ba%e7%ba%bf%e5%a4%87%e4%bb%bdbackup_fullsh">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#每日基线备份backup_fullsh" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 每日基线备份（backup_full.sh）" aria-label="Anchor to: 每日基线备份（backup_full.sh）" href="#%e6%af%8f%e6%97%a5%e5%9f%ba%e7%ba%bf%e5%a4%87%e4%bb%bdbackup_fullsh">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2045,7 +2045,7 @@
     >
         每日 WAL 清理策略（根据保留天数）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#每日-wal-清理策略根据保留天数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 每日 WAL 清理策略（根据保留天数）" aria-label="Anchor to: 每日 WAL 清理策略（根据保留天数）" href="#%e6%af%8f%e6%97%a5-wal-%e6%b8%85%e7%90%86%e7%ad%96%e7%95%a5%e6%a0%b9%e6%8d%ae%e4%bf%9d%e7%95%99%e5%a4%a9%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#每日-wal-清理策略根据保留天数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 每日 WAL 清理策略（根据保留天数）" aria-label="Anchor to: 每日 WAL 清理策略（根据保留天数）" href="#%e6%af%8f%e6%97%a5-wal-%e6%b8%85%e7%90%86%e7%ad%96%e7%95%a5%e6%a0%b9%e6%8d%ae%e4%bf%9d%e7%95%99%e5%a4%a9%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2056,7 +2056,7 @@
     >
         7. 增量备份常见问题
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#7-增量备份常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 增量备份常见问题" aria-label="Anchor to: 7. 增量备份常见问题" href="#7-%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bd%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#7-增量备份常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 增量备份常见问题" aria-label="Anchor to: 7. 增量备份常见问题" href="#7-%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bd%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2065,7 +2065,7 @@
     >
         ❌ archive_command 报错 -&gt; WAL 丢失（最危险）
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-archive_command-报错---wal-丢失最危险" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ archive_command 报错 -&gt; WAL 丢失（最危险）" aria-label="Anchor to: ❌ archive_command 报错 -&gt; WAL 丢失（最危险）" href="#-archive_command-%e6%8a%a5%e9%94%99---wal-%e4%b8%a2%e5%a4%b1%e6%9c%80%e5%8d%b1%e9%99%a9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-archive_command-报错---wal-丢失最危险" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ archive_command 报错 -&gt; WAL 丢失（最危险）" aria-label="Anchor to: ❌ archive_command 报错 -&gt; WAL 丢失（最危险）" href="#-archive_command-%e6%8a%a5%e9%94%99---wal-%e4%b8%a2%e5%a4%b1%e6%9c%80%e5%8d%b1%e9%99%a9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2077,7 +2077,7 @@
     >
         ❌ 物理备份与实际 WAL 不匹配
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-物理备份与实际-wal-不匹配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 物理备份与实际 WAL 不匹配" aria-label="Anchor to: ❌ 物理备份与实际 WAL 不匹配" href="#-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e4%b8%8e%e5%ae%9e%e9%99%85-wal-%e4%b8%8d%e5%8c%b9%e9%85%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-物理备份与实际-wal-不匹配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 物理备份与实际 WAL 不匹配" aria-label="Anchor to: ❌ 物理备份与实际 WAL 不匹配" href="#-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e4%b8%8e%e5%ae%9e%e9%99%85-wal-%e4%b8%8d%e5%8c%b9%e9%85%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2089,7 +2089,7 @@
     >
         ❌ 恢复后变只读
     </h3>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-恢复后变只读" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 恢复后变只读" aria-label="Anchor to: ❌ 恢复后变只读" href="#-%e6%81%a2%e5%a4%8d%e5%90%8e%e5%8f%98%e5%8f%aa%e8%af%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-恢复后变只读" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 恢复后变只读" aria-label="Anchor to: ❌ 恢复后变只读" href="#-%e6%81%a2%e5%a4%8d%e5%90%8e%e5%8f%98%e5%8f%aa%e8%af%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2099,7 +2099,7 @@
     >
         8. 最佳实践（最重要的部分）
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#8-最佳实践最重要的部分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 最佳实践（最重要的部分）" aria-label="Anchor to: 8. 最佳实践（最重要的部分）" href="#8-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e9%83%a8%e5%88%86">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#8-最佳实践最重要的部分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 最佳实践（最重要的部分）" aria-label="Anchor to: 8. 最佳实践（最重要的部分）" href="#8-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e9%83%a8%e5%88%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2118,7 +2118,7 @@
     >
         🎯 总结：物理备份 + WAL = 官方顶级增量方案
     </h2>
-    <a data-clipboard-text="https://docs.v2ep.com/database/postgres/basebackup-and-wal/#-总结物理备份--wal--官方顶级增量方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 总结：物理备份 &#43; WAL = 官方顶级增量方案" aria-label="Anchor to: 🎯 总结：物理备份 &#43; WAL = 官方顶级增量方案" href="#-%e6%80%bb%e7%bb%93%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd--wal--%e5%ae%98%e6%96%b9%e9%a1%b6%e7%ba%a7%e5%a2%9e%e9%87%8f%e6%96%b9%e6%a1%88">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/basebackup-and-wal/#-总结物理备份--wal--官方顶级增量方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 总结：物理备份 &#43; WAL = 官方顶级增量方案" aria-label="Anchor to: 🎯 总结：物理备份 &#43; WAL = 官方顶级增量方案" href="#-%e6%80%bb%e7%bb%93%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd--wal--%e5%ae%98%e6%96%b9%e9%a1%b6%e7%ba%a7%e5%a2%9e%e9%87%8f%e6%96%b9%e6%a1%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
