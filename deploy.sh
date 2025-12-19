@@ -12,6 +12,8 @@ mv -v ${SOURCE_DIR} ./docs
 
 git restore docs/CNAME
 
-# git add .
+git add .
 
-# git commit -m "update"
+git commit -m "update"
+
+git push
