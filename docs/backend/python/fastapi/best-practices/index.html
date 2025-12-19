@@ -17,7 +17,7 @@
 1. 项目结构最佳实践（目录） ✅ 分层清晰：API、Service、Repository、Schema、Core、DB
 app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth.py │ ├── users.py │ └── roles.py ├── services/ # 业务层：逻辑处理 │ └── users.py ├── repositories/ # 数据层：DB CURD │ └── users.py ├── schemas/ # Pydantic 模型 │ └── user.py ├── db/ │ ├── session.py # engine, async_sessionmaker │ ├── base.py │ └── models/ ├── core/ │ ├── config.py # 统一配置 │ ├── security.py # JWT &#43; bcrypt │ ├── casbin.py # 权限 │ └── middleware.py # 日志、CORS、异常 ├── utils/ │ ├── json.py # ORM 2 JSON │ └── pagination.py ├── main.py └── __init__.py 2. 使用 pydantic-settings 管理配置 pip install pydantic-settings # core/config.py from pydantic_settings import BaseSettings class Settings(BaseSettings): env: str = &#34;dev&#34; db_url: str jwt_secret: str class Config: env_file = &#34;.env&#34; settings = Settings() 保持开发/生产隔离。" />
 
-    <title>最佳实践 | ☘️ My Documents</title>
+    <title>最佳实践 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -40,7 +40,7 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
     property="og:title"
     content="最佳实践"
   />
-  <meta property="og:site_name" content="☘️ My Documents" />
+  <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="下面给你一份 真正可落地的 Python FastAPI 最佳实践大全，结合你现有的技术栈（PostgreSQL、SQLAlchemy ORM、JWT、Casbin、UMI、AntD、Python≥3.12），全部内容可直接用于企业级项目。
 整理成 结构化的 30 条黄金准则，涵盖：项目结构、配置管理、数据库、权限、依赖注入、路由、响应格式、错误处理、工具函数、性能优化、部署经验等。
 1. 项目结构最佳实践（目录） ✅ 分层清晰：API、Service、Repository、Schema、Core、DB
@@ -75,14 +75,14 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/fastapi/best-practices/"
       },
-      "copyrightHolder" : "☘️ My Documents",
+      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ My Documents",
+          "name": "☘️ Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -207,7 +207,7 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ My Documents</div>
+          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
           
         </div>
       </a>

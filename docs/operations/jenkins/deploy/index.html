@@ -19,7 +19,7 @@
 查看最新版本号：Java Downloads cd /data/septvean/bash/java sudo bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins
 查看最新版本号：Jenkins Downloads # 安装依赖包 sudo dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 sudo useradd -r -s /sbin/nologin jenkins # 创建目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 # war: Jenkins War包 目录 sudo mkdir -pv /data/jenkins/{builder,data,log,war} # 下载 War 包 cd /data/jenkins/war sudo wget -c -O jenkins-2.528.2.war https://get.jenkins.io/war-stable/2.528.2/jenkins.war sudo ln -svf jenkins-2.528.2.war jenkins.war # 创建日志文件 sudo touch /data/jenkins/log/{error.log,run.log} # 设置权限 sudo chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8910, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8910 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # 将 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 sudo tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/war # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 sudo systemctl daemon-reload sudo systemctl enable jenkins sudo systemctl start jenkins sudo systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; enabled; preset: disabled) # Active: active (running) since Thu 2025-12-11 16:28:06 CST; 8s ago # Main PID: 40713 (java) # Tasks: 31 (limit: 6270) # Memory: 221.4M # CPU: 13.445s # CGroup: /system.slice/jenkins.service # └─40713 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # Dec 11 16:28:06 ss.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 sudo journalctl -u jenkins -f Nginx 配置：" />
 
-    <title>Jenkins 部署 | ☘️ My Documents</title>
+    <title>Jenkins 部署 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -42,7 +42,7 @@
     property="og:title"
     content="Jenkins 部署"
   />
-  <meta property="og:site_name" content="☘️ My Documents" />
+  <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="基础环境：
 系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.2 Jenkins 官方安装文档：Installing Jenkins
 主要文档：WAR file 查看 Java 要求：Java Support Policy
@@ -81,14 +81,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/deploy/"
       },
-      "copyrightHolder" : "☘️ My Documents",
+      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ My Documents",
+          "name": "☘️ Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -213,7 +213,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ My Documents</div>
+          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
           
         </div>
       </a>

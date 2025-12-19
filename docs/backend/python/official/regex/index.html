@@ -16,7 +16,7 @@
 导入方式：
 import re 1. 核心 API（必须记住的 5 个） re.match(pattern, s) # 从开头匹配 re.search(pattern, s) # 搜索第一个匹配 re.findall(pattern, s) # 找出全部匹配，返回 list re.sub(pattern, repl, s) # 替换 re.fullmatch(pattern, s) # 完全匹配整个字符串 2. 基本元字符 符号 含义 . 任意字符（不含换行） \d 数字 \w 字母数字下划线 \s 空白字符 ^ 开头 $ 结尾 [] 字符集 ` ` () 分组 3. 数量词（非常常用） 表达式 含义 * 0 次或无限 &#43; 1 次或无限 ? 0 或 1 次 {n} 恰好 n 次 {n,} n 次以上 {n,m} n 到 m 次 4. 常用判断示例 判断纯数字字符串 bool(re.fullmatch(r&#34;\d&#43;&#34;, s)) 判断以 00 或 60 开头的“纯数字” bool(re.fullmatch(r&#34;(00|60)\d&#43;&#34;, s)) 判断邮箱格式 bool(re.fullmatch(r&#34;[^@]&#43;@[^@]&#43;\.[^@]&#43;&#34;, email)) 5. 常用提取 提取所有数字 re.findall(r&#34;\d&#43;&#34;, text) 提取日期 re.findall(r&#34;\d{4}-\d{2}-\d{2}&#34;, text) 提取股票代码（6 位数字） re.findall(r&#34;\b\d{6}\b&#34;, text) 6. 分组 (group) m = re.search(r&#34;(\d&#43;)-(\d&#43;)&#34;, &#34;123-456&#34;) m.group(1) # &#34;123&#34; m.group(2) # &#34;456&#34; m.groups() # (&#34;123&#34;, &#34;456&#34;) 7. 命名分组 m = re.search(r&#34;(?P&lt;code&gt;\d{6})-(?P&lt;name&gt;\w&#43;)&#34;, &#34;600001-ABC&#34;) m.group(&#34;code&#34;) m.group(&#34;name&#34;) 8. 替换（重点） 基本替换 re.sub(r&#34;cat&#34;, &#34;dog&#34;, text) 替换数字为 [NUM] re.sub(r&#34;\d&#43;&#34;, &#34;[NUM]&#34;, text) 使用函数替换 def repl(m): return str(int(m.group()) * 2) re.sub(r&#34;\d&#43;&#34;, repl, &#34;1 2 3&#34;) # &#34;2 4 6&#34; 9. compile 提升性能（生产常用） 适合大量循环匹配：" />
 
-    <title>Regex (正则表达式) | ☘️ My Documents</title>
+    <title>Regex (正则表达式) | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,7 +39,7 @@ import re 1. 核心 API（必须记住的 5 个） re.match(pattern, s) # 从开
     property="og:title"
     content="Regex (正则表达式)"
   />
-  <meta property="og:site_name" content="☘️ My Documents" />
+  <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="官方文档: https://docs.python.org/zh-cn/3.12/library/re.html
 导入方式：
 import re 1. 核心 API（必须记住的 5 个） re.match(pattern, s) # 从开头匹配 re.search(pattern, s) # 搜索第一个匹配 re.findall(pattern, s) # 找出全部匹配，返回 list re.sub(pattern, repl, s) # 替换 re.fullmatch(pattern, s) # 完全匹配整个字符串 2. 基本元字符 符号 含义 . 任意字符（不含换行） \d 数字 \w 字母数字下划线 \s 空白字符 ^ 开头 $ 结尾 [] 字符集 ` ` () 分组 3. 数量词（非常常用） 表达式 含义 * 0 次或无限 &#43; 1 次或无限 ? 0 或 1 次 {n} 恰好 n 次 {n,} n 次以上 {n,m} n 到 m 次 4. 常用判断示例 判断纯数字字符串 bool(re.fullmatch(r&#34;\d&#43;&#34;, s)) 判断以 00 或 60 开头的“纯数字” bool(re.fullmatch(r&#34;(00|60)\d&#43;&#34;, s)) 判断邮箱格式 bool(re.fullmatch(r&#34;[^@]&#43;@[^@]&#43;\.[^@]&#43;&#34;, email)) 5. 常用提取 提取所有数字 re.findall(r&#34;\d&#43;&#34;, text) 提取日期 re.findall(r&#34;\d{4}-\d{2}-\d{2}&#34;, text) 提取股票代码（6 位数字） re.findall(r&#34;\b\d{6}\b&#34;, text) 6. 分组 (group) m = re.search(r&#34;(\d&#43;)-(\d&#43;)&#34;, &#34;123-456&#34;) m.group(1) # &#34;123&#34; m.group(2) # &#34;456&#34; m.groups() # (&#34;123&#34;, &#34;456&#34;) 7. 命名分组 m = re.search(r&#34;(?P&lt;code&gt;\d{6})-(?P&lt;name&gt;\w&#43;)&#34;, &#34;600001-ABC&#34;) m.group(&#34;code&#34;) m.group(&#34;name&#34;) 8. 替换（重点） 基本替换 re.sub(r&#34;cat&#34;, &#34;dog&#34;, text) 替换数字为 [NUM] re.sub(r&#34;\d&#43;&#34;, &#34;[NUM]&#34;, text) 使用函数替换 def repl(m): return str(int(m.group()) * 2) re.sub(r&#34;\d&#43;&#34;, repl, &#34;1 2 3&#34;) # &#34;2 4 6&#34; 9. compile 提升性能（生产常用） 适合大量循环匹配：" />
@@ -72,14 +72,14 @@ import re 1. 核心 API（必须记住的 5 个） re.match(pattern, s) # 从开
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/official/regex/"
       },
-      "copyrightHolder" : "☘️ My Documents",
+      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ My Documents",
+          "name": "☘️ Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -204,7 +204,7 @@ import re 1. 核心 API（必须记住的 5 个） re.match(pattern, s) # 从开
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ My Documents</div>
+          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
           
         </div>
       </a>

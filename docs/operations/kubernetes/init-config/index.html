@@ -15,7 +15,7 @@
   <meta name="description" content="初始 kubeadm 配置
 apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: advertiseAddress: 172.16.0.116 bindPort: 6443 nodeRegistration: criSocket: unix:///var/run/containerd/containerd.sock kubeletExtraArgs: fail-swap-on: &#34;false&#34; taints: - effect: PreferNoSchedule key: node-role.kubernetes.io/master --- apiServer: extraArgs: service-node-port-range: &#34;10000-50000&#34; apiVersion: kubeadm.k8s.io/v1beta4 # clusterName: kubernetes controlPlaneEndpoint: 172.16.0.118:8443 etcd: external: endpoints: - http://172.16.0.113:2379 - http://172.16.0.114:2379 - http://172.16.0.115:2379 # imageRepository: registry.server.com kind: ClusterConfiguration kubernetesVersion: 1.33.3 networking: dnsDomain: cluster.local serviceSubnet: 10.96.0.0/12 podSubnet: 10.244.0.0/16 --- apiVersion: kubelet.config.k8s.io/v1beta1 cgroupDriver: systemd kind: KubeletConfiguration failSwapOn: false --- apiVersion: kubeproxy.config.k8s.io/v1alpha1 kind: KubeProxyConfiguration mode: ipvs ipvs: strictARP: true 下面根据给出的初始 kubeadm 配置，按 Kubernetes 1.33 &#43; Calico（推荐 eBPF &#43; VXLAN）最佳实践 做了优化与补充，输出 可直接使用的 kubeadm YAML（保留你原有字段并补足必要安全/可用性项），并在后面给出逐段详解与注意事项，包含为什么这样配置、什么时候需要修改，以及与 Calico 的配套建议（eBPF / VXLAN / kube-proxy 处理等）。" />
 
-    <title>Kubernetes 初始化配置 | ☘️ My Documents</title>
+    <title>Kubernetes 初始化配置 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,7 +38,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     property="og:title"
     content="Kubernetes 初始化配置"
   />
-  <meta property="og:site_name" content="☘️ My Documents" />
+  <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="初始 kubeadm 配置
 apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: advertiseAddress: 172.16.0.116 bindPort: 6443 nodeRegistration: criSocket: unix:///var/run/containerd/containerd.sock kubeletExtraArgs: fail-swap-on: &#34;false&#34; taints: - effect: PreferNoSchedule key: node-role.kubernetes.io/master --- apiServer: extraArgs: service-node-port-range: &#34;10000-50000&#34; apiVersion: kubeadm.k8s.io/v1beta4 # clusterName: kubernetes controlPlaneEndpoint: 172.16.0.118:8443 etcd: external: endpoints: - http://172.16.0.113:2379 - http://172.16.0.114:2379 - http://172.16.0.115:2379 # imageRepository: registry.server.com kind: ClusterConfiguration kubernetesVersion: 1.33.3 networking: dnsDomain: cluster.local serviceSubnet: 10.96.0.0/12 podSubnet: 10.244.0.0/16 --- apiVersion: kubelet.config.k8s.io/v1beta1 cgroupDriver: systemd kind: KubeletConfiguration failSwapOn: false --- apiVersion: kubeproxy.config.k8s.io/v1alpha1 kind: KubeProxyConfiguration mode: ipvs ipvs: strictARP: true 下面根据给出的初始 kubeadm 配置，按 Kubernetes 1.33 &#43; Calico（推荐 eBPF &#43; VXLAN）最佳实践 做了优化与补充，输出 可直接使用的 kubeadm YAML（保留你原有字段并补足必要安全/可用性项），并在后面给出逐段详解与注意事项，包含为什么这样配置、什么时候需要修改，以及与 Calico 的配套建议（eBPF / VXLAN / kube-proxy 处理等）。" />
 <meta property="og:type" content="article" />
@@ -69,14 +69,14 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/init-config/"
       },
-      "copyrightHolder" : "☘️ My Documents",
+      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ My Documents",
+          "name": "☘️ Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -201,7 +201,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ My Documents</div>
+          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
           
         </div>
       </a>

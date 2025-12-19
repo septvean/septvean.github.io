@@ -18,7 +18,7 @@
 特性 描述 A 原子性（Atomicity） 事务内操作不可分割，要么都执行、要么都不执行（靠 undo log 实现） C 一致性（Consistency） 事务执行前后数据必须保持一致，不出现非法状态 I 隔离性（Isolation） 多事务之间互不干扰（靠锁、MVCC 实现） D 持久性（Durability） 提交后数据必须持久保存（靠 redo log&#43;binlog 实现） 二、事务的底层日志体系（关键理解点） MySQL InnoDB 为事务准备了 3 套关键日志：
 1. redo log（重做日志） 保证 持久性 记录“页面修改后的内容” 崩溃恢复后 重做已提交事务的修改 WAL 机制：先写日志，再写数据页 2. undo log（回滚日志） 保证 原子性 用于： 回滚事务 MVCC 提供“旧版本数据”给快照读 3. binlog（归档日志） 服务于复制、主从同步、备份恢复 记录所有 逻辑变化 append-only，不会覆盖 三、事务的两种实现方式（重点） 1. 隐式事务（autocommit = 1） 每条 SQL 都是一个独立事务：" />
 
-    <title>MySQL 事务 | ☘️ My Documents</title>
+    <title>MySQL 事务 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -41,7 +41,7 @@
     property="og:title"
     content="MySQL 事务"
   />
-  <meta property="og:site_name" content="☘️ My Documents" />
+  <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="内容覆盖核心概念、事务流程、隔离级别、MVCC、锁关系、死锁、优化实践，全程深入但保持简洁。
 一、什么是事务？ 事务（Transaction）是 一组要么全部成功、要么全部失败的数据库操作。本质是保证数据一致性的基础机制。
 事务具备 ACID 四大特性：
@@ -78,14 +78,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/transaction/"
       },
-      "copyrightHolder" : "☘️ My Documents",
+      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ My Documents",
+          "name": "☘️ Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -210,7 +210,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ My Documents</div>
+          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
           
         </div>
       </a>

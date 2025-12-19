@@ -18,7 +18,7 @@
 物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 &#43; 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。
 1. 文件结构（推荐标准） /pgdata/ # PG 数据目录 /base_backup/ # 物理备份（每日） 2025-02-01/ 2025-02-02/ ... /wal_archive/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... /backup_scripts/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：" />
 
-    <title>PostgreSQL 物理备份 &#43; WAL 详细的 增量备份 方案 | ☘️ My Documents</title>
+    <title>PostgreSQL 物理备份 &#43; WAL 详细的 增量备份 方案 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -41,7 +41,7 @@
     property="og:title"
     content="PostgreSQL 物理备份 + WAL 详细的 增量备份 方案"
   />
-  <meta property="og:site_name" content="☘️ My Documents" />
+  <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="下面是一份 物理备份 &#43; WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。
 原理 -&gt; 目录结构 -&gt; 配置 -&gt; 备份流程 -&gt; 增量恢复流程 -&gt; 自动化脚本 -&gt; 最佳实践
 🔥 核心思想（仅 3 点）
@@ -78,14 +78,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/basebackup-and-wal/"
       },
-      "copyrightHolder" : "☘️ My Documents",
+      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ My Documents",
+          "name": "☘️ Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -210,7 +210,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ My Documents</div>
+          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
           
         </div>
       </a>
