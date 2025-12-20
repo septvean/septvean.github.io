@@ -12,24 +12,13 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
-⸻
-✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解
-没有“唯一正确方案”，只有“是否符合你业务特性”的方案
-⸻
-一、先给你结论（选型速览）
-场景	推荐方案 一次性全量同步	Logstash JDBC 定时增量同步（低实时）	Logstash JDBC（增量字段） 准实时 / 实时同步	Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案	Elastic 官方 Connector 业务逻辑复杂	自研同步程序（Python/Java）
-⸻
-二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景 •	数据源：MySQL / PostgreSQL •	延迟：分钟级 •	结构化表数据 •	实现简单、稳定
-⸻
-🔧 同步原理
-DB → JDBC → Logstash → ElasticSearch
-通过 SQL &#43; 增量字段（如 updated_at）拉取数据。
-⸻
-🧱 全量同步示例" />
+  <meta name="description" content="内容：概念、原因、解决方案、实战建议。
+Redis 缓存三大问题
+缓存穿透、缓存击穿、缓存雪崩
+一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。
+🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -&gt; Redis 没有 -&gt; MySQL 也没有 -&gt; 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -&gt; 缓存一个空对象/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -&gt; 直接拒绝，不查缓存/DB 📌 适合：" />
 
-    <title>将其它数据源同步到 ElasticSearch | ☘️ Septvean&#39;s Documents</title>
+    <title>Redis 缓存三大问题 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -50,49 +39,27 @@ DB → JDBC → Logstash → ElasticSearch
     
   <meta
     property="og:title"
-    content="将其它数据源同步到 ElasticSearch"
+    content="Redis 缓存三大问题"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
-⸻
-✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解
-没有“唯一正确方案”，只有“是否符合你业务特性”的方案
-⸻
-一、先给你结论（选型速览）
-场景	推荐方案 一次性全量同步	Logstash JDBC 定时增量同步（低实时）	Logstash JDBC（增量字段） 准实时 / 实时同步	Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案	Elastic 官方 Connector 业务逻辑复杂	自研同步程序（Python/Java）
-⸻
-二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景 •	数据源：MySQL / PostgreSQL •	延迟：分钟级 •	结构化表数据 •	实现简单、稳定
-⸻
-🔧 同步原理
-DB → JDBC → Logstash → ElasticSearch
-通过 SQL &#43; 增量字段（如 updated_at）拉取数据。
-⸻
-🧱 全量同步示例" />
+  <meta property="og:description" content="内容：概念、原因、解决方案、实战建议。
+Redis 缓存三大问题
+缓存穿透、缓存击穿、缓存雪崩
+一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。
+🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -&gt; Redis 没有 -&gt; MySQL 也没有 -&gt; 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -&gt; 缓存一个空对象/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -&gt; 直接拒绝，不查缓存/DB 📌 适合：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/elasticsearch/data-sync/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="将其它数据源同步到 ElasticSearch" />
-  <meta name="twitter:description" content="这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
-⸻
-✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解
-没有“唯一正确方案”，只有“是否符合你业务特性”的方案
-⸻
-一、先给你结论（选型速览）
-场景	推荐方案 一次性全量同步	Logstash JDBC 定时增量同步（低实时）	Logstash JDBC（增量字段） 准实时 / 实时同步	Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案	Elastic 官方 Connector 业务逻辑复杂	自研同步程序（Python/Java）
-⸻
-二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景 •	数据源：MySQL / PostgreSQL •	延迟：分钟级 •	结构化表数据 •	实现简单、稳定
-⸻
-🔧 同步原理
-DB → JDBC → Logstash → ElasticSearch
-通过 SQL &#43; 增量字段（如 updated_at）拉取数据。
-⸻
-🧱 全量同步示例" />
+<meta name="twitter:title" content="Redis 缓存三大问题" />
+  <meta name="twitter:description" content="内容：概念、原因、解决方案、实战建议。
+Redis 缓存三大问题
+缓存穿透、缓存击穿、缓存雪崩
+一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。
+🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -&gt; Redis 没有 -&gt; MySQL 也没有 -&gt; 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -&gt; 缓存一个空对象/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -&gt; 直接拒绝，不查缓存/DB 📌 适合：" />
 
 
   <script type="application/ld+json">
@@ -100,16 +67,16 @@ DB → JDBC → Logstash → ElasticSearch
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "将其它数据源同步到 ElasticSearch",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/data-sync/",
-      "headline": "将其它数据源同步到 ElasticSearch",
-      "description": "这是 数据库 \u002b ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。\n⸻\n✅ PostgreSQL \/ MySQL → ElasticSearch 数据同步方案全解\n没有“唯一正确方案”，只有“是否符合你业务特性”的方案\n⸻\n一、先给你结论（选型速览）\n场景\t推荐方案 一次性全量同步\tLogstash JDBC 定时增量同步（低实时）\tLogstash JDBC（增量字段） 准实时 \/ 实时同步\tDebezium（CDC）\u002b Kafka \u002b ES 云厂商 \/ 官方方案\tElastic 官方 Connector 业务逻辑复杂\t自研同步程序（Python\/Java）\n⸻\n二、方案一（最常用）：Logstash JDBC 同步\n✔ 适合场景 •\t数据源：MySQL \/ PostgreSQL •\t延迟：分钟级 •\t结构化表数据 •\t实现简单、稳定\n⸻\n🔧 同步原理\nDB → JDBC → Logstash → ElasticSearch\n通过 SQL \u002b 增量字段（如 updated_at）拉取数据。\n⸻\n🧱 全量同步示例",
-      "wordCount" : "465",
+      "name": "Redis 缓存三大问题",
+      "url" : "https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/",
+      "headline": "Redis 缓存三大问题",
+      "description": "内容：概念、原因、解决方案、实战建议。\nRedis 缓存三大问题\n缓存穿透、缓存击穿、缓存雪崩\n一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。\n🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -\u003e Redis 没有 -\u003e MySQL 也没有 -\u003e 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -\u003e 缓存一个空对象\/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -\u003e 直接拒绝，不查缓存\/DB 📌 适合：",
+      "wordCount" : "514",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/elasticsearch/data-sync/"
+          "@id": "https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -193,7 +160,7 @@ DB → JDBC → Logstash → ElasticSearch
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/elasticsearch/data-sync/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1812,7 +1779,7 @@ DB → JDBC → Logstash → ElasticSearch
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/elasticsearch/' href='/database/elasticsearch/'><span itemprop='name'>ElasticSearch</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>将其它数据源同步到 ElasticSearch</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/redis/' href='/database/redis/'><span itemprop='name'>Redis</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis 缓存三大问题</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -1833,188 +1800,763 @@ DB → JDBC → Logstash → ElasticSearch
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>将其它数据源同步到 ElasticSearch</h1>
+    <h1>Redis 缓存三大问题</h1>
     
-    <p>这是 数据库 + ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。
-我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。</p>
-<p>⸻</p>
-<p>✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解</p>
-<p>没有“唯一正确方案”，只有“是否符合你业务特性”的方案</p>
-<p>⸻</p>
-<p>一、先给你结论（选型速览）</p>
-<p>场景	推荐方案
-一次性全量同步	Logstash JDBC
-定时增量同步（低实时）	Logstash JDBC（增量字段）
-准实时 / 实时同步	Debezium（CDC）+ Kafka + ES
-云厂商 / 官方方案	Elastic 官方 Connector
-业务逻辑复杂	自研同步程序（Python/Java）</p>
-<p>⸻</p>
-<p>二、方案一（最常用）：Logstash JDBC 同步</p>
-<p>✔ 适合场景
-•	数据源：MySQL / PostgreSQL
-•	延迟：分钟级
-•	结构化表数据
-•	实现简单、稳定</p>
-<p>⸻</p>
-<p>🔧 同步原理</p>
-<p>DB → JDBC → Logstash → ElasticSearch</p>
-<p>通过 SQL + 增量字段（如 updated_at）拉取数据。</p>
-<p>⸻</p>
-<p>🧱 全量同步示例</p>
-<p>Logstash 配置（PostgreSQL）</p>
-<p>input {
-jdbc {
-jdbc_driver_library =&gt; &ldquo;/usr/share/logstash/postgresql.jar&rdquo;
-jdbc_driver_class =&gt; &ldquo;org.postgresql.Driver&rdquo;
-jdbc_connection_string =&gt; &ldquo;jdbc:postgresql://db:5432/app&rdquo;
-jdbc_user =&gt; &ldquo;user&rdquo;
-jdbc_password =&gt; &ldquo;pwd&rdquo;
-statement =&gt; &ldquo;SELECT * FROM users&rdquo;
-}
-}</p>
-<p>output {
-elasticsearch {
-hosts =&gt; [&ldquo;http://es:9200&rdquo;]
-index =&gt; &ldquo;users&rdquo;
-document_id =&gt; &ldquo;%{id}&rdquo;
-}
-}</p>
-<p>⸻</p>
-<p>🔁 增量同步（生产必用）</p>
-<p>条件</p>
-<p>表中必须有：
-•	updated_at
-•	或自增 id</p>
-<p>jdbc {
-statement =&gt; &quot;
-SELECT * FROM users
-WHERE updated_at &gt; :sql_last_value
-&quot;
-use_column_value =&gt; true
-tracking_column =&gt; &ldquo;updated_at&rdquo;
-schedule =&gt; &ldquo;*/5 * * * *&rdquo;
-}</p>
-<p>📌 Logstash 会自动保存 sql_last_value</p>
-<p>⸻</p>
-<p>⚠️ 优缺点</p>
-<p>优点
-•	简单
-•	成熟稳定
-•	运维成本低</p>
-<p>缺点
-•	延迟高
-•	无法感知 delete（需软删除）
-•	高并发更新时压力大</p>
-<p>⸻</p>
-<p>三、方案二（生产级实时）：Debezium CDC + Kafka</p>
-<p>✔ 适合场景
-•	高实时性（秒级）
-•	数据频繁更新
-•	对一致性要求高
-•	大型系统</p>
-<p>⸻</p>
-<p>🔥 同步架构</p>
-<p>Postgres/MySQL
-↓ binlog / WAL
-Debezium
-↓
-Kafka
-↓
-ElasticSearch Sink</p>
-<p>⸻</p>
-<p>🚀 优点（非常重要）
-•	基于 binlog / WAL
-•	不查数据库
-•	可感知 INSERT / UPDATE / DELETE
-•	支持回放（Kafka）
-•	真正“准实时”</p>
-<p>⸻</p>
-<p>❌ 缺点
-•	架构复杂
-•	组件多（Kafka、Connect）
-•	运维成本高</p>
-<p>⸻</p>
-<p>🧠 面试官喜欢的总结</p>
-<p>Debezium 基于数据库日志（binlog/WAL），
-通过 CDC 捕获变更并投递到 Kafka，
-再由 Sink 写入 Elasticsearch，
-实现低延迟、高可靠、可回放的数据同步。</p>
-<p>⸻</p>
-<p>四、方案三：Elastic 官方 Connector（8.x 推荐）</p>
-<p>✔ 特点
-•	官方维护
-•	支持 MySQL / PostgreSQL
-•	支持全量 + 增量
-•	管理界面在 Kibana</p>
-<p>架构：</p>
-<p>DB → Elastic Connector → ElasticSearch</p>
-<p>优点
-•	最省心
-•	与 ES 版本强一致</p>
-<p>缺点
-•	灵活性略低
-•	高级玩法不如 Debezium</p>
-<p>⸻</p>
-<p>五、方案四：自研同步程序（Python / Java）</p>
-<p>✔ 适合你（你有 FastAPI + SQLAlchemy 背景）</p>
-<p>架构</p>
-<p>DB → 程序 → ElasticSearch</p>
-<p>Python 示例（简化）</p>
-<p>from elasticsearch import ElasticSearch</p>
-<p>es = ElasticSearch(&ldquo;http://localhost:9200&rdquo;)</p>
-<p>es.index(
-index=&ldquo;users&rdquo;,
-id=user.id,
-document={
-&ldquo;name&rdquo;: user.name,
-&ldquo;email&rdquo;: user.email
-}
-)</p>
-<p>同步策略
-•	DB 写成功 → 同步写 ES
-•	MQ / 事件驱动
-•	定时扫描补偿</p>
-<p>⸻</p>
-<p>⚠️ 注意
-•	事务一致性要自己处理
-•	失败重试
-•	幂等（document_id 必须稳定）</p>
-<p>⸻</p>
-<p>六、DELETE 如何同步？（面试高频）</p>
-<p>方案	方式
-Logstash JDBC	软删除字段（is_deleted）
-Debezium	自动捕获 DELETE
-自研	DB delete → ES delete
-官方 Connector	支持</p>
-<p>⸻</p>
-<p>七、索引设计（非常关键）</p>
-<p>必做事项
-•	DB 主键 → ES _id
-•	keyword / text 合理 mapping
-•	不要让 ES 动态建字段（dynamic=false）
-•	使用 index template</p>
-<p>⸻</p>
-<p>八、方案对比总结（面试版）</p>
-<pre><code>•	低实时、简单同步：Logstash JDBC
-•	高实时、强一致：Debezium + Kafka
-•	官方省心：Elastic Connector
-•	强业务定制：自研同步服务
-</code></pre>
-<p>⸻</p>
-<p>九、面试官最满意的标准回答（模板）</p>
-<p>PostgreSQL/MySQL 同步到 Elasticsearch，
-如果是离线或分钟级同步，我会用 Logstash JDBC；
-如果是准实时、并且需要感知 delete，我会使用 Debezium 基于 binlog/WAL 的 CDC 同步；
-同时会用数据库主键作为 ES 的 document_id，
-并通过 ILM、mapping 控制索引生命周期和结构，保证长期可维护性。</p>
-<p>⸻</p>
-<p>🔥 如果你愿意，我可以继续帮你：
-•	✅ 给你一套 PostgreSQL → ES 的完整生产配置
-•	✅ FastAPI + SQLAlchemy + ES 的双写方案
-•	✅ Debezium + Kafka + ES 的详细部署
-•	✅ 同步失败/补偿/幂等设计方案
-•	✅ 面试追问模拟（高级）</p>
-<p>你想先深入哪一个？</p>
+    <p>内容：概念、原因、解决方案、实战建议。</p>
+<p>Redis 缓存三大问题</p>
+<p><strong>缓存穿透、缓存击穿、缓存雪崩</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一缓存穿透cache-penetration"
+    >
+        一、缓存穿透（Cache Penetration）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#一缓存穿透cache-penetration" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、缓存穿透（Cache Penetration）" aria-label="Anchor to: 一、缓存穿透（Cache Penetration）" href="#%e4%b8%80%e7%bc%93%e5%ad%98%e7%a9%bf%e9%80%8fcache-penetration">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-是什么"
+    >
+        ✅ 是什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 是什么？" aria-label="Anchor to: ✅ 是什么？" href="#-%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-典型场景"
+    >
+        🔥 典型场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-典型场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 典型场景" aria-label="Anchor to: 🔥 典型场景" href="#-%e5%85%b8%e5%9e%8b%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>请求 <strong>不存在的 ID</strong></li>
+<li>被恶意攻击（大量随机 key）</li>
+<li>接口未做参数校验</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">GET user:99999999
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-&gt; Redis 没有
+</span></span><span class="line"><span class="cl">-&gt; MySQL 也没有
+</span></span><span class="line"><span class="cl">-&gt; 每次都查 DB
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-危害"
+    >
+        ❌ 危害
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-危害" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 危害" aria-label="Anchor to: ❌ 危害" href="#-%e5%8d%b1%e5%ae%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>DB 被持续打爆</li>
+<li>缓存形同虚设</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-解决方案必考"
+    >
+        ✅ 解决方案（必考）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-解决方案必考" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 解决方案（必考）" aria-label="Anchor to: ✅ 解决方案（必考）" href="#-%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88%e5%bf%85%e8%80%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-缓存空值最常用"
+    >
+        1️⃣ 缓存空值（最常用）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#1-缓存空值最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 缓存空值（最常用）" aria-label="Anchor to: 1️⃣ 缓存空值（最常用）" href="#1-%e7%bc%93%e5%ad%98%e7%a9%ba%e5%80%bc%e6%9c%80%e5%b8%b8%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">key 不存在 -&gt; 缓存一个空对象/null
+</span></span><span class="line"><span class="cl">TTL 设置短一点（如 30~60s）
+</span></span></code></pre></div><ul>
+<li>✅ 优点：简单有效</li>
+<li>⚠️ 注意：必须设置过期时间</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-bloom-filter布隆过滤器"
+    >
+        2️⃣ Bloom Filter（布隆过滤器）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#2-bloom-filter布隆过滤器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Bloom Filter（布隆过滤器）" aria-label="Anchor to: 2️⃣ Bloom Filter（布隆过滤器）" href="#2-bloom-filter%e5%b8%83%e9%9a%86%e8%bf%87%e6%bb%a4%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>请求前先判断 key <strong>是否可能存在</strong></li>
+<li>不存在 -&gt; 直接拒绝，不查缓存/DB</li>
+</ul>
+<p>📌 适合：</p>
+<ul>
+<li>海量 key</li>
+<li>恶意攻击场景</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-参数校验最基本"
+    >
+        3️⃣ 参数校验（最基本）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#3-参数校验最基本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 参数校验（最基本）" aria-label="Anchor to: 3️⃣ 参数校验（最基本）" href="#3-%e5%8f%82%e6%95%b0%e6%a0%a1%e9%aa%8c%e6%9c%80%e5%9f%ba%e6%9c%ac">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>ID &lt;= 0 直接返回</li>
+<li>非法参数拦截</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-总结"
+    >
+        ☘️ 总结
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ☘️ 总结" aria-label="Anchor to: ☘️ 总结" href="#-%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>缓存穿透是访问不存在数据导致 DB 压力，解决方案是缓存空值或使用 Bloom Filter（布隆过滤器）。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二缓存击穿cache-breakdown"
+    >
+        二、缓存击穿（Cache Breakdown）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#二缓存击穿cache-breakdown" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、缓存击穿（Cache Breakdown）" aria-label="Anchor to: 二、缓存击穿（Cache Breakdown）" href="#%e4%ba%8c%e7%bc%93%e5%ad%98%e5%87%bb%e7%a9%bfcache-breakdown">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-是什么-1"
+    >
+        ✅ 是什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-是什么-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 是什么？" aria-label="Anchor to: ✅ 是什么？" href="#-%e6%98%af%e4%bb%80%e4%b9%88-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>某一个热点 key 过期瞬间，大量并发请求同时打到数据库。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-典型场景-1"
+    >
+        🔥 典型场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-典型场景-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 典型场景" aria-label="Anchor to: 🔥 典型场景" href="#-%e5%85%b8%e5%9e%8b%e5%9c%ba%e6%99%af-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>热点商品</li>
+<li>热点配置</li>
+<li>热点活动</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">某一秒：
+</span></span><span class="line"><span class="cl">key 过期
+</span></span><span class="line"><span class="cl">10000 个请求同时访问
+</span></span><span class="line"><span class="cl">-&gt; DB 被瞬间击穿
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-危害-1"
+    >
+        ❌ 危害
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-危害-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 危害" aria-label="Anchor to: ❌ 危害" href="#-%e5%8d%b1%e5%ae%b3-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>数据库瞬时压力暴涨</li>
+<li>服务 RT 飙升</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-解决方案核心"
+    >
+        ✅ 解决方案（核心）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-解决方案核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 解决方案（核心）" aria-label="Anchor to: ✅ 解决方案（核心）" href="#-%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-互斥锁最经典"
+    >
+        1️⃣ 互斥锁（最经典）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#1-互斥锁最经典" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 互斥锁（最经典）" aria-label="Anchor to: 1️⃣ 互斥锁（最经典）" href="#1-%e4%ba%92%e6%96%a5%e9%94%81%e6%9c%80%e7%bb%8f%e5%85%b8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">第一个请求：
+</span></span><span class="line"><span class="cl">  加锁 -&gt; 查 DB -&gt; 回填缓存
+</span></span><span class="line"><span class="cl">其他请求：
+</span></span><span class="line"><span class="cl">  等锁 / 返回旧值
+</span></span></code></pre></div><p>📌 实现方式：</p>
+<ul>
+<li>Redis SETNX</li>
+<li>Redisson 分布式锁</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-逻辑过期高级"
+    >
+        2️⃣ 逻辑过期（高级）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#2-逻辑过期高级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 逻辑过期（高级）" aria-label="Anchor to: 2️⃣ 逻辑过期（高级）" href="#2-%e9%80%bb%e8%be%91%e8%bf%87%e6%9c%9f%e9%ab%98%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">value = {
+</span></span><span class="line"><span class="cl">  data: xxx,
+</span></span><span class="line"><span class="cl">  expireTime: 2025-01-01 12:00:00
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><ul>
+<li>过期了也先返回旧值</li>
+<li>后台异步更新缓存</li>
+</ul>
+<p>📌 适合：</p>
+<ul>
+<li>读多写少</li>
+<li>允许短时间脏数据</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-热点-key-永不过期简单粗暴"
+    >
+        3️⃣ 热点 key 永不过期（简单粗暴）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#3-热点-key-永不过期简单粗暴" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 热点 key 永不过期（简单粗暴）" aria-label="Anchor to: 3️⃣ 热点 key 永不过期（简单粗暴）" href="#3-%e7%83%ad%e7%82%b9-key-%e6%b0%b8%e4%b8%8d%e8%bf%87%e6%9c%9f%e7%ae%80%e5%8d%95%e7%b2%97%e6%9a%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>只人工或定时刷新</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-总结-1"
+    >
+        ☘️ 总结
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-总结-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ☘️ 总结" aria-label="Anchor to: ☘️ 总结" href="#-%e6%80%bb%e7%bb%93-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>缓存击穿是热点 key 失效导致并发打 DB，解决方案是互斥锁或逻辑过期。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三缓存雪崩cache-avalanche"
+    >
+        三、缓存雪崩（Cache Avalanche）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#三缓存雪崩cache-avalanche" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、缓存雪崩（Cache Avalanche）" aria-label="Anchor to: 三、缓存雪崩（Cache Avalanche）" href="#%e4%b8%89%e7%bc%93%e5%ad%98%e9%9b%aa%e5%b4%a9cache-avalanche">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-是什么-2"
+    >
+        ✅ 是什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-是什么-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 是什么？" aria-label="Anchor to: ✅ 是什么？" href="#-%e6%98%af%e4%bb%80%e4%b9%88-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>大量 key 在同一时间过期或 Redis 整体不可用，导致所有请求涌向数据库。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-典型场景-2"
+    >
+        🔥 典型场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-典型场景-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 典型场景" aria-label="Anchor to: 🔥 典型场景" href="#-%e5%85%b8%e5%9e%8b%e5%9c%ba%e6%99%af-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>大量 key 使用相同 TTL</li>
+<li>Redis 宕机</li>
+<li>Redis 重启、主从切换</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-危害最严重"
+    >
+        ❌ 危害（最严重）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-危害最严重" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 危害（最严重）" aria-label="Anchor to: ❌ 危害（最严重）" href="#-%e5%8d%b1%e5%ae%b3%e6%9c%80%e4%b8%a5%e9%87%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>DB 被打死</li>
+<li>整个系统雪崩式故障</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-解决方案必背"
+    >
+        ✅ 解决方案（必背）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-解决方案必背" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 解决方案（必背）" aria-label="Anchor to: ✅ 解决方案（必背）" href="#-%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88%e5%bf%85%e8%83%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-过期时间加随机值最常用"
+    >
+        1️⃣ 过期时间加随机值（最常用）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#1-过期时间加随机值最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 过期时间加随机值（最常用）" aria-label="Anchor to: 1️⃣ 过期时间加随机值（最常用）" href="#1-%e8%bf%87%e6%9c%9f%e6%97%b6%e9%97%b4%e5%8a%a0%e9%9a%8f%e6%9c%ba%e5%80%bc%e6%9c%80%e5%b8%b8%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">TTL = 300 + random(0~60)
+</span></span></code></pre></div><p>避免大量 key 同时过期。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-多级缓存"
+    >
+        2️⃣ 多级缓存
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#2-多级缓存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 多级缓存" aria-label="Anchor to: 2️⃣ 多级缓存" href="#2-%e5%a4%9a%e7%ba%a7%e7%bc%93%e5%ad%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">本地缓存 -&gt; Redis -&gt; DB
+</span></span></code></pre></div><p>Redis 挂了仍有兜底。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-redis-高可用"
+    >
+        3️⃣ Redis 高可用
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#3-redis-高可用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Redis 高可用" aria-label="Anchor to: 3️⃣ Redis 高可用" href="#3-redis-%e9%ab%98%e5%8f%af%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>主从复制</li>
+<li>Sentinel</li>
+<li>Cluster</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="4-限流--熔断系统级"
+    >
+        4️⃣ 限流 + 熔断（系统级）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#4-限流--熔断系统级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 限流 &#43; 熔断（系统级）" aria-label="Anchor to: 4️⃣ 限流 &#43; 熔断（系统级）" href="#4-%e9%99%90%e6%b5%81--%e7%86%94%e6%96%ad%e7%b3%bb%e7%bb%9f%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>QPS 限制</li>
+<li>降级返回默认值</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-总结-2"
+    >
+        ☘️ 总结
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-总结-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ☘️ 总结" aria-label="Anchor to: ☘️ 总结" href="#-%e6%80%bb%e7%bb%93-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>缓存雪崩是大量缓存失效或 Redis 不可用导致 DB 被压垮，解决方案是 TTL 随机化和高可用架构。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-三大问题对比"
+    >
+        🔥 三大问题对比
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-三大问题对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 三大问题对比" aria-label="Anchor to: 🔥 三大问题对比" href="#-%e4%b8%89%e5%a4%a7%e9%97%ae%e9%a2%98%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>问题</th>
+          <th>核心原因</th>
+          <th>影响范围</th>
+          <th>解决重点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>缓存穿透</td>
+          <td>数据不存在</td>
+          <td>持续</td>
+          <td>空值缓存 / Bloom</td>
+      </tr>
+      <tr>
+          <td>缓存击穿</td>
+          <td>热点 key 过期</td>
+          <td>瞬时</td>
+          <td>锁 / 逻辑过期</td>
+      </tr>
+      <tr>
+          <td>缓存雪崩</td>
+          <td>大量 key 同时失效</td>
+          <td>全局</td>
+          <td>随机 TTL / 高可用</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-其它"
+    >
+        🎯 其它
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-其它" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 其它" aria-label="Anchor to: 🎯 其它" href="#-%e5%85%b6%e5%ae%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="q这三者最大区别"
+    >
+        Q：这三者最大区别？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#q这三者最大区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Q：这三者最大区别？" aria-label="Anchor to: Q：这三者最大区别？" href="#q%e8%bf%99%e4%b8%89%e8%80%85%e6%9c%80%e5%a4%a7%e5%8c%ba%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>👉 是否存在、是否热点、是否大面积。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="q最容易被忽略的是哪个"
+    >
+        Q：最容易被忽略的是哪个？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#q最容易被忽略的是哪个" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Q：最容易被忽略的是哪个？" aria-label="Anchor to: Q：最容易被忽略的是哪个？" href="#q%e6%9c%80%e5%ae%b9%e6%98%93%e8%a2%ab%e5%bf%bd%e7%95%a5%e7%9a%84%e6%98%af%e5%93%aa%e4%b8%aa">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>👉 缓存击穿（热点 key）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="q生产环境最推荐方案"
+    >
+        Q：生产环境最推荐方案？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#q生产环境最推荐方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Q：生产环境最推荐方案？" aria-label="Anchor to: Q：生产环境最推荐方案？" href="#q%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e6%9c%80%e6%8e%a8%e8%8d%90%e6%96%b9%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>穿透：缓存空值 + Bloom</li>
+<li>击穿：互斥锁</li>
+<li>雪崩：TTL 随机 + Redis 高可用</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="通过计划任务定期更新缓存能不能解决-redis-缓存三大问题"
+    >
+        通过计划任务，定期更新缓存，能不能解决 Redis 缓存三大问题？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#通过计划任务定期更新缓存能不能解决-redis-缓存三大问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 通过计划任务，定期更新缓存，能不能解决 Redis 缓存三大问题？" aria-label="Anchor to: 通过计划任务，定期更新缓存，能不能解决 Redis 缓存三大问题？" href="#%e9%80%9a%e8%bf%87%e8%ae%a1%e5%88%92%e4%bb%bb%e5%8a%a1%e5%ae%9a%e6%9c%9f%e6%9b%b4%e6%96%b0%e7%bc%93%e5%ad%98%e8%83%bd%e4%b8%8d%e8%83%bd%e8%a7%a3%e5%86%b3-redis-%e7%bc%93%e5%ad%98%e4%b8%89%e5%a4%a7%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>结论：</p>
+<p><strong>仅靠“计划任务定期更新缓存”，不能彻底解决 Redis 缓存三大问题，只能缓解其中一部分。</strong></p>
+<p>下面按 穿透 / 击穿 / 雪崩，逐一给出可落地的结论。</p>
+<p>一句话总览（先记住）</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>问题</th>
+          <th>定期任务能否解决</th>
+          <th>结论</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>缓存穿透</td>
+          <td>❌ 不能</td>
+          <td>数据本就不存在</td>
+      </tr>
+      <tr>
+          <td>缓存击穿</td>
+          <td>⚠️ 部分缓解</td>
+          <td>热点 key 仍有风险</td>
+      </tr>
+      <tr>
+          <td>缓存雪崩</td>
+          <td>⚠️ 只能缓解一类</td>
+          <td>无法应对 Redis 不可用</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="一缓存穿透---完全解决不了"
+    >
+        一、缓存穿透 ❌ —— 完全解决不了
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#一缓存穿透---完全解决不了" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、缓存穿透 ❌ —— 完全解决不了" aria-label="Anchor to: 一、缓存穿透 ❌ —— 完全解决不了" href="#%e4%b8%80%e7%bc%93%e5%ad%98%e7%a9%bf%e9%80%8f---%e5%ae%8c%e5%85%a8%e8%a7%a3%e5%86%b3%e4%b8%8d%e4%ba%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>回顾定义：</p>
+<p><strong>请求的数据在缓存和数据库中都不存在</strong></p>
+<p>定期任务的问题在哪？</p>
+<ul>
+<li>定时任务 只<strong>会更新“存在的数据”</strong></li>
+<li>不存在的数据 <strong>根本不知道要更新什么</strong></li>
+</ul>
+<p>例子</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">GET user:99999999  （DB 根本没有）
+</span></span></code></pre></div><p>即使你每 5 分钟全量刷新缓存：</p>
+<ul>
+<li>这个 key 依然不存在</li>
+<li>请求仍然每次打到 DB</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-正确解法"
+    >
+        ✅ 正确解法
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-正确解法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确解法" aria-label="Anchor to: ✅ 正确解法" href="#-%e6%ad%a3%e7%a1%ae%e8%a7%a3%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>缓存空值</li>
+<li>Bloom Filter（布隆过滤器）</li>
+<li>参数校验</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-结论"
+    >
+        🎯 结论
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 结论" aria-label="Anchor to: 🎯 结论" href="#-%e7%bb%93%e8%ae%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>缓存穿透是“访问不存在数据”的问题，定期更新缓存无法感知不存在的数据，因此无效。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="二缓存击穿---只能缓解不能根治"
+    >
+        二、缓存击穿 ⚠️ —— 只能缓解，不能根治
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#二缓存击穿---只能缓解不能根治" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、缓存击穿 ⚠️ —— 只能缓解，不能根治" aria-label="Anchor to: 二、缓存击穿 ⚠️ —— 只能缓解，不能根治" href="#%e4%ba%8c%e7%bc%93%e5%ad%98%e5%87%bb%e7%a9%bf---%e5%8f%aa%e8%83%bd%e7%bc%93%e8%a7%a3%e4%b8%8d%e8%83%bd%e6%a0%b9%e6%b2%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>回顾定义：</p>
+<p><strong>热点 key 失效瞬间，大量并发请求打 DB</strong></p>
+<p>定期任务能做什么？</p>
+<ul>
+<li>在 key 过期前刷新缓存</li>
+<li>理论上让热点 key 不过期</li>
+</ul>
+<p><strong>✅ 在理想情况下有效</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-实际生产中的问题"
+    >
+        ❌ 实际生产中的问题
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-实际生产中的问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 实际生产中的问题" aria-label="Anchor to: ❌ 实际生产中的问题" href="#-%e5%ae%9e%e9%99%85%e7%94%9f%e4%ba%a7%e4%b8%ad%e7%9a%84%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>1️⃣ 定时任务可能失败</strong></p>
+<ul>
+<li>任务执行失败</li>
+<li>数据库抖动</li>
+<li>网络问题</li>
+</ul>
+<p>👉 一旦刷新失败，热点 key 仍然会过期。</p>
+<p><strong>2️⃣ 定时任务不是实时的</strong></p>
+<ul>
+<li>刷新周期是 1 分钟 / 5 分钟</li>
+<li>在周期空档仍可能过期</li>
+</ul>
+<p><strong>3️⃣ 多实例并发刷新</strong></p>
+<ul>
+<li>多个节点同时刷新</li>
+<li>DB 压力集中</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-正确姿势组合拳"
+    >
+        ✅ 正确姿势（组合拳）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-正确姿势组合拳" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确姿势（组合拳）" aria-label="Anchor to: ✅ 正确姿势（组合拳）" href="#-%e6%ad%a3%e7%a1%ae%e5%a7%bf%e5%8a%bf%e7%bb%84%e5%90%88%e6%8b%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">定期任务 + 互斥锁 / 逻辑过期
+</span></span></code></pre></div><ul>
+<li>定期任务：减少击穿概率</li>
+<li>锁 / 逻辑过期：兜底防并发</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-结论-1"
+    >
+        🎯 结论
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-结论-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 结论" aria-label="Anchor to: 🎯 结论" href="#-%e7%bb%93%e8%ae%ba-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>定期更新缓存只能降低热点 key 失效概率，不能替代互斥锁或逻辑过期机制。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="三缓存雪崩---只能解决同时过期解决不了不可用"
+    >
+        三、缓存雪崩 ⚠️ —— 只能解决“同时过期”，解决不了“不可用”
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#三缓存雪崩---只能解决同时过期解决不了不可用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、缓存雪崩 ⚠️ —— 只能解决“同时过期”，解决不了“不可用”" aria-label="Anchor to: 三、缓存雪崩 ⚠️ —— 只能解决“同时过期”，解决不了“不可用”" href="#%e4%b8%89%e7%bc%93%e5%ad%98%e9%9b%aa%e5%b4%a9---%e5%8f%aa%e8%83%bd%e8%a7%a3%e5%86%b3%e5%90%8c%e6%97%b6%e8%bf%87%e6%9c%9f%e8%a7%a3%e5%86%b3%e4%b8%8d%e4%ba%86%e4%b8%8d%e5%8f%af%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="雪崩的两种来源"
+    >
+        雪崩的两种来源
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#雪崩的两种来源" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 雪崩的两种来源" aria-label="Anchor to: 雪崩的两种来源" href="#%e9%9b%aa%e5%b4%a9%e7%9a%84%e4%b8%a4%e7%a7%8d%e6%9d%a5%e6%ba%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>1️⃣ 大量 key 同时过期</strong></p>
+<p><strong>2️⃣ Redis 整体不可用</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="定期任务能解决哪一种"
+    >
+        定期任务能解决哪一种？
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#定期任务能解决哪一种" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 定期任务能解决哪一种？" aria-label="Anchor to: 定期任务能解决哪一种？" href="#%e5%ae%9a%e6%9c%9f%e4%bb%bb%e5%8a%a1%e8%83%bd%e8%a7%a3%e5%86%b3%e5%93%aa%e4%b8%80%e7%a7%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>✅ 能缓解：大量 key 同时过期</strong></p>
+<ul>
+<li>定时任务错峰刷新</li>
+<li>减少同一时间失效的 key 数量</li>
+</ul>
+<p><strong>❌ 完全无能为力：Redis 宕机</strong></p>
+<ul>
+<li>Redis crash</li>
+<li>主从切换</li>
+<li>网络隔离</li>
+</ul>
+<p>此时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">所有请求 -&gt; DB
+</span></span></code></pre></div><p>不管你有没有定时任务。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-正确方案"
+    >
+        ✅ 正确方案
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-正确方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确方案" aria-label="Anchor to: ✅ 正确方案" href="#-%e6%ad%a3%e7%a1%ae%e6%96%b9%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>TTL 随机化</li>
+<li>Redis 主从 / Sentinel / Cluster</li>
+<li>本地缓存</li>
+<li>限流 &amp; 熔断</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-结论-2"
+    >
+        🎯 结论
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-结论-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 结论" aria-label="Anchor to: 🎯 结论" href="#-%e7%bb%93%e8%ae%ba-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>定期更新缓存只能缓解“过期型雪崩”，无法应对 Redis 不可用导致的雪崩。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-总结-3"
+    >
+        🔥 总结
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-总结-3" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 总结" aria-label="Anchor to: 🔥 总结" href="#-%e6%80%bb%e7%bb%93-3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>通过计划任务定期更新缓存，只能作为辅助方案，不能解决 Redis 缓存三大问题。</strong></p>
+<ul>
+<li>对缓存穿透无效，因为数据本身不存在；</li>
+<li>对缓存击穿只能降低热点 key 失效概率，仍需互斥锁或逻辑过期兜底；</li>
+<li>对缓存雪崩只能缓解大量 key 同时过期，无法应对 Redis 不可用。</li>
+</ul>
+<p><strong>因此生产环境必须结合空值缓存、Bloom Filter（布隆过滤器）、锁机制和高可用架构一起使用。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-架构级最佳实践总结"
+    >
+        ☘️ 架构级最佳实践总结
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#-架构级最佳实践总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ☘️ 架构级最佳实践总结" aria-label="Anchor to: ☘️ 架构级最佳实践总结" href="#-%e6%9e%b6%e6%9e%84%e7%ba%a7%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">定期任务（降概率）
+</span></span><span class="line"><span class="cl">+ 逻辑过期（防击穿）
+</span></span><span class="line"><span class="cl">+ 空值缓存 / Bloom（防穿透）
+</span></span><span class="line"><span class="cl">+ TTL 随机（防雪崩）
+</span></span><span class="line"><span class="cl">+ Redis 高可用（兜底）
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="bloom-filter布隆过滤器"
+    >
+        Bloom Filter（布隆过滤器）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#bloom-filter布隆过滤器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Bloom Filter（布隆过滤器）" aria-label="Anchor to: Bloom Filter（布隆过滤器）" href="#bloom-filter%e5%b8%83%e9%9a%86%e8%bf%87%e6%bb%a4%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>参考文档：</p>
+<ul>
+<li><a
+  class="gdoc-markdown__link"
+  href="https://zhuanlan.zhihu.com/p/50587308"
+>布隆过滤器（Bloom Filter）详解</a></li>
+</ul>
+<p>布隆过滤器（Bloom Filter）是1970年被布隆提出来的，用于判断某个元素是否在一个集合中，优点是空间效率和查询时间都非常高，缺点是有一定的误判率和删除困难。</p>
+<p>布隆过滤器（Bloom Filter）是一种空间效率极高的概率型数据结构，由一个超长的二进制位数组和多个哈希函数组成。</p>
+<p>它主要用于快速判断元素是否存在于海量数据集合中，特点是<strong>能保证“绝对不存在”，但判断“存在”时存在一定误判率（假阳性）。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="核心原理"
+    >
+        核心原理
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#核心原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心原理" aria-label="Anchor to: 核心原理" href="#%e6%a0%b8%e5%bf%83%e5%8e%9f%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>初始化</strong>：创建一个全为 0 的超长二进制数组。</li>
+<li><strong>添加元素</strong>：使用多个独立的哈希函数对元素进行计算，将得到的多个位置的比特位由 0 置为 1。</li>
+<li><strong>查询元素</strong>：再次使用相同的哈希函数计算出位置，若对应位置全为 1，则认为元素可能存在；若有任何一位为 0，则该元素一定不存在。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="特点与权衡"
+    >
+        特点与权衡
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#特点与权衡" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 特点与权衡" aria-label="Anchor to: 特点与权衡" href="#%e7%89%b9%e7%82%b9%e4%b8%8e%e6%9d%83%e8%a1%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>优点：</p>
+<ul>
+<li><strong>空间效率高</strong>：不存储具体元素内容，仅存储比特位，节省内存。</li>
+<li><strong>查询速度快</strong>：时间复杂度为 (O(k))，其中 (k) 为哈希函数个数。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li><strong>存在误判（假阳性）</strong>：可能会将不存在的元素误判为存在（因为哈希碰撞），但不会出现假阴性（判断不存在则一定不存在）。</li>
+<li><strong>难以删除</strong>：通常不支持直接删除元素，因为多个元素可能共享相同的位。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="主要应用场景"
+    >
+        主要应用场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/#主要应用场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 主要应用场景" aria-label="Anchor to: 主要应用场景" href="#%e4%b8%bb%e8%a6%81%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>防止缓存穿透</strong>：在查询数据库前先通过布隆过滤器过滤掉非法请求。</li>
+<li><strong>海量数据去重</strong>：如爬虫过滤已爬取的 URL、垃圾邮件过滤。</li>
+<li><strong>大数据量判断</strong>：检查元素是否存在于庞大的集合中，如 Hbase 和 BigTable 中的行键查询加速。</li>
+</ul>
 
   </article>
 
