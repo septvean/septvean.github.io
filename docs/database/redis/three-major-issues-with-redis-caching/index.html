@@ -13,7 +13,7 @@
 
 
   <meta name="description" content="内容：概念、原因、解决方案、实战建议。
-Redis 缓存三大问题
+Redis 缓存三大问题：
 缓存穿透、缓存击穿、缓存雪崩
 一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。
 🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -&gt; Redis 没有 -&gt; MySQL 也没有 -&gt; 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -&gt; 缓存一个空对象/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -&gt; 直接拒绝，不查缓存/DB 📌 适合：" />
@@ -43,7 +43,7 @@ Redis 缓存三大问题
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="内容：概念、原因、解决方案、实战建议。
-Redis 缓存三大问题
+Redis 缓存三大问题：
 缓存穿透、缓存击穿、缓存雪崩
 一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。
 🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -&gt; Redis 没有 -&gt; MySQL 也没有 -&gt; 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -&gt; 缓存一个空对象/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -&gt; 直接拒绝，不查缓存/DB 📌 适合：" />
@@ -56,7 +56,7 @@ Redis 缓存三大问题
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Redis 缓存三大问题" />
   <meta name="twitter:description" content="内容：概念、原因、解决方案、实战建议。
-Redis 缓存三大问题
+Redis 缓存三大问题：
 缓存穿透、缓存击穿、缓存雪崩
 一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。
 🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -&gt; Redis 没有 -&gt; MySQL 也没有 -&gt; 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -&gt; 缓存一个空对象/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -&gt; 直接拒绝，不查缓存/DB 📌 适合：" />
@@ -70,7 +70,7 @@ Redis 缓存三大问题
       "name": "Redis 缓存三大问题",
       "url" : "https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/",
       "headline": "Redis 缓存三大问题",
-      "description": "内容：概念、原因、解决方案、实战建议。\nRedis 缓存三大问题\n缓存穿透、缓存击穿、缓存雪崩\n一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。\n🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -\u003e Redis 没有 -\u003e MySQL 也没有 -\u003e 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -\u003e 缓存一个空对象\/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -\u003e 直接拒绝，不查缓存\/DB 📌 适合：",
+      "description": "内容：概念、原因、解决方案、实战建议。\nRedis 缓存三大问题：\n缓存穿透、缓存击穿、缓存雪崩\n一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。\n🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -\u003e Redis 没有 -\u003e MySQL 也没有 -\u003e 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -\u003e 缓存一个空对象\/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -\u003e 直接拒绝，不查缓存\/DB 📌 适合：",
       "wordCount" : "514",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
@@ -1803,7 +1803,7 @@ Redis 缓存三大问题
     <h1>Redis 缓存三大问题</h1>
     
     <p>内容：概念、原因、解决方案、实战建议。</p>
-<p>Redis 缓存三大问题</p>
+<p>Redis 缓存三大问题：</p>
 <p><strong>缓存穿透、缓存击穿、缓存雪崩</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="一缓存穿透cache-penetration"
