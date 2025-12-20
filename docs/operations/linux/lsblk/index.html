@@ -16,7 +16,9 @@
 核心功能与输出字段：
 NAME：设备名称。 MAJ:MIN：主次设备号。 RM：是否可移动设备（1表示是，0表示否）。 SIZE：设备大小。 RO：是否为只读。 TYPE：设备类型（如disk, part, lvm）。 MOUNTPOINT：挂载点。 常用选项与示例：
 lsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示文件系统类型（如ext4, xfs, vfat）和UUID，对于查看分区格式非常有用。 lsblk -a：显示所有设备，包括空设备和loop设备。 lsblk -d：仅显示磁盘（disk），不显示分区（part）。 lsblk -p：显示设备的完整路径（如 /dev/sda 而不是 sda）。 lsblk -m：显示文件系统的权限信息。 lsblk -o [列名]：自定义输出的列，例如 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT。 lsblk -b：以字节为单位显示大小，而不是默认的易读格式。 应用场景：
-检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。" />
+检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。
+示例：
+# 检查是否存在 LVM 逻辑卷 lsblk -o FSTYPE | grep -i lvm " />
 
     <title>lsblk | ☘️ Septvean&#39;s Documents</title>
 
@@ -46,7 +48,9 @@ lsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示
 核心功能与输出字段：
 NAME：设备名称。 MAJ:MIN：主次设备号。 RM：是否可移动设备（1表示是，0表示否）。 SIZE：设备大小。 RO：是否为只读。 TYPE：设备类型（如disk, part, lvm）。 MOUNTPOINT：挂载点。 常用选项与示例：
 lsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示文件系统类型（如ext4, xfs, vfat）和UUID，对于查看分区格式非常有用。 lsblk -a：显示所有设备，包括空设备和loop设备。 lsblk -d：仅显示磁盘（disk），不显示分区（part）。 lsblk -p：显示设备的完整路径（如 /dev/sda 而不是 sda）。 lsblk -m：显示文件系统的权限信息。 lsblk -o [列名]：自定义输出的列，例如 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT。 lsblk -b：以字节为单位显示大小，而不是默认的易读格式。 应用场景：
-检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。" />
+检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。
+示例：
+# 检查是否存在 LVM 逻辑卷 lsblk -o FSTYPE | grep -i lvm " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/linux/lsblk/" />
 
@@ -59,7 +63,9 @@ lsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示
 核心功能与输出字段：
 NAME：设备名称。 MAJ:MIN：主次设备号。 RM：是否可移动设备（1表示是，0表示否）。 SIZE：设备大小。 RO：是否为只读。 TYPE：设备类型（如disk, part, lvm）。 MOUNTPOINT：挂载点。 常用选项与示例：
 lsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示文件系统类型（如ext4, xfs, vfat）和UUID，对于查看分区格式非常有用。 lsblk -a：显示所有设备，包括空设备和loop设备。 lsblk -d：仅显示磁盘（disk），不显示分区（part）。 lsblk -p：显示设备的完整路径（如 /dev/sda 而不是 sda）。 lsblk -m：显示文件系统的权限信息。 lsblk -o [列名]：自定义输出的列，例如 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT。 lsblk -b：以字节为单位显示大小，而不是默认的易读格式。 应用场景：
-检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。" />
+检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。
+示例：
+# 检查是否存在 LVM 逻辑卷 lsblk -o FSTYPE | grep -i lvm " />
 
 
   <script type="application/ld+json">
@@ -70,8 +76,8 @@ lsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示
       "name": "lsblk",
       "url" : "https://documents.v2ep.com/operations/linux/lsblk/",
       "headline": "lsblk",
-      "description": "lsblk (List Block Devices) 是用于列出所有Linux系统块设备（硬盘、SSD、USB、分区、挂载点）的常用命令。它以树状结构清晰展示设备及其依赖关系，显示名称、大小、类型（disk\/part）和挂载点，用于快速查看存储结构和维护系统。\n核心功能与输出字段：\nNAME：设备名称。 MAJ:MIN：主次设备号。 RM：是否可移动设备（1表示是，0表示否）。 SIZE：设备大小。 RO：是否为只读。 TYPE：设备类型（如disk, part, lvm）。 MOUNTPOINT：挂载点。 常用选项与示例：\nlsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示文件系统类型（如ext4, xfs, vfat）和UUID，对于查看分区格式非常有用。 lsblk -a：显示所有设备，包括空设备和loop设备。 lsblk -d：仅显示磁盘（disk），不显示分区（part）。 lsblk -p：显示设备的完整路径（如 \/dev\/sda 而不是 sda）。 lsblk -m：显示文件系统的权限信息。 lsblk -o [列名]：自定义输出的列，例如 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT。 lsblk -b：以字节为单位显示大小，而不是默认的易读格式。 应用场景：\n检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。",
-      "wordCount" : "48",
+      "description": "lsblk (List Block Devices) 是用于列出所有Linux系统块设备（硬盘、SSD、USB、分区、挂载点）的常用命令。它以树状结构清晰展示设备及其依赖关系，显示名称、大小、类型（disk\/part）和挂载点，用于快速查看存储结构和维护系统。\n核心功能与输出字段：\nNAME：设备名称。 MAJ:MIN：主次设备号。 RM：是否可移动设备（1表示是，0表示否）。 SIZE：设备大小。 RO：是否为只读。 TYPE：设备类型（如disk, part, lvm）。 MOUNTPOINT：挂载点。 常用选项与示例：\nlsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示文件系统类型（如ext4, xfs, vfat）和UUID，对于查看分区格式非常有用。 lsblk -a：显示所有设备，包括空设备和loop设备。 lsblk -d：仅显示磁盘（disk），不显示分区（part）。 lsblk -p：显示设备的完整路径（如 \/dev\/sda 而不是 sda）。 lsblk -m：显示文件系统的权限信息。 lsblk -o [列名]：自定义输出的列，例如 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT。 lsblk -b：以字节为单位显示大小，而不是默认的易读格式。 应用场景：\n检查磁盘分区：快速查看新磁盘或检查现有分区。 检查挂载情况：确定设备挂载到了哪个目录。 排查LVM逻辑卷：显示逻辑卷与其物理卷的依赖关系。 lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。\n示例：\n# 检查是否存在 LVM 逻辑卷 lsblk -o FSTYPE | grep -i lvm ",
+      "wordCount" : "60",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -1831,7 +1837,10 @@ lsblk：默认输出，显示所有块设备的树状结构。 lsblk -f：显示
 <li><strong>排查LVM逻辑卷</strong>：显示逻辑卷与其物理卷的依赖关系。</li>
 </ul>
 <p>lsblk 包含在 util-linux 软件包中，该包在大多数Linux发行版中预装。</p>
-
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 检查是否存在 LVM 逻辑卷</span>
+</span></span><span class="line"><span class="cl">lsblk -o FSTYPE <span class="p">|</span> grep -i lvm
+</span></span></code></pre></div>
   </article>
 
 
