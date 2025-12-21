@@ -16,7 +16,7 @@
 目录
 备份类型总览 逻辑备份（pg_dump / pg_dumpall） 物理备份（pg_basebackup） WAL 归档与增量备份 PITR（时间点恢复）完整流程 常用备份策略（企业级架构） 恢复常见问题 最佳实践总结 1. PostgreSQL 备份类型总览 类型 工具 级别 是否增量 是否可选库/表 典型用途 逻辑备份 pg_dump/pg_dumpall SQL/结构级 ❌ ✅ 小数据量备份、迁移 物理备份 pg_basebackup 文件级 ❌（但可结合WAL） ❌ 基础库完整镜像 WAL 归档 archive_mode WAL日志 ✅ ❌ 增量备份、PITR 快照备份 LVM/ZFS/云盘快照 块级 ✅ ❌ 超大库快速备份 流复制备份 主从复制 实时 ✅ ❌ 高可用、热备 2. 逻辑备份（pg_dump / pg_dumpall） ⭐ 场景" />
 
-    <title>PostgreSQL 备份与恢 | ☘️ Septvean&#39;s Documents</title>
+    <title>PostgreSQL 备份与恢复 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -37,7 +37,7 @@
     
   <meta
     property="og:title"
-    content="PostgreSQL 备份与恢"
+    content="PostgreSQL 备份与恢复"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="下面是一份 最系统、最实用的 PostgreSQL 备份与恢复指南，覆盖：逻辑备份、物理备份、增量备份、PITR（时间点恢复）、常见实战方案、企业级最佳实践。
@@ -50,7 +50,7 @@
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL 备份与恢" />
+<meta name="twitter:title" content="PostgreSQL 备份与恢复" />
   <meta name="twitter:description" content="下面是一份 最系统、最实用的 PostgreSQL 备份与恢复指南，覆盖：逻辑备份、物理备份、增量备份、PITR（时间点恢复）、常见实战方案、企业级最佳实践。
 目录
 备份类型总览 逻辑备份（pg_dump / pg_dumpall） 物理备份（pg_basebackup） WAL 归档与增量备份 PITR（时间点恢复）完整流程 常用备份策略（企业级架构） 恢复常见问题 最佳实践总结 1. PostgreSQL 备份类型总览 类型 工具 级别 是否增量 是否可选库/表 典型用途 逻辑备份 pg_dump/pg_dumpall SQL/结构级 ❌ ✅ 小数据量备份、迁移 物理备份 pg_basebackup 文件级 ❌（但可结合WAL） ❌ 基础库完整镜像 WAL 归档 archive_mode WAL日志 ✅ ❌ 增量备份、PITR 快照备份 LVM/ZFS/云盘快照 块级 ✅ ❌ 超大库快速备份 流复制备份 主从复制 实时 ✅ ❌ 高可用、热备 2. 逻辑备份（pg_dump / pg_dumpall） ⭐ 场景" />
@@ -61,9 +61,9 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL 备份与恢",
+      "name": "PostgreSQL 备份与恢复",
       "url" : "https://documents.v2ep.com/database/postgres/backup-restore/",
-      "headline": "PostgreSQL 备份与恢",
+      "headline": "PostgreSQL 备份与恢复",
       "description": "下面是一份 最系统、最实用的 PostgreSQL 备份与恢复指南，覆盖：逻辑备份、物理备份、增量备份、PITR（时间点恢复）、常见实战方案、企业级最佳实践。\n目录\n备份类型总览 逻辑备份（pg_dump \/ pg_dumpall） 物理备份（pg_basebackup） WAL 归档与增量备份 PITR（时间点恢复）完整流程 常用备份策略（企业级架构） 恢复常见问题 最佳实践总结 1. PostgreSQL 备份类型总览 类型 工具 级别 是否增量 是否可选库\/表 典型用途 逻辑备份 pg_dump\/pg_dumpall SQL\/结构级 ❌ ✅ 小数据量备份、迁移 物理备份 pg_basebackup 文件级 ❌（但可结合WAL） ❌ 基础库完整镜像 WAL 归档 archive_mode WAL日志 ✅ ❌ 增量备份、PITR 快照备份 LVM\/ZFS\/云盘快照 块级 ✅ ❌ 超大库快速备份 流复制备份 主从复制 实时 ✅ ❌ 高可用、热备 2. 逻辑备份（pg_dump \/ pg_dumpall） ⭐ 场景",
       "wordCount" : "360",
       "inLanguage": "en",
@@ -1636,6 +1636,42 @@
               
                 <span class="flex">
                   <a
+                    href="/operations/podman/"
+                    class="gdoc-nav__entry"
+                  >
+                    Podman
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
                     href="/operations/zabbix/"
                     class="gdoc-nav__entry"
                   >
@@ -1773,7 +1809,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 备份与恢</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 备份与恢复</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -1794,7 +1830,7 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL 备份与恢</h1>
+    <h1>PostgreSQL 备份与恢复</h1>
     
     <p>下面是一份 最系统、最实用的 PostgreSQL 备份与恢复指南，覆盖：逻辑备份、物理备份、增量备份、PITR（时间点恢复）、常见实战方案、企业级最佳实践。</p>
 <p>目录</p>
@@ -2776,6 +2812,30 @@
       
     
 
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
     
       
       

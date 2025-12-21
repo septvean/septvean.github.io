@@ -13,7 +13,7 @@
 
 
   <meta name="description" content="MySQL 在执行 UPDATE / DELETE 时，如何防止别的事务对同一批数据进行 INSERT / UPDATE / DELETE 的干扰。
-一句话总结 要防止其它操作影响你正在 UPDATE/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。
+总结 要防止其它操作影响你正在 UPDATE/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。
 UPDATE / DELETE 在执行时：
 自动对目标行加 排他锁（X 锁） -&gt; 防止其他事务 UPDATE/DELETE 自动加 Next-Key Lock（记录锁 &#43; 间隙锁） -&gt; 防止其他事务在范围内 INSERT 如果语句不能走索引 -&gt; 会锁全表（非常危险！） 📌 MySQL 在 UPDATE / DELETE 时的实际行为（重点） ① UPDATE / DELETE 会自动加 X 锁（Record Lock） 例如：" />
 
@@ -42,7 +42,7 @@ UPDATE / DELETE 在执行时：
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="MySQL 在执行 UPDATE / DELETE 时，如何防止别的事务对同一批数据进行 INSERT / UPDATE / DELETE 的干扰。
-一句话总结 要防止其它操作影响你正在 UPDATE/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。
+总结 要防止其它操作影响你正在 UPDATE/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。
 UPDATE / DELETE 在执行时：
 自动对目标行加 排他锁（X 锁） -&gt; 防止其他事务 UPDATE/DELETE 自动加 Next-Key Lock（记录锁 &#43; 间隙锁） -&gt; 防止其他事务在范围内 INSERT 如果语句不能走索引 -&gt; 会锁全表（非常危险！） 📌 MySQL 在 UPDATE / DELETE 时的实际行为（重点） ① UPDATE / DELETE 会自动加 X 锁（Record Lock） 例如：" />
 <meta property="og:type" content="article" />
@@ -54,7 +54,7 @@ UPDATE / DELETE 在执行时：
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="MySQL 在 UPDATE / DELETE 时防止其它操作" />
   <meta name="twitter:description" content="MySQL 在执行 UPDATE / DELETE 时，如何防止别的事务对同一批数据进行 INSERT / UPDATE / DELETE 的干扰。
-一句话总结 要防止其它操作影响你正在 UPDATE/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。
+总结 要防止其它操作影响你正在 UPDATE/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。
 UPDATE / DELETE 在执行时：
 自动对目标行加 排他锁（X 锁） -&gt; 防止其他事务 UPDATE/DELETE 自动加 Next-Key Lock（记录锁 &#43; 间隙锁） -&gt; 防止其他事务在范围内 INSERT 如果语句不能走索引 -&gt; 会锁全表（非常危险！） 📌 MySQL 在 UPDATE / DELETE 时的实际行为（重点） ① UPDATE / DELETE 会自动加 X 锁（Record Lock） 例如：" />
 
@@ -67,7 +67,7 @@ UPDATE / DELETE 在执行时：
       "name": "MySQL 在 UPDATE / DELETE 时防止其它操作",
       "url" : "https://documents.v2ep.com/database/mysql/update-delete-lock/",
       "headline": "MySQL 在 UPDATE / DELETE 时防止其它操作",
-      "description": "MySQL 在执行 UPDATE \/ DELETE 时，如何防止别的事务对同一批数据进行 INSERT \/ UPDATE \/ DELETE 的干扰。\n一句话总结 要防止其它操作影响你正在 UPDATE\/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。\nUPDATE \/ DELETE 在执行时：\n自动对目标行加 排他锁（X 锁） -\u003e 防止其他事务 UPDATE\/DELETE 自动加 Next-Key Lock（记录锁 \u002b 间隙锁） -\u003e 防止其他事务在范围内 INSERT 如果语句不能走索引 -\u003e 会锁全表（非常危险！） 📌 MySQL 在 UPDATE \/ DELETE 时的实际行为（重点） ① UPDATE \/ DELETE 会自动加 X 锁（Record Lock） 例如：",
+      "description": "MySQL 在执行 UPDATE \/ DELETE 时，如何防止别的事务对同一批数据进行 INSERT \/ UPDATE \/ DELETE 的干扰。\n总结 要防止其它操作影响你正在 UPDATE\/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。\nUPDATE \/ DELETE 在执行时：\n自动对目标行加 排他锁（X 锁） -\u003e 防止其他事务 UPDATE\/DELETE 自动加 Next-Key Lock（记录锁 \u002b 间隙锁） -\u003e 防止其他事务在范围内 INSERT 如果语句不能走索引 -\u003e 会锁全表（非常危险！） 📌 MySQL 在 UPDATE \/ DELETE 时的实际行为（重点） ① UPDATE \/ DELETE 会自动加 X 锁（Record Lock） 例如：",
       "wordCount" : "404",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
@@ -1639,6 +1639,42 @@ UPDATE / DELETE 在执行时：
               
                 <span class="flex">
                   <a
+                    href="/operations/podman/"
+                    class="gdoc-nav__entry"
+                  >
+                    Podman
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
                     href="/operations/zabbix/"
                     class="gdoc-nav__entry"
                   >
@@ -1801,11 +1837,11 @@ UPDATE / DELETE 在执行时：
     
     <p>MySQL 在执行 UPDATE / DELETE 时，如何防止别的事务对同一批数据进行 INSERT / UPDATE / DELETE 的干扰。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一句话总结"
+    <h2 id="总结"
     >
-        一句话总结
+        总结
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/update-delete-lock/#一句话总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一句话总结" aria-label="Anchor to: 一句话总结" href="#%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/update-delete-lock/#总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 总结" aria-label="Anchor to: 总结" href="#%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2739,6 +2775,30 @@ UPDATE / DELETE 在执行时：
       
     
 
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
     
       
       

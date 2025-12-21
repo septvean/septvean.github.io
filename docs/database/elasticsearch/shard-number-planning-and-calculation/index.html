@@ -12,22 +12,11 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="这是 ElasticSearch 设计与面试中最经典、也是最容易踩坑的问题之一。 我给你一套 “能算、能落地、能解释给面试官/领导听” 的完整方法。
-⸻
-🎯 核心结论（先记住）
-ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是： 单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）
-⸻
-一、为什么分片数不能改？ •	分片路由算法：
-shard = hash(_routing) % primary_shards
-•	改分片数 = 全量重建索引 •	ES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情
-⸻
-二、分片规划的 4 个关键输入参数（必须知道）
-在规划前，你至少要知道这 4 个数：
-参数	含义 D	每天数据量（GB/day） T	索引保留周期（天） R	副本数（replica） S	单 shard 目标大小（GB）
-⸻
-三、最重要的公式（必背）
-⭐ 分片数计算公式
-Primary Shards = ⌈ ( D × T ) / S ⌉" />
+  <meta name="description" content="🎯 核心结论（先记住）
+ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：
+单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）
+一、为什么分片数不能改？ 分片路由算法： shard = hash(_routing) % primary_shards 改分片数 = 全量重建索引 ES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情
+二、分片规划的 4 个关键输入参数（必须知道） 在规划前，你至少要知道这 4 个数：" />
 
     <title>ElasticSearch 分片数规划与计算 | ☘️ Septvean&#39;s Documents</title>
 
@@ -53,22 +42,11 @@ Primary Shards = ⌈ ( D × T ) / S ⌉" />
     content="ElasticSearch 分片数规划与计算"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="这是 ElasticSearch 设计与面试中最经典、也是最容易踩坑的问题之一。 我给你一套 “能算、能落地、能解释给面试官/领导听” 的完整方法。
-⸻
-🎯 核心结论（先记住）
-ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是： 单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）
-⸻
-一、为什么分片数不能改？ •	分片路由算法：
-shard = hash(_routing) % primary_shards
-•	改分片数 = 全量重建索引 •	ES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情
-⸻
-二、分片规划的 4 个关键输入参数（必须知道）
-在规划前，你至少要知道这 4 个数：
-参数	含义 D	每天数据量（GB/day） T	索引保留周期（天） R	副本数（replica） S	单 shard 目标大小（GB）
-⸻
-三、最重要的公式（必背）
-⭐ 分片数计算公式
-Primary Shards = ⌈ ( D × T ) / S ⌉" />
+  <meta property="og:description" content="🎯 核心结论（先记住）
+ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：
+单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）
+一、为什么分片数不能改？ 分片路由算法： shard = hash(_routing) % primary_shards 改分片数 = 全量重建索引 ES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情
+二、分片规划的 4 个关键输入参数（必须知道） 在规划前，你至少要知道这 4 个数：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/" />
 
@@ -77,22 +55,11 @@ Primary Shards = ⌈ ( D × T ) / S ⌉" />
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="ElasticSearch 分片数规划与计算" />
-  <meta name="twitter:description" content="这是 ElasticSearch 设计与面试中最经典、也是最容易踩坑的问题之一。 我给你一套 “能算、能落地、能解释给面试官/领导听” 的完整方法。
-⸻
-🎯 核心结论（先记住）
-ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是： 单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）
-⸻
-一、为什么分片数不能改？ •	分片路由算法：
-shard = hash(_routing) % primary_shards
-•	改分片数 = 全量重建索引 •	ES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情
-⸻
-二、分片规划的 4 个关键输入参数（必须知道）
-在规划前，你至少要知道这 4 个数：
-参数	含义 D	每天数据量（GB/day） T	索引保留周期（天） R	副本数（replica） S	单 shard 目标大小（GB）
-⸻
-三、最重要的公式（必背）
-⭐ 分片数计算公式
-Primary Shards = ⌈ ( D × T ) / S ⌉" />
+  <meta name="twitter:description" content="🎯 核心结论（先记住）
+ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：
+单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）
+一、为什么分片数不能改？ 分片路由算法： shard = hash(_routing) % primary_shards 改分片数 = 全量重建索引 ES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情
+二、分片规划的 4 个关键输入参数（必须知道） 在规划前，你至少要知道这 4 个数：" />
 
 
   <script type="application/ld+json">
@@ -103,8 +70,8 @@ Primary Shards = ⌈ ( D × T ) / S ⌉" />
       "name": "ElasticSearch 分片数规划与计算",
       "url" : "https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/",
       "headline": "ElasticSearch 分片数规划与计算",
-      "description": "这是 ElasticSearch 设计与面试中最经典、也是最容易踩坑的问题之一。 我给你一套 “能算、能落地、能解释给面试官\/领导听” 的完整方法。\n⸻\n🎯 核心结论（先记住）\nElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是： 单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）\n⸻\n一、为什么分片数不能改？ •\t分片路由算法：\nshard = hash(_routing) % primary_shards\n•\t改分片数 = 全量重建索引 •\tES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情\n⸻\n二、分片规划的 4 个关键输入参数（必须知道）\n在规划前，你至少要知道这 4 个数：\n参数\t含义 D\t每天数据量（GB\/day） T\t索引保留周期（天） R\t副本数（replica） S\t单 shard 目标大小（GB）\n⸻\n三、最重要的公式（必背）\n⭐ 分片数计算公式\nPrimary Shards = ⌈ ( D × T ) \/ S ⌉",
-      "wordCount" : "369",
+      "description": "🎯 核心结论（先记住）\nElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：\n单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）\n一、为什么分片数不能改？ 分片路由算法： shard = hash(_routing) % primary_shards 改分片数 = 全量重建索引 ES 没有“在线拆分主分片”的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情\n二、分片规划的 4 个关键输入参数（必须知道） 在规划前，你至少要知道这 4 个数：",
+      "wordCount" : "295",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -1675,6 +1642,42 @@ Primary Shards = ⌈ ( D × T ) / S ⌉" />
               
                 <span class="flex">
                   <a
+                    href="/operations/podman/"
+                    class="gdoc-nav__entry"
+                  >
+                    Podman
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
                     href="/operations/zabbix/"
                     class="gdoc-nav__entry"
                   >
@@ -1835,130 +1838,330 @@ Primary Shards = ⌈ ( D × T ) / S ⌉" />
   >
     <h1>ElasticSearch 分片数规划与计算</h1>
     
-    <p>这是 ElasticSearch 设计与面试中最经典、也是最容易踩坑的问题之一。
-我给你一套 “能算、能落地、能解释给面试官/领导听” 的完整方法。</p>
-<p>⸻</p>
-<p>🎯 核心结论（先记住）</p>
-<p>ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：
-单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）</p>
-<p>⸻</p>
-<p>一、为什么分片数不能改？
-•	分片路由算法：</p>
-<p>shard = hash(_routing) % primary_shards</p>
-<pre><code>•	改分片数 = 全量重建索引
-•	ES 没有“在线拆分主分片”的能力（只能 shrink 减少）
-</code></pre>
+    <p>🎯 核心结论（先记住）</p>
+<p>ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：</p>
+<p>单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一为什么分片数不能改"
+    >
+        一、为什么分片数不能改？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#一为什么分片数不能改" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、为什么分片数不能改？" aria-label="Anchor to: 一、为什么分片数不能改？" href="#%e4%b8%80%e4%b8%ba%e4%bb%80%e4%b9%88%e5%88%86%e7%89%87%e6%95%b0%e4%b8%8d%e8%83%bd%e6%94%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>分片路由算法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">shard = hash(_routing) % primary_shards
+</span></span></code></pre></div><ul>
+<li>改分片数 = 全量重建索引</li>
+<li>ES 没有“在线拆分主分片”的能力（只能 shrink 减少）</li>
+</ul>
 <p>👉 所以：分片数 = 建索引前必须想清楚的事情</p>
-<p>⸻</p>
-<p>二、分片规划的 4 个关键输入参数（必须知道）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二分片规划的-4-个关键输入参数必须知道"
+    >
+        二、分片规划的 4 个关键输入参数（必须知道）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#二分片规划的-4-个关键输入参数必须知道" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、分片规划的 4 个关键输入参数（必须知道）" aria-label="Anchor to: 二、分片规划的 4 个关键输入参数（必须知道）" href="#%e4%ba%8c%e5%88%86%e7%89%87%e8%a7%84%e5%88%92%e7%9a%84-4-%e4%b8%aa%e5%85%b3%e9%94%ae%e8%be%93%e5%85%a5%e5%8f%82%e6%95%b0%e5%bf%85%e9%a1%bb%e7%9f%a5%e9%81%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>在规划前，你至少要知道这 4 个数：</p>
-<p>参数	含义
-D	每天数据量（GB/day）
-T	索引保留周期（天）
-R	副本数（replica）
-S	单 shard 目标大小（GB）</p>
-<p>⸻</p>
-<p>三、最重要的公式（必背）</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>D</td>
+          <td>每天数据量（GB/day）</td>
+      </tr>
+      <tr>
+          <td>T</td>
+          <td>索引保留周期（天）</td>
+      </tr>
+      <tr>
+          <td>R</td>
+          <td>副本数（replica）</td>
+      </tr>
+      <tr>
+          <td>S</td>
+          <td>单 shard 目标大小（GB）</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三最重要的公式必背"
+    >
+        三、最重要的公式（必背）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#三最重要的公式必背" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、最重要的公式（必背）" aria-label="Anchor to: 三、最重要的公式（必背）" href="#%e4%b8%89%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e5%85%ac%e5%bc%8f%e5%bf%85%e8%83%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>⭐ 分片数计算公式</p>
-<p>Primary Shards = ⌈ ( D × T ) / S ⌉</p>
-<p>副本不参与计算 primary shard 数量。</p>
-<p>⸻</p>
-<p>四、典型场景实战计算</p>
-<p>🔹 场景 1：日志系统（最常见）</p>
-<p>条件
-•	每天日志：100 GB
-•	索引周期：1 天（daily index）
-•	shard 目标：25 GB</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Primary Shards = ⌈ ( D × T ) / S ⌉
+</span></span></code></pre></div><p>副本不参与计算 primary shard 数量。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四典型场景实战计算"
+    >
+        四、典型场景实战计算
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#四典型场景实战计算" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、典型场景实战计算" aria-label="Anchor to: 四、典型场景实战计算" href="#%e5%9b%9b%e5%85%b8%e5%9e%8b%e5%9c%ba%e6%99%af%e5%ae%9e%e6%88%98%e8%ae%a1%e7%ae%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-1日志系统最常见"
+    >
+        场景 1：日志系统（最常见）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#场景-1日志系统最常见" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 1：日志系统（最常见）" aria-label="Anchor to: 场景 1：日志系统（最常见）" href="#%e5%9c%ba%e6%99%af-1%e6%97%a5%e5%bf%97%e7%b3%bb%e7%bb%9f%e6%9c%80%e5%b8%b8%e8%a7%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>条件</p>
+<ul>
+<li>每天日志：100 GB</li>
+<li>索引周期：1 天（daily index）</li>
+<li>shard 目标：25 GB</li>
+</ul>
 <p>计算</p>
-<p>Primary Shards = 100 / 25 = 4</p>
-<p>结论</p>
-<p>&ldquo;number_of_shards&rdquo;: 4,
-&ldquo;number_of_replicas&rdquo;: 1</p>
-<p>👉 最终磁盘：</p>
-<p>100GB × (1 + 1) = 200GB</p>
-<p>⸻</p>
-<p>🔹 场景 2：大日志系统（热数据 7 天）</p>
-<p>条件
-•	每天日志：200 GB
-•	Hot 数据保留：7 天
-•	shard 目标：30 GB</p>
-<p>Primary Shards = (200 × 7) / 30 ≈ 47</p>
-<p>⚠️ 不建议单索引 47 shard</p>
-<p>👉 正确做法：
-•	使用 daily index + rollover
-•	每天一个索引，每个索引 7 shard</p>
-<p>⸻</p>
-<p>🔹 场景 3：业务搜索索引（长期存在）</p>
-<p>条件
-•	当前数据量：300 GB
-•	未来一年预计增长到：1 TB
-•	shard 目标：40 GB</p>
-<p>Primary Shards = 1000 / 40 = 25</p>
-<p>👉 创建索引时：</p>
-<p>number_of_shards = 24 或 25</p>
-<p>⸻</p>
-<p>五、日志系统的最佳实践（强烈推荐）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Primary Shards = 100 / 25 = 4
+</span></span></code></pre></div><p>结论</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&#34;number_of_shards&#34;: 4,
+</span></span><span class="line"><span class="cl">&#34;number_of_replicas&#34;: 1
+</span></span></code></pre></div><p>👉 最终磁盘：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">100GB × (1 + 1) = 200GB
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-2大日志系统热数据-7-天"
+    >
+        场景 2：大日志系统（热数据 7 天）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#场景-2大日志系统热数据-7-天" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 2：大日志系统（热数据 7 天）" aria-label="Anchor to: 场景 2：大日志系统（热数据 7 天）" href="#%e5%9c%ba%e6%99%af-2%e5%a4%a7%e6%97%a5%e5%bf%97%e7%b3%bb%e7%bb%9f%e7%83%ad%e6%95%b0%e6%8d%ae-7-%e5%a4%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>条件</p>
+<ul>
+<li>每天日志：200 GB</li>
+<li>Hot 数据保留：7 天</li>
+<li>shard 目标：30 GB</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Primary Shards = (200 × 7) / 30 ≈ 47
+</span></span></code></pre></div><p>⚠️ 不建议单索引 47 shard</p>
+<p>👉 正确做法：</p>
+<ul>
+<li>使用 daily index + rollover</li>
+<li>每天一个索引，每个索引 7 shard</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-3业务搜索索引长期存在"
+    >
+        场景 3：业务搜索索引（长期存在）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#场景-3业务搜索索引长期存在" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 3：业务搜索索引（长期存在）" aria-label="Anchor to: 场景 3：业务搜索索引（长期存在）" href="#%e5%9c%ba%e6%99%af-3%e4%b8%9a%e5%8a%a1%e6%90%9c%e7%b4%a2%e7%b4%a2%e5%bc%95%e9%95%bf%e6%9c%9f%e5%ad%98%e5%9c%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>条件</p>
+<ul>
+<li>当前数据量：300 GB</li>
+<li>未来一年预计增长到：1 TB</li>
+<li>shard 目标：40 GB</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Primary Shards = 1000 / 40 = 25
+</span></span></code></pre></div><p>👉 创建索引时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">number_of_shards = 24 或 25
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五日志系统的最佳实践强烈推荐"
+    >
+        五、日志系统的最佳实践（强烈推荐）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#五日志系统的最佳实践强烈推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、日志系统的最佳实践（强烈推荐）" aria-label="Anchor to: 五、日志系统的最佳实践（强烈推荐）" href="#%e4%ba%94%e6%97%a5%e5%bf%97%e7%b3%bb%e7%bb%9f%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e5%bc%ba%e7%83%88%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>❌ 错误做法</p>
 <p>1 个索引，100+ shard</p>
 <p>✅ 正确做法</p>
 <p>daily index + rollover + ILM</p>
 <p>示例</p>
-<p>&ldquo;rollover&rdquo;: {
-&ldquo;max_size&rdquo;: &ldquo;30gb&rdquo;,
-&ldquo;max_age&rdquo;: &ldquo;1d&rdquo;
-}</p>
-<p>好处：
-•	分片数自动控制
-•	shard 永远不超大
-•	方便冷热分离</p>
-<p>⸻</p>
-<p>六、不同业务类型的 shard 推荐值</p>
-<p>场景	shard 大小
-高频写入日志	20–30 GB
-普通日志	30–40 GB
-搜索型业务	30–50 GB
-冷数据	50–100 GB</p>
-<p>⸻</p>
-<p>七、集群维度的约束（非常重要）</p>
-<p>1️⃣ 每个节点 shard 数上限</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;rollover&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;max_size&#34;</span><span class="p">:</span> <span class="s2">&#34;30gb&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;max_age&#34;</span><span class="p">:</span> <span class="s2">&#34;1d&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>好处：</p>
+<ul>
+<li>分片数自动控制</li>
+<li>shard 永远不超大</li>
+<li>方便冷热分离</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六不同业务类型的-shard-推荐值"
+    >
+        六、不同业务类型的 shard 推荐值
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#六不同业务类型的-shard-推荐值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、不同业务类型的 shard 推荐值" aria-label="Anchor to: 六、不同业务类型的 shard 推荐值" href="#%e5%85%ad%e4%b8%8d%e5%90%8c%e4%b8%9a%e5%8a%a1%e7%b1%bb%e5%9e%8b%e7%9a%84-shard-%e6%8e%a8%e8%8d%90%e5%80%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>shard 大小</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>高频写入日志</td>
+          <td>20–30 GB</td>
+      </tr>
+      <tr>
+          <td>普通日志</td>
+          <td>30–40 GB</td>
+      </tr>
+      <tr>
+          <td>搜索型业务</td>
+          <td>30–50 GB</td>
+      </tr>
+      <tr>
+          <td>冷数据</td>
+          <td>50–100 GB</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七集群维度的约束非常重要"
+    >
+        七、集群维度的约束（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#七集群维度的约束非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、集群维度的约束（非常重要）" aria-label="Anchor to: 七、集群维度的约束（非常重要）" href="#%e4%b8%83%e9%9b%86%e7%be%a4%e7%bb%b4%e5%ba%a6%e7%9a%84%e7%ba%a6%e6%9d%9f%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-每个节点-shard-数上限"
+    >
+        1️⃣ 每个节点 shard 数上限
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#1-每个节点-shard-数上限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 每个节点 shard 数上限" aria-label="Anchor to: 1️⃣ 每个节点 shard 数上限" href="#1-%e6%af%8f%e4%b8%aa%e8%8a%82%e7%82%b9-shard-%e6%95%b0%e4%b8%8a%e9%99%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>经验值：</p>
-<p>&lt; 20 shard / GB heap</p>
-<p>例如：
-•	32GB heap → ~600 shard（含 replica）</p>
-<p>⸻</p>
-<p>2️⃣ shard 数不是越多越好</p>
-<p>shard 太多	shard 太大
-集群状态臃肿	查询慢
-内存浪费	merge 压力大
-GC 频繁	恢复慢</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&lt; 20 shard / GB heap
+</span></span></code></pre></div><p>例如：</p>
+<ul>
+<li>32GB heap -&gt; ~600 shard（含 replica）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-shard-数不是越多越好"
+    >
+        2️⃣ shard 数不是越多越好
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#2-shard-数不是越多越好" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ shard 数不是越多越好" aria-label="Anchor to: 2️⃣ shard 数不是越多越好" href="#2-shard-%e6%95%b0%e4%b8%8d%e6%98%af%e8%b6%8a%e5%a4%9a%e8%b6%8a%e5%a5%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>shard 太多</th>
+          <th>shard 太大</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>集群状态臃肿</td>
+          <td>查询慢</td>
+      </tr>
+      <tr>
+          <td>内存浪费</td>
+          <td>merge 压力大</td>
+      </tr>
+      <tr>
+          <td>GC 频繁</td>
+          <td>恢复慢</td>
+      </tr>
+  </tbody>
+</table> </div>
 <p>👉 宁可稍微大一点，也不要太多</p>
-<p>⸻</p>
-<p>八、预留未来扩展（非常关键）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八预留未来扩展非常关键"
+    >
+        八、预留未来扩展（非常关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#八预留未来扩展非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、预留未来扩展（非常关键）" aria-label="Anchor to: 八、预留未来扩展（非常关键）" href="#%e5%85%ab%e9%a2%84%e7%95%99%e6%9c%aa%e6%9d%a5%e6%89%a9%e5%b1%95%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>规划时 至少预留 30%–50% 冗余：</p>
-<p>预计一年后 1TB → 按 1.3TB 规划</p>
-<p>⸻</p>
-<p>九、如果现在规划错了怎么办？</p>
-<p>1️⃣ 使用 rollover（最优解）
-•	控制 shard 大小
-•	不再关心“单索引分片数”</p>
-<p>2️⃣ Reindex
-•	重建索引（代价高）</p>
-<p>3️⃣ Shrink（只能减不能增）</p>
-<p>POST index/_shrink/index_shrinked</p>
-<p>⸻</p>
-<p>十、面试官最爱听的回答（模板）</p>
+<p>预计一年后 1TB -&gt; 按 1.3TB 规划</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九如果现在规划错了怎么办"
+    >
+        九、如果现在规划错了怎么办？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#九如果现在规划错了怎么办" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、如果现在规划错了怎么办？" aria-label="Anchor to: 九、如果现在规划错了怎么办？" href="#%e4%b9%9d%e5%a6%82%e6%9e%9c%e7%8e%b0%e5%9c%a8%e8%a7%84%e5%88%92%e9%94%99%e4%ba%86%e6%80%8e%e4%b9%88%e5%8a%9e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-使用-rollover最优解"
+    >
+        1️⃣ 使用 rollover（最优解）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#1-使用-rollover最优解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 使用 rollover（最优解）" aria-label="Anchor to: 1️⃣ 使用 rollover（最优解）" href="#1-%e4%bd%bf%e7%94%a8-rollover%e6%9c%80%e4%bc%98%e8%a7%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>控制 shard 大小</li>
+<li>不再关心“单索引分片数”</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-reindex"
+    >
+        2️⃣ Reindex
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#2-reindex" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Reindex" aria-label="Anchor to: 2️⃣ Reindex" href="#2-reindex">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>重建索引（代价高）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-shrink只能减不能增"
+    >
+        3️⃣ Shrink（只能减不能增）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#3-shrink只能减不能增" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Shrink（只能减不能增）" aria-label="Anchor to: 3️⃣ Shrink（只能减不能增）" href="#3-shrink%e5%8f%aa%e8%83%bd%e5%87%8f%e4%b8%8d%e8%83%bd%e5%a2%9e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">POST index/_shrink/index_shrinked
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十总结"
+    >
+        十、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/#十总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、总结" aria-label="Anchor to: 十、总结" href="#%e5%8d%81%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>ElasticSearch 的主分片数一旦创建就不能修改，所以我在前期会根据
 每天数据量 × 保留周期 ÷ 单 shard 目标大小 来计算。</p>
 <p>实践中我会把单 shard 控制在 20–50GB，
 日志系统用 daily index + rollover + ILM，
 同时预留 30% 的增长空间，避免后期重建索引。</p>
-<p>⸻</p>
-<p>🔥 如果你愿意，我可以：
-•	✅ 帮你 按你真实日志量算一套 shard 规划表
-•	✅ 给你 日志 / 业务搜索 / 审计日志 三套模板
-•	✅ 给你 ES 分片规划速查表（PDF）
-•	✅ 模拟一次 面试追问 + 标准回答</p>
-<p>要哪个？</p>
 
   </article>
 
@@ -2569,6 +2772,30 @@ GC 频繁	恢复慢</p>
       
     
 
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
     
       
       

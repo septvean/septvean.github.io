@@ -12,21 +12,21 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="将其它数据源同步到 ElasticSearch
+  <meta name="description" content="如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？
+将其它数据源同步到 ElasticSearch
 这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
 ⸻
-✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解
+✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解
 没有“唯一正确方案”，只有“是否符合你业务特性”的方案
 ⸻
 一、先给你结论（选型速览）
-场景	推荐方案 一次性全量同步	Logstash JDBC 定时增量同步（低实时）	Logstash JDBC（增量字段） 准实时 / 实时同步	Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案	Elastic 官方 Connector 业务逻辑复杂	自研同步程序（Python/Java）
+场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 / 实时同步 | Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python/Java）
 ⸻
 二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景 •	数据源：MySQL / PostgreSQL •	延迟：分钟级 •	结构化表数据 •	实现简单、稳定
-⸻
+✔ 适合场景
+数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻
 🔧 同步原理
-DB → JDBC → Logstash → ElasticSearch
-通过 SQL &#43; 增量字段（如 updated_at）拉取数据。" />
+DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
 
     <title>数据同步方案 | ☘️ Septvean&#39;s Documents</title>
 
@@ -52,21 +52,21 @@ DB → JDBC → Logstash → ElasticSearch
     content="数据同步方案"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="将其它数据源同步到 ElasticSearch
+  <meta property="og:description" content="如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？
+将其它数据源同步到 ElasticSearch
 这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
 ⸻
-✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解
+✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解
 没有“唯一正确方案”，只有“是否符合你业务特性”的方案
 ⸻
 一、先给你结论（选型速览）
-场景	推荐方案 一次性全量同步	Logstash JDBC 定时增量同步（低实时）	Logstash JDBC（增量字段） 准实时 / 实时同步	Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案	Elastic 官方 Connector 业务逻辑复杂	自研同步程序（Python/Java）
+场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 / 实时同步 | Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python/Java）
 ⸻
 二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景 •	数据源：MySQL / PostgreSQL •	延迟：分钟级 •	结构化表数据 •	实现简单、稳定
-⸻
+✔ 适合场景
+数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻
 🔧 同步原理
-DB → JDBC → Logstash → ElasticSearch
-通过 SQL &#43; 增量字段（如 updated_at）拉取数据。" />
+DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/" />
 
@@ -75,21 +75,21 @@ DB → JDBC → Logstash → ElasticSearch
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="数据同步方案" />
-  <meta name="twitter:description" content="将其它数据源同步到 ElasticSearch
+  <meta name="twitter:description" content="如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？
+将其它数据源同步到 ElasticSearch
 这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
 ⸻
-✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解
+✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解
 没有“唯一正确方案”，只有“是否符合你业务特性”的方案
 ⸻
 一、先给你结论（选型速览）
-场景	推荐方案 一次性全量同步	Logstash JDBC 定时增量同步（低实时）	Logstash JDBC（增量字段） 准实时 / 实时同步	Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案	Elastic 官方 Connector 业务逻辑复杂	自研同步程序（Python/Java）
+场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 / 实时同步 | Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python/Java）
 ⸻
 二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景 •	数据源：MySQL / PostgreSQL •	延迟：分钟级 •	结构化表数据 •	实现简单、稳定
-⸻
+✔ 适合场景
+数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻
 🔧 同步原理
-DB → JDBC → Logstash → ElasticSearch
-通过 SQL &#43; 增量字段（如 updated_at）拉取数据。" />
+DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
 
 
   <script type="application/ld+json">
@@ -100,8 +100,8 @@ DB → JDBC → Logstash → ElasticSearch
       "name": "数据同步方案",
       "url" : "https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/",
       "headline": "数据同步方案",
-      "description": "将其它数据源同步到 ElasticSearch\n这是 数据库 \u002b ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。\n⸻\n✅ PostgreSQL \/ MySQL → ElasticSearch 数据同步方案全解\n没有“唯一正确方案”，只有“是否符合你业务特性”的方案\n⸻\n一、先给你结论（选型速览）\n场景\t推荐方案 一次性全量同步\tLogstash JDBC 定时增量同步（低实时）\tLogstash JDBC（增量字段） 准实时 \/ 实时同步\tDebezium（CDC）\u002b Kafka \u002b ES 云厂商 \/ 官方方案\tElastic 官方 Connector 业务逻辑复杂\t自研同步程序（Python\/Java）\n⸻\n二、方案一（最常用）：Logstash JDBC 同步\n✔ 适合场景 •\t数据源：MySQL \/ PostgreSQL •\t延迟：分钟级 •\t结构化表数据 •\t实现简单、稳定\n⸻\n🔧 同步原理\nDB → JDBC → Logstash → ElasticSearch\n通过 SQL \u002b 增量字段（如 updated_at）拉取数据。",
-      "wordCount" : "467",
+      "description": "如何将 PostgreSQL\/MySQL 中的数据同步到 ElasticSearch ？\n将其它数据源同步到 ElasticSearch\n这是 数据库 \u002b ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。\n⸻\n✅ PostgreSQL \/ MySQL -\u003e ElasticSearch 数据同步方案全解\n没有“唯一正确方案”，只有“是否符合你业务特性”的方案\n⸻\n一、先给你结论（选型速览）\n场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 \/ 实时同步 | Debezium（CDC）\u002b Kafka \u002b ES 云厂商 \/ 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python\/Java）\n⸻\n二、方案一（最常用）：Logstash JDBC 同步\n✔ 适合场景\n数据源：MySQL \/ PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻\n🔧 同步原理\nDB -\u003e JDBC -\u003e Logstash -\u003e ElasticSearch",
+      "wordCount" : "404",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -1672,6 +1672,42 @@ DB → JDBC → Logstash → ElasticSearch
               
                 <span class="flex">
                   <a
+                    href="/operations/podman/"
+                    class="gdoc-nav__entry"
+                  >
+                    Podman
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
                     href="/operations/zabbix/"
                     class="gdoc-nav__entry"
                   >
@@ -1832,30 +1868,33 @@ DB → JDBC → Logstash → ElasticSearch
   >
     <h1>数据同步方案</h1>
     
-    <p>将其它数据源同步到 ElasticSearch</p>
+    <p>如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？</p>
+<p>将其它数据源同步到 ElasticSearch</p>
 <p>这是 数据库 + ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。
 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。</p>
 <p>⸻</p>
-<p>✅ PostgreSQL / MySQL → ElasticSearch 数据同步方案全解</p>
+<p>✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解</p>
 <p>没有“唯一正确方案”，只有“是否符合你业务特性”的方案</p>
 <p>⸻</p>
 <p>一、先给你结论（选型速览）</p>
-<p>场景	推荐方案
-一次性全量同步	Logstash JDBC
-定时增量同步（低实时）	Logstash JDBC（增量字段）
-准实时 / 实时同步	Debezium（CDC）+ Kafka + ES
-云厂商 / 官方方案	Elastic 官方 Connector
-业务逻辑复杂	自研同步程序（Python/Java）</p>
+<p>场景 | 推荐方案
+一次性全量同步 | Logstash JDBC
+定时增量同步（低实时） | Logstash JDBC（增量字段）
+准实时 / 实时同步 | Debezium（CDC）+ Kafka + ES
+云厂商 / 官方方案 | Elastic 官方 Connector
+业务逻辑复杂 | 自研同步程序（Python/Java）</p>
 <p>⸻</p>
 <p>二、方案一（最常用）：Logstash JDBC 同步</p>
-<p>✔ 适合场景
-•	数据源：MySQL / PostgreSQL
-•	延迟：分钟级
-•	结构化表数据
-•	实现简单、稳定</p>
+<p>✔ 适合场景</p>
+<ul>
+<li>数据源：MySQL / PostgreSQL</li>
+<li>延迟：分钟级</li>
+<li>结构化表数据</li>
+<li>实现简单、稳定</li>
+</ul>
 <p>⸻</p>
 <p>🔧 同步原理</p>
-<p>DB → JDBC → Logstash → ElasticSearch</p>
+<p>DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch</p>
 <p>通过 SQL + 增量字段（如 updated_at）拉取数据。</p>
 <p>⸻</p>
 <p>🧱 全量同步示例</p>
@@ -1880,9 +1919,11 @@ document_id =&gt; &ldquo;%{id}&rdquo;
 <p>⸻</p>
 <p>🔁 增量同步（生产必用）</p>
 <p>条件</p>
-<p>表中必须有：
-•	updated_at
-•	或自增 id</p>
+<p>表中必须有：</p>
+<ul>
+<li>updated_at</li>
+<li>或自增 id</li>
+</ul>
 <p>jdbc {
 statement =&gt; &quot;
 SELECT * FROM users
@@ -1895,21 +1936,27 @@ schedule =&gt; &ldquo;*/5 * * * *&rdquo;
 <p>📌 Logstash 会自动保存 sql_last_value</p>
 <p>⸻</p>
 <p>⚠️ 优缺点</p>
-<p>优点
-•	简单
-•	成熟稳定
-•	运维成本低</p>
-<p>缺点
-•	延迟高
-•	无法感知 delete（需软删除）
-•	高并发更新时压力大</p>
+<p>优点</p>
+<ul>
+<li>简单</li>
+<li>成熟稳定</li>
+<li>运维成本低</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li>延迟高</li>
+<li>无法感知 delete（需软删除）</li>
+<li>高并发更新时压力大</li>
+</ul>
 <p>⸻</p>
 <p>三、方案二（生产级实时）：Debezium CDC + Kafka</p>
-<p>✔ 适合场景
-•	高实时性（秒级）
-•	数据频繁更新
-•	对一致性要求高
-•	大型系统</p>
+<p>✔ 适合场景</p>
+<ul>
+<li>高实时性（秒级）</li>
+<li>数据频繁更新</li>
+<li>对一致性要求高</li>
+<li>大型系统</li>
+</ul>
 <p>⸻</p>
 <p>🔥 同步架构</p>
 <p>Postgres/MySQL
@@ -1920,43 +1967,53 @@ Kafka
 ↓
 ElasticSearch Sink</p>
 <p>⸻</p>
-<p>🚀 优点（非常重要）
-•	基于 binlog / WAL
-•	不查数据库
-•	可感知 INSERT / UPDATE / DELETE
-•	支持回放（Kafka）
-•	真正“准实时”</p>
+<p>🚀 优点（非常重要）</p>
+<ul>
+<li>基于 binlog / WAL</li>
+<li>不查数据库</li>
+<li>可感知 INSERT / UPDATE / DELETE</li>
+<li>支持回放（Kafka）</li>
+<li>真正“准实时”</li>
+</ul>
 <p>⸻</p>
-<p>❌ 缺点
-•	架构复杂
-•	组件多（Kafka、Connect）
-•	运维成本高</p>
+<p>❌ 缺点</p>
+<ul>
+<li>架构复杂</li>
+<li>组件多（Kafka、Connect）</li>
+<li>运维成本高</li>
+</ul>
 <p>⸻</p>
-<p>☘️ 面试官喜欢的总结</p>
+<p>☘️ 总结</p>
 <p>Debezium 基于数据库日志（binlog/WAL），
 通过 CDC 捕获变更并投递到 Kafka，
 再由 Sink 写入 Elasticsearch，
 实现低延迟、高可靠、可回放的数据同步。</p>
 <p>⸻</p>
 <p>四、方案三：Elastic 官方 Connector（8.x 推荐）</p>
-<p>✔ 特点
-•	官方维护
-•	支持 MySQL / PostgreSQL
-•	支持全量 + 增量
-•	管理界面在 Kibana</p>
+<p>✔ 特点</p>
+<ul>
+<li>官方维护</li>
+<li>支持 MySQL / PostgreSQL</li>
+<li>支持全量 + 增量</li>
+<li>管理界面在 Kibana</li>
+</ul>
 <p>架构：</p>
-<p>DB → Elastic Connector → ElasticSearch</p>
-<p>优点
-•	最省心
-•	与 ES 版本强一致</p>
-<p>缺点
-•	灵活性略低
-•	高级玩法不如 Debezium</p>
+<p>DB -&gt; Elastic Connector -&gt; ElasticSearch</p>
+<p>优点</p>
+<ul>
+<li>最省心</li>
+<li>与 ES 版本强一致</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li>灵活性略低</li>
+<li>高级玩法不如 Debezium</li>
+</ul>
 <p>⸻</p>
 <p>五、方案四：自研同步程序（Python / Java）</p>
 <p>✔ 适合你（你有 FastAPI + SQLAlchemy 背景）</p>
 <p>架构</p>
-<p>DB → 程序 → ElasticSearch</p>
+<p>DB -&gt; 程序 -&gt; ElasticSearch</p>
 <p>Python 示例（简化）</p>
 <p>from elasticsearch import ElasticSearch</p>
 <p>es = ElasticSearch(&ldquo;http://localhost:9200&rdquo;)</p>
@@ -1968,51 +2025,50 @@ document={
 &ldquo;email&rdquo;: user.email
 }
 )</p>
-<p>同步策略
-•	DB 写成功 → 同步写 ES
-•	MQ / 事件驱动
-•	定时扫描补偿</p>
+<p>同步策略</p>
+<ul>
+<li>DB 写成功 -&gt; 同步写 ES</li>
+<li>MQ / 事件驱动</li>
+<li>定时扫描补偿</li>
+</ul>
 <p>⸻</p>
-<p>⚠️ 注意
-•	事务一致性要自己处理
-•	失败重试
-•	幂等（document_id 必须稳定）</p>
+<p>⚠️ 注意</p>
+<ul>
+<li>事务一致性要自己处理</li>
+<li>失败重试</li>
+<li>幂等（document_id 必须稳定）</li>
+</ul>
 <p>⸻</p>
-<p>六、DELETE 如何同步？（面试高频）</p>
-<p>方案	方式
-Logstash JDBC	软删除字段（is_deleted）
-Debezium	自动捕获 DELETE
-自研	DB delete → ES delete
-官方 Connector	支持</p>
+<p>六、DELETE 如何同步？</p>
+<p>方案 | 方式
+Logstash JDBC | 软删除字段（is_deleted）
+Debezium | 自动捕获 DELETE
+自研 | DB delete -&gt; ES delete
+官方 Connector | 支持</p>
 <p>⸻</p>
 <p>七、索引设计（非常关键）</p>
-<p>必做事项
-•	DB 主键 → ES _id
-•	keyword / text 合理 mapping
-•	不要让 ES 动态建字段（dynamic=false）
-•	使用 index template</p>
+<p>必做事项</p>
+<ul>
+<li>DB 主键 -&gt; ES _id</li>
+<li>keyword / text 合理 mapping</li>
+<li>不要让 ES 动态建字段（dynamic=false）</li>
+<li>使用 index template</li>
+</ul>
 <p>⸻</p>
-<p>八、方案对比总结（面试版）</p>
-<pre><code>•	低实时、简单同步：Logstash JDBC
-•	高实时、强一致：Debezium + Kafka
-•	官方省心：Elastic Connector
-•	强业务定制：自研同步服务
-</code></pre>
+<p>八、方案对比总结</p>
+<ul>
+<li>低实时、简单同步：Logstash JDBC</li>
+<li>高实时、强一致：Debezium + Kafka</li>
+<li>官方省心：Elastic Connector</li>
+<li>强业务定制：自研同步服务</li>
+</ul>
 <p>⸻</p>
-<p>九、面试官最满意的标准回答（模板）</p>
+<p>九、总结</p>
 <p>PostgreSQL/MySQL 同步到 Elasticsearch，
 如果是离线或分钟级同步，我会用 Logstash JDBC；
 如果是准实时、并且需要感知 delete，我会使用 Debezium 基于 binlog/WAL 的 CDC 同步；
 同时会用数据库主键作为 ES 的 document_id，
 并通过 ILM、mapping 控制索引生命周期和结构，保证长期可维护性。</p>
-<p>⸻</p>
-<p>🔥 如果你愿意，我可以继续帮你：
-•	✅ 给你一套 PostgreSQL → ES 的完整生产配置
-•	✅ FastAPI + SQLAlchemy + ES 的双写方案
-•	✅ Debezium + Kafka + ES 的详细部署
-•	✅ 同步失败/补偿/幂等设计方案
-•	✅ 面试追问模拟（高级）</p>
-<p>你想先深入哪一个？</p>
 
   </article>
 
@@ -2623,6 +2679,30 @@ Debezium	自动捕获 DELETE
       
     
 
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
     
       
       
