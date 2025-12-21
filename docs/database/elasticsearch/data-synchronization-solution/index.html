@@ -12,21 +12,8 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？
-将其它数据源同步到 ElasticSearch
-这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
-⸻
-✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解
-没有“唯一正确方案”，只有“是否符合你业务特性”的方案
-⸻
-一、先给你结论（选型速览）
-场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 / 实时同步 | Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python/Java）
-⸻
-二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景
-数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻
-🔧 同步原理
-DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
+  <meta name="description" content="没有“唯一正确方案”，只有“是否符合你业务特性”的方案。
+一、先给结论（选型速览） 场景 推荐方案 一次性全量同步 Logstash JDBC 定时增量同步（低实时） Logstash JDBC（增量字段） 准实时 / 实时同步 Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 Elastic 官方 Connector 业务逻辑复杂 自研同步程序（Python/Java） 二、方案一（最常用）：Logstash JDBC 同步 ✅ 适合场景 数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 🔧 同步原理 DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch 通过 SQL &#43; 增量字段（如 updated_at）拉取数据。" />
 
     <title>数据同步方案 | ☘️ Septvean&#39;s Documents</title>
 
@@ -52,21 +39,8 @@ DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
     content="数据同步方案"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？
-将其它数据源同步到 ElasticSearch
-这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
-⸻
-✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解
-没有“唯一正确方案”，只有“是否符合你业务特性”的方案
-⸻
-一、先给你结论（选型速览）
-场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 / 实时同步 | Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python/Java）
-⸻
-二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景
-数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻
-🔧 同步原理
-DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
+  <meta property="og:description" content="没有“唯一正确方案”，只有“是否符合你业务特性”的方案。
+一、先给结论（选型速览） 场景 推荐方案 一次性全量同步 Logstash JDBC 定时增量同步（低实时） Logstash JDBC（增量字段） 准实时 / 实时同步 Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 Elastic 官方 Connector 业务逻辑复杂 自研同步程序（Python/Java） 二、方案一（最常用）：Logstash JDBC 同步 ✅ 适合场景 数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 🔧 同步原理 DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch 通过 SQL &#43; 增量字段（如 updated_at）拉取数据。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/" />
 
@@ -75,21 +49,8 @@ DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="数据同步方案" />
-  <meta name="twitter:description" content="如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？
-将其它数据源同步到 ElasticSearch
-这是 数据库 &#43; ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。
-⸻
-✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解
-没有“唯一正确方案”，只有“是否符合你业务特性”的方案
-⸻
-一、先给你结论（选型速览）
-场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 / 实时同步 | Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python/Java）
-⸻
-二、方案一（最常用）：Logstash JDBC 同步
-✔ 适合场景
-数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻
-🔧 同步原理
-DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
+  <meta name="twitter:description" content="没有“唯一正确方案”，只有“是否符合你业务特性”的方案。
+一、先给结论（选型速览） 场景 推荐方案 一次性全量同步 Logstash JDBC 定时增量同步（低实时） Logstash JDBC（增量字段） 准实时 / 实时同步 Debezium（CDC）&#43; Kafka &#43; ES 云厂商 / 官方方案 Elastic 官方 Connector 业务逻辑复杂 自研同步程序（Python/Java） 二、方案一（最常用）：Logstash JDBC 同步 ✅ 适合场景 数据源：MySQL / PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 🔧 同步原理 DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch 通过 SQL &#43; 增量字段（如 updated_at）拉取数据。" />
 
 
   <script type="application/ld+json">
@@ -100,8 +61,8 @@ DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
       "name": "数据同步方案",
       "url" : "https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/",
       "headline": "数据同步方案",
-      "description": "如何将 PostgreSQL\/MySQL 中的数据同步到 ElasticSearch ？\n将其它数据源同步到 ElasticSearch\n这是 数据库 \u002b ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。 我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。\n⸻\n✅ PostgreSQL \/ MySQL -\u003e ElasticSearch 数据同步方案全解\n没有“唯一正确方案”，只有“是否符合你业务特性”的方案\n⸻\n一、先给你结论（选型速览）\n场景 | 推荐方案 一次性全量同步 | Logstash JDBC 定时增量同步（低实时） | Logstash JDBC（增量字段） 准实时 \/ 实时同步 | Debezium（CDC）\u002b Kafka \u002b ES 云厂商 \/ 官方方案 | Elastic 官方 Connector 业务逻辑复杂 | 自研同步程序（Python\/Java）\n⸻\n二、方案一（最常用）：Logstash JDBC 同步\n✔ 适合场景\n数据源：MySQL \/ PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 ⸻\n🔧 同步原理\nDB -\u003e JDBC -\u003e Logstash -\u003e ElasticSearch",
-      "wordCount" : "404",
+      "description": "没有“唯一正确方案”，只有“是否符合你业务特性”的方案。\n一、先给结论（选型速览） 场景 推荐方案 一次性全量同步 Logstash JDBC 定时增量同步（低实时） Logstash JDBC（增量字段） 准实时 \/ 实时同步 Debezium（CDC）\u002b Kafka \u002b ES 云厂商 \/ 官方方案 Elastic 官方 Connector 业务逻辑复杂 自研同步程序（Python\/Java） 二、方案一（最常用）：Logstash JDBC 同步 ✅ 适合场景 数据源：MySQL \/ PostgreSQL 延迟：分钟级 结构化表数据 实现简单、稳定 🔧 同步原理 DB -\u003e JDBC -\u003e Logstash -\u003e ElasticSearch 通过 SQL \u002b 增量字段（如 updated_at）拉取数据。",
+      "wordCount" : "352",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -1940,129 +1901,256 @@ DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch" />
   >
     <h1>数据同步方案</h1>
     
-    <p>如何将 PostgreSQL/MySQL 中的数据同步到 ElasticSearch ？</p>
-<p>将其它数据源同步到 ElasticSearch</p>
-<p>这是 数据库 + ElasticSearch 架构中最核心、最常被问、也最容易踩坑的问题之一。
-我给你一份 工程化、可选型、可落地、能应对面试追问 的完整答案。</p>
-<p>⸻</p>
-<p>✅ PostgreSQL / MySQL -&gt; ElasticSearch 数据同步方案全解</p>
-<p>没有“唯一正确方案”，只有“是否符合你业务特性”的方案</p>
-<p>⸻</p>
-<p>一、先给你结论（选型速览）</p>
-<p>场景 | 推荐方案
-一次性全量同步 | Logstash JDBC
-定时增量同步（低实时） | Logstash JDBC（增量字段）
-准实时 / 实时同步 | Debezium（CDC）+ Kafka + ES
-云厂商 / 官方方案 | Elastic 官方 Connector
-业务逻辑复杂 | 自研同步程序（Python/Java）</p>
-<p>⸻</p>
-<p>二、方案一（最常用）：Logstash JDBC 同步</p>
-<p>✔ 适合场景</p>
+    <p><strong>没有“唯一正确方案”，只有“是否符合你业务特性”的方案。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一先给结论选型速览"
+    >
+        一、先给结论（选型速览）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#一先给结论选型速览" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先给结论（选型速览）" aria-label="Anchor to: 一、先给结论（选型速览）" href="#%e4%b8%80%e5%85%88%e7%bb%99%e7%bb%93%e8%ae%ba%e9%80%89%e5%9e%8b%e9%80%9f%e8%a7%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>推荐方案</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>一次性全量同步</td>
+          <td>Logstash JDBC</td>
+      </tr>
+      <tr>
+          <td>定时增量同步（低实时）</td>
+          <td>Logstash JDBC（增量字段）</td>
+      </tr>
+      <tr>
+          <td>准实时 / 实时同步</td>
+          <td>Debezium（CDC）+ Kafka + ES</td>
+      </tr>
+      <tr>
+          <td>云厂商 / 官方方案</td>
+          <td>Elastic 官方 Connector</td>
+      </tr>
+      <tr>
+          <td>业务逻辑复杂</td>
+          <td>自研同步程序（Python/Java）</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二方案一最常用logstash-jdbc-同步"
+    >
+        二、方案一（最常用）：Logstash JDBC 同步
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#二方案一最常用logstash-jdbc-同步" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、方案一（最常用）：Logstash JDBC 同步" aria-label="Anchor to: 二、方案一（最常用）：Logstash JDBC 同步" href="#%e4%ba%8c%e6%96%b9%e6%a1%88%e4%b8%80%e6%9c%80%e5%b8%b8%e7%94%a8logstash-jdbc-%e5%90%8c%e6%ad%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-适合场景"
+    >
+        ✅ 适合场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-适合场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 适合场景" aria-label="Anchor to: ✅ 适合场景" href="#-%e9%80%82%e5%90%88%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>数据源：MySQL / PostgreSQL</li>
 <li>延迟：分钟级</li>
 <li>结构化表数据</li>
 <li>实现简单、稳定</li>
 </ul>
-<p>⸻</p>
-<p>🔧 同步原理</p>
-<p>DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch</p>
-<p>通过 SQL + 增量字段（如 updated_at）拉取数据。</p>
-<p>⸻</p>
-<p>🧱 全量同步示例</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-同步原理"
+    >
+        🔧 同步原理
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-同步原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔧 同步原理" aria-label="Anchor to: 🔧 同步原理" href="#-%e5%90%8c%e6%ad%a5%e5%8e%9f%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">DB -&gt; JDBC -&gt; Logstash -&gt; ElasticSearch
+</span></span></code></pre></div><p>通过 SQL + 增量字段（如 updated_at）拉取数据。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-全量同步示例"
+    >
+        🧱 全量同步示例
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-全量同步示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 全量同步示例" aria-label="Anchor to: 🧱 全量同步示例" href="#-%e5%85%a8%e9%87%8f%e5%90%8c%e6%ad%a5%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>Logstash 配置（PostgreSQL）</p>
-<p>input {
-jdbc {
-jdbc_driver_library =&gt; &ldquo;/usr/share/logstash/postgresql.jar&rdquo;
-jdbc_driver_class =&gt; &ldquo;org.postgresql.Driver&rdquo;
-jdbc_connection_string =&gt; &ldquo;jdbc:postgresql://db:5432/app&rdquo;
-jdbc_user =&gt; &ldquo;user&rdquo;
-jdbc_password =&gt; &ldquo;pwd&rdquo;
-statement =&gt; &ldquo;SELECT * FROM users&rdquo;
+<pre tabindex="0"><code class="language-conf" data-lang="conf">input {
+  jdbc {
+    jdbc_driver_library =&gt; &#34;/usr/share/logstash/postgresql.jar&#34;
+    jdbc_driver_class =&gt; &#34;org.postgresql.Driver&#34;
+    jdbc_connection_string =&gt; &#34;jdbc:postgresql://db:5432/app&#34;
+    jdbc_user =&gt; &#34;user&#34;
+    jdbc_password =&gt; &#34;pwd&#34;
+    statement =&gt; &#34;SELECT * FROM users&#34;
+  }
 }
-}</p>
-<p>output {
-elasticsearch {
-hosts =&gt; [&ldquo;http://es:9200&rdquo;]
-index =&gt; &ldquo;users&rdquo;
-document_id =&gt; &ldquo;%{id}&rdquo;
+
+output {
+  elasticsearch {
+    hosts =&gt; [&#34;http://es:9200&#34;]
+    index =&gt; &#34;users&#34;
+    document_id =&gt; &#34;%{id}&#34;
+  }
 }
-}</p>
-<p>⸻</p>
-<p>🔁 增量同步（生产必用）</p>
-<p>条件</p>
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-增量同步生产必用"
+    >
+        🔁 增量同步（生产必用）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-增量同步生产必用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔁 增量同步（生产必用）" aria-label="Anchor to: 🔁 增量同步（生产必用）" href="#-%e5%a2%9e%e9%87%8f%e5%90%8c%e6%ad%a5%e7%94%9f%e4%ba%a7%e5%bf%85%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>条件</strong></p>
 <p>表中必须有：</p>
 <ul>
 <li>updated_at</li>
 <li>或自增 id</li>
 </ul>
-<p>jdbc {
-statement =&gt; &quot;
-SELECT * FROM users
-WHERE updated_at &gt; :sql_last_value
-&quot;
-use_column_value =&gt; true
-tracking_column =&gt; &ldquo;updated_at&rdquo;
-schedule =&gt; &ldquo;*/5 * * * *&rdquo;
-}</p>
-<p>📌 Logstash 会自动保存 sql_last_value</p>
-<p>⸻</p>
-<p>⚠️ 优缺点</p>
-<p>优点</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">jdbc {
+  statement =&gt; &#34;
+    SELECT * FROM users
+    WHERE updated_at &gt; :sql_last_value
+  &#34;
+  use_column_value =&gt; true
+  tracking_column =&gt; &#34;updated_at&#34;
+  schedule =&gt; &#34;*/5 * * * *&#34;
+}
+</code></pre><p>📌 <strong>Logstash 会自动保存 sql_last_value</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-优缺点"
+    >
+        ⚠️ 优缺点
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-优缺点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚠️ 优缺点" aria-label="Anchor to: ⚠️ 优缺点" href="#-%e4%bc%98%e7%bc%ba%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>优点</strong></p>
 <ul>
 <li>简单</li>
 <li>成熟稳定</li>
 <li>运维成本低</li>
 </ul>
-<p>缺点</p>
+<p><strong>缺点</strong></p>
 <ul>
 <li>延迟高</li>
 <li>无法感知 delete（需软删除）</li>
 <li>高并发更新时压力大</li>
 </ul>
-<p>⸻</p>
-<p>三、方案二（生产级实时）：Debezium CDC + Kafka</p>
-<p>✔ 适合场景</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三方案二生产级实时debezium-cdc--kafka"
+    >
+        三、方案二（生产级实时）：Debezium CDC + Kafka
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#三方案二生产级实时debezium-cdc--kafka" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、方案二（生产级实时）：Debezium CDC &#43; Kafka" aria-label="Anchor to: 三、方案二（生产级实时）：Debezium CDC &#43; Kafka" href="#%e4%b8%89%e6%96%b9%e6%a1%88%e4%ba%8c%e7%94%9f%e4%ba%a7%e7%ba%a7%e5%ae%9e%e6%97%b6debezium-cdc--kafka">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-适合场景-1"
+    >
+        ✅ 适合场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-适合场景-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 适合场景" aria-label="Anchor to: ✅ 适合场景" href="#-%e9%80%82%e5%90%88%e5%9c%ba%e6%99%af-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>高实时性（秒级）</li>
 <li>数据频繁更新</li>
 <li>对一致性要求高</li>
 <li>大型系统</li>
 </ul>
-<p>⸻</p>
-<p>🔥 同步架构</p>
-<p>Postgres/MySQL
-↓ binlog / WAL
-Debezium
-↓
-Kafka
-↓
-ElasticSearch Sink</p>
-<p>⸻</p>
-<p>🚀 优点（非常重要）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-同步架构"
+    >
+        🔥 同步架构
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-同步架构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 同步架构" aria-label="Anchor to: 🔥 同步架构" href="#-%e5%90%8c%e6%ad%a5%e6%9e%b6%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Postgres/MySQL
+</span></span><span class="line"><span class="cl">   ↓ binlog / WAL
+</span></span><span class="line"><span class="cl">Debezium
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">Kafka
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">ElasticSearch Sink
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-优点非常重要"
+    >
+        🚀 优点（非常重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-优点非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🚀 优点（非常重要）" aria-label="Anchor to: 🚀 优点（非常重要）" href="#-%e4%bc%98%e7%82%b9%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>基于 binlog / WAL</li>
-<li>不查数据库</li>
+<li>基于 <strong>binlog / WAL</strong></li>
+<li><strong>不查数据库</strong></li>
 <li>可感知 INSERT / UPDATE / DELETE</li>
 <li>支持回放（Kafka）</li>
 <li>真正“准实时”</li>
 </ul>
-<p>⸻</p>
-<p>❌ 缺点</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-缺点"
+    >
+        ❌ 缺点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-缺点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 缺点" aria-label="Anchor to: ❌ 缺点" href="#-%e7%bc%ba%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>架构复杂</li>
 <li>组件多（Kafka、Connect）</li>
 <li>运维成本高</li>
 </ul>
-<p>⸻</p>
-<p>☘️ 总结</p>
-<p>Debezium 基于数据库日志（binlog/WAL），
-通过 CDC 捕获变更并投递到 Kafka，
-再由 Sink 写入 Elasticsearch，
-实现低延迟、高可靠、可回放的数据同步。</p>
-<p>⸻</p>
-<p>四、方案三：Elastic 官方 Connector（8.x 推荐）</p>
-<p>✔ 特点</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-总结"
+    >
+        ☘️ 总结
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ☘️ 总结" aria-label="Anchor to: ☘️ 总结" href="#-%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Debezium 基于数据库日志（binlog/WAL）
+</span></span><span class="line"><span class="cl">通过 CDC 捕获变更并投递到 Kafka
+</span></span><span class="line"><span class="cl">再由 Sink 写入 Elasticsearch
+</span></span><span class="line"><span class="cl">实现低延迟、高可靠、可回放的数据同步
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四方案三elastic-官方-connector8x-推荐"
+    >
+        四、方案三：Elastic 官方 Connector（8.x 推荐）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#四方案三elastic-官方-connector8x-推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、方案三：Elastic 官方 Connector（8.x 推荐）" aria-label="Anchor to: 四、方案三：Elastic 官方 Connector（8.x 推荐）" href="#%e5%9b%9b%e6%96%b9%e6%a1%88%e4%b8%89elastic-%e5%ae%98%e6%96%b9-connector8x-%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-特点"
+    >
+        ✅ 特点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-特点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 特点" aria-label="Anchor to: ✅ 特点" href="#-%e7%89%b9%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>官方维护</li>
 <li>支持 MySQL / PostgreSQL</li>
@@ -2070,77 +2158,168 @@ ElasticSearch Sink</p>
 <li>管理界面在 Kibana</li>
 </ul>
 <p>架构：</p>
-<p>DB -&gt; Elastic Connector -&gt; ElasticSearch</p>
-<p>优点</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">DB -&gt; Elastic Connector -&gt; ElasticSearch
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="优点"
+    >
+        优点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#优点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 优点" aria-label="Anchor to: 优点" href="#%e4%bc%98%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>最省心</li>
 <li>与 ES 版本强一致</li>
 </ul>
-<p>缺点</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="缺点"
+    >
+        缺点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#缺点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 缺点" aria-label="Anchor to: 缺点" href="#%e7%bc%ba%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>灵活性略低</li>
 <li>高级玩法不如 Debezium</li>
 </ul>
-<p>⸻</p>
-<p>五、方案四：自研同步程序（Python / Java）</p>
-<p>✔ 适合你（你有 FastAPI + SQLAlchemy 背景）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五方案四自研同步程序python--java"
+    >
+        五、方案四：自研同步程序（Python / Java）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#五方案四自研同步程序python--java" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、方案四：自研同步程序（Python / Java）" aria-label="Anchor to: 五、方案四：自研同步程序（Python / Java）" href="#%e4%ba%94%e6%96%b9%e6%a1%88%e5%9b%9b%e8%87%aa%e7%a0%94%e5%90%8c%e6%ad%a5%e7%a8%8b%e5%ba%8fpython--java">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-适合你你有-fastapi--sqlalchemy-背景"
+    >
+        ✅ 适合你（你有 FastAPI + SQLAlchemy 背景）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-适合你你有-fastapi--sqlalchemy-背景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 适合你（你有 FastAPI &#43; SQLAlchemy 背景）" aria-label="Anchor to: ✅ 适合你（你有 FastAPI &#43; SQLAlchemy 背景）" href="#-%e9%80%82%e5%90%88%e4%bd%a0%e4%bd%a0%e6%9c%89-fastapi--sqlalchemy-%e8%83%8c%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>架构</p>
-<p>DB -&gt; 程序 -&gt; ElasticSearch</p>
-<p>Python 示例（简化）</p>
-<p>from elasticsearch import ElasticSearch</p>
-<p>es = ElasticSearch(&ldquo;http://localhost:9200&rdquo;)</p>
-<p>es.index(
-index=&ldquo;users&rdquo;,
-id=user.id,
-document={
-&ldquo;name&rdquo;: user.name,
-&ldquo;email&rdquo;: user.email
-}
-)</p>
-<p>同步策略</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">DB -&gt; 程序 -&gt; ElasticSearch
+</span></span></code></pre></div><p>Python 示例（简化）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">elasticsearch</span> <span class="kn">import</span> <span class="n">ElasticSearch</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">es</span> <span class="o">=</span> <span class="n">ElasticSearch</span><span class="p">(</span><span class="s2">&#34;http://localhost:9200&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">es</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index</span><span class="o">=</span><span class="s2">&#34;users&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">document</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;email&#34;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>同步策略</p>
 <ul>
 <li>DB 写成功 -&gt; 同步写 ES</li>
 <li>MQ / 事件驱动</li>
 <li>定时扫描补偿</li>
 </ul>
-<p>⸻</p>
-<p>⚠️ 注意</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-注意"
+    >
+        ⚠️ 注意
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#-注意" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚠️ 注意" aria-label="Anchor to: ⚠️ 注意" href="#-%e6%b3%a8%e6%84%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>事务一致性要自己处理</li>
 <li>失败重试</li>
 <li>幂等（document_id 必须稳定）</li>
 </ul>
-<p>⸻</p>
-<p>六、DELETE 如何同步？</p>
-<p>方案 | 方式
-Logstash JDBC | 软删除字段（is_deleted）
-Debezium | 自动捕获 DELETE
-自研 | DB delete -&gt; ES delete
-官方 Connector | 支持</p>
-<p>⸻</p>
-<p>七、索引设计（非常关键）</p>
-<p>必做事项</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六delete-如何同步"
+    >
+        六、DELETE 如何同步？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#六delete-如何同步" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、DELETE 如何同步？" aria-label="Anchor to: 六、DELETE 如何同步？" href="#%e5%85%addelete-%e5%a6%82%e4%bd%95%e5%90%8c%e6%ad%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>方式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Logstash JDBC</td>
+          <td>软删除字段（is_deleted）</td>
+      </tr>
+      <tr>
+          <td>Debezium</td>
+          <td>自动捕获 DELETE</td>
+      </tr>
+      <tr>
+          <td>自研</td>
+          <td>DB delete -&gt; ES delete</td>
+      </tr>
+      <tr>
+          <td>官方 Connector</td>
+          <td>支持</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七索引设计非常关键"
+    >
+        七、索引设计（非常关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#七索引设计非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、索引设计（非常关键）" aria-label="Anchor to: 七、索引设计（非常关键）" href="#%e4%b8%83%e7%b4%a2%e5%bc%95%e8%ae%be%e8%ae%a1%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>必做事项</strong></p>
 <ul>
 <li>DB 主键 -&gt; ES _id</li>
 <li>keyword / text 合理 mapping</li>
 <li>不要让 ES 动态建字段（dynamic=false）</li>
 <li>使用 index template</li>
 </ul>
-<p>⸻</p>
-<p>八、方案对比总结</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八方案对比总结"
+    >
+        八、方案对比总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#八方案对比总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、方案对比总结" aria-label="Anchor to: 八、方案对比总结" href="#%e5%85%ab%e6%96%b9%e6%a1%88%e5%af%b9%e6%af%94%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>低实时、简单同步：Logstash JDBC</li>
-<li>高实时、强一致：Debezium + Kafka</li>
-<li>官方省心：Elastic Connector</li>
-<li>强业务定制：自研同步服务</li>
+<li><strong>低实时、简单同步</strong>：Logstash JDBC</li>
+<li><strong>高实时、强一致</strong>：Debezium + Kafka</li>
+<li><strong>官方省心</strong>：Elastic Connector</li>
+<li><strong>强业务定制</strong>：自研同步服务</li>
 </ul>
-<p>⸻</p>
-<p>九、总结</p>
-<p>PostgreSQL/MySQL 同步到 Elasticsearch，
-如果是离线或分钟级同步，我会用 Logstash JDBC；
-如果是准实时、并且需要感知 delete，我会使用 Debezium 基于 binlog/WAL 的 CDC 同步；
-同时会用数据库主键作为 ES 的 document_id，
-并通过 ILM、mapping 控制索引生命周期和结构，保证长期可维护性。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九总结"
+    >
+        九、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/elasticsearch/data-synchronization-solution/#九总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、总结" aria-label="Anchor to: 九、总结" href="#%e4%b9%9d%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL/MySQL 同步到 Elasticsearch：</p>
+<ul>
+<li>如果是离线或分钟级同步，推荐使用 Logstash JDBC</li>
+<li>如果是准实时、并且需要感知 delete，推荐使用 Debezium 基于 binlog/WAL 的 CDC 同步</li>
+</ul>
+<p>用数据库主键作为 ES 的 document_id。</p>
+<p>通过 ILM、mapping 控制索引生命周期和结构，保证长期可维护性。</p>
 
   </article>
 
