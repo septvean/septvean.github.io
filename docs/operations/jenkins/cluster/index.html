@@ -15,7 +15,7 @@
   <meta name="description" content="下面是一份 企业级 Jenkins 集群（Master &#43; Agent &#43; 高可用 &#43; Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。
 1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） &#43; 多个 Agents
 目的：
-分布式执行构建任务 解耦 UI / 调度 和 构建 支持大型并发 CI/CD 隔离构建环境（Java/Python/Node/Docker/K8s） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 &#43; 管理 UI”。
+分布式执行构建任务 解耦 UI / 调度 和 构建 支持大型并发 CI/CD 隔离构建环境（Java/Python/Node/Docker/K8S） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 &#43; 管理 UI”。
 所有构建都应该下放到 Agents。
 2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI / 任务调度 / 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离/干净/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：" />
 
@@ -46,7 +46,7 @@
   <meta property="og:description" content="下面是一份 企业级 Jenkins 集群（Master &#43; Agent &#43; 高可用 &#43; Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。
 1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） &#43; 多个 Agents
 目的：
-分布式执行构建任务 解耦 UI / 调度 和 构建 支持大型并发 CI/CD 隔离构建环境（Java/Python/Node/Docker/K8s） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 &#43; 管理 UI”。
+分布式执行构建任务 解耦 UI / 调度 和 构建 支持大型并发 CI/CD 隔离构建环境（Java/Python/Node/Docker/K8S） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 &#43; 管理 UI”。
 所有构建都应该下放到 Agents。
 2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI / 任务调度 / 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离/干净/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：" />
 <meta property="og:type" content="article" />
@@ -60,7 +60,7 @@
   <meta name="twitter:description" content="下面是一份 企业级 Jenkins 集群（Master &#43; Agent &#43; 高可用 &#43; Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。
 1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） &#43; 多个 Agents
 目的：
-分布式执行构建任务 解耦 UI / 调度 和 构建 支持大型并发 CI/CD 隔离构建环境（Java/Python/Node/Docker/K8s） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 &#43; 管理 UI”。
+分布式执行构建任务 解耦 UI / 调度 和 构建 支持大型并发 CI/CD 隔离构建环境（Java/Python/Node/Docker/K8S） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 &#43; 管理 UI”。
 所有构建都应该下放到 Agents。
 2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI / 任务调度 / 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离/干净/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：" />
 
@@ -73,7 +73,7 @@
       "name": "Jenkins 集群（Master + Agent）",
       "url" : "https://documents.v2ep.com/operations/jenkins/cluster/",
       "headline": "Jenkins 集群（Master + Agent）",
-      "description": "下面是一份 企业级 Jenkins 集群（Master \u002b Agent \u002b 高可用 \u002b Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。\n1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） \u002b 多个 Agents\n目的：\n分布式执行构建任务 解耦 UI \/ 调度 和 构建 支持大型并发 CI\/CD 隔离构建环境（Java\/Python\/Node\/Docker\/K8s） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 \u002b 管理 UI”。\n所有构建都应该下放到 Agents。\n2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI \/ 任务调度 \/ 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网\/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离\/干净\/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：",
+      "description": "下面是一份 企业级 Jenkins 集群（Master \u002b Agent \u002b 高可用 \u002b Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。\n1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） \u002b 多个 Agents\n目的：\n分布式执行构建任务 解耦 UI \/ 调度 和 构建 支持大型并发 CI\/CD 隔离构建环境（Java\/Python\/Node\/Docker\/K8S） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 \u002b 管理 UI”。\n所有构建都应该下放到 Agents。\n2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI \/ 任务调度 \/ 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网\/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离\/干净\/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：",
       "wordCount" : "508",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
@@ -1009,10 +1009,10 @@
               
                 <span class="flex">
                   <a
-                    href="/operations/troubleshooting/"
+                    href="/operations/hardware/"
                     class="gdoc-nav__entry"
                   >
-                    Troubleshooting
+                    Hardware
                   </a>
                 </span>
               
@@ -1045,10 +1045,10 @@
               
                 <span class="flex">
                   <a
-                    href="/operations/hardware/"
+                    href="/operations/troubleshooting/"
                     class="gdoc-nav__entry"
                   >
-                    硬件
+                    Troubleshooting
                   </a>
                 </span>
               
@@ -2037,7 +2037,7 @@
 <li>分布式执行构建任务</li>
 <li>解耦 UI / 调度 和 构建</li>
 <li>支持大型并发 CI/CD</li>
-<li>隔离构建环境（Java/Python/Node/Docker/K8s）</li>
+<li>隔离构建环境（Java/Python/Node/Docker/K8S）</li>
 </ul>
 <p>Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 + 管理 UI”。</p>
 <p>所有构建都应该下放到 Agents。</p>
@@ -2176,7 +2176,7 @@
 <p>适用于：</p>
 <ul>
 <li>Agent 不能被 Master SSH</li>
-<li>网络隔离（如 K8s node、云主机）</li>
+<li>网络隔离（如 K8S node、云主机）</li>
 </ul>
 <p>Agent 机器启动：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">java -jar agent.jar <span class="se">\
@@ -2224,8 +2224,8 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>⭐ 架构图（K8s 动态 Agent）</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">                Jenkins Master（在 K8s）
+<p><strong>⭐ 架构图（K8S 动态 Agent）</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">                Jenkins Master（在 K8S）
 </span></span><span class="line"><span class="cl">                          │
 </span></span><span class="line"><span class="cl">           ┌──────────────┼─────────────┐
 </span></span><span class="line"><span class="cl">           │              │             │
@@ -2398,9 +2398,9 @@
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="方式-ck8s-statefulset-单点最常用"
     >
-        方式 C：K8s StatefulSet 单点（最常用）
+        方式 C：K8S StatefulSet 单点（最常用）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#方式-ck8s-statefulset-单点最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 C：K8s StatefulSet 单点（最常用）" aria-label="Anchor to: 方式 C：K8s StatefulSet 单点（最常用）" href="#%e6%96%b9%e5%bc%8f-ck8s-statefulset-%e5%8d%95%e7%82%b9%e6%9c%80%e5%b8%b8%e7%94%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/cluster/#方式-ck8s-statefulset-单点最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式 C：K8S StatefulSet 单点（最常用）" aria-label="Anchor to: 方式 C：K8S StatefulSet 单点（最常用）" href="#%e6%96%b9%e5%bc%8f-ck8s-statefulset-%e5%8d%95%e7%82%b9%e6%9c%80%e5%b8%b8%e7%94%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2420,8 +2420,8 @@
     </a>
 </div>
 <p><strong>Master 不执行任何构建</strong></p>
-<p><strong>全部构建都在 Agent（SSH/Docker/K8s）</strong></p>
-<p><strong>Agent 一律干净且一次性使用（强烈推荐 K8s Pod）</strong></p>
+<p><strong>全部构建都在 Agent（SSH/Docker/K8S）</strong></p>
+<p><strong>Agent 一律干净且一次性使用（强烈推荐 K8S Pod）</strong></p>
 <p><strong>Jenkinsfile 全部存 Git repo</strong></p>
 <p><strong>构建环境不装 Node/Python/Maven -&gt; 交给容器</strong></p>
 <p><strong>合理给 Agent 设置 Label，如：</strong></p>

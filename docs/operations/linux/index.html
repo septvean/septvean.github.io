@@ -13,7 +13,7 @@
 
 
   <meta name="description" content="Document List:
-Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux UnionFS Linux 网络子系统 硬件 内核 虚拟化 容器化 journal lsblk MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 数据库为什么不适合跑在容器 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
 
     <title>Linux | ☘️ Septvean&#39;s Documents</title>
 
@@ -40,7 +40,7 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="Document List:
-Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux UnionFS Linux 网络子系统 硬件 内核 虚拟化 容器化 journal lsblk MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 数据库为什么不适合跑在容器 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
 
@@ -50,7 +50,7 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Linux" />
   <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux UnionFS Linux 网络子系统 硬件 内核 虚拟化 容器化 journal lsblk MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 数据库为什么不适合跑在容器 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
 
 
   <script type="application/ld+json">
@@ -61,8 +61,8 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
       "name": "Linux",
       "url" : "https://documents.v2ep.com/operations/linux/",
       "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "29",
+      "description": "Document List:\nLinux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux UnionFS Linux 网络子系统 硬件 内核 虚拟化 容器化 journal lsblk MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 数据库为什么不适合跑在容器 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
+      "wordCount" : "48",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -997,10 +997,10 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
               
                 <span class="flex">
                   <a
-                    href="/operations/troubleshooting/"
+                    href="/operations/hardware/"
                     class="gdoc-nav__entry"
                   >
-                    Troubleshooting
+                    Hardware
                   </a>
                 </span>
               
@@ -1033,10 +1033,10 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
               
                 <span class="flex">
                   <a
-                    href="/operations/hardware/"
+                    href="/operations/troubleshooting/"
                     class="gdoc-nav__entry"
                   >
-                    硬件
+                    Troubleshooting
                   </a>
                 </span>
               
@@ -2040,7 +2040,25 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
           </li>
           <li>
               <span>
+                <a href="/operations/linux/numa/" class="gdoc-toc__entry">Linux NUMA
+                </a>
+              </span>
+          </li>
+          <li>
+              <span>
+                <a href="/operations/linux/unionfs/" class="gdoc-toc__entry">Linux UnionFS
+                </a>
+              </span>
+          </li>
+          <li>
+              <span>
                 <a href="/operations/linux/networking/" class="gdoc-toc__entry">Linux 网络子系统
+                </a>
+              </span>
+          </li>
+          <li>
+              <span>
+                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
                 </a>
               </span>
           </li>
@@ -2060,6 +2078,18 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
           <li>
               <span>
                 <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
+                </a>
+              </span>
+          </li>
+          <li>
+              <span>
+                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
+                </a>
+              </span>
+          </li>
+          <li>
+              <span>
+                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
                 </a>
               </span>
           </li>
@@ -2096,6 +2126,12 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
           <li>
               <span>
                 <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
+                </a>
+              </span>
+          </li>
+          <li>
+              <span>
+                <a href="/operations/linux/not-run-in-container/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
                 </a>
               </span>
           </li>
@@ -3295,11 +3331,11 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux 网络子系统 journal l
   
     <a
       class="gdoc-page__nav--prev flex align-center"
-      href="/operations/hardware/"
-      title="硬件"
+      href="/operations/troubleshooting/"
+      title="Troubleshooting"
     >
       <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      硬件
+      Troubleshooting
     </a>
   
 </span>

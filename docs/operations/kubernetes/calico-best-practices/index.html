@@ -14,7 +14,7 @@
 
   <meta name="description" content="下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes &#43; Calico 最佳实践》，基于 Kubernetes ≥1.33 &#43; Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。
 这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。
-🚀 Kubernetes &#43; Calico 最佳实践（K8s 1.33 / Calico 3.27&#43;）
+🚀 Kubernetes &#43; Calico 最佳实践（K8S 1.33 / Calico 3.27&#43;）
 1. CNI 网络模型选型（最关键） Calico 支持多种网络模式，但要选正确：
 🔥 最佳选型（强烈推荐）
 Dataplane：eBPF（替代 iptables）
@@ -22,7 +22,7 @@ Overlay：VXLAN &#43; eBPF NAT
 IPAM：Calico IPAM
 Routing：无 BGP（除非裸金属）
 理由：
-模式 性能 可观测性 兼容性 推荐 VXLAN &#43; eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8s 1.33 完美支持" />
+模式 性能 可观测性 兼容性 推荐 VXLAN &#43; eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8S 1.33 完美支持" />
 
     <title>Kubernetes Calico 最佳实践 | ☘️ Septvean&#39;s Documents</title>
 
@@ -50,7 +50,7 @@ Routing：无 BGP（除非裸金属）
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes &#43; Calico 最佳实践》，基于 Kubernetes ≥1.33 &#43; Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。
 这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。
-🚀 Kubernetes &#43; Calico 最佳实践（K8s 1.33 / Calico 3.27&#43;）
+🚀 Kubernetes &#43; Calico 最佳实践（K8S 1.33 / Calico 3.27&#43;）
 1. CNI 网络模型选型（最关键） Calico 支持多种网络模式，但要选正确：
 🔥 最佳选型（强烈推荐）
 Dataplane：eBPF（替代 iptables）
@@ -58,7 +58,7 @@ Overlay：VXLAN &#43; eBPF NAT
 IPAM：Calico IPAM
 Routing：无 BGP（除非裸金属）
 理由：
-模式 性能 可观测性 兼容性 推荐 VXLAN &#43; eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8s 1.33 完美支持" />
+模式 性能 可观测性 兼容性 推荐 VXLAN &#43; eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8S 1.33 完美支持" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/kubernetes/calico-best-practices/" />
 
@@ -69,7 +69,7 @@ Routing：无 BGP（除非裸金属）
 <meta name="twitter:title" content="Kubernetes Calico 最佳实践" />
   <meta name="twitter:description" content="下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes &#43; Calico 最佳实践》，基于 Kubernetes ≥1.33 &#43; Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。
 这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。
-🚀 Kubernetes &#43; Calico 最佳实践（K8s 1.33 / Calico 3.27&#43;）
+🚀 Kubernetes &#43; Calico 最佳实践（K8S 1.33 / Calico 3.27&#43;）
 1. CNI 网络模型选型（最关键） Calico 支持多种网络模式，但要选正确：
 🔥 最佳选型（强烈推荐）
 Dataplane：eBPF（替代 iptables）
@@ -77,7 +77,7 @@ Overlay：VXLAN &#43; eBPF NAT
 IPAM：Calico IPAM
 Routing：无 BGP（除非裸金属）
 理由：
-模式 性能 可观测性 兼容性 推荐 VXLAN &#43; eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8s 1.33 完美支持" />
+模式 性能 可观测性 兼容性 推荐 VXLAN &#43; eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8S 1.33 完美支持" />
 
 
   <script type="application/ld+json">
@@ -88,7 +88,7 @@ Routing：无 BGP（除非裸金属）
       "name": "Kubernetes Calico 最佳实践",
       "url" : "https://documents.v2ep.com/operations/kubernetes/calico-best-practices/",
       "headline": "Kubernetes Calico 最佳实践",
-      "description": "下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes \u002b Calico 最佳实践》，基于 Kubernetes ≥1.33 \u002b Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。\n这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。\n🚀 Kubernetes \u002b Calico 最佳实践（K8s 1.33 \/ Calico 3.27\u002b）\n1. CNI 网络模型选型（最关键） Calico 支持多种网络模式，但要选正确：\n🔥 最佳选型（强烈推荐）\nDataplane：eBPF（替代 iptables）\nOverlay：VXLAN \u002b eBPF NAT\nIPAM：Calico IPAM\nRouting：无 BGP（除非裸金属）\n理由：\n模式 性能 可观测性 兼容性 推荐 VXLAN \u002b eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属\/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8s 1.33 完美支持",
+      "description": "下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes \u002b Calico 最佳实践》，基于 Kubernetes ≥1.33 \u002b Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。\n这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。\n🚀 Kubernetes \u002b Calico 最佳实践（K8S 1.33 \/ Calico 3.27\u002b）\n1. CNI 网络模型选型（最关键） Calico 支持多种网络模式，但要选正确：\n🔥 最佳选型（强烈推荐）\nDataplane：eBPF（替代 iptables）\nOverlay：VXLAN \u002b eBPF NAT\nIPAM：Calico IPAM\nRouting：无 BGP（除非裸金属）\n理由：\n模式 性能 可观测性 兼容性 推荐 VXLAN \u002b eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属\/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8S 1.33 完美支持",
       "wordCount" : "486",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
@@ -1024,10 +1024,10 @@ Routing：无 BGP（除非裸金属）
               
                 <span class="flex">
                   <a
-                    href="/operations/troubleshooting/"
+                    href="/operations/hardware/"
                     class="gdoc-nav__entry"
                   >
-                    Troubleshooting
+                    Hardware
                   </a>
                 </span>
               
@@ -1060,10 +1060,10 @@ Routing：无 BGP（除非裸金属）
               
                 <span class="flex">
                   <a
-                    href="/operations/hardware/"
+                    href="/operations/troubleshooting/"
                     class="gdoc-nav__entry"
                   >
-                    硬件
+                    Troubleshooting
                   </a>
                 </span>
               
@@ -2038,7 +2038,7 @@ Routing：无 BGP（除非裸金属）
     
     <p>下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes + Calico 最佳实践》，基于 Kubernetes ≥1.33 + Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。</p>
 <p>这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。</p>
-<p>🚀 Kubernetes + Calico 最佳实践（K8s 1.33 / Calico 3.27+）</p>
+<p>🚀 Kubernetes + Calico 最佳实践（K8S 1.33 / Calico 3.27+）</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="1-cni-网络模型选型最关键"
     >
@@ -2096,7 +2096,7 @@ Routing：无 BGP（除非裸金属）
       </tr>
   </tbody>
 </table> </div>
-<p><strong>eBPF 对 K8s 1.33 完美支持</strong></p>
+<p><strong>eBPF 对 K8S 1.33 完美支持</strong></p>
 <p>能替代 kube-proxy，并大幅提升性能。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="2-calico-安装最佳实践"
