@@ -12,10 +12,9 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content=" 一、Linux 网络子系统整体架构 ┌─────────────────────────────┐ │ 应用层 │ │ nginx / ssh / mysql / curl │ └─────────────┬───────────────┘ │ socket API ┌─────────────▼───────────────┐ │ Socket 层 ｜ │ AF_INET / AF_INET6 / UNIX │ └─────────────┬───────────────┘ │ protocol ┌─────────────▼───────────────┐ │ 协议栈（TCP/IP） ｜ │ TCP / UDP / ICMP / RAW │ └─────────────┬───────────────┘ │ routing ┌─────────────▼───────────────┐ │ 路由 &amp; 邻居子系统 ｜ │ route / arp / ndp │ └─────────────┬───────────────┘ │ netfilter ┌─────────────▼───────────────┐ │ Netfilter / XDP / TC │ │ 防火墙 / NAT / 限速 | └─────────────┬───────────────┘ │ driver ┌─────────────▼───────────────┐ │ 网络设备驱动 │ │ virtio / e1000 / ixgbe │ └─────────────┬───────────────┘ │ ┌─────────────▼───────────────┐ │ 硬件（NIC） ｜ └─────────────────────────────┘ 二、Socket 层（应用与内核的接口） 1️⃣ Socket 是什么？ Socket = 应用访问网络的“文件描述符”" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux 网络子系统 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +35,19 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
     
   <meta
     property="og:title"
-    content="Linux"
+    content="Linux 网络子系统"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content=" 一、Linux 网络子系统整体架构 ┌─────────────────────────────┐ │ 应用层 │ │ nginx / ssh / mysql / curl │ └─────────────┬───────────────┘ │ socket API ┌─────────────▼───────────────┐ │ Socket 层 ｜ │ AF_INET / AF_INET6 / UNIX │ └─────────────┬───────────────┘ │ protocol ┌─────────────▼───────────────┐ │ 协议栈（TCP/IP） ｜ │ TCP / UDP / ICMP / RAW │ └─────────────┬───────────────┘ │ routing ┌─────────────▼───────────────┐ │ 路由 &amp; 邻居子系统 ｜ │ route / arp / ndp │ └─────────────┬───────────────┘ │ netfilter ┌─────────────▼───────────────┐ │ Netfilter / XDP / TC │ │ 防火墙 / NAT / 限速 | └─────────────┬───────────────┘ │ driver ┌─────────────▼───────────────┐ │ 网络设备驱动 │ │ virtio / e1000 / ixgbe │ └─────────────┬───────────────┘ │ ┌─────────────▼───────────────┐ │ 硬件（NIC） ｜ └─────────────────────────────┘ 二、Socket 层（应用与内核的接口） 1️⃣ Socket 是什么？ Socket = 应用访问网络的“文件描述符”" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/networking/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="Linux 网络子系统" />
+  <meta name="twitter:description" content=" 一、Linux 网络子系统整体架构 ┌─────────────────────────────┐ │ 应用层 │ │ nginx / ssh / mysql / curl │ └─────────────┬───────────────┘ │ socket API ┌─────────────▼───────────────┐ │ Socket 层 ｜ │ AF_INET / AF_INET6 / UNIX │ └─────────────┬───────────────┘ │ protocol ┌─────────────▼───────────────┐ │ 协议栈（TCP/IP） ｜ │ TCP / UDP / ICMP / RAW │ └─────────────┬───────────────┘ │ routing ┌─────────────▼───────────────┐ │ 路由 &amp; 邻居子系统 ｜ │ route / arp / ndp │ └─────────────┬───────────────┘ │ netfilter ┌─────────────▼───────────────┐ │ Netfilter / XDP / TC │ │ 防火墙 / NAT / 限速 | └─────────────┬───────────────┘ │ driver ┌─────────────▼───────────────┐ │ 网络设备驱动 │ │ virtio / e1000 / ixgbe │ └─────────────┬───────────────┘ │ ┌─────────────▼───────────────┐ │ 硬件（NIC） ｜ └─────────────────────────────┘ 二、Socket 层（应用与内核的接口） 1️⃣ Socket 是什么？ Socket = 应用访问网络的“文件描述符”" />
 
 
   <script type="application/ld+json">
@@ -58,16 +55,16 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "25",
+      "name": "Linux 网络子系统",
+      "url" : "https://documents.v2ep.com/operations/linux/networking/",
+      "headline": "Linux 网络子系统",
+      "description": " 一、Linux 网络子系统整体架构 ┌─────────────────────────────┐ │ 应用层 │ │ nginx \/ ssh \/ mysql \/ curl │ └─────────────┬───────────────┘ │ socket API ┌─────────────▼───────────────┐ │ Socket 层 ｜ │ AF_INET \/ AF_INET6 \/ UNIX │ └─────────────┬───────────────┘ │ protocol ┌─────────────▼───────────────┐ │ 协议栈（TCP\/IP） ｜ │ TCP \/ UDP \/ ICMP \/ RAW │ └─────────────┬───────────────┘ │ routing ┌─────────────▼───────────────┐ │ 路由 \u0026 邻居子系统 ｜ │ route \/ arp \/ ndp │ └─────────────┬───────────────┘ │ netfilter ┌─────────────▼───────────────┐ │ Netfilter \/ XDP \/ TC │ │ 防火墙 \/ NAT \/ 限速 | └─────────────┬───────────────┘ │ driver ┌─────────────▼───────────────┐ │ 网络设备驱动 │ │ virtio \/ e1000 \/ ixgbe │ └─────────────┬───────────────┘ │ ┌─────────────▼───────────────┐ │ 硬件（NIC） ｜ └─────────────────────────────┘ 二、Socket 层（应用与内核的接口） 1️⃣ Socket 是什么？ Socket = 应用访问网络的“文件描述符”",
+      "wordCount" : "397",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/networking/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +148,7 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/networking/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1078,7 +1075,7 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1980,7 +1977,15 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 网络子系统</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -1999,118 +2004,606 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Linux 网络子系统</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/networking/" class="gdoc-toc__entry">Linux 网络子系统
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一linux-网络子系统整体架构"
+    >
+        一、Linux 网络子系统整体架构
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#一linux-网络子系统整体架构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Linux 网络子系统整体架构" aria-label="Anchor to: 一、Linux 网络子系统整体架构" href="#%e4%b8%80linux-%e7%bd%91%e7%bb%9c%e5%ad%90%e7%b3%bb%e7%bb%9f%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">┌─────────────────────────────┐
+</span></span><span class="line"><span class="cl">│          应用层              │
+</span></span><span class="line"><span class="cl">│  nginx / ssh / mysql / curl │
+</span></span><span class="line"><span class="cl">└─────────────┬───────────────┘
+</span></span><span class="line"><span class="cl">              │ socket API
+</span></span><span class="line"><span class="cl">┌─────────────▼───────────────┐
+</span></span><span class="line"><span class="cl">│         Socket 层           ｜
+</span></span><span class="line"><span class="cl">│  AF_INET / AF_INET6 / UNIX  │
+</span></span><span class="line"><span class="cl">└─────────────┬───────────────┘
+</span></span><span class="line"><span class="cl">              │ protocol
+</span></span><span class="line"><span class="cl">┌─────────────▼───────────────┐
+</span></span><span class="line"><span class="cl">│       协议栈（TCP/IP）       ｜
+</span></span><span class="line"><span class="cl">│   TCP / UDP / ICMP / RAW    │
+</span></span><span class="line"><span class="cl">└─────────────┬───────────────┘
+</span></span><span class="line"><span class="cl">              │ routing
+</span></span><span class="line"><span class="cl">┌─────────────▼───────────────┐
+</span></span><span class="line"><span class="cl">│      路由 &amp; 邻居子系统        ｜
+</span></span><span class="line"><span class="cl">│     route / arp / ndp       │
+</span></span><span class="line"><span class="cl">└─────────────┬───────────────┘
+</span></span><span class="line"><span class="cl">              │ netfilter
+</span></span><span class="line"><span class="cl">┌─────────────▼───────────────┐
+</span></span><span class="line"><span class="cl">│     Netfilter / XDP / TC    │
+</span></span><span class="line"><span class="cl">│      防火墙 / NAT / 限速      |
+</span></span><span class="line"><span class="cl">└─────────────┬───────────────┘
+</span></span><span class="line"><span class="cl">              │ driver
+</span></span><span class="line"><span class="cl">┌─────────────▼───────────────┐
+</span></span><span class="line"><span class="cl">│         网络设备驱动          │
+</span></span><span class="line"><span class="cl">│    virtio / e1000 / ixgbe   │
+</span></span><span class="line"><span class="cl">└─────────────┬───────────────┘
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">┌─────────────▼───────────────┐
+</span></span><span class="line"><span class="cl">│          硬件（NIC）         ｜
+</span></span><span class="line"><span class="cl">└─────────────────────────────┘
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二socket-层应用与内核的接口"
+    >
+        二、Socket 层（应用与内核的接口）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#二socket-层应用与内核的接口" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Socket 层（应用与内核的接口）" aria-label="Anchor to: 二、Socket 层（应用与内核的接口）" href="#%e4%ba%8csocket-%e5%b1%82%e5%ba%94%e7%94%a8%e4%b8%8e%e5%86%85%e6%a0%b8%e7%9a%84%e6%8e%a5%e5%8f%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-socket-是什么"
+    >
+        1️⃣ Socket 是什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#1-socket-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Socket 是什么？" aria-label="Anchor to: 1️⃣ Socket 是什么？" href="#1-socket-%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Socket = 应用访问网络的“文件描述符”</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fd = socket(AF_INET, SOCK_STREAM, TCP)
+</span></span></code></pre></div><p>Linux 的设计哲学</p>
+<ul>
+<li><strong>一切皆文件</strong></li>
+<li>网络 = 文件描述符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ls -l /proc/<span class="nv">$$</span>/fd
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-地址族address-family"
+    >
+        2️⃣ 地址族（Address Family）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#2-地址族address-family" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 地址族（Address Family）" aria-label="Anchor to: 2️⃣ 地址族（Address Family）" href="#2-%e5%9c%b0%e5%9d%80%e6%97%8faddress-family">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>AF</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>AF_INET</td>
+          <td>IPv4</td>
+      </tr>
+      <tr>
+          <td>AF_INET6</td>
+          <td>IPv6</td>
+      </tr>
+      <tr>
+          <td>AF_UNIX</td>
+          <td>本地进程通信</td>
+      </tr>
+      <tr>
+          <td>AF_PACKET</td>
+          <td>二层抓包</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-socket-类型"
+    >
+        3️⃣ Socket 类型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#3-socket-类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Socket 类型" aria-label="Anchor to: 3️⃣ Socket 类型" href="#3-socket-%e7%b1%bb%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>用途</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>SOCK_STREAM</td>
+          <td>TCP</td>
+      </tr>
+      <tr>
+          <td>SOCK_DGRAM</td>
+          <td>UDP</td>
+      </tr>
+      <tr>
+          <td>SOCK_RAW</td>
+          <td>原始包</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三协议栈tcpip-stack"
+    >
+        三、协议栈（TCP/IP Stack）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#三协议栈tcpip-stack" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、协议栈（TCP/IP Stack）" aria-label="Anchor to: 三、协议栈（TCP/IP Stack）" href="#%e4%b8%89%e5%8d%8f%e8%ae%ae%e6%a0%88tcpip-stack">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-tcp"
+    >
+        1️⃣ TCP
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#1-tcp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ TCP" aria-label="Anchor to: 1️⃣ TCP" href="#1-tcp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>核心机制</strong></p>
+<ul>
+<li>三次握手</li>
+<li>滑动窗口</li>
+<li>重传</li>
+<li>拥塞控制（cubic / bbr）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sysctl net.ipv4.tcp_congestion_control
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-udp"
+    >
+        2️⃣ UDP
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#2-udp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ UDP" aria-label="Anchor to: 2️⃣ UDP" href="#2-udp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>无连接</li>
+<li>不保证可靠性</li>
+<li>低延迟</li>
+</ul>
+<p>典型场景：</p>
+<ul>
+<li>DNS</li>
+<li>视频</li>
+<li>日志采集</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-icmp"
+    >
+        3️⃣ ICMP
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#3-icmp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ ICMP" aria-label="Anchor to: 3️⃣ ICMP" href="#3-icmp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>ping</li>
+<li>path MTU</li>
+<li>网络错误报告</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四路由子系统routing"
+    >
+        四、路由子系统（Routing）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#四路由子系统routing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、路由子系统（Routing）" aria-label="Anchor to: 四、路由子系统（Routing）" href="#%e5%9b%9b%e8%b7%af%e7%94%b1%e5%ad%90%e7%b3%bb%e7%bb%9frouting">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-路由表"
+    >
+        1️⃣ 路由表
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#1-路由表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 路由表" aria-label="Anchor to: 1️⃣ 路由表" href="#1-%e8%b7%af%e7%94%b1%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip route
+</span></span></code></pre></div><p>路由匹配规则</p>
+<ol>
+<li>最长前缀匹配</li>
+<li>metric</li>
+<li>scope</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-多路由表policy-routing"
+    >
+        2️⃣ 多路由表（Policy Routing）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#2-多路由表policy-routing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 多路由表（Policy Routing）" aria-label="Anchor to: 2️⃣ 多路由表（Policy Routing）" href="#2-%e5%a4%9a%e8%b7%af%e7%94%b1%e8%a1%a8policy-routing">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip rule
+</span></span><span class="line"><span class="cl">ip route show table <span class="m">100</span>
+</span></span></code></pre></div><p>📌 <strong>用于多网卡 / VPN / 容器</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-邻居表arp--ndp"
+    >
+        3️⃣ 邻居表（ARP / NDP）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#3-邻居表arp--ndp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 邻居表（ARP / NDP）" aria-label="Anchor to: 3️⃣ 邻居表（ARP / NDP）" href="#3-%e9%82%bb%e5%b1%85%e8%a1%a8arp--ndp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip neigh
+</span></span></code></pre></div><ul>
+<li>IPv4 -&gt; ARP</li>
+<li>IPv6 -&gt; NDP</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五网络设备netdevice"
+    >
+        五、网络设备（Netdevice）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#五网络设备netdevice" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、网络设备（Netdevice）" aria-label="Anchor to: 五、网络设备（Netdevice）" href="#%e4%ba%94%e7%bd%91%e7%bb%9c%e8%ae%be%e5%a4%87netdevice">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-网卡类型"
+    >
+        1️⃣ 网卡类型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#1-网卡类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 网卡类型" aria-label="Anchor to: 1️⃣ 网卡类型" href="#1-%e7%bd%91%e5%8d%a1%e7%b1%bb%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>eth0</td>
+          <td>物理</td>
+      </tr>
+      <tr>
+          <td>ens33</td>
+          <td>可预测命名</td>
+      </tr>
+      <tr>
+          <td>lo</td>
+          <td>本地</td>
+      </tr>
+      <tr>
+          <td>br0</td>
+          <td>桥</td>
+      </tr>
+      <tr>
+          <td>veth</td>
+          <td>容器</td>
+      </tr>
+      <tr>
+          <td>tun/tap</td>
+          <td>VPN</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-队列与中断"
+    >
+        2️⃣ 队列与中断
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#2-队列与中断" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 队列与中断" aria-label="Anchor to: 2️⃣ 队列与中断" href="#2-%e9%98%9f%e5%88%97%e4%b8%8e%e4%b8%ad%e6%96%ad">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>TX/RX queue</li>
+<li>softirq</li>
+<li>NAPI</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /proc/interrupts
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六netfilter防火墙--nat"
+    >
+        六、Netfilter（防火墙 / NAT）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#六netfilter防火墙--nat" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Netfilter（防火墙 / NAT）" aria-label="Anchor to: 六、Netfilter（防火墙 / NAT）" href="#%e5%85%adnetfilter%e9%98%b2%e7%81%ab%e5%a2%99--nat">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-五个-hook-点"
+    >
+        1️⃣ 五个 Hook 点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#1-五个-hook-点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 五个 Hook 点" aria-label="Anchor to: 1️⃣ 五个 Hook 点" href="#1-%e4%ba%94%e4%b8%aa-hook-%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">PREROUTING
+</span></span><span class="line"><span class="cl">INPUT
+</span></span><span class="line"><span class="cl">FORWARD
+</span></span><span class="line"><span class="cl">OUTPUT
+</span></span><span class="line"><span class="cl">POSTROUTING
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-表table"
+    >
+        2️⃣ 表（Table）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#2-表table" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 表（Table）" aria-label="Anchor to: 2️⃣ 表（Table）" href="#2-%e8%a1%a8table">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>表</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>raw</td>
+          <td>连接追踪</td>
+      </tr>
+      <tr>
+          <td>mangle</td>
+          <td>修改</td>
+      </tr>
+      <tr>
+          <td>nat</td>
+          <td>地址转换</td>
+      </tr>
+      <tr>
+          <td>filter</td>
+          <td>防火墙</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-nftables-vs-iptables"
+    >
+        3️⃣ nftables vs iptables
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#3-nftables-vs-iptables" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ nftables vs iptables" aria-label="Anchor to: 3️⃣ nftables vs iptables" href="#3-nftables-vs-iptables">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>iptables</th>
+          <th>nftables</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>时代</td>
+          <td>老</td>
+          <td>新</td>
+      </tr>
+      <tr>
+          <td>性能</td>
+          <td>一般</td>
+          <td>更高</td>
+      </tr>
+      <tr>
+          <td>推荐</td>
+          <td>❌</td>
+          <td>✅</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七连接追踪conntrack"
+    >
+        七、连接追踪（conntrack）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#七连接追踪conntrack" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、连接追踪（conntrack）" aria-label="Anchor to: 七、连接追踪（conntrack）" href="#%e4%b8%83%e8%bf%9e%e6%8e%a5%e8%bf%bd%e8%b8%aaconntrack">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">conntrack -L
+</span></span></code></pre></div><ul>
+<li>NAT</li>
+<li>防火墙</li>
+<li>会话保持</li>
+</ul>
+<p>📌 conntrack 爆满 = 网络雪崩</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八traffic-controltc"
+    >
+        八、Traffic Control（TC）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#八traffic-controltc" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、Traffic Control（TC）" aria-label="Anchor to: 八、Traffic Control（TC）" href="#%e5%85%abtraffic-controltc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>内核级流量控制</strong></p>
+<ul>
+<li>限速</li>
+<li>延迟</li>
+<li>丢包</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">tc qdisc show
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九xdp--ebpf高性能网络"
+    >
+        九、XDP / eBPF（高性能网络）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#九xdp--ebpf高性能网络" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、XDP / eBPF（高性能网络）" aria-label="Anchor to: 九、XDP / eBPF（高性能网络）" href="#%e4%b9%9dxdp--ebpf%e9%ab%98%e6%80%a7%e8%83%bd%e7%bd%91%e7%bb%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>XDP</strong></p>
+<ul>
+<li>驱动层</li>
+<li>万兆 / 百万 PPS</li>
+</ul>
+<p><strong>eBPF</strong></p>
+<ul>
+<li>动态注入</li>
+<li>无需改内核</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十ipv4--ipv6-共存机制"
+    >
+        十、IPv4 / IPv6 共存机制
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#十ipv4--ipv6-共存机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、IPv4 / IPv6 共存机制" aria-label="Anchor to: 十、IPv4 / IPv6 共存机制" href="#%e5%8d%81ipv4--ipv6-%e5%85%b1%e5%ad%98%e6%9c%ba%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>dual stack</li>
+<li>IPv4-mapped IPv6</li>
+<li>IPv6 socket fallback</li>
+</ul>
+<p>📌 这也是 <strong>禁 IPv6 出问题</strong> 的根本原因之一</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一网络命名空间namespace"
+    >
+        十一、网络命名空间（Namespace）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#十一网络命名空间namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、网络命名空间（Namespace）" aria-label="Anchor to: 十一、网络命名空间（Namespace）" href="#%e5%8d%81%e4%b8%80%e7%bd%91%e7%bb%9c%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4namespace">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip netns add <span class="nb">test</span>
+</span></span><span class="line"><span class="cl">ip netns <span class="nb">exec</span> <span class="nb">test</span> ip a
+</span></span></code></pre></div><ul>
+<li>Docker</li>
+<li>K8S</li>
+<li>VPN</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二性能指标--排查"
+    >
+        十二、性能指标 &amp; 排查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#十二性能指标--排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、性能指标 &amp; 排查" aria-label="Anchor to: 十二、性能指标 &amp; 排查" href="#%e5%8d%81%e4%ba%8c%e6%80%a7%e8%83%bd%e6%8c%87%e6%a0%87--%e6%8e%92%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="常用工具"
+    >
+        常用工具
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#常用工具" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常用工具" aria-label="Anchor to: 常用工具" href="#%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>工具</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ss</td>
+          <td>连接</td>
+      </tr>
+      <tr>
+          <td>tcpdump</td>
+          <td>抓包</td>
+      </tr>
+      <tr>
+          <td>iperf</td>
+          <td>吞吐</td>
+      </tr>
+      <tr>
+          <td>ethtool</td>
+          <td>网卡</td>
+      </tr>
+      <tr>
+          <td>nstat</td>
+          <td>TCP</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="排查思路非常重要"
+    >
+        排查思路（非常重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#排查思路非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 排查思路（非常重要）" aria-label="Anchor to: 排查思路（非常重要）" href="#%e6%8e%92%e6%9f%a5%e6%80%9d%e8%b7%af%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>链路通吗？</li>
+<li>IP 对吗？</li>
+<li>路由对吗？</li>
+<li>防火墙拦了吗？</li>
+<li>内核参数异常吗？</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三发行版差异配置层"
+    >
+        十三、发行版差异（配置层）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#十三发行版差异配置层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、发行版差异（配置层）" aria-label="Anchor to: 十三、发行版差异（配置层）" href="#%e5%8d%81%e4%b8%89%e5%8f%91%e8%a1%8c%e7%89%88%e5%b7%ae%e5%bc%82%e9%85%8d%e7%bd%ae%e5%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>RHEL / AlmaLinux</th>
+          <th>Debian / Ubuntu</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>网络管理</td>
+          <td>NetworkManager</td>
+          <td>netplan</td>
+      </tr>
+      <tr>
+          <td>防火墙</td>
+          <td>nftables / firewalld</td>
+          <td>nftables</td>
+      </tr>
+      <tr>
+          <td>DNS</td>
+          <td>systemd-resolved</td>
+          <td>resolved</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四一句话总结"
+    >
+        十四、一句话总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/networking/#十四一句话总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、一句话总结" aria-label="Anchor to: 十四、一句话总结" href="#%e5%8d%81%e5%9b%9b%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Linux 网络不是一个模块，而是一整套从</p>
+<p>Socket -&gt; 协议栈 -&gt; 路由 -&gt; 防火墙 -&gt; 驱动 -&gt; 硬件</p>
+<p>的“数据通路系统”。</p>
 
   </article>
 
@@ -2695,9 +3188,6 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
         
 
         
-          
-          
-        
 
         
           
@@ -2719,11 +3209,6 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3280,27 +3765,9 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/hardware/"
-      title="硬件"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      硬件
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/macos/"
-      title="macOS"
-    >
-      macOS
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

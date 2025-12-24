@@ -12,10 +12,11 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="偏「体系化 &#43; 运维/架构视角」 的Linux 系统 · 核心概念 / 基础理论总览。
+覆盖 RHEL / AlmaLinux 与 Debian / Ubuntu 系列。
+一、Linux 的整体架构（从下到上） &#43;-------------------------------&#43; 应用程序 / 服务 (nginx / mysql / docker) &#43;-------------------------------&#43; 用户空间 (User Space) shell / libc / systemd &#43;-------------------------------&#43; 内核空间 (Kernel) 进程 / 内存 / 网络 / FS &#43;-------------------------------&#43; 硬件 (CPU / RAM / Disk) &#43;-------------------------------&#43; 👉 Linux ≠ 发行版" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux 核心概念 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +37,23 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
     
   <meta
     property="og:title"
-    content="Linux"
+    content="Linux 核心概念"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="偏「体系化 &#43; 运维/架构视角」 的Linux 系统 · 核心概念 / 基础理论总览。
+覆盖 RHEL / AlmaLinux 与 Debian / Ubuntu 系列。
+一、Linux 的整体架构（从下到上） &#43;-------------------------------&#43; 应用程序 / 服务 (nginx / mysql / docker) &#43;-------------------------------&#43; 用户空间 (User Space) shell / libc / systemd &#43;-------------------------------&#43; 内核空间 (Kernel) 进程 / 内存 / 网络 / FS &#43;-------------------------------&#43; 硬件 (CPU / RAM / Disk) &#43;-------------------------------&#43; 👉 Linux ≠ 发行版" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/core/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="Linux 核心概念" />
+  <meta name="twitter:description" content="偏「体系化 &#43; 运维/架构视角」 的Linux 系统 · 核心概念 / 基础理论总览。
+覆盖 RHEL / AlmaLinux 与 Debian / Ubuntu 系列。
+一、Linux 的整体架构（从下到上） &#43;-------------------------------&#43; 应用程序 / 服务 (nginx / mysql / docker) &#43;-------------------------------&#43; 用户空间 (User Space) shell / libc / systemd &#43;-------------------------------&#43; 内核空间 (Kernel) 进程 / 内存 / 网络 / FS &#43;-------------------------------&#43; 硬件 (CPU / RAM / Disk) &#43;-------------------------------&#43; 👉 Linux ≠ 发行版" />
 
 
   <script type="application/ld+json">
@@ -58,16 +61,16 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "25",
+      "name": "Linux 核心概念",
+      "url" : "https://documents.v2ep.com/operations/linux/core/",
+      "headline": "Linux 核心概念",
+      "description": "偏「体系化 \u002b 运维\/架构视角」 的Linux 系统 · 核心概念 \/ 基础理论总览。\n覆盖 RHEL \/ AlmaLinux 与 Debian \/ Ubuntu 系列。\n一、Linux 的整体架构（从下到上） \u002b-------------------------------\u002b 应用程序 \/ 服务 (nginx \/ mysql \/ docker) \u002b-------------------------------\u002b 用户空间 (User Space) shell \/ libc \/ systemd \u002b-------------------------------\u002b 内核空间 (Kernel) 进程 \/ 内存 \/ 网络 \/ FS \u002b-------------------------------\u002b 硬件 (CPU \/ RAM \/ Disk) \u002b-------------------------------\u002b 👉 Linux ≠ 发行版",
+      "wordCount" : "402",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/core/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +154,7 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/core/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1078,7 +1081,7 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1980,7 +1983,15 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 核心概念</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -1999,118 +2010,780 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Linux 核心概念</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/networking/" class="gdoc-toc__entry">Linux 网络子系统
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p><strong>偏「体系化 + 运维/架构视角」</strong> 的Linux 系统 · 核心概念 / 基础理论总览。</p>
+<p>覆盖 RHEL / AlmaLinux 与 Debian / Ubuntu 系列。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一linux-的整体架构从下到上"
+    >
+        一、Linux 的整体架构（从下到上）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#一linux-的整体架构从下到上" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Linux 的整体架构（从下到上）" aria-label="Anchor to: 一、Linux 的整体架构（从下到上）" href="#%e4%b8%80linux-%e7%9a%84%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84%e4%bb%8e%e4%b8%8b%e5%88%b0%e4%b8%8a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">        应用程序 / 服务
+</span></span><span class="line"><span class="cl">    (nginx / mysql / docker)
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">      用户空间 (User Space)
+</span></span><span class="line"><span class="cl">     shell / libc / systemd
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">        内核空间 (Kernel)
+</span></span><span class="line"><span class="cl">      进程 / 内存 / 网络 / FS
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">      硬件 (CPU / RAM / Disk)
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span></code></pre></div><p>👉 <strong>Linux ≠ 发行版</strong></p>
+<ul>
+<li>Linux：内核</li>
+<li>RHEL / Ubuntu：<strong>内核 + 工具链 + 策略集合</strong></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二内核核心子系统所有发行版共通"
+    >
+        二、内核核心子系统（所有发行版共通）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#二内核核心子系统所有发行版共通" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、内核核心子系统（所有发行版共通）" aria-label="Anchor to: 二、内核核心子系统（所有发行版共通）" href="#%e4%ba%8c%e5%86%85%e6%a0%b8%e6%a0%b8%e5%bf%83%e5%ad%90%e7%b3%bb%e7%bb%9f%e6%89%80%e6%9c%89%e5%8f%91%e8%a1%8c%e7%89%88%e5%85%b1%e9%80%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-进程管理process"
+    >
+        1️⃣ 进程管理（Process）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#1-进程管理process" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 进程管理（Process）" aria-label="Anchor to: 1️⃣ 进程管理（Process）" href="#1-%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86process">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="核心概念"
+    >
+        核心概念
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#核心概念" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心概念" aria-label="Anchor to: 核心概念" href="#%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PID / PPID</li>
+<li>fork / exec</li>
+<li>调度器（CFS）</li>
+<li>优先级（nice / prio）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="常用工具"
+    >
+        常用工具
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#常用工具" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常用工具" aria-label="Anchor to: 常用工具" href="#%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ps aux
+</span></span><span class="line"><span class="cl">top / htop
+</span></span><span class="line"><span class="cl">pstree
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-内存管理memory"
+    >
+        2️⃣ 内存管理（Memory）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#2-内存管理memory" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 内存管理（Memory）" aria-label="Anchor to: 2️⃣ 内存管理（Memory）" href="#2-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86memory">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="关键点"
+    >
+        关键点
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#关键点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键点" aria-label="Anchor to: 关键点" href="#%e5%85%b3%e9%94%ae%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>虚拟内存</li>
+<li>页（Page）</li>
+<li>缓存（Page Cache）</li>
+<li>Swap</li>
+<li>OOM Killer</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="重要概念"
+    >
+        重要概念
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#重要概念" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 重要概念" aria-label="Anchor to: 重要概念" href="#%e9%87%8d%e8%a6%81%e6%a6%82%e5%bf%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">RSS / VSZ / SHMEM
+</span></span><span class="line"><span class="cl">Buffer / Cache
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="常用工具-1"
+    >
+        常用工具
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#常用工具-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常用工具" aria-label="Anchor to: 常用工具" href="#%e5%b8%b8%e7%94%a8%e5%b7%a5%e5%85%b7-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">free -m
+</span></span><span class="line"><span class="cl">vmstat
+</span></span><span class="line"><span class="cl">smem
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-文件系统vfs"
+    >
+        3️⃣ 文件系统（VFS）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#3-文件系统vfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 文件系统（VFS）" aria-label="Anchor to: 3️⃣ 文件系统（VFS）" href="#3-%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9fvfs">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="核心抽象"
+    >
+        核心抽象
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#核心抽象" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心抽象" aria-label="Anchor to: 核心抽象" href="#%e6%a0%b8%e5%bf%83%e6%8a%bd%e8%b1%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>VFS（虚拟文件系统）</li>
+<li>inode</li>
+<li>dentry</li>
+<li>superblock</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="常见-fs"
+    >
+        常见 FS
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#常见-fs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见 FS" aria-label="Anchor to: 常见 FS" href="#%e5%b8%b8%e8%a7%81-fs">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>FS</th>
+          <th>场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ext4</td>
+          <td>通用</td>
+      </tr>
+      <tr>
+          <td>xfs</td>
+          <td>大文件 / 高并发</td>
+      </tr>
+      <tr>
+          <td>overlayfs</td>
+          <td>容器</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="工具"
+    >
+        工具
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#工具" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 工具" aria-label="Anchor to: 工具" href="#%e5%b7%a5%e5%85%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">df -Th
+</span></span><span class="line"><span class="cl">df -i
+</span></span><span class="line"><span class="cl">mount
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-网络子系统networking"
+    >
+        4️⃣ 网络子系统（Networking）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#4-网络子系统networking" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 网络子系统（Networking）" aria-label="Anchor to: 4️⃣ 网络子系统（Networking）" href="#4-%e7%bd%91%e7%bb%9c%e5%ad%90%e7%b3%bb%e7%bb%9fnetworking">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="核心概念-1"
+    >
+        核心概念
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#核心概念-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心概念" aria-label="Anchor to: 核心概念" href="#%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>TCP/IP 栈</li>
+<li>Socket</li>
+<li>netfilter</li>
+<li>路由表</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="工具-1"
+    >
+        工具
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#工具-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 工具" aria-label="Anchor to: 工具" href="#%e5%b7%a5%e5%85%b7-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip a
+</span></span><span class="line"><span class="cl">ip r
+</span></span><span class="line"><span class="cl">ss -lntup
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-设备与驱动devices"
+    >
+        5️⃣ 设备与驱动（Devices）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#5-设备与驱动devices" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 设备与驱动（Devices）" aria-label="Anchor to: 5️⃣ 设备与驱动（Devices）" href="#5-%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8devices">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="关键点-1"
+    >
+        关键点
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#关键点-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键点" aria-label="Anchor to: 关键点" href="#%e5%85%b3%e9%94%ae%e7%82%b9-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>字符设备 / 块设备</li>
+<li>udev</li>
+<li>/dev</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">lsblk
+</span></span><span class="line"><span class="cl">udevadm info
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三用户空间核心组件"
+    >
+        三、用户空间核心组件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#三用户空间核心组件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、用户空间核心组件" aria-label="Anchor to: 三、用户空间核心组件" href="#%e4%b8%89%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e6%a0%b8%e5%bf%83%e7%bb%84%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-shell-与环境"
+    >
+        1️⃣ Shell 与环境
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#1-shell-与环境" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Shell 与环境" aria-label="Anchor to: 1️⃣ Shell 与环境" href="#1-shell-%e4%b8%8e%e7%8e%af%e5%a2%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>bash / sh</td>
+          <td>命令解释</td>
+      </tr>
+      <tr>
+          <td>PATH</td>
+          <td>命令查找</td>
+      </tr>
+      <tr>
+          <td>env</td>
+          <td>环境变量</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$PATH</span>
+</span></span><span class="line"><span class="cl">env
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-gnu-工具链通用"
+    >
+        2️⃣ GNU 工具链（通用）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#2-gnu-工具链通用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ GNU 工具链（通用）" aria-label="Anchor to: 2️⃣ GNU 工具链（通用）" href="#2-gnu-%e5%b7%a5%e5%85%b7%e9%93%be%e9%80%9a%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>coreutils：ls、cp、mv</li>
+<li>util-linux：mount、fdisk</li>
+<li>procps：ps、top</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四systemd现代-linux-的中枢神经"
+    >
+        四、systemd（现代 Linux 的“中枢神经”）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#四systemd现代-linux-的中枢神经" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、systemd（现代 Linux 的“中枢神经”）" aria-label="Anchor to: 四、systemd（现代 Linux 的“中枢神经”）" href="#%e5%9b%9bsystemd%e7%8e%b0%e4%bb%a3-linux-%e7%9a%84%e4%b8%ad%e6%9e%a2%e7%a5%9e%e7%bb%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd 管什么？</strong></p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>模块</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>systemd</td>
+          <td>init</td>
+      </tr>
+      <tr>
+          <td>journald</td>
+          <td>日志</td>
+      </tr>
+      <tr>
+          <td>networkd</td>
+          <td>网络</td>
+      </tr>
+      <tr>
+          <td>resolved</td>
+          <td>DNS</td>
+      </tr>
+      <tr>
+          <td>timedated</td>
+          <td>时间</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p><strong>target ≈ runlevel</strong></p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>target</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>multi-user.target</td>
+          <td>服务器模式</td>
+      </tr>
+      <tr>
+          <td>graphical.target</td>
+          <td>桌面</td>
+      </tr>
+      <tr>
+          <td>rescue.target</td>
+          <td>单用户</td>
+      </tr>
+      <tr>
+          <td>emergency.target</td>
+          <td>紧急</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五软件包管理发行版差异重点"
+    >
+        五、软件包管理（发行版差异重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#五软件包管理发行版差异重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、软件包管理（发行版差异重点）" aria-label="Anchor to: 五、软件包管理（发行版差异重点）" href="#%e4%ba%94%e8%bd%af%e4%bb%b6%e5%8c%85%e7%ae%a1%e7%90%86%e5%8f%91%e8%a1%8c%e7%89%88%e5%b7%ae%e5%bc%82%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rhel--almalinux"
+    >
+        RHEL / AlmaLinux
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#rhel--almalinux" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RHEL / AlmaLinux" aria-label="Anchor to: RHEL / AlmaLinux" href="#rhel--almalinux">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>工具</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>包管理</td>
+          <td>rpm</td>
+      </tr>
+      <tr>
+          <td>前端</td>
+          <td>dnf</td>
+      </tr>
+      <tr>
+          <td>仓库</td>
+          <td>BaseOS / AppStream</td>
+      </tr>
+      <tr>
+          <td>第三方</td>
+          <td>EPEL</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dnf install nginx
+</span></span><span class="line"><span class="cl">dnf update
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="debian--ubuntu"
+    >
+        Debian / Ubuntu
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#debian--ubuntu" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Debian / Ubuntu" aria-label="Anchor to: Debian / Ubuntu" href="#debian--ubuntu">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>工具</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>包管理</td>
+          <td>dpkg</td>
+      </tr>
+      <tr>
+          <td>前端</td>
+          <td>apt</td>
+      </tr>
+      <tr>
+          <td>仓库</td>
+          <td>main / universe</td>
+      </tr>
+      <tr>
+          <td>第三方</td>
+          <td>PPA</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">apt install nginx
+</span></span><span class="line"><span class="cl">apt upgrade
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六文件系统层级fhs"
+    >
+        六、文件系统层级（FHS）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#六文件系统层级fhs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、文件系统层级（FHS）" aria-label="Anchor to: 六、文件系统层级（FHS）" href="#%e5%85%ad%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e5%b1%82%e7%ba%a7fhs">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>目录</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>/</td>
+          <td>根</td>
+      </tr>
+      <tr>
+          <td>/etc</td>
+          <td>配置</td>
+      </tr>
+      <tr>
+          <td>/var</td>
+          <td>变化数据</td>
+      </tr>
+      <tr>
+          <td>/usr</td>
+          <td>程序</td>
+      </tr>
+      <tr>
+          <td>/bin /sbin</td>
+          <td>基础命令</td>
+      </tr>
+      <tr>
+          <td>/proc</td>
+          <td>进程</td>
+      </tr>
+      <tr>
+          <td>/sys</td>
+          <td>内核接口</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七权限与安全模型"
+    >
+        七、权限与安全模型
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#七权限与安全模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、权限与安全模型" aria-label="Anchor to: 七、权限与安全模型" href="#%e4%b8%83%e6%9d%83%e9%99%90%e4%b8%8e%e5%ae%89%e5%85%a8%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-用户--组--权限"
+    >
+        1️⃣ 用户 / 组 / 权限
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#1-用户--组--权限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 用户 / 组 / 权限" aria-label="Anchor to: 1️⃣ 用户 / 组 / 权限" href="#1-%e7%94%a8%e6%88%b7--%e7%bb%84--%e6%9d%83%e9%99%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">rwx rwx rwx
+</span></span></code></pre></div><ul>
+<li>UID / GID</li>
+<li>suid / sgid / sticky</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-pam"
+    >
+        2️⃣ PAM
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#2-pam" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ PAM" aria-label="Anchor to: 2️⃣ PAM" href="#2-pam">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>登录认证</li>
+<li>sudo</li>
+<li>ssh</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-mac"
+    >
+        3️⃣ MAC
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#3-mac" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ MAC" aria-label="Anchor to: 3️⃣ MAC" href="#3-mac">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>系统</th>
+          <th>发行版</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>SELinux</td>
+          <td>RHEL / AlmaLinux</td>
+      </tr>
+      <tr>
+          <td>AppArmor</td>
+          <td>Ubuntu</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八启动流程bios---shell"
+    >
+        八、启动流程（BIOS -&gt; Shell）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#八启动流程bios---shell" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、启动流程（BIOS -&gt; Shell）" aria-label="Anchor to: 八、启动流程（BIOS -&gt; Shell）" href="#%e5%85%ab%e5%90%af%e5%8a%a8%e6%b5%81%e7%a8%8bbios---shell">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">BIOS/UEFI
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">GRUB
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Kernel
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">initramfs
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">systemd
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">services
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九日志体系"
+    >
+        九、日志体系
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#九日志体系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、日志体系" aria-label="Anchor to: 九、日志体系" href="#%e4%b9%9d%e6%97%a5%e5%bf%97%e4%bd%93%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>系统</th>
+          <th>日志</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>journal</td>
+          <td>systemd</td>
+      </tr>
+      <tr>
+          <td>rsyslog</td>
+          <td>传统</td>
+      </tr>
+      <tr>
+          <td>/var/log</td>
+          <td>文本</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">journalctl
+</span></span><span class="line"><span class="cl">journalctl -u sshd
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十网络配置差异"
+    >
+        十、网络配置差异
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#十网络配置差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、网络配置差异" aria-label="Anchor to: 十、网络配置差异" href="#%e5%8d%81%e7%bd%91%e7%bb%9c%e9%85%8d%e7%bd%ae%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rhel--almalinux-1"
+    >
+        RHEL / AlmaLinux
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#rhel--almalinux-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RHEL / AlmaLinux" aria-label="Anchor to: RHEL / AlmaLinux" href="#rhel--almalinux-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>NetworkManager</li>
+<li>nmcli</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="debian--ubuntu-1"
+    >
+        Debian / Ubuntu
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#debian--ubuntu-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Debian / Ubuntu" aria-label="Anchor to: Debian / Ubuntu" href="#debian--ubuntu-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>netplan</li>
+<li>systemd-networkd</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一容器与虚拟化基础"
+    >
+        十一、容器与虚拟化基础
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#十一容器与虚拟化基础" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、容器与虚拟化基础" aria-label="Anchor to: 十一、容器与虚拟化基础" href="#%e5%8d%81%e4%b8%80%e5%ae%b9%e5%99%a8%e4%b8%8e%e8%99%9a%e6%8b%9f%e5%8c%96%e5%9f%ba%e7%a1%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>技术</th>
+          <th>核心</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>namespace</td>
+          <td>隔离</td>
+      </tr>
+      <tr>
+          <td>cgroup</td>
+          <td>资源</td>
+      </tr>
+      <tr>
+          <td>overlayfs</td>
+          <td>存储</td>
+      </tr>
+      <tr>
+          <td>KVM</td>
+          <td>虚拟化</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二资源限制与调优"
+    >
+        十二、资源限制与调优
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#十二资源限制与调优" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、资源限制与调优" aria-label="Anchor to: 十二、资源限制与调优" href="#%e5%8d%81%e4%ba%8c%e8%b5%84%e6%ba%90%e9%99%90%e5%88%b6%e4%b8%8e%e8%b0%83%e4%bc%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>ulimit</li>
+<li>cgroup</li>
+<li>sysctl</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">ulimit</span> -n
+</span></span><span class="line"><span class="cl">sysctl -a
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三发行版设计哲学差异很重要"
+    >
+        十三、发行版设计哲学差异（很重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#十三发行版设计哲学差异很重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、发行版设计哲学差异（很重要）" aria-label="Anchor to: 十三、发行版设计哲学差异（很重要）" href="#%e5%8d%81%e4%b8%89%e5%8f%91%e8%a1%8c%e7%89%88%e8%ae%be%e8%ae%a1%e5%93%b2%e5%ad%a6%e5%b7%ae%e5%bc%82%e5%be%88%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>RHEL / AlmaLinux</th>
+          <th>Debian / Ubuntu</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>稳定性</td>
+          <td>极高</td>
+          <td>高</td>
+      </tr>
+      <tr>
+          <td>更新频率</td>
+          <td>慢</td>
+          <td>快</td>
+      </tr>
+      <tr>
+          <td>默认安全</td>
+          <td>SELinux</td>
+          <td>AppArmor</td>
+      </tr>
+      <tr>
+          <td>企业支持</td>
+          <td>强</td>
+          <td>强</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四运维视角的-linux-能力模型"
+    >
+        十四、运维视角的 Linux 能力模型
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#十四运维视角的-linux-能力模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、运维视角的 Linux 能力模型" aria-label="Anchor to: 十四、运维视角的 Linux 能力模型" href="#%e5%8d%81%e5%9b%9b%e8%bf%90%e7%bb%b4%e8%a7%86%e8%a7%92%e7%9a%84-linux-%e8%83%bd%e5%8a%9b%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>可以把 Linux 能力分成 5 层：</p>
+<ol>
+<li>系统结构</li>
+<li>资源管理</li>
+<li>服务管理</li>
+<li>安全模型</li>
+<li>故障排查</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十五总结"
+    >
+        十五、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core/#十五总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、总结" aria-label="Anchor to: 十五、总结" href="#%e5%8d%81%e4%ba%94%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Linux 的本质是：<strong>内核负责“规则”，用户空间负责“使用规则”，发行版负责“默认策略”。</strong></p>
 
   </article>
 
@@ -2695,9 +3368,6 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
         
 
         
-          
-          
-        
 
         
           
@@ -2719,11 +3389,6 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3280,27 +3945,9 @@ Linux 核心概念 Linux 网络子系统 journal lsblk overlay2 RHEL 系列系�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/hardware/"
-      title="硬件"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      硬件
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/macos/"
-      title="macOS"
-    >
-      macOS
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
