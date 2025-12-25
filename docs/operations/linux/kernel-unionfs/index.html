@@ -12,12 +12,13 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="NUMA（Non-Uniform Memory Access）
-一、NUMA 是什么（一句话先立住） NUMA = 每个 CPU 有“自己更近的内存”，访问别的 CPU 内存会更慢
-和它对立的是 UMA（Uniform Memory Access）。
-二、为什么会有 NUMA？ 1️⃣ UMA 的问题（老架构） CPU0 ─┐ CPU1 ─┼── Memory CPU2 ─┤ CPU3 ─┘ 所有 CPU 共享同一内存控制器 CPU 越多 -&gt; 内存争用越严重 总线成为瓶颈 2️⃣ NUMA 的诞生（现代服务器） NUMA Node 0 NUMA Node 1 &#43;-----------&#43; &#43;-----------&#43; | CPU0 CPU1 | | CPU2 CPU3 | | Memory 0 | &lt;──QPI──&gt; | Memory 1 | &#43;-----------&#43; &#43;-----------&#43; 内存控制器集成到 CPU 每个 CPU（Socket）直接连一部分内存 CPU 访问： 本地内存 -&gt; 快 远程内存 -&gt; 慢 三、NUMA 中“慢”到底慢多少？ 大致数量级（因硬件不同而异）：" />
+  <meta name="description" content="Linux UnionFS（联合文件系统）详解。
+内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
+一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
+上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
+二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
 
-    <title>Linux NUMA | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux UnionFS | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +39,27 @@
     
   <meta
     property="og:title"
-    content="Linux NUMA"
+    content="Linux UnionFS"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="NUMA（Non-Uniform Memory Access）
-一、NUMA 是什么（一句话先立住） NUMA = 每个 CPU 有“自己更近的内存”，访问别的 CPU 内存会更慢
-和它对立的是 UMA（Uniform Memory Access）。
-二、为什么会有 NUMA？ 1️⃣ UMA 的问题（老架构） CPU0 ─┐ CPU1 ─┼── Memory CPU2 ─┤ CPU3 ─┘ 所有 CPU 共享同一内存控制器 CPU 越多 -&gt; 内存争用越严重 总线成为瓶颈 2️⃣ NUMA 的诞生（现代服务器） NUMA Node 0 NUMA Node 1 &#43;-----------&#43; &#43;-----------&#43; | CPU0 CPU1 | | CPU2 CPU3 | | Memory 0 | &lt;──QPI──&gt; | Memory 1 | &#43;-----------&#43; &#43;-----------&#43; 内存控制器集成到 CPU 每个 CPU（Socket）直接连一部分内存 CPU 访问： 本地内存 -&gt; 快 远程内存 -&gt; 慢 三、NUMA 中“慢”到底慢多少？ 大致数量级（因硬件不同而异）：" />
+  <meta property="og:description" content="Linux UnionFS（联合文件系统）详解。
+内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
+一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
+上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
+二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/numa/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/kernel-unionfs/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux NUMA" />
-  <meta name="twitter:description" content="NUMA（Non-Uniform Memory Access）
-一、NUMA 是什么（一句话先立住） NUMA = 每个 CPU 有“自己更近的内存”，访问别的 CPU 内存会更慢
-和它对立的是 UMA（Uniform Memory Access）。
-二、为什么会有 NUMA？ 1️⃣ UMA 的问题（老架构） CPU0 ─┐ CPU1 ─┼── Memory CPU2 ─┤ CPU3 ─┘ 所有 CPU 共享同一内存控制器 CPU 越多 -&gt; 内存争用越严重 总线成为瓶颈 2️⃣ NUMA 的诞生（现代服务器） NUMA Node 0 NUMA Node 1 &#43;-----------&#43; &#43;-----------&#43; | CPU0 CPU1 | | CPU2 CPU3 | | Memory 0 | &lt;──QPI──&gt; | Memory 1 | &#43;-----------&#43; &#43;-----------&#43; 内存控制器集成到 CPU 每个 CPU（Socket）直接连一部分内存 CPU 访问： 本地内存 -&gt; 快 远程内存 -&gt; 慢 三、NUMA 中“慢”到底慢多少？ 大致数量级（因硬件不同而异）：" />
+<meta name="twitter:title" content="Linux UnionFS" />
+  <meta name="twitter:description" content="Linux UnionFS（联合文件系统）详解。
+内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
+一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
+上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
+二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
 
 
   <script type="application/ld+json">
@@ -64,16 +67,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux NUMA",
-      "url" : "https://documents.v2ep.com/operations/linux/numa/",
-      "headline": "Linux NUMA",
-      "description": "NUMA（Non-Uniform Memory Access）\n一、NUMA 是什么（一句话先立住） NUMA = 每个 CPU 有“自己更近的内存”，访问别的 CPU 内存会更慢\n和它对立的是 UMA（Uniform Memory Access）。\n二、为什么会有 NUMA？ 1️⃣ UMA 的问题（老架构） CPU0 ─┐ CPU1 ─┼── Memory CPU2 ─┤ CPU3 ─┘ 所有 CPU 共享同一内存控制器 CPU 越多 -\u003e 内存争用越严重 总线成为瓶颈 2️⃣ NUMA 的诞生（现代服务器） NUMA Node 0 NUMA Node 1 \u002b-----------\u002b \u002b-----------\u002b | CPU0 CPU1 | | CPU2 CPU3 | | Memory 0 | \u003c──QPI──\u003e | Memory 1 | \u002b-----------\u002b \u002b-----------\u002b 内存控制器集成到 CPU 每个 CPU（Socket）直接连一部分内存 CPU 访问： 本地内存 -\u003e 快 远程内存 -\u003e 慢 三、NUMA 中“慢”到底慢多少？ 大致数量级（因硬件不同而异）：",
-      "wordCount" : "428",
+      "name": "Linux UnionFS",
+      "url" : "https://documents.v2ep.com/operations/linux/kernel-unionfs/",
+      "headline": "Linux UnionFS",
+      "description": "Linux UnionFS（联合文件系统）详解。\n内容：概念 -\u003e 内核实现 -\u003e 主流实现 -\u003e 行为细节 -\u003e 与容器的关系 -\u003e 性能与陷阱 -\u003e 最佳实践\n一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。\n上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）\n二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 \/ Live CD Live 系统：只读 \u002b 内存写层 回滚 \/ 快照 3️⃣ 只读根文件系统 \u002b 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch",
+      "wordCount" : "381",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/numa/"
+          "@id": "https://documents.v2ep.com/operations/linux/kernel-unionfs/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -157,7 +160,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/numa/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/kernel-unionfs/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2000,7 +2003,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux NUMA</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux UnionFS</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2021,519 +2024,581 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux NUMA</h1>
+    <h1>Linux UnionFS</h1>
     
-    <p>NUMA（Non-Uniform Memory Access）</p>
+    <p>Linux UnionFS（联合文件系统）详解。</p>
+<p>内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一numa-是什么一句话先立住"
+    <h2 id="一unionfs-是什么一句话"
     >
-        一、NUMA 是什么（一句话先立住）
+        一、UnionFS 是什么（一句话）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#一numa-是什么一句话先立住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、NUMA 是什么（一句话先立住）" aria-label="Anchor to: 一、NUMA 是什么（一句话先立住）" href="#%e4%b8%80numa-%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%80%e5%8f%a5%e8%af%9d%e5%85%88%e7%ab%8b%e4%bd%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#一unionfs-是什么一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、UnionFS 是什么（一句话）" aria-label="Anchor to: 一、UnionFS 是什么（一句话）" href="#%e4%b8%80unionfs-%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%80%e5%8f%a5%e8%af%9d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>NUMA = 每个 CPU 有“自己更近的内存”，访问别的 CPU 内存会更慢</strong></p>
-<p>和它对立的是 <strong>UMA（Uniform Memory Access）</strong>。</p>
+<p><strong>UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。</strong></p>
+<ul>
+<li>上层：可写层（upper）</li>
+<li>下层：只读层（lower）</li>
+<li>对用户呈现：<strong>一个完整目录树</strong></li>
+</ul>
+<p>📌 <strong>UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二为什么会有-numa"
+    <h2 id="二为什么需要-unionfs设计动机"
     >
-        二、为什么会有 NUMA？
+        二、为什么需要 UnionFS（设计动机）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#二为什么会有-numa" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么会有 NUMA？" aria-label="Anchor to: 二、为什么会有 NUMA？" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bc%9a%e6%9c%89-numa">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#二为什么需要-unionfs设计动机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么需要 UnionFS（设计动机）" aria-label="Anchor to: 二、为什么需要 UnionFS（设计动机）" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-unionfs%e8%ae%be%e8%ae%a1%e5%8a%a8%e6%9c%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-uma-的问题老架构"
+    <h3 id="1-镜像分层容器"
     >
-        1️⃣ UMA 的问题（老架构）
+        1️⃣ 镜像分层（容器）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#1-uma-的问题老架构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ UMA 的问题（老架构）" aria-label="Anchor to: 1️⃣ UMA 的问题（老架构）" href="#1-uma-%e7%9a%84%e9%97%ae%e9%a2%98%e8%80%81%e6%9e%b6%e6%9e%84">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#1-镜像分层容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 镜像分层（容器）" aria-label="Anchor to: 1️⃣ 镜像分层（容器）" href="#1-%e9%95%9c%e5%83%8f%e5%88%86%e5%b1%82%e5%ae%b9%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">CPU0 ─┐
-</span></span><span class="line"><span class="cl">CPU1 ─┼── Memory
-</span></span><span class="line"><span class="cl">CPU2 ─┤
-</span></span><span class="line"><span class="cl">CPU3 ─┘
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">应用层（可写）
+</span></span><span class="line"><span class="cl">---------
+</span></span><span class="line"><span class="cl">基础镜像层（只读）
+</span></span><span class="line"><span class="cl">---------
+</span></span><span class="line"><span class="cl">OS 层（只读）
 </span></span></code></pre></div><ul>
-<li>所有 CPU 共享同一内存控制器</li>
-<li>CPU 越多 -&gt; 内存争用越严重</li>
-<li>总线成为瓶颈</li>
+<li>节省空间</li>
+<li>快速创建</li>
+<li>层复用</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-numa-的诞生现代服务器"
+    <h3 id="2-系统快照--live-cd"
     >
-        2️⃣ NUMA 的诞生（现代服务器）
+        2️⃣ 系统快照 / Live CD
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#2-numa-的诞生现代服务器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ NUMA 的诞生（现代服务器）" aria-label="Anchor to: 2️⃣ NUMA 的诞生（现代服务器）" href="#2-numa-%e7%9a%84%e8%af%9e%e7%94%9f%e7%8e%b0%e4%bb%a3%e6%9c%8d%e5%8a%a1%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#2-系统快照--live-cd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 系统快照 / Live CD" aria-label="Anchor to: 2️⃣ 系统快照 / Live CD" href="#2-%e7%b3%bb%e7%bb%9f%e5%bf%ab%e7%85%a7--live-cd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">NUMA Node 0              NUMA Node 1
-</span></span><span class="line"><span class="cl">+-----------+           +-----------+
-</span></span><span class="line"><span class="cl">| CPU0 CPU1 |           | CPU2 CPU3 |
-</span></span><span class="line"><span class="cl">| Memory 0  | &lt;──QPI──&gt; | Memory 1  |
-</span></span><span class="line"><span class="cl">+-----------+           +-----------+
-</span></span></code></pre></div><ul>
-<li><strong>内存控制器集成到 CPU</strong></li>
-<li>每个 CPU（Socket）直接连一部分内存</li>
-<li>CPU 访问：
 <ul>
-<li>本地内存 -&gt; 快</li>
-<li>远程内存 -&gt; 慢</li>
+<li>Live 系统：只读 + 内存写层</li>
+<li>回滚 / 快照</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-只读根文件系统--可写覆盖"
+    >
+        3️⃣ 只读根文件系统 + 可写覆盖
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#3-只读根文件系统--可写覆盖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 只读根文件系统 &#43; 可写覆盖" aria-label="Anchor to: 3️⃣ 只读根文件系统 &#43; 可写覆盖" href="#3-%e5%8f%aa%e8%af%bb%e6%a0%b9%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f--%e5%8f%af%e5%86%99%e8%a6%86%e7%9b%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>嵌入式系统</li>
+<li>安全系统</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三unionfs-的核心概念"
+    >
+        三、UnionFS 的核心概念
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#三unionfs-的核心概念" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、UnionFS 的核心概念" aria-label="Anchor to: 三、UnionFS 的核心概念" href="#%e4%b8%89unionfs-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-branch分支"
+    >
+        1️⃣ Branch（分支）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#1-branch分支" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Branch（分支）" aria-label="Anchor to: 1️⃣ Branch（分支）" href="#1-branch%e5%88%86%e6%94%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>每一层目录叫一个 <strong>branch</strong></p>
+<ul>
+<li>lower branch：只读</li>
+<li>upper branch：可写</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-whiteout白障"
+    >
+        2️⃣ Whiteout（白障）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#2-whiteout白障" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Whiteout（白障）" aria-label="Anchor to: 2️⃣ Whiteout（白障）" href="#2-whiteout%e7%99%bd%e9%9a%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>用于“在上层删除下层文件”的特殊标记</strong></p>
+<ul>
+<li>删除 ≠ 真删除</li>
+<li>是创建 .wh.&lt;filename&gt;</li>
+</ul>
+<p>📌 <strong>这是 UnionFS 的核心魔法之一</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-copy-on-write写时复制"
+    >
+        3️⃣ Copy-on-Write（写时复制）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#3-copy-on-write写时复制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Copy-on-Write（写时复制）" aria-label="Anchor to: 3️⃣ Copy-on-Write（写时复制）" href="#3-copy-on-write%e5%86%99%e6%97%b6%e5%a4%8d%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>当你：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> hello &gt;&gt; /bin/ls
+</span></span></code></pre></div><p>实际发生的是：</p>
+<ol>
+<li>/bin/ls 从 lower copy 到 upper</li>
+<li>在 upper 中修改</li>
+<li>lower 不变</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四unionfs-的内核实现演进"
+    >
+        四、UnionFS 的内核实现演进
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#四unionfs-的内核实现演进" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、UnionFS 的内核实现演进" aria-label="Anchor to: 四、UnionFS 的内核实现演进" href="#%e5%9b%9bunionfs-%e7%9a%84%e5%86%85%e6%a0%b8%e5%ae%9e%e7%8e%b0%e6%bc%94%e8%bf%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-unionfs最早"
+    >
+        1️⃣ UnionFS（最早）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#1-unionfs最早" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ UnionFS（最早）" aria-label="Anchor to: 1️⃣ UnionFS（最早）" href="#1-unionfs%e6%9c%80%e6%97%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>外部模块</li>
+<li>稳定性一般</li>
+<li>已基本弃用</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-aufsdocker-早期"
+    >
+        2️⃣ AUFS（Docker 早期）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#2-aufsdocker-早期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ AUFS（Docker 早期）" aria-label="Anchor to: 2️⃣ AUFS（Docker 早期）" href="#2-aufsdocker-%e6%97%a9%e6%9c%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>功能强大</li>
+<li>非主线内核</li>
+<li>Ubuntu 曾长期使用</li>
+</ul>
+<p>📌 <strong>RHEL 系列从未支持 AUFS</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-overlayfs主线内核"
+    >
+        3️⃣ OverlayFS（主线内核）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#3-overlayfs主线内核" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ OverlayFS（主线内核）" aria-label="Anchor to: 3️⃣ OverlayFS（主线内核）" href="#3-overlayfs%e4%b8%bb%e7%ba%bf%e5%86%85%e6%a0%b8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>现在事实上的标准</strong></p>
+<ul>
+<li>Linux 内核原生</li>
+<li>Docker / Podman / CRI-O 默认</li>
+<li>RHEL / AlmaLinux / Rocky 全支持</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五overlayfs-详解重点"
+    >
+        五、OverlayFS 详解（重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#五overlayfs-详解重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、OverlayFS 详解（重点）" aria-label="Anchor to: 五、OverlayFS 详解（重点）" href="#%e4%ba%94overlayfs-%e8%af%a6%e8%a7%a3%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-基本结构"
+    >
+        1️⃣ 基本结构
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#1-基本结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 基本结构" aria-label="Anchor to: 1️⃣ 基本结构" href="#1-%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">lowerdir=/layers/base:/layers/app
+</span></span><span class="line"><span class="cl">upperdir=/layers/write
+</span></span><span class="line"><span class="cl">workdir=/layers/work
+</span></span></code></pre></div><p>挂载后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/merged
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-挂载命令示例"
+    >
+        2️⃣ 挂载命令示例
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#2-挂载命令示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 挂载命令示例" aria-label="Anchor to: 2️⃣ 挂载命令示例" href="#2-%e6%8c%82%e8%bd%bd%e5%91%bd%e4%bb%a4%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount -t overlay overlay <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -o <span class="nv">lowerdir</span><span class="o">=</span>lower,upperdir<span class="o">=</span>upper,workdir<span class="o">=</span>work <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    merged
+</span></span></code></pre></div><p>📌 workdir 用于原子操作（必须）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-文件访问逻辑读写流程"
+    >
+        3️⃣ 文件访问逻辑（读写流程）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#3-文件访问逻辑读写流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 文件访问逻辑（读写流程）" aria-label="Anchor to: 3️⃣ 文件访问逻辑（读写流程）" href="#3-%e6%96%87%e4%bb%b6%e8%ae%bf%e9%97%ae%e9%80%bb%e8%be%91%e8%af%bb%e5%86%99%e6%b5%81%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>读</strong>：</p>
+<ol>
+<li>upperdir</li>
+<li>从上到下依次 lowerdir</li>
+</ol>
+<p><strong>写</strong>：</p>
+<ul>
+<li>lower -&gt; copy 到 upper -&gt; 写</li>
+</ul>
+<p><strong>删</strong>：</p>
+<ul>
+<li>创建 whiteout</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六unionfs-的关键行为细节很容易踩坑"
+    >
+        六、UnionFS 的关键行为细节（很容易踩坑）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#六unionfs-的关键行为细节很容易踩坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、UnionFS 的关键行为细节（很容易踩坑）" aria-label="Anchor to: 六、UnionFS 的关键行为细节（很容易踩坑）" href="#%e5%85%adunionfs-%e7%9a%84%e5%85%b3%e9%94%ae%e8%a1%8c%e4%b8%ba%e7%bb%86%e8%8a%82%e5%be%88%e5%ae%b9%e6%98%93%e8%b8%a9%e5%9d%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-inode-不稳定"
+    >
+        1️⃣ inode 不稳定
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#1-inode-不稳定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ inode 不稳定" aria-label="Anchor to: 1️⃣ inode 不稳定" href="#1-inode-%e4%b8%8d%e7%a8%b3%e5%ae%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>同一路径</li>
+<li>不同层 inode 不同</li>
+</ul>
+<p>📌 影响：</p>
+<ul>
+<li>bind mount</li>
+<li>inode cache</li>
+<li>某些数据库</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-hardlink-受限"
+    >
+        2️⃣ hardlink 受限
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#2-hardlink-受限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ hardlink 受限" aria-label="Anchor to: 2️⃣ hardlink 受限" href="#2-hardlink-%e5%8f%97%e9%99%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>OverlayFS 对 hardlink 支持有限</li>
+<li>跨层 hardlink 基本不可用</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-rename-是伪原子"
+    >
+        3️⃣ rename 是“伪原子”
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#3-rename-是伪原子" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ rename 是“伪原子”" aria-label="Anchor to: 3️⃣ rename 是“伪原子”" href="#3-rename-%e6%98%af%e4%bc%aa%e5%8e%9f%e5%ad%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>跨层 rename 实际是：
+<ul>
+<li>copy + delete</li>
 </ul>
 </li>
 </ul>
+<p>📌 对 fsync 敏感程序危险</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三numa-中慢到底慢多少"
+    <h3 id="4-chmod--chown-行为"
     >
-        三、NUMA 中“慢”到底慢多少？
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#三numa-中慢到底慢多少" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、NUMA 中“慢”到底慢多少？" aria-label="Anchor to: 三、NUMA 中“慢”到底慢多少？" href="#%e4%b8%89numa-%e4%b8%ad%e6%85%a2%e5%88%b0%e5%ba%95%e6%85%a2%e5%a4%9a%e5%b0%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>大致数量级（因硬件不同而异）：</p>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>访问类型</th>
-          <th>延迟</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>本地内存</td>
-          <td>~70 ns</td>
-      </tr>
-      <tr>
-          <td>远程内存</td>
-          <td>~120–150 ns</td>
-      </tr>
-      <tr>
-          <td>L3 Cache</td>
-          <td>~10–15 ns</td>
-      </tr>
-      <tr>
-          <td>内存 miss + 跨 NUMA</td>
-          <td>性能断崖式下降</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>👉 <strong>数据库、缓存、中断密集型应用非常敏感</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四numa-的核心概念"
-    >
-        四、NUMA 的核心概念
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#四numa-的核心概念" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、NUMA 的核心概念" aria-label="Anchor to: 四、NUMA 的核心概念" href="#%e5%9b%9bnuma-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-numa-node"
-    >
-        1️⃣ NUMA Node
+        4️⃣ chmod / chown 行为
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#1-numa-node" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ NUMA Node" aria-label="Anchor to: 1️⃣ NUMA Node" href="#1-numa-node">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#4-chmod--chown-行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ chmod / chown 行为" aria-label="Anchor to: 4️⃣ chmod / chown 行为" href="#4-chmod--chown-%e8%a1%8c%e4%b8%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>一个 NUMA Node = 一组 CPU + 本地内存</li>
-<li>通常：
+<li>触发 COW</li>
+<li>文件被复制到 upper</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七overlayfs-与容器核心关系"
+    >
+        七、OverlayFS 与容器（核心关系）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#七overlayfs-与容器核心关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、OverlayFS 与容器（核心关系）" aria-label="Anchor to: 七、OverlayFS 与容器（核心关系）" href="#%e4%b8%83overlayfs-%e4%b8%8e%e5%ae%b9%e5%99%a8%e6%a0%b8%e5%bf%83%e5%85%b3%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-docker-overlay2-的本质"
+    >
+        1️⃣ Docker overlay2 的本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#1-docker-overlay2-的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Docker overlay2 的本质" aria-label="Anchor to: 1️⃣ Docker overlay2 的本质" href="#1-docker-overlay2-%e7%9a%84%e6%9c%ac%e8%b4%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container_rw_layer (upper)
+</span></span><span class="line"><span class="cl">--------------------------
+</span></span><span class="line"><span class="cl">image layer N
+</span></span><span class="line"><span class="cl">--------------------------
+</span></span><span class="line"><span class="cl">image layer N-1
+</span></span><span class="line"><span class="cl">--------------------------
+</span></span><span class="line"><span class="cl">base OS layer
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-为什么容器启动快"
+    >
+        2️⃣ 为什么容器启动快？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#2-为什么容器启动快" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 为什么容器启动快？" aria-label="Anchor to: 2️⃣ 为什么容器启动快？" href="#2-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e5%90%af%e5%8a%a8%e5%bf%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li><strong>1 个 CPU Socket = 1 个 NUMA Node</strong></li>
-<li>有些服务器：1 Socket = 2 NUMA Node（子 NUMA）</li>
-</ul>
-</li>
+<li>不复制 rootfs</li>
+<li>只 mount 联合视图</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-local--remote-memory"
+    <h3 id="3-为什么容器磁盘-io-抖"
     >
-        2️⃣ Local / Remote Memory
+        3️⃣ 为什么容器磁盘 IO 抖？
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#2-local--remote-memory" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Local / Remote Memory" aria-label="Anchor to: 2️⃣ Local / Remote Memory" href="#2-local--remote-memory">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#3-为什么容器磁盘-io-抖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 为什么容器磁盘 IO 抖？" aria-label="Anchor to: 3️⃣ 为什么容器磁盘 IO 抖？" href="#3-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e7%a3%81%e7%9b%98-io-%e6%8a%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Local</td>
-          <td>CPU 访问自己 Node 的内存</td>
-      </tr>
-      <tr>
-          <td>Remote</td>
-          <td>CPU 访问其它 Node 的内存</td>
-      </tr>
-  </tbody>
-</table> </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-numa-distance"
-    >
-        3️⃣ NUMA Distance
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#3-numa-distance" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ NUMA Distance" aria-label="Anchor to: 3️⃣ NUMA Distance" href="#3-numa-distance">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">numactl --hardware
-</span></span></code></pre></div><p>示例：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">node distances:
-</span></span><span class="line"><span class="cl">node   0   1
-</span></span><span class="line"><span class="cl">  0   10  20
-</span></span><span class="line"><span class="cl">  1   20  10
-</span></span></code></pre></div><ul>
-<li>数值越小 -&gt; 越快</li>
-<li>本地通常是 10</li>
+<ul>
+<li>metadata 操作多</li>
+<li>copy-up 代价大</li>
+<li>fsync 穿透层</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五linux-如何感知-numa"
+    <h2 id="八unionfs-不适合哪些场景"
     >
-        五、Linux 如何“感知” NUMA？
+        八、UnionFS 不适合哪些场景？
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#五linux-如何感知-numa" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、Linux 如何“感知” NUMA？" aria-label="Anchor to: 五、Linux 如何“感知” NUMA？" href="#%e4%ba%94linux-%e5%a6%82%e4%bd%95%e6%84%9f%e7%9f%a5-numa">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#八unionfs-不适合哪些场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、UnionFS 不适合哪些场景？" aria-label="Anchor to: 八、UnionFS 不适合哪些场景？" href="#%e5%85%abunionfs-%e4%b8%8d%e9%80%82%e5%90%88%e5%93%aa%e4%ba%9b%e5%9c%ba%e6%99%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="查看-numa-拓扑"
+    <h3 id="-数据库重点"
     >
-        查看 NUMA 拓扑
+        ❌ 数据库（重点）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#查看-numa-拓扑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看 NUMA 拓扑" aria-label="Anchor to: 查看 NUMA 拓扑" href="#%e6%9f%a5%e7%9c%8b-numa-%e6%8b%93%e6%89%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">lscpu
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">NUMA node(s):        2
-</span></span><span class="line"><span class="cl">NUMA node0 CPU(s):   0-15
-</span></span><span class="line"><span class="cl">NUMA node1 CPU(s):   16-31
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="查看-numa-内存分布"
-    >
-        查看 NUMA 内存分布
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#查看-numa-内存分布" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看 NUMA 内存分布" aria-label="Anchor to: 查看 NUMA 内存分布" href="#%e6%9f%a5%e7%9c%8b-numa-%e5%86%85%e5%ad%98%e5%88%86%e5%b8%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">numactl --hardware
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">node 0 size: 128 GB
-</span></span><span class="line"><span class="cl">node 1 size: 128 GB
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="进程的-numa-使用情况"
-    >
-        进程的 NUMA 使用情况
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#进程的-numa-使用情况" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 进程的 NUMA 使用情况" aria-label="Anchor to: 进程的 NUMA 使用情况" href="#%e8%bf%9b%e7%a8%8b%e7%9a%84-numa-%e4%bd%bf%e7%94%a8%e6%83%85%e5%86%b5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">numastat -p &lt;pid&gt;
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六numa-带来的隐性性能坑"
-    >
-        六、NUMA 带来的“隐性性能坑”
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#六numa-带来的隐性性能坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、NUMA 带来的“隐性性能坑”" aria-label="Anchor to: 六、NUMA 带来的“隐性性能坑”" href="#%e5%85%adnuma-%e5%b8%a6%e6%9d%a5%e7%9a%84%e9%9a%90%e6%80%a7%e6%80%a7%e8%83%bd%e5%9d%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-cpu-在-node0内存分配在-node1"
-    >
-        1️⃣ CPU 在 Node0，内存分配在 Node1
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#1-cpu-在-node0内存分配在-node1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ CPU 在 Node0，内存分配在 Node1" aria-label="Anchor to: 1️⃣ CPU 在 Node0，内存分配在 Node1" href="#1-cpu-%e5%9c%a8-node0%e5%86%85%e5%ad%98%e5%88%86%e9%85%8d%e5%9c%a8-node1">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#-数据库重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 数据库（重点）" aria-label="Anchor to: ❌ 数据库（重点）" href="#-%e6%95%b0%e6%8d%ae%e5%ba%93%e9%87%8d%e7%82%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <p>原因：</p>
 <ul>
-<li>进程启动在 CPU0</li>
-<li>内存由其它 CPU 触发分配（first-touch 原则）</li>
+<li>fsync 不可控</li>
+<li>rename 不安全</li>
+<li>inode 不稳定</li>
+<li>白障文件膨胀</li>
 </ul>
-<p>结果：</p>
-<p><strong>CPU 跨 NUMA 访问内存 -&gt; 延迟翻倍</strong></p>
+<p>📌 <strong>这就是 “数据库为什么不适合跑在容器” 的底层原因之一</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-中断只落在一个-numa-节点"
+    <h3 id="-高-io-小文件场景"
     >
-        2️⃣ 中断只落在一个 NUMA 节点
+        ❌ 高 IO 小文件场景
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#2-中断只落在一个-numa-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 中断只落在一个 NUMA 节点" aria-label="Anchor to: 2️⃣ 中断只落在一个 NUMA 节点" href="#2-%e4%b8%ad%e6%96%ad%e5%8f%aa%e8%90%bd%e5%9c%a8%e4%b8%80%e4%b8%aa-numa-%e8%8a%82%e7%82%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>常见于：</p>
-<ul>
-<li>网卡</li>
-<li>NVMe</li>
-<li>高速存储</li>
-</ul>
-<p>导致：</p>
-<ul>
-<li>一个 CPU/socket 被打爆</li>
-<li>另一个很闲</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-虚拟化--容器默认忽略-numa"
-    >
-        3️⃣ 虚拟化 / 容器默认“忽略 NUMA”
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#3-虚拟化--容器默认忽略-numa" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 虚拟化 / 容器默认“忽略 NUMA”" aria-label="Anchor to: 3️⃣ 虚拟化 / 容器默认“忽略 NUMA”" href="#3-%e8%99%9a%e6%8b%9f%e5%8c%96--%e5%ae%b9%e5%99%a8%e9%bb%98%e8%ae%a4%e5%bf%bd%e7%95%a5-numa">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#-高-io-小文件场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 高 IO 小文件场景" aria-label="Anchor to: ❌ 高 IO 小文件场景" href="#-%e9%ab%98-io-%e5%b0%8f%e6%96%87%e4%bb%b6%e5%9c%ba%e6%99%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>KVM / Docker 默认不绑 NUMA</li>
-<li>大内存 VM 性能极不稳定</li>
+<li>Git</li>
+<li>编译缓存</li>
+<li>npm / pip</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七linux-中的-numa-核心机制"
+    <h2 id="九性能关键点overlayfs"
     >
-        七、Linux 中的 NUMA 核心机制
+        九、性能关键点（OverlayFS）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#七linux-中的-numa-核心机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、Linux 中的 NUMA 核心机制" aria-label="Anchor to: 七、Linux 中的 NUMA 核心机制" href="#%e4%b8%83linux-%e4%b8%ad%e7%9a%84-numa-%e6%a0%b8%e5%bf%83%e6%9c%ba%e5%88%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#九性能关键点overlayfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、性能关键点（OverlayFS）" aria-label="Anchor to: 九、性能关键点（OverlayFS）" href="#%e4%b9%9d%e6%80%a7%e8%83%bd%e5%85%b3%e9%94%ae%e7%82%b9overlayfs">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-first-touch-policy非常关键"
+    <h3 id="1-metadata-开销高"
     >
-        1️⃣ First-Touch Policy（非常关键）
+        1️⃣ Metadata 开销高
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#1-first-touch-policy非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ First-Touch Policy（非常关键）" aria-label="Anchor to: 1️⃣ First-Touch Policy（非常关键）" href="#1-first-touch-policy%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#1-metadata-开销高" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Metadata 开销高" aria-label="Anchor to: 1️⃣ Metadata 开销高" href="#1-metadata-%e5%bc%80%e9%94%80%e9%ab%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>内存分配在哪个 NUMA Node，取决于“第一次写它的 CPU”</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">malloc</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="nf">memset</span><span class="p">()</span>  <span class="err">←</span> <span class="err">决定内存属于哪个</span> <span class="n">NUMA</span> <span class="n">Node</span>
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-numa-自动均衡automatic-numa-balancing"
-    >
-        2️⃣ NUMA 自动均衡（Automatic NUMA Balancing）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#2-numa-自动均衡automatic-numa-balancing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ NUMA 自动均衡（Automatic NUMA Balancing）" aria-label="Anchor to: 2️⃣ NUMA 自动均衡（Automatic NUMA Balancing）" href="#2-numa-%e8%87%aa%e5%8a%a8%e5%9d%87%e8%a1%a1automatic-numa-balancing">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /proc/sys/kernel/numa_balancing
-</span></span></code></pre></div><ul>
-<li>1：开启（默认）</li>
-<li>0：关闭</li>
-</ul>
-<p>作用：</p>
 <ul>
-<li>尝试把内存迁移到更靠近 CPU 的 Node</li>
+<li>stat</li>
+<li>readdir</li>
+<li>lookup</li>
 </ul>
-<p>⚠️ <strong>数据库场景有时反而更慢</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八numa-控制工具必会"
+    <h3 id="2-copy-up-成本不可忽视"
     >
-        八、NUMA 控制工具（必会）
+        2️⃣ Copy-up 成本不可忽视
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#2-copy-up-成本不可忽视" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Copy-up 成本不可忽视" aria-label="Anchor to: 2️⃣ Copy-up 成本不可忽视" href="#2-copy-up-%e6%88%90%e6%9c%ac%e4%b8%8d%e5%8f%af%e5%bf%bd%e8%a7%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>第一次写 = 全文件复制</li>
+<li>大文件尤其明显</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-fsync-行为复杂"
+    >
+        3️⃣ fsync 行为复杂
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#3-fsync-行为复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ fsync 行为复杂" aria-label="Anchor to: 3️⃣ fsync 行为复杂" href="#3-fsync-%e8%a1%8c%e4%b8%ba%e5%a4%8d%e6%9d%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>upper + lower 组合</li>
+<li>存储栈不透明</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十unionfs-的最佳实践"
+    >
+        十、UnionFS 的最佳实践
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#八numa-控制工具必会" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、NUMA 控制工具（必会）" aria-label="Anchor to: 八、NUMA 控制工具（必会）" href="#%e5%85%abnuma-%e6%8e%a7%e5%88%b6%e5%b7%a5%e5%85%b7%e5%bf%85%e4%bc%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#十unionfs-的最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、UnionFS 的最佳实践" aria-label="Anchor to: 十、UnionFS 的最佳实践" href="#%e5%8d%81unionfs-%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="numactl"
+    <h3 id="-容器"
     >
-        numactl
+        ✅ 容器
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#numactl" class="gdoc-page__anchor clip flex align-center" title="Anchor to: numactl" aria-label="Anchor to: numactl" href="#numactl">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 容器" aria-label="Anchor to: ✅ 容器" href="#-%e5%ae%b9%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 绑定 CPU 和内存</span>
-</span></span><span class="line"><span class="cl">numactl --cpunodebind<span class="o">=</span><span class="m">0</span> --membind<span class="o">=</span><span class="m">0</span> myapp
+<ul>
+<li>rootfs：overlay2</li>
+<li>数据目录：<strong>bind mount / volume</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">-v /data/mysql:/var/lib/mysql
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="taskset只绑-cpu不绑内存"
+    <h3 id="-系统设计"
     >
-        taskset（只绑 CPU，不绑内存）
+        ✅ 系统设计
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#taskset只绑-cpu不绑内存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: taskset（只绑 CPU，不绑内存）" aria-label="Anchor to: taskset（只绑 CPU，不绑内存）" href="#taskset%e5%8f%aa%e7%bb%91-cpu%e4%b8%8d%e7%bb%91%e5%86%85%e5%ad%98">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#-系统设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 系统设计" aria-label="Anchor to: ✅ 系统设计" href="#-%e7%b3%bb%e7%bb%9f%e8%ae%be%e8%ae%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">taskset -c 0-15 myapp
-</span></span></code></pre></div><p>⚠️ 不推荐单独使用</p>
+<ul>
+<li>只读 OS + overlay</li>
+<li>日志 / 数据单独盘</li>
+</ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="cgroups--systemd"
+    <h3 id="-禁止事项"
     >
-        cgroups / systemd
+        ❌ 禁止事项
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#cgroups--systemd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: cgroups / systemd" aria-label="Anchor to: cgroups / systemd" href="#cgroups--systemd">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#-禁止事项" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 禁止事项" aria-label="Anchor to: ❌ 禁止事项" href="#-%e7%a6%81%e6%ad%a2%e4%ba%8b%e9%a1%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">CPUAffinity</span><span class="o">=</span><span class="s">0-15</span>
-</span></span><span class="line"><span class="cl"><span class="na">NUMAPolicy</span><span class="o">=</span><span class="s">local</span>
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九numa-与常见组件的关系"
+<ul>
+<li>❌ overlay2 存数据库数据</li>
+<li>❌ overlay2 跑消息队列</li>
+<li>❌ overlay2 做性能 benchmark</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一overlayfs-vs-其他方案"
     >
-        九、NUMA 与常见组件的关系
+        十一、OverlayFS vs 其他方案
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#九numa-与常见组件的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、NUMA 与常见组件的关系" aria-label="Anchor to: 九、NUMA 与常见组件的关系" href="#%e4%b9%9dnuma-%e4%b8%8e%e5%b8%b8%e8%a7%81%e7%bb%84%e4%bb%b6%e7%9a%84%e5%85%b3%e7%b3%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#十一overlayfs-vs-其他方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、OverlayFS vs 其他方案" aria-label="Anchor to: 十一、OverlayFS vs 其他方案" href="#%e5%8d%81%e4%b8%80overlayfs-vs-%e5%85%b6%e4%bb%96%e6%96%b9%e6%a1%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-数据库mysql--postgresql"
-    >
-        🔹 数据库（MySQL / PostgreSQL）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#-数据库mysql--postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 数据库（MySQL / PostgreSQL）" aria-label="Anchor to: 🔹 数据库（MySQL / PostgreSQL）" href="#-%e6%95%b0%e6%8d%ae%e5%ba%93mysql--postgresql">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>大内存实例 必须 NUMA 感知</li>
-<li>常见策略：
-<ul>
-<li>单 NUMA Node 运行</li>
-<li>或 NUMA interleave</li>
-</ul>
-</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">numactl --interleave<span class="o">=</span>all mysqld
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-jvm"
-    >
-        🔹 JVM
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#-jvm" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 JVM" aria-label="Anchor to: 🔹 JVM" href="#-jvm">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">-XX:+UseNUMA
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-kvm-虚拟机"
-    >
-        🔹 KVM 虚拟机
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#-kvm-虚拟机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 KVM 虚拟机" aria-label="Anchor to: 🔹 KVM 虚拟机" href="#-kvm-%e8%99%9a%e6%8b%9f%e6%9c%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>正确方式：vCPU ↔ NUMA Node 对齐</li>
-<li>内存 pre-allocate</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-docker--kubernetes"
-    >
-        🔹 Docker / Kubernetes
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#-docker--kubernetes" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔹 Docker / Kubernetes" aria-label="Anchor to: 🔹 Docker / Kubernetes" href="#-docker--kubernetes">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>默认：不感知 NUMA</li>
-<li>高性能场景：
-<ul>
-<li>CPU Manager static</li>
-<li>HugePages + NUMA</li>
-</ul>
-</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十什么时候要关-numa"
-    >
-        十、什么时候“要关 NUMA”？
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#十什么时候要关-numa" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、什么时候“要关 NUMA”？" aria-label="Anchor to: 十、什么时候“要关 NUMA”？" href="#%e5%8d%81%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e8%a6%81%e5%85%b3-numa">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>❌ 误区：一上来就关 NUMA</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">numactl --interleave<span class="o">=</span>all
-</span></span><span class="line"><span class="cl"><span class="c1"># 或 BIOS 里关 NUMA</span>
-</span></span></code></pre></div><p>合理的情况</p>
 <div class="table-wrap"> <table>
   <thead>
       <tr>
-          <th>场景</th>
-          <th>建议</th>
+          <th>特性</th>
+          <th>OverlayFS</th>
+          <th>bind mount</th>
+          <th>tmpfs</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>小内存 / 单进程</td>
-          <td>interleave</td>
+          <td>分层</td>
+          <td>✅</td>
+          <td>❌</td>
+          <td>❌</td>
       </tr>
       <tr>
-          <td>NUMA 感知差的软件</td>
-          <td>interleave</td>
+          <td>可写</td>
+          <td>✅</td>
+          <td>✅</td>
+          <td>✅</td>
       </tr>
       <tr>
-          <td>性能调优完成</td>
-          <td>精细绑定</td>
+          <td>性能</td>
+          <td>中</td>
+          <td>高</td>
+          <td>高</td>
+      </tr>
+      <tr>
+          <td>数据安全</td>
+          <td>低</td>
+          <td>高</td>
+          <td>低</td>
+      </tr>
+      <tr>
+          <td>适合数据库</td>
+          <td>❌</td>
+          <td>✅</td>
+          <td>❌</td>
       </tr>
   </tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一运维实战检查清单"
+    <h2 id="十二总结记住"
     >
-        十一、运维实战检查清单
+        十二、总结（记住）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#十一运维实战检查清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、运维实战检查清单" aria-label="Anchor to: 十一、运维实战检查清单" href="#%e5%8d%81%e4%b8%80%e8%bf%90%e7%bb%b4%e5%ae%9e%e6%88%98%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-unionfs/#十二总结记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、总结（记住）" aria-label="Anchor to: 十二、总结（记住）" href="#%e5%8d%81%e4%ba%8c%e6%80%bb%e7%bb%93%e8%ae%b0%e4%bd%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">lscpu
-</span></span><span class="line"><span class="cl">numactl --hardware
-</span></span><span class="line"><span class="cl">numastat
-</span></span><span class="line"><span class="cl">numastat -p &lt;pid&gt;
-</span></span></code></pre></div><p>重点看：</p>
+<p><strong>UnionFS 是 “视图文件系统”，不是 “数据文件系统”。</strong></p>
+<p>它的使命是：</p>
 <ul>
-<li>是否跨 NUMA 分配</li>
-<li>是否某 Node 内存被打满</li>
+<li>镜像</li>
+<li>分层</li>
+<li>复用</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二总结"
-    >
-        十二、总结
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#十二总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、总结" aria-label="Anchor to: 十二、总结" href="#%e5%8d%81%e4%ba%8c%e6%80%bb%e7%bb%93">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>NUMA 是“CPU 和内存的距离问题”，忽视 NUMA = 白白浪费 30%~50% 性能。</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十三建议"
-    >
-        十三、建议
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa/#十三建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、建议" aria-label="Anchor to: 十三、建议" href="#%e5%8d%81%e4%b8%89%e5%bb%ba%e8%ae%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>前提：</p>
+<p>不是：</p>
 <ul>
-<li><strong>双路服务器</strong></li>
-<li><strong>中断亲和性</strong></li>
-<li><strong>数据库 / 容器 / 高并发</strong></li>
+<li>高一致性</li>
+<li>高 fsync 可靠性</li>
+<li>数据持久化</li>
 </ul>
-<p><strong>👉 NUMA 一定要和：</strong></p>
-<ul>
-<li>IRQ 亲和性</li>
-<li>CPU 绑定</li>
-<li>内存分配策略</li>
-</ul>
-<p>一起考虑</p>
 
   </article>
 

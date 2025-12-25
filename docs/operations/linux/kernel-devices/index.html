@@ -50,7 +50,7 @@
 内核如何“发现”硬件 内核如何“管理”硬件 驱动如何“绑定”设备 用户态如何“访问”设备 📌 Linux 的核心哲学：统一抽象 &#43; 模块化驱动
 二、Linux 设备模型（Device Model）总览 Linux 采用 统一设备模型（Unified Device Model）：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/core-devices/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/kernel-devices/" />
 
 <meta property="article:section" content="Operations" />
 
@@ -71,7 +71,7 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 设备与驱动（Devices \u0026 Drivers）",
-      "url" : "https://documents.v2ep.com/operations/linux/core-devices/",
+      "url" : "https://documents.v2ep.com/operations/linux/kernel-devices/",
       "headline": "Linux 设备与驱动（Devices \u0026 Drivers）",
       "description": "下面是一份 「Linux 内核核心子系统：设备与驱动（Devices \u0026 Drivers）」的系统级、内核级完整梳理。\n定位是：硬件 -\u003e 内核抽象 -\u003e 驱动模型 -\u003e 总线 -\u003e 设备 -\u003e 驱动 -\u003e 用户态，并与前面已经系统梳理过的 Process \/ Memory \/ FS \/ Networking \/ NUMA \/ 容器 \/ 虚拟化 无缝衔接。\n一、为什么“设备与驱动”是 Linux 内核的骨架之一 没有驱动，内核只是一段不能和现实世界交互的代码。\n设备与驱动子系统解决的是：\n内核如何“发现”硬件 内核如何“管理”硬件 驱动如何“绑定”设备 用户态如何“访问”设备 📌 Linux 的核心哲学：统一抽象 \u002b 模块化驱动\n二、Linux 设备模型（Device Model）总览 Linux 采用 统一设备模型（Unified Device Model）：",
       "wordCount" : "381",
@@ -79,7 +79,7 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/core-devices/"
+          "@id": "https://documents.v2ep.com/operations/linux/kernel-devices/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -163,7 +163,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/core-devices/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/kernel-devices/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2036,7 +2036,7 @@
     >
         一、为什么“设备与驱动”是 Linux 内核的骨架之一
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#一为什么设备与驱动是-linux-内核的骨架之一" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、为什么“设备与驱动”是 Linux 内核的骨架之一" aria-label="Anchor to: 一、为什么“设备与驱动”是 Linux 内核的骨架之一" href="#%e4%b8%80%e4%b8%ba%e4%bb%80%e4%b9%88%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8%e6%98%af-linux-%e5%86%85%e6%a0%b8%e7%9a%84%e9%aa%a8%e6%9e%b6%e4%b9%8b%e4%b8%80">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#一为什么设备与驱动是-linux-内核的骨架之一" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、为什么“设备与驱动”是 Linux 内核的骨架之一" aria-label="Anchor to: 一、为什么“设备与驱动”是 Linux 内核的骨架之一" href="#%e4%b8%80%e4%b8%ba%e4%bb%80%e4%b9%88%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8%e6%98%af-linux-%e5%86%85%e6%a0%b8%e7%9a%84%e9%aa%a8%e6%9e%b6%e4%b9%8b%e4%b8%80">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2054,7 +2054,7 @@
     >
         二、Linux 设备模型（Device Model）总览
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#二linux-设备模型device-model总览" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Linux 设备模型（Device Model）总览" aria-label="Anchor to: 二、Linux 设备模型（Device Model）总览" href="#%e4%ba%8clinux-%e8%ae%be%e5%a4%87%e6%a8%a1%e5%9e%8bdevice-model%e6%80%bb%e8%a7%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#二linux-设备模型device-model总览" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Linux 设备模型（Device Model）总览" aria-label="Anchor to: 二、Linux 设备模型（Device Model）总览" href="#%e4%ba%8clinux-%e8%ae%be%e5%a4%87%e6%a8%a1%e5%9e%8bdevice-model%e6%80%bb%e8%a7%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2096,7 +2096,7 @@
     >
         三、设备的本质是什么？
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#三设备的本质是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、设备的本质是什么？" aria-label="Anchor to: 三、设备的本质是什么？" href="#%e4%b8%89%e8%ae%be%e5%a4%87%e7%9a%84%e6%9c%ac%e8%b4%a8%e6%98%af%e4%bb%80%e4%b9%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#三设备的本质是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、设备的本质是什么？" aria-label="Anchor to: 三、设备的本质是什么？" href="#%e4%b8%89%e8%ae%be%e5%a4%87%e7%9a%84%e6%9c%ac%e8%b4%a8%e6%98%af%e4%bb%80%e4%b9%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2133,7 +2133,7 @@
     >
         四、总线（Bus）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#四总线bus" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、总线（Bus）" aria-label="Anchor to: 四、总线（Bus）" href="#%e5%9b%9b%e6%80%bb%e7%ba%bfbus">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#四总线bus" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、总线（Bus）" aria-label="Anchor to: 四、总线（Bus）" href="#%e5%9b%9b%e6%80%bb%e7%ba%bfbus">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2142,7 +2142,7 @@
     >
         1️⃣ 常见总线类型
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#1-常见总线类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 常见总线类型" aria-label="Anchor to: 1️⃣ 常见总线类型" href="#1-%e5%b8%b8%e8%a7%81%e6%80%bb%e7%ba%bf%e7%b1%bb%e5%9e%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#1-常见总线类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 常见总线类型" aria-label="Anchor to: 1️⃣ 常见总线类型" href="#1-%e5%b8%b8%e8%a7%81%e6%80%bb%e7%ba%bf%e7%b1%bb%e5%9e%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2181,7 +2181,7 @@
     >
         2️⃣ 总线的职责
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#2-总线的职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 总线的职责" aria-label="Anchor to: 2️⃣ 总线的职责" href="#2-%e6%80%bb%e7%ba%bf%e7%9a%84%e8%81%8c%e8%b4%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#2-总线的职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 总线的职责" aria-label="Anchor to: 2️⃣ 总线的职责" href="#2-%e6%80%bb%e7%ba%bf%e7%9a%84%e8%81%8c%e8%b4%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2196,7 +2196,7 @@
     >
         3️⃣ 设备与驱动匹配
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#3-设备与驱动匹配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 设备与驱动匹配" aria-label="Anchor to: 3️⃣ 设备与驱动匹配" href="#3-%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8%e5%8c%b9%e9%85%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#3-设备与驱动匹配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 设备与驱动匹配" aria-label="Anchor to: 3️⃣ 设备与驱动匹配" href="#3-%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8%e5%8c%b9%e9%85%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2210,7 +2210,7 @@
     >
         五、驱动（Driver）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#五驱动driver" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、驱动（Driver）" aria-label="Anchor to: 五、驱动（Driver）" href="#%e4%ba%94%e9%a9%b1%e5%8a%a8driver">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#五驱动driver" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、驱动（Driver）" aria-label="Anchor to: 五、驱动（Driver）" href="#%e4%ba%94%e9%a9%b1%e5%8a%a8driver">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2219,7 +2219,7 @@
     >
         1️⃣ 驱动的核心职责
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#1-驱动的核心职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 驱动的核心职责" aria-label="Anchor to: 1️⃣ 驱动的核心职责" href="#1-%e9%a9%b1%e5%8a%a8%e7%9a%84%e6%a0%b8%e5%bf%83%e8%81%8c%e8%b4%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#1-驱动的核心职责" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 驱动的核心职责" aria-label="Anchor to: 1️⃣ 驱动的核心职责" href="#1-%e9%a9%b1%e5%8a%a8%e7%9a%84%e6%a0%b8%e5%bf%83%e8%81%8c%e8%b4%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2234,7 +2234,7 @@
     >
         2️⃣ 字符设备 / 块设备
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#2-字符设备--块设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 字符设备 / 块设备" aria-label="Anchor to: 2️⃣ 字符设备 / 块设备" href="#2-%e5%ad%97%e7%ac%a6%e8%ae%be%e5%a4%87--%e5%9d%97%e8%ae%be%e5%a4%87">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#2-字符设备--块设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 字符设备 / 块设备" aria-label="Anchor to: 2️⃣ 字符设备 / 块设备" href="#2-%e5%ad%97%e7%ac%a6%e8%ae%be%e5%a4%87--%e5%9d%97%e8%ae%be%e5%a4%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2255,7 +2255,7 @@
     >
         3️⃣ file_operations
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#3-file_operations" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ file_operations" aria-label="Anchor to: 3️⃣ file_operations" href="#3-file_operations">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#3-file_operations" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ file_operations" aria-label="Anchor to: 3️⃣ file_operations" href="#3-file_operations">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2272,7 +2272,7 @@
     >
         六、设备节点（/dev）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#六设备节点dev" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、设备节点（/dev）" aria-label="Anchor to: 六、设备节点（/dev）" href="#%e5%85%ad%e8%ae%be%e5%a4%87%e8%8a%82%e7%82%b9dev">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#六设备节点dev" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、设备节点（/dev）" aria-label="Anchor to: 六、设备节点（/dev）" href="#%e5%85%ad%e8%ae%be%e5%a4%87%e8%8a%82%e7%82%b9dev">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2287,7 +2287,7 @@
     >
         七、sysfs（/sys）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#七sysfssys" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、sysfs（/sys）" aria-label="Anchor to: 七、sysfs（/sys）" href="#%e4%b8%83sysfssys">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#七sysfssys" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、sysfs（/sys）" aria-label="Anchor to: 七、sysfs（/sys）" href="#%e4%b8%83sysfssys">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2309,7 +2309,7 @@
     >
         八、中断子系统（Interrupt）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#八中断子系统interrupt" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、中断子系统（Interrupt）" aria-label="Anchor to: 八、中断子系统（Interrupt）" href="#%e5%85%ab%e4%b8%ad%e6%96%ad%e5%ad%90%e7%b3%bb%e7%bb%9finterrupt">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#八中断子系统interrupt" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、中断子系统（Interrupt）" aria-label="Anchor to: 八、中断子系统（Interrupt）" href="#%e5%85%ab%e4%b8%ad%e6%96%ad%e5%ad%90%e7%b3%bb%e7%bb%9finterrupt">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2318,7 +2318,7 @@
     >
         1️⃣ 中断类型
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#1-中断类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 中断类型" aria-label="Anchor to: 1️⃣ 中断类型" href="#1-%e4%b8%ad%e6%96%ad%e7%b1%bb%e5%9e%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#1-中断类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 中断类型" aria-label="Anchor to: 1️⃣ 中断类型" href="#1-%e4%b8%ad%e6%96%ad%e7%b1%bb%e5%9e%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2353,7 +2353,7 @@
     >
         2️⃣ MSI / MSI-X
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#2-msi--msi-x" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ MSI / MSI-X" aria-label="Anchor to: 2️⃣ MSI / MSI-X" href="#2-msi--msi-x">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#2-msi--msi-x" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ MSI / MSI-X" aria-label="Anchor to: 2️⃣ MSI / MSI-X" href="#2-msi--msi-x">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2366,7 +2366,7 @@
     >
         3️⃣ IRQ 亲和性
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#3-irq-亲和性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ IRQ 亲和性" aria-label="Anchor to: 3️⃣ IRQ 亲和性" href="#3-irq-%e4%ba%b2%e5%92%8c%e6%80%a7">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#3-irq-亲和性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ IRQ 亲和性" aria-label="Anchor to: 3️⃣ IRQ 亲和性" href="#3-irq-%e4%ba%b2%e5%92%8c%e6%80%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2377,7 +2377,7 @@
     >
         九、DMA（直接内存访问）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#九dma直接内存访问" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、DMA（直接内存访问）" aria-label="Anchor to: 九、DMA（直接内存访问）" href="#%e4%b9%9ddma%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98%e8%ae%bf%e9%97%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#九dma直接内存访问" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、DMA（直接内存访问）" aria-label="Anchor to: 九、DMA（直接内存访问）" href="#%e4%b9%9ddma%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98%e8%ae%bf%e9%97%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2387,7 +2387,7 @@
     >
         1️⃣ DMA 关键点
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#1-dma-关键点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ DMA 关键点" aria-label="Anchor to: 1️⃣ DMA 关键点" href="#1-dma-%e5%85%b3%e9%94%ae%e7%82%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#1-dma-关键点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ DMA 关键点" aria-label="Anchor to: 1️⃣ DMA 关键点" href="#1-dma-%e5%85%b3%e9%94%ae%e7%82%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2401,7 +2401,7 @@
     >
         2️⃣ DMA API
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#2-dma-api" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ DMA API" aria-label="Anchor to: 2️⃣ DMA API" href="#2-dma-api">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#2-dma-api" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ DMA API" aria-label="Anchor to: 2️⃣ DMA API" href="#2-dma-api">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2413,7 +2413,7 @@
     >
         十、驱动模块（Modules）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十驱动模块modules" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、驱动模块（Modules）" aria-label="Anchor to: 十、驱动模块（Modules）" href="#%e5%8d%81%e9%a9%b1%e5%8a%a8%e6%a8%a1%e5%9d%97modules">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十驱动模块modules" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、驱动模块（Modules）" aria-label="Anchor to: 十、驱动模块（Modules）" href="#%e5%8d%81%e9%a9%b1%e5%8a%a8%e6%a8%a1%e5%9d%97modules">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2422,7 +2422,7 @@
     >
         1️⃣ 内核模块
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#1-内核模块" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 内核模块" aria-label="Anchor to: 1️⃣ 内核模块" href="#1-%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#1-内核模块" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 内核模块" aria-label="Anchor to: 1️⃣ 内核模块" href="#1-%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2436,7 +2436,7 @@
     >
         2️⃣ 模块生命周期
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#2-模块生命周期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 模块生命周期" aria-label="Anchor to: 2️⃣ 模块生命周期" href="#2-%e6%a8%a1%e5%9d%97%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#2-模块生命周期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 模块生命周期" aria-label="Anchor to: 2️⃣ 模块生命周期" href="#2-%e6%a8%a1%e5%9d%97%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2446,7 +2446,7 @@
     >
         3️⃣ 模块依赖
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#3-模块依赖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 模块依赖" aria-label="Anchor to: 3️⃣ 模块依赖" href="#3-%e6%a8%a1%e5%9d%97%e4%be%9d%e8%b5%96">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#3-模块依赖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 模块依赖" aria-label="Anchor to: 3️⃣ 模块依赖" href="#3-%e6%a8%a1%e5%9d%97%e4%be%9d%e8%b5%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2457,7 +2457,7 @@
     >
         十一、udev 与设备管理
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十一udev-与设备管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、udev 与设备管理" aria-label="Anchor to: 十一、udev 与设备管理" href="#%e5%8d%81%e4%b8%80udev-%e4%b8%8e%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十一udev-与设备管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、udev 与设备管理" aria-label="Anchor to: 十一、udev 与设备管理" href="#%e5%8d%81%e4%b8%80udev-%e4%b8%8e%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2474,7 +2474,7 @@
     >
         十二、虚拟化与设备
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十二虚拟化与设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、虚拟化与设备" aria-label="Anchor to: 十二、虚拟化与设备" href="#%e5%8d%81%e4%ba%8c%e8%99%9a%e6%8b%9f%e5%8c%96%e4%b8%8e%e8%ae%be%e5%a4%87">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十二虚拟化与设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、虚拟化与设备" aria-label="Anchor to: 十二、虚拟化与设备" href="#%e5%8d%81%e4%ba%8c%e8%99%9a%e6%8b%9f%e5%8c%96%e4%b8%8e%e8%ae%be%e5%a4%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2483,7 +2483,7 @@
     >
         1️⃣ Virtio
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#1-virtio" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Virtio" aria-label="Anchor to: 1️⃣ Virtio" href="#1-virtio">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#1-virtio" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Virtio" aria-label="Anchor to: 1️⃣ Virtio" href="#1-virtio">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2514,7 +2514,7 @@
     >
         2️⃣ SR-IOV
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#2-sr-iov" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ SR-IOV" aria-label="Anchor to: 2️⃣ SR-IOV" href="#2-sr-iov">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#2-sr-iov" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ SR-IOV" aria-label="Anchor to: 2️⃣ SR-IOV" href="#2-sr-iov">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2528,7 +2528,7 @@
     >
         十三、容器与设备
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十三容器与设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、容器与设备" aria-label="Anchor to: 十三、容器与设备" href="#%e5%8d%81%e4%b8%89%e5%ae%b9%e5%99%a8%e4%b8%8e%e8%ae%be%e5%a4%87">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十三容器与设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、容器与设备" aria-label="Anchor to: 十三、容器与设备" href="#%e5%8d%81%e4%b8%89%e5%ae%b9%e5%99%a8%e4%b8%8e%e8%ae%be%e5%a4%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2537,7 +2537,7 @@
     >
         1️⃣ 容器如何使用设备
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#1-容器如何使用设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 容器如何使用设备" aria-label="Anchor to: 1️⃣ 容器如何使用设备" href="#1-%e5%ae%b9%e5%99%a8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e8%ae%be%e5%a4%87">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#1-容器如何使用设备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 容器如何使用设备" aria-label="Anchor to: 1️⃣ 容器如何使用设备" href="#1-%e5%ae%b9%e5%99%a8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e8%ae%be%e5%a4%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2551,7 +2551,7 @@
     >
         2️⃣ 安全限制
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#2-安全限制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 安全限制" aria-label="Anchor to: 2️⃣ 安全限制" href="#2-%e5%ae%89%e5%85%a8%e9%99%90%e5%88%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#2-安全限制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 安全限制" aria-label="Anchor to: 2️⃣ 安全限制" href="#2-%e5%ae%89%e5%85%a8%e9%99%90%e5%88%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2561,7 +2561,7 @@
     >
         十四、驱动性能瓶颈地图
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十四驱动性能瓶颈地图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、驱动性能瓶颈地图" aria-label="Anchor to: 十四、驱动性能瓶颈地图" href="#%e5%8d%81%e5%9b%9b%e9%a9%b1%e5%8a%a8%e6%80%a7%e8%83%bd%e7%93%b6%e9%a2%88%e5%9c%b0%e5%9b%be">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十四驱动性能瓶颈地图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、驱动性能瓶颈地图" aria-label="Anchor to: 十四、驱动性能瓶颈地图" href="#%e5%8d%81%e5%9b%9b%e9%a9%b1%e5%8a%a8%e6%80%a7%e8%83%bd%e7%93%b6%e9%a2%88%e5%9c%b0%e5%9b%be">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2600,7 +2600,7 @@
     >
         十五、调试与排障工具
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十五调试与排障工具" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、调试与排障工具" aria-label="Anchor to: 十五、调试与排障工具" href="#%e5%8d%81%e4%ba%94%e8%b0%83%e8%af%95%e4%b8%8e%e6%8e%92%e9%9a%9c%e5%b7%a5%e5%85%b7">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十五调试与排障工具" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、调试与排障工具" aria-label="Anchor to: 十五、调试与排障工具" href="#%e5%8d%81%e4%ba%94%e8%b0%83%e8%af%95%e4%b8%8e%e6%8e%92%e9%9a%9c%e5%b7%a5%e5%85%b7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2639,7 +2639,7 @@
     >
         十六、设备与驱动一句话总结
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十六设备与驱动一句话总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、设备与驱动一句话总结" aria-label="Anchor to: 十六、设备与驱动一句话总结" href="#%e5%8d%81%e5%85%ad%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十六设备与驱动一句话总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、设备与驱动一句话总结" aria-label="Anchor to: 十六、设备与驱动一句话总结" href="#%e5%8d%81%e5%85%ad%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2649,7 +2649,7 @@
     >
         十七、与前面子系统的“联动关系”
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-devices/#十七与前面子系统的联动关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、与前面子系统的“联动关系”" aria-label="Anchor to: 十七、与前面子系统的“联动关系”" href="#%e5%8d%81%e4%b8%83%e4%b8%8e%e5%89%8d%e9%9d%a2%e5%ad%90%e7%b3%bb%e7%bb%9f%e7%9a%84%e8%81%94%e5%8a%a8%e5%85%b3%e7%b3%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-devices/#十七与前面子系统的联动关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、与前面子系统的“联动关系”" aria-label="Anchor to: 十七、与前面子系统的“联动关系”" href="#%e5%8d%81%e4%b8%83%e4%b8%8e%e5%89%8d%e9%9d%a2%e5%ad%90%e7%b3%bb%e7%bb%9f%e7%9a%84%e8%81%94%e5%8a%a8%e5%85%b3%e7%b3%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

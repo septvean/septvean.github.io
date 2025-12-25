@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="下面是一份 「libc 系统级详解」，从 内核边界、系统调用、运行时模型、与 Shell / systemd / 容器 / 数据库 的关系 全部串起来，偏 Linux / 运维 / 架构 / 内核认知，不是 API 手册。
+一、libc 是什么？一句话讲清楚 libc（C 标准库）是用户空间程序访问 Linux 内核能力的“标准化中间层”。
+它 不是内核，但 几乎所有用户程序都依赖它。
+应用程序 ↓ (printf / malloc / fopen / pthread) libc ↓ (syscall / vdso) Linux Kernel ↓ Hardware 二、libc 在 Linux 架构中的位置 &#43;-------------------------------&#43; | 应用程序 / Shell / systemd | | nginx / mysql / docker | &#43;-------------------------------&#43; | libc | | glibc / musl / uClibc | &#43;-------------------------------&#43; | 系统调用接口 | &#43;-------------------------------&#43; | Linux Kernel | &#43;-------------------------------&#43; | Hardware | &#43;-------------------------------&#43; 📌 没有 libc，用户程序几乎无法直接与内核交互" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>libc | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +38,25 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="libc"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="下面是一份 「libc 系统级详解」，从 内核边界、系统调用、运行时模型、与 Shell / systemd / 容器 / 数据库 的关系 全部串起来，偏 Linux / 运维 / 架构 / 内核认知，不是 API 手册。
+一、libc 是什么？一句话讲清楚 libc（C 标准库）是用户空间程序访问 Linux 内核能力的“标准化中间层”。
+它 不是内核，但 几乎所有用户程序都依赖它。
+应用程序 ↓ (printf / malloc / fopen / pthread) libc ↓ (syscall / vdso) Linux Kernel ↓ Hardware 二、libc 在 Linux 架构中的位置 &#43;-------------------------------&#43; | 应用程序 / Shell / systemd | | nginx / mysql / docker | &#43;-------------------------------&#43; | libc | | glibc / musl / uClibc | &#43;-------------------------------&#43; | 系统调用接口 | &#43;-------------------------------&#43; | Linux Kernel | &#43;-------------------------------&#43; | Hardware | &#43;-------------------------------&#43; 📌 没有 libc，用户程序几乎无法直接与内核交互" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/user-space-libc/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="libc" />
+  <meta name="twitter:description" content="下面是一份 「libc 系统级详解」，从 内核边界、系统调用、运行时模型、与 Shell / systemd / 容器 / 数据库 的关系 全部串起来，偏 Linux / 运维 / 架构 / 内核认知，不是 API 手册。
+一、libc 是什么？一句话讲清楚 libc（C 标准库）是用户空间程序访问 Linux 内核能力的“标准化中间层”。
+它 不是内核，但 几乎所有用户程序都依赖它。
+应用程序 ↓ (printf / malloc / fopen / pthread) libc ↓ (syscall / vdso) Linux Kernel ↓ Hardware 二、libc 在 Linux 架构中的位置 &#43;-------------------------------&#43; | 应用程序 / Shell / systemd | | nginx / mysql / docker | &#43;-------------------------------&#43; | libc | | glibc / musl / uClibc | &#43;-------------------------------&#43; | 系统调用接口 | &#43;-------------------------------&#43; | Linux Kernel | &#43;-------------------------------&#43; | Hardware | &#43;-------------------------------&#43; 📌 没有 libc，用户程序几乎无法直接与内核交互" />
 
 
   <script type="application/ld+json">
@@ -58,16 +64,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "62",
+      "name": "libc",
+      "url" : "https://documents.v2ep.com/operations/linux/user-space-libc/",
+      "headline": "libc",
+      "description": "下面是一份 「libc 系统级详解」，从 内核边界、系统调用、运行时模型、与 Shell \/ systemd \/ 容器 \/ 数据库 的关系 全部串起来，偏 Linux \/ 运维 \/ 架构 \/ 内核认知，不是 API 手册。\n一、libc 是什么？一句话讲清楚 libc（C 标准库）是用户空间程序访问 Linux 内核能力的“标准化中间层”。\n它 不是内核，但 几乎所有用户程序都依赖它。\n应用程序 ↓ (printf \/ malloc \/ fopen \/ pthread) libc ↓ (syscall \/ vdso) Linux Kernel ↓ Hardware 二、libc 在 Linux 架构中的位置 \u002b-------------------------------\u002b | 应用程序 \/ Shell \/ systemd | | nginx \/ mysql \/ docker | \u002b-------------------------------\u002b | libc | | glibc \/ musl \/ uClibc | \u002b-------------------------------\u002b | 系统调用接口 | \u002b-------------------------------\u002b | Linux Kernel | \u002b-------------------------------\u002b | Hardware | \u002b-------------------------------\u002b 📌 没有 libc，用户程序几乎无法直接与内核交互",
+      "wordCount" : "431",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/user-space-libc/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/user-space-libc/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1004,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1988,7 +1994,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>libc</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2007,235 +2021,530 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>libc</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>下面是一份 <strong>「libc 系统级详解」，从 内核边界、系统调用、运行时模型、与 Shell / systemd / 容器 / 数据库 的关系</strong> 全部串起来，<strong>偏 Linux / 运维 / 架构 / 内核认知</strong>，不是 API 手册。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一libc-是什么一句话讲清楚"
+    >
+        一、libc 是什么？一句话讲清楚
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#一libc-是什么一句话讲清楚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、libc 是什么？一句话讲清楚" aria-label="Anchor to: 一、libc 是什么？一句话讲清楚" href="#%e4%b8%80libc-%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%80%e5%8f%a5%e8%af%9d%e8%ae%b2%e6%b8%85%e6%a5%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>libc（C 标准库）是用户空间程序访问 Linux 内核能力的“标准化中间层”。</strong></p>
+<p>它 <strong>不是内核</strong>，但 <strong>几乎所有用户程序都依赖它</strong>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">应用程序
+</span></span><span class="line"><span class="cl">   ↓  (printf / malloc / fopen / pthread)
+</span></span><span class="line"><span class="cl">libc
+</span></span><span class="line"><span class="cl">   ↓  (syscall / vdso)
+</span></span><span class="line"><span class="cl">Linux Kernel
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">Hardware
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二libc-在-linux-架构中的位置"
+    >
+        二、libc 在 Linux 架构中的位置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#二libc-在-linux-架构中的位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、libc 在 Linux 架构中的位置" aria-label="Anchor to: 二、libc 在 Linux 架构中的位置" href="#%e4%ba%8clibc-%e5%9c%a8-linux-%e6%9e%b6%e6%9e%84%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|   应用程序 / Shell / systemd   |
+</span></span><span class="line"><span class="cl">|    nginx / mysql / docker     |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|            libc               |
+</span></span><span class="line"><span class="cl">|     glibc / musl / uClibc     |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|          系统调用接口           |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|         Linux Kernel          |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|          Hardware             |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span></code></pre></div><p>📌 <strong>没有 libc，用户程序几乎无法直接与内核交互</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三libc-干了哪几类事核心分类"
+    >
+        三、libc 干了哪几类事？（核心分类）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#三libc-干了哪几类事核心分类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、libc 干了哪几类事？（核心分类）" aria-label="Anchor to: 三、libc 干了哪几类事？（核心分类）" href="#%e4%b8%89libc-%e5%b9%b2%e4%ba%86%e5%93%aa%e5%87%a0%e7%b1%bb%e4%ba%8b%e6%a0%b8%e5%bf%83%e5%88%86%e7%b1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-系统调用封装最重要"
+    >
+        1️⃣ 系统调用封装（最重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#1-系统调用封装最重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 系统调用封装（最重要）" aria-label="Anchor to: 1️⃣ 系统调用封装（最重要）" href="#1-%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e5%b0%81%e8%a3%85%e6%9c%80%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>内核只提供 syscall</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">syscall</span><span class="p">(</span><span class="n">SYS_write</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</span></span></code></pre></div><p><strong>libc 提供易用 API</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</span></span></code></pre></div><p>libc 做了：</p>
+<ul>
+<li>参数准备</li>
+<li>ABI 适配</li>
+<li>错误码转换（errno）</li>
+<li>vDSO 优化</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-c-标准库函数iso-c"
+    >
+        2️⃣ C 标准库函数（ISO C）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#2-c-标准库函数iso-c" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ C 标准库函数（ISO C）" aria-label="Anchor to: 2️⃣ C 标准库函数（ISO C）" href="#2-c-%e6%a0%87%e5%87%86%e5%ba%93%e5%87%bd%e6%95%b0iso-c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>分类</th>
+          <th>示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>IO</td>
+          <td>printf / scanf</td>
+      </tr>
+      <tr>
+          <td>字符串</td>
+          <td>strcpy / strlen</td>
+      </tr>
+      <tr>
+          <td>数学</td>
+          <td>sin / sqrt</td>
+      </tr>
+      <tr>
+          <td>内存</td>
+          <td>malloc / free</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>这些函数不一定触发系统调用</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-进程--线程管理posix"
+    >
+        3️⃣ 进程 / 线程管理（POSIX）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#3-进程--线程管理posix" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 进程 / 线程管理（POSIX）" aria-label="Anchor to: 3️⃣ 进程 / 线程管理（POSIX）" href="#3-%e8%bf%9b%e7%a8%8b--%e7%ba%bf%e7%a8%8b%e7%ae%a1%e7%90%86posix">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">fork</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">execve</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">wait</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">pthread_create</span><span class="p">()</span>
+</span></span></code></pre></div><ul>
+<li>进程：fork + exec</li>
+<li>线程：pthread -&gt; clone</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-内存管理用户态"
+    >
+        4️⃣ 内存管理（用户态）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#4-内存管理用户态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 内存管理（用户态）" aria-label="Anchor to: 4️⃣ 内存管理（用户态）" href="#4-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86%e7%94%a8%e6%88%b7%e6%80%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">malloc</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">brk</span> <span class="o">/</span> <span class="n">mmap</span>
+</span></span></code></pre></div><p>libc 内存分配器：</p>
+<ul>
+<li>管理 heap</li>
+<li>缓存小对象</li>
+<li>减少 syscall 次数</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-动态链接器ld-linux"
+    >
+        5️⃣ 动态链接器（ld-linux）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#5-动态链接器ld-linux" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 动态链接器（ld-linux）" aria-label="Anchor to: 5️⃣ 动态链接器（ld-linux）" href="#5-%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5%e5%99%a8ld-linux">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>libc 通常<strong>自带动态加载器</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/lib64/ld-linux-x86-64.so.2
+</span></span></code></pre></div><p>负责：</p>
+<ul>
+<li>装载 .so</li>
+<li>解析符号</li>
+<li>重定位</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四libc--只有-glibc"
+    >
+        四、libc ≠ 只有 glibc
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#四libc--只有-glibc" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、libc ≠ 只有 glibc" aria-label="Anchor to: 四、libc ≠ 只有 glibc" href="#%e5%9b%9blibc--%e5%8f%aa%e6%9c%89-glibc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>libc 实现</th>
+          <th>特点</th>
+          <th>常见系统</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>glibc</td>
+          <td>功能全 / 复杂</td>
+          <td>RHEL / Ubuntu</td>
+      </tr>
+      <tr>
+          <td>musl</td>
+          <td>小 / 静态友好</td>
+          <td>Alpine</td>
+      </tr>
+      <tr>
+          <td>uClibc</td>
+          <td>嵌入式</td>
+          <td>OpenWrt</td>
+      </tr>
+      <tr>
+          <td>bionic</td>
+          <td>Android</td>
+          <td>Android</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="glibc-vs-musl运维重点"
+    >
+        glibc vs musl（运维重点）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#glibc-vs-musl运维重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: glibc vs musl（运维重点）" aria-label="Anchor to: glibc vs musl（运维重点）" href="#glibc-vs-musl%e8%bf%90%e7%bb%b4%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项</th>
+          <th>glibc</th>
+          <th>musl</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>体积</td>
+          <td>大</td>
+          <td>极小</td>
+      </tr>
+      <tr>
+          <td>兼容性</td>
+          <td>最强</td>
+          <td>POSIX 严</td>
+      </tr>
+      <tr>
+          <td>性能</td>
+          <td>优</td>
+          <td>稳定</td>
+      </tr>
+      <tr>
+          <td>静态编译</td>
+          <td>困难</td>
+          <td>友好</td>
+      </tr>
+      <tr>
+          <td>容器</td>
+          <td>偏重</td>
+          <td>Alpine</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>Alpine Linux 默认是 musl</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五libc-与-shell-的关系"
+    >
+        五、libc 与 Shell 的关系
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#五libc-与-shell-的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、libc 与 Shell 的关系" aria-label="Anchor to: 五、libc 与 Shell 的关系" href="#%e4%ba%94libc-%e4%b8%8e-shell-%e7%9a%84%e5%85%b3%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ls
+</span></span></code></pre></div><p>执行过程：</p>
+<ol>
+<li>shell fork()</li>
+<li>execve(”/bin/ls”)</li>
+<li>ls 使用 libc</li>
+<li>libc 调 syscall</li>
+<li>kernel 执行</li>
+</ol>
+<p>📌 <strong>Shell / systemd / Nginx 都依赖 libc</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六libc-与-systemd-的关系"
+    >
+        六、libc 与 systemd 的关系
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#六libc-与-systemd-的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、libc 与 systemd 的关系" aria-label="Anchor to: 六、libc 与 systemd 的关系" href="#%e5%85%adlibc-%e4%b8%8e-systemd-%e7%9a%84%e5%85%b3%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>systemd 本身：</p>
+<ul>
+<li>使用 glibc</li>
+<li>深度依赖 pthread / epoll / timerfd</li>
+</ul>
+<p>systemd 启动服务时：</p>
+<ul>
+<li>设置环境变量</li>
+<li>exec 服务</li>
+<li>服务继续使用 libc</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七libc-与数据库mysql--postgresql"
+    >
+        七、libc 与数据库（MySQL / PostgreSQL）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#七libc-与数据库mysql--postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、libc 与数据库（MySQL / PostgreSQL）" aria-label="Anchor to: 七、libc 与数据库（MySQL / PostgreSQL）" href="#%e4%b8%83libc-%e4%b8%8e%e6%95%b0%e6%8d%ae%e5%ba%93mysql--postgresql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-内存分配"
+    >
+        1️⃣ 内存分配
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#1-内存分配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 内存分配" aria-label="Anchor to: 1️⃣ 内存分配" href="#1-%e5%86%85%e5%ad%98%e5%88%86%e9%85%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>malloc / free</li>
+<li>arena / tcache（glibc）</li>
+</ul>
+<p>数据库常见问题：</p>
+<ul>
+<li>glibc arena 过多 -&gt; 内存碎片</li>
+<li>NUMA 跨节点分配</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-io-模型"
+    >
+        2️⃣ IO 模型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#2-io-模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ IO 模型" aria-label="Anchor to: 2️⃣ IO 模型" href="#2-io-%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">read</span> <span class="o">/</span> <span class="n">write</span>
+</span></span><span class="line"><span class="cl"><span class="n">pread</span> <span class="o">/</span> <span class="n">pwrite</span>
+</span></span><span class="line"><span class="cl"><span class="n">fsync</span>
+</span></span></code></pre></div><p>glibc 可能：</p>
+<ul>
+<li>合并 syscall</li>
+<li>使用 page cache</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-线程模型"
+    >
+        3️⃣ 线程模型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#3-线程模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 线程模型" aria-label="Anchor to: 3️⃣ 线程模型" href="#3-%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>pthread -&gt; clone</li>
+<li>TLS（线程局部存储）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-时间--信号"
+    >
+        4️⃣ 时间 / 信号
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#4-时间--信号" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 时间 / 信号" aria-label="Anchor to: 4️⃣ 时间 / 信号" href="#4-%e6%97%b6%e9%97%b4--%e4%bf%a1%e5%8f%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">clock_gettime</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">nanosleep</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">signal</span><span class="p">()</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八libc-与-numa--cgroups"
+    >
+        八、libc 与 NUMA / cgroups
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#八libc-与-numa--cgroups" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、libc 与 NUMA / cgroups" aria-label="Anchor to: 八、libc 与 NUMA / cgroups" href="#%e5%85%ablibc-%e4%b8%8e-numa--cgroups">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="numa"
+    >
+        NUMA
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#numa" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NUMA" aria-label="Anchor to: NUMA" href="#numa">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>malloc 默认<strong>不 NUMA 亲和</strong></li>
+<li>由内核策略决定</li>
+<li>数据库常需 numactl</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="cgroups"
+    >
+        cgroups
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#cgroups" class="gdoc-page__anchor clip flex align-center" title="Anchor to: cgroups" aria-label="Anchor to: cgroups" href="#cgroups">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>libc 不直接感知 cgroups</p>
+<p>但：</p>
+<ul>
+<li>malloc 触发 OOM</li>
+<li>pthread 受 CPU quota 限制</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九libc-的关键内部机制进阶"
+    >
+        九、libc 的关键内部机制（进阶）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#九libc-的关键内部机制进阶" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、libc 的关键内部机制（进阶）" aria-label="Anchor to: 九、libc 的关键内部机制（进阶）" href="#%e4%b9%9dlibc-%e7%9a%84%e5%85%b3%e9%94%ae%e5%86%85%e9%83%a8%e6%9c%ba%e5%88%b6%e8%bf%9b%e9%98%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-vdso性能关键"
+    >
+        1️⃣ vDSO（性能关键）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#1-vdso性能关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ vDSO（性能关键）" aria-label="Anchor to: 1️⃣ vDSO（性能关键）" href="#1-vdso%e6%80%a7%e8%83%bd%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">clock_gettime</span><span class="p">()</span>
+</span></span></code></pre></div><p>无需陷入内核：</p>
+<ul>
+<li>直接在用户态读时间</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-tls线程局部存储"
+    >
+        2️⃣ TLS（线程局部存储）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#2-tls线程局部存储" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ TLS（线程局部存储）" aria-label="Anchor to: 2️⃣ TLS（线程局部存储）" href="#2-tls%e7%ba%bf%e7%a8%8b%e5%b1%80%e9%83%a8%e5%ad%98%e5%82%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">__thread</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+</span></span></code></pre></div><p>每线程独立</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-errno"
+    >
+        3️⃣ errno
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#3-errno" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ errno" aria-label="Anchor to: 3️⃣ errno" href="#3-errno">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="o">-</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">errno</span> <span class="o">=</span> <span class="n">EAGAIN</span>
+</span></span></code></pre></div><p>libc 维护 errno</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十运维常见-libc-问题"
+    >
+        十、运维常见 libc 问题
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#十运维常见-libc-问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、运维常见 libc 问题" aria-label="Anchor to: 十、运维常见 libc 问题" href="#%e5%8d%81%e8%bf%90%e7%bb%b4%e5%b8%b8%e8%a7%81-libc-%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-glibc-版本不兼容"
+    >
+        1️⃣ glibc 版本不兼容
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#1-glibc-版本不兼容" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ glibc 版本不兼容" aria-label="Anchor to: 1️⃣ glibc 版本不兼容" href="#1-glibc-%e7%89%88%e6%9c%ac%e4%b8%8d%e5%85%bc%e5%ae%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">GLIBC_2.28 not found
+</span></span></code></pre></div><p>📌 <strong>二进制与系统 glibc 不匹配</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-alpine-容器跑-glibc-程序失败"
+    >
+        2️⃣ Alpine 容器跑 glibc 程序失败
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#2-alpine-容器跑-glibc-程序失败" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Alpine 容器跑 glibc 程序失败" aria-label="Anchor to: 2️⃣ Alpine 容器跑 glibc 程序失败" href="#2-alpine-%e5%ae%b9%e5%99%a8%e8%b7%91-glibc-%e7%a8%8b%e5%ba%8f%e5%a4%b1%e8%b4%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>解决方案：</p>
+<ul>
+<li>换 Debian 镜像</li>
+<li>或安装 glibc 兼容包</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-内存占用异常"
+    >
+        3️⃣ 内存占用异常
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#3-内存占用异常" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 内存占用异常" aria-label="Anchor to: 3️⃣ 内存占用异常" href="#3-%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%e5%bc%82%e5%b8%b8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>glibc arena：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">MALLOC_ARENA_MAX</span><span class="o">=</span><span class="m">2</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一libc-与容器"
+    >
+        十一、libc 与容器
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#十一libc-与容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、libc 与容器" aria-label="Anchor to: 十一、libc 与容器" href="#%e5%8d%81%e4%b8%80libc-%e4%b8%8e%e5%ae%b9%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>容器内 libc</td>
+          <td>来自镜像</td>
+      </tr>
+      <tr>
+          <td>内核</td>
+          <td>宿主机</td>
+      </tr>
+      <tr>
+          <td>syscall ABI</td>
+          <td>必须匹配</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>libc 只需兼容内核 syscall</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二总结"
+    >
+        十二、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-libc/#十二总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、总结" aria-label="Anchor to: 十二、总结" href="#%e5%8d%81%e4%ba%8c%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>libc 是用户空间“事实上的操作系统接口层”。</strong></p>
+<p>Shell、systemd、数据库、容器，全部站在它肩膀上。</p>
 
   </article>
 
@@ -2763,9 +3072,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2796,11 +3102,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3414,27 +3715,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

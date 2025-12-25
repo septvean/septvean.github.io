@@ -12,13 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。
-不是 free/top 用法，而是从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器的完整认知体系。
-适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
-一、Linux 内存管理的总体目标 在“有限物理内存 &#43; 大量进程 &#43; IO 并发”的条件下，实现：
-隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup / NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM &#43; Cache &#43; Swap CPU ├─ L1/L2/L3 Cache ├─ MMU / TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU" />
+  <meta name="description" content="“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。
+一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。
+它负责的不是“开机跑几个服务”，而是：
+系统状态管理 &#43; 服务生命周期 &#43; 资源控制 &#43; 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”" />
 
-    <title>Linux 内存管理（Memory） | ☘️ Septvean&#39;s Documents</title>
+    <title>systemd | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,27 +38,25 @@
     
   <meta
     property="og:title"
-    content="Linux 内存管理（Memory）"
+    content="systemd"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。
-不是 free/top 用法，而是从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器的完整认知体系。
-适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
-一、Linux 内存管理的总体目标 在“有限物理内存 &#43; 大量进程 &#43; IO 并发”的条件下，实现：
-隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup / NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM &#43; Cache &#43; Swap CPU ├─ L1/L2/L3 Cache ├─ MMU / TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU" />
+  <meta property="og:description" content="“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。
+一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。
+它负责的不是“开机跑几个服务”，而是：
+系统状态管理 &#43; 服务生命周期 &#43; 资源控制 &#43; 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/core-memory/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/user-space-systemd/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux 内存管理（Memory）" />
-  <meta name="twitter:description" content="下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。
-不是 free/top 用法，而是从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器的完整认知体系。
-适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
-一、Linux 内存管理的总体目标 在“有限物理内存 &#43; 大量进程 &#43; IO 并发”的条件下，实现：
-隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup / NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM &#43; Cache &#43; Swap CPU ├─ L1/L2/L3 Cache ├─ MMU / TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU" />
+<meta name="twitter:title" content="systemd" />
+  <meta name="twitter:description" content="“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。
+一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。
+它负责的不是“开机跑几个服务”，而是：
+系统状态管理 &#43; 服务生命周期 &#43; 资源控制 &#43; 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”" />
 
 
   <script type="application/ld+json">
@@ -67,16 +64,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux 内存管理（Memory）",
-      "url" : "https://documents.v2ep.com/operations/linux/core-memory/",
-      "headline": "Linux 内存管理（Memory）",
-      "description": "下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。\n不是 free\/top 用法，而是从硬件 -\u003e 内核数据结构 -\u003e 页分配 -\u003e 虚拟内存 -\u003e NUMA -\u003e OOM -\u003e 容器的完整认知体系。\n适用 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu \/ 云 \/ 容器 \/ 数据库 \/ 虚拟化。\n一、Linux 内存管理的总体目标 在“有限物理内存 \u002b 大量进程 \u002b IO 并发”的条件下，实现：\n隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup \/ NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM \u002b Cache \u002b Swap CPU ├─ L1\/L2\/L3 Cache ├─ MMU \/ TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU",
-      "wordCount" : "412",
+      "name": "systemd",
+      "url" : "https://documents.v2ep.com/operations/linux/user-space-systemd/",
+      "headline": "systemd",
+      "description": "“从设计哲学到内核协同”的 systemd 核心概念 \/ 基础理论总览，定位是 RHEL \/ AlmaLinux \/ Rocky \/ Debian \/ Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。\n一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。\n它负责的不是“开机跑几个服务”，而是：\n系统状态管理 \u002b 服务生命周期 \u002b 资源控制 \u002b 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”",
+      "wordCount" : "410",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/core-memory/"
+          "@id": "https://documents.v2ep.com/operations/linux/user-space-systemd/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -160,7 +157,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/core-memory/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/user-space-systemd/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2003,7 +2000,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 内存管理（Memory）</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>systemd</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2024,582 +2021,599 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux 内存管理（Memory）</h1>
+    <h1>systemd</h1>
     
-    <p>下面是一份 <strong>「内核级视角」Linux 内存管理（Memory）核心子系统详解</strong>。</p>
-<p>不是 free/top 用法，而是<strong>从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器</strong>的完整认知体系。</p>
-<p>适用 <strong>RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化</strong>。</p>
+    <p>“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一linux-内存管理的总体目标"
+    <h2 id="一systemd-是什么先纠正认知"
     >
-        一、Linux 内存管理的总体目标
+        一、systemd 是什么（先纠正认知）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#一linux-内存管理的总体目标" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Linux 内存管理的总体目标" aria-label="Anchor to: 一、Linux 内存管理的总体目标" href="#%e4%b8%80linux-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86%e7%9a%84%e6%80%bb%e4%bd%93%e7%9b%ae%e6%a0%87">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#一systemd-是什么先纠正认知" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、systemd 是什么（先纠正认知）" aria-label="Anchor to: 一、systemd 是什么（先纠正认知）" href="#%e4%b8%80systemd-%e6%98%af%e4%bb%80%e4%b9%88%e5%85%88%e7%ba%a0%e6%ad%a3%e8%ae%a4%e7%9f%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>在“有限物理内存 + 大量进程 + IO 并发”的条件下，实现：</strong></p>
-<ul>
-<li>隔离（每进程独立地址空间）</li>
-<li>高效（尽量命中缓存）</li>
-<li>可回收（随时 reclaim）</li>
-<li>可控制（cgroup / NUMA）</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二从硬件开始物理内存模型"
-    >
-        二、从硬件开始：物理内存模型
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#二从硬件开始物理内存模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、从硬件开始：物理内存模型" aria-label="Anchor to: 二、从硬件开始：物理内存模型" href="#%e4%ba%8c%e4%bb%8e%e7%a1%ac%e4%bb%b6%e5%bc%80%e5%a7%8b%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-ram--cache--swap"
-    >
-        1️⃣ RAM + Cache + Swap
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-ram--cache--swap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ RAM &#43; Cache &#43; Swap" aria-label="Anchor to: 1️⃣ RAM &#43; Cache &#43; Swap" href="#1-ram--cache--swap">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">CPU
-</span></span><span class="line"><span class="cl"> ├─ L1/L2/L3 Cache
-</span></span><span class="line"><span class="cl"> ├─ MMU / TLB
-</span></span><span class="line"><span class="cl"> └─ RAM
-</span></span><span class="line"><span class="cl">     └─ Swap（磁盘）
-</span></span></code></pre></div><p>📌 Linux 的内存管理 <strong>强依赖 MMU</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-页page是最小单位"
-    >
-        2️⃣ 页（Page）是最小单位
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-页page是最小单位" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 页（Page）是最小单位" aria-label="Anchor to: 2️⃣ 页（Page）是最小单位" href="#2-%e9%a1%b5page%e6%98%af%e6%9c%80%e5%b0%8f%e5%8d%95%e4%bd%8d">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>默认页大小：4KB</li>
-<li>大页：2MB / 1GB（HugePage）</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">page</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">atomic_t</span> <span class="n">_refcount</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">...</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<p><strong>systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。</strong></p>
+<p>它负责的不是“开机跑几个服务”，而是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">系统状态管理 + 服务生命周期 + 资源控制 + 依赖调度
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三虚拟内存vm核心思想"
+    <h3 id="systemd-的角色"
     >
-        三、虚拟内存（VM）核心思想
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#三虚拟内存vm核心思想" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、虚拟内存（VM）核心思想" aria-label="Anchor to: 三、虚拟内存（VM）核心思想" href="#%e4%b8%89%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98vm%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>Linux 给每个进程一个“假想无限大”的内存空间</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-虚拟地址空间"
-    >
-        1️⃣ 虚拟地址空间
+        systemd 的角色
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-虚拟地址空间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 虚拟地址空间" aria-label="Anchor to: 1️⃣ 虚拟地址空间" href="#1-%e8%99%9a%e6%8b%9f%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0x00000000 ────────── user space
-</span></span><span class="line"><span class="cl">            heap
-</span></span><span class="line"><span class="cl">            mmap
-</span></span><span class="line"><span class="cl">            stack
-</span></span><span class="line"><span class="cl">0xC0000000 ────────── kernel space
-</span></span></code></pre></div><ul>
-<li>每进程独立</li>
-<li>内核空间共享</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-地址转换关键路径"
-    >
-        2️⃣ 地址转换（关键路径）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-地址转换关键路径" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 地址转换（关键路径）" aria-label="Anchor to: 2️⃣ 地址转换（关键路径）" href="#2-%e5%9c%b0%e5%9d%80%e8%bd%ac%e6%8d%a2%e5%85%b3%e9%94%ae%e8%b7%af%e5%be%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">虚拟地址 -&gt; 页表 -&gt; 物理页 -&gt; cache -&gt; RAM
-</span></span></code></pre></div><p>由 <strong>MMU + 页表 + TLB</strong> 完成</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四内核核心数据结构"
-    >
-        四、内核核心数据结构
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#四内核核心数据结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、内核核心数据结构" aria-label="Anchor to: 四、内核核心数据结构" href="#%e5%9b%9b%e5%86%85%e6%a0%b8%e6%a0%b8%e5%bf%83%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-mm_struct进程内存视图"
-    >
-        1️⃣ mm_struct（进程内存视图）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-mm_struct进程内存视图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ mm_struct（进程内存视图）" aria-label="Anchor to: 1️⃣ mm_struct（进程内存视图）" href="#1-mm_struct%e8%bf%9b%e7%a8%8b%e5%86%85%e5%ad%98%e8%a7%86%e5%9b%be">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">mm_struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">pgd_t</span> <span class="o">*</span><span class="n">pgd</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">total_vm</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">rss</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">mmap</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-vma虚拟内存区域"
-    >
-        2️⃣ VMA（虚拟内存区域）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-vma虚拟内存区域" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ VMA（虚拟内存区域）" aria-label="Anchor to: 2️⃣ VMA（虚拟内存区域）" href="#2-vma%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">vm_start</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">vm_end</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">vm_flags</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>📌 <strong>mmap / heap / stack 都是 VMA</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五页分配器buddy-system"
-    >
-        五、页分配器（Buddy System）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#五页分配器buddy-system" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、页分配器（Buddy System）" aria-label="Anchor to: 五、页分配器（Buddy System）" href="#%e4%ba%94%e9%a1%b5%e5%88%86%e9%85%8d%e5%99%a8buddy-system">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-buddy-分配原理"
-    >
-        1️⃣ Buddy 分配原理
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-buddy-分配原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Buddy 分配原理" aria-label="Anchor to: 1️⃣ Buddy 分配原理" href="#1-buddy-%e5%88%86%e9%85%8d%e5%8e%9f%e7%90%86">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>管理 2^n 页块</li>
-<li>快速分配 / 合并</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Order 0 = 1 page
-</span></span><span class="line"><span class="cl">Order 1 = 2 pages
-</span></span><span class="line"><span class="cl">Order 10 = 1024 pages
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-内存碎片问题"
-    >
-        2️⃣ 内存碎片问题
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-内存碎片问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 内存碎片问题" aria-label="Anchor to: 2️⃣ 内存碎片问题" href="#2-%e5%86%85%e5%ad%98%e7%a2%8e%e7%89%87%e9%97%ae%e9%a2%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>外部碎片</li>
-<li>解决方案：
-<ul>
-<li>内存压缩（compaction）</li>
-<li>HugePage 预留</li>
-</ul>
-</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六slab--slub-分配器对象级"
-    >
-        六、Slab / Slub 分配器（对象级）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#六slab--slub-分配器对象级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Slab / Slub 分配器（对象级）" aria-label="Anchor to: 六、Slab / Slub 分配器（对象级）" href="#%e5%85%adslab--slub-%e5%88%86%e9%85%8d%e5%99%a8%e5%af%b9%e8%b1%a1%e7%ba%a7">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>避免频繁 page 分配</strong></p>
-<ul>
-<li>slab：老</li>
-<li>slub：默认（RHEL / Ubuntu）</li>
-</ul>
-<p>用于：</p>
-<ul>
-<li>inode</li>
-<li>dentry</li>
-<li>task_struct</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七page-cache性能核心"
-    >
-        七、Page Cache（性能核心）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#七page-cache性能核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、Page Cache（性能核心）" aria-label="Anchor to: 七、Page Cache（性能核心）" href="#%e4%b8%83page-cache%e6%80%a7%e8%83%bd%e6%a0%b8%e5%bf%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-page-cache-是什么"
-    >
-        1️⃣ Page Cache 是什么
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-page-cache-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Page Cache 是什么" aria-label="Anchor to: 1️⃣ Page Cache 是什么" href="#1-page-cache-%e6%98%af%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>文件 IO 的缓存层</p>
-<ul>
-<li>读：磁盘 -&gt; page cache -&gt; 进程</li>
-<li>写：进程 -&gt; page cache -&gt; 异步刷盘</li>
-</ul>
-<p>📌 <strong>free 内存 ≠ 可用内存</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-脏页dirty-page"
-    >
-        2️⃣ 脏页（Dirty Page）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-脏页dirty-page" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 脏页（Dirty Page）" aria-label="Anchor to: 2️⃣ 脏页（Dirty Page）" href="#2-%e8%84%8f%e9%a1%b5dirty-page">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>dirty_ratio</li>
-<li>dirty_background_ratio</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.dirty_ratio</span><span class="o">=</span><span class="s">20</span>
-</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_background_ratio</span><span class="o">=</span><span class="s">10</span>
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八swap不是洪水猛兽"
-    >
-        八、Swap（不是洪水猛兽）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#八swap不是洪水猛兽" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、Swap（不是洪水猛兽）" aria-label="Anchor to: 八、Swap（不是洪水猛兽）" href="#%e5%85%abswap%e4%b8%8d%e6%98%af%e6%b4%aa%e6%b0%b4%e7%8c%9b%e5%85%bd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-swap-的作用"
-    >
-        1️⃣ Swap 的作用
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-swap-的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Swap 的作用" aria-label="Anchor to: 1️⃣ Swap 的作用" href="#1-swap-%e7%9a%84%e4%bd%9c%e7%94%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>回收匿名页</li>
-<li>防止 OOM</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-swappiness"
-    >
-        2️⃣ Swappiness
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-swappiness" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Swappiness" aria-label="Anchor to: 2️⃣ Swappiness" href="#2-swappiness">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span><span class="o">=</span><span class="s">10</span>
-</span></span></code></pre></div><ul>
-<li>数据库：低</li>
-<li>桌面：高</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九内存回收reclaim"
-    >
-        九、内存回收（Reclaim）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#九内存回收reclaim" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、内存回收（Reclaim）" aria-label="Anchor to: 九、内存回收（Reclaim）" href="#%e4%b9%9d%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6reclaim">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-lru-链表"
-    >
-        1️⃣ LRU 链表
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-lru-链表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ LRU 链表" aria-label="Anchor to: 1️⃣ LRU 链表" href="#1-lru-%e9%93%be%e8%a1%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Active / Inactive
-</span></span><span class="line"><span class="cl">Anon / File
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-kswapd-vs-direct-reclaim"
-    >
-        2️⃣ kswapd vs direct reclaim
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-kswapd-vs-direct-reclaim" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ kswapd vs direct reclaim" aria-label="Anchor to: 2️⃣ kswapd vs direct reclaim" href="#2-kswapd-vs-direct-reclaim">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#systemd-的角色" class="gdoc-page__anchor clip flex align-center" title="Anchor to: systemd 的角色" aria-label="Anchor to: systemd 的角色" href="#systemd-%e7%9a%84%e8%a7%92%e8%89%b2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="table-wrap"> <table>
   <thead>
       <tr>
-          <th>类型</th>
-          <th>触发</th>
+          <th>维度</th>
+          <th>作用</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>kswapd</td>
-          <td>后台</td>
+          <td>进程管理</td>
+          <td>替代传统 init</td>
       </tr>
       <tr>
-          <td>direct</td>
-          <td>分配失败</td>
+          <td>服务编排</td>
+          <td>依赖、顺序、并行</td>
+      </tr>
+      <tr>
+          <td>资源管理</td>
+          <td>对接 cgroups</td>
+      </tr>
+      <tr>
+          <td>状态管理</td>
+          <td>系统运行状态</td>
+      </tr>
+      <tr>
+          <td>日志</td>
+          <td>journald</td>
+      </tr>
+      <tr>
+          <td>设备</td>
+          <td>udev</td>
+      </tr>
+      <tr>
+          <td>网络</td>
+          <td>networkd（可选）</td>
+      </tr>
+      <tr>
+          <td>会话</td>
+          <td>logind</td>
       </tr>
   </tbody>
 </table> </div>
-<p>📌 <strong>direct reclaim 会卡业务</strong></p>
+<p>📌 <strong>systemd = 用户态“操作系统控制平面”</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十oom-killer最后防线"
+    <h2 id="二systemd-的核心设计思想"
     >
-        十、OOM Killer（最后防线）
+        二、systemd 的核心设计思想
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十oom-killer最后防线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、OOM Killer（最后防线）" aria-label="Anchor to: 十、OOM Killer（最后防线）" href="#%e5%8d%81oom-killer%e6%9c%80%e5%90%8e%e9%98%b2%e7%ba%bf">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#二systemd-的核心设计思想" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、systemd 的核心设计思想" aria-label="Anchor to: 二、systemd 的核心设计思想" href="#%e4%ba%8csystemd-%e7%9a%84%e6%a0%b8%e5%bf%83%e8%ae%be%e8%ae%a1%e6%80%9d%e6%83%b3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-oom-触发条件"
+    <h3 id="1-everything-is-a-unit一切皆-unit"
     >
-        1️⃣ OOM 触发条件
+        1️⃣ Everything is a Unit（一切皆 Unit）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-oom-触发条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ OOM 触发条件" aria-label="Anchor to: 1️⃣ OOM 触发条件" href="#1-oom-%e8%a7%a6%e5%8f%91%e6%9d%a1%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#1-everything-is-a-unit一切皆-unit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Everything is a Unit（一切皆 Unit）" aria-label="Anchor to: 1️⃣ Everything is a Unit（一切皆 Unit）" href="#1-everything-is-a-unit%e4%b8%80%e5%88%87%e7%9a%86-unit">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>reclaim 失败</li>
-<li>swap 不足</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-oom-评分"
-    >
-        2️⃣ OOM 评分
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-oom-评分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ OOM 评分" aria-label="Anchor to: 2️⃣ OOM 评分" href="#2-oom-%e8%af%84%e5%88%86">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">oom_score
-</span></span><span class="line"><span class="cl">oom_score_adj
+<p>systemd 不直接“管理进程”，而是管理 <strong>Unit 对象</strong>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">进程 ← Service Unit
+</span></span><span class="line"><span class="cl">设备 ← Device Unit
+</span></span><span class="line"><span class="cl">挂载点 ← Mount Unit
+</span></span><span class="line"><span class="cl">目标状态 ← Target Unit
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-容器-oom"
+    <h3 id="2-声明式而不是命令式"
     >
-        3️⃣ 容器 OOM
+        2️⃣ 声明式，而不是命令式
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#3-容器-oom" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 容器 OOM" aria-label="Anchor to: 3️⃣ 容器 OOM" href="#3-%e5%ae%b9%e5%99%a8-oom">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#2-声明式而不是命令式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 声明式，而不是命令式" aria-label="Anchor to: 2️⃣ 声明式，而不是命令式" href="#2-%e5%a3%b0%e6%98%8e%e5%bc%8f%e8%80%8c%e4%b8%8d%e6%98%af%e5%91%bd%e4%bb%a4%e5%bc%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>cgroup 内存限制触发 OOM，不影响宿主</strong></p>
+<p>传统 init</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">start A
+</span></span><span class="line"><span class="cl">sleep 5
+</span></span><span class="line"><span class="cl">start B
+</span></span></code></pre></div><p>systemd</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">A.service</span>
+</span></span><span class="line"><span class="cl"><span class="na">Requires</span><span class="o">=</span><span class="s">A.service</span>
+</span></span></code></pre></div><p>📌 <strong>你描述“关系”，systemd 负责“执行”</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一numa-内存管理"
+    <h3 id="3-并行启动--事件驱动"
     >
-        十一、NUMA 内存管理
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十一numa-内存管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、NUMA 内存管理" aria-label="Anchor to: 十一、NUMA 内存管理" href="#%e5%8d%81%e4%b8%80numa-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-numa-节点"
-    >
-        1️⃣ NUMA 节点
+        3️⃣ 并行启动 + 事件驱动
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-numa-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ NUMA 节点" aria-label="Anchor to: 1️⃣ NUMA 节点" href="#1-numa-%e8%8a%82%e7%82%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Node0 ←-&gt; Node1
-</span></span></code></pre></div><ul>
-<li>本地内存快</li>
-<li>远程慢</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-numa-balancing"
-    >
-        2️⃣ NUMA balancing
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-numa-balancing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ NUMA balancing" aria-label="Anchor to: 2️⃣ NUMA balancing" href="#2-numa-balancing">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#3-并行启动--事件驱动" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 并行启动 &#43; 事件驱动" aria-label="Anchor to: 3️⃣ 并行启动 &#43; 事件驱动" href="#3-%e5%b9%b6%e8%a1%8c%e5%90%af%e5%8a%a8--%e4%ba%8b%e4%bb%b6%e9%a9%b1%e5%8a%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>自动页迁移</li>
-<li>数据库通常关闭</li>
+<li>不再串行</li>
+<li>有条件才启动</li>
+<li>依赖满足立即运行</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二hugepages数据库重点"
+    <h3 id="4-状态机驱动不是脚本"
     >
-        十二、HugePages（数据库重点）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十二hugepages数据库重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、HugePages（数据库重点）" aria-label="Anchor to: 十二、HugePages（数据库重点）" href="#%e5%8d%81%e4%ba%8chugepages%e6%95%b0%e6%8d%ae%e5%ba%93%e9%87%8d%e7%82%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-hugetlb"
-    >
-        1️⃣ HugeTLB
+        4️⃣ 状态机驱动（不是脚本）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-hugetlb" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ HugeTLB" aria-label="Anchor to: 1️⃣ HugeTLB" href="#1-hugetlb">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#4-状态机驱动不是脚本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 状态机驱动（不是脚本）" aria-label="Anchor to: 4️⃣ 状态机驱动（不是脚本）" href="#4-%e7%8a%b6%e6%80%81%e6%9c%ba%e9%a9%b1%e5%8a%a8%e4%b8%8d%e6%98%af%e8%84%9a%e6%9c%ac">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>2MB / 1GB</li>
-<li>减少 TLB miss</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-transparent-huge-pagesthp"
-    >
-        2️⃣ Transparent Huge Pages（THP）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-transparent-huge-pagesthp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Transparent Huge Pages（THP）" aria-label="Anchor to: 2️⃣ Transparent Huge Pages（THP）" href="#2-transparent-huge-pagesthp">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>自动</li>
-<li>数据库一般禁用</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled
+<p>每个 unit 都有明确状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">inactive -&gt; activating -&gt; active -&gt; deactivating -&gt; failed
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十三cgroups-v2-内存控制"
+    <h2 id="三unit-类型全览核心"
     >
-        十三、cgroups v2 内存控制
+        三、Unit 类型全览（核心）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十三cgroups-v2-内存控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、cgroups v2 内存控制" aria-label="Anchor to: 十三、cgroups v2 内存控制" href="#%e5%8d%81%e4%b8%89cgroups-v2-%e5%86%85%e5%ad%98%e6%8e%a7%e5%88%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#三unit-类型全览核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、Unit 类型全览（核心）" aria-label="Anchor to: 三、Unit 类型全览（核心）" href="#%e4%b8%89unit-%e7%b1%bb%e5%9e%8b%e5%85%a8%e8%a7%88%e6%a0%b8%e5%bf%83">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>Unit 类型</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>service</td>
+          <td>服务进程</td>
+      </tr>
+      <tr>
+          <td>socket</td>
+          <td>套接字激活</td>
+      </tr>
+      <tr>
+          <td>target</td>
+          <td>运行目标</td>
+      </tr>
+      <tr>
+          <td>mount</td>
+          <td>挂载点</td>
+      </tr>
+      <tr>
+          <td>automount</td>
+          <td>自动挂载</td>
+      </tr>
+      <tr>
+          <td>device</td>
+          <td>设备</td>
+      </tr>
+      <tr>
+          <td>path</td>
+          <td>路径触发</td>
+      </tr>
+      <tr>
+          <td>timer</td>
+          <td>定时器</td>
+      </tr>
+      <tr>
+          <td>slice</td>
+          <td>资源分组</td>
+      </tr>
+      <tr>
+          <td>scope</td>
+          <td>外部进程</td>
+      </tr>
+  </tbody>
+</table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-控制项"
+    <h2 id="四service-unit-深度原理最重要"
     >
-        1️⃣ 控制项
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#1-控制项" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 控制项" aria-label="Anchor to: 1️⃣ 控制项" href="#1-%e6%8e%a7%e5%88%b6%e9%a1%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>memory.max</li>
-<li>memory.high</li>
-<li>memory.swap.max</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-oom-行为变化"
-    >
-        2️⃣ OOM 行为变化
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#2-oom-行为变化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ OOM 行为变化" aria-label="Anchor to: 2️⃣ OOM 行为变化" href="#2-oom-%e8%a1%8c%e4%b8%ba%e5%8f%98%e5%8c%96">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>OOM confined</li>
-<li>优先 kill 容器内</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十四内存与容器--虚拟化"
-    >
-        十四、内存与容器 / 虚拟化
+        四、Service Unit 深度原理（最重要）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十四内存与容器--虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、内存与容器 / 虚拟化" aria-label="Anchor to: 十四、内存与容器 / 虚拟化" href="#%e5%8d%81%e5%9b%9b%e5%86%85%e5%ad%98%e4%b8%8e%e5%ae%b9%e5%99%a8--%e8%99%9a%e6%8b%9f%e5%8c%96">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#四service-unit-深度原理最重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Service Unit 深度原理（最重要）" aria-label="Anchor to: 四、Service Unit 深度原理（最重要）" href="#%e5%9b%9bservice-unit-%e6%b7%b1%e5%ba%a6%e5%8e%9f%e7%90%86%e6%9c%80%e9%87%8d%e8%a6%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="容器"
+    <h3 id="1-service-的本质"
     >
-        容器
+        1️⃣ service 的本质
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 容器" aria-label="Anchor to: 容器" href="#%e5%ae%b9%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#1-service-的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ service 的本质" aria-label="Anchor to: 1️⃣ service 的本质" href="#1-service-%e7%9a%84%e6%9c%ac%e8%b4%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>看见的是“虚拟限制”</li>
-<li>page cache 可共享</li>
-</ul>
+<p><strong>systemd 不是“启动程序”，而是“托管进程生命周期”。</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="虚拟机"
+    <h3 id="2-常见-service-类型"
     >
-        虚拟机
+        2️⃣ 常见 Service 类型
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#虚拟机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 虚拟机" aria-label="Anchor to: 虚拟机" href="#%e8%99%9a%e6%8b%9f%e6%9c%ba">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#2-常见-service-类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 常见 Service 类型" aria-label="Anchor to: 2️⃣ 常见 Service 类型" href="#2-%e5%b8%b8%e8%a7%81-service-%e7%b1%bb%e5%9e%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>双重页表（EPT）</li>
-<li>ballooning</li>
-</ul>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>Type</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>simple</td>
+          <td>默认，前台进程</td>
+      </tr>
+      <tr>
+          <td>exec</td>
+          <td>类似 simple</td>
+      </tr>
+      <tr>
+          <td>forking</td>
+          <td>传统 daemon</td>
+      </tr>
+      <tr>
+          <td>oneshot</td>
+          <td>一次性任务</td>
+      </tr>
+      <tr>
+          <td>notify</td>
+          <td>systemd-ready</td>
+      </tr>
+      <tr>
+          <td>dbus</td>
+          <td>D-Bus 激活</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>Type 决定 systemd 如何判断“服务已启动”</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十五常见误区纠正"
+    <h3 id="3-execstart-的真实行为"
     >
-        十五、常见误区纠正
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十五常见误区纠正" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、常见误区纠正" aria-label="Anchor to: 十五、常见误区纠正" href="#%e5%8d%81%e4%ba%94%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e7%ba%a0%e6%ad%a3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-free-显示内存用完了"
-    >
-        ❌ free 显示内存用完了
+        3️⃣ ExecStart 的真实行为
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#-free-显示内存用完了" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ free 显示内存用完了" aria-label="Anchor to: ❌ free 显示内存用完了" href="#-free-%e6%98%be%e7%a4%ba%e5%86%85%e5%ad%98%e7%94%a8%e5%ae%8c%e4%ba%86">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#3-execstart-的真实行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ ExecStart 的真实行为" aria-label="Anchor to: 3️⃣ ExecStart 的真实行为" href="#3-execstart-%e7%9a%84%e7%9c%9f%e5%ae%9e%e8%a1%8c%e4%b8%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>✅ cache 可回收</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-swap-一定慢"
-    >
-        ❌ swap 一定慢
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#-swap-一定慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ swap 一定慢" aria-label="Anchor to: ❌ swap 一定慢" href="#-swap-%e4%b8%80%e5%ae%9a%e6%85%a2">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>✅ 没 swap 更容易 OOM</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-thp-一定好"
-    >
-        ❌ THP 一定好
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#-thp-一定好" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ THP 一定好" aria-label="Anchor to: ❌ THP 一定好" href="#-thp-%e4%b8%80%e5%ae%9a%e5%a5%bd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>✅ DB 常常抖动</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十六关键内核参数速查"
-    >
-        十六、关键内核参数速查
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十六关键内核参数速查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、关键内核参数速查" aria-label="Anchor to: 十六、关键内核参数速查" href="#%e5%8d%81%e5%85%ad%e5%85%b3%e9%94%ae%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0%e9%80%9f%e6%9f%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span>
-</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span>
-</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_ratio</span>
-</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_background_ratio</span>
-</span></span><span class="line"><span class="cl"><span class="na">vm.max_map_count</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/nginx</span>
+</span></span></code></pre></div><p>systemd 实际做了什么：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fork -&gt; execve
+</span></span><span class="line"><span class="cl">设置 namespace
+</span></span><span class="line"><span class="cl">加入 cgroup
+</span></span><span class="line"><span class="cl">设置 rlimit
+</span></span><span class="line"><span class="cl">设置环境变量
+</span></span><span class="line"><span class="cl">监听退出状态
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十七总结"
+    <h3 id="4-systemd-托管能力传统脚本没有"
     >
-        十七、总结
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-memory/#十七总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、总结" aria-label="Anchor to: 十七、总结" href="#%e5%8d%81%e4%b8%83%e6%80%bb%e7%bb%93">
+        4️⃣ systemd 托管能力（传统脚本没有）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#4-systemd-托管能力传统脚本没有" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ systemd 托管能力（传统脚本没有）" aria-label="Anchor to: 4️⃣ systemd 托管能力（传统脚本没有）" href="#4-systemd-%e6%89%98%e7%ae%a1%e8%83%bd%e5%8a%9b%e4%bc%a0%e7%bb%9f%e8%84%9a%e6%9c%ac%e6%b2%a1%e6%9c%89">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>Linux 内存管理 = 虚拟内存 + 页表 + 页分配器 + Page Cache + Reclaim + OOM + NUMA + cgroup</strong></p>
+<ul>
+<li>自动重启（Restart=）</li>
+<li>失败回滚</li>
+<li>启动超时</li>
+<li>进程僵尸回收</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五targetsystemd-的运行级别"
+    >
+        五、Target：systemd 的“运行级别”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#五targetsystemd-的运行级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、Target：systemd 的“运行级别”" aria-label="Anchor to: 五、Target：systemd 的“运行级别”" href="#%e4%ba%94targetsystemd-%e7%9a%84%e8%bf%90%e8%a1%8c%e7%ba%a7%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>target = 状态集合，不是顺序脚本</p>
+<p>| target | 传统 runlevel |
+| multi-user.target | 3 |
+| graphical.target | 5 |
+| rescue.target | 单用户 |
+| emergency.target | 最小系统 |</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl set-default multi-user.target
+</span></span></code></pre></div><p>📌 <strong>target 是“系统状态快照”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六依赖关系模型精髓"
+    >
+        六、依赖关系模型（精髓）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#六依赖关系模型精髓" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、依赖关系模型（精髓）" aria-label="Anchor to: 六、依赖关系模型（精髓）" href="#%e5%85%ad%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%e6%a8%a1%e5%9e%8b%e7%b2%be%e9%ab%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-强依赖-vs-弱依赖"
+    >
+        1️⃣ 强依赖 vs 弱依赖
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#1-强依赖-vs-弱依赖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 强依赖 vs 弱依赖" aria-label="Anchor to: 1️⃣ 强依赖 vs 弱依赖" href="#1-%e5%bc%ba%e4%be%9d%e8%b5%96-vs-%e5%bc%b1%e4%be%9d%e8%b5%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>指令</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Requires</td>
+          <td>没它就失败</td>
+      </tr>
+      <tr>
+          <td>Wants</td>
+          <td>有最好</td>
+      </tr>
+      <tr>
+          <td>After</td>
+          <td>启动顺序</td>
+      </tr>
+      <tr>
+          <td>Before</td>
+          <td>相反顺序</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>After ≠ Requires</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-启动逻辑示例"
+    >
+        2️⃣ 启动逻辑示例
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#2-启动逻辑示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 启动逻辑示例" aria-label="Anchor to: 2️⃣ 启动逻辑示例" href="#2-%e5%90%af%e5%8a%a8%e9%80%bb%e8%be%91%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">Requires</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span></code></pre></div><p>表示：</p>
+<ul>
+<li>必须有网络</li>
+<li>并且等网络 ready</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七cgroupssystemd-的隐藏核心"
+    >
+        七、cgroups：systemd 的隐藏核心
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#七cgroupssystemd-的隐藏核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、cgroups：systemd 的隐藏核心" aria-label="Anchor to: 七、cgroups：systemd 的隐藏核心" href="#%e4%b8%83cgroupssystemd-%e7%9a%84%e9%9a%90%e8%97%8f%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd 是 cgroups v2 的主要控制器</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-cgroup-层级"
+    >
+        1️⃣ cgroup 层级
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#1-cgroup-层级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ cgroup 层级" aria-label="Anchor to: 1️⃣ cgroup 层级" href="#1-cgroup-%e5%b1%82%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/
+</span></span><span class="line"><span class="cl">└─ user.slice
+</span></span><span class="line"><span class="cl">└─ system.slice
+</span></span><span class="line"><span class="cl">   └─ sshd.service
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-资源控制能力"
+    >
+        2️⃣ 资源控制能力
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#2-资源控制能力" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 资源控制能力" aria-label="Anchor to: 2️⃣ 资源控制能力" href="#2-%e8%b5%84%e6%ba%90%e6%8e%a7%e5%88%b6%e8%83%bd%e5%8a%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">CPUQuota</span><span class="o">=</span><span class="s">50%</span>
+</span></span><span class="line"><span class="cl"><span class="na">MemoryMax</span><span class="o">=</span><span class="s">2G</span>
+</span></span><span class="line"><span class="cl"><span class="na">IOReadBandwidthMax</span><span class="o">=</span><span class="s">/dev/sda 10M</span>
+</span></span></code></pre></div><p>📌 systemd 是 <strong>容器 / Kubernetes 的祖师爷</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八socket--path--timer-激活现代能力"
+    >
+        八、Socket / Path / Timer 激活（现代能力）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#八socket--path--timer-激活现代能力" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、Socket / Path / Timer 激活（现代能力）" aria-label="Anchor to: 八、Socket / Path / Timer 激活（现代能力）" href="#%e5%85%absocket--path--timer-%e6%bf%80%e6%b4%bb%e7%8e%b0%e4%bb%a3%e8%83%bd%e5%8a%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="socket-激活"
+    >
+        Socket 激活
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#socket-激活" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Socket 激活" aria-label="Anchor to: Socket 激活" href="#socket-%e6%bf%80%e6%b4%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>有连接才启动服务</li>
+<li>支持平滑升级</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="path-激活"
+    >
+        Path 激活
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#path-激活" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Path 激活" aria-label="Anchor to: Path 激活" href="#path-%e6%bf%80%e6%b4%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>文件变化触发服务</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="timer"
+    >
+        Timer
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#timer" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Timer" aria-label="Anchor to: Timer" href="#timer">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>替代 cron</li>
+<li>精准、可靠、可监控</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九journald日志不是文件"
+    >
+        九、journald：日志不是文件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#九journald日志不是文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、journald：日志不是文件" aria-label="Anchor to: 九、journald：日志不是文件" href="#%e4%b9%9djournald%e6%97%a5%e5%bf%97%e4%b8%8d%e6%98%af%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>日志 = 结构化事件流</strong></p>
+<p>特点</p>
+<ul>
+<li>二进制</li>
+<li>支持索引</li>
+<li>与 unit 绑定</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">journalctl -u sshd
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十logind会话与登录控制"
+    >
+        十、logind：会话与登录控制
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#十logind会话与登录控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、logind：会话与登录控制" aria-label="Anchor to: 十、logind：会话与登录控制" href="#%e5%8d%81logind%e4%bc%9a%e8%af%9d%e4%b8%8e%e7%99%bb%e5%bd%95%e6%8e%a7%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>管理：</p>
+<ul>
+<li>SSH</li>
+<li>TTY</li>
+<li>用户 session</li>
+<li>电源事件</li>
+</ul>
+<p>📌 pam_nologin、登录限制都在这层</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一systemd-vs-sysv-init本质区别"
+    >
+        十一、systemd vs SysV init（本质区别）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#十一systemd-vs-sysv-init本质区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、systemd vs SysV init（本质区别）" aria-label="Anchor to: 十一、systemd vs SysV init（本质区别）" href="#%e5%8d%81%e4%b8%80systemd-vs-sysv-init%e6%9c%ac%e8%b4%a8%e5%8c%ba%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>SysV</th>
+          <th>systemd</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>启动</td>
+          <td>串行</td>
+          <td>并行</td>
+      </tr>
+      <tr>
+          <td>管理</td>
+          <td>脚本</td>
+          <td>状态机</td>
+      </tr>
+      <tr>
+          <td>资源</td>
+          <td>无</td>
+          <td>cgroups</td>
+      </tr>
+      <tr>
+          <td>日志</td>
+          <td>文件</td>
+          <td>journal</td>
+      </tr>
+      <tr>
+          <td>依赖</td>
+          <td>手写</td>
+          <td>自动</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二systemd-在系统中的位置"
+    >
+        十二、systemd 在系统中的“位置”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#十二systemd-在系统中的位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、systemd 在系统中的“位置”" aria-label="Anchor to: 十二、systemd 在系统中的“位置”" href="#%e5%8d%81%e4%ba%8csystemd-%e5%9c%a8%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">内核
+</span></span><span class="line"><span class="cl"> └─ systemd (PID 1)
+</span></span><span class="line"><span class="cl">    ├─ udevd
+</span></span><span class="line"><span class="cl">    ├─ journald
+</span></span><span class="line"><span class="cl">    ├─ logind
+</span></span><span class="line"><span class="cl">    ├─ networkd
+</span></span><span class="line"><span class="cl">    └─ services...
+</span></span></code></pre></div><p>📌 <strong>PID 1 的责任是：系统永远不能“死”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三常见误区纠正"
+    >
+        十三、常见误区纠正
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#十三常见误区纠正" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、常见误区纠正" aria-label="Anchor to: 十三、常见误区纠正" href="#%e5%8d%81%e4%b8%89%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e7%ba%a0%e6%ad%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-systemd-启动慢"
+    >
+        ❌ systemd 启动慢
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#-systemd-启动慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ systemd 启动慢" aria-label="Anchor to: ❌ systemd 启动慢" href="#-systemd-%e5%90%af%e5%8a%a8%e6%85%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 实际更快，只是日志可见</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-systemd-太复杂"
+    >
+        ❌ systemd 太复杂
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#-systemd-太复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ systemd 太复杂" aria-label="Anchor to: ❌ systemd 太复杂" href="#-systemd-%e5%a4%aa%e5%a4%8d%e6%9d%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 它把“复杂度从脚本搬进系统”</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-systemd-不稳定"
+    >
+        ❌ systemd 不稳定
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#-systemd-不稳定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ systemd 不稳定" aria-label="Anchor to: ❌ systemd 不稳定" href="#-systemd-%e4%b8%8d%e7%a8%b3%e5%ae%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 目前 Linux 最稳定的 init 实现</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四总结"
+    >
+        十四、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-systemd/#十四总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、总结" aria-label="Anchor to: 十四、总结" href="#%e5%8d%81%e5%9b%9b%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd 是 Linux 的“状态驱动系统管理内核”，通过 Unit 抽象系统对象，用依赖关系和 cgroups 控制系统生命周期。</strong></p>
 
   </article>
 

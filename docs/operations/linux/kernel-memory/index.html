@@ -12,12 +12,13 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content=" 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」
-同一台主机上：
-同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。
-二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名/域名 CLONE_NEWUTS User UID/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker / Podman / containerd 全都在用这些。" />
+  <meta name="description" content="下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。
+不是 free/top 用法，而是从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器的完整认知体系。
+适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
+一、Linux 内存管理的总体目标 在“有限物理内存 &#43; 大量进程 &#43; IO 并发”的条件下，实现：
+隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup / NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM &#43; Cache &#43; Swap CPU ├─ L1/L2/L3 Cache ├─ MMU / TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU" />
 
-    <title>Linux Namespace | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux 内存管理（Memory） | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +39,27 @@
     
   <meta
     property="og:title"
-    content="Linux Namespace"
+    content="Linux 内存管理（Memory）"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content=" 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」
-同一台主机上：
-同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。
-二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名/域名 CLONE_NEWUTS User UID/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker / Podman / containerd 全都在用这些。" />
+  <meta property="og:description" content="下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。
+不是 free/top 用法，而是从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器的完整认知体系。
+适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
+一、Linux 内存管理的总体目标 在“有限物理内存 &#43; 大量进程 &#43; IO 并发”的条件下，实现：
+隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup / NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM &#43; Cache &#43; Swap CPU ├─ L1/L2/L3 Cache ├─ MMU / TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/namespace/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/kernel-memory/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux Namespace" />
-  <meta name="twitter:description" content=" 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」
-同一台主机上：
-同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。
-二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名/域名 CLONE_NEWUTS User UID/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker / Podman / containerd 全都在用这些。" />
+<meta name="twitter:title" content="Linux 内存管理（Memory）" />
+  <meta name="twitter:description" content="下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。
+不是 free/top 用法，而是从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器的完整认知体系。
+适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
+一、Linux 内存管理的总体目标 在“有限物理内存 &#43; 大量进程 &#43; IO 并发”的条件下，实现：
+隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup / NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM &#43; Cache &#43; Swap CPU ├─ L1/L2/L3 Cache ├─ MMU / TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU" />
 
 
   <script type="application/ld+json">
@@ -64,16 +67,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux Namespace",
-      "url" : "https://documents.v2ep.com/operations/linux/namespace/",
-      "headline": "Linux Namespace",
-      "description": " 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」\n同一台主机上：\n同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。\n二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名\/域名 CLONE_NEWUTS User UID\/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker \/ Podman \/ containerd 全都在用这些。",
-      "wordCount" : "359",
+      "name": "Linux 内存管理（Memory）",
+      "url" : "https://documents.v2ep.com/operations/linux/kernel-memory/",
+      "headline": "Linux 内存管理（Memory）",
+      "description": "下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。\n不是 free\/top 用法，而是从硬件 -\u003e 内核数据结构 -\u003e 页分配 -\u003e 虚拟内存 -\u003e NUMA -\u003e OOM -\u003e 容器的完整认知体系。\n适用 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu \/ 云 \/ 容器 \/ 数据库 \/ 虚拟化。\n一、Linux 内存管理的总体目标 在“有限物理内存 \u002b 大量进程 \u002b IO 并发”的条件下，实现：\n隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup \/ NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM \u002b Cache \u002b Swap CPU ├─ L1\/L2\/L3 Cache ├─ MMU \/ TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU",
+      "wordCount" : "412",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/namespace/"
+          "@id": "https://documents.v2ep.com/operations/linux/kernel-memory/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -157,7 +160,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/namespace/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/kernel-memory/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2000,7 +2003,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux Namespace</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 内存管理（Memory）</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2021,509 +2024,582 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux Namespace</h1>
+    <h1>Linux 内存管理（Memory）</h1>
     
-    <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一namespace-是什么"
+    <p>下面是一份 <strong>「内核级视角」Linux 内存管理（Memory）核心子系统详解</strong>。</p>
+<p>不是 free/top 用法，而是<strong>从硬件 -&gt; 内核数据结构 -&gt; 页分配 -&gt; 虚拟内存 -&gt; NUMA -&gt; OOM -&gt; 容器</strong>的完整认知体系。</p>
+<p>适用 <strong>RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化</strong>。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一linux-内存管理的总体目标"
     >
-        一、Namespace 是什么？
+        一、Linux 内存管理的总体目标
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#一namespace-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Namespace 是什么？" aria-label="Anchor to: 一、Namespace 是什么？" href="#%e4%b8%80namespace-%e6%98%af%e4%bb%80%e4%b9%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#一linux-内存管理的总体目标" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Linux 内存管理的总体目标" aria-label="Anchor to: 一、Linux 内存管理的总体目标" href="#%e4%b8%80linux-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86%e7%9a%84%e6%80%bb%e4%bd%93%e7%9b%ae%e6%a0%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>Namespace = Linux 内核提供的「资源视图隔离机制」</strong></p>
-<p>同一台主机上：</p>
+<p><strong>在“有限物理内存 + 大量进程 + IO 并发”的条件下，实现：</strong></p>
 <ul>
-<li><strong>同一个资源</strong></li>
-<li><strong>不同进程</strong></li>
-<li><strong>看到的是不同世界</strong></li>
+<li>隔离（每进程独立地址空间）</li>
+<li>高效（尽量命中缓存）</li>
+<li>可回收（随时 reclaim）</li>
+<li>可控制（cgroup / NUMA）</li>
 </ul>
-<p>📌 Namespace 不做资源限制（那是 cgroups 干的），只做 <strong>“看不看得到”</strong>。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二linux-有哪几种-namespace"
+    <h2 id="二从硬件开始物理内存模型"
     >
-        二、Linux 有哪几种 Namespace？
+        二、从硬件开始：物理内存模型
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#二linux-有哪几种-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Linux 有哪几种 Namespace？" aria-label="Anchor to: 二、Linux 有哪几种 Namespace？" href="#%e4%ba%8clinux-%e6%9c%89%e5%93%aa%e5%87%a0%e7%a7%8d-namespace">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Namespace</th>
-          <th>隔离内容</th>
-          <th>内核宏</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Mount</td>
-          <td>挂载点</td>
-          <td>CLONE_NEWNS</td>
-      </tr>
-      <tr>
-          <td>PID</td>
-          <td>进程号</td>
-          <td>CLONE_NEWPID</td>
-      </tr>
-      <tr>
-          <td>Network</td>
-          <td>网络栈</td>
-          <td>CLONE_NEWNET</td>
-      </tr>
-      <tr>
-          <td>IPC</td>
-          <td>进程间通信</td>
-          <td>CLONE_NEWIPC</td>
-      </tr>
-      <tr>
-          <td>UTS</td>
-          <td>主机名/域名</td>
-          <td>CLONE_NEWUTS</td>
-      </tr>
-      <tr>
-          <td>User</td>
-          <td>UID/GID</td>
-          <td>CLONE_NEWUSER</td>
-      </tr>
-      <tr>
-          <td>Cgroup</td>
-          <td>cgroup 视图</td>
-          <td>CLONE_NEWCGROUP</td>
-      </tr>
-      <tr>
-          <td>Time</td>
-          <td>系统时间</td>
-          <td>CLONE_NEWTIME</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>Docker / Podman / containerd <strong>全都在用这些</strong>。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三namespace-的核心设计思想"
-    >
-        三、Namespace 的核心设计思想
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#三namespace-的核心设计思想" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、Namespace 的核心设计思想" aria-label="Anchor to: 三、Namespace 的核心设计思想" href="#%e4%b8%89namespace-%e7%9a%84%e6%a0%b8%e5%bf%83%e8%ae%be%e8%ae%a1%e6%80%9d%e6%83%b3">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#二从硬件开始物理内存模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、从硬件开始：物理内存模型" aria-label="Anchor to: 二、从硬件开始：物理内存模型" href="#%e4%ba%8c%e4%bb%8e%e7%a1%ac%e4%bb%b6%e5%bc%80%e5%a7%8b%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-namespace-绑定的是进程"
+    <h3 id="1-ram--cache--swap"
     >
-        1️⃣ Namespace 绑定的是「进程」
+        1️⃣ RAM + Cache + Swap
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#1-namespace-绑定的是进程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Namespace 绑定的是「进程」" aria-label="Anchor to: 1️⃣ Namespace 绑定的是「进程」" href="#1-namespace-%e7%bb%91%e5%ae%9a%e7%9a%84%e6%98%af%e8%bf%9b%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-ram--cache--swap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ RAM &#43; Cache &#43; Swap" aria-label="Anchor to: 1️⃣ RAM &#43; Cache &#43; Swap" href="#1-ram--cache--swap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">CPU
+</span></span><span class="line"><span class="cl"> ├─ L1/L2/L3 Cache
+</span></span><span class="line"><span class="cl"> ├─ MMU / TLB
+</span></span><span class="line"><span class="cl"> └─ RAM
+</span></span><span class="line"><span class="cl">     └─ Swap（磁盘）
+</span></span></code></pre></div><p>📌 Linux 的内存管理 <strong>强依赖 MMU</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-页page是最小单位"
+    >
+        2️⃣ 页（Page）是最小单位
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-页page是最小单位" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 页（Page）是最小单位" aria-label="Anchor to: 2️⃣ 页（Page）是最小单位" href="#2-%e9%a1%b5page%e6%98%af%e6%9c%80%e5%b0%8f%e5%8d%95%e4%bd%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>Namespace 不是系统级</li>
-<li>是 <strong>进程属性</strong></li>
+<li>默认页大小：4KB</li>
+<li>大页：2MB / 1GB（HugePage）</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ls -l /proc/<span class="nv">$$</span>/ns
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">page</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">atomic_t</span> <span class="n">_refcount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-子进程可以继承--创建新-namespace"
+    <h2 id="三虚拟内存vm核心思想"
     >
-        2️⃣ 子进程可以继承 / 创建新 Namespace
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#2-子进程可以继承--创建新-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 子进程可以继承 / 创建新 Namespace" aria-label="Anchor to: 2️⃣ 子进程可以继承 / 创建新 Namespace" href="#2-%e5%ad%90%e8%bf%9b%e7%a8%8b%e5%8f%af%e4%bb%a5%e7%bb%a7%e6%89%bf--%e5%88%9b%e5%bb%ba%e6%96%b0-namespace">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">clone</span><span class="p">(</span><span class="n">CLONE_NEWNET</span> <span class="o">|</span> <span class="n">CLONE_NEWPID</span><span class="p">)</span>
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-namespace-可以加入setns"
-    >
-        3️⃣ Namespace 可以加入（setns）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#3-namespace-可以加入setns" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Namespace 可以加入（setns）" aria-label="Anchor to: 3️⃣ Namespace 可以加入（setns）" href="#3-namespace-%e5%8f%af%e4%bb%a5%e5%8a%a0%e5%85%a5setns">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nsenter -t &lt;pid&gt; -n -m -p
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四mount-namespace最基础最复杂"
-    >
-        四、Mount Namespace（最基础、最复杂）
+        三、虚拟内存（VM）核心思想
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#四mount-namespace最基础最复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Mount Namespace（最基础、最复杂）" aria-label="Anchor to: 四、Mount Namespace（最基础、最复杂）" href="#%e5%9b%9bmount-namespace%e6%9c%80%e5%9f%ba%e7%a1%80%e6%9c%80%e5%a4%8d%e6%9d%82">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#三虚拟内存vm核心思想" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、虚拟内存（VM）核心思想" aria-label="Anchor to: 三、虚拟内存（VM）核心思想" href="#%e4%b8%89%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98vm%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<p><strong>Linux 给每个进程一个“假想无限大”的内存空间</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-隔离什么"
+    <h3 id="1-虚拟地址空间"
     >
-        1️⃣ 隔离什么？
+        1️⃣ 虚拟地址空间
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#1-隔离什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 隔离什么？" aria-label="Anchor to: 1️⃣ 隔离什么？" href="#1-%e9%9a%94%e7%a6%bb%e4%bb%80%e4%b9%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-虚拟地址空间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 虚拟地址空间" aria-label="Anchor to: 1️⃣ 虚拟地址空间" href="#1-%e8%99%9a%e6%8b%9f%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>/</li>
-<li>mount</li>
-<li>bind mount</li>
-<li>overlayfs</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-为什么容器要它"
-    >
-        2️⃣ 为什么容器要它？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#2-为什么容器要它" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 为什么容器要它？" aria-label="Anchor to: 2️⃣ 为什么容器要它？" href="#2-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e8%a6%81%e5%ae%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>容器内：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount <span class="p">|</span> grep overlay
-</span></span></code></pre></div><p>容器外：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount <span class="p">|</span> grep overlay
-</span></span></code></pre></div><p>➡️ <strong>看到完全不同</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-关键机制挂载传播propagation"
-    >
-        3️⃣ 关键机制：挂载传播（Propagation）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#3-关键机制挂载传播propagation" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 关键机制：挂载传播（Propagation）" aria-label="Anchor to: 3️⃣ 关键机制：挂载传播（Propagation）" href="#3-%e5%85%b3%e9%94%ae%e6%9c%ba%e5%88%b6%e6%8c%82%e8%bd%bd%e4%bc%a0%e6%92%adpropagation">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>private</td>
-          <td>默认，不传播</td>
-      </tr>
-      <tr>
-          <td>shared</td>
-          <td>传播</td>
-      </tr>
-      <tr>
-          <td>slave</td>
-          <td>单向</td>
-      </tr>
-      <tr>
-          <td>unbindable</td>
-          <td>不可绑定</td>
-      </tr>
-  </tbody>
-</table> </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount --make-rprivate /
-</span></span></code></pre></div><p>📌 <strong>容器启动前必做</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五pid-namespace进程隔离"
-    >
-        五、PID Namespace（进程隔离）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#五pid-namespace进程隔离" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、PID Namespace（进程隔离）" aria-label="Anchor to: 五、PID Namespace（进程隔离）" href="#%e4%ba%94pid-namespace%e8%bf%9b%e7%a8%8b%e9%9a%94%e7%a6%bb">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-特点"
-    >
-        1️⃣ 特点
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#1-特点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 特点" aria-label="Anchor to: 1️⃣ 特点" href="#1-%e7%89%b9%e7%82%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>PID 从 1 开始</li>
-<li>只能看到自己 namespace 的进程</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -p --fork bash
-</span></span><span class="line"><span class="cl">ps aux
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-pid-1-的特殊性"
-    >
-        2️⃣ PID 1 的特殊性
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#2-pid-1-的特殊性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ PID 1 的特殊性" aria-label="Anchor to: 2️⃣ PID 1 的特殊性" href="#2-pid-1-%e7%9a%84%e7%89%b9%e6%ae%8a%e6%80%a7">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>不处理 SIGCHLD -&gt; 僵尸进程</li>
-<li>容器 init 必须存在</li>
-</ul>
-<p>📌 Docker 用 tini</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六network-namespace最常用"
-    >
-        六、Network Namespace（最常用）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#六network-namespace最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Network Namespace（最常用）" aria-label="Anchor to: 六、Network Namespace（最常用）" href="#%e5%85%adnetwork-namespace%e6%9c%80%e5%b8%b8%e7%94%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-隔离什么-1"
-    >
-        1️⃣ 隔离什么？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#1-隔离什么-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 隔离什么？" aria-label="Anchor to: 1️⃣ 隔离什么？" href="#1-%e9%9a%94%e7%a6%bb%e4%bb%80%e4%b9%88-1">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>网卡</li>
-<li>IP</li>
-<li>路由表</li>
-<li>防火墙</li>
-<li>conntrack</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-新-netns-是真裸机"
-    >
-        2️⃣ 新 netns 是「真·裸机」
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#2-新-netns-是真裸机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 新 netns 是「真·裸机」" aria-label="Anchor to: 2️⃣ 新 netns 是「真·裸机」" href="#2-%e6%96%b0-netns-%e6%98%af%e7%9c%9f%e8%a3%b8%e6%9c%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip netns add <span class="nb">test</span>
-</span></span><span class="line"><span class="cl">ip netns <span class="nb">exec</span> <span class="nb">test</span> ip a
-</span></span></code></pre></div><p>只有：</p>
-<ul>
-<li>lo（DOWN）</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-vethnamespace-之间的网线"
-    >
-        3️⃣ veth：Namespace 之间的网线
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#3-vethnamespace-之间的网线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ veth：Namespace 之间的网线" aria-label="Anchor to: 3️⃣ veth：Namespace 之间的网线" href="#3-vethnamespace-%e4%b9%8b%e9%97%b4%e7%9a%84%e7%bd%91%e7%ba%bf">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip link add veth0 <span class="nb">type</span> veth peer name veth1
-</span></span><span class="line"><span class="cl">ip link <span class="nb">set</span> veth1 netns <span class="nb">test</span>
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-docker-网络本质"
-    >
-        4️⃣ Docker 网络本质
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#4-docker-网络本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ Docker 网络本质" aria-label="Anchor to: 4️⃣ Docker 网络本质" href="#4-docker-%e7%bd%91%e7%bb%9c%e6%9c%ac%e8%b4%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container(netns)
-</span></span><span class="line"><span class="cl">   |
-</span></span><span class="line"><span class="cl"> veth
-</span></span><span class="line"><span class="cl">   |
-</span></span><span class="line"><span class="cl"> docker0 (bridge)
-</span></span><span class="line"><span class="cl">   |
-</span></span><span class="line"><span class="cl"> host NIC
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七uts-namespace主机名"
-    >
-        七、UTS Namespace（主机名）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#七uts-namespace主机名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、UTS Namespace（主机名）" aria-label="Anchor to: 七、UTS Namespace（主机名）" href="#%e4%b8%83uts-namespace%e4%b8%bb%e6%9c%ba%e5%90%8d">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -u bash
-</span></span><span class="line"><span class="cl">hostname container01
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0x00000000 ────────── user space
+</span></span><span class="line"><span class="cl">            heap
+</span></span><span class="line"><span class="cl">            mmap
+</span></span><span class="line"><span class="cl">            stack
+</span></span><span class="line"><span class="cl">0xC0000000 ────────── kernel space
 </span></span></code></pre></div><ul>
-<li>不影响宿主机</li>
-<li>Kubernetes Pod 用它</li>
+<li>每进程独立</li>
+<li>内核空间共享</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八ipc-namespace"
+    <h3 id="2-地址转换关键路径"
     >
-        八、IPC Namespace
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#八ipc-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、IPC Namespace" aria-label="Anchor to: 八、IPC Namespace" href="#%e5%85%abipc-namespace">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>隔离：</p>
-<ul>
-<li>SysV shm</li>
-<li>semaphore</li>
-<li>message queue</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ipcs -m
-</span></span></code></pre></div><p>容器间不会互相看到</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九user-namespace最容易误解"
-    >
-        九、User Namespace（最容易误解）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#九user-namespace最容易误解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、User Namespace（最容易误解）" aria-label="Anchor to: 九、User Namespace（最容易误解）" href="#%e4%b9%9duser-namespace%e6%9c%80%e5%ae%b9%e6%98%93%e8%af%af%e8%a7%a3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-解决什么问题"
-    >
-        1️⃣ 解决什么问题？
+        2️⃣ 地址转换（关键路径）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#1-解决什么问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 解决什么问题？" aria-label="Anchor to: 1️⃣ 解决什么问题？" href="#1-%e8%a7%a3%e5%86%b3%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-地址转换关键路径" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 地址转换（关键路径）" aria-label="Anchor to: 2️⃣ 地址转换（关键路径）" href="#2-%e5%9c%b0%e5%9d%80%e8%bd%ac%e6%8d%a2%e5%85%b3%e9%94%ae%e8%b7%af%e5%be%84">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>容器内 root ≠ 宿主 root</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -U bash
-</span></span><span class="line"><span class="cl">id
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-uid-映射"
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">虚拟地址 -&gt; 页表 -&gt; 物理页 -&gt; cache -&gt; RAM
+</span></span></code></pre></div><p>由 <strong>MMU + 页表 + TLB</strong> 完成</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四内核核心数据结构"
     >
-        2️⃣ UID 映射
+        四、内核核心数据结构
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#四内核核心数据结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、内核核心数据结构" aria-label="Anchor to: 四、内核核心数据结构" href="#%e5%9b%9b%e5%86%85%e6%a0%b8%e6%a0%b8%e5%bf%83%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-mm_struct进程内存视图"
+    >
+        1️⃣ mm_struct（进程内存视图）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#2-uid-映射" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ UID 映射" aria-label="Anchor to: 2️⃣ UID 映射" href="#2-uid-%e6%98%a0%e5%b0%84">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-mm_struct进程内存视图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ mm_struct（进程内存视图）" aria-label="Anchor to: 1️⃣ mm_struct（进程内存视图）" href="#1-mm_struct%e8%bf%9b%e7%a8%8b%e5%86%85%e5%ad%98%e8%a7%86%e5%9b%be">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /proc/<span class="nv">$$</span>/uid_map
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0 100000 65536
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">mm_struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">pgd_t</span> <span class="o">*</span><span class="n">pgd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">total_vm</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">rss</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="o">*</span><span class="n">mmap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-安全价值极高"
+    <h3 id="2-vma虚拟内存区域"
     >
-        3️⃣ 安全价值极高
+        2️⃣ VMA（虚拟内存区域）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#3-安全价值极高" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 安全价值极高" aria-label="Anchor to: 3️⃣ 安全价值极高" href="#3-%e5%ae%89%e5%85%a8%e4%bb%b7%e5%80%bc%e6%9e%81%e9%ab%98">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-vma虚拟内存区域" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ VMA（虚拟内存区域）" aria-label="Anchor to: 2️⃣ VMA（虚拟内存区域）" href="#2-vma%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>rootless container</li>
-<li>减少提权风险</li>
-</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">vm_area_struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">vm_start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">vm_end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">vm_flags</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>📌 <strong>mmap / heap / stack 都是 VMA</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十cgroup-namespace"
+    <h2 id="五页分配器buddy-system"
     >
-        十、Cgroup Namespace
+        五、页分配器（Buddy System）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#十cgroup-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、Cgroup Namespace" aria-label="Anchor to: 十、Cgroup Namespace" href="#%e5%8d%81cgroup-namespace">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>隔离 /proc/self/cgroup 视图</li>
-<li>避免容器看到宿主完整层级</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一time-namespace新"
-    >
-        十一、Time Namespace（新）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#十一time-namespace新" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、Time Namespace（新）" aria-label="Anchor to: 十一、Time Namespace（新）" href="#%e5%8d%81%e4%b8%80time-namespace%e6%96%b0">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>CLOCK_MONOTONIC</li>
-<li>CLOCK_BOOTTIME</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -T bash
-</span></span></code></pre></div><p>📌 用于测试、回放</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二namespace-组合--容器"
-    >
-        十二、Namespace 组合 = 容器
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#十二namespace-组合--容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、Namespace 组合 = 容器" aria-label="Anchor to: 十二、Namespace 组合 = 容器" href="#%e5%8d%81%e4%ba%8cnamespace-%e7%bb%84%e5%90%88--%e5%ae%b9%e5%99%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Container =
-</span></span><span class="line"><span class="cl">  Mount
-</span></span><span class="line"><span class="cl">+ PID
-</span></span><span class="line"><span class="cl">+ Net
-</span></span><span class="line"><span class="cl">+ IPC
-</span></span><span class="line"><span class="cl">+ UTS
-</span></span><span class="line"><span class="cl">+ User
-</span></span><span class="line"><span class="cl">+ Cgroup
-</span></span></code></pre></div><p>📌 <strong>Namespace 是容器的本体</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十三namespace-生命周期"
-    >
-        十三、Namespace 生命周期
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#十三namespace-生命周期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、Namespace 生命周期" aria-label="Anchor to: 十三、Namespace 生命周期" href="#%e5%8d%81%e4%b8%89namespace-%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>随最后一个进程结束而销毁</li>
-<li>或被 bind mount 到文件系统</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount --bind /proc/1234/ns/net /var/run/netns/demo
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十四调试与排查"
-    >
-        十四、调试与排查
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#十四调试与排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、调试与排查" aria-label="Anchor to: 十四、调试与排查" href="#%e5%8d%81%e5%9b%9b%e8%b0%83%e8%af%95%e4%b8%8e%e6%8e%92%e6%9f%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#五页分配器buddy-system" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、页分配器（Buddy System）" aria-label="Anchor to: 五、页分配器（Buddy System）" href="#%e4%ba%94%e9%a1%b5%e5%88%86%e9%85%8d%e5%99%a8buddy-system">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-查看进程在哪些-namespace"
+    <h3 id="1-buddy-分配原理"
     >
-        1️⃣ 查看进程在哪些 Namespace
+        1️⃣ Buddy 分配原理
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#1-查看进程在哪些-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 查看进程在哪些 Namespace" aria-label="Anchor to: 1️⃣ 查看进程在哪些 Namespace" href="#1-%e6%9f%a5%e7%9c%8b%e8%bf%9b%e7%a8%8b%e5%9c%a8%e5%93%aa%e4%ba%9b-namespace">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-buddy-分配原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Buddy 分配原理" aria-label="Anchor to: 1️⃣ Buddy 分配原理" href="#1-buddy-%e5%88%86%e9%85%8d%e5%8e%9f%e7%90%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">lsns -p &lt;pid&gt;
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-进入容器-namespace无-docker"
-    >
-        2️⃣ 进入容器 Namespace（无 Docker）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#2-进入容器-namespace无-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 进入容器 Namespace（无 Docker）" aria-label="Anchor to: 2️⃣ 进入容器 Namespace（无 Docker）" href="#2-%e8%bf%9b%e5%85%a5%e5%ae%b9%e5%99%a8-namespace%e6%97%a0-docker">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nsenter -t &lt;pid&gt; -n -m -p -u -i bash
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十五生产实践经验总结非常重要"
-    >
-        十五、生产实践经验总结（非常重要）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#十五生产实践经验总结非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、生产实践经验总结（非常重要）" aria-label="Anchor to: 十五、生产实践经验总结（非常重要）" href="#%e5%8d%81%e4%ba%94%e7%94%9f%e4%ba%a7%e5%ae%9e%e8%b7%b5%e7%bb%8f%e9%aa%8c%e6%80%bb%e7%bb%93%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>✅ 推荐</p>
 <ul>
-<li>明确 namespace 边界</li>
-<li>使用 user namespace</li>
-<li>容器 PID 1 要靠谱</li>
-<li>netns 内部最小化防火墙</li>
+<li>管理 2^n 页块</li>
+<li>快速分配 / 合并</li>
 </ul>
-<p>❌ 雷区</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Order 0 = 1 page
+</span></span><span class="line"><span class="cl">Order 1 = 2 pages
+</span></span><span class="line"><span class="cl">Order 10 = 1024 pages
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-内存碎片问题"
+    >
+        2️⃣ 内存碎片问题
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-内存碎片问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 内存碎片问题" aria-label="Anchor to: 2️⃣ 内存碎片问题" href="#2-%e5%86%85%e5%ad%98%e7%a2%8e%e7%89%87%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>在 host 上乱改 mount 传播</li>
-<li>忽略 PID 1</li>
-<li>误以为 namespace 能限资源</li>
+<li>外部碎片</li>
+<li>解决方案：
+<ul>
+<li>内存压缩（compaction）</li>
+<li>HugePage 预留</li>
+</ul>
+</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十六总结"
+    <h2 id="六slab--slub-分配器对象级"
     >
-        十六、总结
+        六、Slab / Slub 分配器（对象级）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/namespace/#十六总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、总结" aria-label="Anchor to: 十六、总结" href="#%e5%8d%81%e5%85%ad%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#六slab--slub-分配器对象级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Slab / Slub 分配器（对象级）" aria-label="Anchor to: 六、Slab / Slub 分配器（对象级）" href="#%e5%85%adslab--slub-%e5%88%86%e9%85%8d%e5%99%a8%e5%af%b9%e8%b1%a1%e7%ba%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>Namespace 是“你能看到什么”</strong></p>
-<p><strong>cgroups 是“你能用多少”</strong></p>
-<p><strong>两者一起，才是容器。</strong></p>
+<p><strong>避免频繁 page 分配</strong></p>
+<ul>
+<li>slab：老</li>
+<li>slub：默认（RHEL / Ubuntu）</li>
+</ul>
+<p>用于：</p>
+<ul>
+<li>inode</li>
+<li>dentry</li>
+<li>task_struct</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七page-cache性能核心"
+    >
+        七、Page Cache（性能核心）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#七page-cache性能核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、Page Cache（性能核心）" aria-label="Anchor to: 七、Page Cache（性能核心）" href="#%e4%b8%83page-cache%e6%80%a7%e8%83%bd%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-page-cache-是什么"
+    >
+        1️⃣ Page Cache 是什么
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-page-cache-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Page Cache 是什么" aria-label="Anchor to: 1️⃣ Page Cache 是什么" href="#1-page-cache-%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>文件 IO 的缓存层</p>
+<ul>
+<li>读：磁盘 -&gt; page cache -&gt; 进程</li>
+<li>写：进程 -&gt; page cache -&gt; 异步刷盘</li>
+</ul>
+<p>📌 <strong>free 内存 ≠ 可用内存</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-脏页dirty-page"
+    >
+        2️⃣ 脏页（Dirty Page）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-脏页dirty-page" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 脏页（Dirty Page）" aria-label="Anchor to: 2️⃣ 脏页（Dirty Page）" href="#2-%e8%84%8f%e9%a1%b5dirty-page">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>dirty_ratio</li>
+<li>dirty_background_ratio</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.dirty_ratio</span><span class="o">=</span><span class="s">20</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_background_ratio</span><span class="o">=</span><span class="s">10</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八swap不是洪水猛兽"
+    >
+        八、Swap（不是洪水猛兽）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#八swap不是洪水猛兽" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、Swap（不是洪水猛兽）" aria-label="Anchor to: 八、Swap（不是洪水猛兽）" href="#%e5%85%abswap%e4%b8%8d%e6%98%af%e6%b4%aa%e6%b0%b4%e7%8c%9b%e5%85%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-swap-的作用"
+    >
+        1️⃣ Swap 的作用
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-swap-的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Swap 的作用" aria-label="Anchor to: 1️⃣ Swap 的作用" href="#1-swap-%e7%9a%84%e4%bd%9c%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>回收匿名页</li>
+<li>防止 OOM</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-swappiness"
+    >
+        2️⃣ Swappiness
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-swappiness" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Swappiness" aria-label="Anchor to: 2️⃣ Swappiness" href="#2-swappiness">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span><span class="o">=</span><span class="s">10</span>
+</span></span></code></pre></div><ul>
+<li>数据库：低</li>
+<li>桌面：高</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九内存回收reclaim"
+    >
+        九、内存回收（Reclaim）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#九内存回收reclaim" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、内存回收（Reclaim）" aria-label="Anchor to: 九、内存回收（Reclaim）" href="#%e4%b9%9d%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6reclaim">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-lru-链表"
+    >
+        1️⃣ LRU 链表
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-lru-链表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ LRU 链表" aria-label="Anchor to: 1️⃣ LRU 链表" href="#1-lru-%e9%93%be%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Active / Inactive
+</span></span><span class="line"><span class="cl">Anon / File
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-kswapd-vs-direct-reclaim"
+    >
+        2️⃣ kswapd vs direct reclaim
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-kswapd-vs-direct-reclaim" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ kswapd vs direct reclaim" aria-label="Anchor to: 2️⃣ kswapd vs direct reclaim" href="#2-kswapd-vs-direct-reclaim">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>触发</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>kswapd</td>
+          <td>后台</td>
+      </tr>
+      <tr>
+          <td>direct</td>
+          <td>分配失败</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>direct reclaim 会卡业务</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十oom-killer最后防线"
+    >
+        十、OOM Killer（最后防线）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十oom-killer最后防线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、OOM Killer（最后防线）" aria-label="Anchor to: 十、OOM Killer（最后防线）" href="#%e5%8d%81oom-killer%e6%9c%80%e5%90%8e%e9%98%b2%e7%ba%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-oom-触发条件"
+    >
+        1️⃣ OOM 触发条件
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-oom-触发条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ OOM 触发条件" aria-label="Anchor to: 1️⃣ OOM 触发条件" href="#1-oom-%e8%a7%a6%e5%8f%91%e6%9d%a1%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>reclaim 失败</li>
+<li>swap 不足</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-oom-评分"
+    >
+        2️⃣ OOM 评分
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-oom-评分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ OOM 评分" aria-label="Anchor to: 2️⃣ OOM 评分" href="#2-oom-%e8%af%84%e5%88%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">oom_score
+</span></span><span class="line"><span class="cl">oom_score_adj
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-容器-oom"
+    >
+        3️⃣ 容器 OOM
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#3-容器-oom" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 容器 OOM" aria-label="Anchor to: 3️⃣ 容器 OOM" href="#3-%e5%ae%b9%e5%99%a8-oom">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>cgroup 内存限制触发 OOM，不影响宿主</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一numa-内存管理"
+    >
+        十一、NUMA 内存管理
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十一numa-内存管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、NUMA 内存管理" aria-label="Anchor to: 十一、NUMA 内存管理" href="#%e5%8d%81%e4%b8%80numa-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-numa-节点"
+    >
+        1️⃣ NUMA 节点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-numa-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ NUMA 节点" aria-label="Anchor to: 1️⃣ NUMA 节点" href="#1-numa-%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Node0 ←-&gt; Node1
+</span></span></code></pre></div><ul>
+<li>本地内存快</li>
+<li>远程慢</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-numa-balancing"
+    >
+        2️⃣ NUMA balancing
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-numa-balancing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ NUMA balancing" aria-label="Anchor to: 2️⃣ NUMA balancing" href="#2-numa-balancing">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>自动页迁移</li>
+<li>数据库通常关闭</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二hugepages数据库重点"
+    >
+        十二、HugePages（数据库重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十二hugepages数据库重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、HugePages（数据库重点）" aria-label="Anchor to: 十二、HugePages（数据库重点）" href="#%e5%8d%81%e4%ba%8chugepages%e6%95%b0%e6%8d%ae%e5%ba%93%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-hugetlb"
+    >
+        1️⃣ HugeTLB
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-hugetlb" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ HugeTLB" aria-label="Anchor to: 1️⃣ HugeTLB" href="#1-hugetlb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>2MB / 1GB</li>
+<li>减少 TLB miss</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-transparent-huge-pagesthp"
+    >
+        2️⃣ Transparent Huge Pages（THP）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-transparent-huge-pagesthp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Transparent Huge Pages（THP）" aria-label="Anchor to: 2️⃣ Transparent Huge Pages（THP）" href="#2-transparent-huge-pagesthp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>自动</li>
+<li>数据库一般禁用</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三cgroups-v2-内存控制"
+    >
+        十三、cgroups v2 内存控制
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十三cgroups-v2-内存控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、cgroups v2 内存控制" aria-label="Anchor to: 十三、cgroups v2 内存控制" href="#%e5%8d%81%e4%b8%89cgroups-v2-%e5%86%85%e5%ad%98%e6%8e%a7%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-控制项"
+    >
+        1️⃣ 控制项
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#1-控制项" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 控制项" aria-label="Anchor to: 1️⃣ 控制项" href="#1-%e6%8e%a7%e5%88%b6%e9%a1%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>memory.max</li>
+<li>memory.high</li>
+<li>memory.swap.max</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-oom-行为变化"
+    >
+        2️⃣ OOM 行为变化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#2-oom-行为变化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ OOM 行为变化" aria-label="Anchor to: 2️⃣ OOM 行为变化" href="#2-oom-%e8%a1%8c%e4%b8%ba%e5%8f%98%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>OOM confined</li>
+<li>优先 kill 容器内</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四内存与容器--虚拟化"
+    >
+        十四、内存与容器 / 虚拟化
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十四内存与容器--虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、内存与容器 / 虚拟化" aria-label="Anchor to: 十四、内存与容器 / 虚拟化" href="#%e5%8d%81%e5%9b%9b%e5%86%85%e5%ad%98%e4%b8%8e%e5%ae%b9%e5%99%a8--%e8%99%9a%e6%8b%9f%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="容器"
+    >
+        容器
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 容器" aria-label="Anchor to: 容器" href="#%e5%ae%b9%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>看见的是“虚拟限制”</li>
+<li>page cache 可共享</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="虚拟机"
+    >
+        虚拟机
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#虚拟机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 虚拟机" aria-label="Anchor to: 虚拟机" href="#%e8%99%9a%e6%8b%9f%e6%9c%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>双重页表（EPT）</li>
+<li>ballooning</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十五常见误区纠正"
+    >
+        十五、常见误区纠正
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十五常见误区纠正" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、常见误区纠正" aria-label="Anchor to: 十五、常见误区纠正" href="#%e5%8d%81%e4%ba%94%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e7%ba%a0%e6%ad%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-free-显示内存用完了"
+    >
+        ❌ free 显示内存用完了
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#-free-显示内存用完了" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ free 显示内存用完了" aria-label="Anchor to: ❌ free 显示内存用完了" href="#-free-%e6%98%be%e7%a4%ba%e5%86%85%e5%ad%98%e7%94%a8%e5%ae%8c%e4%ba%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ cache 可回收</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-swap-一定慢"
+    >
+        ❌ swap 一定慢
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#-swap-一定慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ swap 一定慢" aria-label="Anchor to: ❌ swap 一定慢" href="#-swap-%e4%b8%80%e5%ae%9a%e6%85%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 没 swap 更容易 OOM</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-thp-一定好"
+    >
+        ❌ THP 一定好
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#-thp-一定好" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ THP 一定好" aria-label="Anchor to: ❌ THP 一定好" href="#-thp-%e4%b8%80%e5%ae%9a%e5%a5%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ DB 常常抖动</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十六关键内核参数速查"
+    >
+        十六、关键内核参数速查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十六关键内核参数速查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、关键内核参数速查" aria-label="Anchor to: 十六、关键内核参数速查" href="#%e5%8d%81%e5%85%ad%e5%85%b3%e9%94%ae%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0%e9%80%9f%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_ratio</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_background_ratio</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.max_map_count</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十七总结"
+    >
+        十七、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-memory/#十七总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、总结" aria-label="Anchor to: 十七、总结" href="#%e5%8d%81%e4%b8%83%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Linux 内存管理 = 虚拟内存 + 页表 + 页分配器 + Page Cache + Reclaim + OOM + NUMA + cgroup</strong></p>
 
   </article>
 

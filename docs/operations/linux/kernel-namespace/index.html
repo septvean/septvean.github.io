@@ -12,13 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Linux UnionFS（联合文件系统）详解。
-内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
-一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
-上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
-二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
+  <meta name="description" content=" 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」
+同一台主机上：
+同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。
+二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名/域名 CLONE_NEWUTS User UID/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker / Podman / containerd 全都在用这些。" />
 
-    <title>Linux UnionFS | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux Namespace | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,27 +38,25 @@
     
   <meta
     property="og:title"
-    content="Linux UnionFS"
+    content="Linux Namespace"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Linux UnionFS（联合文件系统）详解。
-内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
-一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
-上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
-二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
+  <meta property="og:description" content=" 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」
+同一台主机上：
+同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。
+二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名/域名 CLONE_NEWUTS User UID/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker / Podman / containerd 全都在用这些。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/unionfs/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/kernel-namespace/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux UnionFS" />
-  <meta name="twitter:description" content="Linux UnionFS（联合文件系统）详解。
-内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
-一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
-上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
-二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
+<meta name="twitter:title" content="Linux Namespace" />
+  <meta name="twitter:description" content=" 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」
+同一台主机上：
+同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。
+二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名/域名 CLONE_NEWUTS User UID/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker / Podman / containerd 全都在用这些。" />
 
 
   <script type="application/ld+json">
@@ -67,16 +64,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux UnionFS",
-      "url" : "https://documents.v2ep.com/operations/linux/unionfs/",
-      "headline": "Linux UnionFS",
-      "description": "Linux UnionFS（联合文件系统）详解。\n内容：概念 -\u003e 内核实现 -\u003e 主流实现 -\u003e 行为细节 -\u003e 与容器的关系 -\u003e 性能与陷阱 -\u003e 最佳实践\n一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。\n上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）\n二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 \/ Live CD Live 系统：只读 \u002b 内存写层 回滚 \/ 快照 3️⃣ 只读根文件系统 \u002b 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch",
-      "wordCount" : "381",
+      "name": "Linux Namespace",
+      "url" : "https://documents.v2ep.com/operations/linux/kernel-namespace/",
+      "headline": "Linux Namespace",
+      "description": " 一、Namespace 是什么？ Namespace = Linux 内核提供的「资源视图隔离机制」\n同一台主机上：\n同一个资源 不同进程 看到的是不同世界 📌 Namespace 不做资源限制（那是 cgroups 干的），只做 “看不看得到”。\n二、Linux 有哪几种 Namespace？ Namespace 隔离内容 内核宏 Mount 挂载点 CLONE_NEWNS PID 进程号 CLONE_NEWPID Network 网络栈 CLONE_NEWNET IPC 进程间通信 CLONE_NEWIPC UTS 主机名\/域名 CLONE_NEWUTS User UID\/GID CLONE_NEWUSER Cgroup cgroup 视图 CLONE_NEWCGROUP Time 系统时间 CLONE_NEWTIME Docker \/ Podman \/ containerd 全都在用这些。",
+      "wordCount" : "359",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/unionfs/"
+          "@id": "https://documents.v2ep.com/operations/linux/kernel-namespace/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -160,7 +157,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/unionfs/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/kernel-namespace/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2003,7 +2000,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux UnionFS</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux Namespace</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2024,581 +2021,509 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux UnionFS</h1>
+    <h1>Linux Namespace</h1>
     
-    <p>Linux UnionFS（联合文件系统）详解。</p>
-<p>内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一unionfs-是什么一句话"
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一namespace-是什么"
     >
-        一、UnionFS 是什么（一句话）
+        一、Namespace 是什么？
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#一unionfs-是什么一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、UnionFS 是什么（一句话）" aria-label="Anchor to: 一、UnionFS 是什么（一句话）" href="#%e4%b8%80unionfs-%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%80%e5%8f%a5%e8%af%9d">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#一namespace-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Namespace 是什么？" aria-label="Anchor to: 一、Namespace 是什么？" href="#%e4%b8%80namespace-%e6%98%af%e4%bb%80%e4%b9%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。</strong></p>
+<p><strong>Namespace = Linux 内核提供的「资源视图隔离机制」</strong></p>
+<p>同一台主机上：</p>
 <ul>
-<li>上层：可写层（upper）</li>
-<li>下层：只读层（lower）</li>
-<li>对用户呈现：<strong>一个完整目录树</strong></li>
+<li><strong>同一个资源</strong></li>
+<li><strong>不同进程</strong></li>
+<li><strong>看到的是不同世界</strong></li>
 </ul>
-<p>📌 <strong>UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）</strong></p>
+<p>📌 Namespace 不做资源限制（那是 cgroups 干的），只做 <strong>“看不看得到”</strong>。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二为什么需要-unionfs设计动机"
+    <h2 id="二linux-有哪几种-namespace"
     >
-        二、为什么需要 UnionFS（设计动机）
+        二、Linux 有哪几种 Namespace？
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#二为什么需要-unionfs设计动机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么需要 UnionFS（设计动机）" aria-label="Anchor to: 二、为什么需要 UnionFS（设计动机）" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-unionfs%e8%ae%be%e8%ae%a1%e5%8a%a8%e6%9c%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-镜像分层容器"
-    >
-        1️⃣ 镜像分层（容器）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-镜像分层容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 镜像分层（容器）" aria-label="Anchor to: 1️⃣ 镜像分层（容器）" href="#1-%e9%95%9c%e5%83%8f%e5%88%86%e5%b1%82%e5%ae%b9%e5%99%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">应用层（可写）
-</span></span><span class="line"><span class="cl">---------
-</span></span><span class="line"><span class="cl">基础镜像层（只读）
-</span></span><span class="line"><span class="cl">---------
-</span></span><span class="line"><span class="cl">OS 层（只读）
-</span></span></code></pre></div><ul>
-<li>节省空间</li>
-<li>快速创建</li>
-<li>层复用</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-系统快照--live-cd"
-    >
-        2️⃣ 系统快照 / Live CD
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-系统快照--live-cd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 系统快照 / Live CD" aria-label="Anchor to: 2️⃣ 系统快照 / Live CD" href="#2-%e7%b3%bb%e7%bb%9f%e5%bf%ab%e7%85%a7--live-cd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>Live 系统：只读 + 内存写层</li>
-<li>回滚 / 快照</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-只读根文件系统--可写覆盖"
-    >
-        3️⃣ 只读根文件系统 + 可写覆盖
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-只读根文件系统--可写覆盖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 只读根文件系统 &#43; 可写覆盖" aria-label="Anchor to: 3️⃣ 只读根文件系统 &#43; 可写覆盖" href="#3-%e5%8f%aa%e8%af%bb%e6%a0%b9%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f--%e5%8f%af%e5%86%99%e8%a6%86%e7%9b%96">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>嵌入式系统</li>
-<li>安全系统</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三unionfs-的核心概念"
-    >
-        三、UnionFS 的核心概念
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#三unionfs-的核心概念" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、UnionFS 的核心概念" aria-label="Anchor to: 三、UnionFS 的核心概念" href="#%e4%b8%89unionfs-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-branch分支"
-    >
-        1️⃣ Branch（分支）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-branch分支" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Branch（分支）" aria-label="Anchor to: 1️⃣ Branch（分支）" href="#1-branch%e5%88%86%e6%94%af">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>每一层目录叫一个 <strong>branch</strong></p>
-<ul>
-<li>lower branch：只读</li>
-<li>upper branch：可写</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-whiteout白障"
-    >
-        2️⃣ Whiteout（白障）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-whiteout白障" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Whiteout（白障）" aria-label="Anchor to: 2️⃣ Whiteout（白障）" href="#2-whiteout%e7%99%bd%e9%9a%9c">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>用于“在上层删除下层文件”的特殊标记</strong></p>
-<ul>
-<li>删除 ≠ 真删除</li>
-<li>是创建 .wh.&lt;filename&gt;</li>
-</ul>
-<p>📌 <strong>这是 UnionFS 的核心魔法之一</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-copy-on-write写时复制"
-    >
-        3️⃣ Copy-on-Write（写时复制）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-copy-on-write写时复制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Copy-on-Write（写时复制）" aria-label="Anchor to: 3️⃣ Copy-on-Write（写时复制）" href="#3-copy-on-write%e5%86%99%e6%97%b6%e5%a4%8d%e5%88%b6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>当你：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> hello &gt;&gt; /bin/ls
-</span></span></code></pre></div><p>实际发生的是：</p>
-<ol>
-<li>/bin/ls 从 lower copy 到 upper</li>
-<li>在 upper 中修改</li>
-<li>lower 不变</li>
-</ol>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四unionfs-的内核实现演进"
-    >
-        四、UnionFS 的内核实现演进
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#四unionfs-的内核实现演进" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、UnionFS 的内核实现演进" aria-label="Anchor to: 四、UnionFS 的内核实现演进" href="#%e5%9b%9bunionfs-%e7%9a%84%e5%86%85%e6%a0%b8%e5%ae%9e%e7%8e%b0%e6%bc%94%e8%bf%9b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-unionfs最早"
-    >
-        1️⃣ UnionFS（最早）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-unionfs最早" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ UnionFS（最早）" aria-label="Anchor to: 1️⃣ UnionFS（最早）" href="#1-unionfs%e6%9c%80%e6%97%a9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>外部模块</li>
-<li>稳定性一般</li>
-<li>已基本弃用</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-aufsdocker-早期"
-    >
-        2️⃣ AUFS（Docker 早期）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-aufsdocker-早期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ AUFS（Docker 早期）" aria-label="Anchor to: 2️⃣ AUFS（Docker 早期）" href="#2-aufsdocker-%e6%97%a9%e6%9c%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>功能强大</li>
-<li>非主线内核</li>
-<li>Ubuntu 曾长期使用</li>
-</ul>
-<p>📌 <strong>RHEL 系列从未支持 AUFS</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-overlayfs主线内核"
-    >
-        3️⃣ OverlayFS（主线内核）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-overlayfs主线内核" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ OverlayFS（主线内核）" aria-label="Anchor to: 3️⃣ OverlayFS（主线内核）" href="#3-overlayfs%e4%b8%bb%e7%ba%bf%e5%86%85%e6%a0%b8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>现在事实上的标准</strong></p>
-<ul>
-<li>Linux 内核原生</li>
-<li>Docker / Podman / CRI-O 默认</li>
-<li>RHEL / AlmaLinux / Rocky 全支持</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五overlayfs-详解重点"
-    >
-        五、OverlayFS 详解（重点）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#五overlayfs-详解重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、OverlayFS 详解（重点）" aria-label="Anchor to: 五、OverlayFS 详解（重点）" href="#%e4%ba%94overlayfs-%e8%af%a6%e8%a7%a3%e9%87%8d%e7%82%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-基本结构"
-    >
-        1️⃣ 基本结构
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-基本结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 基本结构" aria-label="Anchor to: 1️⃣ 基本结构" href="#1-%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">lowerdir=/layers/base:/layers/app
-</span></span><span class="line"><span class="cl">upperdir=/layers/write
-</span></span><span class="line"><span class="cl">workdir=/layers/work
-</span></span></code></pre></div><p>挂载后：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/merged
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-挂载命令示例"
-    >
-        2️⃣ 挂载命令示例
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-挂载命令示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 挂载命令示例" aria-label="Anchor to: 2️⃣ 挂载命令示例" href="#2-%e6%8c%82%e8%bd%bd%e5%91%bd%e4%bb%a4%e7%a4%ba%e4%be%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount -t overlay overlay <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -o <span class="nv">lowerdir</span><span class="o">=</span>lower,upperdir<span class="o">=</span>upper,workdir<span class="o">=</span>work <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    merged
-</span></span></code></pre></div><p>📌 workdir 用于原子操作（必须）</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-文件访问逻辑读写流程"
-    >
-        3️⃣ 文件访问逻辑（读写流程）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-文件访问逻辑读写流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 文件访问逻辑（读写流程）" aria-label="Anchor to: 3️⃣ 文件访问逻辑（读写流程）" href="#3-%e6%96%87%e4%bb%b6%e8%ae%bf%e9%97%ae%e9%80%bb%e8%be%91%e8%af%bb%e5%86%99%e6%b5%81%e7%a8%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>读</strong>：</p>
-<ol>
-<li>upperdir</li>
-<li>从上到下依次 lowerdir</li>
-</ol>
-<p><strong>写</strong>：</p>
-<ul>
-<li>lower -&gt; copy 到 upper -&gt; 写</li>
-</ul>
-<p><strong>删</strong>：</p>
-<ul>
-<li>创建 whiteout</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六unionfs-的关键行为细节很容易踩坑"
-    >
-        六、UnionFS 的关键行为细节（很容易踩坑）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#六unionfs-的关键行为细节很容易踩坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、UnionFS 的关键行为细节（很容易踩坑）" aria-label="Anchor to: 六、UnionFS 的关键行为细节（很容易踩坑）" href="#%e5%85%adunionfs-%e7%9a%84%e5%85%b3%e9%94%ae%e8%a1%8c%e4%b8%ba%e7%bb%86%e8%8a%82%e5%be%88%e5%ae%b9%e6%98%93%e8%b8%a9%e5%9d%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-inode-不稳定"
-    >
-        1️⃣ inode 不稳定
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-inode-不稳定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ inode 不稳定" aria-label="Anchor to: 1️⃣ inode 不稳定" href="#1-inode-%e4%b8%8d%e7%a8%b3%e5%ae%9a">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>同一路径</li>
-<li>不同层 inode 不同</li>
-</ul>
-<p>📌 影响：</p>
-<ul>
-<li>bind mount</li>
-<li>inode cache</li>
-<li>某些数据库</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-hardlink-受限"
-    >
-        2️⃣ hardlink 受限
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-hardlink-受限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ hardlink 受限" aria-label="Anchor to: 2️⃣ hardlink 受限" href="#2-hardlink-%e5%8f%97%e9%99%90">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>OverlayFS 对 hardlink 支持有限</li>
-<li>跨层 hardlink 基本不可用</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-rename-是伪原子"
-    >
-        3️⃣ rename 是“伪原子”
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-rename-是伪原子" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ rename 是“伪原子”" aria-label="Anchor to: 3️⃣ rename 是“伪原子”" href="#3-rename-%e6%98%af%e4%bc%aa%e5%8e%9f%e5%ad%90">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>跨层 rename 实际是：
-<ul>
-<li>copy + delete</li>
-</ul>
-</li>
-</ul>
-<p>📌 对 fsync 敏感程序危险</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-chmod--chown-行为"
-    >
-        4️⃣ chmod / chown 行为
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#4-chmod--chown-行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ chmod / chown 行为" aria-label="Anchor to: 4️⃣ chmod / chown 行为" href="#4-chmod--chown-%e8%a1%8c%e4%b8%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>触发 COW</li>
-<li>文件被复制到 upper</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七overlayfs-与容器核心关系"
-    >
-        七、OverlayFS 与容器（核心关系）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#七overlayfs-与容器核心关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、OverlayFS 与容器（核心关系）" aria-label="Anchor to: 七、OverlayFS 与容器（核心关系）" href="#%e4%b8%83overlayfs-%e4%b8%8e%e5%ae%b9%e5%99%a8%e6%a0%b8%e5%bf%83%e5%85%b3%e7%b3%bb">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-docker-overlay2-的本质"
-    >
-        1️⃣ Docker overlay2 的本质
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-docker-overlay2-的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Docker overlay2 的本质" aria-label="Anchor to: 1️⃣ Docker overlay2 的本质" href="#1-docker-overlay2-%e7%9a%84%e6%9c%ac%e8%b4%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container_rw_layer (upper)
-</span></span><span class="line"><span class="cl">--------------------------
-</span></span><span class="line"><span class="cl">image layer N
-</span></span><span class="line"><span class="cl">--------------------------
-</span></span><span class="line"><span class="cl">image layer N-1
-</span></span><span class="line"><span class="cl">--------------------------
-</span></span><span class="line"><span class="cl">base OS layer
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-为什么容器启动快"
-    >
-        2️⃣ 为什么容器启动快？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-为什么容器启动快" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 为什么容器启动快？" aria-label="Anchor to: 2️⃣ 为什么容器启动快？" href="#2-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e5%90%af%e5%8a%a8%e5%bf%ab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>不复制 rootfs</li>
-<li>只 mount 联合视图</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-为什么容器磁盘-io-抖"
-    >
-        3️⃣ 为什么容器磁盘 IO 抖？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-为什么容器磁盘-io-抖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 为什么容器磁盘 IO 抖？" aria-label="Anchor to: 3️⃣ 为什么容器磁盘 IO 抖？" href="#3-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e7%a3%81%e7%9b%98-io-%e6%8a%96">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>metadata 操作多</li>
-<li>copy-up 代价大</li>
-<li>fsync 穿透层</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八unionfs-不适合哪些场景"
-    >
-        八、UnionFS 不适合哪些场景？
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#八unionfs-不适合哪些场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、UnionFS 不适合哪些场景？" aria-label="Anchor to: 八、UnionFS 不适合哪些场景？" href="#%e5%85%abunionfs-%e4%b8%8d%e9%80%82%e5%90%88%e5%93%aa%e4%ba%9b%e5%9c%ba%e6%99%af">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-数据库重点"
-    >
-        ❌ 数据库（重点）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-数据库重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 数据库（重点）" aria-label="Anchor to: ❌ 数据库（重点）" href="#-%e6%95%b0%e6%8d%ae%e5%ba%93%e9%87%8d%e7%82%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>原因：</p>
-<ul>
-<li>fsync 不可控</li>
-<li>rename 不安全</li>
-<li>inode 不稳定</li>
-<li>白障文件膨胀</li>
-</ul>
-<p>📌 <strong>这就是 “数据库为什么不适合跑在容器” 的底层原因之一</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-高-io-小文件场景"
-    >
-        ❌ 高 IO 小文件场景
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-高-io-小文件场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 高 IO 小文件场景" aria-label="Anchor to: ❌ 高 IO 小文件场景" href="#-%e9%ab%98-io-%e5%b0%8f%e6%96%87%e4%bb%b6%e5%9c%ba%e6%99%af">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>Git</li>
-<li>编译缓存</li>
-<li>npm / pip</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九性能关键点overlayfs"
-    >
-        九、性能关键点（OverlayFS）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#九性能关键点overlayfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、性能关键点（OverlayFS）" aria-label="Anchor to: 九、性能关键点（OverlayFS）" href="#%e4%b9%9d%e6%80%a7%e8%83%bd%e5%85%b3%e9%94%ae%e7%82%b9overlayfs">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-metadata-开销高"
-    >
-        1️⃣ Metadata 开销高
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-metadata-开销高" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Metadata 开销高" aria-label="Anchor to: 1️⃣ Metadata 开销高" href="#1-metadata-%e5%bc%80%e9%94%80%e9%ab%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>stat</li>
-<li>readdir</li>
-<li>lookup</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-copy-up-成本不可忽视"
-    >
-        2️⃣ Copy-up 成本不可忽视
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-copy-up-成本不可忽视" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Copy-up 成本不可忽视" aria-label="Anchor to: 2️⃣ Copy-up 成本不可忽视" href="#2-copy-up-%e6%88%90%e6%9c%ac%e4%b8%8d%e5%8f%af%e5%bf%bd%e8%a7%86">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>第一次写 = 全文件复制</li>
-<li>大文件尤其明显</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-fsync-行为复杂"
-    >
-        3️⃣ fsync 行为复杂
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-fsync-行为复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ fsync 行为复杂" aria-label="Anchor to: 3️⃣ fsync 行为复杂" href="#3-fsync-%e8%a1%8c%e4%b8%ba%e5%a4%8d%e6%9d%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>upper + lower 组合</li>
-<li>存储栈不透明</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十unionfs-的最佳实践"
-    >
-        十、UnionFS 的最佳实践
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#十unionfs-的最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、UnionFS 的最佳实践" aria-label="Anchor to: 十、UnionFS 的最佳实践" href="#%e5%8d%81unionfs-%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-容器"
-    >
-        ✅ 容器
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 容器" aria-label="Anchor to: ✅ 容器" href="#-%e5%ae%b9%e5%99%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>rootfs：overlay2</li>
-<li>数据目录：<strong>bind mount / volume</strong></li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">-v /data/mysql:/var/lib/mysql
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-系统设计"
-    >
-        ✅ 系统设计
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-系统设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 系统设计" aria-label="Anchor to: ✅ 系统设计" href="#-%e7%b3%bb%e7%bb%9f%e8%ae%be%e8%ae%a1">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>只读 OS + overlay</li>
-<li>日志 / 数据单独盘</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-禁止事项"
-    >
-        ❌ 禁止事项
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-禁止事项" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 禁止事项" aria-label="Anchor to: ❌ 禁止事项" href="#-%e7%a6%81%e6%ad%a2%e4%ba%8b%e9%a1%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>❌ overlay2 存数据库数据</li>
-<li>❌ overlay2 跑消息队列</li>
-<li>❌ overlay2 做性能 benchmark</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一overlayfs-vs-其他方案"
-    >
-        十一、OverlayFS vs 其他方案
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#十一overlayfs-vs-其他方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、OverlayFS vs 其他方案" aria-label="Anchor to: 十一、OverlayFS vs 其他方案" href="#%e5%8d%81%e4%b8%80overlayfs-vs-%e5%85%b6%e4%bb%96%e6%96%b9%e6%a1%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#二linux-有哪几种-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Linux 有哪几种 Namespace？" aria-label="Anchor to: 二、Linux 有哪几种 Namespace？" href="#%e4%ba%8clinux-%e6%9c%89%e5%93%aa%e5%87%a0%e7%a7%8d-namespace">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="table-wrap"> <table>
   <thead>
       <tr>
-          <th>特性</th>
-          <th>OverlayFS</th>
-          <th>bind mount</th>
-          <th>tmpfs</th>
+          <th>Namespace</th>
+          <th>隔离内容</th>
+          <th>内核宏</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>分层</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
+          <td>Mount</td>
+          <td>挂载点</td>
+          <td>CLONE_NEWNS</td>
       </tr>
       <tr>
-          <td>可写</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
+          <td>PID</td>
+          <td>进程号</td>
+          <td>CLONE_NEWPID</td>
       </tr>
       <tr>
-          <td>性能</td>
-          <td>中</td>
-          <td>高</td>
-          <td>高</td>
+          <td>Network</td>
+          <td>网络栈</td>
+          <td>CLONE_NEWNET</td>
       </tr>
       <tr>
-          <td>数据安全</td>
-          <td>低</td>
-          <td>高</td>
-          <td>低</td>
+          <td>IPC</td>
+          <td>进程间通信</td>
+          <td>CLONE_NEWIPC</td>
       </tr>
       <tr>
-          <td>适合数据库</td>
-          <td>❌</td>
-          <td>✅</td>
-          <td>❌</td>
+          <td>UTS</td>
+          <td>主机名/域名</td>
+          <td>CLONE_NEWUTS</td>
+      </tr>
+      <tr>
+          <td>User</td>
+          <td>UID/GID</td>
+          <td>CLONE_NEWUSER</td>
+      </tr>
+      <tr>
+          <td>Cgroup</td>
+          <td>cgroup 视图</td>
+          <td>CLONE_NEWCGROUP</td>
+      </tr>
+      <tr>
+          <td>Time</td>
+          <td>系统时间</td>
+          <td>CLONE_NEWTIME</td>
       </tr>
   </tbody>
 </table> </div>
+<p>Docker / Podman / containerd <strong>全都在用这些</strong>。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二总结记住"
+    <h2 id="三namespace-的核心设计思想"
     >
-        十二、总结（记住）
+        三、Namespace 的核心设计思想
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#十二总结记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、总结（记住）" aria-label="Anchor to: 十二、总结（记住）" href="#%e5%8d%81%e4%ba%8c%e6%80%bb%e7%bb%93%e8%ae%b0%e4%bd%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#三namespace-的核心设计思想" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、Namespace 的核心设计思想" aria-label="Anchor to: 三、Namespace 的核心设计思想" href="#%e4%b8%89namespace-%e7%9a%84%e6%a0%b8%e5%bf%83%e8%ae%be%e8%ae%a1%e6%80%9d%e6%83%b3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>UnionFS 是 “视图文件系统”，不是 “数据文件系统”。</strong></p>
-<p>它的使命是：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-namespace-绑定的是进程"
+    >
+        1️⃣ Namespace 绑定的是「进程」
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#1-namespace-绑定的是进程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Namespace 绑定的是「进程」" aria-label="Anchor to: 1️⃣ Namespace 绑定的是「进程」" href="#1-namespace-%e7%bb%91%e5%ae%9a%e7%9a%84%e6%98%af%e8%bf%9b%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>镜像</li>
-<li>分层</li>
-<li>复用</li>
+<li>Namespace 不是系统级</li>
+<li>是 <strong>进程属性</strong></li>
 </ul>
-<p>不是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ls -l /proc/<span class="nv">$$</span>/ns
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-子进程可以继承--创建新-namespace"
+    >
+        2️⃣ 子进程可以继承 / 创建新 Namespace
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#2-子进程可以继承--创建新-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 子进程可以继承 / 创建新 Namespace" aria-label="Anchor to: 2️⃣ 子进程可以继承 / 创建新 Namespace" href="#2-%e5%ad%90%e8%bf%9b%e7%a8%8b%e5%8f%af%e4%bb%a5%e7%bb%a7%e6%89%bf--%e5%88%9b%e5%bb%ba%e6%96%b0-namespace">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">clone</span><span class="p">(</span><span class="n">CLONE_NEWNET</span> <span class="o">|</span> <span class="n">CLONE_NEWPID</span><span class="p">)</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-namespace-可以加入setns"
+    >
+        3️⃣ Namespace 可以加入（setns）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#3-namespace-可以加入setns" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Namespace 可以加入（setns）" aria-label="Anchor to: 3️⃣ Namespace 可以加入（setns）" href="#3-namespace-%e5%8f%af%e4%bb%a5%e5%8a%a0%e5%85%a5setns">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nsenter -t &lt;pid&gt; -n -m -p
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四mount-namespace最基础最复杂"
+    >
+        四、Mount Namespace（最基础、最复杂）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#四mount-namespace最基础最复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Mount Namespace（最基础、最复杂）" aria-label="Anchor to: 四、Mount Namespace（最基础、最复杂）" href="#%e5%9b%9bmount-namespace%e6%9c%80%e5%9f%ba%e7%a1%80%e6%9c%80%e5%a4%8d%e6%9d%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-隔离什么"
+    >
+        1️⃣ 隔离什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#1-隔离什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 隔离什么？" aria-label="Anchor to: 1️⃣ 隔离什么？" href="#1-%e9%9a%94%e7%a6%bb%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>高一致性</li>
-<li>高 fsync 可靠性</li>
-<li>数据持久化</li>
+<li>/</li>
+<li>mount</li>
+<li>bind mount</li>
+<li>overlayfs</li>
 </ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-为什么容器要它"
+    >
+        2️⃣ 为什么容器要它？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#2-为什么容器要它" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 为什么容器要它？" aria-label="Anchor to: 2️⃣ 为什么容器要它？" href="#2-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e8%a6%81%e5%ae%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>容器内：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount <span class="p">|</span> grep overlay
+</span></span></code></pre></div><p>容器外：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount <span class="p">|</span> grep overlay
+</span></span></code></pre></div><p>➡️ <strong>看到完全不同</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-关键机制挂载传播propagation"
+    >
+        3️⃣ 关键机制：挂载传播（Propagation）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#3-关键机制挂载传播propagation" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 关键机制：挂载传播（Propagation）" aria-label="Anchor to: 3️⃣ 关键机制：挂载传播（Propagation）" href="#3-%e5%85%b3%e9%94%ae%e6%9c%ba%e5%88%b6%e6%8c%82%e8%bd%bd%e4%bc%a0%e6%92%adpropagation">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>模式</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>private</td>
+          <td>默认，不传播</td>
+      </tr>
+      <tr>
+          <td>shared</td>
+          <td>传播</td>
+      </tr>
+      <tr>
+          <td>slave</td>
+          <td>单向</td>
+      </tr>
+      <tr>
+          <td>unbindable</td>
+          <td>不可绑定</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount --make-rprivate /
+</span></span></code></pre></div><p>📌 <strong>容器启动前必做</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五pid-namespace进程隔离"
+    >
+        五、PID Namespace（进程隔离）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#五pid-namespace进程隔离" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、PID Namespace（进程隔离）" aria-label="Anchor to: 五、PID Namespace（进程隔离）" href="#%e4%ba%94pid-namespace%e8%bf%9b%e7%a8%8b%e9%9a%94%e7%a6%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-特点"
+    >
+        1️⃣ 特点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#1-特点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 特点" aria-label="Anchor to: 1️⃣ 特点" href="#1-%e7%89%b9%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PID 从 1 开始</li>
+<li>只能看到自己 namespace 的进程</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -p --fork bash
+</span></span><span class="line"><span class="cl">ps aux
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-pid-1-的特殊性"
+    >
+        2️⃣ PID 1 的特殊性
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#2-pid-1-的特殊性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ PID 1 的特殊性" aria-label="Anchor to: 2️⃣ PID 1 的特殊性" href="#2-pid-1-%e7%9a%84%e7%89%b9%e6%ae%8a%e6%80%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>不处理 SIGCHLD -&gt; 僵尸进程</li>
+<li>容器 init 必须存在</li>
+</ul>
+<p>📌 Docker 用 tini</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六network-namespace最常用"
+    >
+        六、Network Namespace（最常用）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#六network-namespace最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Network Namespace（最常用）" aria-label="Anchor to: 六、Network Namespace（最常用）" href="#%e5%85%adnetwork-namespace%e6%9c%80%e5%b8%b8%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-隔离什么-1"
+    >
+        1️⃣ 隔离什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#1-隔离什么-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 隔离什么？" aria-label="Anchor to: 1️⃣ 隔离什么？" href="#1-%e9%9a%94%e7%a6%bb%e4%bb%80%e4%b9%88-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>网卡</li>
+<li>IP</li>
+<li>路由表</li>
+<li>防火墙</li>
+<li>conntrack</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-新-netns-是真裸机"
+    >
+        2️⃣ 新 netns 是「真·裸机」
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#2-新-netns-是真裸机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 新 netns 是「真·裸机」" aria-label="Anchor to: 2️⃣ 新 netns 是「真·裸机」" href="#2-%e6%96%b0-netns-%e6%98%af%e7%9c%9f%e8%a3%b8%e6%9c%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip netns add <span class="nb">test</span>
+</span></span><span class="line"><span class="cl">ip netns <span class="nb">exec</span> <span class="nb">test</span> ip a
+</span></span></code></pre></div><p>只有：</p>
+<ul>
+<li>lo（DOWN）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-vethnamespace-之间的网线"
+    >
+        3️⃣ veth：Namespace 之间的网线
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#3-vethnamespace-之间的网线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ veth：Namespace 之间的网线" aria-label="Anchor to: 3️⃣ veth：Namespace 之间的网线" href="#3-vethnamespace-%e4%b9%8b%e9%97%b4%e7%9a%84%e7%bd%91%e7%ba%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip link add veth0 <span class="nb">type</span> veth peer name veth1
+</span></span><span class="line"><span class="cl">ip link <span class="nb">set</span> veth1 netns <span class="nb">test</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-docker-网络本质"
+    >
+        4️⃣ Docker 网络本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#4-docker-网络本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ Docker 网络本质" aria-label="Anchor to: 4️⃣ Docker 网络本质" href="#4-docker-%e7%bd%91%e7%bb%9c%e6%9c%ac%e8%b4%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container(netns)
+</span></span><span class="line"><span class="cl">   |
+</span></span><span class="line"><span class="cl"> veth
+</span></span><span class="line"><span class="cl">   |
+</span></span><span class="line"><span class="cl"> docker0 (bridge)
+</span></span><span class="line"><span class="cl">   |
+</span></span><span class="line"><span class="cl"> host NIC
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七uts-namespace主机名"
+    >
+        七、UTS Namespace（主机名）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#七uts-namespace主机名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、UTS Namespace（主机名）" aria-label="Anchor to: 七、UTS Namespace（主机名）" href="#%e4%b8%83uts-namespace%e4%b8%bb%e6%9c%ba%e5%90%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -u bash
+</span></span><span class="line"><span class="cl">hostname container01
+</span></span></code></pre></div><ul>
+<li>不影响宿主机</li>
+<li>Kubernetes Pod 用它</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八ipc-namespace"
+    >
+        八、IPC Namespace
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#八ipc-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、IPC Namespace" aria-label="Anchor to: 八、IPC Namespace" href="#%e5%85%abipc-namespace">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>隔离：</p>
+<ul>
+<li>SysV shm</li>
+<li>semaphore</li>
+<li>message queue</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ipcs -m
+</span></span></code></pre></div><p>容器间不会互相看到</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九user-namespace最容易误解"
+    >
+        九、User Namespace（最容易误解）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#九user-namespace最容易误解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、User Namespace（最容易误解）" aria-label="Anchor to: 九、User Namespace（最容易误解）" href="#%e4%b9%9duser-namespace%e6%9c%80%e5%ae%b9%e6%98%93%e8%af%af%e8%a7%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-解决什么问题"
+    >
+        1️⃣ 解决什么问题？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#1-解决什么问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 解决什么问题？" aria-label="Anchor to: 1️⃣ 解决什么问题？" href="#1-%e8%a7%a3%e5%86%b3%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>容器内 root ≠ 宿主 root</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -U bash
+</span></span><span class="line"><span class="cl">id
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-uid-映射"
+    >
+        2️⃣ UID 映射
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#2-uid-映射" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ UID 映射" aria-label="Anchor to: 2️⃣ UID 映射" href="#2-uid-%e6%98%a0%e5%b0%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /proc/<span class="nv">$$</span>/uid_map
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0 100000 65536
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-安全价值极高"
+    >
+        3️⃣ 安全价值极高
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#3-安全价值极高" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 安全价值极高" aria-label="Anchor to: 3️⃣ 安全价值极高" href="#3-%e5%ae%89%e5%85%a8%e4%bb%b7%e5%80%bc%e6%9e%81%e9%ab%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>rootless container</li>
+<li>减少提权风险</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十cgroup-namespace"
+    >
+        十、Cgroup Namespace
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#十cgroup-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、Cgroup Namespace" aria-label="Anchor to: 十、Cgroup Namespace" href="#%e5%8d%81cgroup-namespace">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>隔离 /proc/self/cgroup 视图</li>
+<li>避免容器看到宿主完整层级</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一time-namespace新"
+    >
+        十一、Time Namespace（新）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#十一time-namespace新" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、Time Namespace（新）" aria-label="Anchor to: 十一、Time Namespace（新）" href="#%e5%8d%81%e4%b8%80time-namespace%e6%96%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>CLOCK_MONOTONIC</li>
+<li>CLOCK_BOOTTIME</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">unshare -T bash
+</span></span></code></pre></div><p>📌 用于测试、回放</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二namespace-组合--容器"
+    >
+        十二、Namespace 组合 = 容器
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#十二namespace-组合--容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、Namespace 组合 = 容器" aria-label="Anchor to: 十二、Namespace 组合 = 容器" href="#%e5%8d%81%e4%ba%8cnamespace-%e7%bb%84%e5%90%88--%e5%ae%b9%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Container =
+</span></span><span class="line"><span class="cl">  Mount
+</span></span><span class="line"><span class="cl">+ PID
+</span></span><span class="line"><span class="cl">+ Net
+</span></span><span class="line"><span class="cl">+ IPC
+</span></span><span class="line"><span class="cl">+ UTS
+</span></span><span class="line"><span class="cl">+ User
+</span></span><span class="line"><span class="cl">+ Cgroup
+</span></span></code></pre></div><p>📌 <strong>Namespace 是容器的本体</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三namespace-生命周期"
+    >
+        十三、Namespace 生命周期
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#十三namespace-生命周期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、Namespace 生命周期" aria-label="Anchor to: 十三、Namespace 生命周期" href="#%e5%8d%81%e4%b8%89namespace-%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>随最后一个进程结束而销毁</li>
+<li>或被 bind mount 到文件系统</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount --bind /proc/1234/ns/net /var/run/netns/demo
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四调试与排查"
+    >
+        十四、调试与排查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#十四调试与排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、调试与排查" aria-label="Anchor to: 十四、调试与排查" href="#%e5%8d%81%e5%9b%9b%e8%b0%83%e8%af%95%e4%b8%8e%e6%8e%92%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-查看进程在哪些-namespace"
+    >
+        1️⃣ 查看进程在哪些 Namespace
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#1-查看进程在哪些-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 查看进程在哪些 Namespace" aria-label="Anchor to: 1️⃣ 查看进程在哪些 Namespace" href="#1-%e6%9f%a5%e7%9c%8b%e8%bf%9b%e7%a8%8b%e5%9c%a8%e5%93%aa%e4%ba%9b-namespace">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">lsns -p &lt;pid&gt;
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-进入容器-namespace无-docker"
+    >
+        2️⃣ 进入容器 Namespace（无 Docker）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#2-进入容器-namespace无-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 进入容器 Namespace（无 Docker）" aria-label="Anchor to: 2️⃣ 进入容器 Namespace（无 Docker）" href="#2-%e8%bf%9b%e5%85%a5%e5%ae%b9%e5%99%a8-namespace%e6%97%a0-docker">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nsenter -t &lt;pid&gt; -n -m -p -u -i bash
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十五生产实践经验总结非常重要"
+    >
+        十五、生产实践经验总结（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#十五生产实践经验总结非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、生产实践经验总结（非常重要）" aria-label="Anchor to: 十五、生产实践经验总结（非常重要）" href="#%e5%8d%81%e4%ba%94%e7%94%9f%e4%ba%a7%e5%ae%9e%e8%b7%b5%e7%bb%8f%e9%aa%8c%e6%80%bb%e7%bb%93%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 推荐</p>
+<ul>
+<li>明确 namespace 边界</li>
+<li>使用 user namespace</li>
+<li>容器 PID 1 要靠谱</li>
+<li>netns 内部最小化防火墙</li>
+</ul>
+<p>❌ 雷区</p>
+<ul>
+<li>在 host 上乱改 mount 传播</li>
+<li>忽略 PID 1</li>
+<li>误以为 namespace 能限资源</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十六总结"
+    >
+        十六、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-namespace/#十六总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、总结" aria-label="Anchor to: 十六、总结" href="#%e5%8d%81%e5%85%ad%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Namespace 是“你能看到什么”</strong></p>
+<p><strong>cgroups 是“你能用多少”</strong></p>
+<p><strong>两者一起，才是容器。</strong></p>
 
   </article>
 

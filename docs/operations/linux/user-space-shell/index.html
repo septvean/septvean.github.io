@@ -12,15 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="先讲 VFS，再讲 FS。
-下面是一份 「内核级视角」Linux 文件系统子系统（VFS, Virtual File System）详解。
-不是 ls / mount 的用法，而是从内核抽象层 -&gt; 数据结构 -&gt; 路径解析 -&gt; IO 调用 -&gt; 容器/UnionFS 的完整认知体系。
-适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
-一、VFS 是什么（先立核心认知） VFS = Linux 的“文件系统抽象层”
-它解决的问题：
-ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户程序 ↓ 系统调用（open/read/write） ↓ VFS（抽象） ↓ 具体文件系统实现 📌 没有 VFS，就没有“一切皆文件”" />
+  <meta name="description" content=" 一、什么是 Linux Shell？ 一句话定义：
+Shell 是用户与 Linux 内核之间的“命令解释器 &#43; 控制器”
+它本身是一个用户空间程序，不是内核。
+用户 -&gt; Shell -&gt; 系统调用 -&gt; Kernel -&gt; 硬件 二、Shell 在 Linux 架构中的位置 &#43;-------------------------------&#43; | 应用程序 / 服务 | | (nginx / mysql / docker) | &#43;-------------------------------&#43; | Shell / 脚本 | | bash / sh / zsh / fish | &#43;-------------------------------&#43; | libc / system calls | &#43;-------------------------------&#43; | Linux Kernel | &#43;-------------------------------&#43; | Hardware | &#43;-------------------------------&#43; Shell 的本质：" />
 
-    <title>Linux 文件系统（FS） | ☘️ Septvean&#39;s Documents</title>
+    <title>shell | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -41,31 +38,25 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     
   <meta
     property="og:title"
-    content="Linux 文件系统（FS）"
+    content="shell"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="先讲 VFS，再讲 FS。
-下面是一份 「内核级视角」Linux 文件系统子系统（VFS, Virtual File System）详解。
-不是 ls / mount 的用法，而是从内核抽象层 -&gt; 数据结构 -&gt; 路径解析 -&gt; IO 调用 -&gt; 容器/UnionFS 的完整认知体系。
-适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
-一、VFS 是什么（先立核心认知） VFS = Linux 的“文件系统抽象层”
-它解决的问题：
-ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户程序 ↓ 系统调用（open/read/write） ↓ VFS（抽象） ↓ 具体文件系统实现 📌 没有 VFS，就没有“一切皆文件”" />
+  <meta property="og:description" content=" 一、什么是 Linux Shell？ 一句话定义：
+Shell 是用户与 Linux 内核之间的“命令解释器 &#43; 控制器”
+它本身是一个用户空间程序，不是内核。
+用户 -&gt; Shell -&gt; 系统调用 -&gt; Kernel -&gt; 硬件 二、Shell 在 Linux 架构中的位置 &#43;-------------------------------&#43; | 应用程序 / 服务 | | (nginx / mysql / docker) | &#43;-------------------------------&#43; | Shell / 脚本 | | bash / sh / zsh / fish | &#43;-------------------------------&#43; | libc / system calls | &#43;-------------------------------&#43; | Linux Kernel | &#43;-------------------------------&#43; | Hardware | &#43;-------------------------------&#43; Shell 的本质：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/core-fs/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/user-space-shell/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux 文件系统（FS）" />
-  <meta name="twitter:description" content="先讲 VFS，再讲 FS。
-下面是一份 「内核级视角」Linux 文件系统子系统（VFS, Virtual File System）详解。
-不是 ls / mount 的用法，而是从内核抽象层 -&gt; 数据结构 -&gt; 路径解析 -&gt; IO 调用 -&gt; 容器/UnionFS 的完整认知体系。
-适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
-一、VFS 是什么（先立核心认知） VFS = Linux 的“文件系统抽象层”
-它解决的问题：
-ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户程序 ↓ 系统调用（open/read/write） ↓ VFS（抽象） ↓ 具体文件系统实现 📌 没有 VFS，就没有“一切皆文件”" />
+<meta name="twitter:title" content="shell" />
+  <meta name="twitter:description" content=" 一、什么是 Linux Shell？ 一句话定义：
+Shell 是用户与 Linux 内核之间的“命令解释器 &#43; 控制器”
+它本身是一个用户空间程序，不是内核。
+用户 -&gt; Shell -&gt; 系统调用 -&gt; Kernel -&gt; 硬件 二、Shell 在 Linux 架构中的位置 &#43;-------------------------------&#43; | 应用程序 / 服务 | | (nginx / mysql / docker) | &#43;-------------------------------&#43; | Shell / 脚本 | | bash / sh / zsh / fish | &#43;-------------------------------&#43; | libc / system calls | &#43;-------------------------------&#43; | Linux Kernel | &#43;-------------------------------&#43; | Hardware | &#43;-------------------------------&#43; Shell 的本质：" />
 
 
   <script type="application/ld+json">
@@ -73,16 +64,16 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux 文件系统（FS）",
-      "url" : "https://documents.v2ep.com/operations/linux/core-fs/",
-      "headline": "Linux 文件系统（FS）",
-      "description": "先讲 VFS，再讲 FS。\n下面是一份 「内核级视角」Linux 文件系统子系统（VFS, Virtual File System）详解。\n不是 ls \/ mount 的用法，而是从内核抽象层 -\u003e 数据结构 -\u003e 路径解析 -\u003e IO 调用 -\u003e 容器\/UnionFS 的完整认知体系。\n适用 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu \/ 云 \/ 容器 \/ 数据库 \/ 虚拟化。\n一、VFS 是什么（先立核心认知） VFS = Linux 的“文件系统抽象层”\n它解决的问题：\next4 \/ xfs \/ nfs \/ proc \/ overlayfs 不同文件系统 -\u003e 统一接口 用户程序 ↓ 系统调用（open\/read\/write） ↓ VFS（抽象） ↓ 具体文件系统实现 📌 没有 VFS，就没有“一切皆文件”",
-      "wordCount" : "863",
+      "name": "shell",
+      "url" : "https://documents.v2ep.com/operations/linux/user-space-shell/",
+      "headline": "shell",
+      "description": " 一、什么是 Linux Shell？ 一句话定义：\nShell 是用户与 Linux 内核之间的“命令解释器 \u002b 控制器”\n它本身是一个用户空间程序，不是内核。\n用户 -\u003e Shell -\u003e 系统调用 -\u003e Kernel -\u003e 硬件 二、Shell 在 Linux 架构中的位置 \u002b-------------------------------\u002b | 应用程序 \/ 服务 | | (nginx \/ mysql \/ docker) | \u002b-------------------------------\u002b | Shell \/ 脚本 | | bash \/ sh \/ zsh \/ fish | \u002b-------------------------------\u002b | libc \/ system calls | \u002b-------------------------------\u002b | Linux Kernel | \u002b-------------------------------\u002b | Hardware | \u002b-------------------------------\u002b Shell 的本质：",
+      "wordCount" : "357",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/core-fs/"
+          "@id": "https://documents.v2ep.com/operations/linux/user-space-shell/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -166,7 +157,7 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/core-fs/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/user-space-shell/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2009,7 +2000,7 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 文件系统（FS）</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>shell</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2030,245 +2021,311 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux 文件系统（FS）</h1>
+    <h1>shell</h1>
     
-    <p><strong>先讲 VFS，再讲 FS。</strong></p>
-<p>下面是一份 <strong>「内核级视角」Linux 文件系统子系统（VFS, Virtual File System）详解</strong>。</p>
-<p>不是 ls / mount 的用法，而是<strong>从内核抽象层 -&gt; 数据结构 -&gt; 路径解析 -&gt; IO 调用 -&gt; 容器/UnionFS 的完整认知体系</strong>。</p>
-<p>适用 <strong>RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化</strong>。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一vfs-是什么先立核心认知"
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一什么是-linux-shell"
     >
-        一、VFS 是什么（先立核心认知）
+        一、什么是 Linux Shell？
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#一vfs-是什么先立核心认知" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、VFS 是什么（先立核心认知）" aria-label="Anchor to: 一、VFS 是什么（先立核心认知）" href="#%e4%b8%80vfs-%e6%98%af%e4%bb%80%e4%b9%88%e5%85%88%e7%ab%8b%e6%a0%b8%e5%bf%83%e8%ae%a4%e7%9f%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#一什么是-linux-shell" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、什么是 Linux Shell？" aria-label="Anchor to: 一、什么是 Linux Shell？" href="#%e4%b8%80%e4%bb%80%e4%b9%88%e6%98%af-linux-shell">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>VFS = Linux 的“文件系统抽象层”</strong></p>
-<p>它解决的问题：</p>
+<p>一句话定义：</p>
+<p><strong>Shell 是用户与 Linux 内核之间的“命令解释器 + 控制器”</strong></p>
+<p>它本身是一个<strong>用户空间程序</strong>，不是内核。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户 -&gt; Shell -&gt; 系统调用 -&gt; Kernel -&gt; 硬件
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二shell-在-linux-架构中的位置"
+    >
+        二、Shell 在 Linux 架构中的位置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#二shell-在-linux-架构中的位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Shell 在 Linux 架构中的位置" aria-label="Anchor to: 二、Shell 在 Linux 架构中的位置" href="#%e4%ba%8cshell-%e5%9c%a8-linux-%e6%9e%b6%e6%9e%84%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|        应用程序 / 服务          |
+</span></span><span class="line"><span class="cl">|   (nginx / mysql / docker)    |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|        Shell / 脚本            |
+</span></span><span class="line"><span class="cl">|   bash / sh / zsh / fish      |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|     libc / system calls       |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|         Linux Kernel          |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span><span class="line"><span class="cl">|            Hardware           |
+</span></span><span class="line"><span class="cl">+-------------------------------+
+</span></span></code></pre></div><p>Shell 的本质：</p>
 <ul>
-<li>ext4 / xfs / nfs / proc / overlayfs</li>
-<li>不同文件系统 -&gt; 统一接口</li>
+<li><strong>解析命令</strong></li>
+<li><strong>管理进程</strong></li>
+<li><strong>控制 IO</strong></li>
+<li><strong>协调程序运行</strong></li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tex" data-lang="tex"><span class="line"><span class="cl">用户程序
-</span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">系统调用（open/read/write）
-</span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">VFS（抽象）
-</span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">具体文件系统实现
-</span></span></code></pre></div><p>📌 <strong>没有 VFS，就没有“一切皆文件”</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二vfs-的设计目标"
+    <h2 id="三常见-linux-shell-类型"
     >
-        二、VFS 的设计目标
+        三、常见 Linux Shell 类型
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#二vfs-的设计目标" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、VFS 的设计目标" aria-label="Anchor to: 二、VFS 的设计目标" href="#%e4%ba%8cvfs-%e7%9a%84%e8%ae%be%e8%ae%a1%e7%9b%ae%e6%a0%87">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#三常见-linux-shell-类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、常见 Linux Shell 类型" aria-label="Anchor to: 三、常见 Linux Shell 类型" href="#%e4%b8%89%e5%b8%b8%e8%a7%81-linux-shell-%e7%b1%bb%e5%9e%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ol>
-<li>文件系统无关</li>
-<li>高性能（缓存）</li>
-<li>支持网络 / 虚拟 FS</li>
-<li>支持 namespace / 容器</li>
-</ol>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三vfs-核心对象四大结构"
-    >
-        三、VFS 核心对象（四大结构）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#三vfs-核心对象四大结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、VFS 核心对象（四大结构）" aria-label="Anchor to: 三、VFS 核心对象（四大结构）" href="#%e4%b8%89vfs-%e6%a0%b8%e5%bf%83%e5%af%b9%e8%b1%a1%e5%9b%9b%e5%a4%a7%e7%bb%93%e6%9e%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>理解 VFS，只要吃透这 4 个结构</strong></p>
 <div class="table-wrap"> <table>
   <thead>
       <tr>
-          <th>结构</th>
-          <th>作用</th>
+          <th>Shell</th>
+          <th>特点</th>
+          <th>使用场景</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>super_block</td>
-          <td>文件系统</td>
+          <td>bash</td>
+          <td>标准、稳定</td>
+          <td>服务器默认</td>
       </tr>
       <tr>
-          <td>inode</td>
-          <td>文件元数据</td>
+          <td>sh</td>
+          <td>POSIX 兼容</td>
+          <td>脚本可移植</td>
       </tr>
       <tr>
-          <td>dentry</td>
-          <td>目录项（名字）</td>
+          <td>zsh</td>
+          <td>交互友好</td>
+          <td>桌面 / 开发</td>
       </tr>
       <tr>
-          <td>file</td>
-          <td>打开的文件</td>
+          <td>fish</td>
+          <td>易用但不兼容</td>
+          <td>个人使用</td>
+      </tr>
+      <tr>
+          <td>dash</td>
+          <td>极快</td>
+          <td>Debian /bin/sh</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>生产环境脚本：bash / sh</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四shell-的四大核心能力"
+    >
+        四、Shell 的四大核心能力
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#四shell-的四大核心能力" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Shell 的四大核心能力" aria-label="Anchor to: 四、Shell 的四大核心能力" href="#%e5%9b%9bshell-%e7%9a%84%e5%9b%9b%e5%a4%a7%e6%a0%b8%e5%bf%83%e8%83%bd%e5%8a%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-命令解释command-parsing"
+    >
+        1️⃣ 命令解释（Command Parsing）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#1-命令解释command-parsing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 命令解释（Command Parsing）" aria-label="Anchor to: 1️⃣ 命令解释（Command Parsing）" href="#1-%e5%91%bd%e4%bb%a4%e8%a7%a3%e9%87%8acommand-parsing">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ls -l /etc
+</span></span></code></pre></div><p>Shell 做了什么：</p>
+<ol>
+<li>分词（tokenize）</li>
+<li>变量替换</li>
+<li>通配符展开</li>
+<li>执行命令</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-进程控制process-control"
+    >
+        2️⃣ 进程控制（Process Control）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#2-进程控制process-control" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 进程控制（Process Control）" aria-label="Anchor to: 2️⃣ 进程控制（Process Control）" href="#2-%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6process-control">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>前台 / 后台</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cmd <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">jobs</span>
+</span></span><span class="line"><span class="cl"><span class="nb">fg</span> %1
+</span></span></code></pre></div><p>子进程 / 父进程</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cmd1 <span class="p">|</span> cmd2
+</span></span></code></pre></div><p>每个 | 都是一个进程</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-io-重定向非常重要"
+    >
+        3️⃣ IO 重定向（非常重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#3-io-重定向非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ IO 重定向（非常重要）" aria-label="Anchor to: 3️⃣ IO 重定向（非常重要）" href="#3-io-%e9%87%8d%e5%ae%9a%e5%90%91%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cmd &gt; out.log 2&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">cmd &lt; input.txt
+</span></span><span class="line"><span class="cl">cmd &gt;&gt; file
+</span></span></code></pre></div><div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>FD</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td>stdin</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>stdout</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>stderr</td>
       </tr>
   </tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-super_block文件系统实例"
+    <h3 id="4-环境与变量管理"
     >
-        1️⃣ super_block（文件系统实例）
+        4️⃣ 环境与变量管理
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#1-super_block文件系统实例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ super_block（文件系统实例）" aria-label="Anchor to: 1️⃣ super_block（文件系统实例）" href="#1-super_block%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e5%ae%9e%e4%be%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#4-环境与变量管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 环境与变量管理" aria-label="Anchor to: 4️⃣ 环境与变量管理" href="#4-%e7%8e%af%e5%a2%83%e4%b8%8e%e5%8f%98%e9%87%8f%e7%ae%a1%e7%90%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">super_block</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">file_system_type</span> <span class="o">*</span><span class="n">s_type</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">dentry</span> <span class="o">*</span><span class="n">s_root</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">block_device</span> <span class="o">*</span><span class="n">s_bdev</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><ul>
-<li>每个 mount 一个</li>
-<li>描述“这个 FS 是什么”</li>
-</ul>
+<p>变量类型</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">var</span><span class="o">=</span><span class="m">1</span>        <span class="c1"># shell 变量</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">var</span><span class="o">=</span><span class="m">1</span> <span class="c1"># 环境变量</span>
+</span></span></code></pre></div><p>子进程只能继承环境变量</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-inode文件本体"
+    <h2 id="五shell-脚本的核心机制"
     >
-        2️⃣ inode（文件本体）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#2-inode文件本体" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ inode（文件本体）" aria-label="Anchor to: 2️⃣ inode（文件本体）" href="#2-inode%e6%96%87%e4%bb%b6%e6%9c%ac%e4%bd%93">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">inode</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">umode_t</span> <span class="n">i_mode</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uid_t</span> <span class="n">i_uid</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">loff_t</span> <span class="n">i_size</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">inode_operations</span> <span class="o">*</span><span class="n">i_op</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>📌 <strong>inode ≠ 文件名</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-dentry名字映射"
-    >
-        3️⃣ dentry（名字映射）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#3-dentry名字映射" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ dentry（名字映射）" aria-label="Anchor to: 3️⃣ dentry（名字映射）" href="#3-dentry%e5%90%8d%e5%ad%97%e6%98%a0%e5%b0%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">dentry</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">d_inode</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">qstr</span> <span class="n">d_name</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><ul>
-<li>路径解析核心</li>
-<li>dentry cache 性能关键</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-file打开实例"
-    >
-        4️⃣ file（打开实例）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#4-file打开实例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ file（打开实例）" aria-label="Anchor to: 4️⃣ file（打开实例）" href="#4-file%e6%89%93%e5%bc%80%e5%ae%9e%e4%be%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">file</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">loff_t</span> <span class="n">f_pos</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">file_operations</span> <span class="o">*</span><span class="n">f_op</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>📌 同一个 inode 可被多个 file 引用</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四路径解析path-walk全过程"
-    >
-        四、路径解析（Path Walk）全过程
+        五、Shell 脚本的核心机制
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#四路径解析path-walk全过程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、路径解析（Path Walk）全过程" aria-label="Anchor to: 四、路径解析（Path Walk）全过程" href="#%e5%9b%9b%e8%b7%af%e5%be%84%e8%a7%a3%e6%9e%90path-walk%e5%85%a8%e8%bf%87%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#五shell-脚本的核心机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、Shell 脚本的核心机制" aria-label="Anchor to: 五、Shell 脚本的核心机制" href="#%e4%ba%94shell-%e8%84%9a%e6%9c%ac%e7%9a%84%e6%a0%b8%e5%bf%83%e6%9c%ba%e5%88%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/open(&#34;/a/b/c&#34;)
-</span></span></code></pre></div><p>步骤：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-变量与引用"
+    >
+        1️⃣ 变量与引用
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#1-变量与引用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 变量与引用" aria-label="Anchor to: 1️⃣ 变量与引用" href="#1-%e5%8f%98%e9%87%8f%e4%b8%8e%e5%bc%95%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">a</span><span class="o">=</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$a</span><span class="s2">&#34;</span>   <span class="c1"># 推荐</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;$a&#39;</span>   <span class="c1"># 原样输出</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-条件判断"
+    >
+        2️⃣ 条件判断
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#2-条件判断" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 条件判断" aria-label="Anchor to: 2️⃣ 条件判断" href="#2-%e6%9d%a1%e4%bb%b6%e5%88%a4%e6%96%ad">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -f /etc/passwd <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> ok
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></div><p>注意：</p>
+<ul>
+<li>[ 是命令</li>
+<li>空格不能少</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-循环"
+    >
+        3️⃣ 循环
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#3-循环" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 循环" aria-label="Anchor to: 3️⃣ 循环" href="#3-%e5%be%aa%e7%8e%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="k">for</span> i in <span class="m">1</span> <span class="m">2</span> 3<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="nv">$i</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-函数"
+    >
+        4️⃣ 函数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#4-函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 函数" aria-label="Anchor to: 4️⃣ 函数" href="#4-%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">foo<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> hello
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-exit-code非常关键"
+    >
+        5️⃣ exit code（非常关键）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#5-exit-code非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ exit code（非常关键）" aria-label="Anchor to: 5️⃣ exit code（非常关键）" href="#5-exit-code%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cmd
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$?</span>   <span class="c1"># 0 = 成功</span>
+</span></span></code></pre></div><p>Shell 自动使用上一个命令的退出码</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六shell-与-kernel-的关系关键认知"
+    >
+        六、Shell 与 Kernel 的关系（关键认知）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#六shell-与-kernel-的关系关键认知" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Shell 与 Kernel 的关系（关键认知）" aria-label="Anchor to: 六、Shell 与 Kernel 的关系（关键认知）" href="#%e5%85%adshell-%e4%b8%8e-kernel-%e7%9a%84%e5%85%b3%e7%b3%bb%e5%85%b3%e9%94%ae%e8%ae%a4%e7%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Shell 并不“执行命令”，而是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fork() -&gt; execve() -&gt; 内核调度
+</span></span></code></pre></div><p>Shell 的职责：</p>
+<ul>
+<li>创建进程</li>
+<li>设置 IO</li>
+<li>传参</li>
+<li>等待或后台</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七shell-的执行模型"
+    >
+        七、Shell 的执行模型
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#七shell-的执行模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、Shell 的执行模型" aria-label="Anchor to: 七、Shell 的执行模型" href="#%e4%b8%83shell-%e7%9a%84%e6%89%a7%e8%a1%8c%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">script.sh
+</span></span></code></pre></div><p>实际流程：</p>
 <ol>
-<li>查 dentry cache</li>
-<li>若 miss -&gt; inode lookup</li>
-<li>若不存在 -&gt; 创建 dentry</li>
-<li>权限检查</li>
-<li>返回 file</li>
+<li>Shell fork 自己</li>
+<li>exec 指定解释器（shebang）</li>
+<li>逐行执行</li>
+<li>结束返回 exit code</li>
 </ol>
-<p>📌 <strong>目录越深，dentry cache 越重要</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五系统调用如何落到文件系统"
+    <h3 id="shebang"
     >
-        五、系统调用如何落到文件系统
+        Shebang（#!）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#shebang" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Shebang（#!）" aria-label="Anchor to: Shebang（#!）" href="#shebang">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
+</span></span></span></code></pre></div><p>决定脚本由谁解释</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八shell-的启动类型bash"
+    >
+        八、Shell 的启动类型（bash）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#五系统调用如何落到文件系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、系统调用如何落到文件系统" aria-label="Anchor to: 五、系统调用如何落到文件系统" href="#%e4%ba%94%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e5%a6%82%e4%bd%95%e8%90%bd%e5%88%b0%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-open"
-    >
-        1️⃣ open()
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#1-open" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ open()" aria-label="Anchor to: 1️⃣ open()" href="#1-open">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">sys_open -&gt;
-</span></span><span class="line"><span class="cl">  do_filp_open -&gt;
-</span></span><span class="line"><span class="cl">    path_lookup -&gt;
-</span></span><span class="line"><span class="cl">      inode_operations
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-readwrite"
-    >
-        2️⃣ read/write()
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#2-readwrite" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ read/write()" aria-label="Anchor to: 2️⃣ read/write()" href="#2-readwrite">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">sys_read -&gt;
-</span></span><span class="line"><span class="cl">  file-&gt;f_op-&gt;read_iter
-</span></span></code></pre></div><p>📌 <strong>VFS 通过 function pointer 调度</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六page-cache-与-vfs性能核心"
-    >
-        六、Page Cache 与 VFS（性能核心）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#六page-cache-与-vfs性能核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Page Cache 与 VFS（性能核心）" aria-label="Anchor to: 六、Page Cache 与 VFS（性能核心）" href="#%e5%85%adpage-cache-%e4%b8%8e-vfs%e6%80%a7%e8%83%bd%e6%a0%b8%e5%bf%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>文件 IO = Page Cache + VFS</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-读流程"
-    >
-        1️⃣ 读流程
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#1-读流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 读流程" aria-label="Anchor to: 1️⃣ 读流程" href="#1-%e8%af%bb%e6%b5%81%e7%a8%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">read -&gt;
-</span></span><span class="line"><span class="cl">  page cache hit -&gt; copy_to_user
-</span></span><span class="line"><span class="cl">  miss -&gt; disk -&gt; cache -&gt; user
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-写流程"
-    >
-        2️⃣ 写流程
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#2-写流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 写流程" aria-label="Anchor to: 2️⃣ 写流程" href="#2-%e5%86%99%e6%b5%81%e7%a8%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">write -&gt;
-</span></span><span class="line"><span class="cl">  page cache dirty -&gt;
-</span></span><span class="line"><span class="cl">    writeback
-</span></span></code></pre></div><p>📌 fsync 才是真正落盘</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七文件系统类型分类"
-    >
-        七、文件系统类型分类
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#七文件系统类型分类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、文件系统类型分类" aria-label="Anchor to: 七、文件系统类型分类" href="#%e4%b8%83%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%b1%bb%e5%9e%8b%e5%88%86%e7%b1%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#八shell-的启动类型bash" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、Shell 的启动类型（bash）" aria-label="Anchor to: 八、Shell 的启动类型（bash）" href="#%e5%85%abshell-%e7%9a%84%e5%90%af%e5%8a%a8%e7%b1%bb%e5%9e%8bbash">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2276,798 +2333,148 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
   <thead>
       <tr>
           <th>类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>本地 FS</td>
-          <td>ext4, xfs</td>
-      </tr>
-      <tr>
-          <td>网络 FS</td>
-          <td>nfs, cifs</td>
-      </tr>
-      <tr>
-          <td>虚拟 FS</td>
-          <td>proc, sysfs</td>
-      </tr>
-      <tr>
-          <td>Union FS</td>
-          <td>overlayfs</td>
-      </tr>
-      <tr>
-          <td>特殊</td>
-          <td>tmpfs</td>
-      </tr>
-  </tbody>
-</table> </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八mount-机制vfs-核心"
-    >
-        八、Mount 机制（VFS 核心）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#八mount-机制vfs-核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、Mount 机制（VFS 核心）" aria-label="Anchor to: 八、Mount 机制（VFS 核心）" href="#%e5%85%abmount-%e6%9c%ba%e5%88%b6vfs-%e6%a0%b8%e5%bf%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-挂载本质"
-    >
-        1️⃣ 挂载本质
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#1-挂载本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 挂载本质" aria-label="Anchor to: 1️⃣ 挂载本质" href="#1-%e6%8c%82%e8%bd%bd%e6%9c%ac%e8%b4%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>把一个 super_block 挂到 dentry 上</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/mnt
-</span></span><span class="line"><span class="cl">  └─ ext4 super_block
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-mount-namespace"
-    >
-        2️⃣ Mount Namespace
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#2-mount-namespace" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Mount Namespace" aria-label="Anchor to: 2️⃣ Mount Namespace" href="#2-mount-namespace">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>每个容器独立视图</li>
-<li>mount 私有化</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九权限模型vfs-层"
-    >
-        九、权限模型（VFS 层）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#九权限模型vfs-层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、权限模型（VFS 层）" aria-label="Anchor to: 九、权限模型（VFS 层）" href="#%e4%b9%9d%e6%9d%83%e9%99%90%e6%a8%a1%e5%9e%8bvfs-%e5%b1%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>权限检查顺序</p>
-<ol>
-<li>UID/GID</li>
-<li>Mode bits</li>
-<li>ACL</li>
-<li>Capability</li>
-</ol>
-<p>📌 <strong>root 也要过 VFS 权限</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十inode-与链接"
-    >
-        十、inode 与链接
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十inode-与链接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、inode 与链接" aria-label="Anchor to: 十、inode 与链接" href="#%e5%8d%81inode-%e4%b8%8e%e9%93%be%e6%8e%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-硬链接"
-    >
-        1️⃣ 硬链接
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#1-硬链接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 硬链接" aria-label="Anchor to: 1️⃣ 硬链接" href="#1-%e7%a1%ac%e9%93%be%e6%8e%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>同 inode</li>
-<li>引用计数</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-软链接"
-    >
-        2️⃣ 软链接
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#2-软链接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 软链接" aria-label="Anchor to: 2️⃣ 软链接" href="#2-%e8%bd%af%e9%93%be%e6%8e%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>独立 inode</li>
-<li>内容是路径</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一文件锁vfs-层"
-    >
-        十一、文件锁（VFS 层）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十一文件锁vfs-层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、文件锁（VFS 层）" aria-label="Anchor to: 十一、文件锁（VFS 层）" href="#%e5%8d%81%e4%b8%80%e6%96%87%e4%bb%b6%e9%94%81vfs-%e5%b1%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>锁</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>flock</td>
-          <td>建议锁</td>
-      </tr>
-      <tr>
-          <td>fcntl</td>
-          <td>POSIX 锁</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>📌 <strong>跨 FS / NFS 行为不同</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二unionfs--overlayfs容器核心"
-    >
-        十二、UnionFS / overlayfs（容器核心）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十二unionfs--overlayfs容器核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、UnionFS / overlayfs（容器核心）" aria-label="Anchor to: 十二、UnionFS / overlayfs（容器核心）" href="#%e5%8d%81%e4%ba%8cunionfs--overlayfs%e5%ae%b9%e5%99%a8%e6%a0%b8%e5%bf%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>overlayfs 层次</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">lowerdir (image)
-</span></span><span class="line"><span class="cl">upperdir (container)
-</span></span><span class="line"><span class="cl">workdir
-</span></span></code></pre></div><ul>
-<li>Copy-on-write</li>
-<li>dentry / inode 映射复杂</li>
-</ul>
-<p>📌 <strong>性能瓶颈常在 metadata</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十三vfs-与容器--kubernetes"
-    >
-        十三、VFS 与容器 / Kubernetes
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十三vfs-与容器--kubernetes" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、VFS 与容器 / Kubernetes" aria-label="Anchor to: 十三、VFS 与容器 / Kubernetes" href="#%e5%8d%81%e4%b8%89vfs-%e4%b8%8e%e5%ae%b9%e5%99%a8--kubernetes">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>每个容器：
-<ul>
-<li>mount namespace</li>
-<li>overlayfs rootfs</li>
-</ul>
-</li>
-<li>volume = 真实 FS</li>
-</ul>
-<p>📌 数据库 volume ≠ overlay 层</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十四vfs-与数据库"
-    >
-        十四、VFS 与数据库
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十四vfs-与数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、VFS 与数据库" aria-label="Anchor to: 十四、VFS 与数据库" href="#%e5%8d%81%e5%9b%9bvfs-%e4%b8%8e%e6%95%b0%e6%8d%ae%e5%ba%93">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>点</th>
-          <th>影响</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>fsync</td>
-          <td>性能关键</td>
-      </tr>
-      <tr>
-          <td>inode cache</td>
-          <td>元数据</td>
-      </tr>
-      <tr>
-          <td>page cache</td>
-          <td>buffer pool</td>
-      </tr>
-      <tr>
-          <td>Direct IO</td>
-          <td>绕过 cache</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>📌 DB 强烈依赖 VFS 行为</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十五常见误区纠正"
-    >
-        十五、常见误区纠正
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十五常见误区纠正" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、常见误区纠正" aria-label="Anchor to: 十五、常见误区纠正" href="#%e5%8d%81%e4%ba%94%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e7%ba%a0%e6%ad%a3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-inode-就是文件"
-    >
-        ❌ inode 就是文件
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#-inode-就是文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ inode 就是文件" aria-label="Anchor to: ❌ inode 就是文件" href="#-inode-%e5%b0%b1%e6%98%af%e6%96%87%e4%bb%b6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>✅ inode 是元数据</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-overlayfs-很慢"
-    >
-        ❌ overlayfs 很慢
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#-overlayfs-很慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ overlayfs 很慢" aria-label="Anchor to: ❌ overlayfs 很慢" href="#-overlayfs-%e5%be%88%e6%85%a2">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>✅ metadata 慢，IO 还行</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-page-cache-是浪费"
-    >
-        ❌ page cache 是浪费
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#-page-cache-是浪费" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ page cache 是浪费" aria-label="Anchor to: ❌ page cache 是浪费" href="#-page-cache-%e6%98%af%e6%b5%aa%e8%b4%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>✅ 是性能命根子</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十六调试与观察接口"
-    >
-        十六、调试与观察接口
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十六调试与观察接口" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、调试与观察接口" aria-label="Anchor to: 十六、调试与观察接口" href="#%e5%8d%81%e5%85%ad%e8%b0%83%e8%af%95%e4%b8%8e%e8%a7%82%e5%af%9f%e6%8e%a5%e5%8f%a3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/proc/filesystems
-</span></span><span class="line"><span class="cl">/proc/self/mountinfo
-</span></span><span class="line"><span class="cl">/sys/fs
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十七一句话终极总结"
-    >
-        十七、一句话终极总结
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十七一句话终极总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、一句话终极总结" aria-label="Anchor to: 十七、一句话终极总结" href="#%e5%8d%81%e4%b8%83%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>VFS = inode + dentry + file + super_block，是 Linux 文件世界的“统一中枢神经系统”</strong></p>
-<hr>
-<p>下面是一份 <strong>「真正文件系统（FS）层面的 Linux 内核核心子系统详解」</strong>。</p>
-<p>这一次刻意不再停留在 <strong>VFS 抽象</strong>，而是往下走一层，回答三个关键问题：</p>
-<ul>
-<li><strong>磁盘上的数据是如何组织的？</strong></li>
-<li><strong>内核如何把块设备变成“文件”？</strong></li>
-<li><strong>ext4 / XFS / tmpfs / overlayfs 的本质差异是什么？</strong></li>
-</ul>
-<p>适用：<strong>RHEL / AlmaLinux / Rocky / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一fs-在-linux-内核中的位置"
-    >
-        一、FS 在 Linux 内核中的位置
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#一fs-在-linux-内核中的位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、FS 在 Linux 内核中的位置" aria-label="Anchor to: 一、FS 在 Linux 内核中的位置" href="#%e4%b8%80fs-%e5%9c%a8-linux-%e5%86%85%e6%a0%b8%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户程序
-</span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">VFS（抽象层）
-</span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">具体文件系统（ext4 / xfs / nfs / tmpfs）
-</span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">Block Layer
-</span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">Block Device / Disk
-</span></span></code></pre></div><p>📌 <strong>FS 是“VFS 的实现者 + Block Layer 的使用者”</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二文件系统fs到底解决什么问题"
-    >
-        二、文件系统（FS）到底解决什么问题？
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#二文件系统fs到底解决什么问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、文件系统（FS）到底解决什么问题？" aria-label="Anchor to: 二、文件系统（FS）到底解决什么问题？" href="#%e4%ba%8c%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9ffs%e5%88%b0%e5%ba%95%e8%a7%a3%e5%86%b3%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>把“线性的块设备” -&gt; “结构化的文件与目录”</strong></p>
-<p>必须解决 6 个核心问题：</p>
-<ol>
-<li>空间如何分配</li>
-<li>元数据如何存储</li>
-<li>文件如何定位</li>
-<li>目录如何组织</li>
-<li>崩溃如何恢复</li>
-<li>性能如何保证</li>
-</ol>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三磁盘视角文件系统的基本组成"
-    >
-        三、磁盘视角：文件系统的基本组成
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#三磁盘视角文件系统的基本组成" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、磁盘视角：文件系统的基本组成" aria-label="Anchor to: 三、磁盘视角：文件系统的基本组成" href="#%e4%b8%89%e7%a3%81%e7%9b%98%e8%a7%86%e8%a7%92%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%9f%ba%e6%9c%ac%e7%bb%84%e6%88%90">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>几乎所有 FS 都包含：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[ Superblock ]
-</span></span><span class="line"><span class="cl">[ Metadata 区 ]
-</span></span><span class="line"><span class="cl">[ Data Blocks ]
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-superblock文件系统身份证"
-    >
-        1️⃣ Superblock（文件系统身份证）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#1-superblock文件系统身份证" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Superblock（文件系统身份证）" aria-label="Anchor to: 1️⃣ Superblock（文件系统身份证）" href="#1-superblock%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e8%ba%ab%e4%bb%bd%e8%af%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>保存：</p>
-<ul>
-<li>FS 类型</li>
-<li>block size</li>
-<li>inode 数量</li>
-<li>UUID</li>
-<li>mount 状态</li>
-</ul>
-<p>📌 <strong>superblock 损坏 = FS 无法识别</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-metadata元数据区"
-    >
-        2️⃣ Metadata（元数据区）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#2-metadata元数据区" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Metadata（元数据区）" aria-label="Anchor to: 2️⃣ Metadata（元数据区）" href="#2-metadata%e5%85%83%e6%95%b0%e6%8d%ae%e5%8c%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>包括：</p>
-<ul>
-<li>inode 表</li>
-<li>位图（block / inode bitmap）</li>
-<li>B+Tree / extent tree</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-data-blocks数据区"
-    >
-        3️⃣ Data Blocks（数据区）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#3-data-blocks数据区" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Data Blocks（数据区）" aria-label="Anchor to: 3️⃣ Data Blocks（数据区）" href="#3-data-blocks%e6%95%b0%e6%8d%ae%e5%8c%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>真正的文件内容</li>
-<li>由 inode 指向</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四inode文件系统的灵魂"
-    >
-        四、inode：文件系统的“灵魂”
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#四inode文件系统的灵魂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、inode：文件系统的“灵魂”" aria-label="Anchor to: 四、inode：文件系统的“灵魂”" href="#%e5%9b%9binode%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%81%b5%e9%ad%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>inode 是“文件”，而不是文件名</strong></p>
-<p>典型 inode 包含：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">权限
-</span></span><span class="line"><span class="cl">UID / GID
-</span></span><span class="line"><span class="cl">大小
-</span></span><span class="line"><span class="cl">时间戳
-</span></span><span class="line"><span class="cl">指向数据块的指针
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="inode-如何指向数据"
-    >
-        inode 如何指向数据？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#inode-如何指向数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: inode 如何指向数据？" aria-label="Anchor to: inode 如何指向数据？" href="#inode-%e5%a6%82%e4%bd%95%e6%8c%87%e5%90%91%e6%95%b0%e6%8d%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="早期ext2"
-    >
-        早期（ext2）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#早期ext2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 早期（ext2）" aria-label="Anchor to: 早期（ext2）" href="#%e6%97%a9%e6%9c%9fext2">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>直接块</li>
-<li>间接块</li>
-<li>双重 / 三重间接</li>
-</ul>
-<p>❌ 大文件效率差</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="现代ext4--xfs"
-    >
-        现代（ext4 / xfs）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#现代ext4--xfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 现代（ext4 / xfs）" aria-label="Anchor to: 现代（ext4 / xfs）" href="#%e7%8e%b0%e4%bb%a3ext4--xfs">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>Extent（区段）</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[start_block, length]
-</span></span></code></pre></div><ul>
-<li>✅ 连续 IO</li>
-<li>✅ 少 metadata</li>
-<li>✅ 更适合大文件 / DB</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五空间分配策略性能关键"
-    >
-        五、空间分配策略（性能关键）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#五空间分配策略性能关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、空间分配策略（性能关键）" aria-label="Anchor to: 五、空间分配策略（性能关键）" href="#%e4%ba%94%e7%a9%ba%e9%97%b4%e5%88%86%e9%85%8d%e7%ad%96%e7%95%a5%e6%80%a7%e8%83%bd%e5%85%b3%e9%94%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-block-allocation块分配"
-    >
-        1️⃣ Block Allocation（块分配）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#1-block-allocation块分配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Block Allocation（块分配）" aria-label="Anchor to: 1️⃣ Block Allocation（块分配）" href="#1-block-allocation%e5%9d%97%e5%88%86%e9%85%8d">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>目标：</p>
-<ul>
-<li>减少碎片</li>
-<li>连续 IO</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-延迟分配delayed-allocation"
-    >
-        2️⃣ 延迟分配（Delayed Allocation）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#2-延迟分配delayed-allocation" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 延迟分配（Delayed Allocation）" aria-label="Anchor to: 2️⃣ 延迟分配（Delayed Allocation）" href="#2-%e5%bb%b6%e8%bf%9f%e5%88%86%e9%85%8ddelayed-allocation">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>写的时候不立刻分配磁盘块</strong></p>
-<ul>
-<li>先写 page cache</li>
-<li>刷盘时统一规划</li>
-</ul>
-<p>📌 ext4 / xfs 默认启用</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-preallocation预分配"
-    >
-        3️⃣ Preallocation（预分配）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#3-preallocation预分配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Preallocation（预分配）" aria-label="Anchor to: 3️⃣ Preallocation（预分配）" href="#3-preallocation%e9%a2%84%e5%88%86%e9%85%8d">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>数据库常用</li>
-<li>减少碎片</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六目录的真实结构"
-    >
-        六、目录的真实结构
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#六目录的真实结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、目录的真实结构" aria-label="Anchor to: 六、目录的真实结构" href="#%e5%85%ad%e7%9b%ae%e5%bd%95%e7%9a%84%e7%9c%9f%e5%ae%9e%e7%bb%93%e6%9e%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>目录 ≠ 特殊文件</strong></p>
-<p><strong>目录 = “文件名 -&gt; inode”的映射表</strong></p>
-<p>ext4 / xfs 目录结构</p>
-<ul>
-<li>小目录：线性表</li>
-<li>大目录：<strong>B-tree / HTree</strong></li>
-</ul>
-<p>📌 <strong>大量小文件性能看目录结构</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七日志journaling机制"
-    >
-        七、日志（Journaling）机制
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#七日志journaling机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、日志（Journaling）机制" aria-label="Anchor to: 七、日志（Journaling）机制" href="#%e4%b8%83%e6%97%a5%e5%bf%97journaling%e6%9c%ba%e5%88%b6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="为什么需要日志"
-    >
-        为什么需要日志？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#为什么需要日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为什么需要日志？" aria-label="Anchor to: 为什么需要日志？" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e6%97%a5%e5%bf%97">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>防止断电 / crash 导致元数据损坏</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="日志三种模式ext4"
-    >
-        日志三种模式（ext4）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#日志三种模式ext4" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 日志三种模式（ext4）" aria-label="Anchor to: 日志三种模式（ext4）" href="#%e6%97%a5%e5%bf%97%e4%b8%89%e7%a7%8d%e6%a8%a1%e5%bc%8fext4">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>特点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>writeback</td>
-          <td>快但不安全</td>
-      </tr>
-      <tr>
-          <td>ordered（默认）</td>
-          <td>数据先写</td>
-      </tr>
-      <tr>
-          <td>journal</td>
-          <td>数据 + 元数据</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>📌 XFS 永远是 ordered 类似行为</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="日志写入流程"
-    >
-        日志写入流程
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#日志写入流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 日志写入流程" aria-label="Anchor to: 日志写入流程" href="#%e6%97%a5%e5%bf%97%e5%86%99%e5%85%a5%e6%b5%81%e7%a8%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">metadata -&gt; journal
-</span></span><span class="line"><span class="cl">commit
-</span></span><span class="line"><span class="cl">checkpoint -&gt; main FS
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八ext4-vs-xfs内核级差异"
-    >
-        八、ext4 vs XFS（内核级差异）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#八ext4-vs-xfs内核级差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、ext4 vs XFS（内核级差异）" aria-label="Anchor to: 八、ext4 vs XFS（内核级差异）" href="#%e5%85%abext4-vs-xfs%e5%86%85%e6%a0%b8%e7%ba%a7%e5%b7%ae%e5%bc%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>ext4</th>
-          <th>XFS</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>设计目标</td>
-          <td>通用</td>
-          <td>大文件 / 并发</td>
-      </tr>
-      <tr>
-          <td>inode</td>
-          <td>固定数量</td>
-          <td>动态</td>
-      </tr>
-      <tr>
-          <td>日志</td>
-          <td>JBD2</td>
-          <td>内建</td>
-      </tr>
-      <tr>
-          <td>扩容</td>
-          <td>支持</td>
-          <td>更强</td>
-      </tr>
-      <tr>
-          <td>fsck</td>
-          <td>慢</td>
-          <td>几乎不用</td>
-      </tr>
-      <tr>
-          <td>并发</td>
-          <td>中</td>
-          <td>高</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>📌 <strong>数据库 / 大盘：XFS</strong></p>
-<p>📌 <strong>系统盘 / 通用：ext4</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九block-layer-与-fs-的关系"
-    >
-        九、Block Layer 与 FS 的关系
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#九block-layer-与-fs-的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、Block Layer 与 FS 的关系" aria-label="Anchor to: 九、Block Layer 与 FS 的关系" href="#%e4%b9%9dblock-layer-%e4%b8%8e-fs-%e7%9a%84%e5%85%b3%e7%b3%bb">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">FS -&gt; submit_bio -&gt; block layer -&gt; IO scheduler -&gt; disk
-</span></span></code></pre></div><ul>
-<li>FS 决定 “读什么块”</li>
-<li>Block Layer 决定 “怎么读”</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="io-调度器影响"
-    >
-        IO 调度器影响
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#io-调度器影响" class="gdoc-page__anchor clip flex align-center" title="Anchor to: IO 调度器影响" aria-label="Anchor to: IO 调度器影响" href="#io-%e8%b0%83%e5%ba%a6%e5%99%a8%e5%bd%b1%e5%93%8d">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>mq-deadline（数据库）</li>
-<li>none（NVMe）</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十fsync--fdatasync-的真相数据库生死线"
-    >
-        十、fsync / fdatasync 的真相（数据库生死线）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十fsync--fdatasync-的真相数据库生死线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、fsync / fdatasync 的真相（数据库生死线）" aria-label="Anchor to: 十、fsync / fdatasync 的真相（数据库生死线）" href="#%e5%8d%81fsync--fdatasync-%e7%9a%84%e7%9c%9f%e7%9b%b8%e6%95%b0%e6%8d%ae%e5%ba%93%e7%94%9f%e6%ad%bb%e7%ba%bf">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>fsync = 数据 + 元数据落盘</p>
-<ul>
-<li>ext4 ordered：数据已先写</li>
-<li>XFS：log 强一致</li>
-</ul>
-<p>📌 <strong>fsync ≠ 立刻写磁盘，而是立刻保证持久性</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一tmpfs内存文件系统"
-    >
-        十一、tmpfs（内存文件系统）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十一tmpfs内存文件系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、tmpfs（内存文件系统）" aria-label="Anchor to: 十一、tmpfs（内存文件系统）" href="#%e5%8d%81%e4%b8%80tmpfs%e5%86%85%e5%ad%98%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>不走 block layer</li>
-<li>页 = 内存</li>
-</ul>
-<p>📌 /run /tmp /dev/shm</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二overlayfs容器-fs"
-    >
-        十二、overlayfs（容器 FS）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十二overlayfs容器-fs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、overlayfs（容器 FS）" aria-label="Anchor to: 十二、overlayfs（容器 FS）" href="#%e5%8d%81%e4%ba%8coverlayfs%e5%ae%b9%e5%99%a8-fs">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>结构：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">lowerdir（只读镜像）
-</span></span><span class="line"><span class="cl">upperdir（写层）
-</span></span><span class="line"><span class="cl">workdir
-</span></span></code></pre></div><p>行为：</p>
-<ul>
-<li>写时复制（CoW）</li>
-<li>metadata 映射复杂</li>
-</ul>
-<p>📌 <strong>overlayfs 不适合数据库数据目录</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十三fs-与-page-cache-的关系"
-    >
-        十三、FS 与 Page Cache 的关系
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十三fs-与-page-cache-的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、FS 与 Page Cache 的关系" aria-label="Anchor to: 十三、FS 与 Page Cache 的关系" href="#%e5%8d%81%e4%b8%89fs-%e4%b8%8e-page-cache-%e7%9a%84%e5%85%b3%e7%b3%bb">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>FS 不直接读磁盘</li>
-<li>先查 page cache</li>
-<li>writeback 异步</li>
-</ul>
-<p>📌 <strong>数据库 buffer pool ≠ page cache</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十四fs-与容器--云"
-    >
-        十四、FS 与容器 / 云
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十四fs-与容器--云" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、FS 与容器 / 云" aria-label="Anchor to: 十四、FS 与容器 / 云" href="#%e5%8d%81%e5%9b%9bfs-%e4%b8%8e%e5%ae%b9%e5%99%a8--%e4%ba%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>容器</p>
-<ul>
-<li>rootfs = overlayfs</li>
-<li>volume = ext4 / xfs</li>
-</ul>
-<p>云盘</p>
-<ul>
-<li>写延迟大</li>
-<li>fsync 成本高</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十五常见-fs-级坑"
-    >
-        十五、常见 FS 级“坑”
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十五常见-fs-级坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、常见 FS 级“坑”" aria-label="Anchor to: 十五、常见 FS 级“坑”" href="#%e5%8d%81%e4%ba%94%e5%b8%b8%e8%a7%81-fs-%e7%ba%a7%e5%9d%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>❌ inode 用完但磁盘还有空间</li>
-<li>❌ overlayfs metadata 爆炸</li>
-<li>❌ fsync 频繁导致 TPS 掉崖</li>
-<li>❌ ext4 小 inode + 大文件数</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十六生产级-fs-选择建议"
-    >
-        十六、生产级 FS 选择建议
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十六生产级-fs-选择建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、生产级 FS 选择建议" aria-label="Anchor to: 十六、生产级 FS 选择建议" href="#%e5%8d%81%e5%85%ad%e7%94%9f%e4%ba%a7%e7%ba%a7-fs-%e9%80%89%e6%8b%a9%e5%bb%ba%e8%ae%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
           <th>场景</th>
-          <th>建议</th>
+          <th>加载文件</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>系统盘</td>
-          <td>ext4</td>
+          <td>login shell</td>
+          <td>ssh 登录</td>
+          <td>/etc/profile</td>
       </tr>
       <tr>
-          <td>数据盘</td>
-          <td>XFS</td>
+          <td>non-login</td>
+          <td>开终端</td>
+          <td>~/.bashrc</td>
       </tr>
       <tr>
-          <td>容器数据</td>
-          <td>直挂 volume</td>
-      </tr>
-      <tr>
-          <td>临时数据</td>
-          <td>tmpfs</td>
-      </tr>
-      <tr>
-          <td>日志</td>
-          <td>XFS + noatime</td>
+          <td>非交互</td>
+          <td>脚本</td>
+          <td>只加载脚本</td>
       </tr>
   </tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十七总结"
+    <h2 id="九常见配置文件运维必须懂"
     >
-        十七、总结
+        九、常见配置文件（运维必须懂）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-fs/#十七总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、总结" aria-label="Anchor to: 十七、总结" href="#%e5%8d%81%e4%b8%83%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#九常见配置文件运维必须懂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、常见配置文件（运维必须懂）" aria-label="Anchor to: 九、常见配置文件（运维必须懂）" href="#%e4%b9%9d%e5%b8%b8%e8%a7%81%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%bf%90%e7%bb%b4%e5%bf%85%e9%a1%bb%e6%87%82">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>Linux 文件系统（FS）本质是：inode + block allocation + journaling + cache + IO 调度，把“块设备”变成“可靠、高效的文件世界”。</strong></p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>文件</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>/etc/profile</td>
+          <td>全局环境</td>
+      </tr>
+      <tr>
+          <td>~/.bashrc</td>
+          <td>用户环境</td>
+      </tr>
+      <tr>
+          <td>~/.bash_profile</td>
+          <td>登录环境</td>
+      </tr>
+      <tr>
+          <td>/etc/bashrc</td>
+          <td>系统 bash 配置</td>
+      </tr>
+      <tr>
+          <td>/etc/inputrc</td>
+          <td>键盘行为</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十shell-在运维中的核心价值"
+    >
+        十、Shell 在运维中的核心价值
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#十shell-在运维中的核心价值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、Shell 在运维中的核心价值" aria-label="Anchor to: 十、Shell 在运维中的核心价值" href="#%e5%8d%81shell-%e5%9c%a8%e8%bf%90%e7%bb%b4%e4%b8%ad%e7%9a%84%e6%a0%b8%e5%bf%83%e4%bb%b7%e5%80%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>自动化</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">backup.sh
+</span></span><span class="line"><span class="cl">deploy.sh
+</span></span><span class="line"><span class="cl">cleanup.sh
+</span></span></code></pre></div><p>系统初始化</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sysctl
+</span></span><span class="line"><span class="cl">limits
+</span></span><span class="line"><span class="cl">systemd
+</span></span></code></pre></div><p>应急修复</p>
+<ul>
+<li>rescue 模式</li>
+<li>rd.break</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一shell-常见坑经验总结"
+    >
+        十一、Shell 常见“坑”（经验总结）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#十一shell-常见坑经验总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、Shell 常见“坑”（经验总结）" aria-label="Anchor to: 十一、Shell 常见“坑”（经验总结）" href="#%e5%8d%81%e4%b8%80shell-%e5%b8%b8%e8%a7%81%e5%9d%91%e7%bb%8f%e9%aa%8c%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>❌ 变量不加引号</li>
+<li>❌ 用 for i in $(ls)</li>
+<li>❌ 忽略 exit code</li>
+<li>❌ 混用 bash/sh 特性</li>
+<li>❌ 脚本无 set -e 防护</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二推荐的-shell-编码规范生产"
+    >
+        十二、推荐的 Shell 编码规范（生产）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#十二推荐的-shell-编码规范生产" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、推荐的 Shell 编码规范（生产）" aria-label="Anchor to: 十二、推荐的 Shell 编码规范（生产）" href="#%e5%8d%81%e4%ba%8c%e6%8e%a8%e8%8d%90%e7%9a%84-shell-%e7%bc%96%e7%a0%81%e8%a7%84%e8%8c%83%e7%94%9f%e4%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -Eeuo pipefail
+</span></span></code></pre></div><div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>选项</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>-e</td>
+          <td>出错即停</td>
+      </tr>
+      <tr>
+          <td>-u</td>
+          <td>未定义变量报错</td>
+      </tr>
+      <tr>
+          <td>-o pipefail</td>
+          <td>管道失败可感知</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三总结"
+    >
+        十三、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/user-space-shell/#十三总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、总结" aria-label="Anchor to: 十三、总结" href="#%e5%8d%81%e4%b8%89%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Shell 不是“命令集合”，而是 Linux 系统的“编排语言”和“控制中枢”。</p>
 
   </article>
 
