@@ -65,7 +65,7 @@ datetime, code, source, title, url 都需查询 code 和 url 组成唯一约束 
       "url" : "https://documents.v2ep.com/database/postgres/example/",
       "headline": "PostgreSQL Example",
       "description": " 示例 01 表名 articles\nid 类型为 整数, 不能为空, 主键, 唯一, 自增 datetime 类型为 TIMESTAMP, 不能为空 code 类型为 CHAR(6), 不能为空 source 类型为 VARCHAR(20), 不能为空 title 类型为 VARCHAR(100), 不能为空 url 类型为 TEXT, 不能为空 需求：\ndatetime, code, source, title, url 都需查询 code 和 url 组成唯一约束 source、title 和 url 经常需要使用 WHERE Like ‘%xxx%’ 搜索 根据 PostgreSQL 最佳实践，以及索引优化等，生成相关的建表语句以及建索引语句。",
-      "wordCount" : "1175",
+      "wordCount" : "1282",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2729,7 +2729,91 @@ datetime, code, source, title, url 都需查询 code 和 url 组成唯一约束 
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_ashare_name</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">ashare</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w">
-</span></span></span></code></pre></div>
+</span></span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="示例-04"
+    >
+        示例 04
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/example/#示例-04" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 示例 04" aria-label="Anchor to: 示例 04" href="#%e7%a4%ba%e4%be%8b-04">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表名 trade_date</p>
+<ul>
+<li>date 类型为 日期, 主键</li>
+</ul>
+<p>实践：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 删除表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">trade_date</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 创建表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">trade_date</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">date</span><span class="w"> </span><span class="nb">DATE</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>PostgreSQL 的 DATE 字段类型专门用于存储不带时间（即没有时分秒）的日期数据，占用 4 字节存储空间，范围涵盖公元前 4713 年到公元 5874897 年。</p>
+<p>其标准格式为 &lsquo;YYYY-MM-DD&rsquo;，如 &lsquo;2023-10-27&rsquo;，常用于生日、注册日期等仅需日期的场景。</p>
+<p>以下是关于 PostgreSQL DATE 类型的详细说明：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="核心特性"
+    >
+        核心特性
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/example/#核心特性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心特性" aria-label="Anchor to: 核心特性" href="#%e6%a0%b8%e5%bf%83%e7%89%b9%e6%80%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>存储内容：仅包含年、月、日，不包含时、分、秒或时区信息。</li>
+<li>存储空间：4 字节。</li>
+<li>格式：默认和建议的输入/输出格式为 YYYY-MM-DD。</li>
+<li>取值范围：公元前 4713 年到公元 5874897 年。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="使用示例"
+    >
+        使用示例
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/example/#使用示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 使用示例" aria-label="Anchor to: 使用示例" href="#%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>创建表</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">birthday</span><span class="w"> </span><span class="nb">DATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>插入数据</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">birthday</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;张三&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;1990-01-01&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>日期操作：DATE 类型支持加减操作，例如查询一周后的日期：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;7 days&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="与其他日期时间类型对比"
+    >
+        与其他日期/时间类型对比
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/example/#与其他日期时间类型对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 与其他日期/时间类型对比" aria-label="Anchor to: 与其他日期/时间类型对比" href="#%e4%b8%8e%e5%85%b6%e4%bb%96%e6%97%a5%e6%9c%9f%e6%97%b6%e9%97%b4%e7%b1%bb%e5%9e%8b%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>TIMESTAMP：包含日期和时间（YYYY-MM-DD HH:MM:SS）。</li>
+<li>TIME：仅包含一天内的时间（HH:MM:SS）。</li>
+<li>INTERVAL：存储时间间隔。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="注意事项"
+    >
+        注意事项
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/example/#注意事项" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 注意事项" aria-label="Anchor to: 注意事项" href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>插入 DATE 数据时，建议将值用单引号括起来作为字符串处理。</p>
+<p>如果需要存储时区信息，应使用 TIMESTAMP WITH TIME ZONE 类型，而不是 DATE。</p>
+<p>PostgreSQL 也支持更灵活的输入格式，如 19970101 或 Jan-1-1997，但 &lsquo;YYYY-MM-DD&rsquo; 是最稳妥的标准。</p>
+
   </article>
 
 
