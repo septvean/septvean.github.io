@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的区别。 WAL 字符串存储类型选择 数据库设计三大范式 软删除 &#43; 生命周期 " />
+  <meta name="description" content="下面是一份 “内核级视角”的 Linux 进程管理（Process）核心子系统详解，不是 ps/top 用法，而是从内核数据结构、调度、状态、上下文切换到容器/NUMA 的完整认知框架。
+适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
+一、进程在 Linux 内核中的本质 Linux 没有 “线程” 这种内核对象，只有 task（任务）。
+1️⃣ task_struct（核心数据结构） struct task_struct { pid_t pid; long state; struct mm_struct *mm; struct files_struct *files; struct signal_struct *signal; struct sched_entity se; struct cgroup_subsys_state *css; ... } 📌 进程 / 线程 = task_struct 的不同组合" />
 
-    <title>Design | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux 进程管理（Process） | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,38 +38,42 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
     
   <meta
     property="og:title"
-    content="Design"
+    content="Linux 进程管理（Process）"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的区别。 WAL 字符串存储类型选择 数据库设计三大范式 软删除 &#43; 生命周期 " />
+  <meta property="og:description" content="下面是一份 “内核级视角”的 Linux 进程管理（Process）核心子系统详解，不是 ps/top 用法，而是从内核数据结构、调度、状态、上下文切换到容器/NUMA 的完整认知框架。
+适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
+一、进程在 Linux 内核中的本质 Linux 没有 “线程” 这种内核对象，只有 task（任务）。
+1️⃣ task_struct（核心数据结构） struct task_struct { pid_t pid; long state; struct mm_struct *mm; struct files_struct *files; struct signal_struct *signal; struct sched_entity se; struct cgroup_subsys_state *css; ... } 📌 进程 / 线程 = task_struct 的不同组合" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/design/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/core-process/" />
 
-<meta property="article:section" content="Database" />
+<meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Design" />
-  <meta name="twitter:description" content="Document List:
-B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的区别。 WAL 字符串存储类型选择 数据库设计三大范式 软删除 &#43; 生命周期 " />
+<meta name="twitter:title" content="Linux 进程管理（Process）" />
+  <meta name="twitter:description" content="下面是一份 “内核级视角”的 Linux 进程管理（Process）核心子系统详解，不是 ps/top 用法，而是从内核数据结构、调度、状态、上下文切换到容器/NUMA 的完整认知框架。
+适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。
+一、进程在 Linux 内核中的本质 Linux 没有 “线程” 这种内核对象，只有 task（任务）。
+1️⃣ task_struct（核心数据结构） struct task_struct { pid_t pid; long state; struct mm_struct *mm; struct files_struct *files; struct signal_struct *signal; struct sched_entity se; struct cgroup_subsys_state *css; ... } 📌 进程 / 线程 = task_struct 的不同组合" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Database",
-      "name": "Design",
-      "url" : "https://documents.v2ep.com/database/design/",
-      "headline": "Design",
-      "description": "Document List:\nB-Tree 和 B\u002bTree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的区别。 WAL 字符串存储类型选择 数据库设计三大范式 软删除 \u002b 生命周期 ",
-      "wordCount" : "16",
+      "articleSection": "Operations",
+      "name": "Linux 进程管理（Process）",
+      "url" : "https://documents.v2ep.com/operations/linux/core-process/",
+      "headline": "Linux 进程管理（Process）",
+      "description": "下面是一份 “内核级视角”的 Linux 进程管理（Process）核心子系统详解，不是 ps\/top 用法，而是从内核数据结构、调度、状态、上下文切换到容器\/NUMA 的完整认知框架。\n适用 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu \/ 云 \/ 容器 \/ 数据库 \/ 虚拟化。\n一、进程在 Linux 内核中的本质 Linux 没有 “线程” 这种内核对象，只有 task（任务）。\n1️⃣ task_struct（核心数据结构） struct task_struct { pid_t pid; long state; struct mm_struct *mm; struct files_struct *files; struct signal_struct *signal; struct sched_entity se; struct cgroup_subsys_state *css; ... } 📌 进程 \/ 线程 = task_struct 的不同组合",
+      "wordCount" : "384",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/design/"
+          "@id": "https://documents.v2ep.com/operations/linux/core-process/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/design/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/core-process/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -676,7 +682,7 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
                 <span class="flex">
                   <a
                     href="/database/design/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Design
                   </a>
@@ -1988,7 +1994,15 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Design</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 进程管理（Process）</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2007,56 +2021,568 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Design</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Linux 进程管理（Process）</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/design/b-tree-vs-b&#43;tree/" class="gdoc-toc__entry">B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的区别。
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/design/wal/" class="gdoc-toc__entry">WAL
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/design/string-text/" class="gdoc-toc__entry">字符串存储类型选择
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/design/ruthless/" class="gdoc-toc__entry">数据库设计三大范式
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/design/delete-and-data-lifecycle-management/" class="gdoc-toc__entry">软删除 &#43; 生命周期
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>下面是一份 <strong>“内核级视角”的 Linux 进程管理（Process）核心子系统详解</strong>，不是 ps/top 用法，而是从内核数据结构、调度、状态、上下文切换到容器/NUMA 的完整认知框架。</p>
+<p>适用 RHEL / AlmaLinux / Debian / Ubuntu / 云 / 容器 / 数据库 / 虚拟化。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一进程在-linux-内核中的本质"
+    >
+        一、进程在 Linux 内核中的本质
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#一进程在-linux-内核中的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、进程在 Linux 内核中的本质" aria-label="Anchor to: 一、进程在 Linux 内核中的本质" href="#%e4%b8%80%e8%bf%9b%e7%a8%8b%e5%9c%a8-linux-%e5%86%85%e6%a0%b8%e4%b8%ad%e7%9a%84%e6%9c%ac%e8%b4%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Linux 没有 “线程” 这种内核对象，只有 task（任务）。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-task_struct核心数据结构"
+    >
+        1️⃣ task_struct（核心数据结构）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#1-task_struct核心数据结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ task_struct（核心数据结构）" aria-label="Anchor to: 1️⃣ task_struct（核心数据结构）" href="#1-task_struct%e6%a0%b8%e5%bf%83%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">task_struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">pid_t</span> <span class="n">pid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">state</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">mm_struct</span> <span class="o">*</span><span class="n">mm</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">files_struct</span> <span class="o">*</span><span class="n">files</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">signal_struct</span> <span class="o">*</span><span class="n">signal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">sched_entity</span> <span class="n">se</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">cgroup_subsys_state</span> <span class="o">*</span><span class="n">css</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>📌 <strong>进程 / 线程 = task_struct 的不同组合</strong></p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>概念</th>
+          <th>内核视角</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>进程</td>
+          <td>有独立 mm</td>
+      </tr>
+      <tr>
+          <td>线程</td>
+          <td>共享 mm</td>
+      </tr>
+      <tr>
+          <td>协程</td>
+          <td>用户态调度</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二进程-vs-线程内核真实差异"
+    >
+        二、进程 vs 线程（内核真实差异）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#二进程-vs-线程内核真实差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、进程 vs 线程（内核真实差异）" aria-label="Anchor to: 二、进程 vs 线程（内核真实差异）" href="#%e4%ba%8c%e8%bf%9b%e7%a8%8b-vs-%e7%ba%bf%e7%a8%8b%e5%86%85%e6%a0%b8%e7%9c%9f%e5%ae%9e%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>进程</th>
+          <th>线程</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>PID</td>
+          <td>不同</td>
+          <td>不同</td>
+      </tr>
+      <tr>
+          <td>虚拟地址空间</td>
+          <td>独立</td>
+          <td>共享</td>
+      </tr>
+      <tr>
+          <td>文件描述符</td>
+          <td>独立</td>
+          <td>共享</td>
+      </tr>
+      <tr>
+          <td>调度单位</td>
+          <td>task</td>
+          <td>task</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>Linux 的线程 = 轻量级进程</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三进程生命周期从出生到死亡"
+    >
+        三、进程生命周期（从出生到死亡）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#三进程生命周期从出生到死亡" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、进程生命周期（从出生到死亡）" aria-label="Anchor to: 三、进程生命周期（从出生到死亡）" href="#%e4%b8%89%e8%bf%9b%e7%a8%8b%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e4%bb%8e%e5%87%ba%e7%94%9f%e5%88%b0%e6%ad%bb%e4%ba%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-创建fork--clone--vfork"
+    >
+        1️⃣ 创建：fork / clone / vfork
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#1-创建fork--clone--vfork" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 创建：fork / clone / vfork" aria-label="Anchor to: 1️⃣ 创建：fork / clone / vfork" href="#1-%e5%88%9b%e5%bb%bafork--clone--vfork">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>fork()</p>
+<ul>
+<li>复制 task_struct</li>
+<li>Copy-On-Write</li>
+</ul>
+<p>clone()</p>
+<ul>
+<li>指定共享资源</li>
+<li>创建线程、容器的基础</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">clone</span><span class="p">(</span><span class="n">CLONE_VM</span> <span class="o">|</span> <span class="n">CLONE_FS</span> <span class="o">|</span> <span class="n">CLONE_FILES</span><span class="p">);</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-执行execve"
+    >
+        2️⃣ 执行：execve
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#2-执行execve" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 执行：execve" aria-label="Anchor to: 2️⃣ 执行：execve" href="#2-%e6%89%a7%e8%a1%8cexecve">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>fork -&gt; execve -&gt; 新程序</p>
+<ul>
+<li>替换用户态代码</li>
+<li>内核态 task_struct 不变</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-退出exit--_exit"
+    >
+        3️⃣ 退出：exit / _exit
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#3-退出exit--_exit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 退出：exit / _exit" aria-label="Anchor to: 3️⃣ 退出：exit / _exit" href="#3-%e9%80%80%e5%87%baexit--_exit">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">exit -&gt; ZOMBIE -&gt; reaped
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四进程状态机极其重要"
+    >
+        四、进程状态机（极其重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#四进程状态机极其重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、进程状态机（极其重要）" aria-label="Anchor to: 四、进程状态机（极其重要）" href="#%e5%9b%9b%e8%bf%9b%e7%a8%8b%e7%8a%b6%e6%80%81%e6%9c%ba%e6%9e%81%e5%85%b6%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">TASK_RUNNING
+</span></span><span class="line"><span class="cl">TASK_INTERRUPTIBLE
+</span></span><span class="line"><span class="cl">TASK_UNINTERRUPTIBLE (D)
+</span></span><span class="line"><span class="cl">TASK_STOPPED
+</span></span><span class="line"><span class="cl">TASK_ZOMBIE
+</span></span></code></pre></div><p><strong>D 状态（最可怕）</strong></p>
+<ul>
+<li>等待 IO，不能被 kill</li>
+</ul>
+<p>📌 <strong>数据库、存储、NFS 常见</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五调度子系统scheduler"
+    >
+        五、调度子系统（Scheduler）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#五调度子系统scheduler" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、调度子系统（Scheduler）" aria-label="Anchor to: 五、调度子系统（Scheduler）" href="#%e4%ba%94%e8%b0%83%e5%ba%a6%e5%ad%90%e7%b3%bb%e7%bb%9fscheduler">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-cfs完全公平调度器"
+    >
+        1️⃣ CFS（完全公平调度器）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#1-cfs完全公平调度器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ CFS（完全公平调度器）" aria-label="Anchor to: 1️⃣ CFS（完全公平调度器）" href="#1-cfs%e5%ae%8c%e5%85%a8%e5%85%ac%e5%b9%b3%e8%b0%83%e5%ba%a6%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>核心思想：</p>
+<p><strong>按虚拟运行时间公平分配 CPU</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">vruntime = 实际运行时间 / 权重
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-调度队列runqueue"
+    >
+        2️⃣ 调度队列（Runqueue）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#2-调度队列runqueue" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 调度队列（Runqueue）" aria-label="Anchor to: 2️⃣ 调度队列（Runqueue）" href="#2-%e8%b0%83%e5%ba%a6%e9%98%9f%e5%88%97runqueue">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>每 CPU 一个 rq</li>
+<li>红黑树维护 task</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-调度类"
+    >
+        3️⃣ 调度类
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#3-调度类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 调度类" aria-label="Anchor to: 3️⃣ 调度类" href="#3-%e8%b0%83%e5%ba%a6%e7%b1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>类别</th>
+          <th>场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>CFS</td>
+          <td>普通进程</td>
+      </tr>
+      <tr>
+          <td>RT</td>
+          <td>实时任务</td>
+      </tr>
+      <tr>
+          <td>Deadline</td>
+          <td>确定性延迟</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-上下文切换context-switch"
+    >
+        4️⃣ 上下文切换（Context Switch）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#4-上下文切换context-switch" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 上下文切换（Context Switch）" aria-label="Anchor to: 4️⃣ 上下文切换（Context Switch）" href="#4-%e4%b8%8a%e4%b8%8b%e6%96%87%e5%88%87%e6%8d%a2context-switch">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>切换内容：</p>
+<ul>
+<li>CPU 寄存器</li>
+<li>内存页表（CR3）</li>
+<li>调度实体</li>
+</ul>
+<p>📌 <strong>上下文切换 = 性能杀手</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六cpu-亲和性--numa"
+    >
+        六、CPU 亲和性 &amp; NUMA
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#六cpu-亲和性--numa" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、CPU 亲和性 &amp; NUMA" aria-label="Anchor to: 六、CPU 亲和性 &amp; NUMA" href="#%e5%85%adcpu-%e4%ba%b2%e5%92%8c%e6%80%a7--numa">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-cpu-affinity"
+    >
+        1️⃣ CPU Affinity
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#1-cpu-affinity" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ CPU Affinity" aria-label="Anchor to: 1️⃣ CPU Affinity" href="#1-cpu-affinity">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">taskset -c 0-3 pid
+</span></span></code></pre></div><p>内核中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">cpumask_t</span> <span class="n">cpus_allowed</span><span class="p">;</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-numa-感知"
+    >
+        2️⃣ NUMA 感知
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#2-numa-感知" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ NUMA 感知" aria-label="Anchor to: 2️⃣ NUMA 感知" href="#2-numa-%e6%84%9f%e7%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>每个 task 有 preferred node</li>
+<li>自动迁移（NUMA balancing）</li>
+</ul>
+<p>📌 <strong>数据库强烈建议 NUMA 绑定</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七进程内存管理关联"
+    >
+        七、进程内存管理关联
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#七进程内存管理关联" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、进程内存管理关联" aria-label="Anchor to: 七、进程内存管理关联" href="#%e4%b8%83%e8%bf%9b%e7%a8%8b%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86%e5%85%b3%e8%81%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-mm_struct"
+    >
+        1️⃣ mm_struct
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#1-mm_struct" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ mm_struct" aria-label="Anchor to: 1️⃣ mm_struct" href="#1-mm_struct">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">mm_struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">pgd_t</span> <span class="o">*</span><span class="n">pgd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">total_vm</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">rss</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-copy-on-write"
+    >
+        2️⃣ Copy-On-Write
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#2-copy-on-write" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Copy-On-Write" aria-label="Anchor to: 2️⃣ Copy-On-Write" href="#2-copy-on-write">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>fork 几乎 0 成本</li>
+<li>写时复制</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-oom-killer"
+    >
+        3️⃣ OOM Killer
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#3-oom-killer" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ OOM Killer" aria-label="Anchor to: 3️⃣ OOM Killer" href="#3-oom-killer">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>选择依据：</p>
+<ul>
+<li>oom_score</li>
+<li>内存占用</li>
+<li>cgroup 限制</li>
+</ul>
+<p>📌 <strong>容器 OOM ≠ 系统 OOM</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八信号signal"
+    >
+        八、信号（Signal）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#八信号signal" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、信号（Signal）" aria-label="Anchor to: 八、信号（Signal）" href="#%e5%85%ab%e4%bf%a1%e5%8f%b7signal">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>常见信号</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>信号</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>SIGTERM</td>
+          <td>优雅退出</td>
+      </tr>
+      <tr>
+          <td>SIGKILL</td>
+          <td>强制</td>
+      </tr>
+      <tr>
+          <td>SIGSTOP</td>
+          <td>停止</td>
+      </tr>
+      <tr>
+          <td>SIGSEGV</td>
+          <td>段错误</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="信号处理流程"
+    >
+        信号处理流程
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#信号处理流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 信号处理流程" aria-label="Anchor to: 信号处理流程" href="#%e4%bf%a1%e5%8f%b7%e5%a4%84%e7%90%86%e6%b5%81%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">产生 -&gt; 递送 -&gt; 处理
+</span></span></code></pre></div><p>📌 <strong>SIGKILL 无法被捕获</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九进程与-cgroups现代核心"
+    >
+        九、进程与 cgroups（现代核心）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#九进程与-cgroups现代核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、进程与 cgroups（现代核心）" aria-label="Anchor to: 九、进程与 cgroups（现代核心）" href="#%e4%b9%9d%e8%bf%9b%e7%a8%8b%e4%b8%8e-cgroups%e7%8e%b0%e4%bb%a3%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd / Docker / K8S 的根基</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-资源控制"
+    >
+        1️⃣ 资源控制
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#1-资源控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 资源控制" aria-label="Anchor to: 1️⃣ 资源控制" href="#1-%e8%b5%84%e6%ba%90%e6%8e%a7%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>CPU</li>
+<li>Memory</li>
+<li>IO</li>
+<li>PIDs</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-调度感知-cgroup"
+    >
+        2️⃣ 调度感知 cgroup
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#2-调度感知-cgroup" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 调度感知 cgroup" aria-label="Anchor to: 2️⃣ 调度感知 cgroup" href="#2-%e8%b0%83%e5%ba%a6%e6%84%9f%e7%9f%a5-cgroup">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">task -&gt; cgroup -&gt; controller
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十namespace-与进程隔离"
+    >
+        十、Namespace 与进程隔离
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#十namespace-与进程隔离" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、Namespace 与进程隔离" aria-label="Anchor to: 十、Namespace 与进程隔离" href="#%e5%8d%81namespace-%e4%b8%8e%e8%bf%9b%e7%a8%8b%e9%9a%94%e7%a6%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>Namespace</th>
+          <th>隔离内容</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>PID</td>
+          <td>进程号</td>
+      </tr>
+      <tr>
+          <td>Mount</td>
+          <td>文件系统</td>
+      </tr>
+      <tr>
+          <td>Network</td>
+          <td>网络</td>
+      </tr>
+      <tr>
+          <td>User</td>
+          <td>UID/GID</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>容器 = namespace + cgroup + rootfs</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一进程树树状结构"
+    >
+        十一、进程树（树状结构）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#十一进程树树状结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、进程树（树状结构）" aria-label="Anchor to: 十一、进程树（树状结构）" href="#%e5%8d%81%e4%b8%80%e8%bf%9b%e7%a8%8b%e6%a0%91%e6%a0%91%e7%8a%b6%e7%bb%93%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">systemd (1)
+</span></span><span class="line"><span class="cl"> ├─ sshd
+</span></span><span class="line"><span class="cl"> │   └─ bash
+</span></span><span class="line"><span class="cl"> ├─ nginx
+</span></span><span class="line"><span class="cl"> └─ postgres
+</span></span></code></pre></div><ul>
+<li>父子关系</li>
+<li>reparent 到 PID 1</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二僵尸进程zombie"
+    >
+        十二、僵尸进程（Zombie）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#十二僵尸进程zombie" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、僵尸进程（Zombie）" aria-label="Anchor to: 十二、僵尸进程（Zombie）" href="#%e5%8d%81%e4%ba%8c%e5%83%b5%e5%b0%b8%e8%bf%9b%e7%a8%8bzombie">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>已死，未收尸</strong></p>
+<p>原因：</p>
+<ul>
+<li>父进程未 wait()</li>
+</ul>
+<p>解决：</p>
+<ul>
+<li>kill 父进程</li>
+<li>修复代码</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三内核参数进程相关"
+    >
+        十三、内核参数（进程相关）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#十三内核参数进程相关" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、内核参数（进程相关）" aria-label="Anchor to: 十三、内核参数（进程相关）" href="#%e5%8d%81%e4%b8%89%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0%e8%bf%9b%e7%a8%8b%e7%9b%b8%e5%85%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">kernel.pid_max</span>
+</span></span><span class="line"><span class="cl"><span class="na">kernel.threads-max</span>
+</span></span><span class="line"><span class="cl"><span class="na">kernel.sched_migration_cost_ns</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四容器--数据库--虚拟化视角总结"
+    >
+        十四、容器 / 数据库 / 虚拟化视角总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#十四容器--数据库--虚拟化视角总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、容器 / 数据库 / 虚拟化视角总结" aria-label="Anchor to: 十四、容器 / 数据库 / 虚拟化视角总结" href="#%e5%8d%81%e5%9b%9b%e5%ae%b9%e5%99%a8--%e6%95%b0%e6%8d%ae%e5%ba%93--%e8%99%9a%e6%8b%9f%e5%8c%96%e8%a7%86%e8%a7%92%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="容器"
+    >
+        容器
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 容器" aria-label="Anchor to: 容器" href="#%e5%ae%b9%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>进程就是容器</li>
+<li>PID namespace 是关键</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="数据库"
+    >
+        数据库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库" aria-label="Anchor to: 数据库" href="#%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>NUMA + CPU 亲和性</li>
+<li>避免频繁 fork</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="虚拟化"
+    >
+        虚拟化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 虚拟化" aria-label="Anchor to: 虚拟化" href="#%e8%99%9a%e6%8b%9f%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>vCPU = 调度实体</li>
+<li>steal time 影响调度</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十五一句话终极总结"
+    >
+        十五、一句话终极总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/core-process/#十五一句话终极总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、一句话终极总结" aria-label="Anchor to: 十五、一句话终极总结" href="#%e5%8d%81%e4%ba%94%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Linux 进程管理的本质：task_struct + 调度器 + 内存管理 + cgroup + namespace</strong></p>
 
   </article>
 
@@ -2357,9 +2883,6 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
         
 
         
-          
-          
-        
 
         
           
@@ -2390,11 +2913,6 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3235,27 +3753,9 @@ B-Tree 和 B&#43;Tree 的区别是什么？以及 MySQL 和 PostgreSQL 相关的
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/"
-      title="Database"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Database
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/elasticsearch/"
-      title="ElasticSearch"
-    >
-      ElasticSearch
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

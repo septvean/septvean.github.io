@@ -12,13 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Linux UnionFS（联合文件系统）详解。
-内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
-一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
-上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
-二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
+  <meta name="description" content="以下是一套 “软删除 &#43; 生命周期（Data Lifecycle Management）”的完整工程级方案。
+这是大厂 / 金融 / 核心系统里非常成熟的一种设计方式。
+内容：设计目标 -&gt; 表结构 -&gt; 状态流转 -&gt; 查询与索引 -&gt; 归档与清理 -&gt; 常见坑
+一、设计目标（先定原则） 数据不丢、可追溯、可回滚、可控制成本
+核心思想不是“不删”，而是：
+业务删除 ≠ 物理删除 删除只是生命周期中的一个状态 物理删除是最后一步、可控的后台行为 二、生命周期模型（推荐） ✅ 4 个状态足够覆盖 95% 业务 ACTIVE -&gt; SOFT_DELETED -&gt; ARCHIVED -&gt; PURGED 状态 含义 ACTIVE 正常可用 SOFT_DELETED 业务不可见（回收站） ARCHIVED 归档（只读、冷数据） PURGED 物理删除 三、推荐表结构（生产级） CREATE TABLE orders ( id BIGSERIAL PRIMARY KEY, -- 业务字段 user_id BIGINT NOT NULL, amount NUMERIC(10,2) NOT NULL, -- 生命周期字段 status SMALLINT NOT NULL DEFAULT 1, -- 1=active, 2=soft_deleted, 3=archived deleted_at TIMESTAMPTZ, deleted_by TEXT, archived_at TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now() ); 👉 不要只用 is_deleted，一定要有时间和状态" />
 
-    <title>Linux UnionFS | ☘️ Septvean&#39;s Documents</title>
+    <title>软删除 &#43; 生命周期 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,44 +40,46 @@
     
   <meta
     property="og:title"
-    content="Linux UnionFS"
+    content="软删除 + 生命周期"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Linux UnionFS（联合文件系统）详解。
-内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
-一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
-上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
-二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
+  <meta property="og:description" content="以下是一套 “软删除 &#43; 生命周期（Data Lifecycle Management）”的完整工程级方案。
+这是大厂 / 金融 / 核心系统里非常成熟的一种设计方式。
+内容：设计目标 -&gt; 表结构 -&gt; 状态流转 -&gt; 查询与索引 -&gt; 归档与清理 -&gt; 常见坑
+一、设计目标（先定原则） 数据不丢、可追溯、可回滚、可控制成本
+核心思想不是“不删”，而是：
+业务删除 ≠ 物理删除 删除只是生命周期中的一个状态 物理删除是最后一步、可控的后台行为 二、生命周期模型（推荐） ✅ 4 个状态足够覆盖 95% 业务 ACTIVE -&gt; SOFT_DELETED -&gt; ARCHIVED -&gt; PURGED 状态 含义 ACTIVE 正常可用 SOFT_DELETED 业务不可见（回收站） ARCHIVED 归档（只读、冷数据） PURGED 物理删除 三、推荐表结构（生产级） CREATE TABLE orders ( id BIGSERIAL PRIMARY KEY, -- 业务字段 user_id BIGINT NOT NULL, amount NUMERIC(10,2) NOT NULL, -- 生命周期字段 status SMALLINT NOT NULL DEFAULT 1, -- 1=active, 2=soft_deleted, 3=archived deleted_at TIMESTAMPTZ, deleted_by TEXT, archived_at TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now() ); 👉 不要只用 is_deleted，一定要有时间和状态" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/unionfs/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/" />
 
-<meta property="article:section" content="Operations" />
+<meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux UnionFS" />
-  <meta name="twitter:description" content="Linux UnionFS（联合文件系统）详解。
-内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践
-一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。
-上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）
-二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 / Live CD Live 系统：只读 &#43; 内存写层 回滚 / 快照 3️⃣ 只读根文件系统 &#43; 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch" />
+<meta name="twitter:title" content="软删除 + 生命周期" />
+  <meta name="twitter:description" content="以下是一套 “软删除 &#43; 生命周期（Data Lifecycle Management）”的完整工程级方案。
+这是大厂 / 金融 / 核心系统里非常成熟的一种设计方式。
+内容：设计目标 -&gt; 表结构 -&gt; 状态流转 -&gt; 查询与索引 -&gt; 归档与清理 -&gt; 常见坑
+一、设计目标（先定原则） 数据不丢、可追溯、可回滚、可控制成本
+核心思想不是“不删”，而是：
+业务删除 ≠ 物理删除 删除只是生命周期中的一个状态 物理删除是最后一步、可控的后台行为 二、生命周期模型（推荐） ✅ 4 个状态足够覆盖 95% 业务 ACTIVE -&gt; SOFT_DELETED -&gt; ARCHIVED -&gt; PURGED 状态 含义 ACTIVE 正常可用 SOFT_DELETED 业务不可见（回收站） ARCHIVED 归档（只读、冷数据） PURGED 物理删除 三、推荐表结构（生产级） CREATE TABLE orders ( id BIGSERIAL PRIMARY KEY, -- 业务字段 user_id BIGINT NOT NULL, amount NUMERIC(10,2) NOT NULL, -- 生命周期字段 status SMALLINT NOT NULL DEFAULT 1, -- 1=active, 2=soft_deleted, 3=archived deleted_at TIMESTAMPTZ, deleted_by TEXT, archived_at TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now() ); 👉 不要只用 is_deleted，一定要有时间和状态" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Operations",
-      "name": "Linux UnionFS",
-      "url" : "https://documents.v2ep.com/operations/linux/unionfs/",
-      "headline": "Linux UnionFS",
-      "description": "Linux UnionFS（联合文件系统）详解。\n内容：概念 -\u003e 内核实现 -\u003e 主流实现 -\u003e 行为细节 -\u003e 与容器的关系 -\u003e 性能与陷阱 -\u003e 最佳实践\n一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。\n上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）\n二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 \/ Live CD Live 系统：只读 \u002b 内存写层 回滚 \/ 快照 3️⃣ 只读根文件系统 \u002b 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch",
-      "wordCount" : "381",
+      "articleSection": "Database",
+      "name": "软删除 + 生命周期",
+      "url" : "https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/",
+      "headline": "软删除 + 生命周期",
+      "description": "以下是一套 “软删除 \u002b 生命周期（Data Lifecycle Management）”的完整工程级方案。\n这是大厂 \/ 金融 \/ 核心系统里非常成熟的一种设计方式。\n内容：设计目标 -\u003e 表结构 -\u003e 状态流转 -\u003e 查询与索引 -\u003e 归档与清理 -\u003e 常见坑\n一、设计目标（先定原则） 数据不丢、可追溯、可回滚、可控制成本\n核心思想不是“不删”，而是：\n业务删除 ≠ 物理删除 删除只是生命周期中的一个状态 物理删除是最后一步、可控的后台行为 二、生命周期模型（推荐） ✅ 4 个状态足够覆盖 95% 业务 ACTIVE -\u003e SOFT_DELETED -\u003e ARCHIVED -\u003e PURGED 状态 含义 ACTIVE 正常可用 SOFT_DELETED 业务不可见（回收站） ARCHIVED 归档（只读、冷数据） PURGED 物理删除 三、推荐表结构（生产级） CREATE TABLE orders ( id BIGSERIAL PRIMARY KEY, -- 业务字段 user_id BIGINT NOT NULL, amount NUMERIC(10,2) NOT NULL, -- 生命周期字段 status SMALLINT NOT NULL DEFAULT 1, -- 1=active, 2=soft_deleted, 3=archived deleted_at TIMESTAMPTZ, deleted_by TEXT, archived_at TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now() ); 👉 不要只用 is_deleted，一定要有时间和状态",
+      "wordCount" : "677",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/unionfs/"
+          "@id": "https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -160,7 +163,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/unionfs/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2003,7 +2006,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux UnionFS</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/design/' href='/database/design/'><span itemprop='name'>Design</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>软删除 + 生命周期</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2024,581 +2027,840 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux UnionFS</h1>
+    <h1>软删除 &#43; 生命周期</h1>
     
-    <p>Linux UnionFS（联合文件系统）详解。</p>
-<p>内容：概念 -&gt; 内核实现 -&gt; 主流实现 -&gt; 行为细节 -&gt; 与容器的关系 -&gt; 性能与陷阱 -&gt; 最佳实践</p>
+    <p>以下是一套 <strong>“软删除 + 生命周期（Data Lifecycle Management）”的完整工程级方案</strong>。</p>
+<p>这是大厂 / 金融 / 核心系统里非常成熟的一种设计方式。</p>
+<p>内容：设计目标 -&gt; 表结构 -&gt; 状态流转 -&gt; 查询与索引 -&gt; 归档与清理 -&gt; 常见坑</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一unionfs-是什么一句话"
+    <h2 id="一设计目标先定原则"
     >
-        一、UnionFS 是什么（一句话）
+        一、设计目标（先定原则）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#一unionfs-是什么一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、UnionFS 是什么（一句话）" aria-label="Anchor to: 一、UnionFS 是什么（一句话）" href="#%e4%b8%80unionfs-%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%80%e5%8f%a5%e8%af%9d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#一设计目标先定原则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、设计目标（先定原则）" aria-label="Anchor to: 一、设计目标（先定原则）" href="#%e4%b8%80%e8%ae%be%e8%ae%a1%e7%9b%ae%e6%a0%87%e5%85%88%e5%ae%9a%e5%8e%9f%e5%88%99">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。</strong></p>
+<p><strong>数据不丢、可追溯、可回滚、可控制成本</strong></p>
+<p>核心思想不是“不删”，而是：</p>
 <ul>
-<li>上层：可写层（upper）</li>
-<li>下层：只读层（lower）</li>
-<li>对用户呈现：<strong>一个完整目录树</strong></li>
+<li><strong>业务删除 ≠ 物理删除</strong></li>
+<li>删除只是<strong>生命周期中的一个状态</strong></li>
+<li>物理删除是<strong>最后一步、可控的后台行为</strong></li>
 </ul>
-<p>📌 <strong>UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二为什么需要-unionfs设计动机"
+    <h2 id="二生命周期模型推荐"
     >
-        二、为什么需要 UnionFS（设计动机）
+        二、生命周期模型（推荐）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#二为什么需要-unionfs设计动机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么需要 UnionFS（设计动机）" aria-label="Anchor to: 二、为什么需要 UnionFS（设计动机）" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-unionfs%e8%ae%be%e8%ae%a1%e5%8a%a8%e6%9c%ba">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#二生命周期模型推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、生命周期模型（推荐）" aria-label="Anchor to: 二、生命周期模型（推荐）" href="#%e4%ba%8c%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e6%a8%a1%e5%9e%8b%e6%8e%a8%e8%8d%90">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-镜像分层容器"
+    <h3 id="-4-个状态足够覆盖-95-业务"
     >
-        1️⃣ 镜像分层（容器）
+        ✅ 4 个状态足够覆盖 95% 业务
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-镜像分层容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 镜像分层（容器）" aria-label="Anchor to: 1️⃣ 镜像分层（容器）" href="#1-%e9%95%9c%e5%83%8f%e5%88%86%e5%b1%82%e5%ae%b9%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#-4-个状态足够覆盖-95-业务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 4 个状态足够覆盖 95% 业务" aria-label="Anchor to: ✅ 4 个状态足够覆盖 95% 业务" href="#-4-%e4%b8%aa%e7%8a%b6%e6%80%81%e8%b6%b3%e5%a4%9f%e8%a6%86%e7%9b%96-95-%e4%b8%9a%e5%8a%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">应用层（可写）
-</span></span><span class="line"><span class="cl">---------
-</span></span><span class="line"><span class="cl">基础镜像层（只读）
-</span></span><span class="line"><span class="cl">---------
-</span></span><span class="line"><span class="cl">OS 层（只读）
-</span></span></code></pre></div><ul>
-<li>节省空间</li>
-<li>快速创建</li>
-<li>层复用</li>
-</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ACTIVE  -&gt;  SOFT_DELETED  -&gt;  ARCHIVED  -&gt;  PURGED
+</span></span></code></pre></div><div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>状态</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ACTIVE</td>
+          <td>正常可用</td>
+      </tr>
+      <tr>
+          <td>SOFT_DELETED</td>
+          <td>业务不可见（回收站）</td>
+      </tr>
+      <tr>
+          <td>ARCHIVED</td>
+          <td>归档（只读、冷数据）</td>
+      </tr>
+      <tr>
+          <td>PURGED</td>
+          <td>物理删除</td>
+      </tr>
+  </tbody>
+</table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-系统快照--live-cd"
+    <h2 id="三推荐表结构生产级"
     >
-        2️⃣ 系统快照 / Live CD
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-系统快照--live-cd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 系统快照 / Live CD" aria-label="Anchor to: 2️⃣ 系统快照 / Live CD" href="#2-%e7%b3%bb%e7%bb%9f%e5%bf%ab%e7%85%a7--live-cd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>Live 系统：只读 + 内存写层</li>
-<li>回滚 / 快照</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-只读根文件系统--可写覆盖"
-    >
-        3️⃣ 只读根文件系统 + 可写覆盖
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-只读根文件系统--可写覆盖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 只读根文件系统 &#43; 可写覆盖" aria-label="Anchor to: 3️⃣ 只读根文件系统 &#43; 可写覆盖" href="#3-%e5%8f%aa%e8%af%bb%e6%a0%b9%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f--%e5%8f%af%e5%86%99%e8%a6%86%e7%9b%96">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>嵌入式系统</li>
-<li>安全系统</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三unionfs-的核心概念"
-    >
-        三、UnionFS 的核心概念
+        三、推荐表结构（生产级）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#三unionfs-的核心概念" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、UnionFS 的核心概念" aria-label="Anchor to: 三、UnionFS 的核心概念" href="#%e4%b8%89unionfs-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#三推荐表结构生产级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、推荐表结构（生产级）" aria-label="Anchor to: 三、推荐表结构（生产级）" href="#%e4%b8%89%e6%8e%a8%e8%8d%90%e8%a1%a8%e7%bb%93%e6%9e%84%e7%94%9f%e4%ba%a7%e7%ba%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">-- 业务字段
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">user_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">amount</span><span class="w"> </span><span class="nb">NUMERIC</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">-- 生命周期字段
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="nb">SMALLINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">-- 1=active, 2=soft_deleted, 3=archived
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">deleted_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">deleted_by</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">archived_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">updated_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>👉 <strong>不要只用 is_deleted，一定要有时间和状态</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-branch分支"
+    <h2 id="四状态流转规则非常关键"
     >
-        1️⃣ Branch（分支）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-branch分支" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Branch（分支）" aria-label="Anchor to: 1️⃣ Branch（分支）" href="#1-branch%e5%88%86%e6%94%af">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>每一层目录叫一个 <strong>branch</strong></p>
-<ul>
-<li>lower branch：只读</li>
-<li>upper branch：可写</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-whiteout白障"
-    >
-        2️⃣ Whiteout（白障）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-whiteout白障" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Whiteout（白障）" aria-label="Anchor to: 2️⃣ Whiteout（白障）" href="#2-whiteout%e7%99%bd%e9%9a%9c">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>用于“在上层删除下层文件”的特殊标记</strong></p>
-<ul>
-<li>删除 ≠ 真删除</li>
-<li>是创建 .wh.&lt;filename&gt;</li>
-</ul>
-<p>📌 <strong>这是 UnionFS 的核心魔法之一</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-copy-on-write写时复制"
-    >
-        3️⃣ Copy-on-Write（写时复制）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-copy-on-write写时复制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Copy-on-Write（写时复制）" aria-label="Anchor to: 3️⃣ Copy-on-Write（写时复制）" href="#3-copy-on-write%e5%86%99%e6%97%b6%e5%a4%8d%e5%88%b6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>当你：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> hello &gt;&gt; /bin/ls
-</span></span></code></pre></div><p>实际发生的是：</p>
-<ol>
-<li>/bin/ls 从 lower copy 到 upper</li>
-<li>在 upper 中修改</li>
-<li>lower 不变</li>
-</ol>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四unionfs-的内核实现演进"
-    >
-        四、UnionFS 的内核实现演进
+        四、状态流转规则（非常关键）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#四unionfs-的内核实现演进" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、UnionFS 的内核实现演进" aria-label="Anchor to: 四、UnionFS 的内核实现演进" href="#%e5%9b%9bunionfs-%e7%9a%84%e5%86%85%e6%a0%b8%e5%ae%9e%e7%8e%b0%e6%bc%94%e8%bf%9b">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#四状态流转规则非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、状态流转规则（非常关键）" aria-label="Anchor to: 四、状态流转规则（非常关键）" href="#%e5%9b%9b%e7%8a%b6%e6%80%81%e6%b5%81%e8%bd%ac%e8%a7%84%e5%88%99%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-unionfs最早"
+    <h3 id="1-active---soft_deleted业务删除"
     >
-        1️⃣ UnionFS（最早）
+        1️⃣ ACTIVE -&gt; SOFT_DELETED（业务删除）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-unionfs最早" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ UnionFS（最早）" aria-label="Anchor to: 1️⃣ UnionFS（最早）" href="#1-unionfs%e6%9c%80%e6%97%a9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#1-active---soft_deleted业务删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ ACTIVE -&gt; SOFT_DELETED（业务删除）" aria-label="Anchor to: 1️⃣ ACTIVE -&gt; SOFT_DELETED（业务删除）" href="#1-active---soft_deleted%e4%b8%9a%e5%8a%a1%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">deleted_at</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">deleted_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;user:123&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1001</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>规则</p>
 <ul>
-<li>外部模块</li>
-<li>稳定性一般</li>
-<li>已基本弃用</li>
+<li>只允许从 ACTIVE 删除</li>
+<li>不允许重复删除</li>
+<li>可恢复</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-aufsdocker-早期"
+    <h3 id="2-soft_deleted---active恢复"
     >
-        2️⃣ AUFS（Docker 早期）
+        2️⃣ SOFT_DELETED -&gt; ACTIVE（恢复）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-aufsdocker-早期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ AUFS（Docker 早期）" aria-label="Anchor to: 2️⃣ AUFS（Docker 早期）" href="#2-aufsdocker-%e6%97%a9%e6%9c%9f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#2-soft_deleted---active恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ SOFT_DELETED -&gt; ACTIVE（恢复）" aria-label="Anchor to: 2️⃣ SOFT_DELETED -&gt; ACTIVE（恢复）" href="#2-soft_deleted---active%e6%81%a2%e5%a4%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>功能强大</li>
-<li>非主线内核</li>
-<li>Ubuntu 曾长期使用</li>
-</ul>
-<p>📌 <strong>RHEL 系列从未支持 AUFS</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-overlayfs主线内核"
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">deleted_at</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">deleted_by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">NULL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1001</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-soft_deleted---archived归档"
     >
-        3️⃣ OverlayFS（主线内核）
+        3️⃣ SOFT_DELETED -&gt; ARCHIVED（归档）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-overlayfs主线内核" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ OverlayFS（主线内核）" aria-label="Anchor to: 3️⃣ OverlayFS（主线内核）" href="#3-overlayfs%e4%b8%bb%e7%ba%bf%e5%86%85%e6%a0%b8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#3-soft_deleted---archived归档" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ SOFT_DELETED -&gt; ARCHIVED（归档）" aria-label="Anchor to: 3️⃣ SOFT_DELETED -&gt; ARCHIVED（归档）" href="#3-soft_deleted---archived%e5%bd%92%e6%a1%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>现在事实上的标准</strong></p>
+<p>后台任务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">archived_at</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">deleted_at</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;30 days&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>特点</p>
 <ul>
-<li>Linux 内核原生</li>
-<li>Docker / Podman / CRI-O 默认</li>
-<li>RHEL / AlmaLinux / Rocky 全支持</li>
+<li>不再参与在线业务</li>
+<li>只读</li>
+<li>访问频率极低</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五overlayfs-详解重点"
+    <h3 id="4-archived---purged物理删除"
     >
-        五、OverlayFS 详解（重点）
+        4️⃣ ARCHIVED -&gt; PURGED（物理删除）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#4-archived---purged物理删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ ARCHIVED -&gt; PURGED（物理删除）" aria-label="Anchor to: 4️⃣ ARCHIVED -&gt; PURGED（物理删除）" href="#4-archived---purged%e7%89%a9%e7%90%86%e5%88%a0%e9%99%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">archived_at</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 year&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>👉 <strong>这一步必须是后台任务 + 可审计</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五查询与索引设计决定成败"
+    >
+        五、查询与索引设计（决定成败）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#五overlayfs-详解重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、OverlayFS 详解（重点）" aria-label="Anchor to: 五、OverlayFS 详解（重点）" href="#%e4%ba%94overlayfs-%e8%af%a6%e8%a7%a3%e9%87%8d%e7%82%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#五查询与索引设计决定成败" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、查询与索引设计（决定成败）" aria-label="Anchor to: 五、查询与索引设计（决定成败）" href="#%e4%ba%94%e6%9f%a5%e8%af%a2%e4%b8%8e%e7%b4%a2%e5%bc%95%e8%ae%be%e8%ae%a1%e5%86%b3%e5%ae%9a%e6%88%90%e8%b4%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-基本结构"
+    <h3 id="1-所有在线查询只看-active"
     >
-        1️⃣ 基本结构
+        1️⃣ 所有在线查询只看 ACTIVE
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-基本结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 基本结构" aria-label="Anchor to: 1️⃣ 基本结构" href="#1-%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#1-所有在线查询只看-active" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 所有在线查询只看 ACTIVE" aria-label="Anchor to: 1️⃣ 所有在线查询只看 ACTIVE" href="#1-%e6%89%80%e6%9c%89%e5%9c%a8%e7%ba%bf%e6%9f%a5%e8%af%a2%e5%8f%aa%e7%9c%8b-active">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">lowerdir=/layers/base:/layers/app
-</span></span><span class="line"><span class="cl">upperdir=/layers/write
-</span></span><span class="line"><span class="cl">workdir=/layers/work
-</span></span></code></pre></div><p>挂载后：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/merged
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-挂载命令示例"
-    >
-        2️⃣ 挂载命令示例
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-挂载命令示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 挂载命令示例" aria-label="Anchor to: 2️⃣ 挂载命令示例" href="#2-%e6%8c%82%e8%bd%bd%e5%91%bd%e4%bb%a4%e7%a4%ba%e4%be%8b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount -t overlay overlay <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -o <span class="nv">lowerdir</span><span class="o">=</span>lower,upperdir<span class="o">=</span>upper,workdir<span class="o">=</span>work <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    merged
-</span></span></code></pre></div><p>📌 workdir 用于原子操作（必须）</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-文件访问逻辑读写流程"
+    <h4 id="postgresql最佳"
     >
-        3️⃣ 文件访问逻辑（读写流程）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-文件访问逻辑读写流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 文件访问逻辑（读写流程）" aria-label="Anchor to: 3️⃣ 文件访问逻辑（读写流程）" href="#3-%e6%96%87%e4%bb%b6%e8%ae%bf%e9%97%ae%e9%80%bb%e8%be%91%e8%af%bb%e5%86%99%e6%b5%81%e7%a8%8b">
+        PostgreSQL（最佳）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#postgresql最佳" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL（最佳）" aria-label="Anchor to: PostgreSQL（最佳）" href="#postgresql%e6%9c%80%e4%bd%b3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>读</strong>：</p>
-<ol>
-<li>upperdir</li>
-<li>从上到下依次 lowerdir</li>
-</ol>
-<p><strong>写</strong>：</p>
-<ul>
-<li>lower -&gt; copy 到 upper -&gt; 写</li>
-</ul>
-<p><strong>删</strong>：</p>
-<ul>
-<li>创建 whiteout</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六unionfs-的关键行为细节很容易踩坑"
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_orders_active_user</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="mysql退而求其次"
     >
-        六、UnionFS 的关键行为细节（很容易踩坑）
+        MySQL（退而求其次）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#mysql退而求其次" class="gdoc-page__anchor clip flex align-center" title="Anchor to: MySQL（退而求其次）" aria-label="Anchor to: MySQL（退而求其次）" href="#mysql%e9%80%80%e8%80%8c%e6%b1%82%e5%85%b6%e6%ac%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_orders_user_status</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-唯一约束非常常见需求"
+    >
+        2️⃣ 唯一约束（非常常见需求）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#2-唯一约束非常常见需求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 唯一约束（非常常见需求）" aria-label="Anchor to: 2️⃣ 唯一约束（非常常见需求）" href="#2-%e5%94%af%e4%b8%80%e7%ba%a6%e6%9d%9f%e9%9d%9e%e5%b8%b8%e5%b8%b8%e8%a7%81%e9%9c%80%e6%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>例如：</p>
+<p>👉 同一用户只能有一个“活跃订单”</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="postgresql优雅"
+    >
+        PostgreSQL（优雅）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#postgresql优雅" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL（优雅）" aria-label="Anchor to: PostgreSQL（优雅）" href="#postgresql%e4%bc%98%e9%9b%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">uniq_active_order</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="mysql应用层保证"
+    >
+        MySQL（应用层保证）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#mysql应用层保证" class="gdoc-page__anchor clip flex align-center" title="Anchor to: MySQL（应用层保证）" aria-label="Anchor to: MySQL（应用层保证）" href="#mysql%e5%ba%94%e7%94%a8%e5%b1%82%e4%bf%9d%e8%af%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-view-封装强烈推荐"
+    >
+        3️⃣ View 封装（强烈推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#3-view-封装强烈推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ View 封装（强烈推荐）" aria-label="Anchor to: 3️⃣ View 封装（强烈推荐）" href="#3-view-%e5%b0%81%e8%a3%85%e5%bc%ba%e7%83%88%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">orders_active</span><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>应用层只查 orders_active</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六归档设计避免表无限膨胀"
+    >
+        六、归档设计（避免表无限膨胀）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#六unionfs-的关键行为细节很容易踩坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、UnionFS 的关键行为细节（很容易踩坑）" aria-label="Anchor to: 六、UnionFS 的关键行为细节（很容易踩坑）" href="#%e5%85%adunionfs-%e7%9a%84%e5%85%b3%e9%94%ae%e8%a1%8c%e4%b8%ba%e7%bb%86%e8%8a%82%e5%be%88%e5%ae%b9%e6%98%93%e8%b8%a9%e5%9d%91">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#六归档设计避免表无限膨胀" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、归档设计（避免表无限膨胀）" aria-label="Anchor to: 六、归档设计（避免表无限膨胀）" href="#%e5%85%ad%e5%bd%92%e6%a1%a3%e8%ae%be%e8%ae%a1%e9%81%bf%e5%85%8d%e8%a1%a8%e6%97%a0%e9%99%90%e8%86%a8%e8%83%80">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-inode-不稳定"
+    <h3 id="方案一归档表最常见"
     >
-        1️⃣ inode 不稳定
+        方案一：归档表（最常见）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-inode-不稳定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ inode 不稳定" aria-label="Anchor to: 1️⃣ inode 不稳定" href="#1-inode-%e4%b8%8d%e7%a8%b3%e5%ae%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#方案一归档表最常见" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方案一：归档表（最常见）" aria-label="Anchor to: 方案一：归档表（最常见）" href="#%e6%96%b9%e6%a1%88%e4%b8%80%e5%bd%92%e6%a1%a3%e8%a1%a8%e6%9c%80%e5%b8%b8%e8%a7%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>同一路径</li>
-<li>不同层 inode 不同</li>
-</ul>
-<p>📌 影响：</p>
-<ul>
-<li>bind mount</li>
-<li>inode cache</li>
-<li>某些数据库</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-hardlink-受限"
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">orders_archive</span><span class="w"> </span><span class="p">(</span><span class="k">LIKE</span><span class="w"> </span><span class="n">orders</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">orders_archive</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方案二分区表更高级"
     >
-        2️⃣ hardlink 受限
+        方案二：分区表（更高级）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-hardlink-受限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ hardlink 受限" aria-label="Anchor to: 2️⃣ hardlink 受限" href="#2-hardlink-%e5%8f%97%e9%99%90">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#方案二分区表更高级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方案二：分区表（更高级）" aria-label="Anchor to: 方案二：分区表（更高级）" href="#%e6%96%b9%e6%a1%88%e4%ba%8c%e5%88%86%e5%8c%ba%e8%a1%a8%e6%9b%b4%e9%ab%98%e7%ba%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>OverlayFS 对 hardlink 支持有限</li>
-<li>跨层 hardlink 基本不可用</li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>ACTIVE 在新分区</li>
+<li>老分区直接 DETACH + DROP</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-rename-是伪原子"
+    <h2 id="七审计与合规核心系统必备"
     >
-        3️⃣ rename 是“伪原子”
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-rename-是伪原子" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ rename 是“伪原子”" aria-label="Anchor to: 3️⃣ rename 是“伪原子”" href="#3-rename-%e6%98%af%e4%bc%aa%e5%8e%9f%e5%ad%90">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>跨层 rename 实际是：
-<ul>
-<li>copy + delete</li>
-</ul>
-</li>
-</ul>
-<p>📌 对 fsync 敏感程序危险</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-chmod--chown-行为"
-    >
-        4️⃣ chmod / chown 行为
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#4-chmod--chown-行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ chmod / chown 行为" aria-label="Anchor to: 4️⃣ chmod / chown 行为" href="#4-chmod--chown-%e8%a1%8c%e4%b8%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>触发 COW</li>
-<li>文件被复制到 upper</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七overlayfs-与容器核心关系"
-    >
-        七、OverlayFS 与容器（核心关系）
+        七、审计与合规（核心系统必备）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#七overlayfs-与容器核心关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、OverlayFS 与容器（核心关系）" aria-label="Anchor to: 七、OverlayFS 与容器（核心关系）" href="#%e4%b8%83overlayfs-%e4%b8%8e%e5%ae%b9%e5%99%a8%e6%a0%b8%e5%bf%83%e5%85%b3%e7%b3%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#七审计与合规核心系统必备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、审计与合规（核心系统必备）" aria-label="Anchor to: 七、审计与合规（核心系统必备）" href="#%e4%b8%83%e5%ae%a1%e8%ae%a1%e4%b8%8e%e5%90%88%e8%a7%84%e6%a0%b8%e5%bf%83%e7%b3%bb%e7%bb%9f%e5%bf%85%e5%a4%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-docker-overlay2-的本质"
-    >
-        1️⃣ Docker overlay2 的本质
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-docker-overlay2-的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Docker overlay2 的本质" aria-label="Anchor to: 1️⃣ Docker overlay2 的本质" href="#1-docker-overlay2-%e7%9a%84%e6%9c%ac%e8%b4%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container_rw_layer (upper)
-</span></span><span class="line"><span class="cl">--------------------------
-</span></span><span class="line"><span class="cl">image layer N
-</span></span><span class="line"><span class="cl">--------------------------
-</span></span><span class="line"><span class="cl">image layer N-1
-</span></span><span class="line"><span class="cl">--------------------------
-</span></span><span class="line"><span class="cl">base OS layer
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-为什么容器启动快"
-    >
-        2️⃣ 为什么容器启动快？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-为什么容器启动快" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 为什么容器启动快？" aria-label="Anchor to: 2️⃣ 为什么容器启动快？" href="#2-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e5%90%af%e5%8a%a8%e5%bf%ab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>不复制 rootfs</li>
-<li>只 mount 联合视图</li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">order_audit</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">order_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">action</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">operator</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">action_time</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">detail</span><span class="w"> </span><span class="n">JSONB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>delete</li>
+<li>restore</li>
+<li>archive</li>
+<li>purge</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-为什么容器磁盘-io-抖"
+    <h2 id="八常见坑真实踩过"
     >
-        3️⃣ 为什么容器磁盘 IO 抖？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-为什么容器磁盘-io-抖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 为什么容器磁盘 IO 抖？" aria-label="Anchor to: 3️⃣ 为什么容器磁盘 IO 抖？" href="#3-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e7%a3%81%e7%9b%98-io-%e6%8a%96">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>metadata 操作多</li>
-<li>copy-up 代价大</li>
-<li>fsync 穿透层</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八unionfs-不适合哪些场景"
-    >
-        八、UnionFS 不适合哪些场景？
+        八、常见坑（真实踩过）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#八unionfs-不适合哪些场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、UnionFS 不适合哪些场景？" aria-label="Anchor to: 八、UnionFS 不适合哪些场景？" href="#%e5%85%abunionfs-%e4%b8%8d%e9%80%82%e5%90%88%e5%93%aa%e4%ba%9b%e5%9c%ba%e6%99%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#八常见坑真实踩过" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、常见坑（真实踩过）" aria-label="Anchor to: 八、常见坑（真实踩过）" href="#%e5%85%ab%e5%b8%b8%e8%a7%81%e5%9d%91%e7%9c%9f%e5%ae%9e%e8%b8%a9%e8%bf%87">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-数据库重点"
+    <h3 id="-只加-is_deleted"
     >
-        ❌ 数据库（重点）
+        ❌ 只加 is_deleted
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-数据库重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 数据库（重点）" aria-label="Anchor to: ❌ 数据库（重点）" href="#-%e6%95%b0%e6%8d%ae%e5%ba%93%e9%87%8d%e7%82%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>原因：</p>
-<ul>
-<li>fsync 不可控</li>
-<li>rename 不安全</li>
-<li>inode 不稳定</li>
-<li>白障文件膨胀</li>
-</ul>
-<p>📌 <strong>这就是 “数据库为什么不适合跑在容器” 的底层原因之一</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-高-io-小文件场景"
-    >
-        ❌ 高 IO 小文件场景
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-高-io-小文件场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 高 IO 小文件场景" aria-label="Anchor to: ❌ 高 IO 小文件场景" href="#-%e9%ab%98-io-%e5%b0%8f%e6%96%87%e4%bb%b6%e5%9c%ba%e6%99%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#-只加-is_deleted" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 只加 is_deleted" aria-label="Anchor to: ❌ 只加 is_deleted" href="#-%e5%8f%aa%e5%8a%a0-is_deleted">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>Git</li>
-<li>编译缓存</li>
-<li>npm / pip</li>
+<li>无法审计</li>
+<li>无法归档</li>
+<li>无法恢复</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九性能关键点overlayfs"
+    <h3 id="-查询不统一"
     >
-        九、性能关键点（OverlayFS）
+        ❌ 查询不统一
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#-查询不统一" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 查询不统一" aria-label="Anchor to: ❌ 查询不统一" href="#-%e6%9f%a5%e8%af%a2%e4%b8%8d%e7%bb%9f%e4%b8%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>一次忘加条件 = 事故</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-没有索引"
+    >
+        ❌ 没有索引
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#-没有索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 没有索引" aria-label="Anchor to: ❌ 没有索引" href="#-%e6%b2%a1%e6%9c%89%e7%b4%a2%e5%bc%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>deleted 数据越多，查询越慢</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-永不-purge"
+    >
+        ❌ 永不 purge
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#-永不-purge" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 永不 purge" aria-label="Anchor to: ❌ 永不 purge" href="#-%e6%b0%b8%e4%b8%8d-purge">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>表无限大</li>
+<li>VACUUM / purge 压力暴增</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九postgresql-vs-mysql-的实践建议"
+    >
+        九、PostgreSQL vs MySQL 的实践建议
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#九性能关键点overlayfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、性能关键点（OverlayFS）" aria-label="Anchor to: 九、性能关键点（OverlayFS）" href="#%e4%b9%9d%e6%80%a7%e8%83%bd%e5%85%b3%e9%94%ae%e7%82%b9overlayfs">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-metadata-开销高"
-    >
-        1️⃣ Metadata 开销高
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#1-metadata-开销高" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Metadata 开销高" aria-label="Anchor to: 1️⃣ Metadata 开销高" href="#1-metadata-%e5%bc%80%e9%94%80%e9%ab%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>stat</li>
-<li>readdir</li>
-<li>lookup</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-copy-up-成本不可忽视"
-    >
-        2️⃣ Copy-up 成本不可忽视
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#2-copy-up-成本不可忽视" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Copy-up 成本不可忽视" aria-label="Anchor to: 2️⃣ Copy-up 成本不可忽视" href="#2-copy-up-%e6%88%90%e6%9c%ac%e4%b8%8d%e5%8f%af%e5%bf%bd%e8%a7%86">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>第一次写 = 全文件复制</li>
-<li>大文件尤其明显</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-fsync-行为复杂"
-    >
-        3️⃣ fsync 行为复杂
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#3-fsync-行为复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ fsync 行为复杂" aria-label="Anchor to: 3️⃣ fsync 行为复杂" href="#3-fsync-%e8%a1%8c%e4%b8%ba%e5%a4%8d%e6%9d%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>upper + lower 组合</li>
-<li>存储栈不透明</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十unionfs-的最佳实践"
-    >
-        十、UnionFS 的最佳实践
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#十unionfs-的最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、UnionFS 的最佳实践" aria-label="Anchor to: 十、UnionFS 的最佳实践" href="#%e5%8d%81unionfs-%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-容器"
-    >
-        ✅ 容器
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 容器" aria-label="Anchor to: ✅ 容器" href="#-%e5%ae%b9%e5%99%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>rootfs：overlay2</li>
-<li>数据目录：<strong>bind mount / volume</strong></li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">-v /data/mysql:/var/lib/mysql
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-系统设计"
-    >
-        ✅ 系统设计
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-系统设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 系统设计" aria-label="Anchor to: ✅ 系统设计" href="#-%e7%b3%bb%e7%bb%9f%e8%ae%be%e8%ae%a1">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>只读 OS + overlay</li>
-<li>日志 / 数据单独盘</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-禁止事项"
-    >
-        ❌ 禁止事项
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#-禁止事项" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 禁止事项" aria-label="Anchor to: ❌ 禁止事项" href="#-%e7%a6%81%e6%ad%a2%e4%ba%8b%e9%a1%b9">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>❌ overlay2 存数据库数据</li>
-<li>❌ overlay2 跑消息队列</li>
-<li>❌ overlay2 做性能 benchmark</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一overlayfs-vs-其他方案"
-    >
-        十一、OverlayFS vs 其他方案
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#十一overlayfs-vs-其他方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、OverlayFS vs 其他方案" aria-label="Anchor to: 十一、OverlayFS vs 其他方案" href="#%e5%8d%81%e4%b8%80overlayfs-vs-%e5%85%b6%e4%bb%96%e6%96%b9%e6%a1%88">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#九postgresql-vs-mysql-的实践建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、PostgreSQL vs MySQL 的实践建议" aria-label="Anchor to: 九、PostgreSQL vs MySQL 的实践建议" href="#%e4%b9%9dpostgresql-vs-mysql-%e7%9a%84%e5%ae%9e%e8%b7%b5%e5%bb%ba%e8%ae%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="table-wrap"> <table>
   <thead>
       <tr>
-          <th>特性</th>
-          <th>OverlayFS</th>
-          <th>bind mount</th>
-          <th>tmpfs</th>
+          <th>维度</th>
+          <th>PostgreSQL</th>
+          <th>MySQL</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>分层</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
+          <td>生命周期设计</td>
+          <td>⭐⭐⭐⭐⭐</td>
+          <td>⭐⭐⭐⭐</td>
       </tr>
       <tr>
-          <td>可写</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
+          <td>部分索引</td>
+          <td>强</td>
+          <td>无</td>
       </tr>
       <tr>
-          <td>性能</td>
-          <td>中</td>
-          <td>高</td>
-          <td>高</td>
+          <td>View / RLS</td>
+          <td>强</td>
+          <td>一般</td>
       </tr>
       <tr>
-          <td>数据安全</td>
-          <td>低</td>
-          <td>高</td>
-          <td>低</td>
-      </tr>
-      <tr>
-          <td>适合数据库</td>
-          <td>❌</td>
-          <td>✅</td>
-          <td>❌</td>
+          <td>冷热数据</td>
+          <td>分区极强</td>
+          <td>可用</td>
       </tr>
   </tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二总结记住"
+    <h2 id="十总结"
     >
-        十二、总结（记住）
+        十、总结
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/unionfs/#十二总结记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、总结（记住）" aria-label="Anchor to: 十二、总结（记住）" href="#%e5%8d%81%e4%ba%8c%e6%80%bb%e7%bb%93%e8%ae%b0%e4%bd%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#十总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、总结" aria-label="Anchor to: 十、总结" href="#%e5%8d%81%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p><strong>UnionFS 是 “视图文件系统”，不是 “数据文件系统”。</strong></p>
-<p>它的使命是：</p>
+<p><strong>软删除不是为了“不删”，而是为了“可控地删”。</strong></p>
+<p><strong>生命周期设计的目标，是把“危险操作”变成“后台、可审计、可回滚的流程”。</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="核心数据不做破坏性删除delete-from-xxx做逻辑删除is_deleted可以这样设计吗如果可以这样设计优缺点是什么"
+    >
+        核心数据，不做破坏性删除（delete from xxx），做逻辑删除(is_deleted)，可以这样设计吗？如果可以这样设计，优缺点是什么？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#核心数据不做破坏性删除delete-from-xxx做逻辑删除is_deleted可以这样设计吗如果可以这样设计优缺点是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心数据，不做破坏性删除（delete from xxx），做逻辑删除(is_deleted)，可以这样设计吗？如果可以这样设计，优缺点是什么？" aria-label="Anchor to: 核心数据，不做破坏性删除（delete from xxx），做逻辑删除(is_deleted)，可以这样设计吗？如果可以这样设计，优缺点是什么？" href="#%e6%a0%b8%e5%bf%83%e6%95%b0%e6%8d%ae%e4%b8%8d%e5%81%9a%e7%a0%b4%e5%9d%8f%e6%80%a7%e5%88%a0%e9%99%a4delete-from-xxx%e5%81%9a%e9%80%bb%e8%be%91%e5%88%a0%e9%99%a4is_deleted%e5%8f%af%e4%bb%a5%e8%bf%99%e6%a0%b7%e8%ae%be%e8%ae%a1%e5%90%97%e5%a6%82%e6%9e%9c%e5%8f%af%e4%bb%a5%e8%bf%99%e6%a0%b7%e8%ae%be%e8%ae%a1%e4%bc%98%e7%bc%ba%e7%82%b9%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>可以，而且这是<strong>非常常见、也非常成熟的一种设计。</strong></p>
+<p>但它**不是“银弹”，必须配合正确的表设计、索引、生命周期管理，**否则后期一定会出问题。</p>
+<p>从 结论 -&gt; 设计方式 -&gt; 优缺点 -&gt; 什么时候不该用 -&gt; 最佳实践 五个层次讲。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="一先给结论直接回答你"
+    >
+        一、先给结论（直接回答你）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#一先给结论直接回答你" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先给结论（直接回答你）" aria-label="Anchor to: 一、先给结论（直接回答你）" href="#%e4%b8%80%e5%85%88%e7%bb%99%e7%bb%93%e8%ae%ba%e7%9b%b4%e6%8e%a5%e5%9b%9e%e7%ad%94%e4%bd%a0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ <strong>核心数据完全可以“不做物理删除”，统一用逻辑删除（is_deleted）</strong></p>
+<p>❗ <strong>但前提是：你知道自己在承担什么成本，并且有配套方案</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="二典型逻辑删除设计方式"
+    >
+        二、典型逻辑删除设计方式
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#二典型逻辑删除设计方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、典型逻辑删除设计方式" aria-label="Anchor to: 二、典型逻辑删除设计方式" href="#%e4%ba%8c%e5%85%b8%e5%9e%8b%e9%80%bb%e8%be%91%e5%88%a0%e9%99%a4%e8%ae%be%e8%ae%a1%e6%96%b9%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-最基础版本不推荐单独用"
+    >
+        1️⃣ 最基础版本（不推荐单独用）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#1-最基础版本不推荐单独用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 最基础版本（不推荐单独用）" aria-label="Anchor to: 1️⃣ 最基础版本（不推荐单独用）" href="#1-%e6%9c%80%e5%9f%ba%e7%a1%80%e7%89%88%e6%9c%ac%e4%b8%8d%e6%8e%a8%e8%8d%90%e5%8d%95%e7%8b%ac%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">is_deleted</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">false</span><span class="w">
+</span></span></span></code></pre></div><p>问题</p>
 <ul>
-<li>镜像</li>
-<li>分层</li>
-<li>复用</li>
+<li>无法知道什么时候删的</li>
+<li>无法知道谁删的</li>
+<li>无法做回收站</li>
+<li>无法做数据生命周期管理</li>
 </ul>
-<p>不是：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-推荐版本生产可用"
+    >
+        2️⃣ 推荐版本（生产可用）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#2-推荐版本生产可用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 推荐版本（生产可用）" aria-label="Anchor to: 2️⃣ 推荐版本（生产可用）" href="#2-%e6%8e%a8%e8%8d%90%e7%89%88%e6%9c%ac%e7%94%9f%e4%ba%a7%e5%8f%af%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">is_deleted</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">deleted_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">deleted_by</span><span class="w"> </span><span class="nb">TEXT</span><span class="w">
+</span></span></span></code></pre></div><p>行为约定</p>
 <ul>
-<li>高一致性</li>
-<li>高 fsync 可靠性</li>
-<li>数据持久化</li>
+<li><strong>业务删除 = UPDATE</strong></li>
+<li><strong>所有查询默认加 is_deleted = false</strong></li>
+<li>删除不是终态，只是“不可见”</li>
 </ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-更高级版本软删除--生命周期本文核心"
+    >
+        3️⃣ 更高级版本（软删除 + 生命周期）[本文核心]
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#3-更高级版本软删除--生命周期本文核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 更高级版本（软删除 &#43; 生命周期）[本文核心]" aria-label="Anchor to: 3️⃣ 更高级版本（软删除 &#43; 生命周期）[本文核心]" href="#3-%e6%9b%b4%e9%ab%98%e7%ba%a7%e7%89%88%e6%9c%ac%e8%bd%af%e5%88%a0%e9%99%a4--%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e6%9c%ac%e6%96%87%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">status</span><span class="w"> </span><span class="nb">SMALLINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 1=active, 2=deleted, 3=archived
+</span></span></span></code></pre></div><p>或者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">valid_from</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">valid_to</span><span class="w">   </span><span class="n">TIMESTAMPTZ</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="三为什么核心数据喜欢逻辑删除"
+    >
+        三、为什么核心数据“喜欢”逻辑删除？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#三为什么核心数据喜欢逻辑删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、为什么核心数据“喜欢”逻辑删除？" aria-label="Anchor to: 三、为什么核心数据“喜欢”逻辑删除？" href="#%e4%b8%89%e4%b8%ba%e4%bb%80%e4%b9%88%e6%a0%b8%e5%bf%83%e6%95%b0%e6%8d%ae%e5%96%9c%e6%ac%a2%e9%80%bb%e8%be%91%e5%88%a0%e9%99%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>✅ 优点（这是它存在的原因）</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-数据安全最重要"
+    >
+        1️⃣ 数据安全（最重要）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#1-数据安全最重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 数据安全（最重要）" aria-label="Anchor to: 1️⃣ 数据安全（最重要）" href="#1-%e6%95%b0%e6%8d%ae%e5%ae%89%e5%85%a8%e6%9c%80%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>防误删</li>
+<li>支持回滚</li>
+<li>支持审计</li>
+<li>满足合规（金融、审计、风控）</li>
+</ul>
+<p>delete 一条 = 永久破坏</p>
+<p>update 一条 = 可控状态变更</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-审计与追溯"
+    >
+        2️⃣ 审计与追溯
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#2-审计与追溯" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 审计与追溯" aria-label="Anchor to: 2️⃣ 审计与追溯" href="#2-%e5%ae%a1%e8%ae%a1%e4%b8%8e%e8%bf%bd%e6%ba%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>谁删的？</li>
+<li>什么时候删的？</li>
+<li>删之前是什么状态？</li>
+</ul>
+<p>👉 <strong>逻辑删除是审计的基础</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-外键--业务一致性更容易"
+    >
+        3️⃣ 外键 &amp; 业务一致性更容易
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#3-外键--业务一致性更容易" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 外键 &amp; 业务一致性更容易" aria-label="Anchor to: 3️⃣ 外键 &amp; 业务一致性更容易" href="#3-%e5%a4%96%e9%94%ae--%e4%b8%9a%e5%8a%a1%e4%b8%80%e8%87%b4%e6%80%a7%e6%9b%b4%e5%ae%b9%e6%98%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>不破坏历史订单、账务、日志</li>
+<li>避免大量 ON DELETE RESTRICT</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="4-与-mvcc--wal-机制天然适配"
+    >
+        4️⃣ 与 MVCC / WAL 机制天然适配
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#4-与-mvcc--wal-机制天然适配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 与 MVCC / WAL 机制天然适配" aria-label="Anchor to: 4️⃣ 与 MVCC / WAL 机制天然适配" href="#4-%e4%b8%8e-mvcc--wal-%e6%9c%ba%e5%88%b6%e5%a4%a9%e7%84%b6%e9%80%82%e9%85%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>UPDATE 本质就是新版本</li>
+<li>不触发大规模页清理</li>
+<li>对 PostgreSQL / InnoDB 都友好</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="四逻辑删除的代价必须清楚"
+    >
+        四、逻辑删除的代价（必须清楚）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#四逻辑删除的代价必须清楚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、逻辑删除的代价（必须清楚）" aria-label="Anchor to: 四、逻辑删除的代价（必须清楚）" href="#%e5%9b%9b%e9%80%bb%e8%be%91%e5%88%a0%e9%99%a4%e7%9a%84%e4%bb%a3%e4%bb%b7%e5%bf%85%e9%a1%bb%e6%b8%85%e6%a5%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>❌ 缺点（非常现实）</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-查询复杂度上升最常见坑"
+    >
+        1️⃣ 查询复杂度上升（最常见坑）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#1-查询复杂度上升最常见坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 查询复杂度上升（最常见坑）" aria-label="Anchor to: 1️⃣ 查询复杂度上升（最常见坑）" href="#1-%e6%9f%a5%e8%af%a2%e5%a4%8d%e6%9d%82%e5%ba%a6%e4%b8%8a%e5%8d%87%e6%9c%80%e5%b8%b8%e8%a7%81%e5%9d%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>忘加条件 = 数据事故</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w">   </span><span class="c1">-- ❌
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_deleted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span><span class="w">  </span><span class="c1">-- ✅
+</span></span></span></code></pre></div><p>解决方式：</p>
+<ul>
+<li>ORM 全局过滤</li>
+<li>View</li>
+<li>Row Level Security（PG）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-索引变复杂"
+    >
+        2️⃣ 索引变复杂
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#2-索引变复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 索引变复杂" aria-label="Anchor to: 2️⃣ 索引变复杂" href="#2-%e7%b4%a2%e5%bc%95%e5%8f%98%e5%a4%8d%e6%9d%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你不设计好索引：</p>
+<ul>
+<li>deleted 数据越来越多</li>
+<li>索引膨胀</li>
+<li>查询越来越慢</li>
+</ul>
+<p>👉 <strong>必须有组合索引</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_orders_active</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_deleted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>（PostgreSQL 部分索引极其重要）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-唯一约束变麻烦高频踩坑"
+    >
+        3️⃣ 唯一约束变麻烦（高频踩坑）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#3-唯一约束变麻烦高频踩坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 唯一约束变麻烦（高频踩坑）" aria-label="Anchor to: 3️⃣ 唯一约束变麻烦（高频踩坑）" href="#3-%e5%94%af%e4%b8%80%e7%ba%a6%e6%9d%9f%e5%8f%98%e9%ba%bb%e7%83%a6%e9%ab%98%e9%a2%91%e8%b8%a9%e5%9d%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">username</span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></div><p>如果逻辑删除后想允许重建同名用户？</p>
+<p>❌ 行不通</p>
+<p><strong>正确做法（PG）</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">uniq_user_active</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">username</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_deleted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="4-表会无限长"
+    >
+        4️⃣ 表会“无限长”
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#4-表会无限长" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 表会“无限长”" aria-label="Anchor to: 4️⃣ 表会“无限长”" href="#4-%e8%a1%a8%e4%bc%9a%e6%97%a0%e9%99%90%e9%95%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>deleted 数据永远存在</li>
+<li>VACUUM 压力变大</li>
+<li>冷数据拖慢热查询</li>
+</ul>
+<p>👉 这不是 bug，是设计选择</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五什么时候-不适合-逻辑删除"
+    >
+        五、什么时候 不适合 逻辑删除？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#五什么时候-不适合-逻辑删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、什么时候 不适合 逻辑删除？" aria-label="Anchor to: 五、什么时候 不适合 逻辑删除？" href="#%e4%ba%94%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99-%e4%b8%8d%e9%80%82%e5%90%88-%e9%80%bb%e8%be%91%e5%88%a0%e9%99%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>❌ 不推荐场景</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>原因</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>临时数据</td>
+          <td>无价值</td>
+      </tr>
+      <tr>
+          <td>缓存表</td>
+          <td>可重建</td>
+      </tr>
+      <tr>
+          <td>中间计算表</td>
+          <td>可丢</td>
+      </tr>
+      <tr>
+          <td>高频写 + 无审计</td>
+          <td>纯性能优先</td>
+      </tr>
+      <tr>
+          <td>日志型表</td>
+          <td>append-only</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>这些表：</p>
+<ul>
+<li><strong>直接 DELETE 或 TRUNCATE</strong></li>
+<li>或直接分区 DROP</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="六成熟系统的最佳实践非常重要"
+    >
+        六、成熟系统的最佳实践（非常重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#六成熟系统的最佳实践非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、成熟系统的最佳实践（非常重要）" aria-label="Anchor to: 六、成熟系统的最佳实践（非常重要）" href="#%e5%85%ad%e6%88%90%e7%86%9f%e7%b3%bb%e7%bb%9f%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-分层处理强烈推荐"
+    >
+        1️⃣ 分层处理（强烈推荐）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#1-分层处理强烈推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 分层处理（强烈推荐）" aria-label="Anchor to: 1️⃣ 分层处理（强烈推荐）" href="#1-%e5%88%86%e5%b1%82%e5%a4%84%e7%90%86%e5%bc%ba%e7%83%88%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>数据类型</th>
+          <th>策略</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>核心业务数据</td>
+          <td>逻辑删除</td>
+      </tr>
+      <tr>
+          <td>历史归档</td>
+          <td>物理迁移</td>
+      </tr>
+      <tr>
+          <td>冷数据</td>
+          <td>分区 + DROP</td>
+      </tr>
+      <tr>
+          <td>中间表</td>
+          <td>物理删除</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-配套机制缺一不可"
+    >
+        2️⃣ 配套机制（缺一不可）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#2-配套机制缺一不可" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 配套机制（缺一不可）" aria-label="Anchor to: 2️⃣ 配套机制（缺一不可）" href="#2-%e9%85%8d%e5%a5%97%e6%9c%ba%e5%88%b6%e7%bc%ba%e4%b8%80%e4%b8%8d%e5%8f%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>🔹 <strong>统一查询入口</strong></p>
+<ul>
+<li>ORM 默认加 is_deleted=false</li>
+<li>禁止裸 SQL（或 code review）</li>
+</ul>
+<p>🔹 <strong>部分索引 / 过滤索引</strong></p>
+<ul>
+<li>PostgreSQL：必须用</li>
+<li>MySQL：只能靠组合索引</li>
+</ul>
+<p>🔹 <strong>定期归档</strong></p>
+<ul>
+<li>deleted 超过 6 / 12 个月</li>
+<li>迁移到 history 表</li>
+<li>或冷库</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-postgresql-vs-mysql-差异"
+    >
+        3️⃣ PostgreSQL vs MySQL 差异
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#3-postgresql-vs-mysql-差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ PostgreSQL vs MySQL 差异" aria-label="Anchor to: 3️⃣ PostgreSQL vs MySQL 差异" href="#3-postgresql-vs-mysql-%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>PostgreSQL</th>
+          <th>MySQL</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>部分索引</td>
+          <td>✅ 强</td>
+          <td>❌</td>
+      </tr>
+      <tr>
+          <td>查询控制</td>
+          <td>RLS / View</td>
+          <td>应用层</td>
+      </tr>
+      <tr>
+          <td>VACUUM</td>
+          <td>重要</td>
+          <td>purge</td>
+      </tr>
+      <tr>
+          <td>适合逻辑删除</td>
+          <td>非常适合</td>
+          <td>可用但要谨慎</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="七总结"
+    >
+        七、总结
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/#七总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、总结" aria-label="Anchor to: 七、总结" href="#%e4%b8%83%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>逻辑删除适合核心、可审计、不可丢的数据，但它是“空间换安全、复杂度换可控”的设计，必须配合索引、查询约束和生命周期管理，否则一定会拖慢系统。</strong></p>
 
   </article>
 
