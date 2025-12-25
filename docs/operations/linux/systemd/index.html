@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux UnionFS Linux 网络子系统 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。
+一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。
+它负责的不是“开机跑几个服务”，而是：
+系统状态管理 &#43; 服务生命周期 &#43; 资源控制 &#43; 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux systemd | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +38,25 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
     
   <meta
     property="og:title"
-    content="Linux"
+    content="Linux systemd"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux UnionFS Linux 网络子系统 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。
+一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。
+它负责的不是“开机跑几个服务”，而是：
+系统状态管理 &#43; 服务生命周期 &#43; 资源控制 &#43; 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/systemd/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux UnionFS Linux 网络子系统 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="Linux systemd" />
+  <meta name="twitter:description" content="“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。
+一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。
+它负责的不是“开机跑几个服务”，而是：
+系统状态管理 &#43; 服务生命周期 &#43; 资源控制 &#43; 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”" />
 
 
   <script type="application/ld+json">
@@ -58,16 +64,16 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux UnionFS Linux 网络子系统 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 journal lsblk overlay2 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "51",
+      "name": "Linux systemd",
+      "url" : "https://documents.v2ep.com/operations/linux/systemd/",
+      "headline": "Linux systemd",
+      "description": "“从设计哲学到内核协同”的 systemd 核心概念 \/ 基础理论总览，定位是 RHEL \/ AlmaLinux \/ Rocky \/ Debian \/ Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。\n一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。\n它负责的不是“开机跑几个服务”，而是：\n系统状态管理 \u002b 服务生命周期 \u002b 资源控制 \u002b 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”",
+      "wordCount" : "410",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/systemd/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/systemd/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1004,7 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1988,7 +1994,15 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux systemd</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2007,192 +2021,599 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Linux systemd</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd/" class="gdoc-toc__entry">Linux systemd
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/networking/" class="gdoc-toc__entry">Linux 网络子系统
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>“从设计哲学到内核协同”的 systemd 核心概念 / 基础理论总览，定位是 RHEL / AlmaLinux / Rocky / Debian / Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一systemd-是什么先纠正认知"
+    >
+        一、systemd 是什么（先纠正认知）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#一systemd-是什么先纠正认知" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、systemd 是什么（先纠正认知）" aria-label="Anchor to: 一、systemd 是什么（先纠正认知）" href="#%e4%b8%80systemd-%e6%98%af%e4%bb%80%e4%b9%88%e5%85%88%e7%ba%a0%e6%ad%a3%e8%ae%a4%e7%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。</strong></p>
+<p>它负责的不是“开机跑几个服务”，而是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">系统状态管理 + 服务生命周期 + 资源控制 + 依赖调度
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="systemd-的角色"
+    >
+        systemd 的角色
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#systemd-的角色" class="gdoc-page__anchor clip flex align-center" title="Anchor to: systemd 的角色" aria-label="Anchor to: systemd 的角色" href="#systemd-%e7%9a%84%e8%a7%92%e8%89%b2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>进程管理</td>
+          <td>替代传统 init</td>
+      </tr>
+      <tr>
+          <td>服务编排</td>
+          <td>依赖、顺序、并行</td>
+      </tr>
+      <tr>
+          <td>资源管理</td>
+          <td>对接 cgroups</td>
+      </tr>
+      <tr>
+          <td>状态管理</td>
+          <td>系统运行状态</td>
+      </tr>
+      <tr>
+          <td>日志</td>
+          <td>journald</td>
+      </tr>
+      <tr>
+          <td>设备</td>
+          <td>udev</td>
+      </tr>
+      <tr>
+          <td>网络</td>
+          <td>networkd（可选）</td>
+      </tr>
+      <tr>
+          <td>会话</td>
+          <td>logind</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>systemd = 用户态“操作系统控制平面”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二systemd-的核心设计思想"
+    >
+        二、systemd 的核心设计思想
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#二systemd-的核心设计思想" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、systemd 的核心设计思想" aria-label="Anchor to: 二、systemd 的核心设计思想" href="#%e4%ba%8csystemd-%e7%9a%84%e6%a0%b8%e5%bf%83%e8%ae%be%e8%ae%a1%e6%80%9d%e6%83%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-everything-is-a-unit一切皆-unit"
+    >
+        1️⃣ Everything is a Unit（一切皆 Unit）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#1-everything-is-a-unit一切皆-unit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Everything is a Unit（一切皆 Unit）" aria-label="Anchor to: 1️⃣ Everything is a Unit（一切皆 Unit）" href="#1-everything-is-a-unit%e4%b8%80%e5%88%87%e7%9a%86-unit">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>systemd 不直接“管理进程”，而是管理 <strong>Unit 对象</strong>。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">进程 ← Service Unit
+</span></span><span class="line"><span class="cl">设备 ← Device Unit
+</span></span><span class="line"><span class="cl">挂载点 ← Mount Unit
+</span></span><span class="line"><span class="cl">目标状态 ← Target Unit
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-声明式而不是命令式"
+    >
+        2️⃣ 声明式，而不是命令式
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#2-声明式而不是命令式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 声明式，而不是命令式" aria-label="Anchor to: 2️⃣ 声明式，而不是命令式" href="#2-%e5%a3%b0%e6%98%8e%e5%bc%8f%e8%80%8c%e4%b8%8d%e6%98%af%e5%91%bd%e4%bb%a4%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>传统 init</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">start A
+</span></span><span class="line"><span class="cl">sleep 5
+</span></span><span class="line"><span class="cl">start B
+</span></span></code></pre></div><p>systemd</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">A.service</span>
+</span></span><span class="line"><span class="cl"><span class="na">Requires</span><span class="o">=</span><span class="s">A.service</span>
+</span></span></code></pre></div><p>📌 <strong>你描述“关系”，systemd 负责“执行”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-并行启动--事件驱动"
+    >
+        3️⃣ 并行启动 + 事件驱动
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#3-并行启动--事件驱动" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 并行启动 &#43; 事件驱动" aria-label="Anchor to: 3️⃣ 并行启动 &#43; 事件驱动" href="#3-%e5%b9%b6%e8%a1%8c%e5%90%af%e5%8a%a8--%e4%ba%8b%e4%bb%b6%e9%a9%b1%e5%8a%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>不再串行</li>
+<li>有条件才启动</li>
+<li>依赖满足立即运行</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-状态机驱动不是脚本"
+    >
+        4️⃣ 状态机驱动（不是脚本）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#4-状态机驱动不是脚本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 状态机驱动（不是脚本）" aria-label="Anchor to: 4️⃣ 状态机驱动（不是脚本）" href="#4-%e7%8a%b6%e6%80%81%e6%9c%ba%e9%a9%b1%e5%8a%a8%e4%b8%8d%e6%98%af%e8%84%9a%e6%9c%ac">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>每个 unit 都有明确状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">inactive -&gt; activating -&gt; active -&gt; deactivating -&gt; failed
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三unit-类型全览核心"
+    >
+        三、Unit 类型全览（核心）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#三unit-类型全览核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、Unit 类型全览（核心）" aria-label="Anchor to: 三、Unit 类型全览（核心）" href="#%e4%b8%89unit-%e7%b1%bb%e5%9e%8b%e5%85%a8%e8%a7%88%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>Unit 类型</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>service</td>
+          <td>服务进程</td>
+      </tr>
+      <tr>
+          <td>socket</td>
+          <td>套接字激活</td>
+      </tr>
+      <tr>
+          <td>target</td>
+          <td>运行目标</td>
+      </tr>
+      <tr>
+          <td>mount</td>
+          <td>挂载点</td>
+      </tr>
+      <tr>
+          <td>automount</td>
+          <td>自动挂载</td>
+      </tr>
+      <tr>
+          <td>device</td>
+          <td>设备</td>
+      </tr>
+      <tr>
+          <td>path</td>
+          <td>路径触发</td>
+      </tr>
+      <tr>
+          <td>timer</td>
+          <td>定时器</td>
+      </tr>
+      <tr>
+          <td>slice</td>
+          <td>资源分组</td>
+      </tr>
+      <tr>
+          <td>scope</td>
+          <td>外部进程</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四service-unit-深度原理最重要"
+    >
+        四、Service Unit 深度原理（最重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#四service-unit-深度原理最重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Service Unit 深度原理（最重要）" aria-label="Anchor to: 四、Service Unit 深度原理（最重要）" href="#%e5%9b%9bservice-unit-%e6%b7%b1%e5%ba%a6%e5%8e%9f%e7%90%86%e6%9c%80%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-service-的本质"
+    >
+        1️⃣ service 的本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#1-service-的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ service 的本质" aria-label="Anchor to: 1️⃣ service 的本质" href="#1-service-%e7%9a%84%e6%9c%ac%e8%b4%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd 不是“启动程序”，而是“托管进程生命周期”。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-常见-service-类型"
+    >
+        2️⃣ 常见 Service 类型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#2-常见-service-类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 常见 Service 类型" aria-label="Anchor to: 2️⃣ 常见 Service 类型" href="#2-%e5%b8%b8%e8%a7%81-service-%e7%b1%bb%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>Type</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>simple</td>
+          <td>默认，前台进程</td>
+      </tr>
+      <tr>
+          <td>exec</td>
+          <td>类似 simple</td>
+      </tr>
+      <tr>
+          <td>forking</td>
+          <td>传统 daemon</td>
+      </tr>
+      <tr>
+          <td>oneshot</td>
+          <td>一次性任务</td>
+      </tr>
+      <tr>
+          <td>notify</td>
+          <td>systemd-ready</td>
+      </tr>
+      <tr>
+          <td>dbus</td>
+          <td>D-Bus 激活</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>Type 决定 systemd 如何判断“服务已启动”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-execstart-的真实行为"
+    >
+        3️⃣ ExecStart 的真实行为
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#3-execstart-的真实行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ ExecStart 的真实行为" aria-label="Anchor to: 3️⃣ ExecStart 的真实行为" href="#3-execstart-%e7%9a%84%e7%9c%9f%e5%ae%9e%e8%a1%8c%e4%b8%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/nginx</span>
+</span></span></code></pre></div><p>systemd 实际做了什么：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fork -&gt; execve
+</span></span><span class="line"><span class="cl">设置 namespace
+</span></span><span class="line"><span class="cl">加入 cgroup
+</span></span><span class="line"><span class="cl">设置 rlimit
+</span></span><span class="line"><span class="cl">设置环境变量
+</span></span><span class="line"><span class="cl">监听退出状态
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-systemd-托管能力传统脚本没有"
+    >
+        4️⃣ systemd 托管能力（传统脚本没有）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#4-systemd-托管能力传统脚本没有" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ systemd 托管能力（传统脚本没有）" aria-label="Anchor to: 4️⃣ systemd 托管能力（传统脚本没有）" href="#4-systemd-%e6%89%98%e7%ae%a1%e8%83%bd%e5%8a%9b%e4%bc%a0%e7%bb%9f%e8%84%9a%e6%9c%ac%e6%b2%a1%e6%9c%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>自动重启（Restart=）</li>
+<li>失败回滚</li>
+<li>启动超时</li>
+<li>进程僵尸回收</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五targetsystemd-的运行级别"
+    >
+        五、Target：systemd 的“运行级别”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#五targetsystemd-的运行级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、Target：systemd 的“运行级别”" aria-label="Anchor to: 五、Target：systemd 的“运行级别”" href="#%e4%ba%94targetsystemd-%e7%9a%84%e8%bf%90%e8%a1%8c%e7%ba%a7%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>target = 状态集合，不是顺序脚本</p>
+<p>| target | 传统 runlevel |
+| multi-user.target | 3 |
+| graphical.target | 5 |
+| rescue.target | 单用户 |
+| emergency.target | 最小系统 |</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl set-default multi-user.target
+</span></span></code></pre></div><p>📌 <strong>target 是“系统状态快照”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六依赖关系模型精髓"
+    >
+        六、依赖关系模型（精髓）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#六依赖关系模型精髓" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、依赖关系模型（精髓）" aria-label="Anchor to: 六、依赖关系模型（精髓）" href="#%e5%85%ad%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%e6%a8%a1%e5%9e%8b%e7%b2%be%e9%ab%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-强依赖-vs-弱依赖"
+    >
+        1️⃣ 强依赖 vs 弱依赖
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#1-强依赖-vs-弱依赖" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 强依赖 vs 弱依赖" aria-label="Anchor to: 1️⃣ 强依赖 vs 弱依赖" href="#1-%e5%bc%ba%e4%be%9d%e8%b5%96-vs-%e5%bc%b1%e4%be%9d%e8%b5%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>指令</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Requires</td>
+          <td>没它就失败</td>
+      </tr>
+      <tr>
+          <td>Wants</td>
+          <td>有最好</td>
+      </tr>
+      <tr>
+          <td>After</td>
+          <td>启动顺序</td>
+      </tr>
+      <tr>
+          <td>Before</td>
+          <td>相反顺序</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>After ≠ Requires</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-启动逻辑示例"
+    >
+        2️⃣ 启动逻辑示例
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#2-启动逻辑示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 启动逻辑示例" aria-label="Anchor to: 2️⃣ 启动逻辑示例" href="#2-%e5%90%af%e5%8a%a8%e9%80%bb%e8%be%91%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">Requires</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span></code></pre></div><p>表示：</p>
+<ul>
+<li>必须有网络</li>
+<li>并且等网络 ready</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七cgroupssystemd-的隐藏核心"
+    >
+        七、cgroups：systemd 的隐藏核心
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#七cgroupssystemd-的隐藏核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、cgroups：systemd 的隐藏核心" aria-label="Anchor to: 七、cgroups：systemd 的隐藏核心" href="#%e4%b8%83cgroupssystemd-%e7%9a%84%e9%9a%90%e8%97%8f%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd 是 cgroups v2 的主要控制器</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-cgroup-层级"
+    >
+        1️⃣ cgroup 层级
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#1-cgroup-层级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ cgroup 层级" aria-label="Anchor to: 1️⃣ cgroup 层级" href="#1-cgroup-%e5%b1%82%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/
+</span></span><span class="line"><span class="cl">└─ user.slice
+</span></span><span class="line"><span class="cl">└─ system.slice
+</span></span><span class="line"><span class="cl">   └─ sshd.service
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-资源控制能力"
+    >
+        2️⃣ 资源控制能力
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#2-资源控制能力" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 资源控制能力" aria-label="Anchor to: 2️⃣ 资源控制能力" href="#2-%e8%b5%84%e6%ba%90%e6%8e%a7%e5%88%b6%e8%83%bd%e5%8a%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">CPUQuota</span><span class="o">=</span><span class="s">50%</span>
+</span></span><span class="line"><span class="cl"><span class="na">MemoryMax</span><span class="o">=</span><span class="s">2G</span>
+</span></span><span class="line"><span class="cl"><span class="na">IOReadBandwidthMax</span><span class="o">=</span><span class="s">/dev/sda 10M</span>
+</span></span></code></pre></div><p>📌 systemd 是 <strong>容器 / Kubernetes 的祖师爷</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八socket--path--timer-激活现代能力"
+    >
+        八、Socket / Path / Timer 激活（现代能力）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#八socket--path--timer-激活现代能力" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、Socket / Path / Timer 激活（现代能力）" aria-label="Anchor to: 八、Socket / Path / Timer 激活（现代能力）" href="#%e5%85%absocket--path--timer-%e6%bf%80%e6%b4%bb%e7%8e%b0%e4%bb%a3%e8%83%bd%e5%8a%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="socket-激活"
+    >
+        Socket 激活
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#socket-激活" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Socket 激活" aria-label="Anchor to: Socket 激活" href="#socket-%e6%bf%80%e6%b4%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>有连接才启动服务</li>
+<li>支持平滑升级</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="path-激活"
+    >
+        Path 激活
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#path-激活" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Path 激活" aria-label="Anchor to: Path 激活" href="#path-%e6%bf%80%e6%b4%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>文件变化触发服务</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="timer"
+    >
+        Timer
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#timer" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Timer" aria-label="Anchor to: Timer" href="#timer">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>替代 cron</li>
+<li>精准、可靠、可监控</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九journald日志不是文件"
+    >
+        九、journald：日志不是文件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#九journald日志不是文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、journald：日志不是文件" aria-label="Anchor to: 九、journald：日志不是文件" href="#%e4%b9%9djournald%e6%97%a5%e5%bf%97%e4%b8%8d%e6%98%af%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>日志 = 结构化事件流</strong></p>
+<p>特点</p>
+<ul>
+<li>二进制</li>
+<li>支持索引</li>
+<li>与 unit 绑定</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">journalctl -u sshd
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十logind会话与登录控制"
+    >
+        十、logind：会话与登录控制
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#十logind会话与登录控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、logind：会话与登录控制" aria-label="Anchor to: 十、logind：会话与登录控制" href="#%e5%8d%81logind%e4%bc%9a%e8%af%9d%e4%b8%8e%e7%99%bb%e5%bd%95%e6%8e%a7%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>管理：</p>
+<ul>
+<li>SSH</li>
+<li>TTY</li>
+<li>用户 session</li>
+<li>电源事件</li>
+</ul>
+<p>📌 pam_nologin、登录限制都在这层</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一systemd-vs-sysv-init本质区别"
+    >
+        十一、systemd vs SysV init（本质区别）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#十一systemd-vs-sysv-init本质区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、systemd vs SysV init（本质区别）" aria-label="Anchor to: 十一、systemd vs SysV init（本质区别）" href="#%e5%8d%81%e4%b8%80systemd-vs-sysv-init%e6%9c%ac%e8%b4%a8%e5%8c%ba%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>SysV</th>
+          <th>systemd</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>启动</td>
+          <td>串行</td>
+          <td>并行</td>
+      </tr>
+      <tr>
+          <td>管理</td>
+          <td>脚本</td>
+          <td>状态机</td>
+      </tr>
+      <tr>
+          <td>资源</td>
+          <td>无</td>
+          <td>cgroups</td>
+      </tr>
+      <tr>
+          <td>日志</td>
+          <td>文件</td>
+          <td>journal</td>
+      </tr>
+      <tr>
+          <td>依赖</td>
+          <td>手写</td>
+          <td>自动</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二systemd-在系统中的位置"
+    >
+        十二、systemd 在系统中的“位置”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#十二systemd-在系统中的位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、systemd 在系统中的“位置”" aria-label="Anchor to: 十二、systemd 在系统中的“位置”" href="#%e5%8d%81%e4%ba%8csystemd-%e5%9c%a8%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">内核
+</span></span><span class="line"><span class="cl"> └─ systemd (PID 1)
+</span></span><span class="line"><span class="cl">    ├─ udevd
+</span></span><span class="line"><span class="cl">    ├─ journald
+</span></span><span class="line"><span class="cl">    ├─ logind
+</span></span><span class="line"><span class="cl">    ├─ networkd
+</span></span><span class="line"><span class="cl">    └─ services...
+</span></span></code></pre></div><p>📌 <strong>PID 1 的责任是：系统永远不能“死”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三常见误区纠正"
+    >
+        十三、常见误区纠正
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#十三常见误区纠正" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、常见误区纠正" aria-label="Anchor to: 十三、常见误区纠正" href="#%e5%8d%81%e4%b8%89%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e7%ba%a0%e6%ad%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-systemd-启动慢"
+    >
+        ❌ systemd 启动慢
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#-systemd-启动慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ systemd 启动慢" aria-label="Anchor to: ❌ systemd 启动慢" href="#-systemd-%e5%90%af%e5%8a%a8%e6%85%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 实际更快，只是日志可见</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-systemd-太复杂"
+    >
+        ❌ systemd 太复杂
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#-systemd-太复杂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ systemd 太复杂" aria-label="Anchor to: ❌ systemd 太复杂" href="#-systemd-%e5%a4%aa%e5%a4%8d%e6%9d%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 它把“复杂度从脚本搬进系统”</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-systemd-不稳定"
+    >
+        ❌ systemd 不稳定
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#-systemd-不稳定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ systemd 不稳定" aria-label="Anchor to: ❌ systemd 不稳定" href="#-systemd-%e4%b8%8d%e7%a8%b3%e5%ae%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 目前 Linux 最稳定的 init 实现</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四总结"
+    >
+        十四、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd/#十四总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、总结" aria-label="Anchor to: 十四、总结" href="#%e5%8d%81%e5%9b%9b%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemd 是 Linux 的“状态驱动系统管理内核”，通过 Unit 抽象系统对象，用依赖关系和 cgroups 控制系统生命周期。</strong></p>
 
   </article>
 
@@ -2720,9 +3141,6 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
         
 
         
-          
-          
-        
 
         
           
@@ -2753,11 +3171,6 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3371,27 +3784,9 @@ Linux 核心概念 Linux cgroups Linux Namespace Linux NUMA Linux systemd Linux 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
