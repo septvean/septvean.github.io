@@ -71,7 +71,7 @@
       "url" : "https://documents.v2ep.com/operations/docker/core/",
       "headline": "Docker 核心概念",
       "description": " 一、Docker 的本质 Docker = 利用 Linux 内核能力（Namespace \u002b cgroups \u002b UnionFS）， 把应用进程“隔离、限制、打包、分发、运行”的一整套工程体系。\n⚠️ Docker 不是虚拟机\n⚠️ 容器不是 OS\n⚠️ Docker 本质是 进程管理 \u002b 文件系统抽象\n二、Docker 解决了什么问题（Why） 1️⃣ 环境一致性 开发 \/ 测试 \/ 生产环境不一致 “在我机器上是好的” Docker 用 镜像 固化环境。",
-      "wordCount" : "356",
+      "wordCount" : "358",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2184,11 +2184,11 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run --memory<span class="o">=</span>512m --cpus<span class="o">=</span><span class="m">1</span> nginx
 </span></span></code></pre></div><p>📌 没有 cgroups，容器只是“裸进程”。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-unionfs--overlayfs--分层文件系统layer"
+    <h3 id="3-unionfs--overlayfs--联合文件系统--分层文件系统layer"
     >
-        3️⃣ UnionFS / OverlayFS —— 分层文件系统（Layer）
+        3️⃣ UnionFS / OverlayFS —— 联合文件系统 / 分层文件系统（Layer）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/core/#3-unionfs--overlayfs--分层文件系统layer" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ UnionFS / OverlayFS —— 分层文件系统（Layer）" aria-label="Anchor to: 3️⃣ UnionFS / OverlayFS —— 分层文件系统（Layer）" href="#3-unionfs--overlayfs--%e5%88%86%e5%b1%82%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9flayer">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/core/#3-unionfs--overlayfs--联合文件系统--分层文件系统layer" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ UnionFS / OverlayFS —— 联合文件系统 / 分层文件系统（Layer）" aria-label="Anchor to: 3️⃣ UnionFS / OverlayFS —— 联合文件系统 / 分层文件系统（Layer）" href="#3-unionfs--overlayfs--%e8%81%94%e5%90%88%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f--%e5%88%86%e5%b1%82%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9flayer">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2239,7 +2239,7 @@
 <ul>
 <li>镜像的运行实例</li>
 <li>本质是一个 Linux 进程</li>
-<li>有自己的 namespace + cgroup + FS</li>
+<li>有自己的 Namespace + cgroups + FS</li>
 </ul>
 <p>⚠️ 容器应当是：</p>
 <ul>
@@ -2360,7 +2360,7 @@
 </ul>
 <p>host 网络</p>
 <ul>
-<li>无 namespace</li>
+<li>无 Namespace</li>
 <li>与宿主机共用网络栈</li>
 <li>性能最好</li>
 </ul>
