@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content=" ✅ 结论 Docker 容器使用的是「宿主机的 Linux 内核」
+容器里没有自己的内核，也不存在“其它内核”。
+一、先给出明确答案（避免混淆） 选项 是否正确 说明 容器自己的内核 ❌ 容器里根本没有内核 宿主机的内核 ✅ 唯一正确答案 其它独立内核 ❌ 这是虚拟机的做法 👉 Docker 容器 = 宿主机内核上的一个普通进程（被隔离）
+二、为什么容器“看起来”像有自己的系统？ 这是很多人误解的根源。" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>Docker 使用的是哪个内核 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +38,25 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="Docker 使用的是哪个内核"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content=" ✅ 结论 Docker 容器使用的是「宿主机的 Linux 内核」
+容器里没有自己的内核，也不存在“其它内核”。
+一、先给出明确答案（避免混淆） 选项 是否正确 说明 容器自己的内核 ❌ 容器里根本没有内核 宿主机的内核 ✅ 唯一正确答案 其它独立内核 ❌ 这是虚拟机的做法 👉 Docker 容器 = 宿主机内核上的一个普通进程（被隔离）
+二、为什么容器“看起来”像有自己的系统？ 这是很多人误解的根源。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/docker-kernel/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="Docker 使用的是哪个内核" />
+  <meta name="twitter:description" content=" ✅ 结论 Docker 容器使用的是「宿主机的 Linux 内核」
+容器里没有自己的内核，也不存在“其它内核”。
+一、先给出明确答案（避免混淆） 选项 是否正确 说明 容器自己的内核 ❌ 容器里根本没有内核 宿主机的内核 ✅ 唯一正确答案 其它独立内核 ❌ 这是虚拟机的做法 👉 Docker 容器 = 宿主机内核上的一个普通进程（被隔离）
+二、为什么容器“看起来”像有自己的系统？ 这是很多人误解的根源。" />
 
 
   <script type="application/ld+json">
@@ -58,16 +64,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 journal lsblk RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "74",
+      "name": "Docker 使用的是哪个内核",
+      "url" : "https://documents.v2ep.com/operations/linux/docker-kernel/",
+      "headline": "Docker 使用的是哪个内核",
+      "description": " ✅ 结论 Docker 容器使用的是「宿主机的 Linux 内核」\n容器里没有自己的内核，也不存在“其它内核”。\n一、先给出明确答案（避免混淆） 选项 是否正确 说明 容器自己的内核 ❌ 容器里根本没有内核 宿主机的内核 ✅ 唯一正确答案 其它独立内核 ❌ 这是虚拟机的做法 👉 Docker 容器 = 宿主机内核上的一个普通进程（被隔离）\n二、为什么容器“看起来”像有自己的系统？ 这是很多人误解的根源。",
+      "wordCount" : "207",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/docker-kernel/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/docker-kernel/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1004,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1988,7 +1994,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Docker 使用的是哪个内核</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2007,266 +2021,256 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Docker 使用的是哪个内核</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-结论"
+    >
+        ✅ 结论
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#-结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 结论" aria-label="Anchor to: ✅ 结论" href="#-%e7%bb%93%e8%ae%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Docker 容器使用的是「宿主机的 Linux 内核」</strong></p>
+<p><strong>容器里没有自己的内核，也不存在“其它内核”。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一先给出明确答案避免混淆"
+    >
+        一、先给出明确答案（避免混淆）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#一先给出明确答案避免混淆" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先给出明确答案（避免混淆）" aria-label="Anchor to: 一、先给出明确答案（避免混淆）" href="#%e4%b8%80%e5%85%88%e7%bb%99%e5%87%ba%e6%98%8e%e7%a1%ae%e7%ad%94%e6%a1%88%e9%81%bf%e5%85%8d%e6%b7%b7%e6%b7%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>选项</th>
+          <th>是否正确</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>容器自己的内核</td>
+          <td>❌</td>
+          <td>容器里根本没有内核</td>
+      </tr>
+      <tr>
+          <td>宿主机的内核</td>
+          <td>✅</td>
+          <td>唯一正确答案</td>
+      </tr>
+      <tr>
+          <td>其它独立内核</td>
+          <td>❌</td>
+          <td>这是虚拟机的做法</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>👉 <strong>Docker 容器 = 宿主机内核上的一个普通进程（被隔离）</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二为什么容器看起来像有自己的系统"
+    >
+        二、为什么容器“看起来”像有自己的系统？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#二为什么容器看起来像有自己的系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么容器“看起来”像有自己的系统？" aria-label="Anchor to: 二、为什么容器“看起来”像有自己的系统？" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e5%ae%b9%e5%99%a8%e7%9c%8b%e8%b5%b7%e6%9d%a5%e5%83%8f%e6%9c%89%e8%87%aa%e5%b7%b1%e7%9a%84%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这是很多人误解的根源。</p>
+<p>在容器中执行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uname -a
+</span></span></code></pre></div><p>你会看到：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Linux xxx 5.15.0-xxx
+</span></span></code></pre></div><p>你可能会以为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">“这是容器自己的内核？”
+</span></span></code></pre></div><p>❌ 错。</p>
+<p><strong>真相是：</strong></p>
+<ul>
+<li>uname 返回的是 <strong>宿主机内核信息</strong></li>
+<li>容器只是 <strong>被 Namespace 隔离后的进程视角</strong></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三docker-是如何共享内核又互不干扰的"
+    >
+        三、Docker 是如何“共享内核又互不干扰”的？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#三docker-是如何共享内核又互不干扰的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、Docker 是如何“共享内核又互不干扰”的？" aria-label="Anchor to: 三、Docker 是如何“共享内核又互不干扰”的？" href="#%e4%b8%89docker-%e6%98%af%e5%a6%82%e4%bd%95%e5%85%b1%e4%ba%ab%e5%86%85%e6%a0%b8%e5%8f%88%e4%ba%92%e4%b8%8d%e5%b9%b2%e6%89%b0%e7%9a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>靠的是 <strong>Linux 内核的三大能力：</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-namespace让进程以为自己独占系统"
+    >
+        1️⃣ Namespace（让进程“以为自己独占系统”）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#1-namespace让进程以为自己独占系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Namespace（让进程“以为自己独占系统”）" aria-label="Anchor to: 1️⃣ Namespace（让进程“以为自己独占系统”）" href="#1-namespace%e8%ae%a9%e8%bf%9b%e7%a8%8b%e4%bb%a5%e4%b8%ba%e8%87%aa%e5%b7%b1%e7%8b%ac%e5%8d%a0%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Namespace 让容器中的进程：</p>
+<ul>
+<li>看不到宿主机其他进程（PID Namespace）</li>
+<li>有自己的网络栈（NET Namespace）</li>
+<li>有自己的挂载点（MNT Namespace）</li>
+<li>有自己的 hostname（UTS Namespace）</li>
+</ul>
+<p>📌 <strong>但内核仍然是同一个</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-cgroups限制资源而不是虚拟"
+    >
+        2️⃣ cgroups（限制资源，而不是虚拟）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#2-cgroups限制资源而不是虚拟" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ cgroups（限制资源，而不是虚拟）" aria-label="Anchor to: 2️⃣ cgroups（限制资源，而不是虚拟）" href="#2-cgroups%e9%99%90%e5%88%b6%e8%b5%84%e6%ba%90%e8%80%8c%e4%b8%8d%e6%98%af%e8%99%9a%e6%8b%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>cgroups 控制的是：</p>
+<ul>
+<li>CPU</li>
+<li>内存</li>
+<li>IO</li>
+<li>PID 数量</li>
+</ul>
+<p>📌 <strong>限制的是“能用多少内核资源”，不是“用哪个内核”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-syscall-直接进入宿主机内核"
+    >
+        3️⃣ Syscall 直接进入宿主机内核
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#3-syscall-直接进入宿主机内核" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Syscall 直接进入宿主机内核" aria-label="Anchor to: 3️⃣ Syscall 直接进入宿主机内核" href="#3-syscall-%e7%9b%b4%e6%8e%a5%e8%bf%9b%e5%85%a5%e5%ae%bf%e4%b8%bb%e6%9c%ba%e5%86%85%e6%a0%b8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>容器内进程调用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">open()
+</span></span><span class="line"><span class="cl">read()
+</span></span><span class="line"><span class="cl">write()
+</span></span><span class="line"><span class="cl">fork()
+</span></span></code></pre></div><p>👉 <strong>直接进入宿主机内核执行</strong></p>
+<p>没有中间虚拟层。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四一个关键对比面试高分点"
+    >
+        四、一个关键对比（面试高分点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#四一个关键对比面试高分点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、一个关键对比（面试高分点）" aria-label="Anchor to: 四、一个关键对比（面试高分点）" href="#%e5%9b%9b%e4%b8%80%e4%b8%aa%e5%85%b3%e9%94%ae%e5%af%b9%e6%af%94%e9%9d%a2%e8%af%95%e9%ab%98%e5%88%86%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Docker vs 虚拟机（内核层面对比）</strong></p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>对比项</th>
+          <th>Docker 容器</th>
+          <th>虚拟机</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>内核</td>
+          <td>宿主机共享</td>
+          <td>每个 VM 独立</td>
+      </tr>
+      <tr>
+          <td>系统调用</td>
+          <td>直接进入宿主机内核</td>
+          <td>进入 VM 内核</td>
+      </tr>
+      <tr>
+          <td>启动速度</td>
+          <td>秒级</td>
+          <td>分钟级</td>
+      </tr>
+      <tr>
+          <td>资源消耗</td>
+          <td>极低</td>
+          <td>高</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>是否有“自己的内核”是 Docker 与 VM 的本质分界线</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五那-windows--macos-上的-docker-呢高阶补充"
+    >
+        五、那 Windows / macOS 上的 Docker 呢？（高阶补充）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#五那-windows--macos-上的-docker-呢高阶补充" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、那 Windows / macOS 上的 Docker 呢？（高阶补充）" aria-label="Anchor to: 五、那 Windows / macOS 上的 Docker 呢？（高阶补充）" href="#%e4%ba%94%e9%82%a3-windows--macos-%e4%b8%8a%e7%9a%84-docker-%e5%91%a2%e9%ab%98%e9%98%b6%e8%a1%a5%e5%85%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 macOS / Windows 上：</p>
+<p>容器 -&gt; Linux VM -&gt; Linux 内核 -&gt; 宿主机</p>
+<ul>
+<li>Docker Desktop 会启动一个 <strong>轻量 Linux 虚拟机</strong></li>
+<li>所有容器 <strong>共享这个 Linux VM 的内核</strong></li>
+<li>❌ 仍然不是“容器自己的内核”</li>
+</ul>
+<p>📌 所以在 macOS 上运行 Linux 容器，本质是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">容器 -&gt; VM 内核（共享）
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六总结"
+    >
+        六、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#六总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、总结" aria-label="Anchor to: 六、总结" href="#%e5%85%ad%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>容器没有内核，所有容器共享宿主机内核，Docker 是进程隔离，不是硬件虚拟化。</strong></p>
+<p><strong>Docker 容器没有自己的内核，它们共享宿主机的 Linux 内核。</strong></p>
+<p><strong>Docker 通过 Namespace 提供隔离，通过 cgroups 做资源限制，本质上容器只是宿主机上的普通进程。</strong></p>
+<p><strong>这也是 Docker 启动快、资源利用率高，但内核级隔离不如虚拟机的根本原因。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七扩展"
+    >
+        七、扩展
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#七扩展" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、扩展" aria-label="Anchor to: 七、扩展" href="#%e4%b8%83%e6%89%a9%e5%b1%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="q1那容器能用不同版本的内核吗"
+    >
+        Q1：那容器能用不同版本的内核吗？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#q1那容器能用不同版本的内核吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Q1：那容器能用不同版本的内核吗？" aria-label="Anchor to: Q1：那容器能用不同版本的内核吗？" href="#q1%e9%82%a3%e5%ae%b9%e5%99%a8%e8%83%bd%e7%94%a8%e4%b8%8d%e5%90%8c%e7%89%88%e6%9c%ac%e7%9a%84%e5%86%85%e6%a0%b8%e5%90%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>❌ 不能</p>
+<p>✅ 必须和宿主机一致</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="q2为什么-alpine--ubuntu-容器都能跑"
+    >
+        Q2：为什么 alpine / ubuntu 容器都能跑？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#q2为什么-alpine--ubuntu-容器都能跑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Q2：为什么 alpine / ubuntu 容器都能跑？" aria-label="Anchor to: Q2：为什么 alpine / ubuntu 容器都能跑？" href="#q2%e4%b8%ba%e4%bb%80%e4%b9%88-alpine--ubuntu-%e5%ae%b9%e5%99%a8%e9%83%bd%e8%83%bd%e8%b7%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>那只是 <strong>用户态（glibc / musl / shell）</strong></li>
+<li>与内核无关</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="q3容器能跑-windows-程序吗"
+    >
+        Q3：容器能跑 Windows 程序吗？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/docker-kernel/#q3容器能跑-windows-程序吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Q3：容器能跑 Windows 程序吗？" aria-label="Anchor to: Q3：容器能跑 Windows 程序吗？" href="#q3%e5%ae%b9%e5%99%a8%e8%83%bd%e8%b7%91-windows-%e7%a8%8b%e5%ba%8f%e5%90%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>Linux 容器 ❌</li>
+<li>Windows 容器 ✅（但依赖 Windows 内核）</li>
+</ul>
 
   </article>
 
@@ -2794,9 +2798,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2827,11 +2828,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3445,27 +3441,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
