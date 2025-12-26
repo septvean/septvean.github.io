@@ -12,12 +12,22 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="内容：基础概念、镜像、容器、网络、存储、Compose、Registry、优化、安全、生产运维实践。
-1️⃣ Docker 基础概念 1. 什么是 Docker？ Docker 是一个基于 容器技术 的应用打包、分发、部署平台，解决了：
-应用环境一致性问题 打包与迁移困难 部署流程复杂 核心优势：构建一次，到处运行。
-2. 镜像（Image）是什么？ 镜像是 只读模板，类似：" />
+  <meta name="description" content="这是一个非常关键、也非常容易被误解的问题。 我给你一个结论先行 → 原理拆解 → 实战层面的判断标准，全部和你前面聊过的 UnionFS / overlay2 / 内核 / 数据库 串起来。
+⸻
+一句话结论（先背下来）
+overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
+⸻
+一、overlay2 的设计目标 ≠ 数据库的需求
+overlay2 为谁设计？
+镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？
+高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反
+⸻
+二、overlay2 对数据库“致命”的 6 个原因
+1️⃣ 写时复制（Copy-on-Write）放大写入
+overlay2 写文件的真实过程：
+写文件 ↓ 判断是否在 lowerdir ↓ 复制整个文件到 upperdir ↓ 再写" />
 
-    <title>Docker FAQ | ☘️ Septvean&#39;s Documents</title>
+    <title>overlay2 为什么对数据库不友好 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +48,45 @@
     
   <meta
     property="og:title"
-    content="Docker FAQ"
+    content="overlay2 为什么对数据库不友好"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="内容：基础概念、镜像、容器、网络、存储、Compose、Registry、优化、安全、生产运维实践。
-1️⃣ Docker 基础概念 1. 什么是 Docker？ Docker 是一个基于 容器技术 的应用打包、分发、部署平台，解决了：
-应用环境一致性问题 打包与迁移困难 部署流程复杂 核心优势：构建一次，到处运行。
-2. 镜像（Image）是什么？ 镜像是 只读模板，类似：" />
+  <meta property="og:description" content="这是一个非常关键、也非常容易被误解的问题。 我给你一个结论先行 → 原理拆解 → 实战层面的判断标准，全部和你前面聊过的 UnionFS / overlay2 / 内核 / 数据库 串起来。
+⸻
+一句话结论（先背下来）
+overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
+⸻
+一、overlay2 的设计目标 ≠ 数据库的需求
+overlay2 为谁设计？
+镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？
+高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反
+⸻
+二、overlay2 对数据库“致命”的 6 个原因
+1️⃣ 写时复制（Copy-on-Write）放大写入
+overlay2 写文件的真实过程：
+写文件 ↓ 判断是否在 lowerdir ↓ 复制整个文件到 upperdir ↓ 再写" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/docker/faq/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Docker FAQ" />
-  <meta name="twitter:description" content="内容：基础概念、镜像、容器、网络、存储、Compose、Registry、优化、安全、生产运维实践。
-1️⃣ Docker 基础概念 1. 什么是 Docker？ Docker 是一个基于 容器技术 的应用打包、分发、部署平台，解决了：
-应用环境一致性问题 打包与迁移困难 部署流程复杂 核心优势：构建一次，到处运行。
-2. 镜像（Image）是什么？ 镜像是 只读模板，类似：" />
+<meta name="twitter:title" content="overlay2 为什么对数据库不友好" />
+  <meta name="twitter:description" content="这是一个非常关键、也非常容易被误解的问题。 我给你一个结论先行 → 原理拆解 → 实战层面的判断标准，全部和你前面聊过的 UnionFS / overlay2 / 内核 / 数据库 串起来。
+⸻
+一句话结论（先背下来）
+overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
+⸻
+一、overlay2 的设计目标 ≠ 数据库的需求
+overlay2 为谁设计？
+镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？
+高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反
+⸻
+二、overlay2 对数据库“致命”的 6 个原因
+1️⃣ 写时复制（Copy-on-Write）放大写入
+overlay2 写文件的真实过程：
+写文件 ↓ 判断是否在 lowerdir ↓ 复制整个文件到 upperdir ↓ 再写" />
 
 
   <script type="application/ld+json">
@@ -64,16 +94,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Docker FAQ",
-      "url" : "https://documents.v2ep.com/operations/docker/faq/",
-      "headline": "Docker FAQ",
-      "description": "内容：基础概念、镜像、容器、网络、存储、Compose、Registry、优化、安全、生产运维实践。\n1️⃣ Docker 基础概念 1. 什么是 Docker？ Docker 是一个基于 容器技术 的应用打包、分发、部署平台，解决了：\n应用环境一致性问题 打包与迁移困难 部署流程复杂 核心优势：构建一次，到处运行。\n2. 镜像（Image）是什么？ 镜像是 只读模板，类似：",
-      "wordCount" : "493",
+      "name": "overlay2 为什么对数据库不友好",
+      "url" : "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/",
+      "headline": "overlay2 为什么对数据库不友好",
+      "description": "这是一个非常关键、也非常容易被误解的问题。 我给你一个结论先行 → 原理拆解 → 实战层面的判断标准，全部和你前面聊过的 UnionFS \/ overlay2 \/ 内核 \/ 数据库 串起来。\n⸻\n一句话结论（先背下来）\noverlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 \u002b 写时复制 \u002b 间接路径”的文件语义。\n⸻\n一、overlay2 的设计目标 ≠ 数据库的需求\noverlay2 为谁设计？\n镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？\n高频小写 fsync \/ fdatasync 强一致 顺序写（WAL \/ redo \/ binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反\n⸻\n二、overlay2 对数据库“致命”的 6 个原因\n1️⃣ 写时复制（Copy-on-Write）放大写入\noverlay2 写文件的真实过程：\n写文件 ↓ 判断是否在 lowerdir ↓ 复制整个文件到 upperdir ↓ 再写",
+      "wordCount" : "334",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/docker/faq/"
+          "@id": "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -157,7 +187,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/docker/faq/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2000,7 +2030,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/docker/' href='/operations/docker/'><span itemprop='name'>Docker</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Docker FAQ</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>overlay2 为什么对数据库不友好</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2021,783 +2051,197 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Docker FAQ</h1>
+    <h1>overlay2 为什么对数据库不友好</h1>
     
-    <p>内容：基础概念、镜像、容器、网络、存储、Compose、Registry、优化、安全、生产运维实践。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="1-docker-基础概念"
-    >
-        1️⃣ Docker 基础概念
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#1-docker-基础概念" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Docker 基础概念" aria-label="Anchor to: 1️⃣ Docker 基础概念" href="#1-docker-%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-什么是-docker"
-    >
-        1. 什么是 Docker？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#1-什么是-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 什么是 Docker？" aria-label="Anchor to: 1. 什么是 Docker？" href="#1-%e4%bb%80%e4%b9%88%e6%98%af-docker">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>Docker 是一个基于 <strong>容器技术</strong> 的应用打包、分发、部署平台，解决了：</p>
+    <p>这是一个非常关键、也非常容易被误解的问题。
+我给你一个结论先行 → 原理拆解 → 实战层面的判断标准，全部和你前面聊过的 UnionFS / overlay2 / 内核 / 数据库 串起来。</p>
+<p>⸻</p>
+<p>一句话结论（先背下来）</p>
+<p>overlay2 不适合数据库的根本原因是：
+数据库需要“稳定、可预测、顺序一致的本地写入”，
+而 overlay2 提供的是“分层 + 写时复制 + 间接路径”的文件语义。</p>
+<p>⸻</p>
+<p>一、overlay2 的设计目标 ≠ 数据库的需求</p>
+<p>overlay2 为谁设计？</p>
 <ul>
-<li>应用环境一致性问题</li>
-<li>打包与迁移困难</li>
-<li>部署流程复杂</li>
+<li>镜像分层</li>
+<li>容器快速启动</li>
+<li>文件共享</li>
+<li>写少、读多</li>
+<li>应用无状态</li>
 </ul>
-<p><strong>核心优势：构建一次，到处运行。</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-镜像image是什么"
-    >
-        2. 镜像（Image）是什么？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#2-镜像image是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 镜像（Image）是什么？" aria-label="Anchor to: 2. 镜像（Image）是什么？" href="#2-%e9%95%9c%e5%83%8fimage%e6%98%af%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>镜像是 <strong>只读模板</strong>，类似：</p>
+<p>数据库需要什么？</p>
 <ul>
-<li>一个文件系统快照</li>
-<li>包含程序和运行环境</li>
+<li>高频小写</li>
+<li>fsync / fdatasync 强一致</li>
+<li>顺序写（WAL / redo / binlog）</li>
+<li>稳定 inode</li>
+<li>可预测的 IO 延迟</li>
 </ul>
-<p>镜像可分为：</p>
+<p>👉 目标完全相反</p>
+<p>⸻</p>
+<p>二、overlay2 对数据库“致命”的 6 个原因</p>
+<p>1️⃣ 写时复制（Copy-on-Write）放大写入</p>
+<p>overlay2 写文件的真实过程：</p>
+<p>写文件
+↓
+判断是否在 lowerdir
+↓
+复制整个文件到 upperdir
+↓
+再写</p>
+<p>对数据库意味着：</p>
 <ul>
-<li>基础镜像（如 ubuntu、python）</li>
-<li>应用镜像（基于基础镜像构建）</li>
+<li>WAL 文件</li>
+<li>redo log</li>
+<li>数据文件</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-容器container是什么"
-    >
-        3. 容器（Container）是什么？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#3-容器container是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 容器（Container）是什么？" aria-label="Anchor to: 3. 容器（Container）是什么？" href="#3-%e5%ae%b9%e5%99%a8container%e6%98%af%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>容器是镜像的<strong>运行实例</strong>，包含：</p>
+<p>👉 一次小写，可能触发整文件复制</p>
+<p>📌 结果：</p>
 <ul>
-<li>进程</li>
-<li>文件系统写层</li>
-<li>网络隔离</li>
-<li>cgroups 资源限制</li>
+<li>IO 放大</li>
+<li>延迟抖动</li>
+<li>写性能不可预测</li>
 </ul>
-<p>容器是<strong>轻量级“进程级虚拟化”</strong>。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-docker-与-虚拟机vm的区别"
-    >
-        4. Docker 与 虚拟机（VM）的区别？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#4-docker-与-虚拟机vm的区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. Docker 与 虚拟机（VM）的区别？" aria-label="Anchor to: 4. Docker 与 虚拟机（VM）的区别？" href="#4-docker-%e4%b8%8e-%e8%99%9a%e6%8b%9f%e6%9c%bavm%e7%9a%84%e5%8c%ba%e5%88%ab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>Docker</th>
-          <th>虚拟机</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>启动速度</td>
-          <td>秒级</td>
-          <td>分钟级</td>
-      </tr>
-      <tr>
-          <td>资源开销</td>
-          <td>低</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>隔离方式</td>
-          <td>进程级（namespace + cgroups）</td>
-          <td>完整操作系统</td>
-      </tr>
-      <tr>
-          <td>镜像体积</td>
-          <td>小</td>
-          <td>大</td>
-      </tr>
-      <tr>
-          <td>部署方式</td>
-          <td>快速便携</td>
-          <td>笨重</td>
-      </tr>
-  </tbody>
-</table> </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="5-什么是-dockerfile"
-    >
-        5. 什么是 Dockerfile？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#5-什么是-dockerfile" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 什么是 Dockerfile？" aria-label="Anchor to: 5. 什么是 Dockerfile？" href="#5-%e4%bb%80%e4%b9%88%e6%98%af-dockerfile">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>Dockerfile 是用于 <strong>构建镜像的脚本文件</strong>，包含：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="s">RUN</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="s">ENTRYPOINT</span><span class="err">
-</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="6-什么是-oci"
-    >
-        6. 什么是 OCI？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#6-什么是-oci" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 什么是 OCI？" aria-label="Anchor to: 6. 什么是 OCI？" href="#6-%e4%bb%80%e4%b9%88%e6%98%af-oci">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>OCI = <strong>Open Container Initiative</strong></p>
-<p>规范包括：</p>
+<p>⸻</p>
+<p>2️⃣ 多层路径导致 fsync 不再“直达磁盘”</p>
+<p>数据库认为：</p>
+<p>fsync() = 数据已安全落盘</p>
+<p>但 overlay2 实际路径是：</p>
+<p>数据库
+→ VFS
+→ overlayfs
+→ upperdir
+→ 宿主文件系统</p>
+<p>⚠️ 问题：</p>
 <ul>
-<li>镜像规范（Image Spec）</li>
-<li>运行时规范（Runtime Spec，如 runc）</li>
+<li>fsync 在 overlay 层完成</li>
+<li>不等价于物理磁盘 flush</li>
+<li>特定内核版本下存在 fsync 语义漏洞</li>
 </ul>
-<p>Docker 已遵从 OCI。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="2-镜像"
-    >
-        2️⃣ 镜像
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#2-镜像" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 镜像" aria-label="Anchor to: 2️⃣ 镜像" href="#2-%e9%95%9c%e5%83%8f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="7-镜像分层是什么为什么需要分层"
-    >
-        7. 镜像分层是什么？为什么需要分层？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#7-镜像分层是什么为什么需要分层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 镜像分层是什么？为什么需要分层？" aria-label="Anchor to: 7. 镜像分层是什么？为什么需要分层？" href="#7-%e9%95%9c%e5%83%8f%e5%88%86%e5%b1%82%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%88%86%e5%b1%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>镜像是由多层文件系统组成，每条指令（RUN/COPY）会生成一层。</p>
-<p>好处：</p>
+<p>👉 数据库最怕“我以为写成功了，其实没有”</p>
+<p>⸻</p>
+<p>3️⃣ inode / dentry 不稳定（数据库很敏感）</p>
+<p>overlay2 的文件：</p>
 <ul>
-<li>层可复用（提高构建速度）</li>
-<li>节省空间</li>
-<li>构建时可以利用缓存</li>
+<li>可能被 copy-up</li>
+<li>inode 会变化</li>
+<li>hard link / rename 行为不一致</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="8-copy-和-add-区别是什么"
-    >
-        8. COPY 和 ADD 区别是什么？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#8-copy-和-add-区别是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. COPY 和 ADD 区别是什么？" aria-label="Anchor to: 8. COPY 和 ADD 区别是什么？" href="#8-copy-%e5%92%8c-add-%e5%8c%ba%e5%88%ab%e6%98%af%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>COPY &ndash; 复制文件（推荐）</p>
-<p>ADD &ndash; 附加功能：</p>
+<p>数据库依赖：</p>
 <ul>
-<li>自动解压 tar</li>
-<li>支持 URL 下载</li>
+<li>inode 稳定性</li>
+<li>rename 原子性</li>
+<li>文件元数据一致性</li>
 </ul>
-<p><strong>最佳实践：永远优先使用 COPY。</strong></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="9-cmd-和-entrypoint-区别"
-    >
-        9. CMD 和 ENTRYPOINT 区别？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#9-cmd-和-entrypoint-区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. CMD 和 ENTRYPOINT 区别？" aria-label="Anchor to: 9. CMD 和 ENTRYPOINT 区别？" href="#9-cmd-%e5%92%8c-entrypoint-%e5%8c%ba%e5%88%ab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>指令</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CMD</td>
-          <td>默认命令，可被覆盖</td>
-      </tr>
-      <tr>
-          <td>ENTRYPOINT</td>
-          <td>主命令，不会被覆盖</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>最佳实践：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;nginx&#34;</span><span class="p">]</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;-g&#34;</span><span class="p">,</span> <span class="s2">&#34;daemon off;&#34;</span><span class="p">]</span><span class="err">
-</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="10-workdirenvexpose-的作用"
-    >
-        10. WORKDIR、ENV、EXPOSE 的作用？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#10-workdirenvexpose-的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. WORKDIR、ENV、EXPOSE 的作用？" aria-label="Anchor to: 10. WORKDIR、ENV、EXPOSE 的作用？" href="#10-workdirenvexpose-%e7%9a%84%e4%bd%9c%e7%94%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
+<p>📌 历史上：</p>
 <ul>
-<li>WORKDIR：设置工作目录</li>
-<li>ENV：设置环境变量</li>
-<li>EXPOSE：声明镜像监听的端口（仅文档意义）</li>
+<li>PostgreSQL</li>
+<li>MySQL InnoDB</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="11-如何减少镜像体积非常常见"
-    >
-        11. 如何减少镜像体积？（非常常见）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#11-如何减少镜像体积非常常见" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 如何减少镜像体积？（非常常见）" aria-label="Anchor to: 11. 如何减少镜像体积？（非常常见）" href="#11-%e5%a6%82%e4%bd%95%e5%87%8f%e5%b0%91%e9%95%9c%e5%83%8f%e4%bd%93%e7%a7%af%e9%9d%9e%e5%b8%b8%e5%b8%b8%e8%a7%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
+<p>都曾明确指出：</p>
+<p>UnionFS 不完全符合数据库文件系统假设</p>
+<p>⸻</p>
+<p>4️⃣ overlay2 对小文件 &amp; 高频写极差</p>
+<p>数据库的 IO 模式：</p>
 <ul>
-<li>使用 slim/alpine/distroless</li>
-<li>多阶段构建（multi-stage）</li>
-<li>合并 RUN</li>
-<li>清理缓存（apt clean / npm cache clean）</li>
-<li>使用 .dockerignore</li>
+<li>8KB / 16KB page</li>
+<li>高频随机写</li>
+<li>redo / wal 顺序追加</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="12-如何加快-docker-build-速度"
-    >
-        12. 如何加快 Docker build 速度？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#12-如何加快-docker-build-速度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. 如何加快 Docker build 速度？" aria-label="Anchor to: 12. 如何加快 Docker build 速度？" href="#12-%e5%a6%82%e4%bd%95%e5%8a%a0%e5%bf%ab-docker-build-%e9%80%9f%e5%ba%a6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
+<p>overlay2：</p>
 <ul>
-<li>合理使用缓存</li>
-<li>优先 COPY package.json / go.mod</li>
-<li>多阶段构建</li>
-<li>使用 BuildKit</li>
+<li>多层 lookup</li>
+<li>metadata 操作多</li>
+<li>dentry cache 压力大</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="3-容器运行相关"
-    >
-        3️⃣ 容器运行相关
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#3-容器运行相关" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 容器运行相关" aria-label="Anchor to: 3️⃣ 容器运行相关" href="#3-%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e7%9b%b8%e5%85%b3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="13-docker-run-的重要参数有哪些"
-    >
-        13. docker run 的重要参数有哪些？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#13-docker-run-的重要参数有哪些" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. docker run 的重要参数有哪些？" aria-label="Anchor to: 13. docker run 的重要参数有哪些？" href="#13-docker-run-%e7%9a%84%e9%87%8d%e8%a6%81%e5%8f%82%e6%95%b0%e6%9c%89%e5%93%aa%e4%ba%9b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
+<p>👉 IO 延迟尾部极长（P99、P999）</p>
+<p>⸻</p>
+<p>5️⃣ 崩溃恢复风险（最要命）</p>
+<p>overlay2 + 数据库：</p>
 <ul>
-<li>-d 后台运行</li>
-<li>-p 端口映射</li>
-<li>-v 数据卷挂载</li>
-<li>&ndash;name 容器名</li>
-<li>&ndash;network 指定网络</li>
-<li>&ndash;restart=always 自动拉起</li>
-<li>-e 环境变量</li>
+<li>宿主机 crash</li>
+<li>容器 crash</li>
+<li>强制 kill</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="14-容器和宿主机共享哪些资源"
-    >
-        14. 容器和宿主机共享哪些资源？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#14-容器和宿主机共享哪些资源" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. 容器和宿主机共享哪些资源？" aria-label="Anchor to: 14. 容器和宿主机共享哪些资源？" href="#14-%e5%ae%b9%e5%99%a8%e5%92%8c%e5%ae%bf%e4%b8%bb%e6%9c%ba%e5%85%b1%e4%ba%ab%e5%93%aa%e4%ba%9b%e8%b5%84%e6%ba%90">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
+<p>⚠️ 风险点：</p>
 <ul>
-<li>内核</li>
-<li>网络（通过 namespace 隔离）</li>
-<li>文件系统挂载点（mount）</li>
-<li>CPU/内存限制（cgroups）</li>
+<li>overlay 层状态未完全 sync</li>
+<li>workdir 中间状态</li>
+<li>数据文件与 WAL 不一致</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="15-如何进入容器"
-    >
-        15. 如何进入容器？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#15-如何进入容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 15. 如何进入容器？" aria-label="Anchor to: 15. 如何进入容器？" href="#15-%e5%a6%82%e4%bd%95%e8%bf%9b%e5%85%a5%e5%ae%b9%e5%99%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it &lt;container&gt; /bin/bash
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="16-如何查看容器日志"
-    >
-        16. 如何查看容器日志？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#16-如何查看容器日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16. 如何查看容器日志？" aria-label="Anchor to: 16. 如何查看容器日志？" href="#16-%e5%a6%82%e4%bd%95%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e6%97%a5%e5%bf%97">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>docker logs -f <container></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="17-什么是-docker-restart-policy"
-    >
-        17. 什么是 docker restart policy？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#17-什么是-docker-restart-policy" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17. 什么是 docker restart policy？" aria-label="Anchor to: 17. 什么是 docker restart policy？" href="#17-%e4%bb%80%e4%b9%88%e6%98%af-docker-restart-policy">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
+<p>👉 数据库最怕“恢复不了”</p>
+<p>⸻</p>
+<p>6️⃣ 运维层面无法精细调优</p>
+<p>数据库通常要调：</p>
 <ul>
-<li>no</li>
-<li>always</li>
-<li>unless-stopped</li>
-<li>on-failure</li>
+<li>filesystem mount options</li>
+<li>barrier / journal</li>
+<li>discard / noatime</li>
+<li>direct IO</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="4-docker-网络"
-    >
-        4️⃣ Docker 网络
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#4-docker-网络" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ Docker 网络" aria-label="Anchor to: 4️⃣ Docker 网络" href="#4-docker-%e7%bd%91%e7%bb%9c">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="18-docker-网络模式有哪些"
-    >
-        18. Docker 网络模式有哪些？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#18-docker-网络模式有哪些" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 18. Docker 网络模式有哪些？" aria-label="Anchor to: 18. Docker 网络模式有哪些？" href="#18-docker-%e7%bd%91%e7%bb%9c%e6%a8%a1%e5%bc%8f%e6%9c%89%e5%93%aa%e4%ba%9b">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>bridge</td>
-          <td>默认模式，私网</td>
-      </tr>
-      <tr>
-          <td>host</td>
-          <td>使用宿主机网络</td>
-      </tr>
-      <tr>
-          <td>none</td>
-          <td>无网络</td>
-      </tr>
-      <tr>
-          <td>container</td>
-          <td>共用另一个容器的网络</td>
-      </tr>
-  </tbody>
-</table> </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="19-什么是端口映射"
-    >
-        19. 什么是端口映射？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#19-什么是端口映射" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19. 什么是端口映射？" aria-label="Anchor to: 19. 什么是端口映射？" href="#19-%e4%bb%80%e4%b9%88%e6%98%af%e7%ab%af%e5%8f%a3%e6%98%a0%e5%b0%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -p 8080:80 nginx
-</span></span></code></pre></div><ul>
-<li>左：宿主机</li>
-<li>右：容器</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="20-什么是-docker-overlay-网络"
-    >
-        20. 什么是 Docker overlay 网络？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#20-什么是-docker-overlay-网络" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 20. 什么是 Docker overlay 网络？" aria-label="Anchor to: 20. 什么是 Docker overlay 网络？" href="#20-%e4%bb%80%e4%b9%88%e6%98%af-docker-overlay-%e7%bd%91%e7%bb%9c">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>在 Swarm 或 Kubernetes 中跨主机通信的网络。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="5-docker-存储volume"
-    >
-        5️⃣ Docker 存储（volume）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#5-docker-存储volume" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ Docker 存储（volume）" aria-label="Anchor to: 5️⃣ Docker 存储（volume）" href="#5-docker-%e5%ad%98%e5%82%a8volume">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="21-数据卷-volume-是什么"
-    >
-        21. 数据卷 Volume 是什么？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#21-数据卷-volume-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 21. 数据卷 Volume 是什么？" aria-label="Anchor to: 21. 数据卷 Volume 是什么？" href="#21-%e6%95%b0%e6%8d%ae%e5%8d%b7-volume-%e6%98%af%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>容器与宿主机共享的持久数据目录。</p>
-<p>好处：</p>
+<p>overlay2：</p>
 <ul>
-<li>多容器共享数据</li>
-<li>容器销毁后数据保留</li>
-<li>性能优于 bind mount</li>
+<li>mount 是 Docker 管</li>
+<li>容器内不可控</li>
+<li>数据库调优失效</li>
 </ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="22-bind-mount-与-volume-区别"
-    >
-        22. bind mount 与 volume 区别？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#22-bind-mount-与-volume-区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 22. bind mount 与 volume 区别？" aria-label="Anchor to: 22. bind mount 与 volume 区别？" href="#22-bind-mount-%e4%b8%8e-volume-%e5%8c%ba%e5%88%ab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>Volume</th>
-          <th>Bind mount</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>性能</td>
-          <td>高</td>
-          <td>中等</td>
-      </tr>
-      <tr>
-          <td>灵活性</td>
-          <td>中</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>隔离</td>
-          <td>高</td>
-          <td>低（直接访问宿主机目录）</td>
-      </tr>
-      <tr>
-          <td>Portability</td>
-          <td>好</td>
-          <td>差</td>
-      </tr>
-  </tbody>
-</table> </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="23-如何清理所有无用镜像与-volume"
-    >
-        23. 如何清理所有无用镜像与 volume？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#23-如何清理所有无用镜像与-volume" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 23. 如何清理所有无用镜像与 volume？" aria-label="Anchor to: 23. 如何清理所有无用镜像与 volume？" href="#23-%e5%a6%82%e4%bd%95%e6%b8%85%e7%90%86%e6%89%80%e6%9c%89%e6%97%a0%e7%94%a8%e9%95%9c%e5%83%8f%e4%b8%8e-volume">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker system prune -a
-</span></span><span class="line"><span class="cl">docker volume prune
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="6-镜像仓库registry"
-    >
-        6️⃣ 镜像仓库（Registry）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#6-镜像仓库registry" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6️⃣ 镜像仓库（Registry）" aria-label="Anchor to: 6️⃣ 镜像仓库（Registry）" href="#6-%e9%95%9c%e5%83%8f%e4%bb%93%e5%ba%93registry">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="24-docker-hub-与-registry-的区别"
-    >
-        24. Docker Hub 与 Registry 的区别？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#24-docker-hub-与-registry-的区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 24. Docker Hub 与 Registry 的区别？" aria-label="Anchor to: 24. Docker Hub 与 Registry 的区别？" href="#24-docker-hub-%e4%b8%8e-registry-%e7%9a%84%e5%8c%ba%e5%88%ab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
+<p>⸻</p>
+<p>三、overlay2 + 数据库 = “能跑 ≠ 适合跑”</p>
+<p>场景	是否建议
+本地开发	✅
+CI / 测试	✅
+Demo	✅
+生产数据库	❌
+高并发 / 高可靠	❌</p>
+<p>⸻</p>
+<p>四、那云厂商为什么“用容器跑数据库看起来很稳”？</p>
+<p>这和你前一个问题正好接上 👇</p>
+<p>云厂商的真实做法是：</p>
+<p>❌ 不是 overlay2 上直接写数据</p>
+<p>而是：</p>
+<p>层级	做法
+容器	只跑数据库进程
+数据目录	bind mount / block device
+文件系统	ext4 / xfs 直写
+存储	本地 SSD / NVMe / 网络块存储
+cgroups	精细隔离
+内核	专门调优</p>
+<p>📌 关键点：</p>
+<p>/var/lib/mysql
+→ 不在 overlay2
+→ 在真实文件系统</p>
+<p>⸻</p>
+<p>五、正确姿势（你可以直接用）</p>
+<p>✅ 正确方案 1：bind mount</p>
+<p>docker run <br>
+-v /data/mysql:/var/lib/mysql <br>
+mysql</p>
+<p>数据绕过 overlay2，直写宿主机 FS</p>
+<p>⸻</p>
+<p>✅ 正确方案 2：block device</p>
 <ul>
-<li>Docker Hub：公开仓库（SaaS）</li>
-<li>Registry：企业私有仓库</li>
+<li>LVM</li>
+<li>iSCSI</li>
+<li>云盘</li>
 </ul>
+<p>&ndash;mount type=bind,source=/dev/mapper/mysql,target=/var/lib/mysql</p>
+<p>⸻</p>
+<p>❌ 错误方案</p>
+<p>docker run mysql</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="25-如何搭建一个私有-registry"
+    <h1 id="数据写在-overlay2"
     >
-        25. 如何搭建一个私有 Registry？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#25-如何搭建一个私有-registry" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 25. 如何搭建一个私有 Registry？" aria-label="Anchor to: 25. 如何搭建一个私有 Registry？" href="#25-%e5%a6%82%e4%bd%95%e6%90%ad%e5%bb%ba%e4%b8%80%e4%b8%aa%e7%a7%81%e6%9c%89-registry">
+        数据写在 overlay2
+    </h1>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#数据写在-overlay2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据写在 overlay2" aria-label="Anchor to: 数据写在 overlay2" href="#%e6%95%b0%e6%8d%ae%e5%86%99%e5%9c%a8-overlay2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d -p 5000:5000 registry:2
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="26-如何给镜像打标签并推送"
-    >
-        26. 如何给镜像打标签并推送？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#26-如何给镜像打标签并推送" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 26. 如何给镜像打标签并推送？" aria-label="Anchor to: 26. 如何给镜像打标签并推送？" href="#26-%e5%a6%82%e4%bd%95%e7%bb%99%e9%95%9c%e5%83%8f%e6%89%93%e6%a0%87%e7%ad%be%e5%b9%b6%e6%8e%a8%e9%80%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker tag myapp registry:5000/myapp
-</span></span><span class="line"><span class="cl">docker push registry:5000/myapp
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="7-docker-compose"
-    >
-        7️⃣ Docker Compose
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#7-docker-compose" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7️⃣ Docker Compose" aria-label="Anchor to: 7️⃣ Docker Compose" href="#7-docker-compose">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="27-docker-compose-是什么"
-    >
-        27. Docker Compose 是什么？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#27-docker-compose-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 27. Docker Compose 是什么？" aria-label="Anchor to: 27. Docker Compose 是什么？" href="#27-docker-compose-%e6%98%af%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>Compose 是一个 <strong>多容器编排工具</strong>，用于定义和运行多容器应用。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="28-docker-composeyml-常见字段"
-    >
-        28. docker-compose.yml 常见字段？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#28-docker-composeyml-常见字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 28. docker-compose.yml 常见字段？" aria-label="Anchor to: 28. docker-compose.yml 常见字段？" href="#28-docker-composeyml-%e5%b8%b8%e8%a7%81%e5%ad%97%e6%ae%b5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">app</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">xxx</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l">.</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;8080:80&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">./data:/data</span><span class="w">
-</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="29-compose-up--down-区别"
-    >
-        29. compose up / down 区别？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#29-compose-up--down-区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 29. compose up / down 区别？" aria-label="Anchor to: 29. compose up / down 区别？" href="#29-compose-up--down-%e5%8c%ba%e5%88%ab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker compose up -d   <span class="c1"># 启动</span>
-</span></span><span class="line"><span class="cl">docker compose down    <span class="c1"># 删除容器、网络</span>
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="8-docker-性能优化"
-    >
-        8️⃣ Docker 性能优化
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#8-docker-性能优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8️⃣ Docker 性能优化" aria-label="Anchor to: 8️⃣ Docker 性能优化" href="#8-docker-%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="30-如何优化-docker-启动速度"
-    >
-        30. 如何优化 Docker 启动速度？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#30-如何优化-docker-启动速度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 30. 如何优化 Docker 启动速度？" aria-label="Anchor to: 30. 如何优化 Docker 启动速度？" href="#30-%e5%a6%82%e4%bd%95%e4%bc%98%e5%8c%96-docker-%e5%90%af%e5%8a%a8%e9%80%9f%e5%ba%a6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>使用更小基础镜像</li>
-<li>精简镜像层</li>
-<li>避免在容器入口执行复杂脚本</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="31-如何优化-docker-镜像大小"
-    >
-        31. 如何优化 Docker 镜像大小？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#31-如何优化-docker-镜像大小" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 31. 如何优化 Docker 镜像大小？" aria-label="Anchor to: 31. 如何优化 Docker 镜像大小？" href="#31-%e5%a6%82%e4%bd%95%e4%bc%98%e5%8c%96-docker-%e9%95%9c%e5%83%8f%e5%a4%a7%e5%b0%8f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>使用 alpine/slim</li>
-<li>多阶段构建</li>
-<li>dockerignore</li>
-<li>清理缓存</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="32-docker-io-性能如何优化"
-    >
-        32. Docker IO 性能如何优化？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#32-docker-io-性能如何优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 32. Docker IO 性能如何优化？" aria-label="Anchor to: 32. Docker IO 性能如何优化？" href="#32-docker-io-%e6%80%a7%e8%83%bd%e5%a6%82%e4%bd%95%e4%bc%98%e5%8c%96">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>避免频繁写入容器文件系统</li>
-<li>使用 volume</li>
-<li>避免 journal/log 在容器中堆积</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="9-docker-安全"
-    >
-        9️⃣ Docker 安全
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#9-docker-安全" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9️⃣ Docker 安全" aria-label="Anchor to: 9️⃣ Docker 安全" href="#9-docker-%e5%ae%89%e5%85%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="33-如何提高-docker-安全性"
-    >
-        33. 如何提高 Docker 安全性？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#33-如何提高-docker-安全性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 33. 如何提高 Docker 安全性？" aria-label="Anchor to: 33. 如何提高 Docker 安全性？" href="#33-%e5%a6%82%e4%bd%95%e6%8f%90%e9%ab%98-docker-%e5%ae%89%e5%85%a8%e6%80%a7">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>镜像不要使用 latest</li>
-<li>不要在容器内运行 root</li>
-<li>使用 seccomp、AppArmor</li>
-<li>关闭不必要的 capability</li>
-<li>不要把 secrets 写入镜像</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="34-pid-隔离是什么"
-    >
-        34. PID 隔离是什么？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#34-pid-隔离是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 34. PID 隔离是什么？" aria-label="Anchor to: 34. PID 隔离是什么？" href="#34-pid-%e9%9a%94%e7%a6%bb%e6%98%af%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>不同容器的进程互不可见。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="35-docker-是如何实现隔离的"
-    >
-        35. Docker 是如何实现隔离的？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#35-docker-是如何实现隔离的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 35. Docker 是如何实现隔离的？" aria-label="Anchor to: 35. Docker 是如何实现隔离的？" href="#35-docker-%e6%98%af%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0%e9%9a%94%e7%a6%bb%e7%9a%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>namespace（pid/net/ipc/uts/mount）</li>
-<li>cgroups（CPU/内存限制）</li>
-<li>联合文件系统（AUFS/overlayfs）</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="-企业实战与故障处理"
-    >
-        🔟 企业实战与故障处理
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#-企业实战与故障处理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔟 企业实战与故障处理" aria-label="Anchor to: 🔟 企业实战与故障处理" href="#-%e4%bc%81%e4%b8%9a%e5%ae%9e%e6%88%98%e4%b8%8e%e6%95%85%e9%9a%9c%e5%a4%84%e7%90%86">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="36-如何定位容器-cpu-过高"
-    >
-        36. 如何定位容器 CPU 过高？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#36-如何定位容器-cpu-过高" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 36. 如何定位容器 CPU 过高？" aria-label="Anchor to: 36. 如何定位容器 CPU 过高？" href="#36-%e5%a6%82%e4%bd%95%e5%ae%9a%e4%bd%8d%e5%ae%b9%e5%99%a8-cpu-%e8%bf%87%e9%ab%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker stats
-</span></span><span class="line"><span class="cl">docker top &lt;container&gt;
-</span></span></code></pre></div><p>进入容器后：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">top
-</span></span><span class="line"><span class="cl">ps aux
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="37-容器磁盘占用变大如何排查"
-    >
-        37. 容器磁盘占用变大如何排查？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#37-容器磁盘占用变大如何排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 37. 容器磁盘占用变大如何排查？" aria-label="Anchor to: 37. 容器磁盘占用变大如何排查？" href="#37-%e5%ae%b9%e5%99%a8%e7%a3%81%e7%9b%98%e5%8d%a0%e7%94%a8%e5%8f%98%e5%a4%a7%e5%a6%82%e4%bd%95%e6%8e%92%e6%9f%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>docker system df</li>
-<li>容器写入大量日志</li>
-<li>volume 写入过多数据</li>
-<li>overlay2 文件膨胀</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="38-镜像构建失败如何排查"
-    >
-        38. 镜像构建失败如何排查？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#38-镜像构建失败如何排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 38. 镜像构建失败如何排查？" aria-label="Anchor to: 38. 镜像构建失败如何排查？" href="#38-%e9%95%9c%e5%83%8f%e6%9e%84%e5%bb%ba%e5%a4%b1%e8%b4%a5%e5%a6%82%e4%bd%95%e6%8e%92%e6%9f%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>检查 Dockerfile 指令顺序</li>
-<li>使用 &ndash;progress=plain &ndash;no-cache 观察详细日志</li>
-<li>检查 dockerignore</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="39-如何实现灰度发布"
-    >
-        39. 如何实现灰度发布？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#39-如何实现灰度发布" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 39. 如何实现灰度发布？" aria-label="Anchor to: 39. 如何实现灰度发布？" href="#39-%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0%e7%81%b0%e5%ba%a6%e5%8f%91%e5%b8%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>方案：</p>
-<ul>
-<li>运行多个版本的容器</li>
-<li>通过 Nginx/LB 配置权重</li>
-<li>Kubernetes Deployment（滚动升级）</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="40-docker-swarm-和-kubernetes-的关系"
-    >
-        40. Docker Swarm 和 Kubernetes 的关系？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/faq/#40-docker-swarm-和-kubernetes-的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 40. Docker Swarm 和 Kubernetes 的关系？" aria-label="Anchor to: 40. Docker Swarm 和 Kubernetes 的关系？" href="#40-docker-swarm-%e5%92%8c-kubernetes-%e7%9a%84%e5%85%b3%e7%b3%bb">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>Swarm</th>
-          <th>Kubernetes</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>功能丰富</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>社区支持</td>
-          <td>弱</td>
-          <td>强</td>
-      </tr>
-      <tr>
-          <td>学习成本</td>
-          <td>低</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>企业使用量</td>
-          <td>低</td>
-          <td>极高</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>如今企业基本都运行 Kubernetes。</p>
+<p>⸻</p>
+<p>六、最终一句话（非常硬）</p>
+<p>overlay2 适合“应用层文件”，不适合“数据库存储层文件”。
+数据库必须绕过 UnionFS，直达真实文件系统。</p>
 
   </article>
 
