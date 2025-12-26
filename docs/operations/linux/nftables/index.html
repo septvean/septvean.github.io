@@ -12,10 +12,11 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content=" 一、nftables 是什么（一句话） nftables 是 Linux 内核中的统一防火墙与报文过滤框架，用来取代 iptables、ip6tables、ebtables、arptables。
+它不是一个“新 iptables”，而是 全新架构。
+二、为什么要有 nftables（诞生背景） iptables 的历史问题 IPv4 / IPv6 / 二层规则割裂 表、链、规则重复严重 规则多时性能下降明显 用户态工具复杂、难维护 内核接口不统一 nftables 的目标 目标 说明 统一 IPv4 / IPv6 / 二层统一处理 高性能 使用字节码（bytecode） 简洁 语法更接近人类逻辑 原子性 规则批量提交 可扩展 原生支持 set、map 三、整体架构（非常重要） 用户空间 ┌──────────────────────────┐ │ nft (命令行工具) │ │ nftables.conf │ └───────────┬──────────────┘ │ netlink ┌───────────▼──────────────┐ │ 内核 nftables 引擎 │ │ - bytecode 虚拟机 │ │ - hooks │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ Netfilter 框架 │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ 网络协议栈（IP/TCP/UDP） │ └──────────────────────────┘ 四、核心对象模型（必须掌握） 1️⃣ Table（表） 规则的顶级容器 按 协议族 区分 常见协议族：" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>nftables | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +37,23 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="nftables"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content=" 一、nftables 是什么（一句话） nftables 是 Linux 内核中的统一防火墙与报文过滤框架，用来取代 iptables、ip6tables、ebtables、arptables。
+它不是一个“新 iptables”，而是 全新架构。
+二、为什么要有 nftables（诞生背景） iptables 的历史问题 IPv4 / IPv6 / 二层规则割裂 表、链、规则重复严重 规则多时性能下降明显 用户态工具复杂、难维护 内核接口不统一 nftables 的目标 目标 说明 统一 IPv4 / IPv6 / 二层统一处理 高性能 使用字节码（bytecode） 简洁 语法更接近人类逻辑 原子性 规则批量提交 可扩展 原生支持 set、map 三、整体架构（非常重要） 用户空间 ┌──────────────────────────┐ │ nft (命令行工具) │ │ nftables.conf │ └───────────┬──────────────┘ │ netlink ┌───────────▼──────────────┐ │ 内核 nftables 引擎 │ │ - bytecode 虚拟机 │ │ - hooks │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ Netfilter 框架 │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ 网络协议栈（IP/TCP/UDP） │ └──────────────────────────┘ 四、核心对象模型（必须掌握） 1️⃣ Table（表） 规则的顶级容器 按 协议族 区分 常见协议族：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/nftables/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="nftables" />
+  <meta name="twitter:description" content=" 一、nftables 是什么（一句话） nftables 是 Linux 内核中的统一防火墙与报文过滤框架，用来取代 iptables、ip6tables、ebtables、arptables。
+它不是一个“新 iptables”，而是 全新架构。
+二、为什么要有 nftables（诞生背景） iptables 的历史问题 IPv4 / IPv6 / 二层规则割裂 表、链、规则重复严重 规则多时性能下降明显 用户态工具复杂、难维护 内核接口不统一 nftables 的目标 目标 说明 统一 IPv4 / IPv6 / 二层统一处理 高性能 使用字节码（bytecode） 简洁 语法更接近人类逻辑 原子性 规则批量提交 可扩展 原生支持 set、map 三、整体架构（非常重要） 用户空间 ┌──────────────────────────┐ │ nft (命令行工具) │ │ nftables.conf │ └───────────┬──────────────┘ │ netlink ┌───────────▼──────────────┐ │ 内核 nftables 引擎 │ │ - bytecode 虚拟机 │ │ - hooks │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ Netfilter 框架 │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ 网络协议栈（IP/TCP/UDP） │ └──────────────────────────┘ 四、核心对象模型（必须掌握） 1️⃣ Table（表） 规则的顶级容器 按 协议族 区分 常见协议族：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +61,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL \/ PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "88",
+      "name": "nftables",
+      "url" : "https://documents.v2ep.com/operations/linux/nftables/",
+      "headline": "nftables",
+      "description": " 一、nftables 是什么（一句话） nftables 是 Linux 内核中的统一防火墙与报文过滤框架，用来取代 iptables、ip6tables、ebtables、arptables。\n它不是一个“新 iptables”，而是 全新架构。\n二、为什么要有 nftables（诞生背景） iptables 的历史问题 IPv4 \/ IPv6 \/ 二层规则割裂 表、链、规则重复严重 规则多时性能下降明显 用户态工具复杂、难维护 内核接口不统一 nftables 的目标 目标 说明 统一 IPv4 \/ IPv6 \/ 二层统一处理 高性能 使用字节码（bytecode） 简洁 语法更接近人类逻辑 原子性 规则批量提交 可扩展 原生支持 set、map 三、整体架构（非常重要） 用户空间 ┌──────────────────────────┐ │ nft (命令行工具) │ │ nftables.conf │ └───────────┬──────────────┘ │ netlink ┌───────────▼──────────────┐ │ 内核 nftables 引擎 │ │ - bytecode 虚拟机 │ │ - hooks │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ Netfilter 框架 │ └───────────┬──────────────┘ │ ┌───────────▼──────────────┐ │ 网络协议栈（IP\/TCP\/UDP） │ └──────────────────────────┘ 四、核心对象模型（必须掌握） 1️⃣ Table（表） 规则的顶级容器 按 协议族 区分 常见协议族：",
+      "wordCount" : "345",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/nftables/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +154,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/nftables/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1001,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1988,7 +1991,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>nftables</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2007,308 +2018,544 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>nftables</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-runc/" class="gdoc-toc__entry">runc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance/" class="gdoc-toc__entry">irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/nftables/" class="gdoc-toc__entry">nftables
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-vs-debian/" class="gdoc-toc__entry">RHEL 系列 vs Debian 系列
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-user-exist/" class="gdoc-toc__entry">如何判断系统用户是否存在
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mem-available/" class="gdoc-toc__entry">如何计算内存实际剩余多少
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance-database/" class="gdoc-toc__entry">数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一nftables-是什么一句话"
+    >
+        一、nftables 是什么（一句话）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#一nftables-是什么一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、nftables 是什么（一句话）" aria-label="Anchor to: 一、nftables 是什么（一句话）" href="#%e4%b8%80nftables-%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%80%e5%8f%a5%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>nftables 是 Linux 内核中的统一防火墙与报文过滤框架，用来取代 iptables、ip6tables、ebtables、arptables。</strong></p>
+</blockquote>
+<p>它不是一个“新 iptables”，而是 <strong>全新架构</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二为什么要有-nftables诞生背景"
+    >
+        二、为什么要有 nftables（诞生背景）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#二为什么要有-nftables诞生背景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么要有 nftables（诞生背景）" aria-label="Anchor to: 二、为什么要有 nftables（诞生背景）" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e6%9c%89-nftables%e8%af%9e%e7%94%9f%e8%83%8c%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="iptables-的历史问题"
+    >
+        iptables 的历史问题
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#iptables-的历史问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: iptables 的历史问题" aria-label="Anchor to: iptables 的历史问题" href="#iptables-%e7%9a%84%e5%8e%86%e5%8f%b2%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>IPv4 / IPv6 / 二层规则割裂</li>
+<li>表、链、规则重复严重</li>
+<li>规则多时性能下降明显</li>
+<li>用户态工具复杂、难维护</li>
+<li>内核接口不统一</li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="nftables-的目标"
+    >
+        nftables 的目标
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#nftables-的目标" class="gdoc-page__anchor clip flex align-center" title="Anchor to: nftables 的目标" aria-label="Anchor to: nftables 的目标" href="#nftables-%e7%9a%84%e7%9b%ae%e6%a0%87">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>目标</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>统一</td>
+          <td>IPv4 / IPv6 / 二层统一处理</td>
+      </tr>
+      <tr>
+          <td>高性能</td>
+          <td>使用字节码（bytecode）</td>
+      </tr>
+      <tr>
+          <td>简洁</td>
+          <td>语法更接近人类逻辑</td>
+      </tr>
+      <tr>
+          <td>原子性</td>
+          <td>规则批量提交</td>
+      </tr>
+      <tr>
+          <td>可扩展</td>
+          <td>原生支持 set、map</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三整体架构非常重要"
+    >
+        三、整体架构（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#三整体架构非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、整体架构（非常重要）" aria-label="Anchor to: 三、整体架构（非常重要）" href="#%e4%b8%89%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户空间
+</span></span><span class="line"><span class="cl">┌──────────────────────────┐
+</span></span><span class="line"><span class="cl">│ nft (命令行工具)           │
+</span></span><span class="line"><span class="cl">│ nftables.conf            │
+</span></span><span class="line"><span class="cl">└───────────┬──────────────┘
+</span></span><span class="line"><span class="cl">            │ netlink
+</span></span><span class="line"><span class="cl">┌───────────▼──────────────┐
+</span></span><span class="line"><span class="cl">│ 内核 nftables 引擎        │
+</span></span><span class="line"><span class="cl">│  - bytecode 虚拟机        │
+</span></span><span class="line"><span class="cl">│  - hooks                 │
+</span></span><span class="line"><span class="cl">└───────────┬──────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">┌───────────▼──────────────┐
+</span></span><span class="line"><span class="cl">│ Netfilter 框架            │
+</span></span><span class="line"><span class="cl">└───────────┬──────────────┘
+</span></span><span class="line"><span class="cl">            │
+</span></span><span class="line"><span class="cl">┌───────────▼──────────────┐
+</span></span><span class="line"><span class="cl">│ 网络协议栈（IP/TCP/UDP）   │
+</span></span><span class="line"><span class="cl">└──────────────────────────┘
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四核心对象模型必须掌握"
+    >
+        四、核心对象模型（必须掌握）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#四核心对象模型必须掌握" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、核心对象模型（必须掌握）" aria-label="Anchor to: 四、核心对象模型（必须掌握）" href="#%e5%9b%9b%e6%a0%b8%e5%bf%83%e5%af%b9%e8%b1%a1%e6%a8%a1%e5%9e%8b%e5%bf%85%e9%a1%bb%e6%8e%8c%e6%8f%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-table表"
+    >
+        1️⃣ Table（表）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#1-table表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Table（表）" aria-label="Anchor to: 1️⃣ Table（表）" href="#1-table%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>规则的顶级容器</li>
+<li>按 <strong>协议族</strong> 区分</li>
+</ul>
+<p>常见协议族：</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>family</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ip</td>
+          <td>IPv4</td>
+      </tr>
+      <tr>
+          <td>ip6</td>
+          <td>IPv6</td>
+      </tr>
+      <tr>
+          <td>inet</td>
+          <td>IPv4 + IPv6（推荐）</td>
+      </tr>
+      <tr>
+          <td>bridge</td>
+          <td>二层</td>
+      </tr>
+      <tr>
+          <td>netdev</td>
+          <td>网卡入口</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-chain链"
+    >
+        2️⃣ Chain（链）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#2-chain链" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Chain（链）" aria-label="Anchor to: 2️⃣ Chain（链）" href="#2-chain%e9%93%be">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>规则的执行路径</li>
+<li>绑定到 <strong>Netfilter hook</strong></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="常见-hook"
+    >
+        常见 hook
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#常见-hook" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见 hook" aria-label="Anchor to: 常见 hook" href="#%e5%b8%b8%e8%a7%81-hook">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>hook</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>prerouting</td>
+          <td>路由前</td>
+      </tr>
+      <tr>
+          <td>input</td>
+          <td>本机接收</td>
+      </tr>
+      <tr>
+          <td>forward</td>
+          <td>转发</td>
+      </tr>
+      <tr>
+          <td>output</td>
+          <td>本机发出</td>
+      </tr>
+      <tr>
+          <td>postrouting</td>
+          <td>路由后</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-rule规则"
+    >
+        3️⃣ Rule（规则）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#3-rule规则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Rule（规则）" aria-label="Anchor to: 3️⃣ Rule（规则）" href="#3-rule%e8%a7%84%e5%88%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>匹配条件 + 动作</li>
+<li>顺序执行</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ip saddr 192.168.1.0/24 tcp dport <span class="m">22</span> accept
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-set集合性能核心"
+    >
+        4️⃣ Set（集合，性能核心）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#4-set集合性能核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ Set（集合，性能核心）" aria-label="Anchor to: 4️⃣ Set（集合，性能核心）" href="#4-set%e9%9b%86%e5%90%88%e6%80%a7%e8%83%bd%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>set 是 nftables 性能优于 iptables 的关键</strong></p>
+</blockquote>
+<ul>
+<li>高效存储多个值</li>
+<li>O(1) 或 O(log n) 查找</li>
+<li>支持动态更新</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">set trusted_ips {
+</span></span><span class="line"><span class="cl">    type ipv4_addr
+</span></span><span class="line"><span class="cl">    elements = { 192.168.1.10, 192.168.1.20 }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-map映射"
+    >
+        5️⃣ Map（映射）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#5-map映射" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ Map（映射）" aria-label="Anchor to: 5️⃣ Map（映射）" href="#5-map%e6%98%a0%e5%b0%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>Key → Value</li>
+<li>常用于端口转发、策略选择</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五工作流程报文路径"
+    >
+        五、工作流程（报文路径）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#五工作流程报文路径" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、工作流程（报文路径）" aria-label="Anchor to: 五、工作流程（报文路径）" href="#%e4%ba%94%e5%b7%a5%e4%bd%9c%e6%b5%81%e7%a8%8b%e6%8a%a5%e6%96%87%e8%b7%af%e5%be%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>以 <strong>本机接收流量</strong> 为例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">网卡
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">prerouting
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">路由判断
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">input
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">本地进程
+</span></span></code></pre></div><p>nftables 在 <strong>各 hook 点执行规则</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六nftables-语法特点"
+    >
+        六、nftables 语法特点
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#六nftables-语法特点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、nftables 语法特点" aria-label="Anchor to: 六、nftables 语法特点" href="#%e5%85%adnftables-%e8%af%ad%e6%b3%95%e7%89%b9%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="对比-iptables"
+    >
+        对比 iptables
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#对比-iptables" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 对比 iptables" aria-label="Anchor to: 对比 iptables" href="#%e5%af%b9%e6%af%94-iptables">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>特性</th>
+          <th>iptables</th>
+          <th>nftables</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>多协议</td>
+          <td>分工具</td>
+          <td>统一</td>
+      </tr>
+      <tr>
+          <td>批量加载</td>
+          <td>否</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td>set 原生</td>
+          <td>否</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td>原子更新</td>
+          <td>否</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td>可读性</td>
+          <td>差</td>
+          <td>高</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="示例基础防火墙"
+    >
+        示例：基础防火墙
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#示例基础防火墙" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 示例：基础防火墙" aria-label="Anchor to: 示例：基础防火墙" href="#%e7%a4%ba%e4%be%8b%e5%9f%ba%e7%a1%80%e9%98%b2%e7%81%ab%e5%a2%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">table inet filter {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    chain input {
+</span></span><span class="line"><span class="cl">        type filter hook input priority 0;
+</span></span><span class="line"><span class="cl">        policy drop;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        ct state established,related accept
+</span></span><span class="line"><span class="cl">        iif lo accept
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        tcp dport 22 accept
+</span></span><span class="line"><span class="cl">        tcp dport { 80, 443 } accept
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七与-iptables-的关系现实问题"
+    >
+        七、与 iptables 的关系（现实问题）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#七与-iptables-的关系现实问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、与 iptables 的关系（现实问题）" aria-label="Anchor to: 七、与 iptables 的关系（现实问题）" href="#%e4%b8%83%e4%b8%8e-iptables-%e7%9a%84%e5%85%b3%e7%b3%bb%e7%8e%b0%e5%ae%9e%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="nftables--iptables-nft"
+    >
+        nftables ≠ iptables-nft
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#nftables--iptables-nft" class="gdoc-page__anchor clip flex align-center" title="Anchor to: nftables ≠ iptables-nft" aria-label="Anchor to: nftables ≠ iptables-nft" href="#nftables--iptables-nft">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>nftables：<strong>原生新体系</strong></li>
+<li>iptables-nft：<strong>iptables 语法 → nftables 后端</strong></li>
+</ul>
+<p>现代系统（RHEL 8+、Debian 10+）：</p>
+<ul>
+<li>默认使用 nftables 内核</li>
+<li>iptables 命令只是兼容层</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八性能优势来源原理"
+    >
+        八、性能优势来源（原理）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#八性能优势来源原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、性能优势来源（原理）" aria-label="Anchor to: 八、性能优势来源（原理）" href="#%e5%85%ab%e6%80%a7%e8%83%bd%e4%bc%98%e5%8a%bf%e6%9d%a5%e6%ba%90%e5%8e%9f%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li><strong>规则编译为字节码</strong></li>
+<li><strong>set / map 数据结构</strong></li>
+<li><strong>一次性加载规则</strong></li>
+<li><strong>减少内核态规则遍历</strong></li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九生产环境最佳实践"
+    >
+        九、生产环境最佳实践
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#九生产环境最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、生产环境最佳实践" aria-label="Anchor to: 九、生产环境最佳实践" href="#%e4%b9%9d%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="推荐做法"
+    >
+        推荐做法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#推荐做法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 推荐做法" aria-label="Anchor to: 推荐做法" href="#%e6%8e%a8%e8%8d%90%e5%81%9a%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>使用 <code>inet</code> family</li>
+<li>用 set 管理 IP / 端口</li>
+<li>所有规则一次性加载</li>
+<li>禁用 iptables 混用</li>
+<li>使用配置文件而非命令堆叠</li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="配置文件位置"
+    >
+        配置文件位置
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#配置文件位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 配置文件位置" aria-label="Anchor to: 配置文件位置" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e4%bd%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>主配置：<code>/etc/nftables.conf</code></li>
+<li>systemd 服务：<code>nftables.service</code></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十常见误区"
+    >
+        十、常见误区
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#十常见误区" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、常见误区" aria-label="Anchor to: 十、常见误区" href="#%e5%8d%81%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>❌ 把 nftables 当 iptables 用</li>
+<li>❌ 规则一条条追加</li>
+<li>❌ 不使用 set</li>
+<li>❌ 同时启用 firewalld + nftables</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一nftables-与-firewalld"
+    >
+        十一、nftables 与 firewalld
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#十一nftables-与-firewalld" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、nftables 与 firewalld" aria-label="Anchor to: 十一、nftables 与 firewalld" href="#%e5%8d%81%e4%b8%80nftables-%e4%b8%8e-firewalld">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>firewalld：<strong>策略管理器</strong></li>
+<li>nftables：<strong>规则执行引擎</strong></li>
+</ul>
+<p>关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">firewalld → nftables → 内核
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二适合谁使用"
+    >
+        十二、适合谁使用？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#十二适合谁使用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、适合谁使用？" aria-label="Anchor to: 十二、适合谁使用？" href="#%e5%8d%81%e4%ba%8c%e9%80%82%e5%90%88%e8%b0%81%e4%bd%bf%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>推荐</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>生产服务器</td>
+          <td>强烈推荐</td>
+      </tr>
+      <tr>
+          <td>云主机</td>
+          <td>推荐</td>
+      </tr>
+      <tr>
+          <td>容器宿主机</td>
+          <td>必须</td>
+      </tr>
+      <tr>
+          <td>高并发网络</td>
+          <td>必须</td>
+      </tr>
+      <tr>
+          <td>学习防火墙原理</td>
+          <td>推荐</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三一句话终极总结"
+    >
+        十三、一句话终极总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/nftables/#十三一句话终极总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、一句话终极总结" aria-label="Anchor to: 十三、一句话终极总结" href="#%e5%8d%81%e4%b8%89%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>nftables 是现代 Linux 防火墙的“统一内核语言”。</strong></p>
+</blockquote>
 
   </article>
 
@@ -2836,9 +3083,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2869,11 +3113,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3487,27 +3726,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

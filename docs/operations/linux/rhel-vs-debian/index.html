@@ -12,10 +12,10 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content=" 一、两大 Linux 阵营的本质区别（一句话） RHEL 系列强调“企业级稳定与可控生命周期”， Debian 系列强调“社区驱动、通用性与自由度”。
+二、发行体系与代表版本 RHEL 系列（Red Hat Enterprise Linux 阵营） 代表发行版：" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>RHEL 系列 vs Debian 系列 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +36,21 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="RHEL 系列 vs Debian 系列"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content=" 一、两大 Linux 阵营的本质区别（一句话） RHEL 系列强调“企业级稳定与可控生命周期”， Debian 系列强调“社区驱动、通用性与自由度”。
+二、发行体系与代表版本 RHEL 系列（Red Hat Enterprise Linux 阵营） 代表发行版：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/rhel-vs-debian/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="RHEL 系列 vs Debian 系列" />
+  <meta name="twitter:description" content=" 一、两大 Linux 阵营的本质区别（一句话） RHEL 系列强调“企业级稳定与可控生命周期”， Debian 系列强调“社区驱动、通用性与自由度”。
+二、发行体系与代表版本 RHEL 系列（Red Hat Enterprise Linux 阵营） 代表发行版：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +58,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL \/ PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "88",
+      "name": "RHEL 系列 vs Debian 系列",
+      "url" : "https://documents.v2ep.com/operations/linux/rhel-vs-debian/",
+      "headline": "RHEL 系列 vs Debian 系列",
+      "description": " 一、两大 Linux 阵营的本质区别（一句话） RHEL 系列强调“企业级稳定与可控生命周期”， Debian 系列强调“社区驱动、通用性与自由度”。\n二、发行体系与代表版本 RHEL 系列（Red Hat Enterprise Linux 阵营） 代表发行版：",
+      "wordCount" : "303",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/rhel-vs-debian/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +151,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/rhel-vs-debian/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +998,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1988,7 +1988,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>RHEL 系列 vs Debian 系列</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2007,308 +2015,625 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>RHEL 系列 vs Debian 系列</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-runc/" class="gdoc-toc__entry">runc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance/" class="gdoc-toc__entry">irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/nftables/" class="gdoc-toc__entry">nftables
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-vs-debian/" class="gdoc-toc__entry">RHEL 系列 vs Debian 系列
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-user-exist/" class="gdoc-toc__entry">如何判断系统用户是否存在
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mem-available/" class="gdoc-toc__entry">如何计算内存实际剩余多少
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance-database/" class="gdoc-toc__entry">数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一两大-linux-阵营的本质区别一句话"
+    >
+        一、两大 Linux 阵营的本质区别（一句话）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#一两大-linux-阵营的本质区别一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、两大 Linux 阵营的本质区别（一句话）" aria-label="Anchor to: 一、两大 Linux 阵营的本质区别（一句话）" href="#%e4%b8%80%e4%b8%a4%e5%a4%a7-linux-%e9%98%b5%e8%90%a5%e7%9a%84%e6%9c%ac%e8%b4%a8%e5%8c%ba%e5%88%ab%e4%b8%80%e5%8f%a5%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>RHEL 系列强调“企业级稳定与可控生命周期”，
+Debian 系列强调“社区驱动、通用性与自由度”。</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二发行体系与代表版本"
+    >
+        二、发行体系与代表版本
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#二发行体系与代表版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、发行体系与代表版本" aria-label="Anchor to: 二、发行体系与代表版本" href="#%e4%ba%8c%e5%8f%91%e8%a1%8c%e4%bd%93%e7%b3%bb%e4%b8%8e%e4%bb%a3%e8%a1%a8%e7%89%88%e6%9c%ac">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rhel-系列red-hat-enterprise-linux-阵营"
+    >
+        RHEL 系列（Red Hat Enterprise Linux 阵营）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#rhel-系列red-hat-enterprise-linux-阵营" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RHEL 系列（Red Hat Enterprise Linux 阵营）" aria-label="Anchor to: RHEL 系列（Red Hat Enterprise Linux 阵营）" href="#rhel-%e7%b3%bb%e5%88%97red-hat-enterprise-linux-%e9%98%b5%e8%90%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>代表发行版：</p>
+<ul>
+<li>RHEL（商业版）</li>
+<li>AlmaLinux（RHEL 兼容社区版）</li>
+<li>Rocky Linux（RHEL 兼容社区版）</li>
+<li>Oracle Linux</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>严格向后兼容</li>
+<li>长生命周期（10+ 年）</li>
+<li>面向企业与生产环境</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="debian-系列"
+    >
+        Debian 系列
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#debian-系列" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Debian 系列" aria-label="Anchor to: Debian 系列" href="#debian-%e7%b3%bb%e5%88%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>代表发行版：</p>
+<ul>
+<li>Debian</li>
+<li>Ubuntu（基于 Debian）</li>
+<li>Linux Mint（桌面导向）</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>社区驱动</li>
+<li>软件新旧并存（stable / testing / unstable）</li>
+<li>覆盖服务器与桌面</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三发行理念与更新策略核心差异"
+    >
+        三、发行理念与更新策略（核心差异）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#三发行理念与更新策略核心差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、发行理念与更新策略（核心差异）" aria-label="Anchor to: 三、发行理念与更新策略（核心差异）" href="#%e4%b8%89%e5%8f%91%e8%a1%8c%e7%90%86%e5%bf%b5%e4%b8%8e%e6%9b%b4%e6%96%b0%e7%ad%96%e7%95%a5%e6%a0%b8%e5%bf%83%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>RHEL 系列</th>
+          <th>Debian 系列</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>核心理念</td>
+          <td>稳定第一</td>
+          <td>自由与通用</td>
+      </tr>
+      <tr>
+          <td>更新策略</td>
+          <td>少升级，多 backport</td>
+          <td>定期大版本</td>
+      </tr>
+      <tr>
+          <td>内核版本</td>
+          <td>较旧但稳定</td>
+          <td>较新</td>
+      </tr>
+      <tr>
+          <td>ABI 兼容性</td>
+          <td>极强</td>
+          <td>中等</td>
+      </tr>
+      <tr>
+          <td>企业认证</td>
+          <td>非常重视</td>
+          <td>相对弱</td>
+      </tr>
+      <tr>
+          <td>桌面优先级</td>
+          <td>低</td>
+          <td>高（Ubuntu）</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="关键解释"
+    >
+        关键解释
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#关键解释" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键解释" aria-label="Anchor to: 关键解释" href="#%e5%85%b3%e9%94%ae%e8%a7%a3%e9%87%8a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>backport（回移补丁）</strong></li>
+</ul>
+<p>在旧版本代码上打安全 / 功能补丁，而不是整体升级版本。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四包管理与软件生态"
+    >
+        四、包管理与软件生态
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#四包管理与软件生态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、包管理与软件生态" aria-label="Anchor to: 四、包管理与软件生态" href="#%e5%9b%9b%e5%8c%85%e7%ae%a1%e7%90%86%e4%b8%8e%e8%bd%af%e4%bb%b6%e7%94%9f%e6%80%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="包管理工具"
+    >
+        包管理工具
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#包管理工具" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 包管理工具" aria-label="Anchor to: 包管理工具" href="#%e5%8c%85%e7%ae%a1%e7%90%86%e5%b7%a5%e5%85%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>RHEL 系列</th>
+          <th>Debian 系列</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>包格式</td>
+          <td>RPM</td>
+          <td>DEB</td>
+      </tr>
+      <tr>
+          <td>包管理器</td>
+          <td>rpm / dnf / yum</td>
+          <td>dpkg / apt</td>
+      </tr>
+      <tr>
+          <td>依赖处理</td>
+          <td>稳健但保守</td>
+          <td>灵活且丰富</td>
+      </tr>
+      <tr>
+          <td>仓库结构</td>
+          <td>官方为主</td>
+          <td>官方 + PPA</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="软件版本策略"
+    >
+        软件版本策略
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#软件版本策略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 软件版本策略" aria-label="Anchor to: 软件版本策略" href="#%e8%bd%af%e4%bb%b6%e7%89%88%e6%9c%ac%e7%ad%96%e7%95%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>RHEL：</p>
+<ul>
+<li>软件版本“冻结”</li>
+<li>通过补丁保证安全</li>
+</ul>
+</li>
+<li>
+<p>Debian / Ubuntu：</p>
+<ul>
+<li>新版本直接进入新发行版</li>
+<li>Ubuntu LTS 平衡稳定与新特性</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五系统架构与组件差异"
+    >
+        五、系统架构与组件差异
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#五系统架构与组件差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、系统架构与组件差异" aria-label="Anchor to: 五、系统架构与组件差异" href="#%e4%ba%94%e7%b3%bb%e7%bb%9f%e6%9e%b6%e6%9e%84%e4%b8%8e%e7%bb%84%e4%bb%b6%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="systemd"
+    >
+        systemd
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#systemd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: systemd" aria-label="Anchor to: systemd" href="#systemd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>两者都使用 systemd</li>
+<li>RHEL：
+<ul>
+<li>更严格</li>
+<li>企业级默认参数</li>
+</ul>
+</li>
+<li>Debian：
+<ul>
+<li>可选性更多</li>
+<li>桌面友好</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="selinux--apparmor安全模型差异"
+    >
+        SELinux / AppArmor（安全模型差异）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#selinux--apparmor安全模型差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: SELinux / AppArmor（安全模型差异）" aria-label="Anchor to: SELinux / AppArmor（安全模型差异）" href="#selinux--apparmor%e5%ae%89%e5%85%a8%e6%a8%a1%e5%9e%8b%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>RHEL 系列</th>
+          <th>Debian 系列</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>默认安全框架</td>
+          <td>SELinux</td>
+          <td>AppArmor</td>
+      </tr>
+      <tr>
+          <td>强制访问控制</td>
+          <td>是</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td>复杂度</td>
+          <td>高</td>
+          <td>低</td>
+      </tr>
+      <tr>
+          <td>企业合规</td>
+          <td>非常强</td>
+          <td>一般</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六网络与内核参数风格"
+    >
+        六、网络与内核参数风格
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#六网络与内核参数风格" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、网络与内核参数风格" aria-label="Anchor to: 六、网络与内核参数风格" href="#%e5%85%ad%e7%bd%91%e7%bb%9c%e4%b8%8e%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0%e9%a3%8e%e6%a0%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rhel-系列"
+    >
+        RHEL 系列
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#rhel-系列" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RHEL 系列" aria-label="Anchor to: RHEL 系列" href="#rhel-%e7%b3%bb%e5%88%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>偏向保守</li>
+<li>sysctl 默认值更安全</li>
+<li>更强调兼容性</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="debian-系列-1"
+    >
+        Debian 系列
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#debian-系列-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Debian 系列" aria-label="Anchor to: Debian 系列" href="#debian-%e7%b3%bb%e5%88%97-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>偏向通用</li>
+<li>桌面与服务器兼顾</li>
+<li>新内核特性上线更快</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七启动方式与引导"
+    >
+        七、启动方式与引导
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#七启动方式与引导" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、启动方式与引导" aria-label="Anchor to: 七、启动方式与引导" href="#%e4%b8%83%e5%90%af%e5%8a%a8%e6%96%b9%e5%bc%8f%e4%b8%8e%e5%bc%95%e5%af%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>RHEL 系列</th>
+          <th>Debian 系列</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>BIOS / UEFI</td>
+          <td>全支持</td>
+          <td>全支持</td>
+      </tr>
+      <tr>
+          <td>GRUB 配置路径</td>
+          <td>/boot/grub2</td>
+          <td>/boot/grub</td>
+      </tr>
+      <tr>
+          <td>内核参数工具</td>
+          <td>grubby</td>
+          <td>update-grub</td>
+      </tr>
+      <tr>
+          <td>initramfs</td>
+          <td>dracut</td>
+          <td>update-initramfs</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八生命周期与维护"
+    >
+        八、生命周期与维护
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#八生命周期与维护" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、生命周期与维护" aria-label="Anchor to: 八、生命周期与维护" href="#%e5%85%ab%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e4%b8%8e%e7%bb%b4%e6%8a%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rhel-系列-1"
+    >
+        RHEL 系列
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#rhel-系列-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RHEL 系列" aria-label="Anchor to: RHEL 系列" href="#rhel-%e7%b3%bb%e5%88%97-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>主版本支持：10 年</li>
+<li>扩展支持：可达 13 年</li>
+<li>安全更新稳定可控</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="debian--ubuntu"
+    >
+        Debian / Ubuntu
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#debian--ubuntu" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Debian / Ubuntu" aria-label="Anchor to: Debian / Ubuntu" href="#debian--ubuntu">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>Debian Stable：约 5 年</li>
+<li>Ubuntu LTS：5 年（可延长至 10 年）</li>
+<li>非 LTS 版本：9 个月</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九运维与自动化风格"
+    >
+        九、运维与自动化风格
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#九运维与自动化风格" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、运维与自动化风格" aria-label="Anchor to: 九、运维与自动化风格" href="#%e4%b9%9d%e8%bf%90%e7%bb%b4%e4%b8%8e%e8%87%aa%e5%8a%a8%e5%8c%96%e9%a3%8e%e6%a0%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rhel-系列-2"
+    >
+        RHEL 系列
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#rhel-系列-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RHEL 系列" aria-label="Anchor to: RHEL 系列" href="#rhel-%e7%b3%bb%e5%88%97-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>标准化强</li>
+<li>企业流程清晰</li>
+<li>适合大规模运维</li>
+</ul>
+<p>常见工具：</p>
+<ul>
+<li>Ansible（红帽系生态）</li>
+<li>Satellite</li>
+<li>Foreman</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="debian-系列-2"
+    >
+        Debian 系列
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#debian-系列-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Debian 系列" aria-label="Anchor to: Debian 系列" href="#debian-%e7%b3%bb%e5%88%97-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>灵活度高</li>
+<li>社区工具丰富</li>
+<li>DevOps 友好</li>
+</ul>
+<p>常见工具：</p>
+<ul>
+<li>cloud-init</li>
+<li>apt automation</li>
+<li>PPA 生态</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十虚拟化与容器生态"
+    >
+        十、虚拟化与容器生态
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#十虚拟化与容器生态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、虚拟化与容器生态" aria-label="Anchor to: 十、虚拟化与容器生态" href="#%e5%8d%81%e8%99%9a%e6%8b%9f%e5%8c%96%e4%b8%8e%e5%ae%b9%e5%99%a8%e7%94%9f%e6%80%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>RHEL 系列</th>
+          <th>Debian 系列</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>KVM</td>
+          <td>官方主推</td>
+          <td>支持</td>
+      </tr>
+      <tr>
+          <td>Podman</td>
+          <td>默认</td>
+          <td>非默认</td>
+      </tr>
+      <tr>
+          <td>Docker</td>
+          <td>支持</td>
+          <td>非官方</td>
+      </tr>
+      <tr>
+          <td>CRI-O</td>
+          <td>官方</td>
+          <td>较少</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>RHEL 更强调 <strong>无守护进程容器（Podman）</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一数据库与中间件适配"
+    >
+        十一、数据库与中间件适配
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#十一数据库与中间件适配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、数据库与中间件适配" aria-label="Anchor to: 十一、数据库与中间件适配" href="#%e5%8d%81%e4%b8%80%e6%95%b0%e6%8d%ae%e5%ba%93%e4%b8%8e%e4%b8%ad%e9%97%b4%e4%bb%b6%e9%80%82%e9%85%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>商业数据库（Oracle、DB2）：
+<ul>
+<li>优先支持 RHEL</li>
+</ul>
+</li>
+<li>MySQL / PostgreSQL：
+<ul>
+<li>两者都稳定</li>
+<li>RHEL 更适合长期运行</li>
+</ul>
+</li>
+<li>新版本数据库：
+<ul>
+<li>Debian / Ubuntu 更快支持</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二适用场景总结非常实用"
+    >
+        十二、适用场景总结（非常实用）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#十二适用场景总结非常实用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、适用场景总结（非常实用）" aria-label="Anchor to: 十二、适用场景总结（非常实用）" href="#%e5%8d%81%e4%ba%8c%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af%e6%80%bb%e7%bb%93%e9%9d%9e%e5%b8%b8%e5%ae%9e%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="选择-rhel-系列如果你"
+    >
+        选择 RHEL 系列，如果你
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#选择-rhel-系列如果你" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 选择 RHEL 系列，如果你" aria-label="Anchor to: 选择 RHEL 系列，如果你" href="#%e9%80%89%e6%8b%a9-rhel-%e7%b3%bb%e5%88%97%e5%a6%82%e6%9e%9c%e4%bd%a0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>追求长期稳定</li>
+<li>企业生产环境</li>
+<li>数据库 / 核心业务</li>
+<li>合规、审计要求高</li>
+<li>不想频繁升级系统</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="选择-debian-系列如果你"
+    >
+        选择 Debian 系列，如果你
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#选择-debian-系列如果你" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 选择 Debian 系列，如果你" aria-label="Anchor to: 选择 Debian 系列，如果你" href="#%e9%80%89%e6%8b%a9-debian-%e7%b3%bb%e5%88%97%e5%a6%82%e6%9e%9c%e4%bd%a0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>需要新特性</li>
+<li>DevOps / CI/CD</li>
+<li>桌面或开发环境</li>
+<li>云原生 / 微服务</li>
+<li>技术迭代快</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三简单决策表推荐收藏"
+    >
+        十三、简单决策表（推荐收藏）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#十三简单决策表推荐收藏" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、简单决策表（推荐收藏）" aria-label="Anchor to: 十三、简单决策表（推荐收藏）" href="#%e5%8d%81%e4%b8%89%e7%ae%80%e5%8d%95%e5%86%b3%e7%ad%96%e8%a1%a8%e6%8e%a8%e8%8d%90%e6%94%b6%e8%97%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>需求</th>
+          <th>推荐</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>企业数据库</td>
+          <td>RHEL / AlmaLinux</td>
+      </tr>
+      <tr>
+          <td>云原生平台</td>
+          <td>Ubuntu LTS</td>
+      </tr>
+      <tr>
+          <td>桌面办公</td>
+          <td>Ubuntu</td>
+      </tr>
+      <tr>
+          <td>极致稳定</td>
+          <td>RHEL</td>
+      </tr>
+      <tr>
+          <td>技术探索</td>
+          <td>Debian</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四一句话终极总结"
+    >
+        十四、一句话终极总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/rhel-vs-debian/#十四一句话终极总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、一句话终极总结" aria-label="Anchor to: 十四、一句话终极总结" href="#%e5%8d%81%e5%9b%9b%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>RHEL 系列是“工程系统”，
+Debian 系列是“通用系统”。</strong></p>
+</blockquote>
 
   </article>
 
@@ -2836,9 +3161,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2869,11 +3191,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3487,27 +3804,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
