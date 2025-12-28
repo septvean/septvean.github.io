@@ -65,7 +65,7 @@
       "url" : "https://documents.v2ep.com/operations/summary-of-knowledge-points/",
       "headline": "知识点总结",
       "description": "先原理，后应用。\n总览：从硬件到容器的分层\n\u002b-------------------------------------------------------------------\u002b 应用程序 \/ 服务 MySQL \/ Nginx \/ Redis \/ Java \/ Python \u002b-------------------------------------------------------------------\u002b 容器平台 (可选) Docker \/ containerd \/ Podman \/ Kubernetes \u002b-------------------------------------------------------------------\u002b Linux 用户空间：容器运行时 runc \u002b-------------------------------------------------------------------\u002b Linux 用户空间：基础组件 shell \/ libc \/ systemd \/ coreutils \u002b-------------------------------------------------------------------\u002b Linux 内核空间 - 五大子系统：进程管理 \/ 内存管理 \/ 文件系统 \/ 网络子系统 \/ 设备与驱动 - 增强机制：Namespaces \/ cgroups \/ UnionFS \u002b-------------------------------------------------------------------\u002b 硬件层 CPU \/ 内存 \/ 硬盘 \/ 网卡 \u002b-------------------------------------------------------------------\u002b 硬件：一切资源的源头 主要包括：CPU、内存、硬盘、主板、网卡、显卡、阵列卡、电源、机箱",
-      "wordCount" : "520",
+      "wordCount" : "525",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2265,14 +2265,24 @@
     </a>
 </div>
 <p>用户空间的几个重要组成：shell，libc，systemd，runc 等等。</p>
-<p>shell 负责用户和内核以及应用程序等等之间进行交互，是一个桥梁。</p>
+<p>shell 负责 <strong>用户和内核以及应用程序等之间进行交互，是一个桥梁</strong>。</p>
 <ul>
-<li>本质是一个普通进程，用于 解析命令，管理进程，控制 IO，协调程序运行 等等</li>
+<li>本质是一个普通进程，用于 解析命令，管理进程，控制 IO，协调程序运行 等</li>
 <li>常见的 shell：Bash</li>
 </ul>
-<p>libc 负责 <strong>系统调用封装，提供标准 C 接口</strong>。应用程序 <strong>不直接调用内核</strong>，而是通过 libc。常见的有 glibc 和 musl。</p>
-<p>systemd 负责 <strong>系统初始化，服务管理，cgroups 管理</strong>。systemd 不是“启动脚本工具”，是 <strong>系统级进程编排器</strong>。</p>
-<p>runc 负责 <strong>把 namespaces、cgroups 等配置，转化为一个真正运行中的 Linux 进程</strong>。runc 是 <strong>容器运行时</strong>，Docker、Podman 等等，底层都使用的是 runc。</p>
+<p>libc 负责 <strong>系统调用封装，提供标准 C 接口</strong>。</p>
+<ul>
+<li>应用程序 <strong>不直接调用内核</strong>，而是通过 libc。</li>
+<li>常见的 libc：glibc 和 musl。</li>
+</ul>
+<p>systemd 负责 <strong>系统初始化，服务管理，cgroups 管理</strong>。</p>
+<ul>
+<li>systemd 不是“启动脚本工具”，是 <strong>系统级进程编排器</strong>。</li>
+</ul>
+<p>runc 负责 <strong>把 namespaces、cgroups 等配置，转化为一个真正运行中的 Linux 进程</strong>。</p>
+<ul>
+<li>runc 是 <strong>容器运行时</strong>，Docker、Podman 等等，底层都使用的是 runc。</li>
+</ul>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="linux-系统整体角色"
     >
