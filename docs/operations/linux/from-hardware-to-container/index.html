@@ -12,7 +12,7 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content=" 一、总览：从硬件到容器的完整分层 &#43;--------------------------------------------------&#43; | 应用程序 / 服务 | | MySQL / Nginx / Redis / Java / Python | &#43;--------------------------------------------------&#43; | 容器平台（可选） | | Docker / containerd / Podman / Kubernetes | &#43;--------------------------------------------------&#43; | 容器运行时（用户空间） | | runc | &#43;--------------------------------------------------&#43; | Linux 用户空间基础组件 | | shell / libc / systemd / coreutils | &#43;--------------------------------------------------&#43; | Linux 内核空间 | | 五大子系统 &#43; namespaces &#43; cgroups &#43; UnionFS | &#43;--------------------------------------------------&#43; | 硬件层 | | CPU / 内存 / 硬盘 / 网卡 | &#43;--------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
+  <meta name="description" content=" 一、总览：从硬件到容器的完整分层 &#43;-------------------------------------------------------------------&#43; 应用程序 / 服务 MySQL / Nginx / Redis / Java / Python &#43;-------------------------------------------------------------------&#43; 容器平台 (可选) Docker / containerd / Podman / Kubernetes &#43;-------------------------------------------------------------------&#43; Linux 用户空间: 容器运行时 runc &#43;-------------------------------------------------------------------&#43; Linux 用户空间: 基础组件 shell / libc / systemd / coreutils &#43;-------------------------------------------------------------------&#43; Linux 内核空间 - 五大子系统: 进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动 - 增强机制: Namespaces / cgroups / UnionFS / KVM &#43;-------------------------------------------------------------------&#43; 硬件层 CPU / 内存 / 硬盘 / 网卡 &#43;-------------------------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
 
     <title>从硬件到容器 | ☘️ Septvean&#39;s Documents</title>
 
@@ -38,7 +38,7 @@
     content="从硬件到容器"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content=" 一、总览：从硬件到容器的完整分层 &#43;--------------------------------------------------&#43; | 应用程序 / 服务 | | MySQL / Nginx / Redis / Java / Python | &#43;--------------------------------------------------&#43; | 容器平台（可选） | | Docker / containerd / Podman / Kubernetes | &#43;--------------------------------------------------&#43; | 容器运行时（用户空间） | | runc | &#43;--------------------------------------------------&#43; | Linux 用户空间基础组件 | | shell / libc / systemd / coreutils | &#43;--------------------------------------------------&#43; | Linux 内核空间 | | 五大子系统 &#43; namespaces &#43; cgroups &#43; UnionFS | &#43;--------------------------------------------------&#43; | 硬件层 | | CPU / 内存 / 硬盘 / 网卡 | &#43;--------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
+  <meta property="og:description" content=" 一、总览：从硬件到容器的完整分层 &#43;-------------------------------------------------------------------&#43; 应用程序 / 服务 MySQL / Nginx / Redis / Java / Python &#43;-------------------------------------------------------------------&#43; 容器平台 (可选) Docker / containerd / Podman / Kubernetes &#43;-------------------------------------------------------------------&#43; Linux 用户空间: 容器运行时 runc &#43;-------------------------------------------------------------------&#43; Linux 用户空间: 基础组件 shell / libc / systemd / coreutils &#43;-------------------------------------------------------------------&#43; Linux 内核空间 - 五大子系统: 进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动 - 增强机制: Namespaces / cgroups / UnionFS / KVM &#43;-------------------------------------------------------------------&#43; 硬件层 CPU / 内存 / 硬盘 / 网卡 &#43;-------------------------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/linux/from-hardware-to-container/" />
 
@@ -47,7 +47,7 @@
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="从硬件到容器" />
-  <meta name="twitter:description" content=" 一、总览：从硬件到容器的完整分层 &#43;--------------------------------------------------&#43; | 应用程序 / 服务 | | MySQL / Nginx / Redis / Java / Python | &#43;--------------------------------------------------&#43; | 容器平台（可选） | | Docker / containerd / Podman / Kubernetes | &#43;--------------------------------------------------&#43; | 容器运行时（用户空间） | | runc | &#43;--------------------------------------------------&#43; | Linux 用户空间基础组件 | | shell / libc / systemd / coreutils | &#43;--------------------------------------------------&#43; | Linux 内核空间 | | 五大子系统 &#43; namespaces &#43; cgroups &#43; UnionFS | &#43;--------------------------------------------------&#43; | 硬件层 | | CPU / 内存 / 硬盘 / 网卡 | &#43;--------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
+  <meta name="twitter:description" content=" 一、总览：从硬件到容器的完整分层 &#43;-------------------------------------------------------------------&#43; 应用程序 / 服务 MySQL / Nginx / Redis / Java / Python &#43;-------------------------------------------------------------------&#43; 容器平台 (可选) Docker / containerd / Podman / Kubernetes &#43;-------------------------------------------------------------------&#43; Linux 用户空间: 容器运行时 runc &#43;-------------------------------------------------------------------&#43; Linux 用户空间: 基础组件 shell / libc / systemd / coreutils &#43;-------------------------------------------------------------------&#43; Linux 内核空间 - 五大子系统: 进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动 - 增强机制: Namespaces / cgroups / UnionFS / KVM &#43;-------------------------------------------------------------------&#43; 硬件层 CPU / 内存 / 硬盘 / 网卡 &#43;-------------------------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
 
 
   <script type="application/ld+json">
@@ -58,8 +58,8 @@
       "name": "从硬件到容器",
       "url" : "https://documents.v2ep.com/operations/linux/from-hardware-to-container/",
       "headline": "从硬件到容器",
-      "description": " 一、总览：从硬件到容器的完整分层 \u002b--------------------------------------------------\u002b | 应用程序 \/ 服务 | | MySQL \/ Nginx \/ Redis \/ Java \/ Python | \u002b--------------------------------------------------\u002b | 容器平台（可选） | | Docker \/ containerd \/ Podman \/ Kubernetes | \u002b--------------------------------------------------\u002b | 容器运行时（用户空间） | | runc | \u002b--------------------------------------------------\u002b | Linux 用户空间基础组件 | | shell \/ libc \/ systemd \/ coreutils | \u002b--------------------------------------------------\u002b | Linux 内核空间 | | 五大子系统 \u002b namespaces \u002b cgroups \u002b UnionFS | \u002b--------------------------------------------------\u002b | 硬件层 | | CPU \/ 内存 \/ 硬盘 \/ 网卡 | \u002b--------------------------------------------------\u002b 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 \/ 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 \/ NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP\/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”",
-      "wordCount" : "651",
+      "description": " 一、总览：从硬件到容器的完整分层 \u002b-------------------------------------------------------------------\u002b 应用程序 \/ 服务 MySQL \/ Nginx \/ Redis \/ Java \/ Python \u002b-------------------------------------------------------------------\u002b 容器平台 (可选) Docker \/ containerd \/ Podman \/ Kubernetes \u002b-------------------------------------------------------------------\u002b Linux 用户空间: 容器运行时 runc \u002b-------------------------------------------------------------------\u002b Linux 用户空间: 基础组件 shell \/ libc \/ systemd \/ coreutils \u002b-------------------------------------------------------------------\u002b Linux 内核空间 - 五大子系统: 进程管理 \/ 内存管理 \/ 文件系统 \/ 网络子系统 \/ 设备与驱动 - 增强机制: Namespaces \/ cgroups \/ UnionFS \/ KVM \u002b-------------------------------------------------------------------\u002b 硬件层 CPU \/ 内存 \/ 硬盘 \/ 网卡 \u002b-------------------------------------------------------------------\u002b 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 \/ 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 \/ NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP\/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”",
+      "wordCount" : "644",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -1868,6 +1868,42 @@
           </li>
         
       
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/summary-of-knowledge-points/"
+                    class="gdoc-nav__entry"
+                  >
+                    知识点总结
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
     
   </ul>
 
@@ -2023,25 +2059,26 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+--------------------------------------------------+
-</span></span><span class="line"><span class="cl">|                应用程序 / 服务                     |
-</span></span><span class="line"><span class="cl">|   MySQL / Nginx / Redis / Java / Python          |
-</span></span><span class="line"><span class="cl">+--------------------------------------------------+
-</span></span><span class="line"><span class="cl">|           容器平台（可选）                          |
-</span></span><span class="line"><span class="cl">|   Docker / containerd / Podman / Kubernetes      |
-</span></span><span class="line"><span class="cl">+--------------------------------------------------+
-</span></span><span class="line"><span class="cl">|         容器运行时（用户空间）                       |
-</span></span><span class="line"><span class="cl">|              runc                                |
-</span></span><span class="line"><span class="cl">+--------------------------------------------------+
-</span></span><span class="line"><span class="cl">|      Linux 用户空间基础组件                         |
-</span></span><span class="line"><span class="cl">|  shell / libc / systemd / coreutils              |
-</span></span><span class="line"><span class="cl">+--------------------------------------------------+
-</span></span><span class="line"><span class="cl">|                Linux 内核空间                     |
-</span></span><span class="line"><span class="cl">|  五大子系统 + namespaces + cgroups + UnionFS      |
-</span></span><span class="line"><span class="cl">+--------------------------------------------------+
-</span></span><span class="line"><span class="cl">|                 硬件层                            |
-</span></span><span class="line"><span class="cl">|      CPU / 内存 / 硬盘 / 网卡                      |
-</span></span><span class="line"><span class="cl">+--------------------------------------------------+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    应用程序 / 服务
+</span></span><span class="line"><span class="cl">    MySQL / Nginx / Redis / Java / Python
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    容器平台 (可选)
+</span></span><span class="line"><span class="cl">    Docker / containerd / Podman / Kubernetes
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    Linux 用户空间: 容器运行时
+</span></span><span class="line"><span class="cl">    runc
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    Linux 用户空间: 基础组件
+</span></span><span class="line"><span class="cl">    shell / libc / systemd / coreutils
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    Linux 内核空间
+</span></span><span class="line"><span class="cl">    - 五大子系统: 进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动
+</span></span><span class="line"><span class="cl">    - 增强机制: Namespaces / cgroups / UnionFS / KVM
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    硬件层
+</span></span><span class="line"><span class="cl">    CPU / 内存 / 硬盘 / 网卡
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="二硬件层一切资源的源头"
@@ -3367,6 +3404,30 @@
       
     
 
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
     
       
       

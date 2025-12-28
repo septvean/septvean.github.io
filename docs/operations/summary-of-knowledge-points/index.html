@@ -12,9 +12,11 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content=" 一、服务器硬件整体架构 CPU ├─ 内存（RAM） ├─ 主板 / 芯片组 │ ├─ PCIe │ ├─ SATA / SAS / NVMe │ └─ BMC（IPMI） ├─ 存储 ├─ 网络 ├─ 电源 └─ 散热 二、核心部件详解 1️⃣ CPU（处理器） 关键指标" />
+  <meta name="description" content="先原理，后应用。
+总览：从硬件到容器的分层
+&#43;-------------------------------------------------------------------&#43; 应用程序 / 服务 MySQL / Nginx / Redis / Java / Python &#43;-------------------------------------------------------------------&#43; 容器平台 (可选) Docker / containerd / Podman / Kubernetes &#43;-------------------------------------------------------------------&#43; Linux 用户空间：容器运行时 runc &#43;-------------------------------------------------------------------&#43; Linux 用户空间：基础组件 shell / libc / systemd / coreutils &#43;-------------------------------------------------------------------&#43; Linux 内核空间 - 五大子系统：进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动 - 增强机制：Namespaces / cgroups / UnionFS &#43;-------------------------------------------------------------------&#43; 硬件层 CPU / 内存 / 硬盘 / 网卡 &#43;-------------------------------------------------------------------&#43; 硬件：一切资源的源头 主要包括：CPU、内存、硬盘、主板、电源、网卡、显卡、阵列卡、机箱" />
 
-    <title>服务器硬件 | ☘️ Septvean&#39;s Documents</title>
+    <title>知识点总结 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -35,19 +37,23 @@
     
   <meta
     property="og:title"
-    content="服务器硬件"
+    content="知识点总结"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content=" 一、服务器硬件整体架构 CPU ├─ 内存（RAM） ├─ 主板 / 芯片组 │ ├─ PCIe │ ├─ SATA / SAS / NVMe │ └─ BMC（IPMI） ├─ 存储 ├─ 网络 ├─ 电源 └─ 散热 二、核心部件详解 1️⃣ CPU（处理器） 关键指标" />
+  <meta property="og:description" content="先原理，后应用。
+总览：从硬件到容器的分层
+&#43;-------------------------------------------------------------------&#43; 应用程序 / 服务 MySQL / Nginx / Redis / Java / Python &#43;-------------------------------------------------------------------&#43; 容器平台 (可选) Docker / containerd / Podman / Kubernetes &#43;-------------------------------------------------------------------&#43; Linux 用户空间：容器运行时 runc &#43;-------------------------------------------------------------------&#43; Linux 用户空间：基础组件 shell / libc / systemd / coreutils &#43;-------------------------------------------------------------------&#43; Linux 内核空间 - 五大子系统：进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动 - 增强机制：Namespaces / cgroups / UnionFS &#43;-------------------------------------------------------------------&#43; 硬件层 CPU / 内存 / 硬盘 / 网卡 &#43;-------------------------------------------------------------------&#43; 硬件：一切资源的源头 主要包括：CPU、内存、硬盘、主板、电源、网卡、显卡、阵列卡、机箱" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/hardware/servers/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/summary-of-knowledge-points/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="服务器硬件" />
-  <meta name="twitter:description" content=" 一、服务器硬件整体架构 CPU ├─ 内存（RAM） ├─ 主板 / 芯片组 │ ├─ PCIe │ ├─ SATA / SAS / NVMe │ └─ BMC（IPMI） ├─ 存储 ├─ 网络 ├─ 电源 └─ 散热 二、核心部件详解 1️⃣ CPU（处理器） 关键指标" />
+<meta name="twitter:title" content="知识点总结" />
+  <meta name="twitter:description" content="先原理，后应用。
+总览：从硬件到容器的分层
+&#43;-------------------------------------------------------------------&#43; 应用程序 / 服务 MySQL / Nginx / Redis / Java / Python &#43;-------------------------------------------------------------------&#43; 容器平台 (可选) Docker / containerd / Podman / Kubernetes &#43;-------------------------------------------------------------------&#43; Linux 用户空间：容器运行时 runc &#43;-------------------------------------------------------------------&#43; Linux 用户空间：基础组件 shell / libc / systemd / coreutils &#43;-------------------------------------------------------------------&#43; Linux 内核空间 - 五大子系统：进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动 - 增强机制：Namespaces / cgroups / UnionFS &#43;-------------------------------------------------------------------&#43; 硬件层 CPU / 内存 / 硬盘 / 网卡 &#43;-------------------------------------------------------------------&#43; 硬件：一切资源的源头 主要包括：CPU、内存、硬盘、主板、电源、网卡、显卡、阵列卡、机箱" />
 
 
   <script type="application/ld+json">
@@ -55,16 +61,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "服务器硬件",
-      "url" : "https://documents.v2ep.com/operations/hardware/servers/",
-      "headline": "服务器硬件",
-      "description": " 一、服务器硬件整体架构 CPU ├─ 内存（RAM） ├─ 主板 \/ 芯片组 │ ├─ PCIe │ ├─ SATA \/ SAS \/ NVMe │ └─ BMC（IPMI） ├─ 存储 ├─ 网络 ├─ 电源 └─ 散热 二、核心部件详解 1️⃣ CPU（处理器） 关键指标",
-      "wordCount" : "263",
+      "name": "知识点总结",
+      "url" : "https://documents.v2ep.com/operations/summary-of-knowledge-points/",
+      "headline": "知识点总结",
+      "description": "先原理，后应用。\n总览：从硬件到容器的分层\n\u002b-------------------------------------------------------------------\u002b 应用程序 \/ 服务 MySQL \/ Nginx \/ Redis \/ Java \/ Python \u002b-------------------------------------------------------------------\u002b 容器平台 (可选) Docker \/ containerd \/ Podman \/ Kubernetes \u002b-------------------------------------------------------------------\u002b Linux 用户空间：容器运行时 runc \u002b-------------------------------------------------------------------\u002b Linux 用户空间：基础组件 shell \/ libc \/ systemd \/ coreutils \u002b-------------------------------------------------------------------\u002b Linux 内核空间 - 五大子系统：进程管理 \/ 内存管理 \/ 文件系统 \/ 网络子系统 \/ 设备与驱动 - 增强机制：Namespaces \/ cgroups \/ UnionFS \u002b-------------------------------------------------------------------\u002b 硬件层 CPU \/ 内存 \/ 硬盘 \/ 网卡 \u002b-------------------------------------------------------------------\u002b 硬件：一切资源的源头 主要包括：CPU、内存、硬盘、主板、电源、网卡、显卡、阵列卡、机箱",
+      "wordCount" : "506",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/hardware/servers/"
+          "@id": "https://documents.v2ep.com/operations/summary-of-knowledge-points/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -148,7 +154,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/hardware/servers/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/summary-of-knowledge-points/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1891,7 +1897,7 @@
                 <span class="flex">
                   <a
                     href="/operations/summary-of-knowledge-points/"
-                    class="gdoc-nav__entry"
+                    class="gdoc-nav__entry is-active"
                   >
                     知识点总结
                   </a>
@@ -2021,15 +2027,7 @@
     
   
   
-    
-    
-    
-    
-  
-  
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/hardware/' href='/operations/hardware/'><span itemprop='name'>Hardware</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>服务器硬件</span><meta itemprop='position' content='4' /></li>
-  
-
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>知识点总结</span><meta itemprop='position' content='3' /></li>
   
 
   
@@ -2048,304 +2046,469 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>服务器硬件</h1>
+    <h1>知识点总结</h1>
     
-    <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一服务器硬件整体架构"
-    >
-        一、服务器硬件整体架构
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#一服务器硬件整体架构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、服务器硬件整体架构" aria-label="Anchor to: 一、服务器硬件整体架构" href="#%e4%b8%80%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%a1%ac%e4%bb%b6%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">CPU
-</span></span><span class="line"><span class="cl"> ├─ 内存（RAM）
-</span></span><span class="line"><span class="cl"> ├─ 主板 / 芯片组
-</span></span><span class="line"><span class="cl"> │   ├─ PCIe
-</span></span><span class="line"><span class="cl"> │   ├─ SATA / SAS / NVMe
-</span></span><span class="line"><span class="cl"> │   └─ BMC（IPMI）
-</span></span><span class="line"><span class="cl"> ├─ 存储
-</span></span><span class="line"><span class="cl"> ├─ 网络
-</span></span><span class="line"><span class="cl"> ├─ 电源
-</span></span><span class="line"><span class="cl"> └─ 散热
+    <p><strong>先原理，后应用。</strong></p>
+<p>总览：从硬件到容器的分层</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    应用程序 / 服务
+</span></span><span class="line"><span class="cl">    MySQL / Nginx / Redis / Java / Python
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    容器平台 (可选)
+</span></span><span class="line"><span class="cl">    Docker / containerd / Podman / Kubernetes
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    Linux 用户空间：容器运行时
+</span></span><span class="line"><span class="cl">    runc
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    Linux 用户空间：基础组件
+</span></span><span class="line"><span class="cl">    shell / libc / systemd / coreutils
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    Linux 内核空间
+</span></span><span class="line"><span class="cl">    - 五大子系统：进程管理 / 内存管理 / 文件系统 / 网络子系统 / 设备与驱动
+</span></span><span class="line"><span class="cl">    - 增强机制：Namespaces / cgroups / UnionFS
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl">    硬件层
+</span></span><span class="line"><span class="cl">    CPU / 内存 / 硬盘 / 网卡
+</span></span><span class="line"><span class="cl">+-------------------------------------------------------------------+
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二核心部件详解"
+    <h2 id="硬件一切资源的源头"
     >
-        二、核心部件详解
+        硬件：一切资源的源头
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#二核心部件详解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、核心部件详解" aria-label="Anchor to: 二、核心部件详解" href="#%e4%ba%8c%e6%a0%b8%e5%bf%83%e9%83%a8%e4%bb%b6%e8%af%a6%e8%a7%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#硬件一切资源的源头" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 硬件：一切资源的源头" aria-label="Anchor to: 硬件：一切资源的源头" href="#%e7%a1%ac%e4%bb%b6%e4%b8%80%e5%88%87%e8%b5%84%e6%ba%90%e7%9a%84%e6%ba%90%e5%a4%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<p>主要包括：CPU、内存、硬盘、主板、电源、网卡、显卡、阵列卡、机箱</p>
+<ul>
+<li>CPU
+<ul>
+<li>家用：奔腾，酷睿，核心数少，主频高，缓存小，追求“快”</li>
+<li>服务器：至强，核心数多，主频低，缓存大，追求“稳 + 并发”</li>
+<li>虚拟化：家用和服务器CPU现在基本都支持虚拟化</li>
+</ul>
+</li>
+<li>内存
+<ul>
+<li>服务器：支持 ECC 校验 和 多通道</li>
+<li>ECC 是服务器的灵魂（防止内存翻转导致数据库损坏）</li>
+</ul>
+</li>
+<li>硬盘
+<ul>
+<li>家用：SATA接口，7200转，读写速度80M/s左右，</li>
+<li>服务器：SAS接口，15000转，读写速度150M/s 左右</li>
+<li>SSD：现在基本都支持 NVMe</li>
+</ul>
+</li>
+<li>主板
+<ul>
+<li>家用：一块CPU，2到4根内存，2到4块硬盘</li>
+<li>服务器：支持更多的CPU、内存、硬盘，支持硬盘热插拔</li>
+</ul>
+</li>
+<li>电源
+<ul>
+<li>家用：单电源</li>
+<li>服务器：双电源（冗余）</li>
+</ul>
+</li>
+<li>网卡
+<ul>
+<li>家用：1G</li>
+<li>服务器：10G</li>
+</ul>
+</li>
+<li>显卡</li>
+<li>阵列卡
+<ul>
+<li>RAID：0，1，5，10</li>
+</ul>
+</li>
+<li>机箱
+<ul>
+<li>塔式</li>
+<li>1U，2U，4U</li>
+<li>刀片</li>
+</ul>
+</li>
+</ul>
+<p>服务器主机有更好的扩展性和稳定性。</p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-cpu处理器"
+    <h2 id="linux-系统"
     >
-        1️⃣ CPU（处理器）
+        Linux 系统
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#linux-系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Linux 系统" aria-label="Anchor to: Linux 系统" href="#linux-%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Linux 系统由 内核空间 + 用户空间 + 应用程序 组成。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="内核空间资源的管理者"
+    >
+        内核空间：资源的“管理者”
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#1-cpu处理器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ CPU（处理器）" aria-label="Anchor to: 1️⃣ CPU（处理器）" href="#1-cpu%e5%a4%84%e7%90%86%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#内核空间资源的管理者" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核空间：资源的“管理者”" aria-label="Anchor to: 内核空间：资源的“管理者”" href="#%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e8%b5%84%e6%ba%90%e7%9a%84%e7%ae%a1%e7%90%86%e8%80%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>关键指标</p>
+<p>内核空间包括：五大核心子系统（Linux系统的根基）</p>
 <ul>
-<li>核心数 / 线程数</li>
-<li>主频 / 睿频</li>
-<li>缓存（L3 很关键）</li>
-<li>NUMA 架构</li>
-<li>指令集（AVX、AES-NI）</li>
-</ul>
-<p>主流平台</p>
-<ul>
-<li>Intel Xeon（稳定、生态成熟）</li>
-<li>AMD EPYC（核心多、性价比高、NUMA 明显）</li>
-</ul>
-<p>选型建议</p>
-<ul>
-<li>数据库 / 虚拟化：多核 + 大缓存</li>
-<li>高并发 Web：高主频</li>
-<li>容器 / K8S：核心数优先</li>
+<li>进程管理</li>
+<li>内存管理</li>
+<li>文件系统</li>
+<li>网络子系统</li>
+<li>设备与驱动</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-内存ram"
+    <h4 id="进程管理"
     >
-        2️⃣ 内存（RAM）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#2-内存ram" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 内存（RAM）" aria-label="Anchor to: 2️⃣ 内存（RAM）" href="#2-%e5%86%85%e5%ad%98ram">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>关键点</p>
-<ul>
-<li>ECC（必须）</li>
-<li>频率 &amp; 通道数</li>
-<li>DIMM 数量（影响带宽）</li>
-<li>NUMA 亲和性</li>
-</ul>
-<p>常见问题</p>
-<ul>
-<li>内存不均 -&gt; NUMA 跨节点访问慢</li>
-<li>混插不同频率 -&gt; 自动降频</li>
-</ul>
-<p>经验值</p>
-<ul>
-<li>DB：内存 &gt; CPU</li>
-<li>K8S Node：预留 20% 给系统</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-主板--芯片组"
-    >
-        3️⃣ 主板 &amp; 芯片组
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#3-主板--芯片组" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 主板 &amp; 芯片组" aria-label="Anchor to: 3️⃣ 主板 &amp; 芯片组" href="#3-%e4%b8%bb%e6%9d%bf--%e8%8a%af%e7%89%87%e7%bb%84">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>关注点</p>
-<ul>
-<li>CPU 插槽数量（单路 / 双路）</li>
-<li>PCIe 版本 &amp; 通道数</li>
-<li>RAID 卡 / HBA 支持</li>
-<li>BMC（IPMI / iDRAC / iLO）</li>
-</ul>
-<p>BMC 功能</p>
-<ul>
-<li>远程开关机</li>
-<li>KVM over IP</li>
-<li>硬件监控</li>
-<li>独立管理网口</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-存储非常关键"
-    >
-        4️⃣ 存储（非常关键）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#4-存储非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 存储（非常关键）" aria-label="Anchor to: 4️⃣ 存储（非常关键）" href="#4-%e5%ad%98%e5%82%a8%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-硬盘类型"
-    >
-        ① 硬盘类型
+        进程管理
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#-硬盘类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ① 硬盘类型" aria-label="Anchor to: ① 硬盘类型" href="#-%e7%a1%ac%e7%9b%98%e7%b1%bb%e5%9e%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#进程管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 进程管理" aria-label="Anchor to: 进程管理" href="#%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>特点</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SATA HDD</td>
-          <td>容量大</td>
-          <td>归档</td>
-      </tr>
-      <tr>
-          <td>SATA SSD</td>
-          <td>性价比</td>
-          <td>通用</td>
-      </tr>
-      <tr>
-          <td>NVMe SSD</td>
-          <td>延迟低</td>
-          <td>数据库 / 日志</td>
-      </tr>
-      <tr>
-          <td>SAS</td>
-          <td>稳定</td>
-          <td>企业级</td>
-      </tr>
-  </tbody>
-</table> </div>
+<p>负责处理进程的创建、调度、终止以及进程间通信等等。</p>
+<p>决定“哪个程序在什么时候用 CPU 跑多久”。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-raid"
+    <h4 id="内存管理"
     >
-        ② RAID
+        内存管理
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#-raid" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ② RAID" aria-label="Anchor to: ② RAID" href="#-raid">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#内存管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内存管理" aria-label="Anchor to: 内存管理" href="#%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<ul>
-<li>RAID0：快，不安全</li>
-<li>RAID1：安全</li>
-<li>RAID5：容量利用高</li>
-<li>RAID10：性能 + 安全（最推荐）</li>
-</ul>
-<p>⚠️ 数据库 <strong>不建议 RAID5</strong></p>
+<p>负责管理物理内存和虚拟内存，为每个进程提供独立的虚拟地址空间。</p>
+<p>决定“内存怎么分配、怎么回收、怎么映射”。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="5-网络"
+    <h4 id="文件系统"
     >
-        5️⃣ 网络
+        文件系统
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#文件系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 文件系统" aria-label="Anchor to: 文件系统" href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>提供对存储设备上数据的组织、存储和访问能力。</p>
+<p>统一“文件”这一抽象，让程序不关心底层存储。</p>
+<p>常见的文件系统有：xfs、ext4，现在最常用的是 xfs。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="网络子系统"
+    >
+        网络子系统
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#网络子系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 网络子系统" aria-label="Anchor to: 网络子系统" href="#%e7%bd%91%e7%bb%9c%e5%ad%90%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>实现各种网络协议，包括 TCP/IP 协议栈，Socket，Netfilter，使 Linux 能够进行网络通信。</p>
+<p>负责“数据包如何进入、处理、发送出系统”。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="设备与驱动"
+    >
+        设备与驱动
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#设备与驱动" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 设备与驱动" aria-label="Anchor to: 设备与驱动" href="#%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>内核与硬件设备通信的桥梁，让内核“能和硬件说话”。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="linux-内核如何使用硬件"
+    >
+        Linux 内核如何使用硬件
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#linux-内核如何使用硬件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Linux 内核如何使用硬件" aria-label="Anchor to: Linux 内核如何使用硬件" href="#linux-%e5%86%85%e6%a0%b8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e7%a1%ac%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Linux 内核</p>
+<ul>
+<li>通过调度器使用 CPU</li>
+<li>通过内存管理子系统管理内存</li>
+<li>通过块层与文件系统访问硬盘</li>
+<li>通过网络协议栈驱动网卡</li>
+</ul>
+<p>实现对硬件资源的统一抽象与高效调度。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="内核增强机制"
+    >
+        内核增强机制
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#5-网络" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 网络" aria-label="Anchor to: 5️⃣ 网络" href="#5-%e7%bd%91%e7%bb%9c">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#内核增强机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核增强机制" aria-label="Anchor to: 内核增强机制" href="#%e5%86%85%e6%a0%b8%e5%a2%9e%e5%bc%ba%e6%9c%ba%e5%88%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>关键参数</p>
+<p><strong>不是子系统</strong></p>
+<p>目前最常见的三个，也是容器的基石：Namespaces、cgroups、UnionFS</p>
 <ul>
-<li>网卡速率：1G / 10G / 25G / 40G</li>
-<li>多队列（RSS）</li>
-<li>SR-IOV（虚拟化）</li>
-</ul>
-<p>典型配置</p>
-<ul>
-<li>业务网</li>
-<li>存储网</li>
-<li>管理网（BMC）</li>
+<li>Namespaces (隔离视图)：决定“你看到什么”，隔离对象：PID、网络、挂载、用户</li>
+<li>cgroups (资源限制)：决定“你能用多少”，资源：CPU、内存、硬盘、网络</li>
+<li>UnionFS (联合文件系统)：文件系统子系统内部机制，文件系统层叠，只读镜像 + 可写层，UnionFS 是 “设计思想”，overlay2 是 “具体实现”</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="6-电源psu"
+    <h3 id="用户空间"
     >
-        6️⃣ 电源（PSU）
+        用户空间
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#6-电源psu" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6️⃣ 电源（PSU）" aria-label="Anchor to: 6️⃣ 电源（PSU）" href="#6-%e7%94%b5%e6%ba%90psu">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#用户空间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 用户空间" aria-label="Anchor to: 用户空间" href="#%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<p>几个重要组成：shell，libc，systemd，runc 等等</p>
+<p>shell 的作用是让用户和内核以及应用程序等等之间进行交互，是一个桥梁。</p>
 <ul>
-<li>冗余电源（1+1）</li>
-<li>80 PLUS Platinum / Titanium</li>
-<li>功率冗余 ≥ 30%</li>
+<li>本质是一个普通进程，用于 解析命令，管理进程，控制 IO，协调程序运行 等等</li>
+<li>常见的 shell：Bash</li>
 </ul>
+<p>libc 的作用是 系统调用封装，提供标准 C 接口，应用 <strong>不直接调用内核</strong>，而是通过 libc，常见的有 glibc，musl 等等</p>
+<p>systemd 的作用是 系统初始化，服务管理，cgroups 管理，不是“启动脚本工具”，是 <strong>系统级进程编排器</strong></p>
+<p>runc 的是容器运行时，Docker、Podman 等等，底层都使用的是 runc</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="7-散热"
+    <h3 id="linux-系统整体角色"
     >
-        7️⃣ 散热
+        Linux 系统整体角色
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#7-散热" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7️⃣ 散热" aria-label="Anchor to: 7️⃣ 散热" href="#7-%e6%95%a3%e7%83%ad">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#linux-系统整体角色" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Linux 系统整体角色" aria-label="Anchor to: Linux 系统整体角色" href="#linux-%e7%b3%bb%e7%bb%9f%e6%95%b4%e4%bd%93%e8%a7%92%e8%89%b2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<p>Linux 系统 = 内核 + 用户空间工具 + 服务管理 + 配置体系</p>
+<p>它的核心职责是：</p>
 <ul>
-<li>风道设计（前进后出）</li>
-<li>风扇冗余</li>
-<li>机房温度 &lt; 27℃</li>
+<li>管理硬件</li>
+<li>提供稳定接口</li>
+<li>支撑应用运行</li>
 </ul>
+<p>Linux 系统常见的有 RHEL系列 和 Debian系列</p>
+<p>最大的区别的是包管理不同：RHEL系列使用 RPM 包管理，Debian系列使用 DEB 包管理</p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三服务器形态"
+    <h2 id="五大子系统如何协同"
     >
-        三、服务器形态
+        五大子系统如何协同
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#三服务器形态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、服务器形态" aria-label="Anchor to: 三、服务器形态" href="#%e4%b8%89%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%bd%a2%e6%80%81">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#五大子系统如何协同" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五大子系统如何协同" aria-label="Anchor to: 五大子系统如何协同" href="#%e4%ba%94%e5%a4%a7%e5%ad%90%e7%b3%bb%e7%bb%9f%e5%a6%82%e4%bd%95%e5%8d%8f%e5%90%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>特点</th>
-          <th>使用场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>塔式</td>
-          <td>安静</td>
-          <td>办公室</td>
-      </tr>
-      <tr>
-          <td>1U</td>
-          <td>密度高</td>
-          <td>Web</td>
-      </tr>
-      <tr>
-          <td>2U</td>
-          <td>扩展强</td>
-          <td>DB / 虚拟化</td>
-      </tr>
-      <tr>
-          <td>刀片</td>
-          <td>集中管理</td>
-          <td>大型 IDC</td>
-      </tr>
-  </tbody>
-</table> </div>
+<p>以 MySQL 一次查询 为例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">MySQL 进程
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">进程调度（CPU 时间片）
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">内存管理（Buffer Pool / Page Cache）
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">文件系统（VFS -&gt; ext4 / xfs）
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">块设备层
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">设备驱动（NVMe / SATA）
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">硬件
+</span></span></code></pre></div><p>网络请求则会多走一条：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">网卡 -&gt; 驱动 -&gt; 网络栈 -&gt; Socket -&gt; MySQL
+</span></span></code></pre></div><hr>
+<p>基于 硬件 和 Linux 之上，有一个重要的概念：<strong>虚拟化</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四不同业务的推荐配置"
+    <h2 id="虚拟化"
     >
-        四、不同业务的推荐配置
+        虚拟化
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/hardware/servers/#四不同业务的推荐配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、不同业务的推荐配置" aria-label="Anchor to: 四、不同业务的推荐配置" href="#%e5%9b%9b%e4%b8%8d%e5%90%8c%e4%b8%9a%e5%8a%a1%e7%9a%84%e6%8e%a8%e8%8d%90%e9%85%8d%e7%bd%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 虚拟化" aria-label="Anchor to: 虚拟化" href="#%e8%99%9a%e6%8b%9f%e5%8c%96">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>Web / API</p>
+<p>虚拟化（Virtualization） 是把一套物理资源（CPU / 内存 / 磁盘 / 网络）抽象成多套逻辑资源，让多套系统或应用相互隔离、同时运行的技术。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="虚拟化的本质"
+    >
+        虚拟化的本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#虚拟化的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 虚拟化的本质" aria-label="Anchor to: 虚拟化的本质" href="#%e8%99%9a%e6%8b%9f%e5%8c%96%e7%9a%84%e6%9c%ac%e8%b4%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在不增加物理机器的前提下，提高资源利用率、隔离性和可管理性。</p>
+<p>虚拟化包括：硬件虚拟化、操作系统级虚拟化、网络虚拟化、存储虚拟化</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="硬件虚拟化"
+    >
+        硬件虚拟化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#硬件虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 硬件虚拟化" aria-label="Anchor to: 硬件虚拟化" href="#%e7%a1%ac%e4%bb%b6%e8%99%9a%e6%8b%9f%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>也就是<strong>虚拟机</strong></p>
+<p><strong>本质：虚拟机通过虚拟化硬件并运行完整操作系统，在同一物理主机上实现强隔离的多系统运行。</strong></p>
+<p>每个虚拟机都有自己的内核，资源隔离靠硬件虚拟化</p>
+<p>常见应用</p>
 <ul>
-<li>CPU：高主频</li>
-<li>内存：16–64G</li>
-<li>磁盘：NVMe</li>
-<li>网络：10G</li>
+<li>ESXi</li>
+<li>KVM</li>
+<li>XEN</li>
+<li>VirtualBox</li>
+<li>VMware Workstation</li>
 </ul>
-<p>数据库（MySQL / PostgreSQL）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="操作系统级虚拟化"
+    >
+        操作系统级虚拟化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#操作系统级虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 操作系统级虚拟化" aria-label="Anchor to: 操作系统级虚拟化" href="#%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%ba%a7%e8%99%9a%e6%8b%9f%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>也就是<strong>容器</strong></p>
+<p><strong>本质：通过内核级隔离与资源限制，在共享同一内核的前提下运行彼此隔离的进程环境。</strong></p>
+<p>容器化：不虚拟内核，只虚拟“使用方式”</p>
+<p>常见应用</p>
 <ul>
-<li>CPU：多核 + 大缓存</li>
-<li>内存：128G+</li>
-<li>磁盘：NVMe + RAID10</li>
-<li>NUMA 绑定</li>
+<li>Docker</li>
+<li>Podman</li>
+<li>Kubernetes</li>
 </ul>
-<p>K8S / 虚拟化</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="网络虚拟化"
+    >
+        网络虚拟化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#网络虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 网络虚拟化" aria-label="Anchor to: 网络虚拟化" href="#%e7%bd%91%e7%bb%9c%e8%99%9a%e6%8b%9f%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>把物理网络抽象成逻辑网络</p>
 <ul>
-<li>CPU：核心数优先</li>
-<li>内存：大</li>
-<li>网络：双 10G</li>
-<li>支持 VT-x / IOMMU</li>
+<li>VLAN</li>
+<li>Kubernetes CNI</li>
 </ul>
-<p>五、常见硬件问题排查方向</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="存储虚拟化"
+    >
+        存储虚拟化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#存储虚拟化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 存储虚拟化" aria-label="Anchor to: 存储虚拟化" href="#%e5%ad%98%e5%82%a8%e8%99%9a%e6%8b%9f%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>多块物理盘 -&gt; 统一逻辑存储池</p>
 <ul>
-<li>性能低 -&gt; CPU 频率 / NUMA</li>
-<li>IO 慢 -&gt; RAID / 磁盘队列</li>
-<li>随机重启 -&gt; 电源 / 内存 ECC</li>
-<li>网络抖动 -&gt; 网卡队列 / 驱动</li>
+<li>LVM</li>
+<li>Ceph</li>
+<li>SAN / NAS</li>
 </ul>
+<hr>
+<p>基础讲完了，接下来就是应用程序。</p>
+<p>一、容器与容器编排</p>
+<p>Docker</p>
+<p>定位：应用容器化运行时，用于构建、打包和运行容器。</p>
+<p>Docker = 利用 Linux 内核能力（Namespace + cgroups + UnionFS）， 把应用进程“隔离、限制、打包、分发、运行”的一整套工程体系。</p>
+<p>Docker 本质是 进程管理 + 文件系统抽象</p>
+<p>Docker 解决了什么问题</p>
+<ul>
+<li>环境一致性</li>
+<li>部署复杂度</li>
+<li>资源利用率</li>
+</ul>
+<p>容器的三大底层基石：Namespace，cgroups，UnionFS</p>
+<p>Namespace &mdash;- 隔离</p>
+<ul>
+<li>Linux 内核提供的「资源视图隔离机制」</li>
+<li>本质：同一内核，不同视角</li>
+<li>Namespace 绑定的是「进程」，Namespace 不是系统级，是 进程属性</li>
+<li>进程看到的是“自己的”：PID / 网络 / 挂载点 / 主机名 / 用户</li>
+<li>容器用它：让容器“像一台独立主机”</li>
+</ul>
+<p>cgroups &mdash;- 资源限制</p>
+<ul>
+<li>Linux 内核的「资源配额与控制系统」</li>
+<li>Namespace：你 能看到什么</li>
+<li>cgroups：你 能用多少</li>
+<li>限制 CPU / 内存 / IO / PIDs</li>
+<li>容器 = Namespace + cgroups</li>
+<li>容器用它：控制每个容器最多能用多少资源</li>
+</ul>
+<p>UnionFS &mdash;- 文件系统分层</p>
+<ul>
+<li>是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制</li>
+<li>UnionFS 把多层目录叠成一层</li>
+<li>底层：只读镜像层</li>
+<li>上层：可写层</li>
+<li>对进程：看起来只有一个目录树</li>
+<li>容器用它：镜像可复用</li>
+<li>overlay2 是 Linux 原生、高性能的 UnionFS</li>
+</ul>
+<p>UnionFS：一类“把多层目录合并成一个视图”的文件系统思想</p>
+<p>overlay2：基于 Linux OverlayFS 的 Docker 存储驱动实现</p>
+<p>UnionFS 是联合文件系统的统称，overlay2 是 Docker 基于 Linux OverlayFS 实现的 UnionFS 存储驱动，也是当前默认和最推荐的实现。</p>
+<p>overlay2 不是一个文件系统，而是 Docker 使用 OverlayFS 的方式。</p>
+<p>Docker 四大核心对象</p>
+<ul>
+<li>Image（镜像）：应用的模版，只读，不可变，分层</li>
+<li>Container（容器）：镜像的运行实例，本质是一个 Linux 进程</li>
+<li>Dockerfile：构建镜像的文件，描述“如何构建镜像”，每条指令 -&gt; 一个镜像层</li>
+<li>Registry：镜像仓库，镜像的分发系统</li>
+</ul>
+<p>Docker 网络基础理论</p>
+<p>默认 bridge 网络</p>
+<p>container
+↓
+docker0 bridge
+↓
+iptables NAT
+↓
+宿主机网卡</p>
+<p>host 网络：与宿主机共用网络栈</p>
+<p>overlay 网络（集群）：跨宿主机容器通信</p>
+<p>Podman</p>
+<p>定位：无守护进程的容器运行时，兼容 Docker CLI，强调安全性。</p>
+<p>Kubernetes（K8s）</p>
+<p>定位：容器编排与集群管理平台，负责容器的调度、伸缩与高可用。</p>
+<p>二、配置管理与自动化运维</p>
+<p>Ansible</p>
+<p>定位：基于声明式的自动化运维与配置管理工具，实现批量部署和环境一致性。</p>
+<p>三、CI / CD 与代码管理</p>
+<p>Git</p>
+<p>定位：分布式版本控制系统，用于源代码管理。</p>
+<p>GitLab</p>
+<p>定位：集成代码管理、CI/CD、Issue 和权限控制的 DevOps 平台。</p>
+<p>Jenkins</p>
+<p>定位：持续集成与持续交付工具，负责自动化构建、测试与发布。</p>
+<p>四、日志、搜索与分析</p>
+<p>ElasticSearch</p>
+<p>定位：分布式搜索与日志分析引擎，用于日志检索和数据分析。</p>
+<p>五、消息队列与流处理</p>
+<p>Kafka</p>
+<p>定位：高吞吐、分布式消息队列与流处理平台，用于系统解耦和异步通信。</p>
+<p>六、负载均衡与流量调度</p>
+<p>LVS</p>
+<p>定位：内核级四层负载均衡，用于高性能流量分发。</p>
+<p>Nginx</p>
+<p>定位：高性能 Web 服务器与七层反向代理，常用于负载均衡与网关。</p>
+<p>七、数据库与数据存储</p>
+<p>MySQL</p>
+<p>定位：关系型数据库，广泛用于业务数据存储。</p>
+<p>PostgreSQL</p>
+<p>定位：高级关系型数据库，强调一致性、扩展性和复杂查询能力。</p>
+<p>MongoDB</p>
+<p>定位：文档型 NoSQL 数据库，适合非结构化和半结构化数据。</p>
+<p>Redis</p>
+<p>定位：内存型数据存储，常用于缓存、会话和消息场景。</p>
+<p>八、文件传输与数据同步</p>
+<p>FTP</p>
+<p>定位：传统文件传输协议，用于文件上传和下载。</p>
+<p>rsync</p>
+<p>定位：高效的数据同步工具，支持增量传输与远程备份。</p>
+<p>九、监控与告警</p>
+<p>Zabbix</p>
+<p>定位：传统一体化监控系统，擅长主机、网络和中间件监控。</p>
+<p>Prometheus</p>
+<p>定位：云原生监控与时序数据库，强调指标采集和服务监控。</p>
 
   </article>
 
@@ -3485,6 +3648,9 @@
         
 
         
+          
+          
+        
 
         
           
@@ -3521,6 +3687,11 @@
         
         
 
+        
+          
+            
+            
+          
         
 
         
@@ -3540,9 +3711,27 @@
 
 
 <span class="gdoc-page__nav">
+  
+    <a
+      class="gdoc-page__nav--prev flex align-center"
+      href="/operations/zabbix/"
+      title="Zabbix"
+    >
+      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
+      Zabbix
+    </a>
   
 </span>
 <span class="gdoc-page__nav">
+  
+    <a
+      class="gdoc-page__nav--next flex align-center"
+      href="/about/"
+      title="About"
+    >
+      About
+      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
+    </a>
   
 </span>
 
