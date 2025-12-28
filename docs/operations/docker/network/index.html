@@ -68,7 +68,7 @@
       "url" : "https://documents.v2ep.com/operations/docker/network/",
       "headline": "Docker 网络原理",
       "description": "下面这份是从 Linux 网络底层 → Docker 网络模型 → 数据包路径 → 访问场景 → 常见坑的 《Docker 网络原理全景解析》。\n不是“怎么用”，而是为什么这样设计、数据包怎么走。\n一、一句话总览（先背） Docker 网络本质是：Linux Network Namespace \u002b veth \u002b bridge \u002b iptables NAT\n二、Docker 网络的四个核心组件 1️⃣ Network Namespace（网络隔离） 每个容器有独立网络栈",
-      "wordCount" : "331",
+      "wordCount" : "330",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2546,33 +2546,20 @@
 <li>❌ overlay 性能期望过高</li>
 <li>❌ 容器 DNS 被覆盖</li>
 </ul>
-<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二面试高分回答模板"
+    <h2 id="十二总结"
     >
-        十二、面试高分回答模板
+        十二、总结
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/network/#十二面试高分回答模板" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、面试高分回答模板" aria-label="Anchor to: 十二、面试高分回答模板" href="#%e5%8d%81%e4%ba%8c%e9%9d%a2%e8%af%95%e9%ab%98%e5%88%86%e5%9b%9e%e7%ad%94%e6%a8%a1%e6%9d%bf">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/network/#十二总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、总结" aria-label="Anchor to: 十二、总结" href="#%e5%8d%81%e4%ba%8c%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<blockquote>
 <p><strong>Docker 网络基于 Linux Namespace 隔离，每个容器有独立网络栈，通过 veth 连接到宿主机的 bridge。外部访问通过 DNAT 端口映射，容器访问外部通过 SNAT。容器间通信依赖内置 DNS。</strong></p>
-</blockquote>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十三三句话终极总结"
-    >
-        十三、三句话终极总结
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/network/#十三三句话终极总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、三句话终极总结" aria-label="Anchor to: 十三、三句话终极总结" href="#%e5%8d%81%e4%b8%89%e4%b8%89%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
 <blockquote>
-<p><strong>veth 是网线</strong>
-<strong>bridge 是交换机</strong>
-<strong>iptables 是路由器 + 防火墙</strong></p>
+<p><strong>veth 是网线</strong><br />
+<strong>bridge 是交换机</strong><br />
+<strong>iptables 是路由器 + 防火墙</strong><br /></p>
 </blockquote>
 
   </article>
