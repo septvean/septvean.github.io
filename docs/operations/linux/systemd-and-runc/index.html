@@ -12,10 +12,13 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="有关系，而且关系非常清晰，但层级一定要分清。
+内容：结论 → 架构关系 → 典型交互路径 → 常见误区澄清。
+一、一句话结论（先记住） systemd 和 runc 不在同一层，但它们通过“进程模型”和“cgroups”产生了间接联系。
+systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器进程启动器 👉 它们不是互相调用关系，而是“可以协作，但互不依赖”
+二、各自是谁？（严格定位） 1️⃣ systemd 是什么 systemd 是 PID 1，负责整个系统的：" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>systemd 和 runc 之间的关系 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +39,27 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="systemd 和 runc 之间的关系"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="有关系，而且关系非常清晰，但层级一定要分清。
+内容：结论 → 架构关系 → 典型交互路径 → 常见误区澄清。
+一、一句话结论（先记住） systemd 和 runc 不在同一层，但它们通过“进程模型”和“cgroups”产生了间接联系。
+systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器进程启动器 👉 它们不是互相调用关系，而是“可以协作，但互不依赖”
+二、各自是谁？（严格定位） 1️⃣ systemd 是什么 systemd 是 PID 1，负责整个系统的：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/systemd-and-runc/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="systemd 和 runc 之间的关系" />
+  <meta name="twitter:description" content="有关系，而且关系非常清晰，但层级一定要分清。
+内容：结论 → 架构关系 → 典型交互路径 → 常见误区澄清。
+一、一句话结论（先记住） systemd 和 runc 不在同一层，但它们通过“进程模型”和“cgroups”产生了间接联系。
+systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器进程启动器 👉 它们不是互相调用关系，而是“可以协作，但互不依赖”
+二、各自是谁？（严格定位） 1️⃣ systemd 是什么 systemd 是 PID 1，负责整个系统的：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +67,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 irqbalance journal lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL \/ PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "102",
+      "name": "systemd 和 runc 之间的关系",
+      "url" : "https://documents.v2ep.com/operations/linux/systemd-and-runc/",
+      "headline": "systemd 和 runc 之间的关系",
+      "description": "有关系，而且关系非常清晰，但层级一定要分清。\n内容：结论 → 架构关系 → 典型交互路径 → 常见误区澄清。\n一、一句话结论（先记住） systemd 和 runc 不在同一层，但它们通过“进程模型”和“cgroups”产生了间接联系。\nsystemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器进程启动器 👉 它们不是互相调用关系，而是“可以协作，但互不依赖”\n二、各自是谁？（严格定位） 1️⃣ systemd 是什么 systemd 是 PID 1，负责整个系统的：",
+      "wordCount" : "303",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/systemd-and-runc/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +160,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/systemd-and-runc/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1007,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -1988,7 +1997,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>systemd 和 runc 之间的关系</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2007,345 +2024,425 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>systemd 和 runc 之间的关系</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-runc/" class="gdoc-toc__entry">runc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-and-runc/" class="gdoc-toc__entry">systemd 和 runc 之间的关系
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-relationship/" class="gdoc-toc__entry">Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/from-hardware-to-container/" class="gdoc-toc__entry">从硬件到容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/numa-practice/" class="gdoc-toc__entry">多应用场景 NUMA 实践
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/performance/" class="gdoc-toc__entry">性能优化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance/" class="gdoc-toc__entry">irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/nftables/" class="gdoc-toc__entry">nftables
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-vs-debian/" class="gdoc-toc__entry">RHEL 系列 vs Debian 系列
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-user-exist/" class="gdoc-toc__entry">如何判断系统用户是否存在
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mem-available/" class="gdoc-toc__entry">如何计算内存实际剩余多少
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance-database/" class="gdoc-toc__entry">数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>有关系，而且<strong>关系非常清晰，但层级一定要分清</strong>。</p>
+<p>内容：<strong>结论 → 架构关系 → 典型交互路径 → 常见误区澄清</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一一句话结论先记住"
+    >
+        一、一句话结论（先记住）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#一一句话结论先记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、一句话结论（先记住）" aria-label="Anchor to: 一、一句话结论（先记住）" href="#%e4%b8%80%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%93%e8%ae%ba%e5%85%88%e8%ae%b0%e4%bd%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>systemd 和 runc 不在同一层，但它们通过“进程模型”和“cgroups”产生了间接联系。</strong></p>
+</blockquote>
+<ul>
+<li><strong>systemd</strong>：通用的 <em>系统与服务管理器</em></li>
+<li><strong>runc</strong>：符合 OCI 规范的 <em>容器进程启动器</em></li>
+</ul>
+<p>👉 <strong>它们不是互相调用关系，而是“可以协作，但互不依赖”</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二各自是谁严格定位"
+    >
+        二、各自是谁？（严格定位）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#二各自是谁严格定位" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、各自是谁？（严格定位）" aria-label="Anchor to: 二、各自是谁？（严格定位）" href="#%e4%ba%8c%e5%90%84%e8%87%aa%e6%98%af%e8%b0%81%e4%b8%a5%e6%a0%bc%e5%ae%9a%e4%bd%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-systemd-是什么"
+    >
+        1️⃣ systemd 是什么
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#1-systemd-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ systemd 是什么" aria-label="Anchor to: 1️⃣ systemd 是什么" href="#1-systemd-%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>systemd 是 <strong>PID 1</strong>，负责整个系统的：</p>
+</blockquote>
+<ul>
+<li>进程生命周期管理</li>
+<li>服务启动 / 停止 / 重启</li>
+<li>cgroups 管理</li>
+<li>资源限制（CPU / Memory / IO）</li>
+<li>socket / timer / mount 管理</li>
+</ul>
+<p><strong>本质一句话</strong>：</p>
+<blockquote>
+<p>systemd 是“<strong>进程控制平面</strong>”。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-runc-是什么"
+    >
+        2️⃣ runc 是什么
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#2-runc-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ runc 是什么" aria-label="Anchor to: 2️⃣ runc 是什么" href="#2-runc-%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>runc 是一个 <strong>一次性工具</strong>，负责：</p>
+</blockquote>
+<ul>
+<li>创建 Linux namespaces</li>
+<li>设置 cgroups</li>
+<li>挂载 rootfs</li>
+<li>执行容器的 <code>init</code> 进程</li>
+<li>启动完成后 <strong>立刻退出</strong></li>
+</ul>
+<p><strong>本质一句话</strong>：</p>
+<blockquote>
+<p>runc 是“<strong>容器进程引导器</strong>”。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三systemd-和-runc-的真正连接点"
+    >
+        三、systemd 和 runc 的真正“连接点”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#三systemd-和-runc-的真正连接点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、systemd 和 runc 的真正“连接点”" aria-label="Anchor to: 三、systemd 和 runc 的真正“连接点”" href="#%e4%b8%89systemd-%e5%92%8c-runc-%e7%9a%84%e7%9c%9f%e6%ad%a3%e8%bf%9e%e6%8e%a5%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-唯一真正的交集cgroups"
+    >
+        🔗 唯一真正的交集：<strong>cgroups</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#-唯一真正的交集cgroups" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔗 唯一真正的交集：cgroups" aria-label="Anchor to: 🔗 唯一真正的交集：cgroups" href="#-%e5%94%af%e4%b8%80%e7%9c%9f%e6%ad%a3%e7%9a%84%e4%ba%a4%e9%9b%86cgroups">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这是它们发生关系的地方。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="systemd-对-cgroups-的角色"
+    >
+        systemd 对 cgroups 的角色
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#systemd-对-cgroups-的角色" class="gdoc-page__anchor clip flex align-center" title="Anchor to: systemd 对 cgroups 的角色" aria-label="Anchor to: systemd 对 cgroups 的角色" href="#systemd-%e5%af%b9-cgroups-%e7%9a%84%e8%a7%92%e8%89%b2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>systemd 是 <strong>cgroup 的总管理者</strong></p>
+</li>
+<li>
+<p>所有进程最终都在某个 systemd 管理的 cgroup 下</p>
+</li>
+<li>
+<p>systemd 负责：</p>
+<ul>
+<li>创建</li>
+<li>层级划分</li>
+<li>回收</li>
+<li>资源限制</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="runc-对-cgroups-的角色"
+    >
+        runc 对 cgroups 的角色
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#runc-对-cgroups-的角色" class="gdoc-page__anchor clip flex align-center" title="Anchor to: runc 对 cgroups 的角色" aria-label="Anchor to: runc 对 cgroups 的角色" href="#runc-%e5%af%b9-cgroups-%e7%9a%84%e8%a7%92%e8%89%b2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>runc <strong>不会创建顶层 cgroup</strong></p>
+</li>
+<li>
+<p>它只是：</p>
+<ul>
+<li>被告知“你该用哪个 cgroup”</li>
+<li>把容器进程放进去</li>
+</ul>
+</li>
+<li>
+<p>runc 本身<strong>不负责长期管理</strong></p>
+</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四真实运行路径非常重要"
+    >
+        四、真实运行路径（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#四真实运行路径非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、真实运行路径（非常重要）" aria-label="Anchor to: 四、真实运行路径（非常重要）" href="#%e5%9b%9b%e7%9c%9f%e5%ae%9e%e8%bf%90%e8%a1%8c%e8%b7%af%e5%be%84%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="典型-docker-场景简化"
+    >
+        典型 Docker 场景（简化）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#典型-docker-场景简化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 典型 Docker 场景（简化）" aria-label="Anchor to: 典型 Docker 场景（简化）" href="#%e5%85%b8%e5%9e%8b-docker-%e5%9c%ba%e6%99%af%e7%ae%80%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">systemd (PID 1)
+</span></span><span class="line"><span class="cl"> └─ dockerd.service
+</span></span><span class="line"><span class="cl">     └─ dockerd
+</span></span><span class="line"><span class="cl">         └─ containerd
+</span></span><span class="line"><span class="cl">             └─ runc
+</span></span><span class="line"><span class="cl">                 └─ 容器 init 进程 (PID N)
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="关键点解释"
+    >
+        关键点解释
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#关键点解释" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键点解释" aria-label="Anchor to: 关键点解释" href="#%e5%85%b3%e9%94%ae%e7%82%b9%e8%a7%a3%e9%87%8a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>systemd：</p>
+<ul>
+<li>管理 <code>dockerd.service</code></li>
+<li>创建并维护 cgroup 树</li>
+</ul>
+</li>
+<li>
+<p>runc：</p>
+<ul>
+<li>在 <strong>systemd 已划好的 cgroup 空间中</strong></li>
+<li>启动容器进程</li>
+<li>启动完成即退出</li>
+</ul>
+</li>
+</ul>
+<p>👉 <strong>runc 从不“接管系统”，它只是启动一个进程</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五systemd-run-与-runc-的类比关系"
+    >
+        五、systemd-run 与 runc 的类比关系
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#五systemd-run-与-runc-的类比关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、systemd-run 与 runc 的类比关系" aria-label="Anchor to: 五、systemd-run 与 runc 的类比关系" href="#%e4%ba%94systemd-run-%e4%b8%8e-runc-%e7%9a%84%e7%b1%bb%e6%af%94%e5%85%b3%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这是理解它们关系的关键类比：</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>systemd-run</th>
+          <th>runc</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>作用</td>
+          <td>启动一个受控进程</td>
+          <td>启动一个受控进程</td>
+      </tr>
+      <tr>
+          <td>是否一次性</td>
+          <td>是</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td>是否管理生命周期</td>
+          <td>否</td>
+          <td>否</td>
+      </tr>
+      <tr>
+          <td>使用 cgroups</td>
+          <td>是</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td>隔离维度</td>
+          <td>资源</td>
+          <td>资源 + namespace</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>👉 <strong>runc = systemd-run + namespace + rootfs</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六systemd-能不能代替-runc"
+    >
+        六、systemd 能不能“代替” runc？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#六systemd-能不能代替-runc" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、systemd 能不能“代替” runc？" aria-label="Anchor to: 六、systemd 能不能“代替” runc？" href="#%e5%85%adsystemd-%e8%83%bd%e4%b8%8d%e8%83%bd%e4%bb%a3%e6%9b%bf-runc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="结论不能完全但可以接近"
+    >
+        结论：不能完全，但可以接近
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#结论不能完全但可以接近" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 结论：不能完全，但可以接近" aria-label="Anchor to: 结论：不能完全，但可以接近" href="#%e7%bb%93%e8%ae%ba%e4%b8%8d%e8%83%bd%e5%ae%8c%e5%85%a8%e4%bd%86%e5%8f%af%e4%bb%a5%e6%8e%a5%e8%bf%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>systemd 有：</p>
+<ul>
+<li><code>systemd-nspawn</code></li>
+<li><code>systemd-run --property=...</code></li>
+<li>原生 cgroups v2 支持</li>
+</ul>
+<p>但 systemd <strong>不等同于 OCI runtime</strong>：</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>能力</th>
+          <th>systemd</th>
+          <th>runc</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>OCI 规范</td>
+          <td>❌</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>Namespace 组合</td>
+          <td>有</td>
+          <td>完整</td>
+      </tr>
+      <tr>
+          <td>rootfs 管理</td>
+          <td>有</td>
+          <td>标准化</td>
+      </tr>
+      <tr>
+          <td>容器生态兼容</td>
+          <td>低</td>
+          <td>高</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七systemd-与-runc-的协作模式"
+    >
+        七、systemd 与 runc 的“协作模式”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#七systemd-与-runc-的协作模式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、systemd 与 runc 的“协作模式”" aria-label="Anchor to: 七、systemd 与 runc 的“协作模式”" href="#%e4%b8%83systemd-%e4%b8%8e-runc-%e7%9a%84%e5%8d%8f%e4%bd%9c%e6%a8%a1%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="两种现实世界的关系"
+    >
+        两种现实世界的关系
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#两种现实世界的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 两种现实世界的关系" aria-label="Anchor to: 两种现实世界的关系" href="#%e4%b8%a4%e7%a7%8d%e7%8e%b0%e5%ae%9e%e4%b8%96%e7%95%8c%e7%9a%84%e5%85%b3%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="模式一systemd-管理容器推荐"
+    >
+        模式一：<strong>systemd 管理容器（推荐）</strong>
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#模式一systemd-管理容器推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 模式一：systemd 管理容器（推荐）" aria-label="Anchor to: 模式一：systemd 管理容器（推荐）" href="#%e6%a8%a1%e5%bc%8f%e4%b8%80systemd-%e7%ae%a1%e7%90%86%e5%ae%b9%e5%99%a8%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>systemd 管理 cgroups</li>
+<li>容器运行在 systemd slice 中</li>
+<li>runc 只负责启动</li>
+</ul>
+<p>例如：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"># /etc/systemd/system/docker.service
+[Service]
+Slice=docker.slice
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="模式二systemd-本身就是容器-init"
+    >
+        模式二：<strong>systemd 本身就是容器 init</strong>
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#模式二systemd-本身就是容器-init" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 模式二：systemd 本身就是容器 init" aria-label="Anchor to: 模式二：systemd 本身就是容器 init" href="#%e6%a8%a1%e5%bc%8f%e4%ba%8csystemd-%e6%9c%ac%e8%ba%ab%e5%b0%b1%e6%98%af%e5%ae%b9%e5%99%a8-init">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>容器内 PID 1 是 systemd</li>
+<li>外部仍然是 runc 启动</li>
+<li>systemd 管理容器内部服务</li>
+</ul>
+<p>👉 <strong>这是“systemd 在容器里”，不是 systemd 管 runc</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八常见误区澄清非常重要"
+    >
+        八、常见误区澄清（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#八常见误区澄清非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、常见误区澄清（非常重要）" aria-label="Anchor to: 八、常见误区澄清（非常重要）" href="#%e5%85%ab%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e6%be%84%e6%b8%85%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-误区-1systemd-管理-runc"
+    >
+        ❌ 误区 1：systemd 管理 runc
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#-误区-1systemd-管理-runc" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 误区 1：systemd 管理 runc" aria-label="Anchor to: ❌ 误区 1：systemd 管理 runc" href="#-%e8%af%af%e5%8c%ba-1systemd-%e7%ae%a1%e7%90%86-runc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>不对。
+systemd 管的是 <strong>调用 runc 的服务进程</strong>，不是 runc 本身。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-误区-2runc-是常驻进程"
+    >
+        ❌ 误区 2：runc 是常驻进程
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#-误区-2runc-是常驻进程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 误区 2：runc 是常驻进程" aria-label="Anchor to: ❌ 误区 2：runc 是常驻进程" href="#-%e8%af%af%e5%8c%ba-2runc-%e6%98%af%e5%b8%b8%e9%a9%bb%e8%bf%9b%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>不对。
+runc 是 <strong>fork + exec 后立即退出</strong> 的工具。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-误区-3容器是-runc-管的"
+    >
+        ❌ 误区 3：容器是 runc 管的
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#-误区-3容器是-runc-管的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 误区 3：容器是 runc 管的" aria-label="Anchor to: ❌ 误区 3：容器是 runc 管的" href="#-%e8%af%af%e5%8c%ba-3%e5%ae%b9%e5%99%a8%e6%98%af-runc-%e7%ae%a1%e7%9a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>不对。
+<strong>容器生命周期由上层（Docker / containerd / CRI）管理</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九一句话终极总结可以当心智锚点"
+    >
+        九、一句话终极总结（可以当心智锚点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemd-and-runc/#九一句话终极总结可以当心智锚点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、一句话终极总结（可以当心智锚点）" aria-label="Anchor to: 九、一句话终极总结（可以当心智锚点）" href="#%e4%b9%9d%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93%e5%8f%af%e4%bb%a5%e5%bd%93%e5%bf%83%e6%99%ba%e9%94%9a%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>systemd 是“系统级进程与资源管理者”，runc 是“容器级进程启动器”。它们通过 cgroups 间接协作，但不互相依赖、不互相替代。</strong></p>
+</blockquote>
 
   </article>
 
@@ -2873,9 +2970,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2906,11 +3000,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3524,27 +3613,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
