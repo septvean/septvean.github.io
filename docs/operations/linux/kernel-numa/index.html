@@ -68,7 +68,7 @@
       "url" : "https://documents.v2ep.com/operations/linux/kernel-numa/",
       "headline": "Linux NUMA",
       "description": "NUMA（Non-Uniform Memory Access）\n一、NUMA 是什么（一句话先立住） NUMA = 每个 CPU 有“自己更近的内存”，访问别的 CPU 内存会更慢\n和它对立的是 UMA（Uniform Memory Access）。\n二、为什么会有 NUMA？ 1️⃣ UMA 的问题（老架构） CPU0 ─┐ CPU1 ─┼── Memory CPU2 ─┤ CPU3 ─┘ 所有 CPU 共享同一内存控制器 CPU 越多 -\u003e 内存争用越严重 总线成为瓶颈 2️⃣ NUMA 的诞生（现代服务器） NUMA Node 0 NUMA Node 1 \u002b-----------\u002b \u002b-----------\u002b | CPU0 CPU1 | | CPU2 CPU3 | | Memory 0 | \u003c──QPI──\u003e | Memory 1 | \u002b-----------\u002b \u002b-----------\u002b 内存控制器集成到 CPU 每个 CPU（Socket）直接连一部分内存 CPU 访问： 本地内存 -\u003e 快 远程内存 -\u003e 慢 三、NUMA 中“慢”到底慢多少？ 大致数量级（因硬件不同而异）：",
-      "wordCount" : "428",
+      "wordCount" : "459",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2534,6 +2534,25 @@
 <li>内存分配策略</li>
 </ul>
 <p>一起考虑</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="查看是否为双路cpu物理双cpu"
+    >
+        查看是否为双路CPU（物理双CPU）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/kernel-numa/#查看是否为双路cpu物理双cpu" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看是否为双路CPU（物理双CPU）" aria-label="Anchor to: 查看是否为双路CPU（物理双CPU）" href="#%e6%9f%a5%e7%9c%8b%e6%98%af%e5%90%a6%e4%b8%ba%e5%8f%8c%e8%b7%afcpu%e7%89%a9%e7%90%86%e5%8f%8ccpu">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Linux 系统</p>
+<ul>
+<li>使用终端命令 lscpu, 查看 Socket(s) 一项，数值为 2 则表示双路CPU。</li>
+<li>或者运行 <code>cat /proc/cpuinfo | grep &quot;physical id&quot; | sort -u | wc -l</code> 来计算物理CPU个数。</li>
+</ul>
+<p>硬件查看</p>
+<ul>
+<li>直接打开服务器机箱，观察主板上是否有两个并排的CPU风扇/散热片。</li>
+</ul>
+<p>注意：不要将 “双路CPU（2个物理芯片）” 与 “双核CPU（1个芯片内有两个核心）” 混淆。双路系统多用于服务器或工作站。</p>
 
   </article>
 

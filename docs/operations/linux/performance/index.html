@@ -1,0 +1,4877 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="color-toggle-hidden"
+  
+>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="referrer" content="no-referrer" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<meta name="generator" content="Hugo 0.152.2">
+
+
+  <meta name="description" content="下面这份内容，我会刻意避开你已经整理过的 sysctl 参数，只补充那些：
+你现在这套配置没有覆盖 在生产环境中经常被忽略，但非常关键 必须按场景区分，否则会出问题 并且我会按你一贯偏好的方式来写： 结论先行 &#43; 场景化 &#43; 可落地，不做中英文混搭。
+一、一个重要前提（先说清楚） 系统性能 ≠ 只靠 sysctl
+真正稳定高性能的 Linux，至少包含 5 个层面：
+内核参数（sysctl） 资源限制（limits / cgroup） systemd 行为 调度与中断（CPU / NUMA / IRQ） 文件系统与 I/O 你前面已经把 第 1 层 做得非常完整了，下面重点补 2–5 层。
+二、资源限制（limits）——你现在几乎没动，但非常关键 1️⃣ 文件描述符（必须） 全局（systemd） ## /etc/systemd/system.conf DefaultLimitNOFILE=1048576 用户级 ## /etc/security/limits.conf * soft nofile 1048576 * hard nofile 1048576 适用场景 服务 必须 Nginx ✅ MySQL / PostgreSQL ✅ Redis ✅ Kafka ✅ Prometheus ✅ 2️⃣ 进程数限制（防 fork 风暴） ## /etc/security/limits.conf * soft nproc 65535 * hard nproc 65535 适合：" />
+
+    <title>性能优化 | ☘️ Septvean&#39;s Documents</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="/favicon/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="/favicon/favicon-16x16.png"
+/>
+
+    
+
+    
+  <meta
+    property="og:title"
+    content="性能优化"
+  />
+  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:description" content="下面这份内容，我会刻意避开你已经整理过的 sysctl 参数，只补充那些：
+你现在这套配置没有覆盖 在生产环境中经常被忽略，但非常关键 必须按场景区分，否则会出问题 并且我会按你一贯偏好的方式来写： 结论先行 &#43; 场景化 &#43; 可落地，不做中英文混搭。
+一、一个重要前提（先说清楚） 系统性能 ≠ 只靠 sysctl
+真正稳定高性能的 Linux，至少包含 5 个层面：
+内核参数（sysctl） 资源限制（limits / cgroup） systemd 行为 调度与中断（CPU / NUMA / IRQ） 文件系统与 I/O 你前面已经把 第 1 层 做得非常完整了，下面重点补 2–5 层。
+二、资源限制（limits）——你现在几乎没动，但非常关键 1️⃣ 文件描述符（必须） 全局（systemd） ## /etc/systemd/system.conf DefaultLimitNOFILE=1048576 用户级 ## /etc/security/limits.conf * soft nofile 1048576 * hard nofile 1048576 适用场景 服务 必须 Nginx ✅ MySQL / PostgreSQL ✅ Redis ✅ Kafka ✅ Prometheus ✅ 2️⃣ 进程数限制（防 fork 风暴） ## /etc/security/limits.conf * soft nproc 65535 * hard nproc 65535 适合：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/performance/" />
+
+<meta property="article:section" content="Operations" />
+
+
+  <meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="性能优化" />
+  <meta name="twitter:description" content="下面这份内容，我会刻意避开你已经整理过的 sysctl 参数，只补充那些：
+你现在这套配置没有覆盖 在生产环境中经常被忽略，但非常关键 必须按场景区分，否则会出问题 并且我会按你一贯偏好的方式来写： 结论先行 &#43; 场景化 &#43; 可落地，不做中英文混搭。
+一、一个重要前提（先说清楚） 系统性能 ≠ 只靠 sysctl
+真正稳定高性能的 Linux，至少包含 5 个层面：
+内核参数（sysctl） 资源限制（limits / cgroup） systemd 行为 调度与中断（CPU / NUMA / IRQ） 文件系统与 I/O 你前面已经把 第 1 层 做得非常完整了，下面重点补 2–5 层。
+二、资源限制（limits）——你现在几乎没动，但非常关键 1️⃣ 文件描述符（必须） 全局（systemd） ## /etc/systemd/system.conf DefaultLimitNOFILE=1048576 用户级 ## /etc/security/limits.conf * soft nofile 1048576 * hard nofile 1048576 适用场景 服务 必须 Nginx ✅ MySQL / PostgreSQL ✅ Redis ✅ Kafka ✅ Prometheus ✅ 2️⃣ 进程数限制（防 fork 风暴） ## /etc/security/limits.conf * soft nproc 65535 * hard nproc 65535 适合：" />
+
+
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "TechArticle",
+      "articleSection": "Operations",
+      "name": "性能优化",
+      "url" : "https://documents.v2ep.com/operations/linux/performance/",
+      "headline": "性能优化",
+      "description": "下面这份内容，我会刻意避开你已经整理过的 sysctl 参数，只补充那些：\n你现在这套配置没有覆盖 在生产环境中经常被忽略，但非常关键 必须按场景区分，否则会出问题 并且我会按你一贯偏好的方式来写： 结论先行 \u002b 场景化 \u002b 可落地，不做中英文混搭。\n一、一个重要前提（先说清楚） 系统性能 ≠ 只靠 sysctl\n真正稳定高性能的 Linux，至少包含 5 个层面：\n内核参数（sysctl） 资源限制（limits \/ cgroup） systemd 行为 调度与中断（CPU \/ NUMA \/ IRQ） 文件系统与 I\/O 你前面已经把 第 1 层 做得非常完整了，下面重点补 2–5 层。\n二、资源限制（limits）——你现在几乎没动，但非常关键 1️⃣ 文件描述符（必须） 全局（systemd） ## \/etc\/systemd\/system.conf DefaultLimitNOFILE=1048576 用户级 ## \/etc\/security\/limits.conf * soft nofile 1048576 * hard nofile 1048576 适用场景 服务 必须 Nginx ✅ MySQL \/ PostgreSQL ✅ Redis ✅ Kafka ✅ Prometheus ✅ 2️⃣ 进程数限制（防 fork 风暴） ## \/etc\/security\/limits.conf * soft nproc 65535 * hard nproc 65535 适合：",
+      "wordCount" : "1058",
+      "inLanguage": "en",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://documents.v2ep.com/operations/linux/performance/"
+      },
+      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
+      "copyrightYear" : "0001",
+      "dateCreated": "0001-01-01T00:00:00.00Z",
+      "datePublished": "0001-01-01T00:00:00.00Z",
+      "dateModified": "0001-01-01T00:00:00.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "☘️ Septvean's Documents",
+          "url": "https://documents.v2ep.com/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https://documents.v2ep.com/brand.svg",
+              "width":"32",
+              "height":"32"
+          }
+      }
+  }
+  </script>
+
+
+    
+  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
+<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/Metropolis.woff2"
+  type="font/woff2"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/LiberationSans.woff2"
+  type="font/woff2"
+  crossorigin="anonymous"
+/>
+
+<link
+  rel="preload"
+  href="/main-188aff9e.min.css"
+  as="style"
+/>
+<link
+  rel="stylesheet"
+  href="/main-188aff9e.min.css"
+  media="all"
+/>
+
+<link
+  rel="preload"
+  href="/mobile-7885c8a8.min.css"
+  as="style"
+/>
+<link
+  rel="stylesheet"
+  href="/mobile-7885c8a8.min.css"
+  media="screen and (max-width: 45rem)"
+/>
+
+<link
+  rel="preload"
+  href="/print-72068949.min.css"
+  as="style"
+/>
+<link
+  rel="stylesheet"
+  href="/print-72068949.min.css"
+  media="print"
+/>
+
+<link
+  rel="preload"
+  href="/custom.css"
+  as="style"
+/>
+<link
+  rel="stylesheet"
+  href="/custom.css"
+  media="all"
+/>
+  <link href="https://documents.v2ep.com/operations/linux/performance/" rel="canonical" type="text/html" />
+
+<!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
+
+    
+
+  </head>
+
+  <body itemscope itemtype="https://schema.org/WebPage">
+    <div class="w-full flex justify-center">
+      <a href="#main-content" id="gdoc-to-main" class="gdoc-markdown__link">Skip to main content</a>
+    </div>
+
+    
+  <!-- geekdoc include: /sprites/geekdoc.svg -->
+  <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><svg viewBox="-7.27 -7.27 38.55 38.55" id="gdoc_arrow_back" xmlns="http://www.w3.org/2000/svg"><path d="M24 10.526v2.947H5.755l8.351 8.421-2.105 2.105-12-12 12-12 2.105 2.105-8.351 8.421H24z"/></svg><svg viewBox="-7.27 -7.27 38.55 38.55" id="gdoc_arrow_left_alt" xmlns="http://www.w3.org/2000/svg"><path d="M5.965 10.526V6.035L0 12l5.965 5.965v-4.491H24v-2.947H5.965z"/></svg><svg viewBox="-7.27 -7.27 38.55 38.55" id="gdoc_arrow_right_alt" xmlns="http://www.w3.org/2000/svg"><path d="M18.035 10.526V6.035L24 12l-5.965 5.965v-4.491H0v-2.947h18.035z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_bitbucket" xmlns="http://www.w3.org/2000/svg"><path d="M15.905 13.355c.189 1.444-1.564 2.578-2.784 1.839-1.375-.602-1.375-2.784-.034-3.403 1.151-.705 2.818.223 2.818 1.564zm1.907-.361c-.309-2.44-3.076-4.056-5.328-3.042-1.426.636-2.389 2.148-2.32 3.747.086 2.097 2.08 3.815 4.176 3.626s3.729-2.234 3.472-4.331zm4.108-9.315c-.756-.997-2.045-1.169-3.179-1.358-3.214-.516-6.513-.533-9.727.034-1.066.172-2.269.361-2.939 1.323 1.1 1.031 2.664 1.186 4.073 1.358 2.544.327 5.156.344 7.699.017 1.426-.172 3.008-.309 4.073-1.375zm.979 17.788c-.481 1.684-.206 3.953-1.994 4.932-3.076 1.701-6.806 1.89-10.191 1.289-1.787-.327-3.884-.894-4.864-2.578-.43-1.65-.705-3.334-.98-5.018l.103-.275.309-.155c5.121 3.386 12.288 3.386 17.427 0 .808.241.206 1.22.189 1.805zM26.01 4.951c-.584 3.764-1.255 7.51-1.908 11.257-.189 1.1-1.255 1.719-2.148 2.183-3.214 1.615-6.96 1.89-10.483 1.512-2.389-.258-4.829-.894-6.771-2.389-.911-.705-.911-1.908-1.083-2.922-.602-3.523-1.289-7.046-1.719-10.604.206-1.547 1.942-2.217 3.231-2.698C6.848.654 8.686.362 10.508.19c3.884-.378 7.854-.241 11.618.859 1.341.395 2.784.945 3.695 2.097.412.533.275 1.203.189 1.805z"/></svg><svg viewBox="-7.27 -7.27 38.55 38.55" id="gdoc_bookmark" xmlns="http://www.w3.org/2000/svg"><path d="M15.268 4.392q.868 0 1.532.638t.664 1.506v17.463l-7.659-3.268-7.608 3.268V6.536q0-.868.664-1.506t1.532-.638h10.876zm4.34 14.144V4.392q0-.868-.638-1.532t-1.506-.664H6.537q0-.868.664-1.532T8.733 0h10.876q.868 0 1.532.664t.664 1.532v17.412z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_brightness_auto" xmlns="http://www.w3.org/2000/svg"><path d="M16.846 18.938h2.382L15.22 7.785h-2.44L8.772 18.938h2.382l.871-2.44h3.95zm7.087-9.062L27.999 14l-4.066 4.124v5.809h-5.809L14 27.999l-4.124-4.066H4.067v-5.809L.001 14l4.066-4.124V4.067h5.809L14 .001l4.124 4.066h5.809v5.809zm-11.385 4.937L14 10.282l1.452 4.531h-2.904z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_brightness_dark" xmlns="http://www.w3.org/2000/svg"><path d="M14 21.435q3.079 0 5.257-2.178T21.435 14t-2.178-5.257T14 6.565q-1.51 0-3.079.697 1.917.871 3.108 2.701T15.22 14t-1.191 4.037-3.108 2.701q1.568.697 3.079.697zm9.933-11.559L27.999 14l-4.066 4.124v5.809h-5.809L14 27.999l-4.124-4.066H4.067v-5.809L.001 14l4.066-4.124V4.067h5.809L14 .001l4.124 4.066h5.809v5.809z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_brightness_light" xmlns="http://www.w3.org/2000/svg"><path d="M14 21.435q3.079 0 5.257-2.178T21.435 14t-2.178-5.257T14 6.565 8.743 8.743 6.565 14t2.178 5.257T14 21.435zm9.933-3.311v5.809h-5.809L14 27.999l-4.124-4.066H4.067v-5.809L.001 14l4.066-4.124V4.067h5.809L14 .001l4.124 4.066h5.809v5.809L27.999 14z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_check" xmlns="http://www.w3.org/2000/svg"><path d="M8.885 20.197 25.759 3.323l2.24 2.24L8.885 24.677 0 15.792l2.24-2.24z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_check_circle_outline" xmlns="http://www.w3.org/2000/svg"><path d="M14 25.239q4.601 0 7.92-3.319T25.239 14 21.92 6.08 14 2.761 6.08 6.08 2.761 14t3.319 7.92T14 25.239zM14 0q5.784 0 9.892 4.108T28 14t-4.108 9.892T14 28t-9.892-4.108T0 14t4.108-9.892T14 0zm6.441 7.822 1.972 1.972-11.239 11.239L4.207 14l1.972-1.972 4.995 4.995z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_cloud_off" xmlns="http://www.w3.org/2000/svg"><path d="M9.023 10.5H7q-1.914 0-3.281 1.395t-1.367 3.309 1.367 3.281T7 19.852h11.375zM3.5 4.976l1.477-1.477L24.5 23.022l-1.477 1.477-2.352-2.297H6.999q-2.898 0-4.949-2.051t-2.051-4.949q0-2.844 1.969-4.867t4.758-2.133zm19.086 5.578q2.242.164 3.828 1.832T28 16.351q0 3.008-2.461 4.758l-1.695-1.695q1.805-.984 1.805-3.063 0-1.422-1.039-2.461t-2.461-1.039h-1.75v-.602q0-2.68-1.859-4.539t-4.539-1.859q-1.531 0-2.953.711l-1.75-1.695Q11.431 3.5 14.001 3.5q2.953 0 5.496 2.078t3.09 4.977z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_code" xmlns="http://www.w3.org/2000/svg"><path d="M9.917 24.5a1.75 1.75 0 1 0-3.501.001 1.75 1.75 0 0 0 3.501-.001zm0-21a1.75 1.75 0 1 0-3.501.001A1.75 1.75 0 0 0 9.917 3.5zm11.666 2.333a1.75 1.75 0 1 0-3.501.001 1.75 1.75 0 0 0 3.501-.001zm1.75 0a3.502 3.502 0 0 1-1.75 3.026c-.055 6.581-4.721 8.039-7.82 9.023-2.898.911-3.846 1.349-3.846 3.117v.474a3.502 3.502 0 0 1 1.75 3.026c0 1.932-1.568 3.5-3.5 3.5s-3.5-1.568-3.5-3.5c0-1.294.711-2.424 1.75-3.026V6.526A3.502 3.502 0 0 1 4.667 3.5c0-1.932 1.568-3.5 3.5-3.5s3.5 1.568 3.5 3.5a3.502 3.502 0 0 1-1.75 3.026v9.06c.93-.456 1.914-.766 2.807-1.039 3.391-1.075 5.323-1.878 5.359-5.687a3.502 3.502 0 0 1-1.75-3.026c0-1.932 1.568-3.5 3.5-3.5s3.5 1.568 3.5 3.5z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_copy" xmlns="http://www.w3.org/2000/svg"><path d="M23.502 25.438V7.626H9.562v17.812h13.94zm0-20.315q1.013 0 1.787.745t.774 1.757v17.812q0 1.013-.774 1.787t-1.787.774H9.562q-1.013 0-1.787-.774t-.774-1.787V7.625q0-1.013.774-1.757t1.787-.745h13.94zM19.689 0v2.562H4.438v17.812H1.936V2.562q0-1.013.745-1.787T4.438.001h15.251z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_dangerous" xmlns="http://www.w3.org/2000/svg"><path d="M21.802 19.833 15.969 14l5.833-5.833-1.969-1.969L14 12.031 8.167 6.198 6.198 8.167 12.031 14l-5.833 5.833 1.969 1.969L14 15.969l5.833 5.833zM19.833 0 28 8.167v11.666L19.833 28H8.167L0 19.833V8.167L8.167 0h11.666z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_date" xmlns="http://www.w3.org/2000/svg"><path d="M27.192 28.844V11.192H4.808v17.652h22.384zm0-25.689q1.277 0 2.253.976t.976 2.253v22.459q0 1.277-.976 2.216t-2.253.939H4.808q-1.352 0-2.291-.901t-.939-2.253V6.385q0-1.277.939-2.253t2.291-.976h1.577V.001h3.23v3.155h12.769V.001h3.23v3.155h1.577zm-3.155 11.267v3.155h-3.23v-3.155h3.23zm-6.46 0v3.155h-3.155v-3.155h3.155zm-6.384 0v3.155h-3.23v-3.155h3.23z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_download" xmlns="http://www.w3.org/2000/svg"><path d="M2.866 28.209h26.269v3.79H2.866v-3.79zm26.268-16.925L16 24.418 2.866 11.284h7.493V.001h11.283v11.283h7.493z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_email" xmlns="http://www.w3.org/2000/svg"><path d="M28.845 9.615v-3.23L16 14.422 3.155 6.385v3.23L16 17.577zm0-6.46q1.277 0 2.216.977T32 6.385v19.23q0 1.277-.939 2.253t-2.216.977H3.155q-1.277 0-2.216-.977T0 25.615V6.385q0-1.277.939-2.253t2.216-.977h25.69z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_error_outline" xmlns="http://www.w3.org/2000/svg"><path d="M14 25.239q4.601 0 7.92-3.319T25.239 14 21.92 6.08 14 2.761 6.08 6.08 2.761 14t3.319 7.92T14 25.239zM14 0q5.784 0 9.892 4.108T28 14t-4.108 9.892T14 28t-9.892-4.108T0 14t4.108-9.892T14 0zm-1.38 6.967h2.761v8.413H12.62V6.967zm0 11.239h2.761v2.826H12.62v-2.826z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_fire" xmlns="http://www.w3.org/2000/svg"><path d="M17.689 21.998q-.32.32-.8.576t-.864.384q-1.152.384-2.272.032t-1.888-.992q-.128-.128-.096-.256t.16-.192q1.216-.384 1.92-1.216t.96-1.792q.192-.896-.064-1.728t-.384-1.728q-.128-.704-.096-1.376t.288-1.312q0-.128.128-.128t.192.064q.384.832.992 1.472t1.28 1.216 1.216 1.248.672 1.568q.064.384.064.704.064.96-.32 1.92t-1.088 1.536zm3.84-10.944q-.768-.704-1.6-1.28t-1.6-1.344q-1.536-1.536-2.016-3.584t.16-4.16q.128-.32-.096-.544t-.544-.096q-.768.32-1.44.768t-1.312.896q-1.984 1.664-3.136 3.936T8.633 10.51t.8 5.088q0 .128.032.256t.032.256q0 .576-.512.832t-1.024-.192q-.128-.192-.192-.32-1.024-1.28-1.376-2.912t-.096-3.232q.064-.384-.288-.576t-.608.128q-1.28 1.664-1.856 3.68t-.448 4.064q0 .576.096 1.184t.288 1.184q.448 1.536 1.216 2.816 1.216 2.048 3.264 3.424t4.416 1.696q2.496.32 5.024-.256t4.448-2.304q1.408-1.344 2.208-3.104t.864-3.68-.704-3.712q-.064-.128-.096-.224t-.096-.224q-.576-1.088-1.28-1.984-.256-.384-.544-.704t-.672-.64z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_git" xmlns="http://www.w3.org/2000/svg"><path d="M27.472 12.753 15.247.529a1.803 1.803 0 0 0-2.55 0l-2.84 2.84 2.137 2.137a2.625 2.625 0 0 1 3.501 3.501l3.499 3.499a2.625 2.625 0 1 1-1.237 1.237l-3.499-3.499c-.083.04-.169.075-.257.106v7.3a2.626 2.626 0 1 1-1.75 0v-7.3a2.626 2.626 0 0 1-1.494-3.607L8.62 4.606l-8.09 8.09a1.805 1.805 0 0 0 0 2.551l12.225 12.224a1.803 1.803 0 0 0 2.55 0l12.168-12.168a1.805 1.805 0 0 0 0-2.551z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_gitea" xmlns="http://www.w3.org/2000/svg"><path d="M5.581 7.229c-2.46-.005-5.755 1.559-5.573 5.48.284 6.125 6.56 6.693 9.068 6.743.275 1.149 3.227 5.112 5.412 5.32h9.573c5.741-.381 10.04-17.363 6.853-17.427-5.271.248-8.395.373-11.073.395v5.3l-.835-.369-.005-4.928c-3.075-.001-5.781-.144-10.919-.397-.643-.004-1.539-.113-2.501-.116zm.348 2.166h.293c.349 3.14.917 4.976 2.067 7.781-2.933-.347-5.429-1.199-5.888-4.38-.237-1.647.563-3.365 3.528-3.401zm11.409 3.087c.2.003.404.04.596.128l.999.431-.716 1.305h-.007a.996.996 0 0 0-.321.053l.006-.002c-.349.114-.593.406-.593.749 0 .097.019.189.055.275l-.002-.006a.767.767 0 0 0 .151.233l-.001-.001-1.235 2.248a.99.99 0 0 0-.302.052l.006-.002c-.349.114-.593.406-.593.749 0 .097.019.189.055.275l-.002-.006c.128.31.457.527.843.527a.987.987 0 0 0 .31-.049l-.006.002c.348-.114.592-.406.592-.749 0-.097-.02-.19-.056-.277l.002.006a.784.784 0 0 0-.211-.293l1.203-2.189a.999.999 0 0 0 .397-.041l-.006.002a.942.942 0 0 0 .285-.15l-.001.001c.464.195.844.353 1.117.488.411.203.556.337.6.487.044.147-.004.429-.236.925-.173.369-.46.893-.799 1.511h-.02a.991.991 0 0 0-.321.053l.006-.002c-.349.114-.593.406-.593.749 0 .097.019.189.055.275l-.002-.006c.128.31.457.527.843.527a.987.987 0 0 0 .31-.049l-.006.002c.348-.114.592-.406.592-.749a.703.703 0 0 0-.055-.275l.002.006a.802.802 0 0 0-.183-.27l.001.001c.335-.611.623-1.136.808-1.531.251-.536.381-.935.267-1.32s-.467-.636-.933-.867c-.307-.151-.689-.311-1.147-.503a.723.723 0 0 0-.052-.324l.002.006a.792.792 0 0 0-.194-.279l.704-1.284 3.899 1.684c.704.305.995 1.053.653 1.68l-2.68 4.907c-.343.625-1.184.884-1.888.58l-5.516-2.384c-.704-.304-.996-1.053-.653-1.68l2.68-4.905c.235-.431.707-.687 1.207-.707z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_github" xmlns="http://www.w3.org/2000/svg"><path d="M16 .394c8.833 0 15.999 7.166 15.999 15.999 0 7.062-4.583 13.062-10.937 15.187-.813.146-1.104-.354-1.104-.771 0-.521.021-2.25.021-4.396 0-1.5-.5-2.458-1.083-2.958 3.562-.396 7.312-1.75 7.312-7.896 0-1.75-.625-3.167-1.646-4.291.167-.417.708-2.042-.167-4.25-1.333-.417-4.396 1.646-4.396 1.646a15.032 15.032 0 0 0-8 0S8.937 6.602 7.603 7.018c-.875 2.208-.333 3.833-.167 4.25-1.021 1.125-1.646 2.542-1.646 4.291 0 6.125 3.729 7.5 7.291 7.896-.458.417-.875 1.125-1.021 2.146-.917.417-3.25 1.125-4.646-1.333-.875-1.521-2.458-1.646-2.458-1.646-1.562-.021-.104.979-.104.979 1.042.479 1.771 2.333 1.771 2.333.938 2.854 5.396 1.896 5.396 1.896 0 1.333.021 2.583.021 2.979 0 .417-.292.917-1.104.771C4.582 29.455-.001 23.455-.001 16.393-.001 7.56 7.165.394 15.998.394zM6.063 23.372c.042-.083-.021-.187-.146-.25-.125-.042-.229-.021-.271.042-.042.083.021.187.146.25.104.062.229.042.271-.042zm.646.709c.083-.062.062-.208-.042-.333-.104-.104-.25-.146-.333-.062-.083.062-.062.208.042.333.104.104.25.146.333.062zm.625.937c.104-.083.104-.25 0-.396-.083-.146-.25-.208-.354-.125-.104.062-.104.229 0 .375s.271.208.354.146zm.875.875c.083-.083.042-.271-.083-.396-.146-.146-.333-.167-.417-.062-.104.083-.062.271.083.396.146.146.333.167.417.062zm1.187.521c.042-.125-.083-.271-.271-.333-.167-.042-.354.021-.396.146s.083.271.271.312c.167.062.354 0 .396-.125zm1.313.104c0-.146-.167-.25-.354-.229-.187 0-.333.104-.333.229 0 .146.146.25.354.229.187 0 .333-.104.333-.229zm1.208-.208c-.021-.125-.187-.208-.375-.187-.187.042-.312.167-.292.312.021.125.187.208.375.167s.312-.167.292-.292z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_gitlab" xmlns="http://www.w3.org/2000/svg"><path d="M1.629 11.034 14 26.888.442 17.048a1.09 1.09 0 0 1-.39-1.203l1.578-4.811zm7.217 0h10.309l-5.154 15.854zM5.753 1.475l3.093 9.559H1.63l3.093-9.559a.548.548 0 0 1 1.031 0zm20.618 9.559 1.578 4.811c.141.437-.016.922-.39 1.203l-13.558 9.84 12.371-15.854zm0 0h-7.216l3.093-9.559a.548.548 0 0 1 1.031 0z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_heart" xmlns="http://www.w3.org/2000/svg"><path d="M16 29.714a1.11 1.11 0 0 1-.786-.321L4.072 18.643c-.143-.125-4.071-3.714-4.071-8 0-5.232 3.196-8.357 8.535-8.357 3.125 0 6.053 2.464 7.464 3.857 1.411-1.393 4.339-3.857 7.464-3.857 5.339 0 8.535 3.125 8.535 8.357 0 4.286-3.928 7.875-4.089 8.035L16.785 29.392c-.214.214-.5.321-.786.321z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_home" xmlns="http://www.w3.org/2000/svg"><path d="M24.003 15.695v8.336c0 .608-.504 1.111-1.111 1.111h-6.669v-6.669h-4.446v6.669H5.108a1.119 1.119 0 0 1-1.111-1.111v-8.336c0-.035.017-.069.017-.104L14 7.359l9.986 8.232a.224.224 0 0 1 .017.104zm3.873-1.198-1.077 1.285a.578.578 0 0 1-.365.191h-.052a.547.547 0 0 1-.365-.122L14 5.831 1.983 15.851a.594.594 0 0 1-.417.122.578.578 0 0 1-.365-.191L.124 14.497a.57.57 0 0 1 .069-.781L12.679 3.314c.729-.608 1.91-.608 2.64 0l4.237 3.543V3.471c0-.313.243-.556.556-.556h3.334c.313 0 .556.243.556.556v7.085l3.803 3.161c.226.191.26.556.069.781z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_info_outline" xmlns="http://www.w3.org/2000/svg"><path d="M12.62 9.793V6.967h2.761v2.826H12.62zM14 25.239q4.601 0 7.92-3.319T25.239 14 21.92 6.08 14 2.761 6.08 6.08 2.761 14t3.319 7.92T14 25.239zM14 0q5.784 0 9.892 4.108T28 14t-4.108 9.892T14 28t-9.892-4.108T0 14t4.108-9.892T14 0zm-1.38 21.033V12.62h2.761v8.413H12.62z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_keyboard_arrow_down" xmlns="http://www.w3.org/2000/svg"><path d="M3.281 5.36 14 16.079 24.719 5.36 28 8.641l-14 14-14-14z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_keyboard_arrow_left" xmlns="http://www.w3.org/2000/svg"><path d="M25.875 28.25 22.125 32 6.126 16.001 22.125.002l3.75 3.75-12.25 12.25z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_keyboard_arrow_right" xmlns="http://www.w3.org/2000/svg"><path d="M6.125 28.25 18.375 16 6.125 3.75 9.875 0l15.999 15.999L9.875 31.998z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_keyboard_arrow_up" xmlns="http://www.w3.org/2000/svg"><path d="M24.719 22.64 14 11.921 3.281 22.64 0 19.359l14-14 14 14z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_language" xmlns="http://www.w3.org/2000/svg"><path d="M20.112 16.826h4.732q.394-1.84.394-2.826t-.394-2.826h-4.732q.197 1.38.197 2.826t-.197 2.826zm-2.497 7.756q1.643-.526 3.418-2.005t2.695-2.991h-4.141q-.657 2.629-1.972 4.995zm-.329-7.756q.197-1.38.197-2.826t-.197-2.826h-6.573q-.197 1.38-.197 2.826t.197 2.826h6.573zM14 25.173q1.84-2.695 2.695-5.587h-5.39q.854 2.892 2.695 5.587zM8.413 8.413q.789-2.826 1.972-4.995-1.643.526-3.451 2.005T4.272 8.414h4.141zM4.272 19.587q.854 1.512 2.662 2.991t3.451 2.005q-1.315-2.366-1.972-4.995H4.272zm-1.117-2.761h4.732Q7.69 15.446 7.69 14t.197-2.826H3.155q-.394 1.84-.394 2.826t.394 2.826zM14 2.826q-1.84 2.695-2.695 5.587h5.39Q15.841 5.521 14 2.826zm9.727 5.587q-.92-1.512-2.695-2.991t-3.418-2.005q1.183 2.169 1.972 4.995h4.141zM14 0q5.784 0 9.892 4.108T28 14t-4.108 9.892T14 28t-9.892-4.108T0 14t4.108-9.892T14 0z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_link" xmlns="http://www.w3.org/2000/svg"><path d="M24.037 7.963q3.305 0 5.634 2.366T32 16t-2.329 5.671-5.634 2.366h-6.46v-3.08h6.46q2.028 0 3.493-1.465t1.465-3.493-1.465-3.493-3.493-1.465h-6.46v-3.08h6.46zM9.615 17.578v-3.155h12.77v3.155H9.615zM3.005 16q0 2.028 1.465 3.493t3.493 1.465h6.46v3.08h-6.46q-3.305 0-5.634-2.366T0 16.001t2.329-5.671 5.634-2.366h6.46v3.08h-6.46q-2.028 0-3.493 1.465t-1.465 3.493z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_mastodon" xmlns="http://www.w3.org/2000/svg"><path d="M30.924 10.506c0-6.941-4.548-8.976-4.548-8.976C24.083.477 20.144.034 16.054.001h-.101C11.862.034 7.926.477 5.633 1.53c0 0-4.548 2.035-4.548 8.976 0 1.589-.031 3.491.02 5.505.165 6.79 1.245 13.479 7.522 15.14 2.893.765 5.379.927 7.38.816 3.629-.2 5.667-1.296 5.667-1.296l-.12-2.633s-2.593.817-5.505.719c-2.887-.099-5.932-.311-6.399-3.855a7.069 7.069 0 0 1-.064-.967v-.028.001s2.833.693 6.423.857c2.195.1 4.253-.129 6.344-.377 4.009-.479 7.5-2.949 7.939-5.207.689-3.553.633-8.676.633-8.676zm-5.366 8.945h-3.329v-8.159c0-1.72-.724-2.592-2.171-2.592-1.6 0-2.403 1.035-2.403 3.083v4.465h-3.311v-4.467c0-2.048-.803-3.083-2.403-3.083-1.447 0-2.171.873-2.171 2.592v8.159H6.441v-8.404c0-1.719.437-3.084 1.316-4.093.907-1.011 2.092-1.528 3.565-1.528 1.704 0 2.995.655 3.848 1.965l.828 1.391.829-1.391c.853-1.311 2.144-1.965 3.848-1.965 1.472 0 2.659.517 3.565 1.528.877 1.009 1.315 2.375 1.315 4.093z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_matrix" xmlns="http://www.w3.org/2000/svg"><path d="M.843.734v30.532H3.04v.733H0V0h3.04v.733zm9.391 9.68v1.543h.044a4.417 4.417 0 0 1 1.489-1.365c.577-.327 1.248-.487 2-.487.72 0 1.377.143 1.975.419.597.277 1.047.776 1.36 1.477.339-.499.8-.941 1.379-1.323.579-.383 1.267-.573 2.061-.573.604 0 1.163.075 1.68.223a3.34 3.34 0 0 1 1.324.707c.368.327.652.745.861 1.268.203.523.307 1.151.307 1.889v7.637h-3.132v-6.468c0-.381-.013-.745-.043-1.083a2.315 2.315 0 0 0-.246-.893l.006.013a1.484 1.484 0 0 0-.577-.593l-.007-.004c-.259-.147-.609-.221-1.047-.221-.443 0-.8.085-1.071.252-.267.166-.483.39-.635.656l-.005.009a2.558 2.558 0 0 0-.307.915l-.002.013a7.156 7.156 0 0 0-.08 1.044v6.359h-3.133v-6.4c0-.339-.005-.671-.024-1.003a2.772 2.772 0 0 0-.197-.936l.007.019a1.41 1.41 0 0 0-.548-.667l-.006-.003c-.259-.167-.635-.253-1.139-.253-.148 0-.345.032-.585.099-.24.068-.48.191-.707.376-.228.184-.425.449-.585.793-.16.345-.24.8-.24 1.36v6.621H7.279v-11.42zm20.923 20.852V.734H28.96V.001H32V32h-3.04v-.733z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_menu" xmlns="http://www.w3.org/2000/svg"><path d="M.001 5.334h31.998v3.583H.001V5.334zm0 12.416v-3.5h31.998v3.5H.001zm0 8.916v-3.583h31.998v3.583H.001z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_notification" xmlns="http://www.w3.org/2000/svg"><path d="m22.615 19.384 2.894 2.894v1.413H2.49v-1.413l2.894-2.894V12.25q0-3.365 1.716-5.856t4.745-3.231v-1.01q0-.875.606-1.514T13.999 0t1.548.639.606 1.514v1.01q3.029.74 4.745 3.231t1.716 5.856v7.134zM14 27.999q-1.211 0-2.053-.808t-.841-2.019h5.788q0 1.144-.875 1.986T14 27.999z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_path" xmlns="http://www.w3.org/2000/svg"><path d="M28 12.62h-9.793V8.414h-2.826v11.173h2.826v-4.206H28V26.62h-9.793v-4.206H12.62v-14H9.794v4.206H.001V1.381h9.793v4.206h8.413V1.381H28V12.62z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_person" xmlns="http://www.w3.org/2000/svg"><path d="M16 20.023q5.052 0 10.526 2.199t5.473 5.754v4.023H0v-4.023q0-3.555 5.473-5.754t10.526-2.199zM16 16q-3.275 0-5.614-2.339T8.047 8.047t2.339-5.661T16 0t5.614 2.386 2.339 5.661-2.339 5.614T16 16z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_search" xmlns="http://www.w3.org/2000/svg"><path d="M11.925 20.161q3.432 0 5.834-2.402t2.402-5.834-2.402-5.834-5.834-2.402-5.834 2.402-2.402 5.834 2.402 5.834 5.834 2.402zm10.981 0L32 29.255 29.255 32l-9.094-9.094v-1.458l-.515-.515q-3.26 2.831-7.721 2.831-4.976 0-8.45-3.432T.001 11.925t3.474-8.45 8.45-3.474 8.407 3.474 3.432 8.45q0 1.802-.858 4.075t-1.973 3.646l.515.515h1.458z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_shield" xmlns="http://www.w3.org/2000/svg"><path d="M22.167 15.166V3.5h-8.166v20.726c.93-.492 2.424-1.349 3.883-2.497 1.95-1.531 4.284-3.919 4.284-6.562zm3.499-13.999v14c0 7.674-10.737 12.523-11.192 12.724-.146.073-.31.109-.474.109s-.328-.036-.474-.109c-.456-.201-11.192-5.049-11.192-12.724v-14C2.334.529 2.863 0 3.501 0H24.5c.638 0 1.167.529 1.167 1.167z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_star" xmlns="http://www.w3.org/2000/svg"><path d="M14 22.052 5.324 27.31l2.3-9.859L0 10.813l10.056-.854L14 .692l3.944 9.267L28 10.813l-7.624 6.638 2.3 9.859z"/></svg><svg viewBox="-7.27 -7.27 42.55 42.55" id="gdoc_tag" xmlns="http://www.w3.org/2000/svg"><path d="M17.52 17.52v-7.041h-7.041v7.041h7.041zM28 10.479h-7.041v7.041H28v3.439h-7.041V28H17.52v-7.041h-7.041V28H7.04v-7.041H-.001V17.52H7.04v-7.041H-.001V7.04H7.04V-.001h3.439V7.04h7.041V-.001h3.439V7.04H28v3.439z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_timer" xmlns="http://www.w3.org/2000/svg"><path d="M16 29q4.428 0 7.536-3.143t3.107-7.571-3.107-7.536T16 7.643 8.464 10.75t-3.107 7.536 3.107 7.571T16 29zM26.714 9.786q1.214 1.571 2.107 4.036t.893 4.464q0 5.643-4 9.678T16 32t-9.714-4.036-4-9.678 4-9.678T16 4.572q1.929 0 4.464.929t4.107 2.143l2.143-2.214q1.143.929 2.143 2.143zM14.5 19.857v-9.143h3v9.143h-3zM20.571.001v3.071h-9.143V.001h9.143z"/></svg><svg viewBox="-7.27 -7.27 46.55 46.55" id="gdoc_xmpp" xmlns="http://www.w3.org/2000/svg"><path d="M31.995 4.237c-.449.175-1.12.433-1.936.745-1.544.591-2.328.891-2.924 1.093-.613.208-1.287.409-2.635.813-.911.272-1.672.495-2.212.651-.031.875 0 2.177-.292 3.635a21.837 21.837 0 0 1-2.016 5.765c-1.496 2.944-3.236 4.817-3.88 5.476-.056-.059-.112-.117-.168-.179-.707-.763-2.403-2.703-3.815-5.683-1.053-2.223-1.484-4.044-1.605-4.584-.356-1.589-.427-2.955-.427-4.117 0-.075-.036-.129-.101-.149-.721-.223-1.765-.519-2.887-.853-1.271-.379-2.193-.744-3.408-1.2-.493-.185-1.409-.547-2.217-.859C.723 4.499.113 4.236.041 4.236c-.005 0-.015 0-.023.012a.131.131 0 0 0-.019.076c.009.593.08 1.361.256 2.365.615 3.503 2.688 7.061 4.36 9.244 0 0 3.717 5.035 9.128 8.144l.303.176c-.009.008-.02.015-.028.021-1.717 1.316-3.201 1.977-3.579 2.14a15.71 15.71 0 0 1-2.219.772v.407a25.31 25.31 0 0 0 2.72-.487 26.72 26.72 0 0 0 5.075-1.792c.136.067.276.136.42.204 1.527.725 3.571 1.627 6.073 2.048.613.103 1.136.165 1.507.195a.109.109 0 0 0 .115-.091.55.55 0 0 0 .004-.217.107.107 0 0 0-.063-.073c-.505-.209-1.201-.4-1.983-.719-.935-.381-2.241-1.067-3.648-2.128a13.528 13.528 0 0 1-.367-.287c4.64-2.656 7.989-6.588 7.989-6.588 1.735-2.036 4.441-5.623 5.431-9.795.349-1.473.539-2.741.5-3.628z"/></svg></defs></svg>
+
+
+
+
+    <div
+      class="wrapper "
+    >
+      
+      <header class="gdoc-header">
+  <div class="container flex align-center justify-between">
+    
+      <label for="menu-control" class="gdoc-nav__control">
+        <div tabindex="0" role="button" aria-pressed="false">
+          <input type="checkbox" class="hidden" id="menu-control" />
+
+          <svg class="gdoc-icon gdoc_menu">
+            <title>Open Navigation</title>
+            <use xlink:href="#gdoc_menu"></use>
+          </svg>
+          <svg class="gdoc-icon gdoc_arrow_back">
+            <title>Close Navigation</title>
+            <use xlink:href="#gdoc_arrow_back"></use>
+          </svg>
+        </div>
+      </label>
+    
+    <div>
+      <a class="gdoc-brand gdoc-header__link flex gap-16 align-center" href="https://documents.v2ep.com/">
+        <img
+          class="gdoc-brand__img"
+          src="/brand.svg"
+          alt=""
+        />
+        <div>
+          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          
+        </div>
+      </a>
+    </div>
+    <div class="gdoc-menu-header flex gap-16">
+      <span class="gdoc-menu-header__items">
+        
+
+
+        <span id="gdoc-color-theme" tabindex="0" role="button" aria-pressed="false">
+          <svg class="gdoc-icon gdoc_brightness_dark">
+            <title>Toggle Dark/Light/Auto mode</title>
+            <use xlink:href="#gdoc_brightness_dark"></use>
+          </svg>
+          <svg class="gdoc-icon gdoc_brightness_light">
+            <title>Toggle Dark/Light/Auto mode</title>
+            <use xlink:href="#gdoc_brightness_light"></use>
+          </svg>
+          <svg class="gdoc-icon gdoc_brightness_auto">
+            <title>Toggle Dark/Light/Auto mode</title>
+            <use xlink:href="#gdoc_brightness_auto"></use>
+          </svg>
+        </span>
+
+        <span class="gdoc-menu-header__home">
+          <a href="https://documents.v2ep.com/" class="gdoc-header__link">
+            <svg class="gdoc-icon gdoc_home">
+              <title>Back to homepage</title>
+              <use xlink:href="#gdoc_home"></use>
+            </svg>
+          </a>
+        </span>
+
+        
+
+      </span>
+      <span class="gdoc-menu-header__control">
+        <label for="menu-header-control">
+          <div tabindex="0" role="button" aria-pressed="false">
+            <input type="checkbox" class="hidden" id="menu-header-control" />
+
+            <svg class="gdoc-icon gdoc_keyboard_arrow_right">
+              <use xlink:href="#gdoc_keyboard_arrow_right"></use>
+              <title>Close Menu Bar</title>
+            </svg>
+
+            <svg class="gdoc-icon gdoc_keyboard_arrow_left">
+              <use xlink:href="#gdoc_keyboard_arrow_left"></use>
+              <title>Open Menu Bar</title>
+            </svg>
+          </div>
+        </label>
+      </span>
+    </div>
+  </div>
+</header>
+
+
+
+      <main class="container flex flex-even">
+        
+          <aside class="gdoc-nav">
+            <nav>
+  
+  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
+    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
+    <input
+      type="text"
+      id="gdoc-search-input"
+      class="gdoc-search__input"
+      placeholder="Search..."
+      aria-label="Search"
+      maxlength="64"
+      data-site-base-url="https://documents.v2ep.com/"
+      data-site-lang="en"
+    />
+    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
+  </div>
+
+
+
+
+  <section class="gdoc-nav--main">
+    <h2>Navigation</h2>
+    
+      
+
+  
+
+
+  <ul class="gdoc-nav__list">
+    
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/management/"
+                    class="gdoc-nav__entry"
+                  >
+                    Management
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+              
+  
+
+
+  <ul class="gdoc-nav__list">
+    
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/management/beyond/"
+                    class="gdoc-nav__entry"
+                  >
+                    Beyond
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/management/development/"
+                    class="gdoc-nav__entry"
+                  >
+                    Development
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/management/operations/"
+                    class="gdoc-nav__entry"
+                  >
+                    Operations
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/backend/"
+                    class="gdoc-nav__entry"
+                  >
+                    Backend
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+              
+  
+
+
+  <ul class="gdoc-nav__list">
+    
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/backend/bash/"
+                    class="gdoc-nav__entry"
+                  >
+                    Bash
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/backend/python/"
+                    class="gdoc-nav__entry"
+                  >
+                    Python
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/"
+                    class="gdoc-nav__entry"
+                  >
+                    Database
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+              
+  
+
+
+  <ul class="gdoc-nav__list">
+    
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/design/"
+                    class="gdoc-nav__entry"
+                  >
+                    Design
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/elasticsearch/"
+                    class="gdoc-nav__entry"
+                  >
+                    ElasticSearch
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/mongo/"
+                    class="gdoc-nav__entry"
+                  >
+                    MongoDB
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/mysql/"
+                    class="gdoc-nav__entry"
+                  >
+                    MySQL
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/postgres/"
+                    class="gdoc-nav__entry"
+                  >
+                    PostgreSQL
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/prometheus/"
+                    class="gdoc-nav__entry"
+                  >
+                    Prometheus
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/database/redis/"
+                    class="gdoc-nav__entry"
+                  >
+                    Redis
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/"
+                    class="gdoc-nav__entry"
+                  >
+                    Operations
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+              
+  
+
+
+  <ul class="gdoc-nav__list">
+    
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/linux/"
+                    class="gdoc-nav__entry"
+                  >
+                    Linux
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/hardware/"
+                    class="gdoc-nav__entry"
+                  >
+                    Hardware
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/macos/"
+                    class="gdoc-nav__entry"
+                  >
+                    macOS
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/troubleshooting/"
+                    class="gdoc-nav__entry"
+                  >
+                    Troubleshooting
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/others/"
+                    class="gdoc-nav__entry"
+                  >
+                    Others
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/alpine/"
+                    class="gdoc-nav__entry"
+                  >
+                    Alpine
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/ansible/"
+                    class="gdoc-nav__entry"
+                  >
+                    Ansible
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/debezium/"
+                    class="gdoc-nav__entry"
+                  >
+                    Debezium
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/git/"
+                    class="gdoc-nav__entry"
+                  >
+                    Git
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/gitlab/"
+                    class="gdoc-nav__entry"
+                  >
+                    GitLab
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/ipvs/"
+                    class="gdoc-nav__entry"
+                  >
+                    IPVS
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/java/"
+                    class="gdoc-nav__entry"
+                  >
+                    Java
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/jenkins/"
+                    class="gdoc-nav__entry"
+                  >
+                    Jenkins
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/kafka/"
+                    class="gdoc-nav__entry"
+                  >
+                    Kafka
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/kubernetes/"
+                    class="gdoc-nav__entry"
+                  >
+                    Kubernetes
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/kvm/"
+                    class="gdoc-nav__entry"
+                  >
+                    KVM
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/lvs/"
+                    class="gdoc-nav__entry"
+                  >
+                    LVS
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/nacos/"
+                    class="gdoc-nav__entry"
+                  >
+                    Nacos
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/NetworkManager/"
+                    class="gdoc-nav__entry"
+                  >
+                    NetworkManager
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/nginx/"
+                    class="gdoc-nav__entry"
+                  >
+                    Nginx
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/podman/"
+                    class="gdoc-nav__entry"
+                  >
+                    Podman
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/vsftpd/"
+                    class="gdoc-nav__entry"
+                  >
+                    vsftpd
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/zabbix/"
+                    class="gdoc-nav__entry"
+                  >
+                    Zabbix
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/about/"
+                    class="gdoc-nav__entry"
+                  >
+                    About
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+  </ul>
+
+
+
+
+
+
+    
+  </section>
+
+  
+
+
+  <section class="gdoc-nav--more">
+    
+  </section>
+</nav>
+
+          </aside>
+        
+
+
+        <div class="gdoc-page">
+          
+  
+
+
+  
+
+
+
+
+
+
+<div
+  class="gdoc-page__header flex flex-wrap
+  
+    justify-between
+  
+  hidden-mobile
+  "
+  itemprop="breadcrumb"
+>
+  
+    <div>
+      <svg class="gdoc-icon gdoc_path hidden-mobile"><use xlink:href="#gdoc_path"></use></svg>
+      <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+        
+        
+        
+        
+  
+  
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>性能优化</span><meta itemprop='position' content='4' /></li>
+  
+
+  
+
+  
+
+  
+
+      </ol>
+    </div>
+  
+  
+</div>
+
+
+
+  <article
+    class="gdoc-markdown gdoc-markdown__align--left"
+    id="main-content" tabindex="-1"
+  >
+    <h1>性能优化</h1>
+    
+    <p>下面这份内容，我会<strong>刻意避开你已经整理过的 sysctl 参数</strong>，只补充那些：</p>
+<ul>
+<li>你现在这套配置<strong>没有覆盖</strong></li>
+<li>在<strong>生产环境中经常被忽略，但非常关键</strong></li>
+<li>必须<strong>按场景区分，否则会出问题</strong></li>
+</ul>
+<p>并且我会按你一贯偏好的方式来写：
+<strong>结论先行 + 场景化 + 可落地</strong>，不做中英文混搭。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一一个重要前提先说清楚"
+    >
+        一、一个重要前提（先说清楚）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#一一个重要前提先说清楚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、一个重要前提（先说清楚）" aria-label="Anchor to: 一、一个重要前提（先说清楚）" href="#%e4%b8%80%e4%b8%80%e4%b8%aa%e9%87%8d%e8%a6%81%e5%89%8d%e6%8f%90%e5%85%88%e8%af%b4%e6%b8%85%e6%a5%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>系统性能 ≠ 只靠 sysctl</strong></p>
+</blockquote>
+<p>真正稳定高性能的 Linux，至少包含 5 个层面：</p>
+<ol>
+<li>内核参数（sysctl）</li>
+<li>资源限制（limits / cgroup）</li>
+<li>systemd 行为</li>
+<li>调度与中断（CPU / NUMA / IRQ）</li>
+<li>文件系统与 I/O</li>
+</ol>
+<p>你前面已经把 <strong>第 1 层</strong> 做得非常完整了，下面重点补 <strong>2–5 层</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二资源限制limits你现在几乎没动但非常关键"
+    >
+        二、资源限制（limits）——你现在几乎没动，但非常关键
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#二资源限制limits你现在几乎没动但非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、资源限制（limits）——你现在几乎没动，但非常关键" aria-label="Anchor to: 二、资源限制（limits）——你现在几乎没动，但非常关键" href="#%e4%ba%8c%e8%b5%84%e6%ba%90%e9%99%90%e5%88%b6limits%e4%bd%a0%e7%8e%b0%e5%9c%a8%e5%87%a0%e4%b9%8e%e6%b2%a1%e5%8a%a8%e4%bd%86%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-文件描述符必须"
+    >
+        1️⃣ 文件描述符（必须）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-文件描述符必须" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 文件描述符（必须）" aria-label="Anchor to: 1️⃣ 文件描述符（必须）" href="#1-%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6%e5%bf%85%e9%a1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="全局systemd"
+    >
+        全局（systemd）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#全局systemd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 全局（systemd）" aria-label="Anchor to: 全局（systemd）" href="#%e5%85%a8%e5%b1%80systemd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/systemd/system.conf
+DefaultLimitNOFILE=1048576
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="用户级"
+    >
+        用户级
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#用户级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 用户级" aria-label="Anchor to: 用户级" href="#%e7%94%a8%e6%88%b7%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/security/limits.conf
+* soft nofile 1048576
+* hard nofile 1048576
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="适用场景"
+    >
+        适用场景
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#适用场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 适用场景" aria-label="Anchor to: 适用场景" href="#%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>服务</th>
+          <th>必须</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Nginx</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>MySQL / PostgreSQL</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>Redis</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>Kafka</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>Prometheus</td>
+          <td>✅</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-进程数限制防-fork-风暴"
+    >
+        2️⃣ 进程数限制（防 fork 风暴）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-进程数限制防-fork-风暴" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 进程数限制（防 fork 风暴）" aria-label="Anchor to: 2️⃣ 进程数限制（防 fork 风暴）" href="#2-%e8%bf%9b%e7%a8%8b%e6%95%b0%e9%99%90%e5%88%b6%e9%98%b2-fork-%e9%a3%8e%e6%9a%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/security/limits.conf
+* soft nproc 65535
+* hard nproc 65535
+</code></pre><p>适合：</p>
+<ul>
+<li>Jenkins</li>
+<li>GitLab</li>
+<li>编译机</li>
+<li>CI 节点</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三systemd-级别优化经常被忽略"
+    >
+        三、systemd 级别优化（经常被忽略）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#三systemd-级别优化经常被忽略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、systemd 级别优化（经常被忽略）" aria-label="Anchor to: 三、systemd 级别优化（经常被忽略）" href="#%e4%b8%89systemd-%e7%ba%a7%e5%88%ab%e4%bc%98%e5%8c%96%e7%bb%8f%e5%b8%b8%e8%a2%ab%e5%bf%bd%e7%95%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-oom-防护极其重要"
+    >
+        1️⃣ OOM 防护（极其重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-oom-防护极其重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ OOM 防护（极其重要）" aria-label="Anchor to: 1️⃣ OOM 防护（极其重要）" href="#1-oom-%e9%98%b2%e6%8a%a4%e6%9e%81%e5%85%b6%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="数据库服务单位文件"
+    >
+        数据库服务单位文件
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#数据库服务单位文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库服务单位文件" aria-label="Anchor to: 数据库服务单位文件" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e6%9c%8d%e5%8a%a1%e5%8d%95%e4%bd%8d%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-900</span>
+</span></span><span class="line"><span class="cl"><span class="na">MemoryAccounting</span><span class="o">=</span><span class="s">true</span>
+</span></span></code></pre></div><div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>服务</th>
+          <th>建议</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>MySQL / PostgreSQL</td>
+          <td>必须</td>
+      </tr>
+      <tr>
+          <td>Redis</td>
+          <td>必须</td>
+      </tr>
+      <tr>
+          <td>Elasticsearch</td>
+          <td>必须</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-禁止-systemd-回收缓存数据库节点"
+    >
+        2️⃣ 禁止 systemd 回收缓存（数据库节点）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-禁止-systemd-回收缓存数据库节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 禁止 systemd 回收缓存（数据库节点）" aria-label="Anchor to: 2️⃣ 禁止 systemd 回收缓存（数据库节点）" href="#2-%e7%a6%81%e6%ad%a2-systemd-%e5%9b%9e%e6%94%b6%e7%bc%93%e5%ad%98%e6%95%b0%e6%8d%ae%e5%ba%93%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/systemd/system.conf
+DefaultMemoryAccounting=no
+</code></pre><p>防止 systemd 误判缓存为可回收内存。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-journald-限制防止吃内存--io"
+    >
+        3️⃣ journald 限制（防止吃内存 + IO）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#3-journald-限制防止吃内存--io" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ journald 限制（防止吃内存 &#43; IO）" aria-label="Anchor to: 3️⃣ journald 限制（防止吃内存 &#43; IO）" href="#3-journald-%e9%99%90%e5%88%b6%e9%98%b2%e6%ad%a2%e5%90%83%e5%86%85%e5%ad%98--io">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/systemd/journald.conf
+SystemMaxUse=500M
+RuntimeMaxUse=200M
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四cpu--numa--irq你前面提过但没完整落地"
+    >
+        四、CPU / NUMA / IRQ（你前面提过，但没完整落地）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#四cpu--numa--irq你前面提过但没完整落地" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、CPU / NUMA / IRQ（你前面提过，但没完整落地）" aria-label="Anchor to: 四、CPU / NUMA / IRQ（你前面提过，但没完整落地）" href="#%e5%9b%9bcpu--numa--irq%e4%bd%a0%e5%89%8d%e9%9d%a2%e6%8f%90%e8%bf%87%e4%bd%86%e6%b2%a1%e5%ae%8c%e6%95%b4%e8%90%bd%e5%9c%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-数据库是否禁用-irqbalance再明确一次"
+    >
+        1️⃣ 数据库是否禁用 irqbalance（再明确一次）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-数据库是否禁用-irqbalance再明确一次" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 数据库是否禁用 irqbalance（再明确一次）" aria-label="Anchor to: 1️⃣ 数据库是否禁用 irqbalance（再明确一次）" href="#1-%e6%95%b0%e6%8d%ae%e5%ba%93%e6%98%af%e5%90%a6%e7%a6%81%e7%94%a8-irqbalance%e5%86%8d%e6%98%8e%e7%a1%ae%e4%b8%80%e6%ac%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="结论"
+    >
+        结论
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 结论" aria-label="Anchor to: 结论" href="#%e7%bb%93%e8%ae%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>irqbalance</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>MySQL / PostgreSQL</td>
+          <td>❌ 关闭</td>
+      </tr>
+      <tr>
+          <td>Redis</td>
+          <td>❌ 关闭</td>
+      </tr>
+      <tr>
+          <td>Kafka</td>
+          <td>❌ 关闭</td>
+      </tr>
+      <tr>
+          <td>容器节点</td>
+          <td>✅ 保留</td>
+      </tr>
+      <tr>
+          <td>Web</td>
+          <td>✅</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="同时要做的事"
+    >
+        同时要做的事
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#同时要做的事" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 同时要做的事" aria-label="Anchor to: 同时要做的事" href="#%e5%90%8c%e6%97%b6%e8%a6%81%e5%81%9a%e7%9a%84%e4%ba%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> performance &gt; /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-numa-策略数据库节点"
+    >
+        2️⃣ NUMA 策略（数据库节点）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-numa-策略数据库节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ NUMA 策略（数据库节点）" aria-label="Anchor to: 2️⃣ NUMA 策略（数据库节点）" href="#2-numa-%e7%ad%96%e7%95%a5%e6%95%b0%e6%8d%ae%e5%ba%93%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="内核参数"
+    >
+        内核参数
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#内核参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核参数" aria-label="Anchor to: 内核参数" href="#%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">kernel.numa_balancing = 0
+vm.zone_reclaim_mode = 0
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="启动服务时"
+    >
+        启动服务时
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#启动服务时" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 启动服务时" aria-label="Anchor to: 启动服务时" href="#%e5%90%af%e5%8a%a8%e6%9c%8d%e5%8a%a1%e6%97%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">numactl --interleave<span class="o">=</span>all
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五文件系统与-io你几乎没动这是性能大头"
+    >
+        五、文件系统与 I/O（你几乎没动，这是性能大头）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#五文件系统与-io你几乎没动这是性能大头" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、文件系统与 I/O（你几乎没动，这是性能大头）" aria-label="Anchor to: 五、文件系统与 I/O（你几乎没动，这是性能大头）" href="#%e4%ba%94%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e4%b8%8e-io%e4%bd%a0%e5%87%a0%e4%b9%8e%e6%b2%a1%e5%8a%a8%e8%bf%99%e6%98%af%e6%80%a7%e8%83%bd%e5%a4%a7%e5%a4%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-io-调度器nvme--ssd"
+    >
+        1️⃣ I/O 调度器（NVMe / SSD）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-io-调度器nvme--ssd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ I/O 调度器（NVMe / SSD）" aria-label="Anchor to: 1️⃣ I/O 调度器（NVMe / SSD）" href="#1-io-%e8%b0%83%e5%ba%a6%e5%99%a8nvme--ssd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /sys/block/nvme0n1/queue/scheduler
+</span></span><span class="line"><span class="cl"><span class="c1">## 选择</span>
+</span></span><span class="line"><span class="cl">none
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="传统-ssd"
+    >
+        传统 SSD
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#传统-ssd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 传统 SSD" aria-label="Anchor to: 传统 SSD" href="#%e4%bc%a0%e7%bb%9f-ssd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">mq-deadline
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-文件系统挂载参数数据库"
+    >
+        2️⃣ 文件系统挂载参数（数据库）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-文件系统挂载参数数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 文件系统挂载参数（数据库）" aria-label="Anchor to: 2️⃣ 文件系统挂载参数（数据库）" href="#2-%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e6%8c%82%e8%bd%bd%e5%8f%82%e6%95%b0%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="xfs强烈推荐"
+    >
+        XFS（强烈推荐）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#xfs强烈推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: XFS（强烈推荐）" aria-label="Anchor to: XFS（强烈推荐）" href="#xfs%e5%bc%ba%e7%83%88%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-fstab" data-lang="fstab">noatime,nodiratime,logbufs=8,logbsize=256k
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="ext4"
+    >
+        ext4
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#ext4" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ext4" aria-label="Anchor to: ext4" href="#ext4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-fstab" data-lang="fstab">noatime,nodiratime,data=ordered
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-禁用透明大页数据库必做"
+    >
+        3️⃣ 禁用透明大页（数据库必做）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#3-禁用透明大页数据库必做" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 禁用透明大页（数据库必做）" aria-label="Anchor to: 3️⃣ 禁用透明大页（数据库必做）" href="#3-%e7%a6%81%e7%94%a8%e9%80%8f%e6%98%8e%e5%a4%a7%e9%a1%b5%e6%95%b0%e6%8d%ae%e5%ba%93%e5%bf%85%e5%81%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六网络栈补充非-sysctl"
+    >
+        六、网络栈补充（非 sysctl）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#六网络栈补充非-sysctl" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、网络栈补充（非 sysctl）" aria-label="Anchor to: 六、网络栈补充（非 sysctl）" href="#%e5%85%ad%e7%bd%91%e7%bb%9c%e6%a0%88%e8%a1%a5%e5%85%85%e9%9d%9e-sysctl">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-网卡多队列高并发"
+    >
+        1️⃣ 网卡多队列（高并发）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-网卡多队列高并发" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 网卡多队列（高并发）" aria-label="Anchor to: 1️⃣ 网卡多队列（高并发）" href="#1-%e7%bd%91%e5%8d%a1%e5%a4%9a%e9%98%9f%e5%88%97%e9%ab%98%e5%b9%b6%e5%8f%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ethtool -L eth0 combined <span class="m">16</span>
+</span></span></code></pre></div><p>适合：</p>
+<ul>
+<li>Nginx</li>
+<li>LVS</li>
+<li>Kafka</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-关闭网卡节能"
+    >
+        2️⃣ 关闭网卡节能
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-关闭网卡节能" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 关闭网卡节能" aria-label="Anchor to: 2️⃣ 关闭网卡节能" href="#2-%e5%85%b3%e9%97%ad%e7%bd%91%e5%8d%a1%e8%8a%82%e8%83%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ethtool -K eth0 gro off gso off tso off
+</span></span></code></pre></div><p>（数据库节点尤其重要）</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七容器--k8s-特有优化你前面没展开"
+    >
+        七、容器 / K8S 特有优化（你前面没展开）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#七容器--k8s-特有优化你前面没展开" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、容器 / K8S 特有优化（你前面没展开）" aria-label="Anchor to: 七、容器 / K8S 特有优化（你前面没展开）" href="#%e4%b8%83%e5%ae%b9%e5%99%a8--k8s-%e7%89%b9%e6%9c%89%e4%bc%98%e5%8c%96%e4%bd%a0%e5%89%8d%e9%9d%a2%e6%b2%a1%e5%b1%95%e5%bc%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-docker-daemon"
+    >
+        1️⃣ Docker daemon
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-docker-daemon" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Docker daemon" aria-label="Anchor to: 1️⃣ Docker daemon" href="#1-docker-daemon">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;log-driver&#34;</span><span class="p">:</span> <span class="s2">&#34;json-file&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;log-opts&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;max-size&#34;</span><span class="p">:</span> <span class="s2">&#34;100m&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;max-file&#34;</span><span class="p">:</span> <span class="s2">&#34;3&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;storage-driver&#34;</span><span class="p">:</span> <span class="s2">&#34;overlay2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-kubelet"
+    >
+        2️⃣ Kubelet
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-kubelet" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Kubelet" aria-label="Anchor to: 2️⃣ Kubelet" href="#2-kubelet">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">--kube-reserved=cpu=500m,memory=1Gi
+--system-reserved=cpu=500m,memory=1Gi
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八按场景给你一份必做清单"
+    >
+        八、按场景给你一份「必做清单」
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#八按场景给你一份必做清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、按场景给你一份「必做清单」" aria-label="Anchor to: 八、按场景给你一份「必做清单」" href="#%e5%85%ab%e6%8c%89%e5%9c%ba%e6%99%af%e7%bb%99%e4%bd%a0%e4%b8%80%e4%bb%bd%e5%bf%85%e5%81%9a%e6%b8%85%e5%8d%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-数据库专用节点"
+    >
+        🟢 数据库专用节点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-数据库专用节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟢 数据库专用节点" aria-label="Anchor to: 🟢 数据库专用节点" href="#-%e6%95%b0%e6%8d%ae%e5%ba%93%e4%b8%93%e7%94%a8%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>禁用 swap</li>
+<li>关闭 irqbalance</li>
+<li>禁用 THP</li>
+<li>设置 OOMScoreAdjust</li>
+<li>NUMA 交错</li>
+<li>XFS + noatime</li>
+<li>systemd 限制 journald</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-容器--k8s-节点"
+    >
+        🟡 容器 / K8S 节点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-容器--k8s-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟡 容器 / K8S 节点" aria-label="Anchor to: 🟡 容器 / K8S 节点" href="#-%e5%ae%b9%e5%99%a8--k8s-%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>ip_forward = 1</li>
+<li>rp_filter = 0</li>
+<li>conntrack 调优</li>
+<li>irqbalance 开启</li>
+<li>kube-reserved</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-高并发网络节点nginx--lvs"
+    >
+        🔵 高并发网络节点（Nginx / LVS）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-高并发网络节点nginx--lvs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 高并发网络节点（Nginx / LVS）" aria-label="Anchor to: 🔵 高并发网络节点（Nginx / LVS）" href="#-%e9%ab%98%e5%b9%b6%e5%8f%91%e7%bd%91%e7%bb%9c%e8%8a%82%e7%82%b9nginx--lvs">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>多队列网卡</li>
+<li>增大 somaxconn</li>
+<li>TCP 缓冲</li>
+<li>arp_announce = 2</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-大数据--消息队列kafka--es"
+    >
+        🔴 大数据 / 消息队列（Kafka / ES）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-大数据--消息队列kafka--es" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔴 大数据 / 消息队列（Kafka / ES）" aria-label="Anchor to: 🔴 大数据 / 消息队列（Kafka / ES）" href="#-%e5%a4%a7%e6%95%b0%e6%8d%ae--%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97kafka--es">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>高 nofile</li>
+<li>高 vm.max_map_count</li>
+<li>禁用 swap</li>
+<li>OOM 保护</li>
+<li>NUMA 感知</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九一句总纲适合写在你文档最前面"
+    >
+        九、一句“总纲”，适合写在你文档最前面
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#九一句总纲适合写在你文档最前面" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、一句“总纲”，适合写在你文档最前面" aria-label="Anchor to: 九、一句“总纲”，适合写在你文档最前面" href="#%e4%b9%9d%e4%b8%80%e5%8f%a5%e6%80%bb%e7%ba%b2%e9%80%82%e5%90%88%e5%86%99%e5%9c%a8%e4%bd%a0%e6%96%87%e6%a1%a3%e6%9c%80%e5%89%8d%e9%9d%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>Linux 的性能优化不是堆参数，而是<strong>按角色约束行为</strong>。
+谁吃 CPU，谁吃内存，谁吃 IO，必须在系统层面提前划清边界。</p>
+</blockquote>
+<p>如果你愿意，下一步我可以帮你把这些内容：</p>
+<ul>
+<li>汇总成 <strong>《生产 Linux 优化白名单》</strong></li>
+<li>或者 <strong>按角色直接生成 Ansible / Shell 脚本</strong></li>
+</ul>
+<p>直接交付级别。</p>
+<p>这个问题问得非常到位 👍
+<strong>sysctl 只是“内核接口层”，真正的系统优化一定是「分层 + 分角色 + 分负载模型」的。</strong></p>
+<p>下面我按你的技术体系，<strong>不重复你已有配置</strong>，而是补充那些：</p>
+<ul>
+<li>很少被系统性整理</li>
+<li>但在生产环境非常关键</li>
+<li>且和你关注的数据库 / 容器 / 高并发 / 运维体系强相关</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一优化体系全景先给结论"
+    >
+        一、优化体系全景（先给结论）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#一优化体系全景先给结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、优化体系全景（先给结论）" aria-label="Anchor to: 一、优化体系全景（先给结论）" href="#%e4%b8%80%e4%bc%98%e5%8c%96%e4%bd%93%e7%b3%bb%e5%85%a8%e6%99%af%e5%85%88%e7%bb%99%e7%bb%93%e8%ae%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Linux 性能与稳定性优化 = <strong>6 个层次同时生效</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">硬件 / BIOS
+</span></span><span class="line"><span class="cl">↓
+</span></span><span class="line"><span class="cl">内核（sysctl + scheduler + NUMA）
+</span></span><span class="line"><span class="cl">↓
+</span></span><span class="line"><span class="cl">systemd / limits / cgroup
+</span></span><span class="line"><span class="cl">↓
+</span></span><span class="line"><span class="cl">文件系统 / I/O 调度
+</span></span><span class="line"><span class="cl">↓
+</span></span><span class="line"><span class="cl">网络协议栈（非 sysctl 部分）
+</span></span><span class="line"><span class="cl">↓
+</span></span><span class="line"><span class="cl">应用进程级参数
+</span></span></code></pre></div><p>你现在已经把 <strong>第二层（sysctl）</strong> 做到 90 分了，下面补的是<strong>剩下的 10 分 + 其它层</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二cpu--调度器优化常被忽略"
+    >
+        二、CPU &amp; 调度器优化（常被忽略）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#二cpu--调度器优化常被忽略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、CPU &amp; 调度器优化（常被忽略）" aria-label="Anchor to: 二、CPU &amp; 调度器优化（常被忽略）" href="#%e4%ba%8ccpu--%e8%b0%83%e5%ba%a6%e5%99%a8%e4%bc%98%e5%8c%96%e5%b8%b8%e8%a2%ab%e5%bf%bd%e7%95%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-cpu-调频策略极重要"
+    >
+        1️⃣ CPU 调频策略（极重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-cpu-调频策略极重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ CPU 调频策略（极重要）" aria-label="Anchor to: 1️⃣ CPU 调频策略（极重要）" href="#1-cpu-%e8%b0%83%e9%a2%91%e7%ad%96%e7%95%a5%e6%9e%81%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="查看当前模式"
+    >
+        查看当前模式
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#查看当前模式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看当前模式" aria-label="Anchor to: 查看当前模式" href="#%e6%9f%a5%e7%9c%8b%e5%bd%93%e5%89%8d%e6%a8%a1%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="推荐配置"
+    >
+        推荐配置
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#推荐配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 推荐配置" aria-label="Anchor to: 推荐配置" href="#%e6%8e%a8%e8%8d%90%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>governor</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>数据库 / Kafka</td>
+          <td>performance</td>
+      </tr>
+      <tr>
+          <td>Web / Docker</td>
+          <td>performance</td>
+      </tr>
+      <tr>
+          <td>省电 / 笔记本</td>
+          <td>powersave</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="设置方式永久"
+    >
+        设置方式（永久）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#设置方式永久" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 设置方式（永久）" aria-label="Anchor to: 设置方式（永久）" href="#%e8%ae%be%e7%bd%ae%e6%96%b9%e5%bc%8f%e6%b0%b8%e4%b9%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cpupower frequency-set -g performance
+</span></span></code></pre></div><blockquote>
+<p><strong>数据库节点不用 performance = 浪费 CPU 的说法是错的</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-禁用-c-states数据库--延迟敏感"
+    >
+        2️⃣ 禁用 C-States（数据库 / 延迟敏感）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-禁用-c-states数据库--延迟敏感" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 禁用 C-States（数据库 / 延迟敏感）" aria-label="Anchor to: 2️⃣ 禁用 C-States（数据库 / 延迟敏感）" href="#2-%e7%a6%81%e7%94%a8-c-states%e6%95%b0%e6%8d%ae%e5%ba%93--%e5%bb%b6%e8%bf%9f%e6%95%8f%e6%84%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>BIOS / Kernel 参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">intel_idle.max_cstate=1
+</span></span><span class="line"><span class="cl">processor.max_cstate=1
+</span></span></code></pre></div><p>作用：</p>
+<ul>
+<li>减少 CPU 唤醒延迟</li>
+<li>提升 P99 / P999 延迟稳定性</li>
+</ul>
+<p>📌 <strong>MySQL / PostgreSQL / Kafka 非常推荐</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-irq-亲和性你之前问过-irqbalance"
+    >
+        3️⃣ IRQ 亲和性（你之前问过 irqbalance）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#3-irq-亲和性你之前问过-irqbalance" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ IRQ 亲和性（你之前问过 irqbalance）" aria-label="Anchor to: 3️⃣ IRQ 亲和性（你之前问过 irqbalance）" href="#3-irq-%e4%ba%b2%e5%92%8c%e6%80%a7%e4%bd%a0%e4%b9%8b%e5%89%8d%e9%97%ae%e8%bf%87-irqbalance">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="原则"
+    >
+        原则
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#原则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 原则" aria-label="Anchor to: 原则" href="#%e5%8e%9f%e5%88%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>建议</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>通用服务器</td>
+          <td>irqbalance 开</td>
+      </tr>
+      <tr>
+          <td>数据库 / Kafka</td>
+          <td>irqbalance 关 + 手动绑核</td>
+      </tr>
+      <tr>
+          <td>网卡转发</td>
+          <td>手动绑核</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三numa-深度优化不是开关这么简单"
+    >
+        三、NUMA 深度优化（不是开关这么简单）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#三numa-深度优化不是开关这么简单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、NUMA 深度优化（不是开关这么简单）" aria-label="Anchor to: 三、NUMA 深度优化（不是开关这么简单）" href="#%e4%b8%89numa-%e6%b7%b1%e5%ba%a6%e4%bc%98%e5%8c%96%e4%b8%8d%e6%98%af%e5%bc%80%e5%85%b3%e8%bf%99%e4%b9%88%e7%ae%80%e5%8d%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你已经配置了：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">kernel.numa_balancing = 1
+</code></pre><p>但还不够。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-数据库节点建议"
+    >
+        1️⃣ 数据库节点建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-数据库节点建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 数据库节点建议" aria-label="Anchor to: 1️⃣ 数据库节点建议" href="#1-%e6%95%b0%e6%8d%ae%e5%ba%93%e8%8a%82%e7%82%b9%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项</th>
+          <th>建议</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>kernel.numa_balancing</td>
+          <td>关闭</td>
+      </tr>
+      <tr>
+          <td>numactl</td>
+          <td>明确绑定</td>
+      </tr>
+      <tr>
+          <td>BIOS</td>
+          <td>NUMA 开</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="示例postgresql"
+    >
+        示例（PostgreSQL）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#示例postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 示例（PostgreSQL）" aria-label="Anchor to: 示例（PostgreSQL）" href="#%e7%a4%ba%e4%be%8bpostgresql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">numactl --cpunodebind<span class="o">=</span><span class="m">0</span> --membind<span class="o">=</span><span class="m">0</span> postgres
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-docker--k8s"
+    >
+        2️⃣ Docker / K8S
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-docker--k8s" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Docker / K8S" aria-label="Anchor to: 2️⃣ Docker / K8S" href="#2-docker--k8s">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>使用 cgroup 自动分配</li>
+<li>不要关闭 numa_balancing</li>
+<li>避免跨 NUMA 节点调度 Pod</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四内存层补充防-oom-的关键"
+    >
+        四、内存层补充（防 OOM 的关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#四内存层补充防-oom-的关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、内存层补充（防 OOM 的关键）" aria-label="Anchor to: 四、内存层补充（防 OOM 的关键）" href="#%e5%9b%9b%e5%86%85%e5%ad%98%e5%b1%82%e8%a1%a5%e5%85%85%e9%98%b2-oom-%e7%9a%84%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你已有 sysctl，但<strong>OOM 90% 不是 sysctl 引起的</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-systemd-oom-保护极关键"
+    >
+        1️⃣ systemd OOM 保护（极关键）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-systemd-oom-保护极关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ systemd OOM 保护（极关键）" aria-label="Anchor to: 1️⃣ systemd OOM 保护（极关键）" href="#1-systemd-oom-%e4%bf%9d%e6%8a%a4%e6%9e%81%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1">## /etc/systemd/system.conf</span>
+</span></span><span class="line"><span class="cl"><span class="na">DefaultMemoryAccounting</span><span class="o">=</span><span class="s">yes</span>
+</span></span><span class="line"><span class="cl"><span class="na">DefaultTasksAccounting</span><span class="o">=</span><span class="s">yes</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-为关键服务设置硬限制"
+    >
+        2️⃣ 为关键服务设置硬限制
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-为关键服务设置硬限制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 为关键服务设置硬限制" aria-label="Anchor to: 2️⃣ 为关键服务设置硬限制" href="#2-%e4%b8%ba%e5%85%b3%e9%94%ae%e6%9c%8d%e5%8a%a1%e8%ae%be%e7%bd%ae%e7%a1%ac%e9%99%90%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="postgresql"
+    >
+        PostgreSQL
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL" aria-label="Anchor to: PostgreSQL" href="#postgresql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">MemoryMax</span><span class="o">=</span><span class="s">32G</span>
+</span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-900</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="docker"
+    >
+        Docker
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Docker" aria-label="Anchor to: Docker" href="#docker">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-500</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-关闭透明大页thp"
+    >
+        3️⃣ 关闭透明大页（THP）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#3-关闭透明大页thp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 关闭透明大页（THP）" aria-label="Anchor to: 3️⃣ 关闭透明大页（THP）" href="#3-%e5%85%b3%e9%97%ad%e9%80%8f%e6%98%8e%e5%a4%a7%e9%a1%b5thp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled
+</span></span></code></pre></div><p><strong>几乎所有数据库 / Kafka 都推荐</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五文件系统--io-层sysctl-覆盖不到"
+    >
+        五、文件系统 &amp; I/O 层（sysctl 覆盖不到）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#五文件系统--io-层sysctl-覆盖不到" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、文件系统 &amp; I/O 层（sysctl 覆盖不到）" aria-label="Anchor to: 五、文件系统 &amp; I/O 层（sysctl 覆盖不到）" href="#%e4%ba%94%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f--io-%e5%b1%82sysctl-%e8%a6%86%e7%9b%96%e4%b8%8d%e5%88%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-io-调度器选择"
+    >
+        1️⃣ I/O 调度器选择
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-io-调度器选择" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ I/O 调度器选择" aria-label="Anchor to: 1️⃣ I/O 调度器选择" href="#1-io-%e8%b0%83%e5%ba%a6%e5%99%a8%e9%80%89%e6%8b%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>设备</th>
+          <th>推荐</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>SSD / NVMe</td>
+          <td>none</td>
+      </tr>
+      <tr>
+          <td>HDD</td>
+          <td>mq-deadline</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> none &gt; /sys/block/nvme0n1/queue/scheduler
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-挂载参数数据库"
+    >
+        2️⃣ 挂载参数（数据库）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-挂载参数数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 挂载参数（数据库）" aria-label="Anchor to: 2️⃣ 挂载参数（数据库）" href="#2-%e6%8c%82%e8%bd%bd%e5%8f%82%e6%95%b0%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-fstab" data-lang="fstab">noatime,nodiratime,discard
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-文件描述符限制不是-fsfile-max"
+    >
+        3️⃣ 文件描述符限制（不是 fs.file-max）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#3-文件描述符限制不是-fsfile-max" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 文件描述符限制（不是 fs.file-max）" aria-label="Anchor to: 3️⃣ 文件描述符限制（不是 fs.file-max）" href="#3-%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6%e9%99%90%e5%88%b6%e4%b8%8d%e6%98%af-fsfile-max">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/security/limits.conf
+* soft nofile 1048576
+* hard nofile 1048576
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六网络层非-sysctl优化"
+    >
+        六、网络层“非 sysctl”优化
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#六网络层非-sysctl优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、网络层“非 sysctl”优化" aria-label="Anchor to: 六、网络层“非 sysctl”优化" href="#%e5%85%ad%e7%bd%91%e7%bb%9c%e5%b1%82%e9%9d%9e-sysctl%e4%bc%98%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-网卡队列--rpsrfs"
+    >
+        1️⃣ 网卡队列 &amp; RPS/RFS
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-网卡队列--rpsrfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 网卡队列 &amp; RPS/RFS" aria-label="Anchor to: 1️⃣ 网卡队列 &amp; RPS/RFS" href="#1-%e7%bd%91%e5%8d%a1%e9%98%9f%e5%88%97--rpsrfs">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ethtool -L eth0 combined <span class="m">16</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> ffffffff &gt; /sys/class/net/eth0/queues/rx-0/rps_cpus
+</span></span></code></pre></div><p>适合：</p>
+<ul>
+<li>LVS</li>
+<li>Nginx</li>
+<li>Kafka</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-tcp-offload"
+    >
+        2️⃣ TCP Offload
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-tcp-offload" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ TCP Offload" aria-label="Anchor to: 2️⃣ TCP Offload" href="#2-tcp-offload">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ethtool -K eth0 gro on gso on tso on
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七容器--k8s-专项建议"
+    >
+        七、容器 &amp; K8S 专项建议
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#七容器--k8s-专项建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、容器 &amp; K8S 专项建议" aria-label="Anchor to: 七、容器 &amp; K8S 专项建议" href="#%e4%b8%83%e5%ae%b9%e5%99%a8--k8s-%e4%b8%93%e9%a1%b9%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-docker-daemon-1"
+    >
+        1️⃣ Docker daemon
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-docker-daemon-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Docker daemon" aria-label="Anchor to: 1️⃣ Docker daemon" href="#1-docker-daemon-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;log-driver&#34;</span><span class="p">:</span> <span class="s2">&#34;json-file&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;log-opts&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;max-size&#34;</span><span class="p">:</span> <span class="s2">&#34;100m&#34;</span><span class="p">,</span> <span class="nt">&#34;max-file&#34;</span><span class="p">:</span> <span class="s2">&#34;3&#34;</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;exec-opts&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;native.cgroupdriver=systemd&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-k8s-节点"
+    >
+        2️⃣ K8S 节点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-k8s-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ K8S 节点" aria-label="Anchor to: 2️⃣ K8S 节点" href="#2-k8s-%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>关闭 swap（你已做）</li>
+<li>设置 kube-reserved / system-reserved</li>
+<li>生产环境启用 static CPU manager</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八不同角色的终极建议表"
+    >
+        八、不同角色的“终极建议表”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#八不同角色的终极建议表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、不同角色的“终极建议表”" aria-label="Anchor to: 八、不同角色的“终极建议表”" href="#%e5%85%ab%e4%b8%8d%e5%90%8c%e8%a7%92%e8%89%b2%e7%9a%84%e7%bb%88%e6%9e%81%e5%bb%ba%e8%ae%ae%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>角色</th>
+          <th>关键优化</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>MySQL / PostgreSQL</td>
+          <td>THP off、NUMA bind、irq 手动</td>
+      </tr>
+      <tr>
+          <td>Redis</td>
+          <td>THP off、vm.overcommit</td>
+      </tr>
+      <tr>
+          <td>Kafka</td>
+          <td>fd、network buffer、page cache</td>
+      </tr>
+      <tr>
+          <td>Docker / K8S</td>
+          <td>conntrack、cgroup、IP forward</td>
+      </tr>
+      <tr>
+          <td>LVS</td>
+          <td>RPS、ARP、irq</td>
+      </tr>
+      <tr>
+          <td>Nginx</td>
+          <td>somaxconn、accept_mutex</td>
+      </tr>
+      <tr>
+          <td>Prometheus</td>
+          <td>mmap、fd、I/O</td>
+      </tr>
+      <tr>
+          <td>GitLab / Jenkins</td>
+          <td>fd、inotify、OOM</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九一句话收尾给你做体系总结"
+    >
+        九、一句话收尾（给你做体系总结）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#九一句话收尾给你做体系总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、一句话收尾（给你做体系总结）" aria-label="Anchor to: 九、一句话收尾（给你做体系总结）" href="#%e4%b9%9d%e4%b8%80%e5%8f%a5%e8%af%9d%e6%94%b6%e5%b0%be%e7%bb%99%e4%bd%a0%e5%81%9a%e4%bd%93%e7%b3%bb%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>真正的 Linux 优化不是“调参数”，而是<strong>让 CPU、内存、I/O、网络、调度器各司其职</strong>。
+sysctl 只是入口，systemd、NUMA、IRQ、I/O 才是稳定性的底座。</p>
+</blockquote>
+<p>如果你愿意，下一步我可以直接帮你输出：</p>
+<ul>
+<li>☘️ <strong>《Linux 生产级调优总表（按角色）》</strong></li>
+<li>📦 <strong>每种服务一份 systemd + sysctl 成品配置</strong></li>
+<li>🔍 <strong>OOM / 抖动 / 延迟的排查决策树</strong></li>
+</ul>
+<p>你可以直接拿去当团队标准。</p>
+<p>好，这里我<strong>严格按你的指令执行</strong>：</p>
+<ul>
+<li><strong>主结构 =「回复 1（生产 Linux 优化白名单）」</strong></li>
+<li><strong>只从「回复 2」中补充「回复 1 没有覆盖，但有价值的内容」</strong></li>
+<li><strong>不重复、不堆参数、不混语言</strong></li>
+<li><strong>最终结果是一份：可直接作为团队规范的“终版白名单”</strong></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="生产-linux-优化白名单终版"
+    >
+        生产 Linux 优化白名单（终版）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#生产-linux-优化白名单终版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生产 Linux 优化白名单（终版）" aria-label="Anchor to: 生产 Linux 优化白名单（终版）" href="#%e7%94%9f%e4%ba%a7-linux-%e4%bc%98%e5%8c%96%e7%99%bd%e5%90%8d%e5%8d%95%e7%bb%88%e7%89%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>目标：
+<strong>稳定优先、可预测、可解释、可回滚</strong>
+不追求极限 benchmark，只追求长期运行不出事故。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="一适用范围与原则总纲"
+    >
+        一、适用范围与原则（总纲）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#一适用范围与原则总纲" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、适用范围与原则（总纲）" aria-label="Anchor to: 一、适用范围与原则（总纲）" href="#%e4%b8%80%e9%80%82%e7%94%a8%e8%8c%83%e5%9b%b4%e4%b8%8e%e5%8e%9f%e5%88%99%e6%80%bb%e7%ba%b2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="适用系统"
+    >
+        适用系统
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#适用系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 适用系统" aria-label="Anchor to: 适用系统" href="#%e9%80%82%e7%94%a8%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>RHEL / AlmaLinux / Rocky Linux</li>
+<li>Debian / Ubuntu（参数名一致的部分通用）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="三个硬原则"
+    >
+        三个硬原则
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#三个硬原则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三个硬原则" aria-label="Anchor to: 三个硬原则" href="#%e4%b8%89%e4%b8%aa%e7%a1%ac%e5%8e%9f%e5%88%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>
+<p><strong>角色优先于参数</strong>
+数据库、容器、网络节点不能用同一套参数</p>
+</li>
+<li>
+<p><strong>sysctl 不是万能</strong>
+必须配合：</p>
+<ul>
+<li>limits</li>
+<li>systemd</li>
+<li>NUMA / IRQ</li>
+<li>文件系统</li>
+</ul>
+</li>
+<li>
+<p><strong>能解释，才允许上线</strong>
+任何参数必须回答两个问题：</p>
+<ul>
+<li>解决什么问题</li>
+<li>在什么场景下可能有副作用</li>
+</ul>
+</li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="二内核参数sysctl白名单你已有的作为基线"
+    >
+        二、内核参数（sysctl）白名单（你已有的，作为基线）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#二内核参数sysctl白名单你已有的作为基线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、内核参数（sysctl）白名单（你已有的，作为基线）" aria-label="Anchor to: 二、内核参数（sysctl）白名单（你已有的，作为基线）" href="#%e4%ba%8c%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0sysctl%e7%99%bd%e5%90%8d%e5%8d%95%e4%bd%a0%e5%b7%b2%e6%9c%89%e7%9a%84%e4%bd%9c%e4%b8%ba%e5%9f%ba%e7%ba%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>以下内容 <strong>你已经整理得非常完整</strong>，作为所有服务器的「基础层」。</p>
+</blockquote>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="分类说明"
+    >
+        分类说明
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#分类说明" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 分类说明" aria-label="Anchor to: 分类说明" href="#%e5%88%86%e7%b1%bb%e8%af%b4%e6%98%8e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>kernel.*：进程、NUMA、IPC</li>
+<li>fs.*：文件句柄、inotify</li>
+<li>net.core / net.ipv4：TCP 栈</li>
+<li>net.netfilter：连接跟踪</li>
+<li>vm.*：内存管理</li>
+</ul>
+<p>⚠️ 原则：
+<strong>基础节点只启用“安全 + 稳定”项，高负载项按角色覆盖</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="三资源限制limits补充回复-1-已有保留"
+    >
+        三、资源限制（limits）——【补充，回复 1 已有，保留】
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#三资源限制limits补充回复-1-已有保留" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、资源限制（limits）——【补充，回复 1 已有，保留】" aria-label="Anchor to: 三、资源限制（limits）——【补充，回复 1 已有，保留】" href="#%e4%b8%89%e8%b5%84%e6%ba%90%e9%99%90%e5%88%b6limits%e8%a1%a5%e5%85%85%e5%9b%9e%e5%a4%8d-1-%e5%b7%b2%e6%9c%89%e4%bf%9d%e7%95%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="全局文件描述符"
+    >
+        全局文件描述符
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#全局文件描述符" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 全局文件描述符" aria-label="Anchor to: 全局文件描述符" href="#%e5%85%a8%e5%b1%80%e6%96%87%e4%bb%b6%e6%8f%8f%e8%bf%b0%e7%ac%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/systemd/system.conf
+DefaultLimitNOFILE=1048576
+</code></pre><pre tabindex="0"><code class="language-conf" data-lang="conf">## /etc/security/limits.conf
+* soft nofile 1048576
+* hard nofile 1048576
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="进程数限制防-fork-风暴"
+    >
+        进程数限制（防 fork 风暴）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#进程数限制防-fork-风暴" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 进程数限制（防 fork 风暴）" aria-label="Anchor to: 进程数限制（防 fork 风暴）" href="#%e8%bf%9b%e7%a8%8b%e6%95%b0%e9%99%90%e5%88%b6%e9%98%b2-fork-%e9%a3%8e%e6%9a%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">* soft nproc 65535
+* hard nproc 65535
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="四systemd-行为约束补充细化"
+    >
+        四、systemd 行为约束（补充细化）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#四systemd-行为约束补充细化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、systemd 行为约束（补充细化）" aria-label="Anchor to: 四、systemd 行为约束（补充细化）" href="#%e5%9b%9bsystemd-%e8%a1%8c%e4%b8%ba%e7%ba%a6%e6%9d%9f%e8%a1%a5%e5%85%85%e7%bb%86%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-oom-行为控制数据库--中间件必做"
+    >
+        1️⃣ OOM 行为控制（数据库 / 中间件必做）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-oom-行为控制数据库--中间件必做" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ OOM 行为控制（数据库 / 中间件必做）" aria-label="Anchor to: 1️⃣ OOM 行为控制（数据库 / 中间件必做）" href="#1-oom-%e8%a1%8c%e4%b8%ba%e6%8e%a7%e5%88%b6%e6%95%b0%e6%8d%ae%e5%ba%93--%e4%b8%ad%e9%97%b4%e4%bb%b6%e5%bf%85%e5%81%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-900</span>
+</span></span><span class="line"><span class="cl"><span class="na">MemoryAccounting</span><span class="o">=</span><span class="s">true</span>
+</span></span></code></pre></div><p>说明：</p>
+<ul>
+<li>防止 systemd 在内存压力下优先杀数据库</li>
+<li>比 sysctl 防 OOM 更可靠</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-journald-限制避免-io--内存噪音"
+    >
+        2️⃣ journald 限制（避免 IO / 内存噪音）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-journald-限制避免-io--内存噪音" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ journald 限制（避免 IO / 内存噪音）" aria-label="Anchor to: 2️⃣ journald 限制（避免 IO / 内存噪音）" href="#2-journald-%e9%99%90%e5%88%b6%e9%81%bf%e5%85%8d-io--%e5%86%85%e5%ad%98%e5%99%aa%e9%9f%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">SystemMaxUse=500M
+RuntimeMaxUse=200M
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-禁止-systemd-参与内存回收数据库节点"
+    >
+        3️⃣ 禁止 systemd 参与内存回收（数据库节点）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#3-禁止-systemd-参与内存回收数据库节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 禁止 systemd 参与内存回收（数据库节点）" aria-label="Anchor to: 3️⃣ 禁止 systemd 参与内存回收（数据库节点）" href="#3-%e7%a6%81%e6%ad%a2-systemd-%e5%8f%82%e4%b8%8e%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6%e6%95%b0%e6%8d%ae%e5%ba%93%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">DefaultMemoryAccounting=no
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="五cpu--numa--irq-策略回复-1-主体--补充说明"
+    >
+        五、CPU / NUMA / IRQ 策略（回复 1 主体 + 补充说明）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#五cpu--numa--irq-策略回复-1-主体--补充说明" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、CPU / NUMA / IRQ 策略（回复 1 主体 &#43; 补充说明）" aria-label="Anchor to: 五、CPU / NUMA / IRQ 策略（回复 1 主体 &#43; 补充说明）" href="#%e4%ba%94cpu--numa--irq-%e7%ad%96%e7%95%a5%e5%9b%9e%e5%a4%8d-1-%e4%b8%bb%e4%bd%93--%e8%a1%a5%e5%85%85%e8%af%b4%e6%98%8e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="irqbalance-使用原则明确版"
+    >
+        irqbalance 使用原则（明确版）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#irqbalance-使用原则明确版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: irqbalance 使用原则（明确版）" aria-label="Anchor to: irqbalance 使用原则（明确版）" href="#irqbalance-%e4%bd%bf%e7%94%a8%e5%8e%9f%e5%88%99%e6%98%8e%e7%a1%ae%e7%89%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>节点角色</th>
+          <th>irqbalance</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>MySQL / PostgreSQL</td>
+          <td>禁用</td>
+      </tr>
+      <tr>
+          <td>Redis</td>
+          <td>禁用</td>
+      </tr>
+      <tr>
+          <td>Kafka</td>
+          <td>禁用</td>
+      </tr>
+      <tr>
+          <td>容器节点</td>
+          <td>启用</td>
+      </tr>
+      <tr>
+          <td>Web / API</td>
+          <td>启用</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>原因：</p>
+<ul>
+<li>数据库追求 <strong>中断稳定性</strong></li>
+<li>容器节点追求 <strong>均衡</strong></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="cpu-调度策略数据库--高负载"
+    >
+        CPU 调度策略（数据库 / 高负载）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#cpu-调度策略数据库--高负载" class="gdoc-page__anchor clip flex align-center" title="Anchor to: CPU 调度策略（数据库 / 高负载）" aria-label="Anchor to: CPU 调度策略（数据库 / 高负载）" href="#cpu-%e8%b0%83%e5%ba%a6%e7%ad%96%e7%95%a5%e6%95%b0%e6%8d%ae%e5%ba%93--%e9%ab%98%e8%b4%9f%e8%bd%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> performance &gt; /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="numa-策略数据库"
+    >
+        NUMA 策略（数据库）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#numa-策略数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NUMA 策略（数据库）" aria-label="Anchor to: NUMA 策略（数据库）" href="#numa-%e7%ad%96%e7%95%a5%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">kernel.numa_balancing = 0
+vm.zone_reclaim_mode = 0
+</code></pre><p>启动方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">numactl --interleave<span class="o">=</span>all
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="六内存管理补充细化"
+    >
+        六、内存管理（补充细化）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#六内存管理补充细化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、内存管理（补充细化）" aria-label="Anchor to: 六、内存管理（补充细化）" href="#%e5%85%ad%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86%e8%a1%a5%e5%85%85%e7%bb%86%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-swap-策略数据库专用"
+    >
+        1️⃣ Swap 策略（数据库专用）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-swap-策略数据库专用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Swap 策略（数据库专用）" aria-label="Anchor to: 1️⃣ Swap 策略（数据库专用）" href="#1-swap-%e7%ad%96%e7%95%a5%e6%95%b0%e6%8d%ae%e5%ba%93%e4%b8%93%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">vm.swappiness = 0
+</code></pre><p>并在系统层面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">swapoff -a
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-透明大页数据库必禁"
+    >
+        2️⃣ 透明大页（数据库必禁）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-透明大页数据库必禁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 透明大页（数据库必禁）" aria-label="Anchor to: 2️⃣ 透明大页（数据库必禁）" href="#2-%e9%80%8f%e6%98%8e%e5%a4%a7%e9%a1%b5%e6%95%b0%e6%8d%ae%e5%ba%93%e5%bf%85%e7%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-vmmax_map_countes--kafka"
+    >
+        3️⃣ vm.max_map_count（ES / Kafka）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#3-vmmax_map_countes--kafka" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ vm.max_map_count（ES / Kafka）" aria-label="Anchor to: 3️⃣ vm.max_map_count（ES / Kafka）" href="#3-vmmax_map_countes--kafka">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">vm.max_map_count = 262144
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="七文件系统与-io回复-2-中补充回复-1-未完全展开"
+    >
+        七、文件系统与 I/O（回复 2 中补充，回复 1 未完全展开）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#七文件系统与-io回复-2-中补充回复-1-未完全展开" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、文件系统与 I/O（回复 2 中补充，回复 1 未完全展开）" aria-label="Anchor to: 七、文件系统与 I/O（回复 2 中补充，回复 1 未完全展开）" href="#%e4%b8%83%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e4%b8%8e-io%e5%9b%9e%e5%a4%8d-2-%e4%b8%ad%e8%a1%a5%e5%85%85%e5%9b%9e%e5%a4%8d-1-%e6%9c%aa%e5%ae%8c%e5%85%a8%e5%b1%95%e5%bc%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="io-调度器选择"
+    >
+        I/O 调度器选择
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#io-调度器选择" class="gdoc-page__anchor clip flex align-center" title="Anchor to: I/O 调度器选择" aria-label="Anchor to: I/O 调度器选择" href="#io-%e8%b0%83%e5%ba%a6%e5%99%a8%e9%80%89%e6%8b%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>磁盘类型</th>
+          <th>调度器</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>NVMe</td>
+          <td>none</td>
+      </tr>
+      <tr>
+          <td>SSD</td>
+          <td>mq-deadline</td>
+      </tr>
+      <tr>
+          <td>HDD</td>
+          <td>bfq</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="文件系统挂载参数数据库"
+    >
+        文件系统挂载参数（数据库）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#文件系统挂载参数数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 文件系统挂载参数（数据库）" aria-label="Anchor to: 文件系统挂载参数（数据库）" href="#%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e6%8c%82%e8%bd%bd%e5%8f%82%e6%95%b0%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h5 id="xfs推荐"
+    >
+        XFS（推荐）
+    </h5>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#xfs推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: XFS（推荐）" aria-label="Anchor to: XFS（推荐）" href="#xfs%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-fstab" data-lang="fstab">noatime,nodiratime,logbufs=8,logbsize=256k
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h5 id="ext4-1"
+    >
+        ext4
+    </h5>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#ext4-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ext4" aria-label="Anchor to: ext4" href="#ext4-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-fstab" data-lang="fstab">noatime,nodiratime,data=ordered
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="八网络栈非-sysctl-层补充"
+    >
+        八、网络栈（非 sysctl 层补充）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#八网络栈非-sysctl-层补充" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、网络栈（非 sysctl 层补充）" aria-label="Anchor to: 八、网络栈（非 sysctl 层补充）" href="#%e5%85%ab%e7%bd%91%e7%bb%9c%e6%a0%88%e9%9d%9e-sysctl-%e5%b1%82%e8%a1%a5%e5%85%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-网卡多队列高并发-1"
+    >
+        1️⃣ 网卡多队列（高并发）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#1-网卡多队列高并发-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 网卡多队列（高并发）" aria-label="Anchor to: 1️⃣ 网卡多队列（高并发）" href="#1-%e7%bd%91%e5%8d%a1%e5%a4%9a%e9%98%9f%e5%88%97%e9%ab%98%e5%b9%b6%e5%8f%91-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ethtool -L eth0 combined <span class="m">16</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-禁用网卡-offload数据库"
+    >
+        2️⃣ 禁用网卡 offload（数据库）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#2-禁用网卡-offload数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 禁用网卡 offload（数据库）" aria-label="Anchor to: 2️⃣ 禁用网卡 offload（数据库）" href="#2-%e7%a6%81%e7%94%a8%e7%bd%91%e5%8d%a1-offload%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ethtool -K eth0 gro off gso off tso off
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="九容器--k8s-专用补充来自回复-2"
+    >
+        九、容器 / K8S 专用补充（来自回复 2）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#九容器--k8s-专用补充来自回复-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、容器 / K8S 专用补充（来自回复 2）" aria-label="Anchor to: 九、容器 / K8S 专用补充（来自回复 2）" href="#%e4%b9%9d%e5%ae%b9%e5%99%a8--k8s-%e4%b8%93%e7%94%a8%e8%a1%a5%e5%85%85%e6%9d%a5%e8%87%aa%e5%9b%9e%e5%a4%8d-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="docker-daemon-日志限制"
+    >
+        Docker daemon 日志限制
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#docker-daemon-日志限制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Docker daemon 日志限制" aria-label="Anchor to: Docker daemon 日志限制" href="#docker-daemon-%e6%97%a5%e5%bf%97%e9%99%90%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;log-driver&#34;</span><span class="p">:</span> <span class="s2">&#34;json-file&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;log-opts&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;max-size&#34;</span><span class="p">:</span> <span class="s2">&#34;100m&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;max-file&#34;</span><span class="p">:</span> <span class="s2">&#34;3&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="kubelet-资源预留"
+    >
+        Kubelet 资源预留
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#kubelet-资源预留" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Kubelet 资源预留" aria-label="Anchor to: Kubelet 资源预留" href="#kubelet-%e8%b5%84%e6%ba%90%e9%a2%84%e7%95%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">--kube-reserved=cpu=500m,memory=1Gi
+</span></span><span class="line"><span class="cl">--system-reserved=cpu=500m,memory=1Gi
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="十按角色的必须项速查表终版"
+    >
+        十、按角色的“必须项”速查表（终版）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#十按角色的必须项速查表终版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、按角色的“必须项”速查表（终版）" aria-label="Anchor to: 十、按角色的“必须项”速查表（终版）" href="#%e5%8d%81%e6%8c%89%e8%a7%92%e8%89%b2%e7%9a%84%e5%bf%85%e9%a1%bb%e9%a1%b9%e9%80%9f%e6%9f%a5%e8%a1%a8%e7%bb%88%e7%89%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-数据库节点mysql--postgresql--mongodb"
+    >
+        🟢 数据库节点（MySQL / PostgreSQL / MongoDB）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-数据库节点mysql--postgresql--mongodb" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟢 数据库节点（MySQL / PostgreSQL / MongoDB）" aria-label="Anchor to: 🟢 数据库节点（MySQL / PostgreSQL / MongoDB）" href="#-%e6%95%b0%e6%8d%ae%e5%ba%93%e8%8a%82%e7%82%b9mysql--postgresql--mongodb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>禁用 swap</li>
+<li>禁用 irqbalance</li>
+<li>禁用 THP</li>
+<li>OOMScoreAdjust</li>
+<li>NUMA 交错</li>
+<li>XFS + noatime</li>
+<li>journald 限制</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-容器--k8s-节点-1"
+    >
+        🟡 容器 / K8S 节点
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-容器--k8s-节点-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟡 容器 / K8S 节点" aria-label="Anchor to: 🟡 容器 / K8S 节点" href="#-%e5%ae%b9%e5%99%a8--k8s-%e8%8a%82%e7%82%b9-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>ip_forward = 1</li>
+<li>conntrack 调优</li>
+<li>irqbalance 启用</li>
+<li>kube-reserved</li>
+<li>overlay2 日志限制</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-高并发网络节点nginx--lvs-1"
+    >
+        🔵 高并发网络节点（Nginx / LVS）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-高并发网络节点nginx--lvs-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔵 高并发网络节点（Nginx / LVS）" aria-label="Anchor to: 🔵 高并发网络节点（Nginx / LVS）" href="#-%e9%ab%98%e5%b9%b6%e5%8f%91%e7%bd%91%e7%bb%9c%e8%8a%82%e7%82%b9nginx--lvs-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>somaxconn</li>
+<li>TCP 缓冲</li>
+<li>多队列网卡</li>
+<li>arp_announce = 2</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="-中间件--大数据kafka--es"
+    >
+        🔴 中间件 / 大数据（Kafka / ES）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#-中间件--大数据kafka--es" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔴 中间件 / 大数据（Kafka / ES）" aria-label="Anchor to: 🔴 中间件 / 大数据（Kafka / ES）" href="#-%e4%b8%ad%e9%97%b4%e4%bb%b6--%e5%a4%a7%e6%95%b0%e6%8d%aekafka--es">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>高 nofile</li>
+<li>vm.max_map_count</li>
+<li>禁用 swap</li>
+<li>OOM 保护</li>
+<li>NUMA 感知</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="十一一句可以写进规范首页的话"
+    >
+        十一、一句可以写进规范首页的话
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/performance/#十一一句可以写进规范首页的话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、一句可以写进规范首页的话" aria-label="Anchor to: 十一、一句可以写进规范首页的话" href="#%e5%8d%81%e4%b8%80%e4%b8%80%e5%8f%a5%e5%8f%af%e4%bb%a5%e5%86%99%e8%bf%9b%e8%a7%84%e8%8c%83%e9%a6%96%e9%a1%b5%e7%9a%84%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>系统优化不是“把参数调满”，而是提前告诉内核：
+谁重要，谁可以让步，谁绝不能被杀。</strong></p>
+</blockquote>
+<hr>
+<p>如果你愿意，下一步我可以直接帮你做三件事之一（任选）：</p>
+<ol>
+<li>拆成 <strong>/etc/sysctl.d/ 按角色文件</strong></li>
+<li>生成 <strong>数据库 / 容器 / 网络 三套落地模板</strong></li>
+<li>转成 <strong>Ansible Role / Shell 一键初始化</strong></li>
+</ol>
+<p>你这套内容，已经是<strong>准运维教材级别</strong>了。</p>
+
+  </article>
+
+
+
+          
+          
+          <div class="gdoc-page__footer flex flex-wrap justify-between">
+            
+              
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+          
+  
+  
+
+  
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+          
+  
+  
+
+  
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+          
+  
+  
+
+  
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+          
+  
+  
+
+  
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+
+
+
+
+<span class="gdoc-page__nav">
+  
+</span>
+<span class="gdoc-page__nav">
+  
+</span>
+
+            
+          </div>
+          
+        </div>
+      </main>
+
+      <footer class="gdoc-footer">
+  <nav class="container flex">
+    <div>
+      <section class="flex flex-wrap align-center">
+        <span class="gdoc-footer__item gdoc-footer__item--row">
+          Built with <a href="https://gohugo.io/" class="gdoc-footer__link">Hugo</a> and <svg class="gdoc-icon gdoc_heart"><use xlink:href="#gdoc_heart"></use></svg>
+
+        </span>
+        
+        
+      </section>
+      
+    </div>
+    
+      <div class="flex flex-25 justify-end">
+        <span class="gdoc-footer__item text-right">
+          <a class="gdoc-footer__link fake-link" href="#" aria-label="Back to top">
+            <svg class="gdoc-icon gdoc_keyboard_arrow_up">
+              <use xlink:href="#gdoc_keyboard_arrow_up"></use>
+            </svg>
+            <span class="hidden-mobile">Back to top</span>
+          </a>
+        </span>
+      </div>
+    
+  </nav>
+</footer>
+
+    </div>
+
+    
+  </body>
+</html>

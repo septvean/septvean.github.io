@@ -12,12 +12,9 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+  <meta name="description" content=" 一、总览：从硬件到容器的完整分层 &#43;--------------------------------------------------&#43; | 应用程序 / 服务 | | MySQL / Nginx / Redis / Java / Python | &#43;--------------------------------------------------&#43; | 容器平台（可选） | | Docker / containerd / Podman / Kubernetes | &#43;--------------------------------------------------&#43; | 容器运行时（用户空间） | | runc | &#43;--------------------------------------------------&#43; | Linux 用户空间基础组件 | | shell / libc / systemd / coreutils | &#43;--------------------------------------------------&#43; | Linux 内核空间 | | 五大子系统 &#43; namespaces &#43; cgroups &#43; UnionFS | &#43;--------------------------------------------------&#43; | 硬件层 | | CPU / 内存 / 硬盘 / 网卡 | &#43;--------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
 
-    <title>overlay2 为什么对数据库不友好 | ☘️ Septvean&#39;s Documents</title>
+    <title>从硬件到容器 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +35,19 @@
     
   <meta
     property="og:title"
-    content="overlay2 为什么对数据库不友好"
+    content="从硬件到容器"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+  <meta property="og:description" content=" 一、总览：从硬件到容器的完整分层 &#43;--------------------------------------------------&#43; | 应用程序 / 服务 | | MySQL / Nginx / Redis / Java / Python | &#43;--------------------------------------------------&#43; | 容器平台（可选） | | Docker / containerd / Podman / Kubernetes | &#43;--------------------------------------------------&#43; | 容器运行时（用户空间） | | runc | &#43;--------------------------------------------------&#43; | Linux 用户空间基础组件 | | shell / libc / systemd / coreutils | &#43;--------------------------------------------------&#43; | Linux 内核空间 | | 五大子系统 &#43; namespaces &#43; cgroups &#43; UnionFS | &#43;--------------------------------------------------&#43; | 硬件层 | | CPU / 内存 / 硬盘 / 网卡 | &#43;--------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/from-hardware-to-container/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="overlay2 为什么对数据库不友好" />
-  <meta name="twitter:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+<meta name="twitter:title" content="从硬件到容器" />
+  <meta name="twitter:description" content=" 一、总览：从硬件到容器的完整分层 &#43;--------------------------------------------------&#43; | 应用程序 / 服务 | | MySQL / Nginx / Redis / Java / Python | &#43;--------------------------------------------------&#43; | 容器平台（可选） | | Docker / containerd / Podman / Kubernetes | &#43;--------------------------------------------------&#43; | 容器运行时（用户空间） | | runc | &#43;--------------------------------------------------&#43; | Linux 用户空间基础组件 | | shell / libc / systemd / coreutils | &#43;--------------------------------------------------&#43; | Linux 内核空间 | | 五大子系统 &#43; namespaces &#43; cgroups &#43; UnionFS | &#43;--------------------------------------------------&#43; | 硬件层 | | CPU / 内存 / 硬盘 / 网卡 | &#43;--------------------------------------------------&#43; 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 / 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 / NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”" />
 
 
   <script type="application/ld+json">
@@ -64,16 +55,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "overlay2 为什么对数据库不友好",
-      "url" : "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/",
-      "headline": "overlay2 为什么对数据库不友好",
-      "description": "这是一个非常关键、也非常容易被误解的问题。\n内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS \/ overlay2 \/ 内核 \/ 数据库 串起来。\n一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 \u002b 写时复制 \u002b 间接路径”的文件语义。\n一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync \/ fdatasync 强一致 顺序写（WAL \/ redo \/ binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反",
-      "wordCount" : "323",
+      "name": "从硬件到容器",
+      "url" : "https://documents.v2ep.com/operations/linux/from-hardware-to-container/",
+      "headline": "从硬件到容器",
+      "description": " 一、总览：从硬件到容器的完整分层 \u002b--------------------------------------------------\u002b | 应用程序 \/ 服务 | | MySQL \/ Nginx \/ Redis \/ Java \/ Python | \u002b--------------------------------------------------\u002b | 容器平台（可选） | | Docker \/ containerd \/ Podman \/ Kubernetes | \u002b--------------------------------------------------\u002b | 容器运行时（用户空间） | | runc | \u002b--------------------------------------------------\u002b | Linux 用户空间基础组件 | | shell \/ libc \/ systemd \/ coreutils | \u002b--------------------------------------------------\u002b | Linux 内核空间 | | 五大子系统 \u002b namespaces \u002b cgroups \u002b UnionFS | \u002b--------------------------------------------------\u002b | 硬件层 | | CPU \/ 内存 \/ 硬盘 \/ 网卡 | \u002b--------------------------------------------------\u002b 二、硬件层：一切资源的源头 1️⃣ CPU 提供指令执行能力 提供多核、多 NUMA 节点 提供特权级（用户态 \/ 内核态） 内核如何使用 CPU 进程调度器决定 哪个进程在哪个 CPU 上运行 中断处理、软中断、调度时钟 2️⃣ 内存（RAM） 提供物理内存页 NUMA 架构决定访问延迟 内核如何使用内存 页分配、页回收 虚拟内存、页表 OOM Killer 3️⃣ 硬盘（Disk） 提供持久化存储 块设备接口 内核如何使用硬盘 块层调度 文件系统驱动 缓存页（Page Cache） 4️⃣ 网卡（NIC） 提供网络收发能力 中断触发数据处理 内核如何使用网卡 网络协议栈 中断 \/ NAPI Socket 接口 三、Linux 内核空间：资源的“管理者” 五大核心子系统（根基） 1️⃣ 进程管理 进程创建、销毁 调度 信号 PID 2️⃣ 内存管理 虚拟内存 页缓存 NUMA OOM 3️⃣ 文件系统 VFS 各类文件系统（ext4、xfs、overlayfs） 4️⃣ 网络子系统 TCP\/IP 协议栈 Socket Netfilter 5️⃣ 设备与驱动 块设备 字符设备 中断管理 内核增强机制（不是子系统） namespaces（隔离视图） 隔离对象 依赖子系统 PID 进程管理 网络 网络子系统 挂载 文件系统 用户 进程管理 → 决定“你看到什么”",
+      "wordCount" : "651",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/"
+          "@id": "https://documents.v2ep.com/operations/linux/from-hardware-to-container/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -157,7 +148,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/from-hardware-to-container/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2000,7 +1991,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>overlay2 为什么对数据库不友好</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>从硬件到容器</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2021,397 +2012,693 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>overlay2 为什么对数据库不友好</h1>
+    <h1>从硬件到容器</h1>
     
-    <p>这是一个<strong>非常关键、也非常容易被误解的问题</strong>。</p>
-<p>内容：<strong>结论先行 → 原理拆解 → 实战层面的判断标准</strong>，和 <strong>UnionFS / overlay2 / 内核 / 数据库</strong> 串起来。</p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一句话结论先背下来"
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一总览从硬件到容器的完整分层"
     >
-        一句话结论（先背下来）
+        一、总览：从硬件到容器的完整分层
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#一句话结论先背下来" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一句话结论（先背下来）" aria-label="Anchor to: 一句话结论（先背下来）" href="#%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%93%e8%ae%ba%e5%85%88%e8%83%8c%e4%b8%8b%e6%9d%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#一总览从硬件到容器的完整分层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、总览：从硬件到容器的完整分层" aria-label="Anchor to: 一、总览：从硬件到容器的完整分层" href="#%e4%b8%80%e6%80%bb%e8%a7%88%e4%bb%8e%e7%a1%ac%e4%bb%b6%e5%88%b0%e5%ae%b9%e5%99%a8%e7%9a%84%e5%ae%8c%e6%95%b4%e5%88%86%e5%b1%82">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<blockquote>
-<p><strong>overlay2 不适合数据库的根本原因是：
-数据库需要“稳定、可预测、顺序一致的本地写入”，
-而 overlay2 提供的是“分层 + 写时复制 + 间接路径”的文件语义。</strong></p>
-</blockquote>
-<hr>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+--------------------------------------------------+
+</span></span><span class="line"><span class="cl">|                应用程序 / 服务                     |
+</span></span><span class="line"><span class="cl">|   MySQL / Nginx / Redis / Java / Python          |
+</span></span><span class="line"><span class="cl">+--------------------------------------------------+
+</span></span><span class="line"><span class="cl">|           容器平台（可选）                          |
+</span></span><span class="line"><span class="cl">|   Docker / containerd / Podman / Kubernetes      |
+</span></span><span class="line"><span class="cl">+--------------------------------------------------+
+</span></span><span class="line"><span class="cl">|         容器运行时（用户空间）                       |
+</span></span><span class="line"><span class="cl">|              runc                                |
+</span></span><span class="line"><span class="cl">+--------------------------------------------------+
+</span></span><span class="line"><span class="cl">|      Linux 用户空间基础组件                         |
+</span></span><span class="line"><span class="cl">|  shell / libc / systemd / coreutils              |
+</span></span><span class="line"><span class="cl">+--------------------------------------------------+
+</span></span><span class="line"><span class="cl">|                Linux 内核空间                     |
+</span></span><span class="line"><span class="cl">|  五大子系统 + namespaces + cgroups + UnionFS      |
+</span></span><span class="line"><span class="cl">+--------------------------------------------------+
+</span></span><span class="line"><span class="cl">|                 硬件层                            |
+</span></span><span class="line"><span class="cl">|      CPU / 内存 / 硬盘 / 网卡                      |
+</span></span><span class="line"><span class="cl">+--------------------------------------------------+
+</span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="一overlay2-的设计目标--数据库的需求"
+    <h2 id="二硬件层一切资源的源头"
     >
-        一、overlay2 的设计目标 ≠ 数据库的需求
+        二、硬件层：一切资源的源头
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#二硬件层一切资源的源头" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、硬件层：一切资源的源头" aria-label="Anchor to: 二、硬件层：一切资源的源头" href="#%e4%ba%8c%e7%a1%ac%e4%bb%b6%e5%b1%82%e4%b8%80%e5%88%87%e8%b5%84%e6%ba%90%e7%9a%84%e6%ba%90%e5%a4%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-cpu"
+    >
+        1️⃣ CPU
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#一overlay2-的设计目标--数据库的需求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、overlay2 的设计目标 ≠ 数据库的需求" aria-label="Anchor to: 一、overlay2 的设计目标 ≠ 数据库的需求" href="#%e4%b8%80overlay2-%e7%9a%84%e8%ae%be%e8%ae%a1%e7%9b%ae%e6%a0%87--%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e9%9c%80%e6%b1%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="overlay2-为谁设计"
-    >
-        overlay2 为谁设计？
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#overlay2-为谁设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: overlay2 为谁设计？" aria-label="Anchor to: overlay2 为谁设计？" href="#overlay2-%e4%b8%ba%e8%b0%81%e8%ae%be%e8%ae%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#1-cpu" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ CPU" aria-label="Anchor to: 1️⃣ CPU" href="#1-cpu">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>镜像分层</li>
-<li>容器快速启动</li>
-<li>文件共享</li>
-<li>写少、读多</li>
-<li>应用无状态</li>
+<li>提供指令执行能力</li>
+<li>提供多核、多 NUMA 节点</li>
+<li>提供特权级（用户态 / 内核态）</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="数据库需要什么"
+    <h4 id="内核如何使用-cpu"
     >
-        数据库需要什么？
+        内核如何使用 CPU
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#数据库需要什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库需要什么？" aria-label="Anchor to: 数据库需要什么？" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e9%9c%80%e8%a6%81%e4%bb%80%e4%b9%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#内核如何使用-cpu" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核如何使用 CPU" aria-label="Anchor to: 内核如何使用 CPU" href="#%e5%86%85%e6%a0%b8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8-cpu">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>高频小写</li>
-<li>fsync / fdatasync 强一致</li>
-<li>顺序写（WAL / redo / binlog）</li>
-<li>稳定 inode</li>
-<li>可预测的 IO 延迟</li>
+<li>进程调度器决定 <strong>哪个进程在哪个 CPU 上运行</strong></li>
+<li>中断处理、软中断、调度时钟</li>
 </ul>
-<p>👉 <strong>目标完全相反</strong></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="二overlay2-对数据库致命的-6-个原因"
+    <h3 id="2-内存ram"
     >
-        二、overlay2 对数据库“致命”的 6 个原因
+        2️⃣ 内存（RAM）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#二overlay2-对数据库致命的-6-个原因" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、overlay2 对数据库“致命”的 6 个原因" aria-label="Anchor to: 二、overlay2 对数据库“致命”的 6 个原因" href="#%e4%ba%8coverlay2-%e5%af%b9%e6%95%b0%e6%8d%ae%e5%ba%93%e8%87%b4%e5%91%bd%e7%9a%84-6-%e4%b8%aa%e5%8e%9f%e5%9b%a0">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#2-内存ram" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 内存（RAM）" aria-label="Anchor to: 2️⃣ 内存（RAM）" href="#2-%e5%86%85%e5%ad%98ram">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="1-写时复制copy-on-write放大写入"
-    >
-        1️⃣ 写时复制（Copy-on-Write）放大写入
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#1-写时复制copy-on-write放大写入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 写时复制（Copy-on-Write）放大写入" aria-label="Anchor to: 1️⃣ 写时复制（Copy-on-Write）放大写入" href="#1-%e5%86%99%e6%97%b6%e5%a4%8d%e5%88%b6copy-on-write%e6%94%be%e5%a4%a7%e5%86%99%e5%85%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>overlay2 写文件的真实过程：</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">写文件
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">判断是否在 lowerdir
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">复制整个文件到 upperdir
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">再写
-</span></span></code></pre></div><p>对数据库意味着：</p>
 <ul>
-<li>WAL 文件</li>
-<li>redo log</li>
-<li>数据文件</li>
+<li>提供物理内存页</li>
+<li>NUMA 架构决定访问延迟</li>
 </ul>
-<p>👉 <strong>一次小写，可能触发整文件复制</strong></p>
-<p>📌 结果：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="内核如何使用内存"
+    >
+        内核如何使用内存
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#内核如何使用内存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核如何使用内存" aria-label="Anchor to: 内核如何使用内存" href="#%e5%86%85%e6%a0%b8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e5%86%85%e5%ad%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>IO 放大</li>
-<li>延迟抖动</li>
-<li>写性能不可预测</li>
+<li>页分配、页回收</li>
+<li>虚拟内存、页表</li>
+<li>OOM Killer</li>
 </ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="2-多层路径导致-fsync-不再直达磁盘"
+    <h3 id="3-硬盘disk"
     >
-        2️⃣ 多层路径导致 fsync 不再“直达磁盘”
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#2-多层路径导致-fsync-不再直达磁盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 多层路径导致 fsync 不再“直达磁盘”" aria-label="Anchor to: 2️⃣ 多层路径导致 fsync 不再“直达磁盘”" href="#2-%e5%a4%9a%e5%b1%82%e8%b7%af%e5%be%84%e5%af%bc%e8%87%b4-fsync-%e4%b8%8d%e5%86%8d%e7%9b%b4%e8%be%be%e7%a3%81%e7%9b%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库认为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fsync() = 数据已安全落盘
-</span></span></code></pre></div><p>但 overlay2 实际路径是：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">数据库
-</span></span><span class="line"><span class="cl"> → VFS
-</span></span><span class="line"><span class="cl">   → overlayfs
-</span></span><span class="line"><span class="cl">     → upperdir
-</span></span><span class="line"><span class="cl">       → 宿主文件系统
-</span></span></code></pre></div><p>⚠️ 问题：</p>
-<ul>
-<li>fsync 在 overlay 层完成</li>
-<li>不等价于物理磁盘 flush</li>
-<li>特定内核版本下存在 <strong>fsync 语义漏洞</strong></li>
-</ul>
-<p>👉 <strong>数据库最怕“我以为写成功了，其实没有”</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="3-inode--dentry-不稳定数据库很敏感"
-    >
-        3️⃣ inode / dentry 不稳定（数据库很敏感）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#3-inode--dentry-不稳定数据库很敏感" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ inode / dentry 不稳定（数据库很敏感）" aria-label="Anchor to: 3️⃣ inode / dentry 不稳定（数据库很敏感）" href="#3-inode--dentry-%e4%b8%8d%e7%a8%b3%e5%ae%9a%e6%95%b0%e6%8d%ae%e5%ba%93%e5%be%88%e6%95%8f%e6%84%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>overlay2 的文件：</p>
-<ul>
-<li>可能被 copy-up</li>
-<li>inode 会变化</li>
-<li>hard link / rename 行为不一致</li>
-</ul>
-<p>数据库依赖：</p>
-<ul>
-<li>inode 稳定性</li>
-<li>rename 原子性</li>
-<li>文件元数据一致性</li>
-</ul>
-<p>📌 历史上：</p>
-<ul>
-<li>PostgreSQL</li>
-<li>MySQL InnoDB</li>
-</ul>
-<p>都曾明确指出：</p>
-<blockquote>
-<p><strong>UnionFS 不完全符合数据库文件系统假设</strong></p>
-</blockquote>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="4-overlay2-对小文件--高频写极差"
-    >
-        4️⃣ overlay2 对小文件 &amp; 高频写极差
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#4-overlay2-对小文件--高频写极差" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ overlay2 对小文件 &amp; 高频写极差" aria-label="Anchor to: 4️⃣ overlay2 对小文件 &amp; 高频写极差" href="#4-overlay2-%e5%af%b9%e5%b0%8f%e6%96%87%e4%bb%b6--%e9%ab%98%e9%a2%91%e5%86%99%e6%9e%81%e5%b7%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库的 IO 模式：</p>
-<ul>
-<li>8KB / 16KB page</li>
-<li>高频随机写</li>
-<li>redo / wal 顺序追加</li>
-</ul>
-<p>overlay2：</p>
-<ul>
-<li>多层 lookup</li>
-<li>metadata 操作多</li>
-<li>dentry cache 压力大</li>
-</ul>
-<p>👉 <strong>IO 延迟尾部极长（P99、P999）</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="5-崩溃恢复风险最要命"
-    >
-        5️⃣ 崩溃恢复风险（最要命）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#5-崩溃恢复风险最要命" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 崩溃恢复风险（最要命）" aria-label="Anchor to: 5️⃣ 崩溃恢复风险（最要命）" href="#5-%e5%b4%a9%e6%ba%83%e6%81%a2%e5%a4%8d%e9%a3%8e%e9%99%a9%e6%9c%80%e8%a6%81%e5%91%bd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>overlay2 + 数据库：</p>
-<ul>
-<li>宿主机 crash</li>
-<li>容器 crash</li>
-<li>强制 kill</li>
-</ul>
-<p>⚠️ 风险点：</p>
-<ul>
-<li>overlay 层状态未完全 sync</li>
-<li>workdir 中间状态</li>
-<li>数据文件与 WAL 不一致</li>
-</ul>
-<p>👉 <strong>数据库最怕“恢复不了”</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="6-运维层面无法精细调优"
-    >
-        6️⃣ 运维层面无法精细调优
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#6-运维层面无法精细调优" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6️⃣ 运维层面无法精细调优" aria-label="Anchor to: 6️⃣ 运维层面无法精细调优" href="#6-%e8%bf%90%e7%bb%b4%e5%b1%82%e9%9d%a2%e6%97%a0%e6%b3%95%e7%b2%be%e7%bb%86%e8%b0%83%e4%bc%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库通常要调：</p>
-<ul>
-<li>filesystem mount options</li>
-<li>barrier / journal</li>
-<li>discard / noatime</li>
-<li>direct IO</li>
-</ul>
-<p>overlay2：</p>
-<ul>
-<li>mount 是 Docker 管</li>
-<li>容器内不可控</li>
-<li>数据库调优失效</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="三overlay2--数据库--能跑--适合跑"
-    >
-        三、overlay2 + 数据库 = “能跑 ≠ 适合跑”
+        3️⃣ 硬盘（Disk）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#三overlay2--数据库--能跑--适合跑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、overlay2 &#43; 数据库 = “能跑 ≠ 适合跑”" aria-label="Anchor to: 三、overlay2 &#43; 数据库 = “能跑 ≠ 适合跑”" href="#%e4%b8%89overlay2--%e6%95%b0%e6%8d%ae%e5%ba%93--%e8%83%bd%e8%b7%91--%e9%80%82%e5%90%88%e8%b7%91">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#3-硬盘disk" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 硬盘（Disk）" aria-label="Anchor to: 3️⃣ 硬盘（Disk）" href="#3-%e7%a1%ac%e7%9b%98disk">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>提供持久化存储</li>
+<li>块设备接口</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="内核如何使用硬盘"
+    >
+        内核如何使用硬盘
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#内核如何使用硬盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核如何使用硬盘" aria-label="Anchor to: 内核如何使用硬盘" href="#%e5%86%85%e6%a0%b8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e7%a1%ac%e7%9b%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>块层调度</li>
+<li>文件系统驱动</li>
+<li>缓存页（Page Cache）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-网卡nic"
+    >
+        4️⃣ 网卡（NIC）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#4-网卡nic" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 网卡（NIC）" aria-label="Anchor to: 4️⃣ 网卡（NIC）" href="#4-%e7%bd%91%e5%8d%a1nic">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>提供网络收发能力</li>
+<li>中断触发数据处理</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="内核如何使用网卡"
+    >
+        内核如何使用网卡
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#内核如何使用网卡" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核如何使用网卡" aria-label="Anchor to: 内核如何使用网卡" href="#%e5%86%85%e6%a0%b8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e7%bd%91%e5%8d%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>网络协议栈</li>
+<li>中断 / NAPI</li>
+<li>Socket 接口</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三linux-内核空间资源的管理者"
+    >
+        三、Linux 内核空间：资源的“管理者”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#三linux-内核空间资源的管理者" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、Linux 内核空间：资源的“管理者”" aria-label="Anchor to: 三、Linux 内核空间：资源的“管理者”" href="#%e4%b8%89linux-%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e8%b5%84%e6%ba%90%e7%9a%84%e7%ae%a1%e7%90%86%e8%80%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="五大核心子系统根基"
+    >
+        五大核心子系统（根基）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#五大核心子系统根基" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五大核心子系统（根基）" aria-label="Anchor to: 五大核心子系统（根基）" href="#%e4%ba%94%e5%a4%a7%e6%a0%b8%e5%bf%83%e5%ad%90%e7%b3%bb%e7%bb%9f%e6%a0%b9%e5%9f%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-进程管理"
+    >
+        1️⃣ 进程管理
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#1-进程管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 进程管理" aria-label="Anchor to: 1️⃣ 进程管理" href="#1-%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>进程创建、销毁</li>
+<li>调度</li>
+<li>信号</li>
+<li>PID</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-内存管理"
+    >
+        2️⃣ 内存管理
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#2-内存管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 内存管理" aria-label="Anchor to: 2️⃣ 内存管理" href="#2-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>虚拟内存</li>
+<li>页缓存</li>
+<li>NUMA</li>
+<li>OOM</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-文件系统"
+    >
+        3️⃣ 文件系统
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#3-文件系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 文件系统" aria-label="Anchor to: 3️⃣ 文件系统" href="#3-%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>VFS</li>
+<li>各类文件系统（ext4、xfs、overlayfs）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="4-网络子系统"
+    >
+        4️⃣ 网络子系统
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#4-网络子系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 网络子系统" aria-label="Anchor to: 4️⃣ 网络子系统" href="#4-%e7%bd%91%e7%bb%9c%e5%ad%90%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>TCP/IP 协议栈</li>
+<li>Socket</li>
+<li>Netfilter</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="5-设备与驱动"
+    >
+        5️⃣ 设备与驱动
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#5-设备与驱动" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 设备与驱动" aria-label="Anchor to: 5️⃣ 设备与驱动" href="#5-%e8%ae%be%e5%a4%87%e4%b8%8e%e9%a9%b1%e5%8a%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>块设备</li>
+<li>字符设备</li>
+<li>中断管理</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="内核增强机制不是子系统"
+    >
+        内核增强机制（不是子系统）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#内核增强机制不是子系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核增强机制（不是子系统）" aria-label="Anchor to: 内核增强机制（不是子系统）" href="#%e5%86%85%e6%a0%b8%e5%a2%9e%e5%bc%ba%e6%9c%ba%e5%88%b6%e4%b8%8d%e6%98%af%e5%ad%90%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="namespaces隔离视图"
+    >
+        namespaces（隔离视图）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#namespaces隔离视图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: namespaces（隔离视图）" aria-label="Anchor to: namespaces（隔离视图）" href="#namespaces%e9%9a%94%e7%a6%bb%e8%a7%86%e5%9b%be">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="table-wrap"> <table>
   <thead>
       <tr>
-          <th>场景</th>
-          <th>是否建议</th>
+          <th>隔离对象</th>
+          <th>依赖子系统</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>本地开发</td>
-          <td>✅</td>
+          <td>PID</td>
+          <td>进程管理</td>
       </tr>
       <tr>
-          <td>CI / 测试</td>
-          <td>✅</td>
+          <td>网络</td>
+          <td>网络子系统</td>
       </tr>
       <tr>
-          <td>Demo</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>生产数据库</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>高并发 / 高可靠</td>
-          <td>❌</td>
-      </tr>
-  </tbody>
-</table> </div>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="四那云厂商为什么用容器跑数据库看起来很稳"
-    >
-        四、那云厂商为什么“用容器跑数据库看起来很稳”？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#四那云厂商为什么用容器跑数据库看起来很稳" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、那云厂商为什么“用容器跑数据库看起来很稳”？" aria-label="Anchor to: 四、那云厂商为什么“用容器跑数据库看起来很稳”？" href="#%e5%9b%9b%e9%82%a3%e4%ba%91%e5%8e%82%e5%95%86%e4%b8%ba%e4%bb%80%e4%b9%88%e7%94%a8%e5%ae%b9%e5%99%a8%e8%b7%91%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9c%8b%e8%b5%b7%e6%9d%a5%e5%be%88%e7%a8%b3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>这和你前一个问题正好接上 👇</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="云厂商的真实做法"
-    >
-        云厂商的真实做法
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#云厂商的真实做法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 云厂商的真实做法" aria-label="Anchor to: 云厂商的真实做法" href="#%e4%ba%91%e5%8e%82%e5%95%86%e7%9a%84%e7%9c%9f%e5%ae%9e%e5%81%9a%e6%b3%95">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>❌ <strong>不是 overlay2 上直接写数据</strong></p>
-<p>而是：</p>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>层级</th>
-          <th>做法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>容器</td>
-          <td>只跑数据库进程</td>
-      </tr>
-      <tr>
-          <td>数据目录</td>
-          <td><strong>bind mount / block device</strong></td>
-      </tr>
-      <tr>
+          <td>挂载</td>
           <td>文件系统</td>
-          <td>ext4 / xfs 直写</td>
       </tr>
       <tr>
-          <td>存储</td>
-          <td>本地 SSD / NVMe / 网络块存储</td>
-      </tr>
-      <tr>
-          <td>cgroups</td>
-          <td>精细隔离</td>
-      </tr>
-      <tr>
-          <td>内核</td>
-          <td>专门调优</td>
+          <td>用户</td>
+          <td>进程管理</td>
       </tr>
   </tbody>
 </table> </div>
-<p>📌 关键点：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/var/lib/mysql
-</span></span><span class="line"><span class="cl">→ 不在 overlay2
-</span></span><span class="line"><span class="cl">→ 在真实文件系统
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="五正确姿势你可以直接用"
-    >
-        五、正确姿势（你可以直接用）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#五正确姿势你可以直接用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、正确姿势（你可以直接用）" aria-label="Anchor to: 五、正确姿势（你可以直接用）" href="#%e4%ba%94%e6%ad%a3%e7%a1%ae%e5%a7%bf%e5%8a%bf%e4%bd%a0%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e7%94%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-正确方案-1bind-mount"
-    >
-        ✅ 正确方案 1：bind mount
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-正确方案-1bind-mount" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确方案 1：bind mount" aria-label="Anchor to: ✅ 正确方案 1：bind mount" href="#-%e6%ad%a3%e7%a1%ae%e6%96%b9%e6%a1%88-1bind-mount">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /data/mysql:/var/lib/mysql <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  mysql
-</span></span></code></pre></div><p>数据绕过 overlay2，直写宿主机 FS</p>
+<p>→ <strong>决定“你看到什么”</strong></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-正确方案-2block-device"
+    <h4 id="cgroups资源限制"
     >
-        ✅ 正确方案 2：block device
+        cgroups（资源限制）
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-正确方案-2block-device" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确方案 2：block device" aria-label="Anchor to: ✅ 正确方案 2：block device" href="#-%e6%ad%a3%e7%a1%ae%e6%96%b9%e6%a1%88-2block-device">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#cgroups资源限制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: cgroups（资源限制）" aria-label="Anchor to: cgroups（资源限制）" href="#cgroups%e8%b5%84%e6%ba%90%e9%99%90%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>资源</th>
+          <th>子系统</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>CPU</td>
+          <td>进程管理</td>
+      </tr>
+      <tr>
+          <td>内存</td>
+          <td>内存管理</td>
+      </tr>
+      <tr>
+          <td>IO</td>
+          <td>文件系统</td>
+      </tr>
+      <tr>
+          <td>网络</td>
+          <td>网络子系统</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>→ <strong>决定“你能用多少”</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="unionfs--overlayfs"
+    >
+        UnionFS / overlayfs
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#unionfs--overlayfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: UnionFS / overlayfs" aria-label="Anchor to: UnionFS / overlayfs" href="#unionfs--overlayfs">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>LVM</li>
-<li>iSCSI</li>
-<li>云盘</li>
+<li>文件系统层叠</li>
+<li>只读镜像 + 可写层</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/dev/mapper/mysql,target<span class="o">=</span>/var/lib/mysql
-</span></span></code></pre></div><hr>
+<p>→ <strong>文件系统子系统内部机制</strong></p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-错误方案"
+    <h4 id="numa"
     >
-        ❌ 错误方案
+        NUMA
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-错误方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 错误方案" aria-label="Anchor to: ❌ 错误方案" href="#-%e9%94%99%e8%af%af%e6%96%b9%e6%a1%88">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#numa" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NUMA" aria-label="Anchor to: NUMA" href="#numa">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run mysql
-</span></span><span class="line"><span class="cl"><span class="c1">## 数据写在 overlay2</span>
-</span></span></code></pre></div><hr>
+<ul>
+<li>感知硬件内存拓扑</li>
+<li>影响调度、内存分配</li>
+</ul>
+<p>→ <strong>内存管理 + 进程管理</strong></p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="六最终一句话非常硬"
+    <h2 id="四linux-用户空间基础组件"
     >
-        六、最终一句话（非常硬）
+        四、Linux 用户空间基础组件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#四linux-用户空间基础组件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Linux 用户空间基础组件" aria-label="Anchor to: 四、Linux 用户空间基础组件" href="#%e5%9b%9blinux-%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e5%9f%ba%e7%a1%80%e7%bb%84%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-libc"
+    >
+        1️⃣ libc
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#六最终一句话非常硬" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、最终一句话（非常硬）" aria-label="Anchor to: 六、最终一句话（非常硬）" href="#%e5%85%ad%e6%9c%80%e7%bb%88%e4%b8%80%e5%8f%a5%e8%af%9d%e9%9d%9e%e5%b8%b8%e7%a1%ac">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#1-libc" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ libc" aria-label="Anchor to: 1️⃣ libc" href="#1-libc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>作用</strong>：</p>
+<ul>
+<li>系统调用封装</li>
+<li>提供标准 C 接口</li>
+</ul>
+<blockquote>
+<p>应用 <strong>不直接调用内核</strong>，而是通过 libc</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-shell"
+    >
+        2️⃣ shell
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#2-shell" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ shell" aria-label="Anchor to: 2️⃣ shell" href="#2-shell">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>作用</strong>：</p>
+<ul>
+<li>命令解释器</li>
+<li>启动进程</li>
+<li>管道、重定向</li>
+</ul>
+<blockquote>
+<p>shell 本质是一个普通进程</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-systemd"
+    >
+        3️⃣ systemd
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#3-systemd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ systemd" aria-label="Anchor to: 3️⃣ systemd" href="#3-systemd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>作用</strong>：</p>
+<ul>
+<li>系统初始化</li>
+<li>服务管理</li>
+<li>cgroups 管理者</li>
+</ul>
+<blockquote>
+<p>systemd 是 <strong>系统级进程编排器</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五linux-系统整体角色"
+    >
+        五、Linux 系统整体角色
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#五linux-系统整体角色" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、Linux 系统整体角色" aria-label="Anchor to: 五、Linux 系统整体角色" href="#%e4%ba%94linux-%e7%b3%bb%e7%bb%9f%e6%95%b4%e4%bd%93%e8%a7%92%e8%89%b2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Linux 系统 =</strong></p>
+<blockquote>
+<p>内核 + 用户空间工具 + 服务管理 + 配置体系</p>
+</blockquote>
+<p>它的核心职责是：</p>
+<ul>
+<li>管理硬件</li>
+<li>提供稳定接口</li>
+<li>支撑应用运行</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六虚拟化在硬件之上再抽一层"
+    >
+        六、虚拟化：在硬件之上再抽一层
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#六虚拟化在硬件之上再抽一层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、虚拟化：在硬件之上再抽一层" aria-label="Anchor to: 六、虚拟化：在硬件之上再抽一层" href="#%e5%85%ad%e8%99%9a%e6%8b%9f%e5%8c%96%e5%9c%a8%e7%a1%ac%e4%bb%b6%e4%b9%8b%e4%b8%8a%e5%86%8d%e6%8a%bd%e4%b8%80%e5%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="虚拟化的本质"
+    >
+        虚拟化的本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#虚拟化的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 虚拟化的本质" aria-label="Anchor to: 虚拟化的本质" href="#%e8%99%9a%e6%8b%9f%e5%8c%96%e7%9a%84%e6%9c%ac%e8%b4%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">硬件
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Hypervisor（KVM）
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">虚拟机（完整 Linux）
+</span></span></code></pre></div><ul>
+<li>每个虚拟机都有自己的内核</li>
+<li>资源隔离靠硬件虚拟化</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="内核在虚拟化中的角色"
+    >
+        内核在虚拟化中的角色
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#内核在虚拟化中的角色" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核在虚拟化中的角色" aria-label="Anchor to: 内核在虚拟化中的角色" href="#%e5%86%85%e6%a0%b8%e5%9c%a8%e8%99%9a%e6%8b%9f%e5%8c%96%e4%b8%ad%e7%9a%84%e8%a7%92%e8%89%b2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>KVM 是内核模块</li>
+<li>调度虚拟 CPU</li>
+<li>管理内存映射</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七容器化不虚拟内核只虚拟使用方式"
+    >
+        七、容器化：不虚拟内核，只虚拟“使用方式”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#七容器化不虚拟内核只虚拟使用方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、容器化：不虚拟内核，只虚拟“使用方式”" aria-label="Anchor to: 七、容器化：不虚拟内核，只虚拟“使用方式”" href="#%e4%b8%83%e5%ae%b9%e5%99%a8%e5%8c%96%e4%b8%8d%e8%99%9a%e6%8b%9f%e5%86%85%e6%a0%b8%e5%8f%aa%e8%99%9a%e6%8b%9f%e4%bd%bf%e7%94%a8%e6%96%b9%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="容器的本质"
+    >
+        容器的本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#容器的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 容器的本质" aria-label="Anchor to: 容器的本质" href="#%e5%ae%b9%e5%99%a8%e7%9a%84%e6%9c%ac%e8%b4%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <blockquote>
-<p><strong>overlay2 适合“应用层文件”，不适合“数据库存储层文件”。
-数据库必须绕过 UnionFS，直达真实文件系统。</strong></p>
+<p><strong>进程 + namespaces + cgroups + rootfs</strong></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Linux 内核
+</span></span><span class="line"><span class="cl">  ├─ namespace：看不见别人
+</span></span><span class="line"><span class="cl">  ├─ cgroups：用不多资源
+</span></span><span class="line"><span class="cl">  ├─ overlayfs：独立文件系统
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="runc关键纽带"
+    >
+        runc：关键纽带
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#runc关键纽带" class="gdoc-page__anchor clip flex align-center" title="Anchor to: runc：关键纽带" aria-label="Anchor to: runc：关键纽带" href="#runc%e5%85%b3%e9%94%ae%e7%ba%bd%e5%b8%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>runc 做了什么</strong></p>
+<ul>
+<li>创建进程</li>
+<li>配置 namespaces</li>
+<li>绑定 cgroups</li>
+<li>切换 rootfs</li>
+<li>exec 应用</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="docker-在其中的位置"
+    >
+        Docker 在其中的位置
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#docker-在其中的位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Docker 在其中的位置" aria-label="Anchor to: Docker 在其中的位置" href="#docker-%e5%9c%a8%e5%85%b6%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Docker
+</span></span><span class="line"><span class="cl"> └─ containerd
+</span></span><span class="line"><span class="cl">     └─ runc
+</span></span><span class="line"><span class="cl">         └─ Linux 内核
+</span></span></code></pre></div><p>Docker <strong>不做隔离</strong>，Docker <strong>调用内核做隔离</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八最终统一关系图强烈建议记住"
+    >
+        八、最终统一关系图（强烈建议记住）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#八最终统一关系图强烈建议记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、最终统一关系图（强烈建议记住）" aria-label="Anchor to: 八、最终统一关系图（强烈建议记住）" href="#%e5%85%ab%e6%9c%80%e7%bb%88%e7%bb%9f%e4%b8%80%e5%85%b3%e7%b3%bb%e5%9b%be%e5%bc%ba%e7%83%88%e5%bb%ba%e8%ae%ae%e8%ae%b0%e4%bd%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">硬件
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Linux 内核（五大子系统）
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">namespaces / cgroups / UnionFS / NUMA
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">libc / shell / systemd
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">runc
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Docker / Kubernetes
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">应用程序
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九一句话终极总结"
+    >
+        九、一句话终极总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#九一句话终极总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、一句话终极总结" aria-label="Anchor to: 九、一句话终极总结" href="#%e4%b9%9d%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>硬件</strong> 提供资源</li>
+<li><strong>内核</strong> 管理资源</li>
+<li><strong>namespaces</strong> 隔离视图</li>
+<li><strong>cgroups</strong> 限制额度</li>
+<li><strong>UnionFS</strong> 组织文件</li>
+<li><strong>libc / shell / systemd</strong> 使用内核</li>
+<li><strong>runc</strong> 组合内核能力</li>
+<li><strong>Docker / 容器</strong> 是进程的高级用法</li>
+<li><strong>虚拟机</strong> 是内核的复制品</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-linux-架构心智模型图"
+    >
+        ☘️ Linux 架构心智模型图
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#-linux-架构心智模型图" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ☘️ Linux 架构心智模型图" aria-label="Anchor to: ☘️ Linux 架构心智模型图" href="#-linux-%e6%9e%b6%e6%9e%84%e5%bf%83%e6%99%ba%e6%a8%a1%e5%9e%8b%e5%9b%be">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>目标：<strong>一眼就能看懂 Linux / 容器 / 虚拟化 / Docker 的全部关系</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">┌────────────────────────────────────────────────────┐
+</span></span><span class="line"><span class="cl">│                    应用程序                         │
+</span></span><span class="line"><span class="cl">│      MySQL / PostgreSQL / Nginx / Java / Python    │
+</span></span><span class="line"><span class="cl">└────────────────────────────────────────────────────┘
+</span></span><span class="line"><span class="cl">                           ▲
+</span></span><span class="line"><span class="cl">                           │ 进程 / 系统调用
+</span></span><span class="line"><span class="cl">┌────────────────────────────────────────────────────┐
+</span></span><span class="line"><span class="cl">│          容器平台（可选的一层抽象）                    │
+</span></span><span class="line"><span class="cl">│        Docker / Podman / Kubernetes                │
+</span></span><span class="line"><span class="cl">│        （镜像、网络、编排、生命周期）                   │
+</span></span><span class="line"><span class="cl">└────────────────────────────────────────────────────┘
+</span></span><span class="line"><span class="cl">                           ▲
+</span></span><span class="line"><span class="cl">                           │ OCI 接口
+</span></span><span class="line"><span class="cl">┌────────────────────────────────────────────────────┐
+</span></span><span class="line"><span class="cl">│              容器运行时（用户空间）                   │
+</span></span><span class="line"><span class="cl">│                       runc                         │
+</span></span><span class="line"><span class="cl">│  - 创建进程                                         │
+</span></span><span class="line"><span class="cl">│  - 设置 namespaces（隔离）                           │
+</span></span><span class="line"><span class="cl">│  - 设置 cgroups（限制）                              │
+</span></span><span class="line"><span class="cl">│  - 切换 rootfs（overlayfs）                         │
+</span></span><span class="line"><span class="cl">└────────────────────────────────────────────────────┘
+</span></span><span class="line"><span class="cl">                           ▲
+</span></span><span class="line"><span class="cl">                           │ libc 系统调用封装
+</span></span><span class="line"><span class="cl">┌────────────────────────────────────────────────────┐
+</span></span><span class="line"><span class="cl">│              Linux 用户空间基础                      │
+</span></span><span class="line"><span class="cl">│                                                    │
+</span></span><span class="line"><span class="cl">│  shell        → 命令解释 / 启动进程                   │
+</span></span><span class="line"><span class="cl">│  libc         → 系统调用接口                         │
+</span></span><span class="line"><span class="cl">│  systemd      → 系统初始化 / 服务 / cgroups 管理      │
+</span></span><span class="line"><span class="cl">│  coreutils    → 基础工具                            │
+</span></span><span class="line"><span class="cl">└────────────────────────────────────────────────────┘
+</span></span><span class="line"><span class="cl">                           ▲
+</span></span><span class="line"><span class="cl">                           │ 用户态 ↔ 内核态
+</span></span><span class="line"><span class="cl">┌────────────────────────────────────────────────────┐
+</span></span><span class="line"><span class="cl">│                  Linux 内核空间                     │
+</span></span><span class="line"><span class="cl">│                                                    │
+</span></span><span class="line"><span class="cl">│  ┌────────────── 五大核心子系统 ──────────────┐      │
+</span></span><span class="line"><span class="cl">│  │ 进程管理  │ 调度 / PID / 信号              │      │
+</span></span><span class="line"><span class="cl">│  │ 内存管理  │ 虚拟内存 / 页缓存 / OOM / NUMA  │      │
+</span></span><span class="line"><span class="cl">│  │ 文件系统  │ VFS / ext4 / xfs / overlayfs  │      │
+</span></span><span class="line"><span class="cl">│  │ 网络子系统│ TCP/IP / netfilter / socket   │      │
+</span></span><span class="line"><span class="cl">│  │ 设备驱动  │ 磁盘 / 网卡 / 中断              │      │
+</span></span><span class="line"><span class="cl">│  └──────────────────────────────────────────┘      │
+</span></span><span class="line"><span class="cl">│                                                    │
+</span></span><span class="line"><span class="cl">│  ┌────────────── 内核增强机制 ────────────────┐      │
+</span></span><span class="line"><span class="cl">│  │ namespaces → 进程“看到的世界”隔离           │      │
+</span></span><span class="line"><span class="cl">│  │ cgroups    → CPU / 内存 / IO / 网络限制    │      │
+</span></span><span class="line"><span class="cl">│  │ UnionFS    → 文件系统层叠（overlayfs）      │     │
+</span></span><span class="line"><span class="cl">│  │ NUMA       → 硬件内存拓扑感知               │     │
+</span></span><span class="line"><span class="cl">│  └──────────────────────────────────────────┘      │
+</span></span><span class="line"><span class="cl">└────────────────────────────────────────────────────┘
+</span></span><span class="line"><span class="cl">                           ▲
+</span></span><span class="line"><span class="cl">                           │ 驱动 / 中断 / DMA
+</span></span><span class="line"><span class="cl">┌────────────────────────────────────────────────────┐
+</span></span><span class="line"><span class="cl">│                      硬件层                         │
+</span></span><span class="line"><span class="cl">│          CPU / 内存 / 硬盘 / 网卡                    │
+</span></span><span class="line"><span class="cl">└────────────────────────────────────────────────────┘
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-快速理解只看这几行也够"
+    >
+        📌 快速理解（只看这几行也够）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#-快速理解只看这几行也够" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📌 快速理解（只看这几行也够）" aria-label="Anchor to: 📌 快速理解（只看这几行也够）" href="#-%e5%bf%ab%e9%80%9f%e7%90%86%e8%a7%a3%e5%8f%aa%e7%9c%8b%e8%bf%99%e5%87%a0%e8%a1%8c%e4%b9%9f%e5%a4%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>硬件</strong>：提供真实资源</li>
+<li><strong>Linux 内核</strong>：管理和抽象资源</li>
+<li><strong>五大子系统</strong>：内核的基础能力</li>
+<li><strong>namespaces</strong>：隔离“你看到什么”</li>
+<li><strong>cgroups</strong>：限制“你能用多少”</li>
+<li><strong>UnionFS / overlayfs</strong>：组织容器文件系统</li>
+<li><strong>libc / shell / systemd</strong>：使用内核能力</li>
+<li><strong>runc</strong>：把隔离 + 限制 + 文件系统拼成“容器进程”</li>
+<li><strong>Docker / Kubernetes</strong>：在 runc 之上的工程化平台</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-一句话终极心智模型"
+    >
+        🎯 一句话终极心智模型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/from-hardware-to-container/#-一句话终极心智模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 一句话终极心智模型" aria-label="Anchor to: 🎯 一句话终极心智模型" href="#-%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e5%bf%83%e6%99%ba%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>容器不是虚拟机</strong>
+<strong>容器是：Linux 内核 + 一组受限、被隔离的进程</strong></p>
 </blockquote>
 
   </article>

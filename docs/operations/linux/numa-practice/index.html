@@ -12,12 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+  <meta name="description" content="双核 CPU 运行了 PostgreSQL 和 Redis，现在需要运行多个 Python 程序，内核是否有必要配置 kernel.numa_balancing = 0，如果配置了，是否有必要使用 numactl 启动 Python 程序？
+这是一个非常好的、而且问到点子上的问题，因为它把 CPU 拓扑、NUMA、内核策略、应用启动方式 全部串在了一起。
+先给结论，再解释为什么，最后给可执行建议。
+一、先给结论（直接可用） ✅ 你的场景结论 双核 CPU &#43; PostgreSQL &#43; Redis &#43; 多个 Python 程序：
+是否需要关闭 kernel.numa_balancing？
+大概率：不需要 甚至可以说：关了反而更容易出问题 如果关了 kernel.numa_balancing，是否有必要用 numactl 启动 Python？" />
 
-    <title>overlay2 为什么对数据库不友好 | ☘️ Septvean&#39;s Documents</title>
+    <title>多应用场景 NUMA 实践 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +40,29 @@
     
   <meta
     property="og:title"
-    content="overlay2 为什么对数据库不友好"
+    content="多应用场景 NUMA 实践"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+  <meta property="og:description" content="双核 CPU 运行了 PostgreSQL 和 Redis，现在需要运行多个 Python 程序，内核是否有必要配置 kernel.numa_balancing = 0，如果配置了，是否有必要使用 numactl 启动 Python 程序？
+这是一个非常好的、而且问到点子上的问题，因为它把 CPU 拓扑、NUMA、内核策略、应用启动方式 全部串在了一起。
+先给结论，再解释为什么，最后给可执行建议。
+一、先给结论（直接可用） ✅ 你的场景结论 双核 CPU &#43; PostgreSQL &#43; Redis &#43; 多个 Python 程序：
+是否需要关闭 kernel.numa_balancing？
+大概率：不需要 甚至可以说：关了反而更容易出问题 如果关了 kernel.numa_balancing，是否有必要用 numactl 启动 Python？" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/numa-practice/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="overlay2 为什么对数据库不友好" />
-  <meta name="twitter:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+<meta name="twitter:title" content="多应用场景 NUMA 实践" />
+  <meta name="twitter:description" content="双核 CPU 运行了 PostgreSQL 和 Redis，现在需要运行多个 Python 程序，内核是否有必要配置 kernel.numa_balancing = 0，如果配置了，是否有必要使用 numactl 启动 Python 程序？
+这是一个非常好的、而且问到点子上的问题，因为它把 CPU 拓扑、NUMA、内核策略、应用启动方式 全部串在了一起。
+先给结论，再解释为什么，最后给可执行建议。
+一、先给结论（直接可用） ✅ 你的场景结论 双核 CPU &#43; PostgreSQL &#43; Redis &#43; 多个 Python 程序：
+是否需要关闭 kernel.numa_balancing？
+大概率：不需要 甚至可以说：关了反而更容易出问题 如果关了 kernel.numa_balancing，是否有必要用 numactl 启动 Python？" />
 
 
   <script type="application/ld+json">
@@ -64,16 +70,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "overlay2 为什么对数据库不友好",
-      "url" : "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/",
-      "headline": "overlay2 为什么对数据库不友好",
-      "description": "这是一个非常关键、也非常容易被误解的问题。\n内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS \/ overlay2 \/ 内核 \/ 数据库 串起来。\n一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 \u002b 写时复制 \u002b 间接路径”的文件语义。\n一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync \/ fdatasync 强一致 顺序写（WAL \/ redo \/ binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反",
-      "wordCount" : "323",
+      "name": "多应用场景 NUMA 实践",
+      "url" : "https://documents.v2ep.com/operations/linux/numa-practice/",
+      "headline": "多应用场景 NUMA 实践",
+      "description": "双核 CPU 运行了 PostgreSQL 和 Redis，现在需要运行多个 Python 程序，内核是否有必要配置 kernel.numa_balancing = 0，如果配置了，是否有必要使用 numactl 启动 Python 程序？\n这是一个非常好的、而且问到点子上的问题，因为它把 CPU 拓扑、NUMA、内核策略、应用启动方式 全部串在了一起。\n先给结论，再解释为什么，最后给可执行建议。\n一、先给结论（直接可用） ✅ 你的场景结论 双核 CPU \u002b PostgreSQL \u002b Redis \u002b 多个 Python 程序：\n是否需要关闭 kernel.numa_balancing？\n大概率：不需要 甚至可以说：关了反而更容易出问题 如果关了 kernel.numa_balancing，是否有必要用 numactl 启动 Python？",
+      "wordCount" : "322",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/"
+          "@id": "https://documents.v2ep.com/operations/linux/numa-practice/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -157,7 +163,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/numa-practice/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2000,7 +2006,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>overlay2 为什么对数据库不友好</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>多应用场景 NUMA 实践</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2021,397 +2027,400 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>overlay2 为什么对数据库不友好</h1>
+    <h1>多应用场景 NUMA 实践</h1>
     
-    <p>这是一个<strong>非常关键、也非常容易被误解的问题</strong>。</p>
-<p>内容：<strong>结论先行 → 原理拆解 → 实战层面的判断标准</strong>，和 <strong>UnionFS / overlay2 / 内核 / 数据库</strong> 串起来。</p>
+    <p><strong>双核 CPU 运行了 PostgreSQL 和 Redis，现在需要运行多个 Python 程序，内核是否有必要配置 kernel.numa_balancing = 0，如果配置了，是否有必要使用 numactl 启动 Python 程序？</strong></p>
+<p>这是一个<strong>非常好的、而且问到点子上的问题</strong>，因为它把 <strong>CPU 拓扑、NUMA、内核策略、应用启动方式</strong> 全部串在了一起。</p>
+<p>先给<strong>结论</strong>，再解释<strong>为什么</strong>，最后给<strong>可执行建议</strong>。</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一句话结论先背下来"
+    <h2 id="一先给结论直接可用"
     >
-        一句话结论（先背下来）
+        一、先给结论（直接可用）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#一句话结论先背下来" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一句话结论（先背下来）" aria-label="Anchor to: 一句话结论（先背下来）" href="#%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%93%e8%ae%ba%e5%85%88%e8%83%8c%e4%b8%8b%e6%9d%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#一先给结论直接可用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先给结论（直接可用）" aria-label="Anchor to: 一、先给结论（直接可用）" href="#%e4%b8%80%e5%85%88%e7%bb%99%e7%bb%93%e8%ae%ba%e7%9b%b4%e6%8e%a5%e5%8f%af%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-你的场景结论"
+    >
+        ✅ 你的场景结论
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#-你的场景结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 你的场景结论" aria-label="Anchor to: ✅ 你的场景结论" href="#-%e4%bd%a0%e7%9a%84%e5%9c%ba%e6%99%af%e7%bb%93%e8%ae%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <blockquote>
-<p><strong>overlay2 不适合数据库的根本原因是：
-数据库需要“稳定、可预测、顺序一致的本地写入”，
-而 overlay2 提供的是“分层 + 写时复制 + 间接路径”的文件语义。</strong></p>
+<p><strong>双核 CPU + PostgreSQL + Redis + 多个 Python 程序：</strong></p>
 </blockquote>
+<ol>
+<li>
+<p><strong>是否需要关闭 <code>kernel.numa_balancing</code>？</strong></p>
+<ul>
+<li><strong>大概率：不需要</strong></li>
+<li>甚至可以说：<strong>关了反而更容易出问题</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>如果关了 <code>kernel.numa_balancing</code>，是否有必要用 <code>numactl</code> 启动 Python？</strong></p>
+<ul>
+<li><strong>一般没有必要</strong></li>
+<li>除非你在做 <strong>明确的 CPU / 内存强隔离</strong></li>
+</ul>
+</li>
+</ol>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="一overlay2-的设计目标--数据库的需求"
+    <h2 id="二为什么从numa-是否存在说起"
     >
-        一、overlay2 的设计目标 ≠ 数据库的需求
+        二、为什么？——从“NUMA 是否存在”说起
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#二为什么从numa-是否存在说起" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么？——从“NUMA 是否存在”说起" aria-label="Anchor to: 二、为什么？——从“NUMA 是否存在”说起" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bb%8enuma-%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8%e8%af%b4%e8%b5%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-你的机器真的有-numa-吗"
+    >
+        1️⃣ 你的机器：<strong>真的有 NUMA 吗？</strong>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#一overlay2-的设计目标--数据库的需求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、overlay2 的设计目标 ≠ 数据库的需求" aria-label="Anchor to: 一、overlay2 的设计目标 ≠ 数据库的需求" href="#%e4%b8%80overlay2-%e7%9a%84%e8%ae%be%e8%ae%a1%e7%9b%ae%e6%a0%87--%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e9%9c%80%e6%b1%82">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#1-你的机器真的有-numa-吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 你的机器：真的有 NUMA 吗？" aria-label="Anchor to: 1️⃣ 你的机器：真的有 NUMA 吗？" href="#1-%e4%bd%a0%e7%9a%84%e6%9c%ba%e5%99%a8%e7%9c%9f%e7%9a%84%e6%9c%89-numa-%e5%90%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="overlay2-为谁设计"
-    >
-        overlay2 为谁设计？
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#overlay2-为谁设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: overlay2 为谁设计？" aria-label="Anchor to: overlay2 为谁设计？" href="#overlay2-%e4%b8%ba%e8%b0%81%e8%ae%be%e8%ae%a1">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>镜像分层</li>
-<li>容器快速启动</li>
-<li>文件共享</li>
-<li>写少、读多</li>
-<li>应用无状态</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="数据库需要什么"
-    >
-        数据库需要什么？
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#数据库需要什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库需要什么？" aria-label="Anchor to: 数据库需要什么？" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e9%9c%80%e8%a6%81%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>高频小写</li>
-<li>fsync / fdatasync 强一致</li>
-<li>顺序写（WAL / redo / binlog）</li>
-<li>稳定 inode</li>
-<li>可预测的 IO 延迟</li>
-</ul>
-<p>👉 <strong>目标完全相反</strong></p>
+<p>你说的是 <strong>双核 CPU</strong>，而不是 <strong>双路 CPU</strong>。</p>
+<p>这是关键区别：</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>硬件</th>
+          <th>NUMA 是否存在</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>双核（1 颗 CPU，2 core）</td>
+          <td>❌ 基本不存在</td>
+      </tr>
+      <tr>
+          <td>双路（2 颗物理 CPU）</td>
+          <td>✅ 明确 NUMA</td>
+      </tr>
+      <tr>
+          <td>单路 + 多 chiplet（部分 AMD）</td>
+          <td>⚠️ 可能存在</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p><strong>判断方法（一句话）</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">numactl --hardware
+</span></span></code></pre></div><p>如果结果是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">available: 1 nodes (0)
+</span></span></code></pre></div><p>👉 <strong>这台机器在内核层面几乎是 UMA（统一内存架构）</strong></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="二overlay2-对数据库致命的-6-个原因"
+    <h2 id="三kernelnuma_balancing-到底解决什么问题"
     >
-        二、overlay2 对数据库“致命”的 6 个原因
+        三、<code>kernel.numa_balancing</code> 到底解决什么问题？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#三kernelnuma_balancing-到底解决什么问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、kernel.numa_balancing 到底解决什么问题？" aria-label="Anchor to: 三、kernel.numa_balancing 到底解决什么问题？" href="#%e4%b8%89kernelnuma_balancing-%e5%88%b0%e5%ba%95%e8%a7%a3%e5%86%b3%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="内核自动-numa-平衡的本质"
+    >
+        内核自动 NUMA 平衡的本质
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#二overlay2-对数据库致命的-6-个原因" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、overlay2 对数据库“致命”的 6 个原因" aria-label="Anchor to: 二、overlay2 对数据库“致命”的 6 个原因" href="#%e4%ba%8coverlay2-%e5%af%b9%e6%95%b0%e6%8d%ae%e5%ba%93%e8%87%b4%e5%91%bd%e7%9a%84-6-%e4%b8%aa%e5%8e%9f%e5%9b%a0">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#内核自动-numa-平衡的本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核自动 NUMA 平衡的本质" aria-label="Anchor to: 内核自动 NUMA 平衡的本质" href="#%e5%86%85%e6%a0%b8%e8%87%aa%e5%8a%a8-numa-%e5%b9%b3%e8%a1%a1%e7%9a%84%e6%9c%ac%e8%b4%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="1-写时复制copy-on-write放大写入"
-    >
-        1️⃣ 写时复制（Copy-on-Write）放大写入
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#1-写时复制copy-on-write放大写入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 写时复制（Copy-on-Write）放大写入" aria-label="Anchor to: 1️⃣ 写时复制（Copy-on-Write）放大写入" href="#1-%e5%86%99%e6%97%b6%e5%a4%8d%e5%88%b6copy-on-write%e6%94%be%e5%a4%a7%e5%86%99%e5%85%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>overlay2 写文件的真实过程：</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">写文件
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">判断是否在 lowerdir
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">复制整个文件到 upperdir
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">再写
-</span></span></code></pre></div><p>对数据库意味着：</p>
-<ul>
-<li>WAL 文件</li>
-<li>redo log</li>
-<li>数据文件</li>
-</ul>
-<p>👉 <strong>一次小写，可能触发整文件复制</strong></p>
-<p>📌 结果：</p>
-<ul>
-<li>IO 放大</li>
-<li>延迟抖动</li>
-<li>写性能不可预测</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="2-多层路径导致-fsync-不再直达磁盘"
-    >
-        2️⃣ 多层路径导致 fsync 不再“直达磁盘”
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#2-多层路径导致-fsync-不再直达磁盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 多层路径导致 fsync 不再“直达磁盘”" aria-label="Anchor to: 2️⃣ 多层路径导致 fsync 不再“直达磁盘”" href="#2-%e5%a4%9a%e5%b1%82%e8%b7%af%e5%be%84%e5%af%bc%e8%87%b4-fsync-%e4%b8%8d%e5%86%8d%e7%9b%b4%e8%be%be%e7%a3%81%e7%9b%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库认为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fsync() = 数据已安全落盘
-</span></span></code></pre></div><p>但 overlay2 实际路径是：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">数据库
-</span></span><span class="line"><span class="cl"> → VFS
-</span></span><span class="line"><span class="cl">   → overlayfs
-</span></span><span class="line"><span class="cl">     → upperdir
-</span></span><span class="line"><span class="cl">       → 宿主文件系统
-</span></span></code></pre></div><p>⚠️ 问题：</p>
-<ul>
-<li>fsync 在 overlay 层完成</li>
-<li>不等价于物理磁盘 flush</li>
-<li>特定内核版本下存在 <strong>fsync 语义漏洞</strong></li>
-</ul>
-<p>👉 <strong>数据库最怕“我以为写成功了，其实没有”</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="3-inode--dentry-不稳定数据库很敏感"
-    >
-        3️⃣ inode / dentry 不稳定（数据库很敏感）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#3-inode--dentry-不稳定数据库很敏感" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ inode / dentry 不稳定（数据库很敏感）" aria-label="Anchor to: 3️⃣ inode / dentry 不稳定（数据库很敏感）" href="#3-inode--dentry-%e4%b8%8d%e7%a8%b3%e5%ae%9a%e6%95%b0%e6%8d%ae%e5%ba%93%e5%be%88%e6%95%8f%e6%84%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>overlay2 的文件：</p>
-<ul>
-<li>可能被 copy-up</li>
-<li>inode 会变化</li>
-<li>hard link / rename 行为不一致</li>
-</ul>
-<p>数据库依赖：</p>
-<ul>
-<li>inode 稳定性</li>
-<li>rename 原子性</li>
-<li>文件元数据一致性</li>
-</ul>
-<p>📌 历史上：</p>
-<ul>
-<li>PostgreSQL</li>
-<li>MySQL InnoDB</li>
-</ul>
-<p>都曾明确指出：</p>
 <blockquote>
-<p><strong>UnionFS 不完全符合数据库文件系统假设</strong></p>
+<p><strong>让“进程在哪个 CPU 跑”，和“它用的内存在哪个 NUMA node”尽量一致</strong></p>
 </blockquote>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="4-overlay2-对小文件--高频写极差"
-    >
-        4️⃣ overlay2 对小文件 &amp; 高频写极差
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#4-overlay2-对小文件--高频写极差" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ overlay2 对小文件 &amp; 高频写极差" aria-label="Anchor to: 4️⃣ overlay2 对小文件 &amp; 高频写极差" href="#4-overlay2-%e5%af%b9%e5%b0%8f%e6%96%87%e4%bb%b6--%e9%ab%98%e9%a2%91%e5%86%99%e6%9e%81%e5%b7%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库的 IO 模式：</p>
+<p>它只在以下条件下才真正有意义：</p>
 <ul>
-<li>8KB / 16KB page</li>
-<li>高频随机写</li>
-<li>redo / wal 顺序追加</li>
-</ul>
-<p>overlay2：</p>
-<ul>
-<li>多层 lookup</li>
-<li>metadata 操作多</li>
-<li>dentry cache 压力大</li>
-</ul>
-<p>👉 <strong>IO 延迟尾部极长（P99、P999）</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="5-崩溃恢复风险最要命"
-    >
-        5️⃣ 崩溃恢复风险（最要命）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#5-崩溃恢复风险最要命" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 崩溃恢复风险（最要命）" aria-label="Anchor to: 5️⃣ 崩溃恢复风险（最要命）" href="#5-%e5%b4%a9%e6%ba%83%e6%81%a2%e5%a4%8d%e9%a3%8e%e9%99%a9%e6%9c%80%e8%a6%81%e5%91%bd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>overlay2 + 数据库：</p>
-<ul>
-<li>宿主机 crash</li>
-<li>容器 crash</li>
-<li>强制 kill</li>
-</ul>
-<p>⚠️ 风险点：</p>
-<ul>
-<li>overlay 层状态未完全 sync</li>
-<li>workdir 中间状态</li>
-<li>数据文件与 WAL 不一致</li>
-</ul>
-<p>👉 <strong>数据库最怕“恢复不了”</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="6-运维层面无法精细调优"
-    >
-        6️⃣ 运维层面无法精细调优
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#6-运维层面无法精细调优" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6️⃣ 运维层面无法精细调优" aria-label="Anchor to: 6️⃣ 运维层面无法精细调优" href="#6-%e8%bf%90%e7%bb%b4%e5%b1%82%e9%9d%a2%e6%97%a0%e6%b3%95%e7%b2%be%e7%bb%86%e8%b0%83%e4%bc%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库通常要调：</p>
-<ul>
-<li>filesystem mount options</li>
-<li>barrier / journal</li>
-<li>discard / noatime</li>
-<li>direct IO</li>
-</ul>
-<p>overlay2：</p>
-<ul>
-<li>mount 是 Docker 管</li>
-<li>容器内不可控</li>
-<li>数据库调优失效</li>
+<li>多 NUMA node</li>
+<li>进程频繁跨 node 访问内存</li>
+<li>内存访问成本差异明显</li>
 </ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="三overlay2--数据库--能跑--适合跑"
+    <h3 id="在你这个场景里"
     >
-        三、overlay2 + 数据库 = “能跑 ≠ 适合跑”
+        在你这个场景里
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#三overlay2--数据库--能跑--适合跑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、overlay2 &#43; 数据库 = “能跑 ≠ 适合跑”" aria-label="Anchor to: 三、overlay2 &#43; 数据库 = “能跑 ≠ 适合跑”" href="#%e4%b8%89overlay2--%e6%95%b0%e6%8d%ae%e5%ba%93--%e8%83%bd%e8%b7%91--%e9%80%82%e5%90%88%e8%b7%91">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#在你这个场景里" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 在你这个场景里" aria-label="Anchor to: 在你这个场景里" href="#%e5%9c%a8%e4%bd%a0%e8%bf%99%e4%b8%aa%e5%9c%ba%e6%99%af%e9%87%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="table-wrap"> <table>
   <thead>
       <tr>
-          <th>场景</th>
-          <th>是否建议</th>
+          <th>项目</th>
+          <th>实际情况</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>本地开发</td>
-          <td>✅</td>
+          <td>NUMA node 数</td>
+          <td>基本为 1</td>
       </tr>
       <tr>
-          <td>CI / 测试</td>
-          <td>✅</td>
+          <td>内存访问差异</td>
+          <td>几乎没有</td>
       </tr>
       <tr>
-          <td>Demo</td>
-          <td>✅</td>
+          <td>自动平衡收益</td>
+          <td>接近 0</td>
       </tr>
       <tr>
-          <td>生产数据库</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>高并发 / 高可靠</td>
-          <td>❌</td>
+          <td>自动平衡成本</td>
+          <td><strong>仍然存在</strong>（页迁移、扫描）</td>
       </tr>
   </tbody>
 </table> </div>
+<p>所以：</p>
+<blockquote>
+<p><strong>开着没收益，关了也没收益</strong></p>
+</blockquote>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="四那云厂商为什么用容器跑数据库看起来很稳"
+    <h2 id="四为什么关掉-numa-balancing--不绑定反而可能更差"
     >
-        四、那云厂商为什么“用容器跑数据库看起来很稳”？
+        四、为什么“关掉 NUMA balancing + 不绑定”反而可能更差？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#四为什么关掉-numa-balancing--不绑定反而可能更差" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、为什么“关掉 NUMA balancing &#43; 不绑定”反而可能更差？" aria-label="Anchor to: 四、为什么“关掉 NUMA balancing &#43; 不绑定”反而可能更差？" href="#%e5%9b%9b%e4%b8%ba%e4%bb%80%e4%b9%88%e5%85%b3%e6%8e%89-numa-balancing--%e4%b8%8d%e7%bb%91%e5%ae%9a%e5%8f%8d%e8%80%8c%e5%8f%af%e8%83%bd%e6%9b%b4%e5%b7%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="你现在的负载结构是"
+    >
+        你现在的负载结构是
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#四那云厂商为什么用容器跑数据库看起来很稳" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、那云厂商为什么“用容器跑数据库看起来很稳”？" aria-label="Anchor to: 四、那云厂商为什么“用容器跑数据库看起来很稳”？" href="#%e5%9b%9b%e9%82%a3%e4%ba%91%e5%8e%82%e5%95%86%e4%b8%ba%e4%bb%80%e4%b9%88%e7%94%a8%e5%ae%b9%e5%99%a8%e8%b7%91%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9c%8b%e8%b5%b7%e6%9d%a5%e5%be%88%e7%a8%b3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>这和你前一个问题正好接上 👇</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="云厂商的真实做法"
-    >
-        云厂商的真实做法
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#云厂商的真实做法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 云厂商的真实做法" aria-label="Anchor to: 云厂商的真实做法" href="#%e4%ba%91%e5%8e%82%e5%95%86%e7%9a%84%e7%9c%9f%e5%ae%9e%e5%81%9a%e6%b3%95">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>❌ <strong>不是 overlay2 上直接写数据</strong></p>
-<p>而是：</p>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>层级</th>
-          <th>做法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>容器</td>
-          <td>只跑数据库进程</td>
-      </tr>
-      <tr>
-          <td>数据目录</td>
-          <td><strong>bind mount / block device</strong></td>
-      </tr>
-      <tr>
-          <td>文件系统</td>
-          <td>ext4 / xfs 直写</td>
-      </tr>
-      <tr>
-          <td>存储</td>
-          <td>本地 SSD / NVMe / 网络块存储</td>
-      </tr>
-      <tr>
-          <td>cgroups</td>
-          <td>精细隔离</td>
-      </tr>
-      <tr>
-          <td>内核</td>
-          <td>专门调优</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>📌 关键点：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/var/lib/mysql
-</span></span><span class="line"><span class="cl">→ 不在 overlay2
-</span></span><span class="line"><span class="cl">→ 在真实文件系统
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="五正确姿势你可以直接用"
-    >
-        五、正确姿势（你可以直接用）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#五正确姿势你可以直接用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、正确姿势（你可以直接用）" aria-label="Anchor to: 五、正确姿势（你可以直接用）" href="#%e4%ba%94%e6%ad%a3%e7%a1%ae%e5%a7%bf%e5%8a%bf%e4%bd%a0%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e7%94%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-正确方案-1bind-mount"
-    >
-        ✅ 正确方案 1：bind mount
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-正确方案-1bind-mount" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确方案 1：bind mount" aria-label="Anchor to: ✅ 正确方案 1：bind mount" href="#-%e6%ad%a3%e7%a1%ae%e6%96%b9%e6%a1%88-1bind-mount">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /data/mysql:/var/lib/mysql <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  mysql
-</span></span></code></pre></div><p>数据绕过 overlay2，直写宿主机 FS</p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-正确方案-2block-device"
-    >
-        ✅ 正确方案 2：block device
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-正确方案-2block-device" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确方案 2：block device" aria-label="Anchor to: ✅ 正确方案 2：block device" href="#-%e6%ad%a3%e7%a1%ae%e6%96%b9%e6%a1%88-2block-device">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#你现在的负载结构是" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 你现在的负载结构是" aria-label="Anchor to: 你现在的负载结构是" href="#%e4%bd%a0%e7%8e%b0%e5%9c%a8%e7%9a%84%e8%b4%9f%e8%bd%bd%e7%bb%93%e6%9e%84%e6%98%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <ul>
-<li>LVM</li>
-<li>iSCSI</li>
-<li>云盘</li>
+<li>PostgreSQL（长期常驻、缓存敏感）</li>
+<li>Redis（极度内存和 CPU 敏感）</li>
+<li>多个 Python 程序（短生命周期 / GIL / 抖动）</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/dev/mapper/mysql,target<span class="o">=</span>/var/lib/mysql
-</span></span></code></pre></div><hr>
+<p>如果你：</p>
+<ul>
+<li>❌ 关闭 <code>kernel.numa_balancing</code></li>
+<li>❌ 不做 CPU / 内存绑定</li>
+<li>❌ 核数又少（2 核）</li>
+</ul>
+<p>那么内核会：</p>
+<ul>
+<li>允许调度器频繁迁移 Python 进程</li>
+<li>导致 PostgreSQL / Redis 被抢占</li>
+<li>出现 <strong>缓存抖动 + 上下文切换放大</strong></li>
+</ul>
+<p>👉 <strong>这和 NUMA 无关，是“CPU 争抢问题”</strong></p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-错误方案"
+    <h2 id="五那-numactl-在你这里有用吗"
     >
-        ❌ 错误方案
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-错误方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 错误方案" aria-label="Anchor to: ❌ 错误方案" href="#-%e9%94%99%e8%af%af%e6%96%b9%e6%a1%88">
+        五、那 <code>numactl</code> 在你这里有用吗？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#五那-numactl-在你这里有用吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、那 numactl 在你这里有用吗？" aria-label="Anchor to: 五、那 numactl 在你这里有用吗？" href="#%e4%ba%94%e9%82%a3-numactl-%e5%9c%a8%e4%bd%a0%e8%bf%99%e9%87%8c%e6%9c%89%e7%94%a8%e5%90%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run mysql
-</span></span><span class="line"><span class="cl"><span class="c1">## 数据写在 overlay2</span>
-</span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="六最终一句话非常硬"
+    <h3 id="简短结论"
     >
-        六、最终一句话（非常硬）
+        简短结论
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#六最终一句话非常硬" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、最终一句话（非常硬）" aria-label="Anchor to: 六、最终一句话（非常硬）" href="#%e5%85%ad%e6%9c%80%e7%bb%88%e4%b8%80%e5%8f%a5%e8%af%9d%e9%9d%9e%e5%b8%b8%e7%a1%ac">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#简短结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 简短结论" aria-label="Anchor to: 简短结论" href="#%e7%ae%80%e7%9f%ad%e7%bb%93%e8%ae%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <blockquote>
-<p><strong>overlay2 适合“应用层文件”，不适合“数据库存储层文件”。
-数据库必须绕过 UnionFS，直达真实文件系统。</strong></p>
+<p><strong>几乎没用</strong></p>
+</blockquote>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="原因非常直接"
+    >
+        原因非常直接
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#原因非常直接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 原因非常直接" aria-label="Anchor to: 原因非常直接" href="#%e5%8e%9f%e5%9b%a0%e9%9d%9e%e5%b8%b8%e7%9b%b4%e6%8e%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>只有 1 个 NUMA node</li>
+<li><code>numactl --cpunodebind=0</code> 和不写，效果一样</li>
+<li><code>numactl --membind=0</code> 也是一样</li>
+</ol>
+<p><strong>numactl 的前提是：你有得选</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六真正应该关注的是什么重点"
+    >
+        六、真正应该关注的是什么？（重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#六真正应该关注的是什么重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、真正应该关注的是什么？（重点）" aria-label="Anchor to: 六、真正应该关注的是什么？（重点）" href="#%e5%85%ad%e7%9c%9f%e6%ad%a3%e5%ba%94%e8%af%a5%e5%85%b3%e6%b3%a8%e7%9a%84%e6%98%af%e4%bb%80%e4%b9%88%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-你这个场景的核心问题不是-numa而是"
+    >
+        🎯 你这个场景的核心问题不是 NUMA，而是
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#-你这个场景的核心问题不是-numa而是" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 你这个场景的核心问题不是 NUMA，而是" aria-label="Anchor to: 🎯 你这个场景的核心问题不是 NUMA，而是" href="#-%e4%bd%a0%e8%bf%99%e4%b8%aa%e5%9c%ba%e6%99%af%e7%9a%84%e6%a0%b8%e5%bf%83%e9%97%ae%e9%a2%98%e4%b8%8d%e6%98%af-numa%e8%80%8c%e6%98%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>双核 CPU 上的“资源争抢与优先级失控”</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七比-numa-更重要的-5-件事按优先级"
+    >
+        七、比 NUMA 更重要的 5 件事（按优先级）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#七比-numa-更重要的-5-件事按优先级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、比 NUMA 更重要的 5 件事（按优先级）" aria-label="Anchor to: 七、比 NUMA 更重要的 5 件事（按优先级）" href="#%e4%b8%83%e6%af%94-numa-%e6%9b%b4%e9%87%8d%e8%a6%81%e7%9a%84-5-%e4%bb%b6%e4%ba%8b%e6%8c%89%e4%bc%98%e5%85%88%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-控制-postgresql--redis-的-cpu-亲和性可选"
+    >
+        1️⃣ 控制 PostgreSQL / Redis 的 CPU 亲和性（可选）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#1-控制-postgresql--redis-的-cpu-亲和性可选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 控制 PostgreSQL / Redis 的 CPU 亲和性（可选）" aria-label="Anchor to: 1️⃣ 控制 PostgreSQL / Redis 的 CPU 亲和性（可选）" href="#1-%e6%8e%a7%e5%88%b6-postgresql--redis-%e7%9a%84-cpu-%e4%ba%b2%e5%92%8c%e6%80%a7%e5%8f%af%e9%80%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你真的要“硬隔离”：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">taskset -c <span class="m">0</span> postgres
+</span></span><span class="line"><span class="cl">taskset -c <span class="m">1</span> redis-server
+</span></span></code></pre></div><p>⚠️ 双核非常紧张，不建议过度绑定。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-限制-python-程序的并发度非常重要"
+    >
+        2️⃣ 限制 Python 程序的并发度（非常重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#2-限制-python-程序的并发度非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 限制 Python 程序的并发度（非常重要）" aria-label="Anchor to: 2️⃣ 限制 Python 程序的并发度（非常重要）" href="#2-%e9%99%90%e5%88%b6-python-%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%b9%b6%e5%8f%91%e5%ba%a6%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>避免同时跑多个 CPU-bound Python</li>
+<li>使用队列 / 批次 / 限流</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-防止-python-抢光内存比-numa-重要"
+    >
+        3️⃣ 防止 Python 抢光内存（比 NUMA 重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#3-防止-python-抢光内存比-numa-重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 防止 Python 抢光内存（比 NUMA 重要）" aria-label="Anchor to: 3️⃣ 防止 Python 抢光内存（比 NUMA 重要）" href="#3-%e9%98%b2%e6%ad%a2-python-%e6%8a%a2%e5%85%89%e5%86%85%e5%ad%98%e6%af%94-numa-%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你已经在用：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">vm.swappiness = 0
+</code></pre><p>建议再配合：</p>
+<ul>
+<li>systemd <code>MemoryMax=</code></li>
+<li>或容器 cgroup（如果有）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-postgresql--redis-的-oom-保护"
+    >
+        4️⃣ PostgreSQL / Redis 的 OOM 保护
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#4-postgresql--redis-的-oom-保护" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ PostgreSQL / Redis 的 OOM 保护" aria-label="Anchor to: 4️⃣ PostgreSQL / Redis 的 OOM 保护" href="#4-postgresql--redis-%e7%9a%84-oom-%e4%bf%9d%e6%8a%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>设置 <code>OOMScoreAdjust=-900</code></li>
+<li>Python 程序设置更高 OOM 分值</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-不要在-2-核机器上跑所有东西"
+    >
+        5️⃣ 不要在 2 核机器上“跑所有东西”
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#5-不要在-2-核机器上跑所有东西" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 不要在 2 核机器上“跑所有东西”" aria-label="Anchor to: 5️⃣ 不要在 2 核机器上“跑所有东西”" href="#5-%e4%b8%8d%e8%a6%81%e5%9c%a8-2-%e6%a0%b8%e6%9c%ba%e5%99%a8%e4%b8%8a%e8%b7%91%e6%89%80%e6%9c%89%e4%b8%9c%e8%a5%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这是实话：</p>
+<blockquote>
+<p><strong>双核 CPU + 数据库 + Redis + 多 Python，本身就已经在透支稳定性</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八最终推荐配置针对你的问题"
+    >
+        八、最终推荐配置（针对你的问题）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#八最终推荐配置针对你的问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、最终推荐配置（针对你的问题）" aria-label="Anchor to: 八、最终推荐配置（针对你的问题）" href="#%e5%85%ab%e6%9c%80%e7%bb%88%e6%8e%a8%e8%8d%90%e9%85%8d%e7%bd%ae%e9%92%88%e5%af%b9%e4%bd%a0%e7%9a%84%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-内核参数"
+    >
+        ✅ 内核参数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#-内核参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 内核参数" aria-label="Anchor to: ✅ 内核参数" href="#-%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"># 保持默认即可
+kernel.numa_balancing = 1
+</code></pre><p>或者：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"># 关不关都行，但没收益
+kernel.numa_balancing = 0
+</code></pre><p><strong>不作为关键调优点</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-不建议做的事"
+    >
+        ❌ 不建议做的事
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#-不建议做的事" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 不建议做的事" aria-label="Anchor to: ❌ 不建议做的事" href="#-%e4%b8%8d%e5%bb%ba%e8%ae%ae%e5%81%9a%e7%9a%84%e4%ba%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>不要为了“看起来专业”上 numactl</li>
+<li>不要在没有 NUMA 的机器上做 NUMA 调优</li>
+<li>不要指望 NUMA 参数解决 CPU 争抢问题</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="总结"
+    >
+        总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/numa-practice/#总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 总结" aria-label="Anchor to: 总结" href="#%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>在“双核 + 单 NUMA 节点”的机器上：</strong></p>
+<ul>
+<li><code>kernel.numa_balancing</code> 不是关键变量</li>
+<li><code>numactl</code> 几乎没有意义</li>
+<li>真正决定稳定性的，是 <strong>CPU 争抢、内存边界、OOM 优先级</strong></li>
+</ul>
 </blockquote>
 
   </article>

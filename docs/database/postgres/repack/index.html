@@ -12,12 +12,9 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+  <meta name="description" content=" repack # 安装 repack 扩展 apt install -y postgresql-18-repack # 登录数据库 (使用管理账号 postgres 登录 finance 数据库) psql postgresql://postgres:password@127.0.0.1/finance # 安装 pg_repack 扩展 CREATE EXTENSION pg_repack; # 运行 pg_repack su - postgres -c &#39;pg_repack -d finance&#39; " />
 
-    <title>overlay2 为什么对数据库不友好 | ☘️ Septvean&#39;s Documents</title>
+    <title>Repack | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,42 +35,36 @@
     
   <meta
     property="og:title"
-    content="overlay2 为什么对数据库不友好"
+    content="Repack"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+  <meta property="og:description" content=" repack # 安装 repack 扩展 apt install -y postgresql-18-repack # 登录数据库 (使用管理账号 postgres 登录 finance 数据库) psql postgresql://postgres:password@127.0.0.1/finance # 安装 pg_repack 扩展 CREATE EXTENSION pg_repack; # 运行 pg_repack su - postgres -c &#39;pg_repack -d finance&#39; " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/repack/" />
 
-<meta property="article:section" content="Operations" />
+<meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="overlay2 为什么对数据库不友好" />
-  <meta name="twitter:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
-一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
-一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
+<meta name="twitter:title" content="Repack" />
+  <meta name="twitter:description" content=" repack # 安装 repack 扩展 apt install -y postgresql-18-repack # 登录数据库 (使用管理账号 postgres 登录 finance 数据库) psql postgresql://postgres:password@127.0.0.1/finance # 安装 pg_repack 扩展 CREATE EXTENSION pg_repack; # 运行 pg_repack su - postgres -c &#39;pg_repack -d finance&#39; " />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Operations",
-      "name": "overlay2 为什么对数据库不友好",
-      "url" : "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/",
-      "headline": "overlay2 为什么对数据库不友好",
-      "description": "这是一个非常关键、也非常容易被误解的问题。\n内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS \/ overlay2 \/ 内核 \/ 数据库 串起来。\n一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 \u002b 写时复制 \u002b 间接路径”的文件语义。\n一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync \/ fdatasync 强一致 顺序写（WAL \/ redo \/ binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反",
-      "wordCount" : "323",
+      "articleSection": "Database",
+      "name": "Repack",
+      "url" : "https://documents.v2ep.com/database/postgres/repack/",
+      "headline": "Repack",
+      "description": " repack # 安装 repack 扩展 apt install -y postgresql-18-repack # 登录数据库 (使用管理账号 postgres 登录 finance 数据库) psql postgresql:\/\/postgres:password@127.0.0.1\/finance # 安装 pg_repack 扩展 CREATE EXTENSION pg_repack; # 运行 pg_repack su - postgres -c \u0027pg_repack -d finance\u0027 ",
+      "wordCount" : "35",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/"
+          "@id": "https://documents.v2ep.com/database/postgres/repack/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -157,7 +148,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/repack/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2000,7 +1991,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>overlay2 为什么对数据库不友好</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Repack</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2021,399 +2012,29 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>overlay2 为什么对数据库不友好</h1>
+    <h1>Repack</h1>
     
-    <p>这是一个<strong>非常关键、也非常容易被误解的问题</strong>。</p>
-<p>内容：<strong>结论先行 → 原理拆解 → 实战层面的判断标准</strong>，和 <strong>UnionFS / overlay2 / 内核 / 数据库</strong> 串起来。</p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一句话结论先背下来"
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h1 id="repack"
     >
-        一句话结论（先背下来）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#一句话结论先背下来" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一句话结论（先背下来）" aria-label="Anchor to: 一句话结论（先背下来）" href="#%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%93%e8%ae%ba%e5%85%88%e8%83%8c%e4%b8%8b%e6%9d%a5">
+        repack
+    </h1>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/repack/#repack" class="gdoc-page__anchor clip flex align-center" title="Anchor to: repack" aria-label="Anchor to: repack" href="#repack">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<blockquote>
-<p><strong>overlay2 不适合数据库的根本原因是：
-数据库需要“稳定、可预测、顺序一致的本地写入”，
-而 overlay2 提供的是“分层 + 写时复制 + 间接路径”的文件语义。</strong></p>
-</blockquote>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="一overlay2-的设计目标--数据库的需求"
-    >
-        一、overlay2 的设计目标 ≠ 数据库的需求
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#一overlay2-的设计目标--数据库的需求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、overlay2 的设计目标 ≠ 数据库的需求" aria-label="Anchor to: 一、overlay2 的设计目标 ≠ 数据库的需求" href="#%e4%b8%80overlay2-%e7%9a%84%e8%ae%be%e8%ae%a1%e7%9b%ae%e6%a0%87--%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e9%9c%80%e6%b1%82">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="overlay2-为谁设计"
-    >
-        overlay2 为谁设计？
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#overlay2-为谁设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: overlay2 为谁设计？" aria-label="Anchor to: overlay2 为谁设计？" href="#overlay2-%e4%b8%ba%e8%b0%81%e8%ae%be%e8%ae%a1">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>镜像分层</li>
-<li>容器快速启动</li>
-<li>文件共享</li>
-<li>写少、读多</li>
-<li>应用无状态</li>
-</ul>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="数据库需要什么"
-    >
-        数据库需要什么？
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#数据库需要什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库需要什么？" aria-label="Anchor to: 数据库需要什么？" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e9%9c%80%e8%a6%81%e4%bb%80%e4%b9%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>高频小写</li>
-<li>fsync / fdatasync 强一致</li>
-<li>顺序写（WAL / redo / binlog）</li>
-<li>稳定 inode</li>
-<li>可预测的 IO 延迟</li>
-</ul>
-<p>👉 <strong>目标完全相反</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="二overlay2-对数据库致命的-6-个原因"
-    >
-        二、overlay2 对数据库“致命”的 6 个原因
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#二overlay2-对数据库致命的-6-个原因" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、overlay2 对数据库“致命”的 6 个原因" aria-label="Anchor to: 二、overlay2 对数据库“致命”的 6 个原因" href="#%e4%ba%8coverlay2-%e5%af%b9%e6%95%b0%e6%8d%ae%e5%ba%93%e8%87%b4%e5%91%bd%e7%9a%84-6-%e4%b8%aa%e5%8e%9f%e5%9b%a0">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="1-写时复制copy-on-write放大写入"
-    >
-        1️⃣ 写时复制（Copy-on-Write）放大写入
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#1-写时复制copy-on-write放大写入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 写时复制（Copy-on-Write）放大写入" aria-label="Anchor to: 1️⃣ 写时复制（Copy-on-Write）放大写入" href="#1-%e5%86%99%e6%97%b6%e5%a4%8d%e5%88%b6copy-on-write%e6%94%be%e5%a4%a7%e5%86%99%e5%85%a5">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><strong>overlay2 写文件的真实过程：</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">写文件
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">判断是否在 lowerdir
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">复制整个文件到 upperdir
-</span></span><span class="line"><span class="cl"> ↓
-</span></span><span class="line"><span class="cl">再写
-</span></span></code></pre></div><p>对数据库意味着：</p>
-<ul>
-<li>WAL 文件</li>
-<li>redo log</li>
-<li>数据文件</li>
-</ul>
-<p>👉 <strong>一次小写，可能触发整文件复制</strong></p>
-<p>📌 结果：</p>
-<ul>
-<li>IO 放大</li>
-<li>延迟抖动</li>
-<li>写性能不可预测</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="2-多层路径导致-fsync-不再直达磁盘"
-    >
-        2️⃣ 多层路径导致 fsync 不再“直达磁盘”
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#2-多层路径导致-fsync-不再直达磁盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 多层路径导致 fsync 不再“直达磁盘”" aria-label="Anchor to: 2️⃣ 多层路径导致 fsync 不再“直达磁盘”" href="#2-%e5%a4%9a%e5%b1%82%e8%b7%af%e5%be%84%e5%af%bc%e8%87%b4-fsync-%e4%b8%8d%e5%86%8d%e7%9b%b4%e8%be%be%e7%a3%81%e7%9b%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库认为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fsync() = 数据已安全落盘
-</span></span></code></pre></div><p>但 overlay2 实际路径是：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">数据库
-</span></span><span class="line"><span class="cl"> → VFS
-</span></span><span class="line"><span class="cl">   → overlayfs
-</span></span><span class="line"><span class="cl">     → upperdir
-</span></span><span class="line"><span class="cl">       → 宿主文件系统
-</span></span></code></pre></div><p>⚠️ 问题：</p>
-<ul>
-<li>fsync 在 overlay 层完成</li>
-<li>不等价于物理磁盘 flush</li>
-<li>特定内核版本下存在 <strong>fsync 语义漏洞</strong></li>
-</ul>
-<p>👉 <strong>数据库最怕“我以为写成功了，其实没有”</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="3-inode--dentry-不稳定数据库很敏感"
-    >
-        3️⃣ inode / dentry 不稳定（数据库很敏感）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#3-inode--dentry-不稳定数据库很敏感" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ inode / dentry 不稳定（数据库很敏感）" aria-label="Anchor to: 3️⃣ inode / dentry 不稳定（数据库很敏感）" href="#3-inode--dentry-%e4%b8%8d%e7%a8%b3%e5%ae%9a%e6%95%b0%e6%8d%ae%e5%ba%93%e5%be%88%e6%95%8f%e6%84%9f">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>overlay2 的文件：</p>
-<ul>
-<li>可能被 copy-up</li>
-<li>inode 会变化</li>
-<li>hard link / rename 行为不一致</li>
-</ul>
-<p>数据库依赖：</p>
-<ul>
-<li>inode 稳定性</li>
-<li>rename 原子性</li>
-<li>文件元数据一致性</li>
-</ul>
-<p>📌 历史上：</p>
-<ul>
-<li>PostgreSQL</li>
-<li>MySQL InnoDB</li>
-</ul>
-<p>都曾明确指出：</p>
-<blockquote>
-<p><strong>UnionFS 不完全符合数据库文件系统假设</strong></p>
-</blockquote>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="4-overlay2-对小文件--高频写极差"
-    >
-        4️⃣ overlay2 对小文件 &amp; 高频写极差
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#4-overlay2-对小文件--高频写极差" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ overlay2 对小文件 &amp; 高频写极差" aria-label="Anchor to: 4️⃣ overlay2 对小文件 &amp; 高频写极差" href="#4-overlay2-%e5%af%b9%e5%b0%8f%e6%96%87%e4%bb%b6--%e9%ab%98%e9%a2%91%e5%86%99%e6%9e%81%e5%b7%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库的 IO 模式：</p>
-<ul>
-<li>8KB / 16KB page</li>
-<li>高频随机写</li>
-<li>redo / wal 顺序追加</li>
-</ul>
-<p>overlay2：</p>
-<ul>
-<li>多层 lookup</li>
-<li>metadata 操作多</li>
-<li>dentry cache 压力大</li>
-</ul>
-<p>👉 <strong>IO 延迟尾部极长（P99、P999）</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="5-崩溃恢复风险最要命"
-    >
-        5️⃣ 崩溃恢复风险（最要命）
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#5-崩溃恢复风险最要命" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 崩溃恢复风险（最要命）" aria-label="Anchor to: 5️⃣ 崩溃恢复风险（最要命）" href="#5-%e5%b4%a9%e6%ba%83%e6%81%a2%e5%a4%8d%e9%a3%8e%e9%99%a9%e6%9c%80%e8%a6%81%e5%91%bd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>overlay2 + 数据库：</p>
-<ul>
-<li>宿主机 crash</li>
-<li>容器 crash</li>
-<li>强制 kill</li>
-</ul>
-<p>⚠️ 风险点：</p>
-<ul>
-<li>overlay 层状态未完全 sync</li>
-<li>workdir 中间状态</li>
-<li>数据文件与 WAL 不一致</li>
-</ul>
-<p>👉 <strong>数据库最怕“恢复不了”</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="6-运维层面无法精细调优"
-    >
-        6️⃣ 运维层面无法精细调优
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#6-运维层面无法精细调优" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6️⃣ 运维层面无法精细调优" aria-label="Anchor to: 6️⃣ 运维层面无法精细调优" href="#6-%e8%bf%90%e7%bb%b4%e5%b1%82%e9%9d%a2%e6%97%a0%e6%b3%95%e7%b2%be%e7%bb%86%e8%b0%83%e4%bc%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>数据库通常要调：</p>
-<ul>
-<li>filesystem mount options</li>
-<li>barrier / journal</li>
-<li>discard / noatime</li>
-<li>direct IO</li>
-</ul>
-<p>overlay2：</p>
-<ul>
-<li>mount 是 Docker 管</li>
-<li>容器内不可控</li>
-<li>数据库调优失效</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="三overlay2--数据库--能跑--适合跑"
-    >
-        三、overlay2 + 数据库 = “能跑 ≠ 适合跑”
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#三overlay2--数据库--能跑--适合跑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、overlay2 &#43; 数据库 = “能跑 ≠ 适合跑”" aria-label="Anchor to: 三、overlay2 &#43; 数据库 = “能跑 ≠ 适合跑”" href="#%e4%b8%89overlay2--%e6%95%b0%e6%8d%ae%e5%ba%93--%e8%83%bd%e8%b7%91--%e9%80%82%e5%90%88%e8%b7%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>是否建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>本地开发</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>CI / 测试</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>Demo</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>生产数据库</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>高并发 / 高可靠</td>
-          <td>❌</td>
-      </tr>
-  </tbody>
-</table> </div>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="四那云厂商为什么用容器跑数据库看起来很稳"
-    >
-        四、那云厂商为什么“用容器跑数据库看起来很稳”？
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#四那云厂商为什么用容器跑数据库看起来很稳" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、那云厂商为什么“用容器跑数据库看起来很稳”？" aria-label="Anchor to: 四、那云厂商为什么“用容器跑数据库看起来很稳”？" href="#%e5%9b%9b%e9%82%a3%e4%ba%91%e5%8e%82%e5%95%86%e4%b8%ba%e4%bb%80%e4%b9%88%e7%94%a8%e5%ae%b9%e5%99%a8%e8%b7%91%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9c%8b%e8%b5%b7%e6%9d%a5%e5%be%88%e7%a8%b3">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>这和你前一个问题正好接上 👇</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="云厂商的真实做法"
-    >
-        云厂商的真实做法
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#云厂商的真实做法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 云厂商的真实做法" aria-label="Anchor to: 云厂商的真实做法" href="#%e4%ba%91%e5%8e%82%e5%95%86%e7%9a%84%e7%9c%9f%e5%ae%9e%e5%81%9a%e6%b3%95">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>❌ <strong>不是 overlay2 上直接写数据</strong></p>
-<p>而是：</p>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>层级</th>
-          <th>做法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>容器</td>
-          <td>只跑数据库进程</td>
-      </tr>
-      <tr>
-          <td>数据目录</td>
-          <td><strong>bind mount / block device</strong></td>
-      </tr>
-      <tr>
-          <td>文件系统</td>
-          <td>ext4 / xfs 直写</td>
-      </tr>
-      <tr>
-          <td>存储</td>
-          <td>本地 SSD / NVMe / 网络块存储</td>
-      </tr>
-      <tr>
-          <td>cgroups</td>
-          <td>精细隔离</td>
-      </tr>
-      <tr>
-          <td>内核</td>
-          <td>专门调优</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>📌 关键点：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/var/lib/mysql
-</span></span><span class="line"><span class="cl">→ 不在 overlay2
-</span></span><span class="line"><span class="cl">→ 在真实文件系统
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="五正确姿势你可以直接用"
-    >
-        五、正确姿势（你可以直接用）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#五正确姿势你可以直接用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、正确姿势（你可以直接用）" aria-label="Anchor to: 五、正确姿势（你可以直接用）" href="#%e4%ba%94%e6%ad%a3%e7%a1%ae%e5%a7%bf%e5%8a%bf%e4%bd%a0%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e7%94%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-正确方案-1bind-mount"
-    >
-        ✅ 正确方案 1：bind mount
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-正确方案-1bind-mount" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确方案 1：bind mount" aria-label="Anchor to: ✅ 正确方案 1：bind mount" href="#-%e6%ad%a3%e7%a1%ae%e6%96%b9%e6%a1%88-1bind-mount">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -v /data/mysql:/var/lib/mysql <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  mysql
-</span></span></code></pre></div><p>数据绕过 overlay2，直写宿主机 FS</p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-正确方案-2block-device"
-    >
-        ✅ 正确方案 2：block device
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-正确方案-2block-device" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确方案 2：block device" aria-label="Anchor to: ✅ 正确方案 2：block device" href="#-%e6%ad%a3%e7%a1%ae%e6%96%b9%e6%a1%88-2block-device">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>LVM</li>
-<li>iSCSI</li>
-<li>云盘</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>/dev/mapper/mysql,target<span class="o">=</span>/var/lib/mysql
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="-错误方案"
-    >
-        ❌ 错误方案
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#-错误方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 错误方案" aria-label="Anchor to: ❌ 错误方案" href="#-%e9%94%99%e8%af%af%e6%96%b9%e6%a1%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run mysql
-</span></span><span class="line"><span class="cl"><span class="c1">## 数据写在 overlay2</span>
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="六最终一句话非常硬"
-    >
-        六、最终一句话（非常硬）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/#六最终一句话非常硬" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、最终一句话（非常硬）" aria-label="Anchor to: 六、最终一句话（非常硬）" href="#%e5%85%ad%e6%9c%80%e7%bb%88%e4%b8%80%e5%8f%a5%e8%af%9d%e9%9d%9e%e5%b8%b8%e7%a1%ac">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<blockquote>
-<p><strong>overlay2 适合“应用层文件”，不适合“数据库存储层文件”。
-数据库必须绕过 UnionFS，直达真实文件系统。</strong></p>
-</blockquote>
-
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 安装 repack 扩展</span>
+</span></span><span class="line"><span class="cl">apt install -y postgresql-18-repack
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 登录数据库 (使用管理账号 postgres 登录 finance 数据库)</span>
+</span></span><span class="line"><span class="cl">psql postgresql://postgres:password@127.0.0.1/finance
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装 pg_repack 扩展</span>
+</span></span><span class="line"><span class="cl">CREATE EXTENSION pg_repack<span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 运行 pg_repack</span>
+</span></span><span class="line"><span class="cl">su - postgres -c <span class="s1">&#39;pg_repack -d finance&#39;</span>
+</span></span></code></pre></div>
   </article>
 
 
