@@ -12,10 +12,16 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="参考文档：IPv6禁用导致rpcbind服务启动失败实例
+系统：Almalin 9.7
+/etc/sysctl.conf
+net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 net.netfilter.nf_conntrack_ipv6 = 0 /usr/lib/systemd/system/rpcbind.socket
+#BindIPv6Only=ipv6-only #ListenStream=[::]:111 #ListenDatagram=[::]:111 rpcbind.service
+rpcbind.service: Main process exited, code=dumped, status=6/ABRT rpcbind.service: Failed with result &#39;core-dump&#39; 这是一个典型的「禁用 IPv6 &#43; 旧服务仍尝试监听 IPv6」导致的崩溃问题，给出的信息已经非常完整，下面直接给结论 &#43; 原因 &#43; 正确修复方案。
+一、问题结论（一句话） 在内核层彻底禁用了 IPv6，但 rpcbind 仍被 systemd 配置为使用 IPv6 Socket，导致进程在初始化阶段直接 ABRT 崩溃。
+二、问题根因分析（非常关键） 1️⃣ 你做了什么（内核层） 在 /etc/sysctl.conf 中：" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux 系统故障排查 -- rpcbind | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +42,33 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="Linux 系统故障排查 -- rpcbind"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="参考文档：IPv6禁用导致rpcbind服务启动失败实例
+系统：Almalin 9.7
+/etc/sysctl.conf
+net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 net.netfilter.nf_conntrack_ipv6 = 0 /usr/lib/systemd/system/rpcbind.socket
+#BindIPv6Only=ipv6-only #ListenStream=[::]:111 #ListenDatagram=[::]:111 rpcbind.service
+rpcbind.service: Main process exited, code=dumped, status=6/ABRT rpcbind.service: Failed with result &#39;core-dump&#39; 这是一个典型的「禁用 IPv6 &#43; 旧服务仍尝试监听 IPv6」导致的崩溃问题，给出的信息已经非常完整，下面直接给结论 &#43; 原因 &#43; 正确修复方案。
+一、问题结论（一句话） 在内核层彻底禁用了 IPv6，但 rpcbind 仍被 systemd 配置为使用 IPv6 Socket，导致进程在初始化阶段直接 ABRT 崩溃。
+二、问题根因分析（非常关键） 1️⃣ 你做了什么（内核层） 在 /etc/sysctl.conf 中：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="Linux 系统故障排查 -- rpcbind" />
+  <meta name="twitter:description" content="参考文档：IPv6禁用导致rpcbind服务启动失败实例
+系统：Almalin 9.7
+/etc/sysctl.conf
+net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 net.netfilter.nf_conntrack_ipv6 = 0 /usr/lib/systemd/system/rpcbind.socket
+#BindIPv6Only=ipv6-only #ListenStream=[::]:111 #ListenDatagram=[::]:111 rpcbind.service
+rpcbind.service: Main process exited, code=dumped, status=6/ABRT rpcbind.service: Failed with result &#39;core-dump&#39; 这是一个典型的「禁用 IPv6 &#43; 旧服务仍尝试监听 IPv6」导致的崩溃问题，给出的信息已经非常完整，下面直接给结论 &#43; 原因 &#43; 正确修复方案。
+一、问题结论（一句话） 在内核层彻底禁用了 IPv6，但 rpcbind 仍被 systemd 配置为使用 IPv6 Socket，导致进程在初始化阶段直接 ABRT 崩溃。
+二、问题根因分析（非常关键） 1️⃣ 你做了什么（内核层） 在 /etc/sysctl.conf 中：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +76,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL \/ PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "108",
+      "name": "Linux 系统故障排查 -- rpcbind",
+      "url" : "https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/",
+      "headline": "Linux 系统故障排查 -- rpcbind",
+      "description": "参考文档：IPv6禁用导致rpcbind服务启动失败实例\n系统：Almalin 9.7\n\/etc\/sysctl.conf\nnet.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 net.ipv6.conf.lo.disable_ipv6 = 1 net.netfilter.nf_conntrack_ipv6 = 0 \/usr\/lib\/systemd\/system\/rpcbind.socket\n#BindIPv6Only=ipv6-only #ListenStream=[::]:111 #ListenDatagram=[::]:111 rpcbind.service\nrpcbind.service: Main process exited, code=dumped, status=6\/ABRT rpcbind.service: Failed with result \u0027core-dump\u0027 这是一个典型的「禁用 IPv6 \u002b 旧服务仍尝试监听 IPv6」导致的崩溃问题，给出的信息已经非常完整，下面直接给结论 \u002b 原因 \u002b 正确修复方案。\n一、问题结论（一句话） 在内核层彻底禁用了 IPv6，但 rpcbind 仍被 systemd 配置为使用 IPv6 Socket，导致进程在初始化阶段直接 ABRT 崩溃。\n二、问题根因分析（非常关键） 1️⃣ 你做了什么（内核层） 在 \/etc\/sysctl.conf 中：",
+      "wordCount" : "277",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +169,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1016,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -2024,7 +2042,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 系统故障排查 -- rpcbind</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,357 +2069,272 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Linux 系统故障排查 -- rpcbind</h1>
     
-  <ul>
-    
-      
+    <p>参考文档：<a
+  class="gdoc-markdown__link"
+  href="https://www.cnblogs.com/gaoyuechen/p/10538525.html"
+>IPv6禁用导致rpcbind服务启动失败实例</a></p>
+<p>系统：Almalin 9.7</p>
+<p>/etc/sysctl.conf</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.ipv6.conf.all.disable_ipv6</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv6.conf.default.disable_ipv6</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv6.conf.lo.disable_ipv6</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="na">net.netfilter.nf_conntrack_ipv6</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><p>/usr/lib/systemd/system/rpcbind.socket</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1">#BindIPv6Only=ipv6-only</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ListenStream=[::]:111</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ListenDatagram=[::]:111</span>
+</span></span></code></pre></div><p>rpcbind.service</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">rpcbind.service: Main process exited, code=dumped, status=6/ABRT
+</span></span><span class="line"><span class="cl">rpcbind.service: Failed with result &#39;core-dump&#39;
+</span></span></code></pre></div><p>这是一个<strong>典型的「禁用 IPv6 + 旧服务仍尝试监听 IPv6」导致的崩溃问题</strong>，给出的信息已经非常完整，下面直接给<strong>结论 + 原因 + 正确修复方案</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一问题结论一句话"
+    >
+        一、问题结论（一句话）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#一问题结论一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、问题结论（一句话）" aria-label="Anchor to: 一、问题结论（一句话）" href="#%e4%b8%80%e9%97%ae%e9%a2%98%e7%bb%93%e8%ae%ba%e4%b8%80%e5%8f%a5%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>在内核层彻底禁用了 IPv6，但 <code>rpcbind</code> 仍被 systemd 配置为使用 IPv6 Socket，导致进程在初始化阶段直接 <code>ABRT</code> 崩溃。</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二问题根因分析非常关键"
+    >
+        二、问题根因分析（非常关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#二问题根因分析非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、问题根因分析（非常关键）" aria-label="Anchor to: 二、问题根因分析（非常关键）" href="#%e4%ba%8c%e9%97%ae%e9%a2%98%e6%a0%b9%e5%9b%a0%e5%88%86%e6%9e%90%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-你做了什么内核层"
+    >
+        1️⃣ 你做了什么（内核层）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#1-你做了什么内核层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 你做了什么（内核层）" aria-label="Anchor to: 1️⃣ 你做了什么（内核层）" href="#1-%e4%bd%a0%e5%81%9a%e4%ba%86%e4%bb%80%e4%b9%88%e5%86%85%e6%a0%b8%e5%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 <code>/etc/sysctl.conf</code> 中：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
 
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-runc/" class="gdoc-toc__entry">runc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-and-runc/" class="gdoc-toc__entry">systemd 和 runc 之间的关系
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-relationship/" class="gdoc-toc__entry">Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/from-hardware-to-container/" class="gdoc-toc__entry">从硬件到容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/numa-practice/" class="gdoc-toc__entry">多应用场景 NUMA 实践
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/performance/" class="gdoc-toc__entry">性能优化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/drop-caches/" class="gdoc-toc__entry">Drop Caches
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance/" class="gdoc-toc__entry">irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/troubleshooting-rpcbind/" class="gdoc-toc__entry">Linux 系统故障排查 -- rpcbind
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/nftables/" class="gdoc-toc__entry">nftables
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-vs-debian/" class="gdoc-toc__entry">RHEL 系列 vs Debian 系列
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-user-exist/" class="gdoc-toc__entry">如何判断系统用户是否存在
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mem-available/" class="gdoc-toc__entry">如何计算内存实际剩余多少
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance-database/" class="gdoc-toc__entry">数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+net.netfilter.nf_conntrack_ipv6 = 0
+</code></pre><p>👉 <strong>效果：</strong></p>
+<ul>
+<li>IPv6 在内核层完全关闭</li>
+<li><code>AF_INET6</code> 套接字不可用</li>
+<li>IPv6 conntrack 也被禁用</li>
+</ul>
+<p>这是<strong>硬禁用</strong>，不是“不用而已”。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-rpcbind-是怎么启动的systemd-层"
+    >
+        2️⃣ rpcbind 是怎么启动的（systemd 层）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#2-rpcbind-是怎么启动的systemd-层" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ rpcbind 是怎么启动的（systemd 层）" aria-label="Anchor to: 2️⃣ rpcbind 是怎么启动的（systemd 层）" href="#2-rpcbind-%e6%98%af%e6%80%8e%e4%b9%88%e5%90%af%e5%8a%a8%e7%9a%84systemd-%e5%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><code>rpcbind</code> <strong>不是普通 service</strong>，而是：</p>
+<blockquote>
+<p><strong>由 <code>rpcbind.socket</code> 先监听端口 → 再唤起 rpcbind.service</strong></p>
+</blockquote>
+<p>而你的 <code>/usr/lib/systemd/system/rpcbind.socket</code> 中仍然存在（哪怕被注释，也会被发行版默认行为影响）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1"># ListenStream=[::]:111</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ListenDatagram=[::]:111</span>
+</span></span></code></pre></div><p>⚠️ <strong>关键点：</strong></p>
+<ul>
+<li>systemd 在创建 socket 阶段就尝试使用 IPv6</li>
+<li>内核已经禁止 IPv6</li>
+<li><code>bind(AF_INET6)</code> → <strong>直接失败</strong></li>
+<li>rpcbind 收到非法状态 → <code>ABRT (SIGABRT)</code> → core dump</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三为什么是-status6abrt"
+    >
+        三、为什么是 <code>status=6/ABRT</code>
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#三为什么是-status6abrt" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、为什么是 status=6/ABRT" aria-label="Anchor to: 三、为什么是 status=6/ABRT" href="#%e4%b8%89%e4%b8%ba%e4%bb%80%e4%b9%88%e6%98%af-status6abrt">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这不是普通启动失败，而是：</p>
+<ul>
+<li>断言失败</li>
+<li>或 glibc / libtirpc 初始化检测到非法 socket 状态</li>
+<li>rpcbind <strong>主动 abort</strong></li>
+</ul>
+<p>这类错误<strong>重启 100 次都没用</strong>，必须改配置。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四正确修复方案推荐顺序"
+    >
+        四、正确修复方案（推荐顺序）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#四正确修复方案推荐顺序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、正确修复方案（推荐顺序）" aria-label="Anchor to: 四、正确修复方案（推荐顺序）" href="#%e5%9b%9b%e6%ad%a3%e7%a1%ae%e4%bf%ae%e5%a4%8d%e6%96%b9%e6%a1%88%e6%8e%a8%e8%8d%90%e9%a1%ba%e5%ba%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-方案一最推荐彻底禁用-rpcbind如果你不需要-nfs"
+    >
+        ✅ 方案一（最推荐）：彻底禁用 rpcbind（如果你不需要 NFS）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#-方案一最推荐彻底禁用-rpcbind如果你不需要-nfs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 方案一（最推荐）：彻底禁用 rpcbind（如果你不需要 NFS）" aria-label="Anchor to: ✅ 方案一（最推荐）：彻底禁用 rpcbind（如果你不需要 NFS）" href="#-%e6%96%b9%e6%a1%88%e4%b8%80%e6%9c%80%e6%8e%a8%e8%8d%90%e5%bd%bb%e5%ba%95%e7%a6%81%e7%94%a8-rpcbind%e5%a6%82%e6%9e%9c%e4%bd%a0%e4%b8%8d%e9%9c%80%e8%a6%81-nfs">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="适用场景"
+    >
+        适用场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#适用场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 适用场景" aria-label="Anchor to: 适用场景" href="#%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>没有使用 NFS / NIS / RPC 服务</strong></li>
+<li>数据库服务器、应用服务器、容器宿主机</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="操作"
+    >
+        操作
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#操作" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 操作" aria-label="Anchor to: 操作" href="#%e6%93%8d%e4%bd%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl disable --now rpcbind.service
+</span></span><span class="line"><span class="cl">systemctl disable --now rpcbind.socket
+</span></span></code></pre></div><p>并确认：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl status rpcbind
+</span></span></code></pre></div><p>应显示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Loaded: masked / disabled
+</span></span><span class="line"><span class="cl">Active: inactive
+</span></span></code></pre></div><p>👉 <strong>这是最干净、最符合现代 Linux 实践的方式</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-方案二强制-rpcbind-仅使用-ipv4推荐"
+    >
+        ✅ 方案二：强制 rpcbind 仅使用 IPv4（推荐）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#-方案二强制-rpcbind-仅使用-ipv4推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 方案二：强制 rpcbind 仅使用 IPv4（推荐）" aria-label="Anchor to: ✅ 方案二：强制 rpcbind 仅使用 IPv4（推荐）" href="#-%e6%96%b9%e6%a1%88%e4%ba%8c%e5%bc%ba%e5%88%b6-rpcbind-%e4%bb%85%e4%bd%bf%e7%94%a8-ipv4%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-创建-override-配置不要改-usrlib"
+    >
+        1️⃣ 创建 override 配置（不要改 /usr/lib）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#1-创建-override-配置不要改-usrlib" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 创建 override 配置（不要改 /usr/lib）" aria-label="Anchor to: 1️⃣ 创建 override 配置（不要改 /usr/lib）" href="#1-%e5%88%9b%e5%bb%ba-override-%e9%85%8d%e7%bd%ae%e4%b8%8d%e8%a6%81%e6%94%b9-usrlib">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl edit rpcbind.socket
+</span></span></code></pre></div><p>写入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">BindIPv6Only</span><span class="o">=</span><span class="s">no</span>
+</span></span><span class="line"><span class="cl"><span class="na">ListenStream</span><span class="o">=</span><span class="s">0.0.0.0:111</span>
+</span></span><span class="line"><span class="cl"><span class="na">ListenDatagram</span><span class="o">=</span><span class="s">0.0.0.0:111</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ListenStream=[::]:111</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ListenDatagram=[::]:111</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-重新加载-systemd-并启动"
+    >
+        2️⃣ 重新加载 systemd 并启动
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#2-重新加载-systemd-并启动" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 重新加载 systemd 并启动" aria-label="Anchor to: 2️⃣ 重新加载 systemd 并启动" href="#2-%e9%87%8d%e6%96%b0%e5%8a%a0%e8%bd%bd-systemd-%e5%b9%b6%e5%90%af%e5%8a%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl daemon-reexec
+</span></span><span class="line"><span class="cl">systemctl daemon-reload
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">systemctl restart rpcbind.socket
+</span></span><span class="line"><span class="cl">systemctl restart rpcbind.service
+</span></span></code></pre></div><ul>
+<li>systemd 单元文件有继承 / 默认行为</li>
+<li>socket 可能已被缓存</li>
+<li><code>daemon-reexec</code> 前不会生效</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-验证监听情况"
+    >
+        3️⃣ 验证监听情况
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#3-验证监听情况" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 验证监听情况" aria-label="Anchor to: 3️⃣ 验证监听情况" href="#3-%e9%aa%8c%e8%af%81%e7%9b%91%e5%90%ac%e6%83%85%e5%86%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ss -lntup <span class="p">|</span> grep <span class="m">111</span>
+</span></span></code></pre></div><p>应该只看到：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">0.0.0.0:111
+</span></span></code></pre></div><p><strong>不应该出现 <code>:::111</code></strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-重新开启-ipv6-只为-rpcbind"
+    >
+        🚫 重新开启 IPv6 只为 rpcbind
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#-重新开启-ipv6-只为-rpcbind" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🚫 重新开启 IPv6 只为 rpcbind" aria-label="Anchor to: 🚫 重新开启 IPv6 只为 rpcbind" href="#-%e9%87%8d%e6%96%b0%e5%bc%80%e5%90%af-ipv6-%e5%8f%aa%e4%b8%ba-rpcbind">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">net.ipv6.conf.all.disable_ipv6 = 0
+</code></pre><p>❌ <strong>原因：</strong></p>
+<ul>
+<li>为一个 legacy 服务破坏整体内核策略</li>
+<li>会影响网络安全模型</li>
+<li>和你之前系统调优目标冲突</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五如何判断是否需要-rpcbind"
+    >
+        五、如何判断「是否需要 rpcbind」
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#五如何判断是否需要-rpcbind" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、如何判断「是否需要 rpcbind」" aria-label="Anchor to: 五、如何判断「是否需要 rpcbind」" href="#%e4%ba%94%e5%a6%82%e4%bd%95%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e9%9c%80%e8%a6%81-rpcbind">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rpm -q nfs-utils
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl status nfs-server
+</span></span></code></pre></div><p>如果你：</p>
+<ul>
+<li>❌ 不跑 NFS</li>
+<li>❌ 不跑 NIS</li>
+<li>❌ 不跑老 RPC 服务</li>
+</ul>
+<p>👉 <strong>100% 可以禁用 rpcbind</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六总结"
+    >
+        六、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/troubleshooting-rpcbind/#六总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、总结" aria-label="Anchor to: 六、总结" href="#%e5%85%ad%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>当在 Linux 内核层禁用 IPv6 时，所有 systemd socket-activated 服务必须显式切换为 IPv4-only，否则会在 socket 初始化阶段直接崩溃。</strong></p>
+</blockquote>
 
   </article>
 
@@ -2921,9 +2862,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2954,11 +2892,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3596,27 +3529,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

@@ -12,10 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="在所有 Linux 服务器上每天定时执行一次以下命令，是否可行？有什么利弊？
+sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_caches 结论先行（一句话版）
+不建议在所有 Linux 服务器上每天定时执行 sync; echo 1 &gt; /proc/sys/vm/drop_caches，它不是“优化”，而是一次“人为制造的冷启动 I/O 抖动”，只有在极少数排障或测试场景才有价值。
+下面给你工程级、可落地的分析。
+一、这两条命令到底做了什么（澄清一个常见误解） 1️⃣ sync（你执行了 10 次） sync 作用：
+将 脏页（dirty pages） 刷写到磁盘 是一个 阻塞调用 多次执行 ≈ 一次执行 📌 结论：" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>Drop Caches | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +40,29 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="Drop Caches"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="在所有 Linux 服务器上每天定时执行一次以下命令，是否可行？有什么利弊？
+sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_caches 结论先行（一句话版）
+不建议在所有 Linux 服务器上每天定时执行 sync; echo 1 &gt; /proc/sys/vm/drop_caches，它不是“优化”，而是一次“人为制造的冷启动 I/O 抖动”，只有在极少数排障或测试场景才有价值。
+下面给你工程级、可落地的分析。
+一、这两条命令到底做了什么（澄清一个常见误解） 1️⃣ sync（你执行了 10 次） sync 作用：
+将 脏页（dirty pages） 刷写到磁盘 是一个 阻塞调用 多次执行 ≈ 一次执行 📌 结论：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/drop-caches/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="Drop Caches" />
+  <meta name="twitter:description" content="在所有 Linux 服务器上每天定时执行一次以下命令，是否可行？有什么利弊？
+sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_caches 结论先行（一句话版）
+不建议在所有 Linux 服务器上每天定时执行 sync; echo 1 &gt; /proc/sys/vm/drop_caches，它不是“优化”，而是一次“人为制造的冷启动 I/O 抖动”，只有在极少数排障或测试场景才有价值。
+下面给你工程级、可落地的分析。
+一、这两条命令到底做了什么（澄清一个常见误解） 1️⃣ sync（你执行了 10 次） sync 作用：
+将 脏页（dirty pages） 刷写到磁盘 是一个 阻塞调用 多次执行 ≈ 一次执行 📌 结论：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +70,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench systemd 环境变量 PATH XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL \/ PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "108",
+      "name": "Drop Caches",
+      "url" : "https://documents.v2ep.com/operations/linux/drop-caches/",
+      "headline": "Drop Caches",
+      "description": "在所有 Linux 服务器上每天定时执行一次以下命令，是否可行？有什么利弊？\nsync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 \u003e \/proc\/sys\/vm\/drop_caches 结论先行（一句话版）\n不建议在所有 Linux 服务器上每天定时执行 sync; echo 1 \u003e \/proc\/sys\/vm\/drop_caches，它不是“优化”，而是一次“人为制造的冷启动 I\/O 抖动”，只有在极少数排障或测试场景才有价值。\n下面给你工程级、可落地的分析。\n一、这两条命令到底做了什么（澄清一个常见误解） 1️⃣ sync（你执行了 10 次） sync 作用：\n将 脏页（dirty pages） 刷写到磁盘 是一个 阻塞调用 多次执行 ≈ 一次执行 📌 结论：",
+      "wordCount" : "275",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/drop-caches/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +163,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/drop-caches/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1010,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -2024,7 +2036,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Drop Caches</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,357 +2063,401 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Drop Caches</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-runc/" class="gdoc-toc__entry">runc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-and-runc/" class="gdoc-toc__entry">systemd 和 runc 之间的关系
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-relationship/" class="gdoc-toc__entry">Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/from-hardware-to-container/" class="gdoc-toc__entry">从硬件到容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/numa-practice/" class="gdoc-toc__entry">多应用场景 NUMA 实践
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/performance/" class="gdoc-toc__entry">性能优化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/drop-caches/" class="gdoc-toc__entry">Drop Caches
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance/" class="gdoc-toc__entry">irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/troubleshooting-rpcbind/" class="gdoc-toc__entry">Linux 系统故障排查 -- rpcbind
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/nftables/" class="gdoc-toc__entry">nftables
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-vs-debian/" class="gdoc-toc__entry">RHEL 系列 vs Debian 系列
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-user-exist/" class="gdoc-toc__entry">如何判断系统用户是否存在
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mem-available/" class="gdoc-toc__entry">如何计算内存实际剩余多少
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance-database/" class="gdoc-toc__entry">数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p><strong>在所有 Linux 服务器上每天定时执行一次以下命令，是否可行？有什么利弊？</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sync<span class="p">;</span>sync<span class="p">;</span>sync<span class="p">;</span>sync<span class="p">;</span>sync<span class="p">;</span>sync<span class="p">;</span>sync<span class="p">;</span>sync<span class="p">;</span>sync<span class="p">;</span>sync
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/vm/drop_caches
+</span></span></code></pre></div><p><strong>结论先行（一句话版）</strong></p>
+<blockquote>
+<p><strong>不建议在所有 Linux 服务器上每天定时执行 <code>sync; echo 1 &gt; /proc/sys/vm/drop_caches</code>，它不是“优化”，而是一次“人为制造的冷启动 I/O 抖动”，只有在极少数排障或测试场景才有价值。</strong></p>
+</blockquote>
+<p>下面给你<strong>工程级、可落地</strong>的分析。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一这两条命令到底做了什么澄清一个常见误解"
+    >
+        一、这两条命令到底做了什么（澄清一个常见误解）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#一这两条命令到底做了什么澄清一个常见误解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、这两条命令到底做了什么（澄清一个常见误解）" aria-label="Anchor to: 一、这两条命令到底做了什么（澄清一个常见误解）" href="#%e4%b8%80%e8%bf%99%e4%b8%a4%e6%9d%a1%e5%91%bd%e4%bb%a4%e5%88%b0%e5%ba%95%e5%81%9a%e4%ba%86%e4%bb%80%e4%b9%88%e6%be%84%e6%b8%85%e4%b8%80%e4%b8%aa%e5%b8%b8%e8%a7%81%e8%af%af%e8%a7%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-sync你执行了-10-次"
+    >
+        1️⃣ <code>sync</code>（你执行了 10 次）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#1-sync你执行了-10-次" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ sync（你执行了 10 次）" aria-label="Anchor to: 1️⃣ sync（你执行了 10 次）" href="#1-sync%e4%bd%a0%e6%89%a7%e8%a1%8c%e4%ba%86-10-%e6%ac%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sync
+</span></span></code></pre></div><p><strong>作用：</strong></p>
+<ul>
+<li>将 <strong>脏页（dirty pages）</strong> 刷写到磁盘</li>
+<li>是一个 <strong>阻塞调用</strong></li>
+<li><strong>多次执行 ≈ 一次执行</strong></li>
+</ul>
+<p>📌 结论：</p>
+<blockquote>
+<p><code>sync;sync;sync;...</code> 在现代 Linux 内核中 <strong>没有任何额外收益</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-echo-1--procsysvmdrop_caches"
+    >
+        2️⃣ <code>echo 1 &gt; /proc/sys/vm/drop_caches</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#2-echo-1--procsysvmdrop_caches" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ echo 1 &gt; /proc/sys/vm/drop_caches" aria-label="Anchor to: 2️⃣ echo 1 &gt; /proc/sys/vm/drop_caches" href="#2-echo-1--procsysvmdrop_caches">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/vm/drop_caches
+</span></span></code></pre></div><p><strong>作用：</strong></p>
+<ul>
+<li>
+<p>释放 <strong>Page Cache（文件缓存）</strong></p>
+</li>
+<li>
+<p><strong>不会释放：</strong></p>
+<ul>
+<li>应用内存</li>
+<li>匿名页</li>
+<li>数据库 Buffer / Shared Memory</li>
+</ul>
+</li>
+</ul>
+<p>等价于：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">告诉内核：刚才缓存的文件数据，全部忘掉
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二每天定时执行会发生什么"
+    >
+        二、每天定时执行，会发生什么？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#二每天定时执行会发生什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、每天定时执行，会发生什么？" aria-label="Anchor to: 二、每天定时执行，会发生什么？" href="#%e4%ba%8c%e6%af%8f%e5%a4%a9%e5%ae%9a%e6%97%b6%e6%89%a7%e8%a1%8c%e4%bc%9a%e5%8f%91%e7%94%9f%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-能得到的表面效果"
+    >
+        ✅ 能得到的“表面效果”
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#-能得到的表面效果" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 能得到的“表面效果”" aria-label="Anchor to: ✅ 能得到的“表面效果”" href="#-%e8%83%bd%e5%be%97%e5%88%b0%e7%9a%84%e8%a1%a8%e9%9d%a2%e6%95%88%e6%9e%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>现象</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>free -h</code> 中 buff/cache 下降</td>
+          <td>看起来“内存变多了”</td>
+      </tr>
+      <tr>
+          <td>某些人感觉系统“清爽”</td>
+          <td><strong>心理安慰</strong></td>
+      </tr>
+      <tr>
+          <td>排障时可模拟冷缓存</td>
+          <td>测试用途</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-真正的代价非常关键"
+    >
+        ❌ 真正的代价（非常关键）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#-真正的代价非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 真正的代价（非常关键）" aria-label="Anchor to: ❌ 真正的代价（非常关键）" href="#-%e7%9c%9f%e6%ad%a3%e7%9a%84%e4%bb%a3%e4%bb%b7%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-制造-io-风暴最严重"
+    >
+        1️⃣ <strong>制造 I/O 风暴（最严重）</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#1-制造-io-风暴最严重" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 制造 I/O 风暴（最严重）" aria-label="Anchor to: 1️⃣ 制造 I/O 风暴（最严重）" href="#1-%e5%88%b6%e9%80%a0-io-%e9%a3%8e%e6%9a%b4%e6%9c%80%e4%b8%a5%e9%87%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>所有文件缓存被清空</p>
+</li>
+<li>
+<p>下一次访问：</p>
+<ul>
+<li>数据库数据</li>
+<li>Python 程序依赖</li>
+<li>ELF / so</li>
+<li>配置文件</li>
+</ul>
+</li>
+</ul>
+<p>👉 <strong>全部重新从磁盘读取</strong></p>
+<p>📌 后果：</p>
+<ul>
+<li>磁盘 IOPS 暴涨</li>
+<li>延迟瞬间升高</li>
+<li>SSD 写放大、HDD 抖动</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-数据库是直接受害者"
+    >
+        2️⃣ <strong>数据库是“直接受害者”</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#2-数据库是直接受害者" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 数据库是“直接受害者”" aria-label="Anchor to: 2️⃣ 数据库是“直接受害者”" href="#2-%e6%95%b0%e6%8d%ae%e5%ba%93%e6%98%af%e7%9b%b4%e6%8e%a5%e5%8f%97%e5%ae%b3%e8%80%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="postgresql--mysql-场景"
+    >
+        PostgreSQL / MySQL 场景
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#postgresql--mysql-场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL / MySQL 场景" aria-label="Anchor to: PostgreSQL / MySQL 场景" href="#postgresql--mysql-%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>影响</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>PostgreSQL</td>
+          <td>OS Page Cache 是 shared_buffers 的“二级缓存”</td>
+      </tr>
+      <tr>
+          <td>MySQL InnoDB</td>
+          <td>即使有 buffer pool，也高度依赖 OS readahead</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p><strong>结果：</strong></p>
+<blockquote>
+<p>QPS 下降、慢查询飙升、checkpoint 压力变大</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-破坏内核的自适应内存管理"
+    >
+        3️⃣ <strong>破坏内核的“自适应内存管理”</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#3-破坏内核的自适应内存管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 破坏内核的“自适应内存管理”" aria-label="Anchor to: 3️⃣ 破坏内核的“自适应内存管理”" href="#3-%e7%a0%b4%e5%9d%8f%e5%86%85%e6%a0%b8%e7%9a%84%e8%87%aa%e9%80%82%e5%ba%94%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Linux 的内存管理原则是：</p>
+<blockquote>
+<p><strong>空闲内存 = 浪费内存</strong></p>
+</blockquote>
+<p>内核会：</p>
+<ul>
+<li>自动回收 cache</li>
+<li>根据压力动态调整</li>
+<li>优先回收“可重建”的 cache</li>
+</ul>
+<p>你这个命令是：</p>
+<blockquote>
+<p><strong>强行干预内核的 LRU / reclaim 逻辑</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-容器--虚拟化环境尤其危险"
+    >
+        4️⃣ 容器 / 虚拟化环境尤其危险
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#4-容器--虚拟化环境尤其危险" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 容器 / 虚拟化环境尤其危险" aria-label="Anchor to: 4️⃣ 容器 / 虚拟化环境尤其危险" href="#4-%e5%ae%b9%e5%99%a8--%e8%99%9a%e6%8b%9f%e5%8c%96%e7%8e%af%e5%a2%83%e5%b0%a4%e5%85%b6%e5%8d%b1%e9%99%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>Page Cache 是 <strong>宿主机共享的</strong></p>
+</li>
+<li>
+<p>你清的是：</p>
+<ul>
+<li>所有容器</li>
+<li>所有虚拟机进程</li>
+<li>所有服务的 cache</li>
+</ul>
+</li>
+</ul>
+<p>👉 <strong>一个 cron，拖慢整台宿主机</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三什么时候可以用"
+    >
+        三、什么时候“可以”用？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#三什么时候可以用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、什么时候“可以”用？" aria-label="Anchor to: 三、什么时候“可以”用？" href="#%e4%b8%89%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e5%8f%af%e4%bb%a5%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-合理使用场景极少"
+    >
+        ✅ 合理使用场景（极少）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#-合理使用场景极少" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 合理使用场景（极少）" aria-label="Anchor to: ✅ 合理使用场景（极少）" href="#-%e5%90%88%e7%90%86%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af%e6%9e%81%e5%b0%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>是否合理</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>性能基准测试（冷缓存）</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>内存泄漏排障</td>
+          <td>⚠️ 临时</td>
+      </tr>
+      <tr>
+          <td>内核/FS 行为验证</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>DBA 手动维护窗口</td>
+          <td>⚠️</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p><strong>前提：</strong></p>
+<ul>
+<li>人工执行</li>
+<li>有明确目的</li>
+<li>有维护窗口</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四什么时候绝对不该用"
+    >
+        四、什么时候“绝对不该用”？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#四什么时候绝对不该用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、什么时候“绝对不该用”？" aria-label="Anchor to: 四、什么时候“绝对不该用”？" href="#%e5%9b%9b%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%bb%9d%e5%af%b9%e4%b8%8d%e8%af%a5%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>❌ <strong>生产环境定时任务</strong></p>
+<p>❌ <strong>数据库服务器</strong></p>
+<p>❌ <strong>高并发应用服务器</strong></p>
+<p>❌ <strong>K8s / Docker 宿主机</strong></p>
+<p>❌ <strong>SSD / NVMe 寿命敏感环境</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五正确的替代方案你真正想解决的问题"
+    >
+        五、正确的替代方案（你真正想解决的问题）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#五正确的替代方案你真正想解决的问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、正确的替代方案（你真正想解决的问题）" aria-label="Anchor to: 五、正确的替代方案（你真正想解决的问题）" href="#%e4%ba%94%e6%ad%a3%e7%a1%ae%e7%9a%84%e6%9b%bf%e4%bb%a3%e6%96%b9%e6%a1%88%e4%bd%a0%e7%9c%9f%e6%ad%a3%e6%83%b3%e8%a7%a3%e5%86%b3%e7%9a%84%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你“想定期清 cache”，本质通常是想解决这些👇</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-目标-1防止-oom"
+    >
+        🎯 目标 1：防止 OOM
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#-目标-1防止-oom" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 目标 1：防止 OOM" aria-label="Anchor to: 🎯 目标 1：防止 OOM" href="#-%e7%9b%ae%e6%a0%87-1%e9%98%b2%e6%ad%a2-oom">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>正确做法：</strong></p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">vm.swappiness = 1
+vm.vfs_cache_pressure = 100
+vm.overcommit_memory = 2
+</code></pre><p>👉 让内核 <strong>按规则回收 cache，而不是暴力清空</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-目标-2避免脏页堆积"
+    >
+        🎯 目标 2：避免脏页堆积
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#-目标-2避免脏页堆积" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 目标 2：避免脏页堆积" aria-label="Anchor to: 🎯 目标 2：避免脏页堆积" href="#-%e7%9b%ae%e6%a0%87-2%e9%81%bf%e5%85%8d%e8%84%8f%e9%a1%b5%e5%a0%86%e7%a7%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">vm.dirty_background_ratio = 5
+vm.dirty_ratio = 15
+vm.dirty_expire_centisecs = 3000
+</code></pre><p>👉 平滑写盘，而不是 sync 洪峰</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-目标-3观测内存而不是清理"
+    >
+        🎯 目标 3：观测内存，而不是“清理”
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#-目标-3观测内存而不是清理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 目标 3：观测内存，而不是“清理”" aria-label="Anchor to: 🎯 目标 3：观测内存，而不是“清理”" href="#-%e7%9b%ae%e6%a0%87-3%e8%a7%82%e6%b5%8b%e5%86%85%e5%ad%98%e8%80%8c%e4%b8%8d%e6%98%af%e6%b8%85%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vmstat <span class="m">1</span>
+</span></span><span class="line"><span class="cl">sar -B <span class="m">1</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六如果你一定要保留类似行为不推荐但给你工程级安全方案"
+    >
+        六、如果你<strong>一定要保留类似行为</strong>（不推荐，但给你工程级安全方案）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#六如果你一定要保留类似行为不推荐但给你工程级安全方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、如果你一定要保留类似行为（不推荐，但给你工程级安全方案）" aria-label="Anchor to: 六、如果你一定要保留类似行为（不推荐，但给你工程级安全方案）" href="#%e5%85%ad%e5%a6%82%e6%9e%9c%e4%bd%a0%e4%b8%80%e5%ae%9a%e8%a6%81%e4%bf%9d%e7%95%99%e7%b1%bb%e4%bc%bc%e8%a1%8c%e4%b8%ba%e4%b8%8d%e6%8e%a8%e8%8d%90%e4%bd%86%e7%bb%99%e4%bd%a0%e5%b7%a5%e7%a8%8b%e7%ba%a7%e5%ae%89%e5%85%a8%e6%96%b9%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-最低伤害版本"
+    >
+        ✅ 最低伤害版本
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#-最低伤害版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 最低伤害版本" aria-label="Anchor to: ✅ 最低伤害版本" href="#-%e6%9c%80%e4%bd%8e%e4%bc%a4%e5%ae%b3%e7%89%88%e6%9c%ac">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sync
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">2</span> &gt; /proc/sys/vm/drop_caches
+</span></span></code></pre></div><ul>
+<li><code>2</code>：只释放 dentry / inode cache</li>
+<li><strong>不清 Page Cache</strong></li>
+<li>风险小很多</li>
+</ul>
+<p>📌 <strong>但仍不建议定时执行</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七最终总结给你一个可以写进规范的话"
+    >
+        七、最终总结（给你一个可以写进规范的话）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/drop-caches/#七最终总结给你一个可以写进规范的话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、最终总结（给你一个可以写进规范的话）" aria-label="Anchor to: 七、最终总结（给你一个可以写进规范的话）" href="#%e4%b8%83%e6%9c%80%e7%bb%88%e6%80%bb%e7%bb%93%e7%bb%99%e4%bd%a0%e4%b8%80%e4%b8%aa%e5%8f%af%e4%bb%a5%e5%86%99%e8%bf%9b%e8%a7%84%e8%8c%83%e7%9a%84%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>Linux 的 Page Cache 是性能组件，不是垃圾；定时清理缓存不是优化，而是破坏内核内存管理的行为，只应在特定排障或测试场景下人工使用。</strong></p>
+</blockquote>
 
   </article>
 
@@ -2921,9 +2985,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2954,11 +3015,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3596,27 +3652,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
