@@ -13,7 +13,7 @@
 
 
   <meta name="description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
+内容：结论先行 -&gt; 原理拆解 -&gt; 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
 一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
 一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
 
@@ -42,7 +42,7 @@
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
+内容：结论先行 -&gt; 原理拆解 -&gt; 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
 一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
 一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
 <meta property="og:type" content="article" />
@@ -54,7 +54,7 @@
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="overlay2 为什么对数据库不友好" />
   <meta name="twitter:description" content="这是一个非常关键、也非常容易被误解的问题。
-内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
+内容：结论先行 -&gt; 原理拆解 -&gt; 实战层面的判断标准，和 UnionFS / overlay2 / 内核 / 数据库 串起来。
 一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 &#43; 写时复制 &#43; 间接路径”的文件语义。
 一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync / fdatasync 强一致 顺序写（WAL / redo / binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反" />
 
@@ -67,7 +67,7 @@
       "name": "overlay2 为什么对数据库不友好",
       "url" : "https://documents.v2ep.com/operations/linux/overlay2-not-good-to-database/",
       "headline": "overlay2 为什么对数据库不友好",
-      "description": "这是一个非常关键、也非常容易被误解的问题。\n内容：结论先行 → 原理拆解 → 实战层面的判断标准，和 UnionFS \/ overlay2 \/ 内核 \/ 数据库 串起来。\n一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 \u002b 写时复制 \u002b 间接路径”的文件语义。\n一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync \/ fdatasync 强一致 顺序写（WAL \/ redo \/ binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反",
+      "description": "这是一个非常关键、也非常容易被误解的问题。\n内容：结论先行 -\u003e 原理拆解 -\u003e 实战层面的判断标准，和 UnionFS \/ overlay2 \/ 内核 \/ 数据库 串起来。\n一句话结论（先背下来） overlay2 不适合数据库的根本原因是： 数据库需要“稳定、可预测、顺序一致的本地写入”， 而 overlay2 提供的是“分层 \u002b 写时复制 \u002b 间接路径”的文件语义。\n一、overlay2 的设计目标 ≠ 数据库的需求 overlay2 为谁设计？ 镜像分层 容器快速启动 文件共享 写少、读多 应用无状态 数据库需要什么？ 高频小写 fsync \/ fdatasync 强一致 顺序写（WAL \/ redo \/ binlog） 稳定 inode 可预测的 IO 延迟 👉 目标完全相反",
       "wordCount" : "323",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
@@ -2060,7 +2060,7 @@
     <h1>overlay2 为什么对数据库不友好</h1>
     
     <p>这是一个<strong>非常关键、也非常容易被误解的问题</strong>。</p>
-<p>内容：<strong>结论先行 → 原理拆解 → 实战层面的判断标准</strong>，和 <strong>UnionFS / overlay2 / 内核 / 数据库</strong> 串起来。</p>
+<p>内容：<strong>结论先行 -&gt; 原理拆解 -&gt; 实战层面的判断标准</strong>，和 <strong>UnionFS / overlay2 / 内核 / 数据库</strong> 串起来。</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="一句话结论先背下来"
@@ -2173,10 +2173,10 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fsync() = 数据已安全落盘
 </span></span></code></pre></div><p>但 overlay2 实际路径是：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">数据库
-</span></span><span class="line"><span class="cl"> → VFS
-</span></span><span class="line"><span class="cl">   → overlayfs
-</span></span><span class="line"><span class="cl">     → upperdir
-</span></span><span class="line"><span class="cl">       → 宿主文件系统
+</span></span><span class="line"><span class="cl"> -&gt; VFS
+</span></span><span class="line"><span class="cl">   -&gt; overlayfs
+</span></span><span class="line"><span class="cl">     -&gt; upperdir
+</span></span><span class="line"><span class="cl">       -&gt; 宿主文件系统
 </span></span></code></pre></div><p>⚠️ 问题：</p>
 <ul>
 <li>fsync 在 overlay 层完成</li>
@@ -2382,8 +2382,8 @@
 </table> </div>
 <p>📌 关键点：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/var/lib/mysql
-</span></span><span class="line"><span class="cl">→ 不在 overlay2
-</span></span><span class="line"><span class="cl">→ 在真实文件系统
+</span></span><span class="line"><span class="cl">-&gt; 不在 overlay2
+</span></span><span class="line"><span class="cl">-&gt; 在真实文件系统
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="五正确姿势你可以直接用"

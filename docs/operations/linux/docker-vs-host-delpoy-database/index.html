@@ -2476,9 +2476,9 @@ bridge 网络	+20～50 μs</p>
 <p>bind mount 绕过 overlay2，数据库的 IO 路径与宿主机完全一致</p>
 <p>IO 路径对比：</p>
 <p>宿主机部署：
-DB → VFS → ext4/xfs → block → disk</p>
+DB -&gt; VFS -&gt; ext4/xfs -&gt; block -&gt; disk</p>
 <p>Docker + bind mount：
-DB → VFS → ext4/xfs → block → disk</p>
+DB -&gt; VFS -&gt; ext4/xfs -&gt; block -&gt; disk</p>
 <p>📌 没有 overlayfs
 📌 没有 CoW
 📌 没有多层 lookup</p>

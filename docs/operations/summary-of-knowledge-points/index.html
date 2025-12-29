@@ -65,7 +65,7 @@
       "url" : "https://documents.v2ep.com/operations/summary-of-knowledge-points/",
       "headline": "知识点总结",
       "description": "先原理，后应用。\n目录：\n硬件 Linux 系统 虚拟化 容器与容器编排 Docker Kubernetes 配置管理与自动化运维 Ansible CI \/ CD 与代码管理 Git GitLab Jenkins 日志、搜索与分析 ElasticSearch 消息队列与流处理 Kafka 负载均衡与流量调度 LVS Nginx 数据库与数据存储 MySQL PostgreSQL MongoDB Redis 文件传输与数据同步 FTP rsync 监控与告警 Zabbix Prometheus 发布系统 滚动发布 蓝绿发布 金丝雀发布 总览：从硬件到容器的分层",
-      "wordCount" : "634",
+      "wordCount" : "685",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2661,13 +2661,13 @@
 </ul>
 <p>默认 bridge 网络</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[container] --veth--&gt; [docker0] --NAT--&gt; [eth0] --&gt; Internet
-</span></span></code></pre></div><p>外部 → 容器（端口映射原理）</p>
+</span></span></code></pre></div><p>外部 -&gt; 容器（端口映射原理）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Client
 </span></span><span class="line"><span class="cl">  ↓
 </span></span><span class="line"><span class="cl">宿主机 8080
 </span></span><span class="line"><span class="cl">  ↓ (DNAT)
 </span></span><span class="line"><span class="cl">容器 80
-</span></span></code></pre></div><p>容器 → 外部（SNAT</p>
+</span></span></code></pre></div><p>容器 -&gt; 外部（SNAT</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container 172.17.0.2
 </span></span><span class="line"><span class="cl">  ↓
 </span></span><span class="line"><span class="cl">docker0
@@ -2709,6 +2709,29 @@
     </a>
 </div>
 <p>定位：容器编排与集群管理平台，负责容器的调度、伸缩与高可用。</p>
+<p>Kubernetes 解决的是：容器的自动部署、调度、扩缩容、自愈、网络、存储、升级</p>
+<p>Kubernetes 的整体架构</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+----------------------------+
+</span></span><span class="line"><span class="cl">|        用户 / kubectl       |
+</span></span><span class="line"><span class="cl">+-------------+--------------+
+</span></span><span class="line"><span class="cl">              |
+</span></span><span class="line"><span class="cl">+-------------v--------------+
+</span></span><span class="line"><span class="cl">|        Control Plane       |
+</span></span><span class="line"><span class="cl">|    apiserver / scheduler   |
+</span></span><span class="line"><span class="cl">|      controller / etcd     |
+</span></span><span class="line"><span class="cl">+-------------+--------------+
+</span></span><span class="line"><span class="cl">              |
+</span></span><span class="line"><span class="cl">+-------------v--------------+
+</span></span><span class="line"><span class="cl">|            Node            |
+</span></span><span class="line"><span class="cl">|     kubelet / containerd   |
+</span></span><span class="line"><span class="cl">|       kube-proxy / CNI     |
+</span></span><span class="line"><span class="cl">+----------------------------+
+</span></span></code></pre></div><p>控制平面（Control Plane）</p>
+<ul>
+<li>etcd：存储集群状态</li>
+<li>kube-apiserver（核心中的核心），所有请求入口，认证、鉴权、准入，唯一和 etcd 通信的组件</li>
+<li>kube-scheduler（核心中的核心），任务调度</li>
+</ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="配置管理与自动化运维"

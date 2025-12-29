@@ -12,7 +12,7 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="下面这份是从 Linux 网络底层 → Docker 网络模型 → 数据包路径 → 访问场景 → 常见坑的 《Docker 网络原理全景解析》。
+  <meta name="description" content="下面这份是从 Linux 网络底层 -&gt; Docker 网络模型 -&gt; 数据包路径 -&gt; 访问场景 -&gt; 常见坑的 《Docker 网络原理全景解析》。
 不是“怎么用”，而是为什么这样设计、数据包怎么走。
 一、一句话总览（先背） Docker 网络本质是：Linux Network Namespace &#43; veth &#43; bridge &#43; iptables NAT
 二、Docker 网络的四个核心组件 1️⃣ Network Namespace（网络隔离） 每个容器有独立网络栈" />
@@ -41,7 +41,7 @@
     content="Docker 网络原理"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="下面这份是从 Linux 网络底层 → Docker 网络模型 → 数据包路径 → 访问场景 → 常见坑的 《Docker 网络原理全景解析》。
+  <meta property="og:description" content="下面这份是从 Linux 网络底层 -&gt; Docker 网络模型 -&gt; 数据包路径 -&gt; 访问场景 -&gt; 常见坑的 《Docker 网络原理全景解析》。
 不是“怎么用”，而是为什么这样设计、数据包怎么走。
 一、一句话总览（先背） Docker 网络本质是：Linux Network Namespace &#43; veth &#43; bridge &#43; iptables NAT
 二、Docker 网络的四个核心组件 1️⃣ Network Namespace（网络隔离） 每个容器有独立网络栈" />
@@ -53,7 +53,7 @@
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Docker 网络原理" />
-  <meta name="twitter:description" content="下面这份是从 Linux 网络底层 → Docker 网络模型 → 数据包路径 → 访问场景 → 常见坑的 《Docker 网络原理全景解析》。
+  <meta name="twitter:description" content="下面这份是从 Linux 网络底层 -&gt; Docker 网络模型 -&gt; 数据包路径 -&gt; 访问场景 -&gt; 常见坑的 《Docker 网络原理全景解析》。
 不是“怎么用”，而是为什么这样设计、数据包怎么走。
 一、一句话总览（先背） Docker 网络本质是：Linux Network Namespace &#43; veth &#43; bridge &#43; iptables NAT
 二、Docker 网络的四个核心组件 1️⃣ Network Namespace（网络隔离） 每个容器有独立网络栈" />
@@ -67,7 +67,7 @@
       "name": "Docker 网络原理",
       "url" : "https://documents.v2ep.com/operations/docker/network/",
       "headline": "Docker 网络原理",
-      "description": "下面这份是从 Linux 网络底层 → Docker 网络模型 → 数据包路径 → 访问场景 → 常见坑的 《Docker 网络原理全景解析》。\n不是“怎么用”，而是为什么这样设计、数据包怎么走。\n一、一句话总览（先背） Docker 网络本质是：Linux Network Namespace \u002b veth \u002b bridge \u002b iptables NAT\n二、Docker 网络的四个核心组件 1️⃣ Network Namespace（网络隔离） 每个容器有独立网络栈",
+      "description": "下面这份是从 Linux 网络底层 -\u003e Docker 网络模型 -\u003e 数据包路径 -\u003e 访问场景 -\u003e 常见坑的 《Docker 网络原理全景解析》。\n不是“怎么用”，而是为什么这样设计、数据包怎么走。\n一、一句话总览（先背） Docker 网络本质是：Linux Network Namespace \u002b veth \u002b bridge \u002b iptables NAT\n二、Docker 网络的四个核心组件 1️⃣ Network Namespace（网络隔离） 每个容器有独立网络栈",
       "wordCount" : "330",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
@@ -2059,7 +2059,7 @@
   >
     <h1>Docker 网络原理</h1>
     
-    <p>下面这份是<strong>从 Linux 网络底层 → Docker 网络模型 → 数据包路径 → 访问场景 → 常见坑</strong>的
+    <p>下面这份是<strong>从 Linux 网络底层 -&gt; Docker 网络模型 -&gt; 数据包路径 -&gt; 访问场景 -&gt; 常见坑</strong>的
 <strong>《Docker 网络原理全景解析》</strong>。</p>
 <p>不是“怎么用”，而是<strong>为什么这样设计、数据包怎么走</strong>。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2194,11 +2194,11 @@
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">172.17.0.2
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四外部--容器端口映射原理"
+    <h2 id="四外部---容器端口映射原理"
     >
-        四、外部 → 容器（端口映射原理）
+        四、外部 -&gt; 容器（端口映射原理）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/network/#四外部--容器端口映射原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、外部 → 容器（端口映射原理）" aria-label="Anchor to: 四、外部 → 容器（端口映射原理）" href="#%e5%9b%9b%e5%a4%96%e9%83%a8--%e5%ae%b9%e5%99%a8%e7%ab%af%e5%8f%a3%e6%98%a0%e5%b0%84%e5%8e%9f%e7%90%86">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/network/#四外部---容器端口映射原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、外部 -&gt; 容器（端口映射原理）" aria-label="Anchor to: 四、外部 -&gt; 容器（端口映射原理）" href="#%e5%9b%9b%e5%a4%96%e9%83%a8---%e5%ae%b9%e5%99%a8%e7%ab%af%e5%8f%a3%e6%98%a0%e5%b0%84%e5%8e%9f%e7%90%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2228,7 +2228,7 @@
 </span></span><span class="line"><span class="cl">  ↓ (DNAT)
 </span></span><span class="line"><span class="cl">容器 80
 </span></span></code></pre></div><p>iptables 规则本质是：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">PREROUTING: 8080 → 172.17.0.2:80
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">PREROUTING: 8080 -&gt; 172.17.0.2:80
 </span></span></code></pre></div><p>📌 <strong>容器无需感知外部端口</strong></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2246,11 +2246,11 @@
 </ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五容器--外部snat"
+    <h2 id="五容器---外部snat"
     >
-        五、容器 → 外部（SNAT）
+        五、容器 -&gt; 外部（SNAT）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/network/#五容器--外部snat" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、容器 → 外部（SNAT）" aria-label="Anchor to: 五、容器 → 外部（SNAT）" href="#%e4%ba%94%e5%ae%b9%e5%99%a8--%e5%a4%96%e9%83%a8snat">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/network/#五容器---外部snat" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、容器 -&gt; 外部（SNAT）" aria-label="Anchor to: 五、容器 -&gt; 外部（SNAT）" href="#%e4%ba%94%e5%ae%b9%e5%99%a8---%e5%a4%96%e9%83%a8snat">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2282,7 +2282,7 @@
 </span></span><span class="line"><span class="cl">  ↓
 </span></span><span class="line"><span class="cl">Internet
 </span></span></code></pre></div><p>iptables 做了：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">POSTROUTING: 172.17.0.0/16 → 宿主机 IP
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">POSTROUTING: 172.17.0.0/16 -&gt; 宿主机 IP
 </span></span></code></pre></div><p>📌 所以外部只看到宿主机 IP</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2307,7 +2307,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">api</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">db</span><span class="p">:</span><span class="w">
 </span></span></span></code></pre></div><p>访问方式：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">api → db:5432
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">api -&gt; db:5432
 </span></span></code></pre></div><ul>
 <li>📌 Docker 内置 DNS</li>
 <li>📌 <strong>不要用 IP</strong></li>
@@ -2455,7 +2455,7 @@
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">127.0.0.11
 </span></span></code></pre></div><ul>
-<li>service name → 容器 IP</li>
+<li>service name -&gt; 容器 IP</li>
 <li>同网络可见</li>
 </ul>
 <p>📌 DNS 不是 /etc/hosts</p>
@@ -2489,7 +2489,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--add-host<span class="o">=</span>host.docker.internal:host-gateway
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container → host.docker.internal
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container -&gt; host.docker.internal
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-宿主机访问容器"

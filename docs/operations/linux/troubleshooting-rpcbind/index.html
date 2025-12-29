@@ -2147,7 +2147,7 @@ net.netfilter.nf_conntrack_ipv6 = 0
 </div>
 <p><code>rpcbind</code> <strong>不是普通 service</strong>，而是：</p>
 <blockquote>
-<p><strong>由 <code>rpcbind.socket</code> 先监听端口 → 再唤起 rpcbind.service</strong></p>
+<p><strong>由 <code>rpcbind.socket</code> 先监听端口 -&gt; 再唤起 rpcbind.service</strong></p>
 </blockquote>
 <p>而你的 <code>/usr/lib/systemd/system/rpcbind.socket</code> 中仍然存在（哪怕被注释，也会被发行版默认行为影响）：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1"># ListenStream=[::]:111</span>
@@ -2156,8 +2156,8 @@ net.netfilter.nf_conntrack_ipv6 = 0
 <ul>
 <li>systemd 在创建 socket 阶段就尝试使用 IPv6</li>
 <li>内核已经禁止 IPv6</li>
-<li><code>bind(AF_INET6)</code> → <strong>直接失败</strong></li>
-<li>rpcbind 收到非法状态 → <code>ABRT (SIGABRT)</code> → core dump</li>
+<li><code>bind(AF_INET6)</code> -&gt; <strong>直接失败</strong></li>
+<li>rpcbind 收到非法状态 -&gt; <code>ABRT (SIGABRT)</code> -&gt; core dump</li>
 </ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
