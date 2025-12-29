@@ -2308,8 +2308,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">db</span><span class="p">:</span><span class="w">
 </span></span></span></code></pre></div><p>访问方式：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">api → db:5432
-</span></span></code></pre></div><p>📌 Docker 内置 DNS
-📌 <strong>不要用 IP</strong></p>
+</span></span></code></pre></div><ul>
+<li>📌 Docker 内置 DNS</li>
+<li>📌 <strong>不要用 IP</strong></li>
+</ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="不同网络"
@@ -2346,12 +2348,22 @@
     </a>
 </div>
 <ul>
-<li>NAT</li>
-<li>有 IP</li>
-<li>最常用</li>
+<li>
+<p>NAT</p>
+</li>
+<li>
+<p>有 IP</p>
+</li>
+<li>
+<p>最常用</p>
+</li>
+<li>
+<p>✅ 开发 / 测试</p>
+</li>
+<li>
+<p>❌ 高性能数据库（慎用）</p>
+</li>
 </ul>
-<p>✔ 开发 / 测试
-❌ 高性能数据库（慎用）</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="2-host性能最强"
@@ -2370,8 +2382,10 @@
 <li>无端口映射</li>
 </ul>
 <p>📌 <strong>容器端口 = 宿主机端口</strong></p>
-<p>✔ 高性能服务
-❌ 端口冲突</p>
+<ul>
+<li>✅ 高性能服务</li>
+<li>❌ 端口冲突</li>
+</ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-none完全隔离"
@@ -2383,11 +2397,19 @@
     </a>
 </div>
 <ul>
-<li>无网卡</li>
-<li>无网络</li>
+<li>
+<p>无网卡</p>
+</li>
+<li>
+<p>无网络</p>
+</li>
+<li>
+<p>✅ 安全测试</p>
+</li>
+<li>
+<p>✅ 离线任务</p>
+</li>
 </ul>
-<p>✔ 安全测试
-✔ 离线任务</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="4-overlay多主机"
@@ -2399,11 +2421,19 @@
     </a>
 </div>
 <ul>
-<li>VXLAN</li>
-<li>Swarm / k8s</li>
+<li>
+<p>VXLAN</p>
+</li>
+<li>
+<p>Swarm / k8s</p>
+</li>
+<li>
+<p>❌ 性能下降</p>
+</li>
+<li>
+<p>✅ 跨主机通信</p>
+</li>
 </ul>
-<p>❌ 性能下降
-✔ 跨主机通信</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八dns-解析原理常考"

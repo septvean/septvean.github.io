@@ -65,7 +65,7 @@
       "url" : "https://documents.v2ep.com/operations/summary-of-knowledge-points/",
       "headline": "知识点总结",
       "description": "先原理，后应用。\n目录：\n硬件 Linux 系统 虚拟化 容器与容器编排 Docker Kubernetes 配置管理与自动化运维 Ansible CI \/ CD 与代码管理 Git GitLab Jenkins 日志、搜索与分析 ElasticSearch 消息队列与流处理 Kafka 负载均衡与流量调度 LVS Nginx 数据库与数据存储 MySQL PostgreSQL MongoDB Redis 文件传输与数据同步 FTP rsync 监控与告警 Zabbix Prometheus 发布系统 滚动发布 蓝绿发布 金丝雀发布 总览：从硬件到容器的分层",
-      "wordCount" : "568",
+      "wordCount" : "634",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2652,18 +2652,52 @@
 <li>Dockerfile：构建镜像的文件，描述“如何构建镜像”，每条指令 -&gt; 一个镜像层</li>
 <li>Registry：镜像仓库，镜像的分发系统</li>
 </ul>
-<p>Docker 网络基础理论</p>
+<p>Docker 网络的四个核心组件</p>
+<ul>
+<li>Network Namespace（网络隔离）</li>
+<li>veth pair（虚拟网线）</li>
+<li>Linux bridge（docker0</li>
+<li>iptables / NAT（地址转换）</li>
+</ul>
 <p>默认 bridge 网络</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[container] --veth--&gt; [docker0] --NAT--&gt; [eth0] --&gt; Internet
+</span></span></code></pre></div><p>外部 → 容器（端口映射原理）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Client
 </span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">docker0 bridge
+</span></span><span class="line"><span class="cl">宿主机 8080
+</span></span><span class="line"><span class="cl">  ↓ (DNAT)
+</span></span><span class="line"><span class="cl">容器 80
+</span></span></code></pre></div><p>容器 → 外部（SNAT</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container 172.17.0.2
 </span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">iptables NAT
+</span></span><span class="line"><span class="cl">docker0
+</span></span><span class="line"><span class="cl">  ↓ (SNAT)
+</span></span><span class="line"><span class="cl">宿主机 IP
 </span></span><span class="line"><span class="cl">  ↓
-</span></span><span class="line"><span class="cl">宿主机网卡
-</span></span></code></pre></div><p>host 网络：与宿主机共用网络栈</p>
-<p>overlay 网络（集群）：跨宿主机容器通信</p>
-<p>Podman</p>
+</span></span><span class="line"><span class="cl">Internet
+</span></span></code></pre></div><p>host 网络：与宿主机共用网络栈，容器端口 = 宿主机端口</p>
+<p>Dockerfile</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">FROM        定义基础镜像, 必须是第一条
+</span></span><span class="line"><span class="cl">ARG         构建参数
+</span></span><span class="line"><span class="cl">ENV         环境变量
+</span></span><span class="line"><span class="cl">RUN         构建时执行
+</span></span><span class="line"><span class="cl">COPY/ADD    拷贝文件, 90% 场景用 COPY
+</span></span><span class="line"><span class="cl">WORKDIR     工作目录
+</span></span><span class="line"><span class="cl">CMD         容器启动命令 (docker run 可以覆盖)
+</span></span><span class="line"><span class="cl">ENTRYPOINT  入口点 (固定命令, docker run 不能覆盖)
+</span></span><span class="line"><span class="cl">EXPOSE      声明端口
+</span></span><span class="line"><span class="cl">VOLUME      声明挂载点
+</span></span><span class="line"><span class="cl">USER        用户
+</span></span></code></pre></div><p>可以多阶段构建</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="podman"
+    >
+        Podman
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#podman" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Podman" aria-label="Anchor to: Podman" href="#podman">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>定位：无守护进程的容器运行时，兼容 Docker CLI，强调安全性。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="kubernetes"
