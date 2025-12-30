@@ -12,10 +12,17 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta name="description" content="这是一个DevOps / CI / 安全 / 架构设计的高频“生死题”。
+——原理级、风险级、选型级深度对比 一、先给“结论版”（重要） docker.sock ≠ 安全
+DinD ≠ 干净
+生产 CI：两者都不完美，但 docker.sock 更常用
+高安全环境：两者都不推荐，优先 rootless / buildkit / kaniko
+一句话记忆：
+docker.sock 是“借刀杀人”
+DinD 是“自带一把刀”
+二、两种方式到底是什么？（本质区别） 1️⃣ docker.sock（共享宿主机 Docker） 容器 | | /var/run/docker.sock v 宿主机 dockerd volumes: - /var/run/docker.sock:/var/run/docker.sock 👉 容器里执行 docker 命令 = 操作宿主机 Docker" />
 
-    <title>Podman | ☘️ Septvean&#39;s Documents</title>
+    <title>Docker-in-Docker (DinD) vs docker.sock | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +43,35 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   <meta
     property="og:title"
-    content="Podman"
+    content="Docker-in-Docker (DinD) vs docker.sock"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta property="og:description" content="这是一个DevOps / CI / 安全 / 架构设计的高频“生死题”。
+——原理级、风险级、选型级深度对比 一、先给“结论版”（重要） docker.sock ≠ 安全
+DinD ≠ 干净
+生产 CI：两者都不完美，但 docker.sock 更常用
+高安全环境：两者都不推荐，优先 rootless / buildkit / kaniko
+一句话记忆：
+docker.sock 是“借刀杀人”
+DinD 是“自带一把刀”
+二、两种方式到底是什么？（本质区别） 1️⃣ docker.sock（共享宿主机 Docker） 容器 | | /var/run/docker.sock v 宿主机 dockerd volumes: - /var/run/docker.sock:/var/run/docker.sock 👉 容器里执行 docker 命令 = 操作宿主机 Docker" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/podman/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Podman" />
-  <meta name="twitter:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+<meta name="twitter:title" content="Docker-in-Docker (DinD) vs docker.sock" />
+  <meta name="twitter:description" content="这是一个DevOps / CI / 安全 / 架构设计的高频“生死题”。
+——原理级、风险级、选型级深度对比 一、先给“结论版”（重要） docker.sock ≠ 安全
+DinD ≠ 干净
+生产 CI：两者都不完美，但 docker.sock 更常用
+高安全环境：两者都不推荐，优先 rootless / buildkit / kaniko
+一句话记忆：
+docker.sock 是“借刀杀人”
+DinD 是“自带一把刀”
+二、两种方式到底是什么？（本质区别） 1️⃣ docker.sock（共享宿主机 Docker） 容器 | | /var/run/docker.sock v 宿主机 dockerd volumes: - /var/run/docker.sock:/var/run/docker.sock 👉 容器里执行 docker 命令 = 操作宿主机 Docker" />
 
 
   <script type="application/ld+json">
@@ -58,16 +79,16 @@ Podman 核心概念 Podman systemd 脚本优化 " />
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Podman",
-      "url" : "https://documents.v2ep.com/operations/podman/",
-      "headline": "Podman",
-      "description": "Documents List:\nPodman 核心概念 Podman systemd 脚本优化 ",
-      "wordCount" : "7",
+      "name": "Docker-in-Docker (DinD) vs docker.sock",
+      "url" : "https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/",
+      "headline": "Docker-in-Docker (DinD) vs docker.sock",
+      "description": "这是一个DevOps \/ CI \/ 安全 \/ 架构设计的高频“生死题”。\n——原理级、风险级、选型级深度对比 一、先给“结论版”（重要） docker.sock ≠ 安全\nDinD ≠ 干净\n生产 CI：两者都不完美，但 docker.sock 更常用\n高安全环境：两者都不推荐，优先 rootless \/ buildkit \/ kaniko\n一句话记忆：\ndocker.sock 是“借刀杀人”\nDinD 是“自带一把刀”\n二、两种方式到底是什么？（本质区别） 1️⃣ docker.sock（共享宿主机 Docker） 容器 | | \/var\/run\/docker.sock v 宿主机 dockerd volumes: - \/var\/run\/docker.sock:\/var\/run\/docker.sock 👉 容器里执行 docker 命令 = 操作宿主机 Docker",
+      "wordCount" : "320",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/podman/"
+          "@id": "https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +172,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/podman/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1786,7 +1807,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
                 <span class="flex">
                   <a
                     href="/operations/podman/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Podman
                   </a>
@@ -2024,7 +2045,15 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Podman</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/docker/' href='/operations/docker/'><span itemprop='name'>Docker</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Docker-in-Docker (DinD) vs docker.sock</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,45 +2072,471 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Podman</h1>
-    <p>Documents List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Docker-in-Docker (DinD) vs docker.sock</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/core/" class="gdoc-toc__entry">Podman 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/podman-systemd/" class="gdoc-toc__entry">Podman systemd 脚本优化
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>这是一个<strong>DevOps / CI / 安全 / 架构设计的高频“生死题”</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="原理级风险级选型级深度对比"
+    >
+        ——原理级、风险级、选型级深度对比
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#原理级风险级选型级深度对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ——原理级、风险级、选型级深度对比" aria-label="Anchor to: ——原理级、风险级、选型级深度对比" href="#%e5%8e%9f%e7%90%86%e7%ba%a7%e9%a3%8e%e9%99%a9%e7%ba%a7%e9%80%89%e5%9e%8b%e7%ba%a7%e6%b7%b1%e5%ba%a6%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一先给结论版重要"
+    >
+        一、先给“结论版”（重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#一先给结论版重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先给“结论版”（重要）" aria-label="Anchor to: 一、先给“结论版”（重要）" href="#%e4%b8%80%e5%85%88%e7%bb%99%e7%bb%93%e8%ae%ba%e7%89%88%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>docker.sock ≠ 安全<br />
+DinD ≠ 干净<br />
+生产 CI：两者都不完美，但 docker.sock 更常用<br />
+高安全环境：两者都不推荐，优先 rootless / buildkit / kaniko</strong></p>
+</blockquote>
+<p>一句话记忆：</p>
+<blockquote>
+<p><strong>docker.sock 是“借刀杀人”<br />
+DinD 是“自带一把刀”</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二两种方式到底是什么本质区别"
+    >
+        二、两种方式到底是什么？（本质区别）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#二两种方式到底是什么本质区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、两种方式到底是什么？（本质区别）" aria-label="Anchor to: 二、两种方式到底是什么？（本质区别）" href="#%e4%ba%8c%e4%b8%a4%e7%a7%8d%e6%96%b9%e5%bc%8f%e5%88%b0%e5%ba%95%e6%98%af%e4%bb%80%e4%b9%88%e6%9c%ac%e8%b4%a8%e5%8c%ba%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-dockersock共享宿主机-docker"
+    >
+        1️⃣ docker.sock（共享宿主机 Docker）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#1-dockersock共享宿主机-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ docker.sock（共享宿主机 Docker）" aria-label="Anchor to: 1️⃣ docker.sock（共享宿主机 Docker）" href="#1-dockersock%e5%85%b1%e4%ba%ab%e5%ae%bf%e4%b8%bb%e6%9c%ba-docker">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">容器
+</span></span><span class="line"><span class="cl">  |
+</span></span><span class="line"><span class="cl">  |  /var/run/docker.sock
+</span></span><span class="line"><span class="cl">  v
+</span></span><span class="line"><span class="cl">宿主机 dockerd
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">/var/run/docker.sock:/var/run/docker.sock</span><span class="w">
+</span></span></span></code></pre></div><p>👉 <strong>容器里执行 docker 命令 = 操作宿主机 Docker</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-docker-in-dockerdind"
+    >
+        2️⃣ Docker-in-Docker（DinD）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#2-docker-in-dockerdind" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Docker-in-Docker（DinD）" aria-label="Anchor to: 2️⃣ Docker-in-Docker（DinD）" href="#2-docker-in-dockerdind">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">容器
+</span></span><span class="line"><span class="cl"> └─ dockerd（自己的）
+</span></span><span class="line"><span class="cl">     └─ containerd
+</span></span><span class="line"><span class="cl">         └─ runc
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">docker:dind</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">privileged</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span></code></pre></div><p>👉 <strong>容器里跑一个“完整 Docker 引擎”</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三架构级对比核心差异"
+    >
+        三、架构级对比（核心差异）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#三架构级对比核心差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、架构级对比（核心差异）" aria-label="Anchor to: 三、架构级对比（核心差异）" href="#%e4%b8%89%e6%9e%b6%e6%9e%84%e7%ba%a7%e5%af%b9%e6%af%94%e6%a0%b8%e5%bf%83%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>docker.sock</th>
+          <th>DinD</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Docker 引擎</td>
+          <td>宿主机</td>
+          <td>容器内</td>
+      </tr>
+      <tr>
+          <td>daemon 数量</td>
+          <td>1</td>
+          <td>N</td>
+      </tr>
+      <tr>
+          <td>是否隔离</td>
+          <td>❌</td>
+          <td>⚠️ 部分</td>
+      </tr>
+      <tr>
+          <td>是否需要特权</td>
+          <td>❌</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>构建缓存</td>
+          <td>共享</td>
+          <td>独立</td>
+      </tr>
+      <tr>
+          <td>网络复杂度</td>
+          <td>低</td>
+          <td>高</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四安全性对比这是最重要的"
+    >
+        四、安全性对比（这是最重要的）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#四安全性对比这是最重要的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、安全性对比（这是最重要的）" aria-label="Anchor to: 四、安全性对比（这是最重要的）" href="#%e5%9b%9b%e5%ae%89%e5%85%a8%e6%80%a7%e5%af%b9%e6%af%94%e8%bf%99%e6%98%af%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="dockersock极高风险"
+    >
+        docker.sock：<strong>极高风险</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#dockersock极高风险" class="gdoc-page__anchor clip flex align-center" title="Anchor to: docker.sock：极高风险" aria-label="Anchor to: docker.sock：极高风险" href="#dockersock%e6%9e%81%e9%ab%98%e9%a3%8e%e9%99%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>谁能访问 docker.sock，谁就等于 root on host</strong></p>
+</blockquote>
+<p>攻击示例（真实）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run -v /:/host alpine chroot /host
+</span></span></code></pre></div><p>📌 后果：</p>
+<ul>
+<li>宿主机完全失陷</li>
+<li>无任何隔离</li>
+<li>审计直接 FAIL</li>
+</ul>
+<p>👉 <strong>docker.sock = root shell 的另一种形式</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="dind不是安全只是没那么直接"
+    >
+        DinD：<strong>不是安全，只是“没那么直接”</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#dind不是安全只是没那么直接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: DinD：不是安全，只是“没那么直接”" aria-label="Anchor to: DinD：不是安全，只是“没那么直接”" href="#dind%e4%b8%8d%e6%98%af%e5%ae%89%e5%85%a8%e5%8f%aa%e6%98%af%e6%b2%a1%e9%82%a3%e4%b9%88%e7%9b%b4%e6%8e%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>问题点：</p>
+<ul>
+<li>必须 <code>--privileged</code></li>
+<li>能加载内核模块</li>
+<li>能操作 cgroups / namespace</li>
+</ul>
+<p>📌 结果：</p>
+<ul>
+<li><strong>仍然可逃逸</strong></li>
+<li>只是路径更绕</li>
+</ul>
+<p>👉 <strong>DinD ≠ 安全隔离</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五性能--稳定性对比"
+    >
+        五、性能 &amp; 稳定性对比
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#五性能--稳定性对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、性能 &amp; 稳定性对比" aria-label="Anchor to: 五、性能 &amp; 稳定性对比" href="#%e4%ba%94%e6%80%a7%e8%83%bd--%e7%a8%b3%e5%ae%9a%e6%80%a7%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="dockersock"
+    >
+        docker.sock
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#dockersock" class="gdoc-page__anchor clip flex align-center" title="Anchor to: docker.sock" aria-label="Anchor to: docker.sock" href="#dockersock">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 构建速度快
+✅ 缓存共享
+✅ 网络简单
+❌ 容易互相污染（删镜像）</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="dind"
+    >
+        DinD
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#dind" class="gdoc-page__anchor clip flex align-center" title="Anchor to: DinD" aria-label="Anchor to: DinD" href="#dind">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 环境相对干净
+✅ 不污染宿主镜像
+❌ 构建慢
+❌ 镜像重复下载
+❌ overlay2 套 overlay2（性能差）</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六cicd-场景下真实对比"
+    >
+        六、CI/CD 场景下真实对比
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#六cicd-场景下真实对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、CI/CD 场景下真实对比" aria-label="Anchor to: 六、CI/CD 场景下真实对比" href="#%e5%85%adcicd-%e5%9c%ba%e6%99%af%e4%b8%8b%e7%9c%9f%e5%ae%9e%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="gitlab-ci--jenkins-中的现实"
+    >
+        GitLab CI / Jenkins 中的现实
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#gitlab-ci--jenkins-中的现实" class="gdoc-page__anchor clip flex align-center" title="Anchor to: GitLab CI / Jenkins 中的现实" aria-label="Anchor to: GitLab CI / Jenkins 中的现实" href="#gitlab-ci--jenkins-%e4%b8%ad%e7%9a%84%e7%8e%b0%e5%ae%9e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>docker.sock</th>
+          <th>DinD</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>使用率</td>
+          <td>⭐⭐⭐⭐⭐</td>
+          <td>⭐⭐</td>
+      </tr>
+      <tr>
+          <td>排障难度</td>
+          <td>低</td>
+          <td>高</td>
+      </tr>
+      <tr>
+          <td>并发稳定性</td>
+          <td>一般</td>
+          <td>差</td>
+      </tr>
+      <tr>
+          <td>安全审计</td>
+          <td>❌</td>
+          <td>❌</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>📌 <strong>大厂 CI 实际：docker.sock 居多（加隔离）</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七常见错误认知纠正"
+    >
+        七、常见“错误认知”纠正
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#七常见错误认知纠正" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、常见“错误认知”纠正" aria-label="Anchor to: 七、常见“错误认知”纠正" href="#%e4%b8%83%e5%b8%b8%e8%a7%81%e9%94%99%e8%af%af%e8%ae%a4%e7%9f%a5%e7%ba%a0%e6%ad%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-误区-1dind-很安全"
+    >
+        ❌ 误区 1：DinD 很安全
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#-误区-1dind-很安全" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 误区 1：DinD 很安全" aria-label="Anchor to: ❌ 误区 1：DinD 很安全" href="#-%e8%af%af%e5%8c%ba-1dind-%e5%be%88%e5%ae%89%e5%85%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>-&gt; <strong>错，privileged 是致命点</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-误区-2dockersock-只是个文件"
+    >
+        ❌ 误区 2：docker.sock 只是个文件
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#-误区-2dockersock-只是个文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 误区 2：docker.sock 只是个文件" aria-label="Anchor to: ❌ 误区 2：docker.sock 只是个文件" href="#-%e8%af%af%e5%8c%ba-2dockersock-%e5%8f%aa%e6%98%af%e4%b8%aa%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>-&gt; <strong>错，是 Docker API 的 root 接口</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-误区-3dind-更适合生产"
+    >
+        ❌ 误区 3：DinD 更适合生产
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#-误区-3dind-更适合生产" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 误区 3：DinD 更适合生产" aria-label="Anchor to: ❌ 误区 3：DinD 更适合生产" href="#-%e8%af%af%e5%8c%ba-3dind-%e6%9b%b4%e9%80%82%e5%90%88%e7%94%9f%e4%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>-&gt; <strong>错，生产根本不该在容器里 build 镜像</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八真正更好的替代方案重点"
+    >
+        八、真正“更好的替代方案”（重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#八真正更好的替代方案重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、真正“更好的替代方案”（重点）" aria-label="Anchor to: 八、真正“更好的替代方案”（重点）" href="#%e5%85%ab%e7%9c%9f%e6%ad%a3%e6%9b%b4%e5%a5%bd%e7%9a%84%e6%9b%bf%e4%bb%a3%e6%96%b9%e6%a1%88%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-buildkit--buildx推荐"
+    >
+        1️⃣ BuildKit + buildx（推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#1-buildkit--buildx推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ BuildKit &#43; buildx（推荐）" aria-label="Anchor to: 1️⃣ BuildKit &#43; buildx（推荐）" href="#1-buildkit--buildx%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker buildx build
+</span></span></code></pre></div><ul>
+<li>无需 docker.sock（可控）</li>
+<li>支持远程 builder</li>
+<li>支持 rootless</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-kanikokubernetes-场景"
+    >
+        2️⃣ Kaniko（Kubernetes 场景）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#2-kanikokubernetes-场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Kaniko（Kubernetes 场景）" aria-label="Anchor to: 2️⃣ Kaniko（Kubernetes 场景）" href="#2-kanikokubernetes-%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 无需 Docker daemon
+✅ 无特权
+✅ 云原生友好</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-podman--buildah"
+    >
+        3️⃣ Podman / Buildah
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#3-podman--buildah" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Podman / Buildah" aria-label="Anchor to: 3️⃣ Podman / Buildah" href="#3-podman--buildah">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">buildah bud
+</span></span></code></pre></div><p>✅ daemonless
+✅ rootless
+✅ 安全审计友好</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九2025-年真实选型建议直接抄"
+    >
+        九、2025 年真实选型建议（直接抄）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#九2025-年真实选型建议直接抄" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、2025 年真实选型建议（直接抄）" aria-label="Anchor to: 九、2025 年真实选型建议（直接抄）" href="#%e4%b9%9d2025-%e5%b9%b4%e7%9c%9f%e5%ae%9e%e9%80%89%e5%9e%8b%e5%bb%ba%e8%ae%ae%e7%9b%b4%e6%8e%a5%e6%8a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-可以用-dockersock-的场景"
+    >
+        ✔ 可以用 docker.sock 的场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#-可以用-dockersock-的场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✔ 可以用 docker.sock 的场景" aria-label="Anchor to: ✔ 可以用 docker.sock 的场景" href="#-%e5%8f%af%e4%bb%a5%e7%94%a8-dockersock-%e7%9a%84%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>内部 CI</li>
+<li>非安全敏感</li>
+<li>构建机器独占</li>
+<li>有沙箱 / VM 隔离</li>
+</ul>
+<p>📌 <strong>前提：CI Runner 是独立 VM</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-勉强用-dind-的场景"
+    >
+        ⚠️ 勉强用 DinD 的场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#-勉强用-dind-的场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚠️ 勉强用 DinD 的场景" aria-label="Anchor to: ⚠️ 勉强用 DinD 的场景" href="#-%e5%8b%89%e5%bc%ba%e7%94%a8-dind-%e7%9a%84%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>多租户 CI</li>
+<li>需要镜像隔离</li>
+<li>不允许访问宿主 Docker</li>
+</ul>
+<p>📌 但仍需 VM 级隔离</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-强烈推荐的方式"
+    >
+        ✅ 强烈推荐的方式
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#-强烈推荐的方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 强烈推荐的方式" aria-label="Anchor to: ✅ 强烈推荐的方式" href="#-%e5%bc%ba%e7%83%88%e6%8e%a8%e8%8d%90%e7%9a%84%e6%96%b9%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>推荐</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>本地开发</td>
+          <td>Docker</td>
+      </tr>
+      <tr>
+          <td>CI 构建</td>
+          <td>buildx / Kaniko</td>
+      </tr>
+      <tr>
+          <td>生产</td>
+          <td>不在容器内构建</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十面试高分回答模板"
+    >
+        十、面试“高分回答模板”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#十面试高分回答模板" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、面试“高分回答模板”" aria-label="Anchor to: 十、面试“高分回答模板”" href="#%e5%8d%81%e9%9d%a2%e8%af%95%e9%ab%98%e5%88%86%e5%9b%9e%e7%ad%94%e6%a8%a1%e6%9d%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>docker.sock 是直接共享宿主机 Docker API，等价于 root 权限，安全风险极高；Docker-in-Docker 通过在容器内运行独立 daemon 提供一定隔离，但仍需 privileged，不能视为安全。现代 CI 更推荐使用 BuildKit、Kaniko 或 rootless 构建方案。</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一三句话终极总结"
+    >
+        十一、三句话终极总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/docker/dind-vs-docker-sock/#十一三句话终极总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、三句话终极总结" aria-label="Anchor to: 十一、三句话终极总结" href="#%e5%8d%81%e4%b8%80%e4%b8%89%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>docker.sock：最快，但最危险</strong><br />
+<strong>DinD：看似隔离，实则脆弱</strong><br />
+<strong>真正安全：不在容器里跑 Docker</strong></p>
+</blockquote>
 
   </article>
 
@@ -3149,9 +3604,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
 
         
-          
-          
-        
 
         
           
@@ -3173,11 +3625,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3284,27 +3731,9 @@ Podman 核心概念 Podman systemd 脚本优化 " />
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/nginx/"
-      title="Nginx"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Nginx
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/vsftpd/"
-      title="vsftpd"
-    >
-      vsftpd
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

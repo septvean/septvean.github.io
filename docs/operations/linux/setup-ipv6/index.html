@@ -12,10 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta name="description" content="这是一个非常好的、而且是“架构层面”的问题。结论其实并不复杂，但判断逻辑一定要正确。
+先给结论（给运维 / 架构决策用） 内网 Linux 服务器： ❌“没有强需求，不建议主动禁用 IPv6” ✅“建议保持可用但不使用（不配地址、不走流量）”
+禁用 IPv6 ≠ 更安全 ≠ 更稳定
+在现代 Linux（RHEL / AlmaLinux 9&#43;）里，禁用 IPv6 反而更容易踩坑。
+一、为什么很多人“想禁用 IPv6”（动机是对的） 内网服务器常见的想法：
+公司网络不用 IPv6 所有业务只跑 IPv4 不想增加复杂度 安全团队要求“没用就关” 👉 这些想法在 2015 年以前 是合理的 👉 在 RHEL 8 / 9 / systemd 时代，已经不再完全成立 二、为什么在现代 Linux 中“不建议禁用 IPv6” 1️⃣ IPv6 已经是 Linux 网络栈的一部分（不是插件） 在 RHEL / AlmaLinux 9：" />
 
-    <title>Podman | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux 系统，内网服务器，有没有必要禁用 IPv6？ | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +40,29 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   <meta
     property="og:title"
-    content="Podman"
+    content="Linux 系统，内网服务器，有没有必要禁用 IPv6？"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta property="og:description" content="这是一个非常好的、而且是“架构层面”的问题。结论其实并不复杂，但判断逻辑一定要正确。
+先给结论（给运维 / 架构决策用） 内网 Linux 服务器： ❌“没有强需求，不建议主动禁用 IPv6” ✅“建议保持可用但不使用（不配地址、不走流量）”
+禁用 IPv6 ≠ 更安全 ≠ 更稳定
+在现代 Linux（RHEL / AlmaLinux 9&#43;）里，禁用 IPv6 反而更容易踩坑。
+一、为什么很多人“想禁用 IPv6”（动机是对的） 内网服务器常见的想法：
+公司网络不用 IPv6 所有业务只跑 IPv4 不想增加复杂度 安全团队要求“没用就关” 👉 这些想法在 2015 年以前 是合理的 👉 在 RHEL 8 / 9 / systemd 时代，已经不再完全成立 二、为什么在现代 Linux 中“不建议禁用 IPv6” 1️⃣ IPv6 已经是 Linux 网络栈的一部分（不是插件） 在 RHEL / AlmaLinux 9：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/podman/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/setup-ipv6/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Podman" />
-  <meta name="twitter:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+<meta name="twitter:title" content="Linux 系统，内网服务器，有没有必要禁用 IPv6？" />
+  <meta name="twitter:description" content="这是一个非常好的、而且是“架构层面”的问题。结论其实并不复杂，但判断逻辑一定要正确。
+先给结论（给运维 / 架构决策用） 内网 Linux 服务器： ❌“没有强需求，不建议主动禁用 IPv6” ✅“建议保持可用但不使用（不配地址、不走流量）”
+禁用 IPv6 ≠ 更安全 ≠ 更稳定
+在现代 Linux（RHEL / AlmaLinux 9&#43;）里，禁用 IPv6 反而更容易踩坑。
+一、为什么很多人“想禁用 IPv6”（动机是对的） 内网服务器常见的想法：
+公司网络不用 IPv6 所有业务只跑 IPv4 不想增加复杂度 安全团队要求“没用就关” 👉 这些想法在 2015 年以前 是合理的 👉 在 RHEL 8 / 9 / systemd 时代，已经不再完全成立 二、为什么在现代 Linux 中“不建议禁用 IPv6” 1️⃣ IPv6 已经是 Linux 网络栈的一部分（不是插件） 在 RHEL / AlmaLinux 9：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +70,16 @@ Podman 核心概念 Podman systemd 脚本优化 " />
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Podman",
-      "url" : "https://documents.v2ep.com/operations/podman/",
-      "headline": "Podman",
-      "description": "Documents List:\nPodman 核心概念 Podman systemd 脚本优化 ",
-      "wordCount" : "7",
+      "name": "Linux 系统，内网服务器，有没有必要禁用 IPv6？",
+      "url" : "https://documents.v2ep.com/operations/linux/setup-ipv6/",
+      "headline": "Linux 系统，内网服务器，有没有必要禁用 IPv6？",
+      "description": "这是一个非常好的、而且是“架构层面”的问题。结论其实并不复杂，但判断逻辑一定要正确。\n先给结论（给运维 \/ 架构决策用） 内网 Linux 服务器： ❌“没有强需求，不建议主动禁用 IPv6” ✅“建议保持可用但不使用（不配地址、不走流量）”\n禁用 IPv6 ≠ 更安全 ≠ 更稳定\n在现代 Linux（RHEL \/ AlmaLinux 9\u002b）里，禁用 IPv6 反而更容易踩坑。\n一、为什么很多人“想禁用 IPv6”（动机是对的） 内网服务器常见的想法：\n公司网络不用 IPv6 所有业务只跑 IPv4 不想增加复杂度 安全团队要求“没用就关” 👉 这些想法在 2015 年以前 是合理的 👉 在 RHEL 8 \/ 9 \/ systemd 时代，已经不再完全成立 二、为什么在现代 Linux 中“不建议禁用 IPv6” 1️⃣ IPv6 已经是 Linux 网络栈的一部分（不是插件） 在 RHEL \/ AlmaLinux 9：",
+      "wordCount" : "488",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/podman/"
+          "@id": "https://documents.v2ep.com/operations/linux/setup-ipv6/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +163,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/podman/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/setup-ipv6/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1786,7 +1798,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
                 <span class="flex">
                   <a
                     href="/operations/podman/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Podman
                   </a>
@@ -2024,7 +2036,15 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Podman</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 系统，内网服务器，有没有必要禁用 IPv6？</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,45 +2063,624 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Podman</h1>
-    <p>Documents List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Linux 系统，内网服务器，有没有必要禁用 IPv6？</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/core/" class="gdoc-toc__entry">Podman 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/podman-systemd/" class="gdoc-toc__entry">Podman systemd 脚本优化
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>这是一个<strong>非常好的、而且是“架构层面”的问题</strong>。结论其实并不复杂，但<strong>判断逻辑一定要正确</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="先给结论给运维--架构决策用"
+    >
+        先给结论（给运维 / 架构决策用）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#先给结论给运维--架构决策用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 先给结论（给运维 / 架构决策用）" aria-label="Anchor to: 先给结论（给运维 / 架构决策用）" href="#%e5%85%88%e7%bb%99%e7%bb%93%e8%ae%ba%e7%bb%99%e8%bf%90%e7%bb%b4--%e6%9e%b6%e6%9e%84%e5%86%b3%e7%ad%96%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>内网 Linux 服务器：
+❌“没有强需求，不建议主动禁用 IPv6”
+✅“建议保持可用但不使用（不配地址、不走流量）”</strong></p>
+</blockquote>
+<p><strong>禁用 IPv6 ≠ 更安全 ≠ 更稳定</strong></p>
+<p>在现代 Linux（RHEL / AlmaLinux 9+）里，<strong>禁用 IPv6 反而更容易踩坑</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一为什么很多人想禁用-ipv6动机是对的"
+    >
+        一、为什么很多人“想禁用 IPv6”（动机是对的）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#一为什么很多人想禁用-ipv6动机是对的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、为什么很多人“想禁用 IPv6”（动机是对的）" aria-label="Anchor to: 一、为什么很多人“想禁用 IPv6”（动机是对的）" href="#%e4%b8%80%e4%b8%ba%e4%bb%80%e4%b9%88%e5%be%88%e5%a4%9a%e4%ba%ba%e6%83%b3%e7%a6%81%e7%94%a8-ipv6%e5%8a%a8%e6%9c%ba%e6%98%af%e5%af%b9%e7%9a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>内网服务器常见的想法：</p>
+<ol>
+<li><strong>公司网络不用 IPv6</strong></li>
+<li><strong>所有业务只跑 IPv4</strong></li>
+<li><strong>不想增加复杂度</strong></li>
+<li><strong>安全团队要求“没用就关”</strong></li>
+</ol>
+<ul>
+<li>👉 这些想法在 <strong>2015 年以前</strong> 是合理的</li>
+<li>👉 在 <strong>RHEL 8 / 9 / systemd 时代</strong>，已经不再完全成立</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二为什么在现代-linux-中不建议禁用-ipv6"
+    >
+        二、为什么在现代 Linux 中“不建议禁用 IPv6”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#二为什么在现代-linux-中不建议禁用-ipv6" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么在现代 Linux 中“不建议禁用 IPv6”" aria-label="Anchor to: 二、为什么在现代 Linux 中“不建议禁用 IPv6”" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e5%9c%a8%e7%8e%b0%e4%bb%a3-linux-%e4%b8%ad%e4%b8%8d%e5%bb%ba%e8%ae%ae%e7%a6%81%e7%94%a8-ipv6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-ipv6-已经是-linux-网络栈的一部分不是插件"
+    >
+        1️⃣ IPv6 已经是 Linux 网络栈的一部分（不是插件）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#1-ipv6-已经是-linux-网络栈的一部分不是插件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ IPv6 已经是 Linux 网络栈的一部分（不是插件）" aria-label="Anchor to: 1️⃣ IPv6 已经是 Linux 网络栈的一部分（不是插件）" href="#1-ipv6-%e5%b7%b2%e7%bb%8f%e6%98%af-linux-%e7%bd%91%e7%bb%9c%e6%a0%88%e7%9a%84%e4%b8%80%e9%83%a8%e5%88%86%e4%b8%8d%e6%98%af%e6%8f%92%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 RHEL / AlmaLinux 9：</p>
+<ul>
+<li>IPv6 <strong>是内核一级公民</strong></li>
+<li>systemd、glibc、NetworkManager 默认假设 IPv6 存在</li>
+<li>很多服务 <strong>先尝试 IPv6，再回退 IPv4</strong></li>
+</ul>
+<p>禁用 IPv6 会导致：</p>
+<ul>
+<li>socket 激活异常（你已经遇到 rpcbind）</li>
+<li>服务启动变慢甚至失败</li>
+<li>出现 “tcp6 / udp6 但不可用” 的诡异状态</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-禁用-ipv6--减少攻击面这是误解"
+    >
+        2️⃣ 禁用 IPv6 ≠ 减少攻击面（这是误解）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#2-禁用-ipv6--减少攻击面这是误解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 禁用 IPv6 ≠ 减少攻击面（这是误解）" aria-label="Anchor to: 2️⃣ 禁用 IPv6 ≠ 减少攻击面（这是误解）" href="#2-%e7%a6%81%e7%94%a8-ipv6--%e5%87%8f%e5%b0%91%e6%94%bb%e5%87%bb%e9%9d%a2%e8%bf%99%e6%98%af%e8%af%af%e8%a7%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>现实情况是：</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>内网</td>
+          <td>本来就被边界防护</td>
+      </tr>
+      <tr>
+          <td>IPv6</td>
+          <td>没地址就无法通信</td>
+      </tr>
+      <tr>
+          <td>服务监听</td>
+          <td>默认还是 IPv4</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>👉 <strong>没有 IPv6 地址 ≈ 不可达</strong></p>
+<p>而<strong>彻底禁用 IPv6</strong>：</p>
+<ul>
+<li>反而可能绕过你预期的安全路径</li>
+<li>触发服务 fallback bug</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-systemd--socket-激活-对-ipv6-非常敏感"
+    >
+        3️⃣ systemd + socket 激活 对 IPv6 非常敏感
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#3-systemd--socket-激活-对-ipv6-非常敏感" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ systemd &#43; socket 激活 对 IPv6 非常敏感" aria-label="Anchor to: 3️⃣ systemd &#43; socket 激活 对 IPv6 非常敏感" href="#3-systemd--socket-%e6%bf%80%e6%b4%bb-%e5%af%b9-ipv6-%e9%9d%9e%e5%b8%b8%e6%95%8f%e6%84%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你已经亲身经历：</p>
+<ul>
+<li>rpcbind</li>
+<li>NetworkManager-wait-online</li>
+<li>某些 Java / Go 服务</li>
+</ul>
+<p>这是<strong>结构性问题，不是配置问题</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三什么时候应该禁用-ipv6少数场景"
+    >
+        三、什么时候“应该禁用 IPv6”（少数场景）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#三什么时候应该禁用-ipv6少数场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、什么时候“应该禁用 IPv6”（少数场景）" aria-label="Anchor to: 三、什么时候“应该禁用 IPv6”（少数场景）" href="#%e4%b8%89%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e5%ba%94%e8%af%a5%e7%a6%81%e7%94%a8-ipv6%e5%b0%91%e6%95%b0%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>以下情况 <strong>可以禁用</strong>，但要非常清楚自己在做什么：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-1-极简系统--专用-appliance"
+    >
+        ✅ 1️⃣ 极简系统 / 专用 appliance
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#-1-极简系统--专用-appliance" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 1️⃣ 极简系统 / 专用 appliance" aria-label="Anchor to: ✅ 1️⃣ 极简系统 / 专用 appliance" href="#-1-%e6%9e%81%e7%ae%80%e7%b3%bb%e7%bb%9f--%e4%b8%93%e7%94%a8-appliance">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>防火墙</li>
+<li>路由器</li>
+<li>存储节点（已验证）</li>
+</ul>
+<p>并且你：</p>
+<ul>
+<li>全面测试过</li>
+<li>控制所有 systemd socket</li>
+<li>不依赖 NetworkManager</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-2-明确的合规--安全审计要求"
+    >
+        ✅ 2️⃣ 明确的合规 / 安全审计要求
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#-2-明确的合规--安全审计要求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 2️⃣ 明确的合规 / 安全审计要求" aria-label="Anchor to: ✅ 2️⃣ 明确的合规 / 安全审计要求" href="#-2-%e6%98%8e%e7%a1%ae%e7%9a%84%e5%90%88%e8%a7%84--%e5%ae%89%e5%85%a8%e5%ae%a1%e8%ae%a1%e8%a6%81%e6%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>例如：</p>
+<ul>
+<li>
+<p>金融、政务</p>
+</li>
+<li>
+<p>明确写在审计条款里：</p>
+<blockquote>
+<p>“禁止启用 IPv6 协议栈”</p>
+</blockquote>
+</li>
+</ul>
+<p>这种属于 <strong>政策驱动，而不是技术最优解</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四推荐方案生产环境最佳实践"
+    >
+        四、推荐方案（生产环境最佳实践）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#四推荐方案生产环境最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、推荐方案（生产环境最佳实践）" aria-label="Anchor to: 四、推荐方案（生产环境最佳实践）" href="#%e5%9b%9b%e6%8e%a8%e8%8d%90%e6%96%b9%e6%a1%88%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-推荐等级"
+    >
+        ✅ 推荐等级：⭐⭐⭐⭐⭐
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#-推荐等级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 推荐等级：⭐⭐⭐⭐⭐" aria-label="Anchor to: ✅ 推荐等级：⭐⭐⭐⭐⭐" href="#-%e6%8e%a8%e8%8d%90%e7%ad%89%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-不禁用-ipv6但不使用-ipv6"
+    >
+        🎯 不禁用 IPv6，但不使用 IPv6
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#-不禁用-ipv6但不使用-ipv6" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 不禁用 IPv6，但不使用 IPv6" aria-label="Anchor to: 🎯 不禁用 IPv6，但不使用 IPv6" href="#-%e4%b8%8d%e7%a6%81%e7%94%a8-ipv6%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8-ipv6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>这是内网服务器的最优解</strong>。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="做法"
+    >
+        做法
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#做法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 做法" aria-label="Anchor to: 做法" href="#%e5%81%9a%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li><strong>不要分配 IPv6 地址</strong></li>
+<li><strong>不要配置 IPv6 路由</strong></li>
+<li><strong>防火墙不放行 IPv6</strong></li>
+<li><strong>不动内核参数</strong></li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="结果"
+    >
+        结果
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#结果" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 结果" aria-label="Anchor to: 结果" href="#%e7%bb%93%e6%9e%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>IPv6 协议栈存在</li>
+<li>systemd / 服务正常</li>
+<li>实际流量 100% IPv4</li>
+<li>零踩坑</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五如果你非要禁用必须满足的条件"
+    >
+        五、如果你“非要禁用”，必须满足的条件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#五如果你非要禁用必须满足的条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、如果你“非要禁用”，必须满足的条件" aria-label="Anchor to: 五、如果你“非要禁用”，必须满足的条件" href="#%e4%ba%94%e5%a6%82%e6%9e%9c%e4%bd%a0%e9%9d%9e%e8%a6%81%e7%a6%81%e7%94%a8%e5%bf%85%e9%a1%bb%e6%bb%a1%e8%b6%b3%e7%9a%84%e6%9d%a1%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你坚持禁用 IPv6，<strong>必须同时做到</strong>：</p>
+<ol>
+<li><strong>sysctl 禁用 IPv6</strong></li>
+<li><strong>修复所有 socket-activated 服务</strong></li>
+<li><strong>NetworkManager / systemd 全部 IPv4-only</strong></li>
+<li><strong>完整重启测试</strong></li>
+<li><strong>禁止用 modprobe 阻断 IPv6（RHEL 9 已不推荐）</strong></li>
+</ol>
+<blockquote>
+<p>这是一个 <strong>高维护成本方案</strong>，不适合大规模服务器</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六用一句话给老板--安全--运维解释"
+    >
+        六、用一句话给老板 / 安全 / 运维解释
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#六用一句话给老板--安全--运维解释" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、用一句话给老板 / 安全 / 运维解释" aria-label="Anchor to: 六、用一句话给老板 / 安全 / 运维解释" href="#%e5%85%ad%e7%94%a8%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%99%e8%80%81%e6%9d%bf--%e5%ae%89%e5%85%a8--%e8%bf%90%e7%bb%b4%e8%a7%a3%e9%87%8a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>可以直接用这句话：</p>
+<blockquote>
+<p><strong>在现代 Linux 系统中，IPv6 是基础能力，不启用地址即可保证不用 IPv6；强行禁用反而会引入 systemd 与服务启动风险。</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七最终决策表速查"
+    >
+        七、最终决策表（速查）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#七最终决策表速查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、最终决策表（速查）" aria-label="Anchor to: 七、最终决策表（速查）" href="#%e4%b8%83%e6%9c%80%e7%bb%88%e5%86%b3%e7%ad%96%e8%a1%a8%e9%80%9f%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>建议</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>内网业务服务器</td>
+          <td>❌ 不禁用</td>
+      </tr>
+      <tr>
+          <td>K8S / Docker 节点</td>
+          <td>❌ 不禁用</td>
+      </tr>
+      <tr>
+          <td>数据库服务器</td>
+          <td>❌ 不禁用</td>
+      </tr>
+      <tr>
+          <td>安全合规强制要求</td>
+          <td>⚠️ 谨慎禁用</td>
+      </tr>
+      <tr>
+          <td>网络设备 / appliance</td>
+          <td>✅ 可禁用</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="不禁用-ipv6但不使用-ipv6nmcli-ipv6method-配置成什么比较好"
+    >
+        不禁用 IPv6，但不使用 IPv6，nmcli ipv6.method 配置成什么比较好？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#不禁用-ipv6但不使用-ipv6nmcli-ipv6method-配置成什么比较好" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 不禁用 IPv6，但不使用 IPv6，nmcli ipv6.method 配置成什么比较好？" aria-label="Anchor to: 不禁用 IPv6，但不使用 IPv6，nmcli ipv6.method 配置成什么比较好？" href="#%e4%b8%8d%e7%a6%81%e7%94%a8-ipv6%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8-ipv6nmcli-ipv6method-%e9%85%8d%e7%bd%ae%e6%88%90%e4%bb%80%e4%b9%88%e6%af%94%e8%be%83%e5%a5%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这是一个<strong>非常专业、而且问到点子上的问题</strong> 👍</p>
+<p>这个场景的目标其实只有一句话：</p>
+<blockquote>
+<p><strong>IPv6 协议栈存在，但接口不获取 IPv6 地址、不走 IPv6 流量、不影响 systemd 和服务启动</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-直接给结论推荐配置"
+    >
+        ✅ 直接给结论（推荐配置）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#-直接给结论推荐配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 直接给结论（推荐配置）" aria-label="Anchor to: ✅ 直接给结论（推荐配置）" href="#-%e7%9b%b4%e6%8e%a5%e7%bb%99%e7%bb%93%e8%ae%ba%e6%8e%a8%e8%8d%90%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>在 NetworkManager 中：
+👉 <code>ipv6.method ignore</code> 是最优选择</strong></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmcli connection modify &lt;连接名&gt; ipv6.method ignore
+</span></span><span class="line"><span class="cl">nmcli connection up &lt;连接名&gt;
+</span></span></code></pre></div><p>这是 <strong>“不禁用 IPv6，但彻底不使用 IPv6”</strong> 的标准做法。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一nmcli-中-ipv6method-各取值含义必须搞清楚"
+    >
+        一、nmcli 中 ipv6.method 各取值含义（必须搞清楚）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#一nmcli-中-ipv6method-各取值含义必须搞清楚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、nmcli 中 ipv6.method 各取值含义（必须搞清楚）" aria-label="Anchor to: 一、nmcli 中 ipv6.method 各取值含义（必须搞清楚）" href="#%e4%b8%80nmcli-%e4%b8%ad-ipv6method-%e5%90%84%e5%8f%96%e5%80%bc%e5%90%ab%e4%b9%89%e5%bf%85%e9%a1%bb%e6%90%9e%e6%b8%85%e6%a5%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-ignore-强烈推荐"
+    >
+        1️⃣ <code>ignore</code> ✅（强烈推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#1-ignore-强烈推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ ignore ✅（强烈推荐）" aria-label="Anchor to: 1️⃣ ignore ✅（强烈推荐）" href="#1-ignore-%e5%bc%ba%e7%83%88%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ipv6.method = ignore
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="含义关键点"
+    >
+        含义（关键点）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#含义关键点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 含义（关键点）" aria-label="Anchor to: 含义（关键点）" href="#%e5%90%ab%e4%b9%89%e5%85%b3%e9%94%ae%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>不进行任何 IPv6 操作</li>
+<li>不发送 RA</li>
+<li>不获取 IPv6 地址</li>
+<li>不配置 IPv6 路由</li>
+<li>不启动 IPv6 DHCP 客户端</li>
+<li><strong>但内核 IPv6 协议栈仍然存在</strong></li>
+</ul>
+<p>👉 <strong>这是最“干净”的方式</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="适合场景"
+    >
+        适合场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#适合场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 适合场景" aria-label="Anchor to: 适合场景" href="#%e9%80%82%e5%90%88%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>内网服务器</li>
+<li>数据库</li>
+<li>中间件</li>
+<li>K8S 节点（只用 IPv4）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-disabled-不推荐"
+    >
+        2️⃣ <code>disabled</code> ❌（不推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#2-disabled-不推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ disabled ❌（不推荐）" aria-label="Anchor to: 2️⃣ disabled ❌（不推荐）" href="#2-disabled-%e4%b8%8d%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ipv6.method = disabled
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="问题点"
+    >
+        问题点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#问题点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 问题点" aria-label="Anchor to: 问题点" href="#%e9%97%ae%e9%a2%98%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>会在接口层面关闭 IPv6</li>
+<li>可能触发 systemd / socket / 服务的异常行为</li>
+<li>在 RHEL 9 / AlmaLinux 9 中<strong>踩坑概率高</strong></li>
+</ul>
+<p>👉 <strong>这是“接口级禁用”，不是“不用”</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-auto默认"
+    >
+        3️⃣ <code>auto</code>（默认）⚠️
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#3-auto默认" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ auto（默认）⚠️" aria-label="Anchor to: 3️⃣ auto（默认）⚠️" href="#3-auto%e9%bb%98%e8%ae%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ipv6.method = auto
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="行为"
+    >
+        行为
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#行为" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 行为" aria-label="Anchor to: 行为" href="#%e8%a1%8c%e4%b8%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>接收 RA</li>
+<li>自动生成 IPv6 地址（通常是 link-local + global）</li>
+<li>可能出现你“不想用但它用了”的情况</li>
+</ul>
+<p>👉 不符合你的目标</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-dhcp-"
+    >
+        4️⃣ <code>dhcp</code> ⚠️
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#4-dhcp-" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ dhcp ⚠️" aria-label="Anchor to: 4️⃣ dhcp ⚠️" href="#4-dhcp-">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ipv6.method = dhcp
+</span></span></code></pre></div><ul>
+<li>明确使用 DHCPv6</li>
+<li>企业网络偶尔使用</li>
+<li>内网服务器一般不需要</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-link-local-少数场景"
+    >
+        5️⃣ <code>link-local</code> ⚠️（少数场景）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#5-link-local-少数场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ link-local ⚠️（少数场景）" aria-label="Anchor to: 5️⃣ link-local ⚠️（少数场景）" href="#5-link-local-%e5%b0%91%e6%95%b0%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ipv6.method = link-local
+</span></span></code></pre></div><ul>
+<li>只保留 <code>fe80::/64</code></li>
+<li>不可路由</li>
+<li>systemd 仍认为 IPv6 可用</li>
+</ul>
+<p>📌 一般 <strong>K8S / 某些集群</strong> 才用，普通内网服务器不必。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二为什么-ignore-是最安全不踩坑的方案"
+    >
+        二、为什么 <code>ignore</code> 是“最安全、不踩坑”的方案？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#二为什么-ignore-是最安全不踩坑的方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么 ignore 是“最安全、不踩坑”的方案？" aria-label="Anchor to: 二、为什么 ignore 是“最安全、不踩坑”的方案？" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88-ignore-%e6%98%af%e6%9c%80%e5%ae%89%e5%85%a8%e4%b8%8d%e8%b8%a9%e5%9d%91%e7%9a%84%e6%96%b9%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="对比一下三种常见做法"
+    >
+        对比一下三种常见做法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#对比一下三种常见做法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 对比一下三种常见做法" aria-label="Anchor to: 对比一下三种常见做法" href="#%e5%af%b9%e6%af%94%e4%b8%80%e4%b8%8b%e4%b8%89%e7%a7%8d%e5%b8%b8%e8%a7%81%e5%81%9a%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>systemd</th>
+          <th>服务启动</th>
+          <th>IPv6 地址</th>
+          <th>风险</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>sysctl 禁用</td>
+          <td>❌</td>
+          <td>❌</td>
+          <td>无</td>
+          <td>高</td>
+      </tr>
+      <tr>
+          <td>ipv6.method disabled</td>
+          <td>⚠️</td>
+          <td>⚠️</td>
+          <td>无</td>
+          <td>中</td>
+      </tr>
+      <tr>
+          <td><strong>ipv6.method ignore</strong></td>
+          <td>✅</td>
+          <td>✅</td>
+          <td>无</td>
+          <td><strong>最低</strong></td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三推荐的内网服务器标准网络模板"
+    >
+        三、推荐的“内网服务器标准网络模板”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#三推荐的内网服务器标准网络模板" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、推荐的“内网服务器标准网络模板”" aria-label="Anchor to: 三、推荐的“内网服务器标准网络模板”" href="#%e4%b8%89%e6%8e%a8%e8%8d%90%e7%9a%84%e5%86%85%e7%bd%91%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%a0%87%e5%87%86%e7%bd%91%e7%bb%9c%e6%a8%a1%e6%9d%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你可以把它当成规范用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmcli connection modify &lt;conn&gt; <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  ipv4.method manual <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  ipv4.addresses 10.0.0.10/24 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  ipv4.gateway 10.0.0.1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  ipv4.dns <span class="s2">&#34;10.0.0.2&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  ipv6.method ignore
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四验证方式一定要检查"
+    >
+        四、验证方式（一定要检查）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#四验证方式一定要检查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、验证方式（一定要检查）" aria-label="Anchor to: 四、验证方式（一定要检查）" href="#%e5%9b%9b%e9%aa%8c%e8%af%81%e6%96%b9%e5%bc%8f%e4%b8%80%e5%ae%9a%e8%a6%81%e6%a3%80%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-接口状态"
+    >
+        1️⃣ 接口状态
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#1-接口状态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 接口状态" aria-label="Anchor to: 1️⃣ 接口状态" href="#1-%e6%8e%a5%e5%8f%a3%e7%8a%b6%e6%80%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ip -6 addr show
+</span></span></code></pre></div><p>👉 应 <strong>没有 global IPv6 地址</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-路由"
+    >
+        2️⃣ 路由
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#2-路由" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 路由" aria-label="Anchor to: 2️⃣ 路由" href="#2-%e8%b7%af%e7%94%b1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ip -6 route
+</span></span></code></pre></div><p>👉 应为空</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-服务监听正常"
+    >
+        3️⃣ 服务监听（正常）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#3-服务监听正常" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 服务监听（正常）" aria-label="Anchor to: 3️⃣ 服务监听（正常）" href="#3-%e6%9c%8d%e5%8a%a1%e7%9b%91%e5%90%ac%e6%ad%a3%e5%b8%b8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ss -lntup
+</span></span></code></pre></div><p>你仍然可能看到：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">tcp6 :::8080
+</span></span></code></pre></div><p>这是 <strong>socket 双栈显示</strong>，并不代表实际使用 IPv6。</p>
+<p>👉 <strong>这是正常现象，不是问题</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五你这个问题的最终一句话答案"
+    >
+        五、你这个问题的“最终一句话答案”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/setup-ipv6/#五你这个问题的最终一句话答案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、你这个问题的“最终一句话答案”" aria-label="Anchor to: 五、你这个问题的“最终一句话答案”" href="#%e4%ba%94%e4%bd%a0%e8%bf%99%e4%b8%aa%e9%97%ae%e9%a2%98%e7%9a%84%e6%9c%80%e7%bb%88%e4%b8%80%e5%8f%a5%e8%af%9d%e7%ad%94%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你可以直接记住这句：</p>
+<blockquote>
+<p><strong>内网服务器，不禁用 IPv6 的最佳做法是：NetworkManager 设置 <code>ipv6.method ignore</code>，而不是 sysctl 禁用 IPv6。</strong></p>
+</blockquote>
 
   </article>
 
@@ -3149,9 +3748,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
 
         
-          
-          
-        
 
         
           
@@ -3173,11 +3769,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3284,27 +3875,9 @@ Podman 核心概念 Podman systemd 脚本优化 " />
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/nginx/"
-      title="Nginx"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Nginx
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/vsftpd/"
-      title="vsftpd"
-    >
-      vsftpd
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

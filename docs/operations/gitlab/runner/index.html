@@ -65,7 +65,7 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
       "url" : "https://documents.v2ep.com/operations/gitlab/runner/",
       "headline": "GitLab Runner 教程",
       "description": "下面是一份 超完整、深入且实战级的 GitLab Runner 教程，覆盖：\n核心概念 架构原理 安装与注册 常用 Executor（Docker、Shell、Kubernetes）全讲解 配置文件详解（config.toml） Runner 标签与调度 高级功能（Cache、Artifacts、并发、限流、镜像加速） 企业级部署方案（Docker、K8S、生产架构） 最佳实践 常见问题排查 目录\nGitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared \/ Group \/ Project Runner 安装（Linux、Docker、K8S） Runner 注册与配置 Executor 类型详解 config.toml 配置详解 缓存 cache 与 artifacts Runner 高级能力（并发、限流、隔离、安全） 企业级部署（全 Docker、K8S） 最佳实践 常见故障排查 1. GitLab Runner 是什么？ GitLab Runner 是一个 独立于 GitLab 的任务执行器，专门用来执行 .gitlab-ci.yml 中的 job。",
-      "wordCount" : "646",
+      "wordCount" : "618",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2244,13 +2244,47 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
 </div>
 <p>Runner 执行 job 的方式叫 <strong>Executor</strong>。</p>
 <p>GitLab 支持：</p>
-<p>| Executor | 应用场景 | 是否推荐 |
-| shell | 本机执行，无隔离 | ❌ 不安全 |
-| docker | 单机最常用，隔离良好，速度快 | ✅ 推荐 |
-| docker+machine | 自动扩容 Runner | ✅ 大规模推荐 |
-| kubernetes | Pod 级隔离，最佳弹性 | ⭐ 企业级推荐 |
-| ssh | 连到远程机器执行 | 较少使用 |
-| virtualbox | 专业构建机 | 较少使用 |</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>Executor</th>
+          <th>应用场景</th>
+          <th>是否推荐</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>shell</td>
+          <td>本机执行，无隔离</td>
+          <td>❌ 不安全</td>
+      </tr>
+      <tr>
+          <td>docker</td>
+          <td>单机最常用，隔离良好，速度快</td>
+          <td>✅ 推荐</td>
+      </tr>
+      <tr>
+          <td>docker+machine</td>
+          <td>自动扩容 Runner</td>
+          <td>✅ 大规模推荐</td>
+      </tr>
+      <tr>
+          <td>kubernetes</td>
+          <td>Pod 级隔离，最佳弹性</td>
+          <td>⭐ 企业级推荐</td>
+      </tr>
+      <tr>
+          <td>ssh</td>
+          <td>连到远程机器执行</td>
+          <td>较少使用</td>
+      </tr>
+      <tr>
+          <td>virtualbox</td>
+          <td>专业构建机</td>
+          <td>较少使用</td>
+      </tr>
+  </tbody>
+</table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="61-shell-executor不推荐"
     >

@@ -65,7 +65,7 @@
       "url" : "https://documents.v2ep.com/operations/summary-of-knowledge-points/",
       "headline": "知识点总结",
       "description": "先原理，后应用。\n目录：\n硬件 Linux 系统 虚拟化 容器与容器编排 Docker Kubernetes 配置管理与自动化运维 Ansible CI \/ CD 与代码管理 Git GitLab Jenkins 日志、搜索与分析 ElasticSearch 消息队列与流处理 Kafka 负载均衡与流量调度 LVS Nginx 数据库与数据存储 MySQL PostgreSQL MongoDB Redis 文件传输与数据同步 FTP rsync 监控与告警 Zabbix Prometheus 发布系统 滚动发布 蓝绿发布 金丝雀发布 总览：从硬件到容器的分层",
-      "wordCount" : "685",
+      "wordCount" : "1006",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2710,7 +2710,15 @@
 </div>
 <p>定位：容器编排与集群管理平台，负责容器的调度、伸缩与高可用。</p>
 <p>Kubernetes 解决的是：容器的自动部署、调度、扩缩容、自愈、网络、存储、升级</p>
-<p>Kubernetes 的整体架构</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="kubernetes-的整体架构"
+    >
+        Kubernetes 的整体架构
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#kubernetes-的整体架构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Kubernetes 的整体架构" aria-label="Anchor to: Kubernetes 的整体架构" href="#kubernetes-%e7%9a%84%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+----------------------------+
 </span></span><span class="line"><span class="cl">|        用户 / kubectl       |
 </span></span><span class="line"><span class="cl">+-------------+--------------+
@@ -2726,11 +2734,214 @@
 </span></span><span class="line"><span class="cl">|     kubelet / containerd   |
 </span></span><span class="line"><span class="cl">|       kube-proxy / CNI     |
 </span></span><span class="line"><span class="cl">+----------------------------+
-</span></span></code></pre></div><p>控制平面（Control Plane）</p>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="控制平面control-plane"
+    >
+        控制平面（Control Plane）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#控制平面control-plane" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 控制平面（Control Plane）" aria-label="Anchor to: 控制平面（Control Plane）" href="#%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2control-plane">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>etcd：存储集群状态</li>
-<li>kube-apiserver（核心中的核心），所有请求入口，认证、鉴权、准入，唯一和 etcd 通信的组件</li>
-<li>kube-scheduler（核心中的核心），任务调度</li>
+<li>etcd：保存 <strong>集群所有状态</strong></li>
+<li>kube-apiserver：所有请求入口，认证、鉴权、准入，唯一和 etcd 通信的组件</li>
+<li>kube-scheduler：任务调度，给 Pod 选择运行的 Node，不创建 Pod，只“决策”</li>
+<li>kube-controller-manager：一堆控制器的集合</li>
+</ul>
+<p>kube-scheduler 流程（调度流程）：</p>
+<ul>
+<li>Filter（预选）：过滤节点，能跑的节点？（资源、污点、亲和性）</li>
+<li>Score（打分）：哪个节点更适合？</li>
+<li>Bind（绑定）：把 Pod 指定到节点</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="工作节点node"
+    >
+        工作节点（Node）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#工作节点node" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 工作节点（Node）" aria-label="Anchor to: 工作节点（Node）" href="#%e5%b7%a5%e4%bd%9c%e8%8a%82%e7%82%b9node">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>kubelet：管理 Pod 生命周期，与 kube-apiserver 通信</li>
+<li>kube-proxy：提供网络代理，将 Pod 的 Service 暴露为网络服务</li>
+<li>container runtime：运行容器</li>
+<li>CNI：网络插件</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="核心对象模型object-model"
+    >
+        核心对象模型（Object Model）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#核心对象模型object-model" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心对象模型（Object Model）" aria-label="Anchor to: 核心对象模型（Object Model）" href="#%e6%a0%b8%e5%bf%83%e5%af%b9%e8%b1%a1%e6%a8%a1%e5%9e%8bobject-model">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>Kubernetes 一切皆资源，每个资源都是一个 YAML 对象</li>
+<li>Pod：最小调度单位，一个或多个容器的组合</li>
+<li>Workload：工作负载
+<ul>
+<li>Deployment：无状态应用</li>
+<li>StatefulSet：有状态服务</li>
+<li>DaemonSet：每节点一个</li>
+<li>Job：一次性任务</li>
+<li>CronJob：定时任务</li>
+</ul>
+</li>
+<li>Service：服务，解决什么问题？（Pod IP 会变，Pod 会重建，需要统一访问入口），Service 提供：虚拟 IP（VIP），DNS 名称，负载均衡</li>
+<li>Ingress：七层流量入口，HTTP/HTTPS 路由，域名转发
+<ul>
+<li>Ingress = 规则</li>
+<li>Ingress Controller = 实现者（Nginx / Traefik</li>
+</ul>
+</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="调度与资源管理how"
+    >
+        调度与资源管理（How）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#调度与资源管理how" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 调度与资源管理（How）" aria-label="Anchor to: 调度与资源管理（How）" href="#%e8%b0%83%e5%ba%a6%e4%b8%8e%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86how">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>调度相关概念：</p>
+<ul>
+<li>NodeSelector：最简单节点选择</li>
+<li>NodeAffinity：更灵活的节点亲和</li>
+<li>PodAffinity / AntiAffinity：Pod 之间关系</li>
+</ul>
+<p>Taint / Toleration：</p>
+<ul>
+<li>污点</li>
+<li>Node 拒绝 Pod</li>
+<li>Pod 声明我能忍</li>
+</ul>
+<p>资源管理：</p>
+<ul>
+<li>requests：决定调度</li>
+<li>limits：决定上限</li>
+</ul>
+<p>HPA（自动扩缩容）</p>
+<ul>
+<li>基于 CPU / 内存 / 自定义指标</li>
+<li>需要 metrics-server</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="存储persistence"
+    >
+        存储（Persistence）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#存储persistence" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 存储（Persistence）" aria-label="Anchor to: 存储（Persistence）" href="#%e5%ad%98%e5%82%a8persistence">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PV：实际存储</li>
+<li>PVC：存储申请</li>
+<li>StorageClass：动态创建</li>
+</ul>
+<p>Volume 类型</p>
+<ul>
+<li>emptyDir</li>
+<li>hostPath</li>
+<li>NFS</li>
+<li>CSI（云盘）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="生命周期--自愈"
+    >
+        生命周期 &amp; 自愈
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#生命周期--自愈" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生命周期 &amp; 自愈" aria-label="Anchor to: 生命周期 &amp; 自愈" href="#%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f--%e8%87%aa%e6%84%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Pod 生命周期</p>
+<ul>
+<li>Pending</li>
+<li>Running</li>
+<li>Succeeded</li>
+<li>Failed</li>
+<li>Unknown</li>
+</ul>
+<p>容器状态：</p>
+<ul>
+<li>Waiting（拉镜像）</li>
+<li>Running</li>
+<li>Terminated（退出码）</li>
+</ul>
+<p>探针：</p>
+<ul>
+<li>startupProbe</li>
+<li>readinessProbe</li>
+<li>livenessProbe</li>
+</ul>
+<p>自愈机制</p>
+<ul>
+<li>Pod 崩溃 -&gt; 重启</li>
+<li>Node 掉线 -&gt; Pod 漂移</li>
+<li>副本不足 -&gt; 自动补齐</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="网络组件"
+    >
+        网络组件
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#网络组件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 网络组件" aria-label="Anchor to: 网络组件" href="#%e7%bd%91%e7%bb%9c%e7%bb%84%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>Calico：特点（高性能、BGP、eBPF），技术（路由为主）</li>
+<li>Flannel：特点（简单、兼容性高），技术（VXLAN、封包）</li>
+<li>Cilium：特点（eBPF、L7、网络安全），技术（eBPF）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="如何优雅关闭一个-pod"
+    >
+        如何优雅关闭一个 Pod？
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#如何优雅关闭一个-pod" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 如何优雅关闭一个 Pod？" aria-label="Anchor to: 如何优雅关闭一个 Pod？" href="#%e5%a6%82%e4%bd%95%e4%bc%98%e9%9b%85%e5%85%b3%e9%97%ad%e4%b8%80%e4%b8%aa-pod">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>SIGTERM（grace period）</li>
+<li>readiness probe fail -&gt; 从 LB 移除</li>
+<li>等待 preStop</li>
+<li>SIGKILL（到达 timeout）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="故障排查"
+    >
+        故障排查
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#故障排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 故障排查" aria-label="Anchor to: 故障排查" href="#%e6%95%85%e9%9a%9c%e6%8e%92%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>kubectl logs pod</li>
+<li>kubectl describe deployment/service/pod</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="升级"
+    >
+        升级
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/summary-of-knowledge-points/#升级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 升级" aria-label="Anchor to: 升级" href="#%e5%8d%87%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>更新应用程序</li>
+<li>下载新的镜像</li>
+<li>升级计划：kubeadm upgrade plan</li>
+<li>升级：kubeadm upgrade apply</li>
 </ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2751,7 +2962,24 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>定位：基于声明式的自动化运维与配置管理工具，实现批量部署和环境一致性。</p>
+<p>Ansible 是一款无 Agent 的自动化运维与配置管理工具，使用 SSH 实现批量部署和环境一致性。</p>
+<p>常用命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># ping 检测</span>
+</span></span><span class="line"><span class="cl">ansible all -m ping
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 批量执行命令</span>
+</span></span><span class="line"><span class="cl">ansible all -m shell -a <span class="s2">&#34;ps aux | grep nginx&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 同步文件 (拉取)</span>
+</span></span><span class="line"><span class="cl">ansible all -m synchronize -a <span class="s2">&#34;src=/opt/file dest=/tmp/ mode=pull&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 同步文件 (推送)</span>
+</span></span><span class="line"><span class="cl">ansible all -m synchronize -a <span class="s2">&#34;src=/opt/file dest=/tmp/ mode=push&#34;</span>
+</span></span></code></pre></div><p>shell 和 command 的区别：</p>
+<ul>
+<li>command：默认，不解析 shell</li>
+<li>shell：允许管道、重定向</li>
+</ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="ci--cd-与代码管理"
@@ -2772,6 +3000,35 @@
     </a>
 </div>
 <p>定位：分布式版本控制系统，用于源代码管理。</p>
+<p>Git 工作区、暂存区、版本库分别是什么？</p>
+<ul>
+<li>工作区（working directory）：你的代码所在目录。</li>
+<li>暂存区（stage/index）：git add 后进入的区域。</li>
+<li>本地仓库（repository）：.git 目录，存储 commit、tree 对象。</li>
+<li>远程仓库（origin）：GitLab/GitHub 上的仓库。</li>
+</ul>
+<p>流程图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">工作区 -&gt; git add -&gt; 暂存区 -&gt; git commit -&gt; 本地库 -&gt; git push -&gt; 远程库
+</span></span></code></pre></div><p>Git 不是“文件差异系统”，是一个 内容寻址（Content-addressable）的对象数据库。</p>
+<ul>
+<li>SVN：存“文件 + 差异”</li>
+<li>Git：存“内容快照 + 指针”</li>
+</ul>
+<p>分布式是“完整仓库复制”，每个 Git 仓库都包含：</p>
+<ul>
+<li>完整历史</li>
+<li>所有分支</li>
+<li>所有对象</li>
+</ul>
+<p>Git 仓库本质是一个对象数据库，只有 4 种对象：</p>
+<ul>
+<li>blob 文件内容</li>
+<li>tree 目录结构</li>
+<li>commit 一次提交</li>
+<li>tag 标签（指向 commit）</li>
+</ul>
+<p>HEAD 的本质是一个指针，指向当前分支或 commit</p>
+<p>分支不是拷贝，Git 分支的本质是一个 指向 commit 的可移动指针</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="gitlab"
     >
@@ -2782,7 +3039,11 @@
     </a>
 </div>
 <p>定位：集成代码管理、CI/CD、Issue 和权限控制的 DevOps 平台。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
+<p>GitLab 是一个 基于 Git 的代码托管 + DevOps 平台，集成 代码管理、CI/CD、Issue、WIKI、自动化、安全扫描、部署 等功能。</p>
+<p>GitLab Runner 是一个 独立于 GitLab 的任务执行器，专门用来执行 .gitlab-ci.yml 中的 job。</p>
+<p>GitLab Runner 的工作原理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">GitLab CI -&gt; 调度 job -&gt; 分配给 Runner -&gt; Runner 执行 -&gt; 上传结果 -&gt; Pipeline 完成
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="jenkins"
     >
         Jenkins

@@ -12,10 +12,13 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta name="description" content="优化以下 systemd 配置，使其支持 systemctl enable podman@gitlab-ce，即 podman@ 后面的参数支持 - 符号
+[Unit] Description=%I container After=network-online.target Wants=network-online.target [Service] User=root Restart=always ExecStart=/usr/bin/podman start -a %I ExecStop=/usr/bin/podman stop -t 10 %I LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 [Install] WantedBy=multi-user.target 这个问题的关键点不在 Podman，而在 systemd 对“实例名转义”的机制。
+现在用的是 错误的占位符，导致带 - 的实例名行为不符合预期。
+下面先给结论版修复，再解释为什么这样改是正确的。
+一、直接给「可用且规范」的优化版本（✅ 支持 podman@gitlab-ce） ✅ 核心改动点 把 %I 改为 %i 顺带补齐 Podman 官方推荐的 systemd 选项 ✅ 修复并优化后的 unit 文件 [Unit] Description=Podman container %i After=network-online.target Wants=network-online.target [Service] Type=simple User=root Restart=always RestartSec=5 # 使用 %i（未转义实例名，支持 -） ExecStart=/usr/bin/podman start -a %i ExecStop=/usr/bin/podman stop -t 10 %i # 资源与稳定性 LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 # systemd / cgroup / podman 协作必备 KillMode=none Delegate=yes TimeoutStartSec=0 TimeoutStopSec=30 [Install] WantedBy=multi-user.target 现在可以直接启用：" />
 
-    <title>Podman | ☘️ Septvean&#39;s Documents</title>
+    <title>Podman systemd 脚本优化 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +39,27 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   <meta
     property="og:title"
-    content="Podman"
+    content="Podman systemd 脚本优化"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta property="og:description" content="优化以下 systemd 配置，使其支持 systemctl enable podman@gitlab-ce，即 podman@ 后面的参数支持 - 符号
+[Unit] Description=%I container After=network-online.target Wants=network-online.target [Service] User=root Restart=always ExecStart=/usr/bin/podman start -a %I ExecStop=/usr/bin/podman stop -t 10 %I LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 [Install] WantedBy=multi-user.target 这个问题的关键点不在 Podman，而在 systemd 对“实例名转义”的机制。
+现在用的是 错误的占位符，导致带 - 的实例名行为不符合预期。
+下面先给结论版修复，再解释为什么这样改是正确的。
+一、直接给「可用且规范」的优化版本（✅ 支持 podman@gitlab-ce） ✅ 核心改动点 把 %I 改为 %i 顺带补齐 Podman 官方推荐的 systemd 选项 ✅ 修复并优化后的 unit 文件 [Unit] Description=Podman container %i After=network-online.target Wants=network-online.target [Service] Type=simple User=root Restart=always RestartSec=5 # 使用 %i（未转义实例名，支持 -） ExecStart=/usr/bin/podman start -a %i ExecStop=/usr/bin/podman stop -t 10 %i # 资源与稳定性 LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 # systemd / cgroup / podman 协作必备 KillMode=none Delegate=yes TimeoutStartSec=0 TimeoutStopSec=30 [Install] WantedBy=multi-user.target 现在可以直接启用：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/podman/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/podman/podman-systemd/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Podman" />
-  <meta name="twitter:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+<meta name="twitter:title" content="Podman systemd 脚本优化" />
+  <meta name="twitter:description" content="优化以下 systemd 配置，使其支持 systemctl enable podman@gitlab-ce，即 podman@ 后面的参数支持 - 符号
+[Unit] Description=%I container After=network-online.target Wants=network-online.target [Service] User=root Restart=always ExecStart=/usr/bin/podman start -a %I ExecStop=/usr/bin/podman stop -t 10 %I LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 [Install] WantedBy=multi-user.target 这个问题的关键点不在 Podman，而在 systemd 对“实例名转义”的机制。
+现在用的是 错误的占位符，导致带 - 的实例名行为不符合预期。
+下面先给结论版修复，再解释为什么这样改是正确的。
+一、直接给「可用且规范」的优化版本（✅ 支持 podman@gitlab-ce） ✅ 核心改动点 把 %I 改为 %i 顺带补齐 Podman 官方推荐的 systemd 选项 ✅ 修复并优化后的 unit 文件 [Unit] Description=Podman container %i After=network-online.target Wants=network-online.target [Service] Type=simple User=root Restart=always RestartSec=5 # 使用 %i（未转义实例名，支持 -） ExecStart=/usr/bin/podman start -a %i ExecStop=/usr/bin/podman stop -t 10 %i # 资源与稳定性 LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 # systemd / cgroup / podman 协作必备 KillMode=none Delegate=yes TimeoutStartSec=0 TimeoutStopSec=30 [Install] WantedBy=multi-user.target 现在可以直接启用：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +67,16 @@ Podman 核心概念 Podman systemd 脚本优化 " />
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Podman",
-      "url" : "https://documents.v2ep.com/operations/podman/",
-      "headline": "Podman",
-      "description": "Documents List:\nPodman 核心概念 Podman systemd 脚本优化 ",
-      "wordCount" : "7",
+      "name": "Podman systemd 脚本优化",
+      "url" : "https://documents.v2ep.com/operations/podman/podman-systemd/",
+      "headline": "Podman systemd 脚本优化",
+      "description": "优化以下 systemd 配置，使其支持 systemctl enable podman@gitlab-ce，即 podman@ 后面的参数支持 - 符号\n[Unit] Description=%I container After=network-online.target Wants=network-online.target [Service] User=root Restart=always ExecStart=\/usr\/bin\/podman start -a %I ExecStop=\/usr\/bin\/podman stop -t 10 %I LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 [Install] WantedBy=multi-user.target 这个问题的关键点不在 Podman，而在 systemd 对“实例名转义”的机制。\n现在用的是 错误的占位符，导致带 - 的实例名行为不符合预期。\n下面先给结论版修复，再解释为什么这样改是正确的。\n一、直接给「可用且规范」的优化版本（✅ 支持 podman@gitlab-ce） ✅ 核心改动点 把 %I 改为 %i 顺带补齐 Podman 官方推荐的 systemd 选项 ✅ 修复并优化后的 unit 文件 [Unit] Description=Podman container %i After=network-online.target Wants=network-online.target [Service] Type=simple User=root Restart=always RestartSec=5 # 使用 %i（未转义实例名，支持 -） ExecStart=\/usr\/bin\/podman start -a %i ExecStop=\/usr\/bin\/podman stop -t 10 %i # 资源与稳定性 LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 # systemd \/ cgroup \/ podman 协作必备 KillMode=none Delegate=yes TimeoutStartSec=0 TimeoutStopSec=30 [Install] WantedBy=multi-user.target 现在可以直接启用：",
+      "wordCount" : "483",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/podman/"
+          "@id": "https://documents.v2ep.com/operations/podman/podman-systemd/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +160,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/podman/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/podman/podman-systemd/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1786,7 +1795,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
                 <span class="flex">
                   <a
                     href="/operations/podman/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Podman
                   </a>
@@ -2024,7 +2033,15 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Podman</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/podman/' href='/operations/podman/'><span itemprop='name'>Podman</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Podman systemd 脚本优化</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,45 +2060,567 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Podman</h1>
-    <p>Documents List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Podman systemd 脚本优化</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/core/" class="gdoc-toc__entry">Podman 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/podman-systemd/" class="gdoc-toc__entry">Podman systemd 脚本优化
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>优化以下 systemd 配置，使其支持 systemctl enable podman@gitlab-ce，即 podman@ 后面的参数支持 - 符号</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">%I container</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl"><span class="na">Wants</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">User</span><span class="o">=</span><span class="s">root</span>
+</span></span><span class="line"><span class="cl"><span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/podman start -a %I</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStop</span><span class="o">=</span><span class="s">/usr/bin/podman stop -t 10 %I</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitCORE</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitMEMLOCK</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitNOFILE</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitNPROC</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">TasksMax</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-999</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Install]</span>
+</span></span><span class="line"><span class="cl"><span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</span></span></code></pre></div><p>这个问题的<strong>关键点不在 Podman，而在 systemd 对“实例名转义”的机制</strong>。</p>
+<p>现在用的是 <strong>错误的占位符</strong>，导致带 <code>-</code> 的实例名行为不符合预期。</p>
+<p>下面先给<strong>结论版修复</strong>，再解释<strong>为什么这样改是正确的</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一直接给可用且规范的优化版本-支持-podmangitlab-ce"
+    >
+        一、直接给「可用且规范」的优化版本（✅ 支持 <code>podman@gitlab-ce</code>）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#一直接给可用且规范的优化版本-支持-podmangitlab-ce" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、直接给「可用且规范」的优化版本（✅ 支持 podman@gitlab-ce）" aria-label="Anchor to: 一、直接给「可用且规范」的优化版本（✅ 支持 podman@gitlab-ce）" href="#%e4%b8%80%e7%9b%b4%e6%8e%a5%e7%bb%99%e5%8f%af%e7%94%a8%e4%b8%94%e8%a7%84%e8%8c%83%e7%9a%84%e4%bc%98%e5%8c%96%e7%89%88%e6%9c%ac-%e6%94%af%e6%8c%81-podmangitlab-ce">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-核心改动点"
+    >
+        ✅ 核心改动点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-核心改动点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 核心改动点" aria-label="Anchor to: ✅ 核心改动点" href="#-%e6%a0%b8%e5%bf%83%e6%94%b9%e5%8a%a8%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>把 <code>%I</code> 改为 <code>%i</code></strong></li>
+<li>顺带补齐 Podman 官方推荐的 systemd 选项</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-修复并优化后的-unit-文件"
+    >
+        ✅ 修复并优化后的 unit 文件
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-修复并优化后的-unit-文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 修复并优化后的 unit 文件" aria-label="Anchor to: ✅ 修复并优化后的 unit 文件" href="#-%e4%bf%ae%e5%a4%8d%e5%b9%b6%e4%bc%98%e5%8c%96%e5%90%8e%e7%9a%84-unit-%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">Podman container %i</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl"><span class="na">Wants</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+</span></span><span class="line"><span class="cl"><span class="na">User</span><span class="o">=</span><span class="s">root</span>
+</span></span><span class="line"><span class="cl"><span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+</span></span><span class="line"><span class="cl"><span class="na">RestartSec</span><span class="o">=</span><span class="s">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 %i（未转义实例名，支持 -）</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/podman start -a %i</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStop</span><span class="o">=</span><span class="s">/usr/bin/podman stop -t 10 %i</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 资源与稳定性</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitCORE</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitMEMLOCK</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitNOFILE</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">LimitNPROC</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">TasksMax</span><span class="o">=</span><span class="s">infinity</span>
+</span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-999</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># systemd / cgroup / podman 协作必备</span>
+</span></span><span class="line"><span class="cl"><span class="na">KillMode</span><span class="o">=</span><span class="s">none</span>
+</span></span><span class="line"><span class="cl"><span class="na">Delegate</span><span class="o">=</span><span class="s">yes</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="na">TimeoutStartSec</span><span class="o">=</span><span class="s">0</span>
+</span></span><span class="line"><span class="cl"><span class="na">TimeoutStopSec</span><span class="o">=</span><span class="s">30</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Install]</span>
+</span></span><span class="line"><span class="cl"><span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</span></span></code></pre></div><p>现在可以<strong>直接启用</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl <span class="nb">enable</span> podman@gitlab-ce
+</span></span><span class="line"><span class="cl">systemctl start podman@gitlab-ce
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二为什么原配置在-这里会出问题"
+    >
+        二、为什么原配置在「-」这里会出问题？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#二为什么原配置在-这里会出问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、为什么原配置在「-」这里会出问题？" aria-label="Anchor to: 二、为什么原配置在「-」这里会出问题？" href="#%e4%ba%8c%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8e%9f%e9%85%8d%e7%bd%ae%e5%9c%a8-%e8%bf%99%e9%87%8c%e4%bc%9a%e5%87%ba%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-systemd-的-i-vs-i这是核心"
+    >
+        1️⃣ systemd 的 <code>%I</code> vs <code>%i</code>（这是核心）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#1-systemd-的-i-vs-i这是核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ systemd 的 %I vs %i（这是核心）" aria-label="Anchor to: 1️⃣ systemd 的 %I vs %i（这是核心）" href="#1-systemd-%e7%9a%84-i-vs-i%e8%bf%99%e6%98%af%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>占位符</th>
+          <th>含义</th>
+          <th>是否转义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>%i</code></td>
+          <td>原始实例名</td>
+          <td>❌ 不转义</td>
+      </tr>
+      <tr>
+          <td><code>%I</code></td>
+          <td>转义后的实例名</td>
+          <td>✅ 会转义</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="systemd-的转义规则重点"
+    >
+        systemd 的转义规则（重点）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#systemd-的转义规则重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: systemd 的转义规则（重点）" aria-label="Anchor to: systemd 的转义规则（重点）" href="#systemd-%e7%9a%84%e8%bd%ac%e4%b9%89%e8%a7%84%e5%88%99%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><code>-</code> -&gt; <code>\x2d</code></li>
+<li><code>/</code> -&gt; <code>-</code></li>
+<li>其它特殊字符 -&gt; 十六进制</li>
+</ul>
+<p>也就是说：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">podman@gitlab-ce
+</span></span></code></pre></div><p>在 <code>%I</code> 中会变成类似：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">gitlab\x2dce
+</span></span></code></pre></div><p>而 Podman 并不存在这个容器名 👉 启动失败</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-正确原则一句话记住"
+    >
+        2️⃣ 正确原则（一句话记住）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#2-正确原则一句话记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 正确原则（一句话记住）" aria-label="Anchor to: 2️⃣ 正确原则（一句话记住）" href="#2-%e6%ad%a3%e7%a1%ae%e5%8e%9f%e5%88%99%e4%b8%80%e5%8f%a5%e8%af%9d%e8%ae%b0%e4%bd%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>systemd 模板 unit：<br />
+只要实例名本身就是“真实资源名”（容器名、服务名），就必须用 <code>%i</code>，不要用 <code>%I</code></strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三为什么很多示例误导性地使用-i"
+    >
+        三、为什么很多示例“误导性地使用 %I”？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#三为什么很多示例误导性地使用-i" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、为什么很多示例“误导性地使用 %I”？" aria-label="Anchor to: 三、为什么很多示例“误导性地使用 %I”？" href="#%e4%b8%89%e4%b8%ba%e4%bb%80%e4%b9%88%e5%be%88%e5%a4%9a%e7%a4%ba%e4%be%8b%e8%af%af%e5%af%bc%e6%80%a7%e5%9c%b0%e4%bd%bf%e7%94%a8-i">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>原因是：</p>
+<ul>
+<li><code>%I</code> <strong>适合文件路径 / mount / device 名</strong></li>
+<li><code>%i</code> <strong>适合业务标识符（container / service / app）</strong></li>
+</ul>
+<p>Podman 容器名属于 <strong>业务标识符</strong>，不是路径。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四额外优化说明"
+    >
+        四、额外优化说明
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#四额外优化说明" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、额外优化说明" aria-label="Anchor to: 四、额外优化说明" href="#%e5%9b%9b%e9%a2%9d%e5%a4%96%e4%bc%98%e5%8c%96%e8%af%b4%e6%98%8e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-killmodenone必须"
+    >
+        1️⃣ <code>KillMode=none</code>（必须）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#1-killmodenone必须" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ KillMode=none（必须）" aria-label="Anchor to: 1️⃣ KillMode=none（必须）" href="#1-killmodenone%e5%bf%85%e9%a1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>否则 systemd 会：</p>
+<ul>
+<li>直接 kill 掉 podman 进程</li>
+<li>导致容器被异常终止</li>
+</ul>
+<p>Podman 官方强烈建议开启。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-delegateyes必须"
+    >
+        2️⃣ <code>Delegate=yes</code>（必须）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#2-delegateyes必须" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ Delegate=yes（必须）" aria-label="Anchor to: 2️⃣ Delegate=yes（必须）" href="#2-delegateyes%e5%bf%85%e9%a1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>让：</p>
+<ul>
+<li>Podman</li>
+<li>systemd</li>
+<li>cgroups</li>
+</ul>
+<p><strong>不互相抢控制权</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-为什么不需要-typeforking"
+    >
+        3️⃣ 为什么不需要 <code>Type=forking</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#3-为什么不需要-typeforking" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 为什么不需要 Type=forking" aria-label="Anchor to: 3️⃣ 为什么不需要 Type=forking" href="#3-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e9%9c%80%e8%a6%81-typeforking">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/podman start -a %i</span>
+</span></span></code></pre></div><ul>
+<li><code>-a</code> 会前台附着容器 stdout/stderr</li>
+<li>👉 systemd 正确追踪主进程</li>
+<li>👉 <code>Type=simple</code> 是正确选择</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五验证方式建议你做一次"
+    >
+        五、验证方式（建议你做一次）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#五验证方式建议你做一次" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、验证方式（建议你做一次）" aria-label="Anchor to: 五、验证方式（建议你做一次）" href="#%e4%ba%94%e9%aa%8c%e8%af%81%e6%96%b9%e5%bc%8f%e5%bb%ba%e8%ae%ae%e4%bd%a0%e5%81%9a%e4%b8%80%e6%ac%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl start podman@gitlab-ce
+</span></span><span class="line"><span class="cl">systemctl status podman@gitlab-ce
+</span></span></code></pre></div><p>确认：</p>
+<ul>
+<li>容器成功启动</li>
+<li>Ctrl+C 不影响 systemd 管理</li>
+<li>reboot 后自动拉起</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六最终一句话总结给你记住"
+    >
+        六、最终一句话总结（给你记住）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#六最终一句话总结给你记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、最终一句话总结（给你记住）" aria-label="Anchor to: 六、最终一句话总结（给你记住）" href="#%e5%85%ad%e6%9c%80%e7%bb%88%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93%e7%bb%99%e4%bd%a0%e8%ae%b0%e4%bd%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>systemd 模板 unit 中：<br />
+<code>%i</code> 用于真实实例名（容器名、服务名），<br />
+<code>%I</code> 只用于需要 systemd 转义的路径类对象。</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="改成-rootless-podman-专用-unit"
+    >
+        改成 rootless Podman 专用 unit
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#改成-rootless-podman-专用-unit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 改成 rootless Podman 专用 unit" aria-label="Anchor to: 改成 rootless Podman 专用 unit" href="#%e6%94%b9%e6%88%90-rootless-podman-%e4%b8%93%e7%94%a8-unit">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>下面是一份<strong>标准、可长期使用的「Rootless Podman 专用 systemd 模板 unit」</strong>，并把关键点一次讲清楚。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一rootless-podman-的正确-systemd-位置"
+    >
+        一、Rootless Podman 的正确 systemd 位置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#一rootless-podman-的正确-systemd-位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Rootless Podman 的正确 systemd 位置" aria-label="Anchor to: 一、Rootless Podman 的正确 systemd 位置" href="#%e4%b8%80rootless-podman-%e7%9a%84%e6%ad%a3%e7%a1%ae-systemd-%e4%bd%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>⚠️ <strong>Rootless Podman ≠ system service</strong></p>
+<p>必须放在 <strong>用户级 systemd</strong> 目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">~/.config/systemd/user/podman@.service
+</span></span></code></pre></div><blockquote>
+<p>不要放 <code>/usr/lib/systemd/system/</code><br />
+<br />
+否则你会遇到：cgroup、权限、delegate、socket 全部异常</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二rootless-podman-模板-unit-支持--"
+    >
+        二、Rootless Podman 模板 unit（✅ 支持 <code>-</code>）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#二rootless-podman-模板-unit-支持--" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Rootless Podman 模板 unit（✅ 支持 -）" aria-label="Anchor to: 二、Rootless Podman 模板 unit（✅ 支持 -）" href="#%e4%ba%8crootless-podman-%e6%a8%a1%e6%9d%bf-unit-%e6%94%af%e6%8c%81--">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-configsystemduserpodmanservice"
+    >
+        📄 <code>~/.config/systemd/user/podman@.service</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-configsystemduserpodmanservice" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📄 ~/.config/systemd/user/podman@.service" aria-label="Anchor to: 📄 ~/.config/systemd/user/podman@.service" href="#-configsystemduserpodmanservice">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">Rootless Podman container %i</span>
+</span></span><span class="line"><span class="cl"><span class="na">After</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl"><span class="na">Wants</span><span class="o">=</span><span class="s">network-online.target</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># rootless 必须使用用户 session</span>
+</span></span><span class="line"><span class="cl"><span class="na">Environment</span><span class="o">=</span><span class="s">PODMAN_SYSTEMD_UNIT=%n</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+</span></span><span class="line"><span class="cl"><span class="na">RestartSec</span><span class="o">=</span><span class="s">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ⚠️ 关键：必须用 %i（不转义）</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/podman start -a %i</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStop</span><span class="o">=</span><span class="s">/usr/bin/podman stop -t 10 %i</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># systemd / podman / cgroup 正确协作</span>
+</span></span><span class="line"><span class="cl"><span class="na">KillMode</span><span class="o">=</span><span class="s">none</span>
+</span></span><span class="line"><span class="cl"><span class="na">Delegate</span><span class="o">=</span><span class="s">yes</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 避免 systemd 误判启动超时</span>
+</span></span><span class="line"><span class="cl"><span class="na">TimeoutStartSec</span><span class="o">=</span><span class="s">0</span>
+</span></span><span class="line"><span class="cl"><span class="na">TimeoutStopSec</span><span class="o">=</span><span class="s">30</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 防止被 OOM killer 优先杀</span>
+</span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-999</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Install]</span>
+</span></span><span class="line"><span class="cl"><span class="na">WantedBy</span><span class="o">=</span><span class="s">default.target</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三启用与使用方式rootless-正确流程"
+    >
+        三、启用与使用方式（rootless 正确流程）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#三启用与使用方式rootless-正确流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、启用与使用方式（rootless 正确流程）" aria-label="Anchor to: 三、启用与使用方式（rootless 正确流程）" href="#%e4%b8%89%e5%90%af%e7%94%a8%e4%b8%8e%e4%bd%bf%e7%94%a8%e6%96%b9%e5%bc%8frootless-%e6%ad%a3%e7%a1%ae%e6%b5%81%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-重新加载用户-systemd"
+    >
+        1️⃣ 重新加载用户 systemd
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#1-重新加载用户-systemd" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 重新加载用户 systemd" aria-label="Anchor to: 1️⃣ 重新加载用户 systemd" href="#1-%e9%87%8d%e6%96%b0%e5%8a%a0%e8%bd%bd%e7%94%a8%e6%88%b7-systemd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl --user daemon-reload
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-启动--启用某个容器"
+    >
+        2️⃣ 启动 / 启用某个容器
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#2-启动--启用某个容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 启动 / 启用某个容器" aria-label="Anchor to: 2️⃣ 启动 / 启用某个容器" href="#2-%e5%90%af%e5%8a%a8--%e5%90%af%e7%94%a8%e6%9f%90%e4%b8%aa%e5%ae%b9%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl --user start podman@gitlab-ce
+</span></span><span class="line"><span class="cl">systemctl --user <span class="nb">enable</span> podman@gitlab-ce
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-查看状态"
+    >
+        3️⃣ 查看状态
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#3-查看状态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 查看状态" aria-label="Anchor to: 3️⃣ 查看状态" href="#3-%e6%9f%a5%e7%9c%8b%e7%8a%b6%e6%80%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl --user status podman@gitlab-ce
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四-必须做的一步否则重启不自启"
+    >
+        四、⚠️ 必须做的一步（否则重启不自启）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#四-必须做的一步否则重启不自启" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、⚠️ 必须做的一步（否则重启不自启）" aria-label="Anchor to: 四、⚠️ 必须做的一步（否则重启不自启）" href="#%e5%9b%9b-%e5%bf%85%e9%a1%bb%e5%81%9a%e7%9a%84%e4%b8%80%e6%ad%a5%e5%90%a6%e5%88%99%e9%87%8d%e5%90%af%e4%b8%8d%e8%87%aa%e5%90%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-允许用户-systemd-在无登录状态下运行"
+    >
+        👉 允许用户 systemd 在无登录状态下运行
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-允许用户-systemd-在无登录状态下运行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 👉 允许用户 systemd 在无登录状态下运行" aria-label="Anchor to: 👉 允许用户 systemd 在无登录状态下运行" href="#-%e5%85%81%e8%ae%b8%e7%94%a8%e6%88%b7-systemd-%e5%9c%a8%e6%97%a0%e7%99%bb%e5%bd%95%e7%8a%b6%e6%80%81%e4%b8%8b%e8%bf%90%e8%a1%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">loginctl enable-linger &lt;用户名&gt;
+</span></span></code></pre></div><p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">loginctl enable-linger gitlab
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="原因一句话"
+    >
+        原因（一句话）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#原因一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 原因（一句话）" aria-label="Anchor to: 原因（一句话）" href="#%e5%8e%9f%e5%9b%a0%e4%b8%80%e5%8f%a5%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>rootless Podman 依赖 <strong>user systemd</strong>，<br />
+没有 linger，用户退出登录后 unit 会被杀掉。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五rootless-podman-必须满足的系统条件"
+    >
+        五、Rootless Podman 必须满足的系统条件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#五rootless-podman-必须满足的系统条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、Rootless Podman 必须满足的系统条件" aria-label="Anchor to: 五、Rootless Podman 必须满足的系统条件" href="#%e4%ba%94rootless-podman-%e5%bf%85%e9%a1%bb%e6%bb%a1%e8%b6%b3%e7%9a%84%e7%b3%bb%e7%bb%9f%e6%9d%a1%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>确认以下内核 / 系统配置正常（AlmaLinux / RHEL 常见）：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-子-uid--gid"
+    >
+        1️⃣ 子 UID / GID
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#1-子-uid--gid" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 子 UID / GID" aria-label="Anchor to: 1️⃣ 子 UID / GID" href="#1-%e5%ad%90-uid--gid">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /etc/subuid
+</span></span><span class="line"><span class="cl">cat /etc/subgid
+</span></span></code></pre></div><p>应包含：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">gitlab:100000:65536
+</span></span></code></pre></div><p>若没有：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">usermod --add-subuids 100000-165535 gitlab
+</span></span><span class="line"><span class="cl">usermod --add-subgids 100000-165535 gitlab
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-cgroup-v2非常重要"
+    >
+        2️⃣ cgroup v2（非常重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#2-cgroup-v2非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ cgroup v2（非常重要）" aria-label="Anchor to: 2️⃣ cgroup v2（非常重要）" href="#2-cgroup-v2%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">stat -fc %T /sys/fs/cgroup
+</span></span></code></pre></div><p>输出应为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">cgroup2fs
+</span></span></code></pre></div><p>AlmaLinux 9 / 10 默认已开启 ✔</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六rootless-vs-root-podman一句话对比"
+    >
+        六、Rootless vs Root Podman（一句话对比）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#六rootless-vs-root-podman一句话对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Rootless vs Root Podman（一句话对比）" aria-label="Anchor to: 六、Rootless vs Root Podman（一句话对比）" href="#%e5%85%adrootless-vs-root-podman%e4%b8%80%e5%8f%a5%e8%af%9d%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>项目</th>
+          <th>Rootless</th>
+          <th>Root</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>安全性</td>
+          <td>✅ 极高</td>
+          <td>❌</td>
+      </tr>
+      <tr>
+          <td>systemd 类型</td>
+          <td>user unit</td>
+          <td>system unit</td>
+      </tr>
+      <tr>
+          <td>端口 &lt;1024</td>
+          <td>❌（需 rootlesskit）</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>推荐场景</td>
+          <td>服务 / CI / GitLab</td>
+          <td>基础设施</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七常见坑你一定会踩"
+    >
+        七、常见坑（你一定会踩）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#七常见坑你一定会踩" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、常见坑（你一定会踩）" aria-label="Anchor to: 七、常见坑（你一定会踩）" href="#%e4%b8%83%e5%b8%b8%e8%a7%81%e5%9d%91%e4%bd%a0%e4%b8%80%e5%ae%9a%e4%bc%9a%e8%b8%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-用-i"
+    >
+        ❌ 用 <code>%I</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-用-i" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 用 %I" aria-label="Anchor to: ❌ 用 %I" href="#-%e7%94%a8-i">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>-&gt; 带 <code>-</code> 的容器名直接翻车</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-用-usrlibsystemdsystem"
+    >
+        ❌ 用 <code>/usr/lib/systemd/system</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-用-usrlibsystemdsystem" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 用 /usr/lib/systemd/system" aria-label="Anchor to: ❌ 用 /usr/lib/systemd/system" href="#-%e7%94%a8-usrlibsystemdsystem">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>-&gt; rootless 直接异常</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-忘了-delegateyes"
+    >
+        ❌ 忘了 <code>Delegate=yes</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-忘了-delegateyes" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 忘了 Delegate=yes" aria-label="Anchor to: ❌ 忘了 Delegate=yes" href="#-%e5%bf%98%e4%ba%86-delegateyes">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>-&gt; cgroup 管理混乱</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-忘了-loginctl-enable-linger"
+    >
+        ❌ 忘了 <code>loginctl enable-linger</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/podman/podman-systemd/#-忘了-loginctl-enable-linger" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 忘了 loginctl enable-linger" aria-label="Anchor to: ❌ 忘了 loginctl enable-linger" href="#-%e5%bf%98%e4%ba%86-loginctl-enable-linger">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>-&gt; 重启后容器不在</p>
 
   </article>
 
@@ -3149,9 +3688,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
 
         
-          
-          
-        
 
         
           
@@ -3173,11 +3709,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3284,27 +3815,9 @@ Podman 核心概念 Podman systemd 脚本优化 " />
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/nginx/"
-      title="Nginx"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Nginx
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/vsftpd/"
-      title="vsftpd"
-    >
-      vsftpd
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

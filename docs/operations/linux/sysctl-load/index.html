@@ -12,10 +12,11 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta name="description" content="这是一个很关键、但经常被说错的问题。下面是一份 RHEL / AlmaLinux / Debian / Ubuntu 通用、且准确到实现层面的说明。
+一、sysctl 实际会加载哪些目录？ sysctl 的配置来源分三类：
+1️⃣ /etc/sysctl.conf（传统主配置） /etc/sysctl.conf 单一文件 早期 Linux 只支持它 仍然被支持 优先级 低于 /etc/sysctl.d/ 2️⃣ sysctl.d 目录（推荐方式） sysctl 会扫描以下目录（不是所有发行版路径都一样，但顺序一致）：" />
 
-    <title>Podman | ☘️ Septvean&#39;s Documents</title>
+    <title>sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +37,23 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   <meta
     property="og:title"
-    content="Podman"
+    content="sysctl 会加载哪些目录下的配置文件？加载顺序是什么？"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+  <meta property="og:description" content="这是一个很关键、但经常被说错的问题。下面是一份 RHEL / AlmaLinux / Debian / Ubuntu 通用、且准确到实现层面的说明。
+一、sysctl 实际会加载哪些目录？ sysctl 的配置来源分三类：
+1️⃣ /etc/sysctl.conf（传统主配置） /etc/sysctl.conf 单一文件 早期 Linux 只支持它 仍然被支持 优先级 低于 /etc/sysctl.d/ 2️⃣ sysctl.d 目录（推荐方式） sysctl 会扫描以下目录（不是所有发行版路径都一样，但顺序一致）：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/podman/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/sysctl-load/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Podman" />
-  <meta name="twitter:description" content="Documents List:
-Podman 核心概念 Podman systemd 脚本优化 " />
+<meta name="twitter:title" content="sysctl 会加载哪些目录下的配置文件？加载顺序是什么？" />
+  <meta name="twitter:description" content="这是一个很关键、但经常被说错的问题。下面是一份 RHEL / AlmaLinux / Debian / Ubuntu 通用、且准确到实现层面的说明。
+一、sysctl 实际会加载哪些目录？ sysctl 的配置来源分三类：
+1️⃣ /etc/sysctl.conf（传统主配置） /etc/sysctl.conf 单一文件 早期 Linux 只支持它 仍然被支持 优先级 低于 /etc/sysctl.d/ 2️⃣ sysctl.d 目录（推荐方式） sysctl 会扫描以下目录（不是所有发行版路径都一样，但顺序一致）：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +61,16 @@ Podman 核心概念 Podman systemd 脚本优化 " />
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Podman",
-      "url" : "https://documents.v2ep.com/operations/podman/",
-      "headline": "Podman",
-      "description": "Documents List:\nPodman 核心概念 Podman systemd 脚本优化 ",
-      "wordCount" : "7",
+      "name": "sysctl 会加载哪些目录下的配置文件？加载顺序是什么？",
+      "url" : "https://documents.v2ep.com/operations/linux/sysctl-load/",
+      "headline": "sysctl 会加载哪些目录下的配置文件？加载顺序是什么？",
+      "description": "这是一个很关键、但经常被说错的问题。下面是一份 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu 通用、且准确到实现层面的说明。\n一、sysctl 实际会加载哪些目录？ sysctl 的配置来源分三类：\n1️⃣ \/etc\/sysctl.conf（传统主配置） \/etc\/sysctl.conf 单一文件 早期 Linux 只支持它 仍然被支持 优先级 低于 \/etc\/sysctl.d\/ 2️⃣ sysctl.d 目录（推荐方式） sysctl 会扫描以下目录（不是所有发行版路径都一样，但顺序一致）：",
+      "wordCount" : "210",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/podman/"
+          "@id": "https://documents.v2ep.com/operations/linux/sysctl-load/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +154,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/podman/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/sysctl-load/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1786,7 +1789,7 @@ Podman 核心概念 Podman systemd 脚本优化 " />
                 <span class="flex">
                   <a
                     href="/operations/podman/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Podman
                   </a>
@@ -2024,7 +2027,15 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Podman</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>sysctl 会加载哪些目录下的配置文件？加载顺序是什么？</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,45 +2054,282 @@ Podman 核心概念 Podman systemd 脚本优化 " />
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Podman</h1>
-    <p>Documents List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>sysctl 会加载哪些目录下的配置文件？加载顺序是什么？</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/core/" class="gdoc-toc__entry">Podman 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/podman/podman-systemd/" class="gdoc-toc__entry">Podman systemd 脚本优化
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>这是一个<strong>很关键、但经常被说错</strong>的问题。下面是一份 <strong>RHEL / AlmaLinux / Debian / Ubuntu 通用、且准确到实现层面的说明</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一sysctl-实际会加载哪些目录"
+    >
+        一、sysctl 实际会加载哪些目录？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#一sysctl-实际会加载哪些目录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、sysctl 实际会加载哪些目录？" aria-label="Anchor to: 一、sysctl 实际会加载哪些目录？" href="#%e4%b8%80sysctl-%e5%ae%9e%e9%99%85%e4%bc%9a%e5%8a%a0%e8%bd%bd%e5%93%aa%e4%ba%9b%e7%9b%ae%e5%bd%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>sysctl 的配置来源分三类：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-etcsysctlconf传统主配置"
+    >
+        1️⃣ <code>/etc/sysctl.conf</code>（传统主配置）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#1-etcsysctlconf传统主配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ /etc/sysctl.conf（传统主配置）" aria-label="Anchor to: 1️⃣ /etc/sysctl.conf（传统主配置）" href="#1-etcsysctlconf%e4%bc%a0%e7%bb%9f%e4%b8%bb%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/etc/sysctl.conf
+</span></span></code></pre></div><ul>
+<li>单一文件</li>
+<li>早期 Linux 只支持它</li>
+<li><strong>仍然被支持</strong></li>
+<li>优先级 <strong>低于</strong> <code>/etc/sysctl.d/</code></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-sysctld-目录推荐方式"
+    >
+        2️⃣ <code>sysctl.d</code> 目录（推荐方式）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#2-sysctld-目录推荐方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ sysctl.d 目录（推荐方式）" aria-label="Anchor to: 2️⃣ sysctl.d 目录（推荐方式）" href="#2-sysctld-%e7%9b%ae%e5%bd%95%e6%8e%a8%e8%8d%90%e6%96%b9%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>sysctl 会扫描以下目录（<strong>不是所有发行版路径都一样，但顺序一致</strong>）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/usr/lib/sysctl.d/*.conf
+</span></span><span class="line"><span class="cl">/run/sysctl.d/*.conf
+</span></span><span class="line"><span class="cl">/etc/sysctl.d/*.conf
+</span></span></code></pre></div><p>📌 <strong>这是 systemd 规定的标准顺序</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-内核运行时接口不算配置文件"
+    >
+        3️⃣ 内核运行时接口（不算“配置文件”）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#3-内核运行时接口不算配置文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 内核运行时接口（不算“配置文件”）" aria-label="Anchor to: 3️⃣ 内核运行时接口（不算“配置文件”）" href="#3-%e5%86%85%e6%a0%b8%e8%bf%90%e8%a1%8c%e6%97%b6%e6%8e%a5%e5%8f%a3%e4%b8%8d%e7%ae%97%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/proc/sys/*
+</span></span></code></pre></div><ul>
+<li><code>sysctl -w</code> 或 <code>echo</code> 写入</li>
+<li><strong>重启即失效</strong></li>
+<li>优先级最高（但不可持久）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二完整加载顺序非常重要"
+    >
+        二、完整加载顺序（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#二完整加载顺序非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、完整加载顺序（非常重要）" aria-label="Anchor to: 二、完整加载顺序（非常重要）" href="#%e4%ba%8c%e5%ae%8c%e6%95%b4%e5%8a%a0%e8%bd%bd%e9%a1%ba%e5%ba%8f%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-官方正确加载顺序systemd-sysctl"
+    >
+        ✅ 官方正确加载顺序（systemd-sysctl）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#-官方正确加载顺序systemd-sysctl" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 官方正确加载顺序（systemd-sysctl）" aria-label="Anchor to: ✅ 官方正确加载顺序（systemd-sysctl）" href="#-%e5%ae%98%e6%96%b9%e6%ad%a3%e7%a1%ae%e5%8a%a0%e8%bd%bd%e9%a1%ba%e5%ba%8fsystemd-sysctl">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>按目录顺序加载 -&gt; 同名参数后加载的覆盖先加载的</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1. /usr/lib/sysctl.d/*.conf   （系统 / 发行版默认）
+</span></span><span class="line"><span class="cl">2. /run/sysctl.d/*.conf       （运行时生成，临时）
+</span></span><span class="line"><span class="cl">3. /etc/sysctl.d/*.conf       （管理员自定义，最高优先级）
+</span></span><span class="line"><span class="cl">4. /etc/sysctl.conf           （最后加载，但优先级低于 /etc/sysctl.d）
+</span></span></code></pre></div><p>⚠️ <strong>重点：</strong></p>
+<ul>
+<li><strong>后加载的同名参数会覆盖先加载的</strong></li>
+<li><code>/etc/sysctl.conf</code> 是最后读，但<strong>优先级低于 <code>/etc/sysctl.d/*.conf</code></strong></li>
+</ul>
+<p>这点很多文章写反了，你这里要记住正确结论。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三目录内部的加载顺序"
+    >
+        三、目录内部的加载顺序
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#三目录内部的加载顺序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、目录内部的加载顺序" aria-label="Anchor to: 三、目录内部的加载顺序" href="#%e4%b8%89%e7%9b%ae%e5%bd%95%e5%86%85%e9%83%a8%e7%9a%84%e5%8a%a0%e8%bd%bd%e9%a1%ba%e5%ba%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="同一目录内"
+    >
+        同一目录内
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#同一目录内" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 同一目录内" aria-label="Anchor to: 同一目录内" href="#%e5%90%8c%e4%b8%80%e7%9b%ae%e5%bd%95%e5%86%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">按文件名 ASCII 字典序加载
+</span></span></code></pre></div><p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">10-network.conf
+</span></span><span class="line"><span class="cl">20-vm.conf
+</span></span><span class="line"><span class="cl">99-custom.conf
+</span></span></code></pre></div><p>加载顺序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">10 -&gt; 20 -&gt; 99
+</span></span></code></pre></div><p>📌 <strong>数字前缀是事实上的“优先级机制”</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四为什么推荐用-etcsysctld-而不是-sysctlconf"
+    >
+        四、为什么推荐用 <code>/etc/sysctl.d/</code> 而不是 sysctl.conf？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#四为什么推荐用-etcsysctld-而不是-sysctlconf" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、为什么推荐用 /etc/sysctl.d/ 而不是 sysctl.conf？" aria-label="Anchor to: 四、为什么推荐用 /etc/sysctl.d/ 而不是 sysctl.conf？" href="#%e5%9b%9b%e4%b8%ba%e4%bb%80%e4%b9%88%e6%8e%a8%e8%8d%90%e7%94%a8-etcsysctld-%e8%80%8c%e4%b8%8d%e6%98%af-sysctlconf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="原因总结一句话"
+    >
+        原因总结一句话
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#原因总结一句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 原因总结一句话" aria-label="Anchor to: 原因总结一句话" href="#%e5%8e%9f%e5%9b%a0%e6%80%bb%e7%bb%93%e4%b8%80%e5%8f%a5%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>sysctl.conf 是“单文件时代”的遗留方案，sysctl.d 是现代 systemd 化、可维护、可分层的方案。</strong></p>
+</blockquote>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="对比"
+    >
+        对比
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 对比" aria-label="Anchor to: 对比" href="#%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>方式</th>
+          <th>推荐度</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>/etc/sysctl.conf</code></td>
+          <td>❌ 不推荐新增</td>
+          <td>易混乱、不可模块化</td>
+      </tr>
+      <tr>
+          <td><code>/etc/sysctl.d/*.conf</code></td>
+          <td>✅ 强烈推荐</td>
+          <td>可分类、可覆盖</td>
+      </tr>
+      <tr>
+          <td><code>/usr/lib/sysctl.d</code></td>
+          <td>⚠️ 不要改</td>
+          <td>发行版默认</td>
+      </tr>
+      <tr>
+          <td><code>/run/sysctl.d</code></td>
+          <td>⚠️ 临时</td>
+          <td>程序自动生成</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五典型最佳实践你这种用户必看"
+    >
+        五、典型最佳实践（你这种用户必看）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#五典型最佳实践你这种用户必看" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、典型最佳实践（你这种用户必看）" aria-label="Anchor to: 五、典型最佳实践（你这种用户必看）" href="#%e4%ba%94%e5%85%b8%e5%9e%8b%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e4%bd%a0%e8%bf%99%e7%a7%8d%e7%94%a8%e6%88%b7%e5%bf%85%e7%9c%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="示例目录规划"
+    >
+        示例目录规划
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#示例目录规划" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 示例目录规划" aria-label="Anchor to: 示例目录规划" href="#%e7%a4%ba%e4%be%8b%e7%9b%ae%e5%bd%95%e8%a7%84%e5%88%92">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/etc/sysctl.d/
+</span></span><span class="line"><span class="cl">├── 10-kernel.conf        # kernel / pid / numa
+</span></span><span class="line"><span class="cl">├── 20-vm.conf            # 内存 / OOM / swap
+</span></span><span class="line"><span class="cl">├── 30-fs.conf            # 文件系统 / inotify
+</span></span><span class="line"><span class="cl">├── 40-net-base.conf      # 基础网络
+</span></span><span class="line"><span class="cl">├── 50-net-tcp.conf       # TCP 调优
+</span></span><span class="line"><span class="cl">├── 60-netfilter.conf     # conntrack / nftables
+</span></span><span class="line"><span class="cl">├── 99-custom.conf        # 应急覆盖
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六systemd-是什么时候加载-sysctl-的"
+    >
+        六、systemd 是什么时候加载 sysctl 的？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#六systemd-是什么时候加载-sysctl-的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、systemd 是什么时候加载 sysctl 的？" aria-label="Anchor to: 六、systemd 是什么时候加载 sysctl 的？" href="#%e5%85%adsystemd-%e6%98%af%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e5%8a%a0%e8%bd%bd-sysctl-%e7%9a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">systemd-sysctl.service
+</span></span></code></pre></div><ul>
+<li>启动阶段：<strong>非常早</strong></li>
+<li>网络、容器、数据库启动前</li>
+<li>属于 <strong>基础系统初始化</strong></li>
+</ul>
+<p>查看状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl status systemd-sysctl
+</span></span></code></pre></div><p>重新加载（不重启）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sysctl --system
+</span></span></code></pre></div><p>等价于：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemd-sysctl
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七如何查看最终生效值来自哪里"
+    >
+        七、如何查看“最终生效值”来自哪里？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#七如何查看最终生效值来自哪里" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、如何查看“最终生效值”来自哪里？" aria-label="Anchor to: 七、如何查看“最终生效值”来自哪里？" href="#%e4%b8%83%e5%a6%82%e4%bd%95%e6%9f%a5%e7%9c%8b%e6%9c%80%e7%bb%88%e7%94%9f%e6%95%88%e5%80%bc%e6%9d%a5%e8%87%aa%e5%93%aa%e9%87%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="查看当前值"
+    >
+        查看当前值
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#查看当前值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看当前值" aria-label="Anchor to: 查看当前值" href="#%e6%9f%a5%e7%9c%8b%e5%bd%93%e5%89%8d%e5%80%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sysctl net.ipv4.tcp_tw_reuse
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="查找是哪个文件设置的"
+    >
+        查找是哪个文件设置的
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#查找是哪个文件设置的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查找是哪个文件设置的" aria-label="Anchor to: 查找是哪个文件设置的" href="#%e6%9f%a5%e6%89%be%e6%98%af%e5%93%aa%e4%b8%aa%e6%96%87%e4%bb%b6%e8%ae%be%e7%bd%ae%e7%9a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -R <span class="s2">&#34;net.ipv4.tcp_tw_reuse&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  /etc/sysctl.conf <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  /etc/sysctl.d <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  /run/sysctl.d <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  /usr/lib/sysctl.d
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八一句话终极总结背下来"
+    >
+        八、一句话终极总结（背下来）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-load/#八一句话终极总结背下来" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、一句话终极总结（背下来）" aria-label="Anchor to: 八、一句话终极总结（背下来）" href="#%e5%85%ab%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%88%e6%9e%81%e6%80%bb%e7%bb%93%e8%83%8c%e4%b8%8b%e6%9d%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>sysctl 参数按 <code>/usr/lib -&gt; /run -&gt; /etc</code> 目录顺序加载，同目录按文件名排序，后加载的值覆盖先加载的，生产系统应只在 <code>/etc/sysctl.d/</code> 中维护配置。</strong></p>
+</blockquote>
 
   </article>
 
@@ -3149,9 +3397,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
 
         
-          
-          
-        
 
         
           
@@ -3173,11 +3418,6 @@ Podman 核心概念 Podman systemd 脚本优化 " />
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3284,27 +3524,9 @@ Podman 核心概念 Podman systemd 脚本优化 " />
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/nginx/"
-      title="Nginx"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Nginx
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/vsftpd/"
-      title="vsftpd"
-    >
-      vsftpd
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

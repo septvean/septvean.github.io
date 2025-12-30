@@ -15,7 +15,7 @@
   <meta name="description" content=" 一、环境与前置条件 硬件要求
 CPU：支持 Intel VT-x / AMD-V BIOS：开启 Virtualization 内存：≥ 16 GB（8 GB 勉强） 磁盘：≥ 100 GB 验证 CPU 虚拟化
 egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
-二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \ qemu-kvm \ libvirt \ virt-install \ virt-manager \ virt-viewer \ bridge-utils \ cockpit \ cockpit-machines 将有 sudo 权限的用户加入 libvirt 组：" />
+二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \ qemu-kvm \ libvirt \ virt-install \ virt-manager \ virt-viewer \ bridge-utils \ cockpit \ cockpit-files \ cockpit-machines \ cockpit-podman \ cockpit-storaged 将有 sudo 权限的用户加入 libvirt 组：" />
 
     <title>在 AlmaLinux 9 上安装 KVM | ☘️ Septvean&#39;s Documents</title>
 
@@ -44,7 +44,7 @@ egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
   <meta property="og:description" content=" 一、环境与前置条件 硬件要求
 CPU：支持 Intel VT-x / AMD-V BIOS：开启 Virtualization 内存：≥ 16 GB（8 GB 勉强） 磁盘：≥ 100 GB 验证 CPU 虚拟化
 egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
-二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \ qemu-kvm \ libvirt \ virt-install \ virt-manager \ virt-viewer \ bridge-utils \ cockpit \ cockpit-machines 将有 sudo 权限的用户加入 libvirt 组：" />
+二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \ qemu-kvm \ libvirt \ virt-install \ virt-manager \ virt-viewer \ bridge-utils \ cockpit \ cockpit-files \ cockpit-machines \ cockpit-podman \ cockpit-storaged 将有 sudo 权限的用户加入 libvirt 组：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/kvm/install-kvm-on-almalinux-9/" />
 
@@ -56,7 +56,7 @@ egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
   <meta name="twitter:description" content=" 一、环境与前置条件 硬件要求
 CPU：支持 Intel VT-x / AMD-V BIOS：开启 Virtualization 内存：≥ 16 GB（8 GB 勉强） 磁盘：≥ 100 GB 验证 CPU 虚拟化
 egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
-二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \ qemu-kvm \ libvirt \ virt-install \ virt-manager \ virt-viewer \ bridge-utils \ cockpit \ cockpit-machines 将有 sudo 权限的用户加入 libvirt 组：" />
+二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \ qemu-kvm \ libvirt \ virt-install \ virt-manager \ virt-viewer \ bridge-utils \ cockpit \ cockpit-files \ cockpit-machines \ cockpit-podman \ cockpit-storaged 将有 sudo 权限的用户加入 libvirt 组：" />
 
 
   <script type="application/ld+json">
@@ -67,8 +67,8 @@ egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
       "name": "在 AlmaLinux 9 上安装 KVM",
       "url" : "https://documents.v2ep.com/operations/kvm/install-kvm-on-almalinux-9/",
       "headline": "在 AlmaLinux 9 上安装 KVM",
-      "description": " 一、环境与前置条件 硬件要求\nCPU：支持 Intel VT-x \/ AMD-V BIOS：开启 Virtualization 内存：≥ 16 GB（8 GB 勉强） 磁盘：≥ 100 GB 验证 CPU 虚拟化\negrep -c \u0027(vmx|svm)\u0027 \/proc\/cpuinfo ≥1 即支持\n二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \\ qemu-kvm \\ libvirt \\ virt-install \\ virt-manager \\ virt-viewer \\ bridge-utils \\ cockpit \\ cockpit-machines 将有 sudo 权限的用户加入 libvirt 组：",
-      "wordCount" : "139",
+      "description": " 一、环境与前置条件 硬件要求\nCPU：支持 Intel VT-x \/ AMD-V BIOS：开启 Virtualization 内存：≥ 16 GB（8 GB 勉强） 磁盘：≥ 100 GB 验证 CPU 虚拟化\negrep -c \u0027(vmx|svm)\u0027 \/proc\/cpuinfo ≥1 即支持\n二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \\ qemu-kvm \\ libvirt \\ virt-install \\ virt-manager \\ virt-viewer \\ bridge-utils \\ cockpit \\ cockpit-files \\ cockpit-machines \\ cockpit-podman \\ cockpit-storaged 将有 sudo 权限的用户加入 libvirt 组：",
+      "wordCount" : "145",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2104,7 +2104,10 @@ egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    virt-viewer <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    bridge-utils <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    cockpit <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    cockpit-machines
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    cockpit-files <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    cockpit-machines <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    cockpit-podman <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    cockpit-storaged
 </span></span></code></pre></div><p>将有 sudo 权限的用户加入 libvirt 组：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">usermod -aG libvirt admin
 </span></span><span class="line"><span class="cl">usermod -aG wheel admin
