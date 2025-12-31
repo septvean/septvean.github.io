@@ -12,10 +12,15 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="XFS 的 logbufs 和 logbsize 用于配置内存中日志缓冲区数量和大小，优化高性能存储写入，主要通过挂载参数（logbufs=8,logbsize=256k）调节。增加这些值可减少元数据同步瓶颈，推荐在吞吐量大、日志高负荷的环境中使用。
+核心配置指南：
+logbufs (缓冲区数量): 默认值通常为 2 或 8（取决于内核版本）。建议设置范围为 2 到 8，高并发写入场景可适当增加。 logbsize (缓冲区大小): 默认大小通常为 32KB。为了提升性能，特别是在高吞吐环境中，通常将其增加到 256KB。 适用场景: 数据库、存储大文件、并发写高负载的系统。
+示例挂载参数：
+mount -o logbufs=8,logbsize=256k /dev/sdb1 /mnt/xfs 调整这些参数可以有效减少 I/O 等待，提高文件系统性能。
+查看挂载参数信息：
+findmnt findmnt / " />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>XFS log | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +41,31 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="XFS log"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="XFS 的 logbufs 和 logbsize 用于配置内存中日志缓冲区数量和大小，优化高性能存储写入，主要通过挂载参数（logbufs=8,logbsize=256k）调节。增加这些值可减少元数据同步瓶颈，推荐在吞吐量大、日志高负荷的环境中使用。
+核心配置指南：
+logbufs (缓冲区数量): 默认值通常为 2 或 8（取决于内核版本）。建议设置范围为 2 到 8，高并发写入场景可适当增加。 logbsize (缓冲区大小): 默认大小通常为 32KB。为了提升性能，特别是在高吞吐环境中，通常将其增加到 256KB。 适用场景: 数据库、存储大文件、并发写高负载的系统。
+示例挂载参数：
+mount -o logbufs=8,logbsize=256k /dev/sdb1 /mnt/xfs 调整这些参数可以有效减少 I/O 等待，提高文件系统性能。
+查看挂载参数信息：
+findmnt findmnt / " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/xfs-log/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="XFS log" />
+  <meta name="twitter:description" content="XFS 的 logbufs 和 logbsize 用于配置内存中日志缓冲区数量和大小，优化高性能存储写入，主要通过挂载参数（logbufs=8,logbsize=256k）调节。增加这些值可减少元数据同步瓶颈，推荐在吞吐量大、日志高负荷的环境中使用。
+核心配置指南：
+logbufs (缓冲区数量): 默认值通常为 2 或 8（取决于内核版本）。建议设置范围为 2 到 8，高并发写入场景可适当增加。 logbsize (缓冲区大小): 默认大小通常为 32KB。为了提升性能，特别是在高吞吐环境中，通常将其增加到 256KB。 适用场景: 数据库、存储大文件、并发写高负载的系统。
+示例挂载参数：
+mount -o logbufs=8,logbsize=256k /dev/sdb1 /mnt/xfs 调整这些参数可以有效减少 I/O 等待，提高文件系统性能。
+查看挂载参数信息：
+findmnt findmnt / " />
 
 
   <script type="application/ld+json">
@@ -58,16 +73,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL \/ PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "120",
+      "name": "XFS log",
+      "url" : "https://documents.v2ep.com/operations/linux/xfs-log/",
+      "headline": "XFS log",
+      "description": "XFS 的 logbufs 和 logbsize 用于配置内存中日志缓冲区数量和大小，优化高性能存储写入，主要通过挂载参数（logbufs=8,logbsize=256k）调节。增加这些值可减少元数据同步瓶颈，推荐在吞吐量大、日志高负荷的环境中使用。\n核心配置指南：\nlogbufs (缓冲区数量): 默认值通常为 2 或 8（取决于内核版本）。建议设置范围为 2 到 8，高并发写入场景可适当增加。 logbsize (缓冲区大小): 默认大小通常为 32KB。为了提升性能，特别是在高吞吐环境中，通常将其增加到 256KB。 适用场景: 数据库、存储大文件、并发写高负载的系统。\n示例挂载参数：\nmount -o logbufs=8,logbsize=256k \/dev\/sdb1 \/mnt\/xfs 调整这些参数可以有效减少 I\/O 等待，提高文件系统性能。\n查看挂载参数信息：\nfindmnt findmnt \/ ",
+      "wordCount" : "36",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/xfs-log/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +166,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/xfs-log/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1013,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -2024,7 +2039,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>XFS log</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,388 +2066,22 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>XFS log</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-runc/" class="gdoc-toc__entry">runc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-and-runc/" class="gdoc-toc__entry">systemd 和 runc 之间的关系
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-relationship/" class="gdoc-toc__entry">Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/from-hardware-to-container/" class="gdoc-toc__entry">从硬件到容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/numa-practice/" class="gdoc-toc__entry">多应用场景 NUMA 实践
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/performance/" class="gdoc-toc__entry">性能优化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/drop-caches/" class="gdoc-toc__entry">Drop Caches
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance/" class="gdoc-toc__entry">irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mount/" class="gdoc-toc__entry">Linux 磁盘挂载与性能优化
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/setup-ipv6/" class="gdoc-toc__entry">Linux 系统，内网服务器，有没有必要禁用 IPv6？
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/troubleshooting-rpcbind/" class="gdoc-toc__entry">Linux 系统故障排查 -- rpcbind
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/nftables/" class="gdoc-toc__entry">nftables
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-vs-debian/" class="gdoc-toc__entry">RHEL 系列 vs Debian 系列
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysctl-net.core.default_qdisc/" class="gdoc-toc__entry">sysctl -- net.core.default_qdisc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysctl-load/" class="gdoc-toc__entry">sysctl 会加载哪些目录下的配置文件？加载顺序是什么？
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-log/" class="gdoc-toc__entry">XFS log
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-user-exist/" class="gdoc-toc__entry">如何判断系统用户是否存在
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mem-available/" class="gdoc-toc__entry">如何计算内存实际剩余多少
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance-database/" class="gdoc-toc__entry">数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
-
+    <p>XFS 的 logbufs 和 logbsize 用于配置内存中日志缓冲区数量和大小，优化高性能存储写入，主要通过挂载参数（logbufs=8,logbsize=256k）调节。增加这些值可减少元数据同步瓶颈，推荐在吞吐量大、日志高负荷的环境中使用。</p>
+<p>核心配置指南：</p>
+<ul>
+<li><strong>logbufs (缓冲区数量)</strong>: 默认值通常为 2 或 8（取决于内核版本）。建议设置范围为 2 到 8，高并发写入场景可适当增加。</li>
+<li><strong>logbsize (缓冲区大小)</strong>: 默认大小通常为 32KB。为了提升性能，特别是在高吞吐环境中，通常将其增加到 256KB。</li>
+</ul>
+<p>适用场景: 数据库、存储大文件、并发写高负载的系统。</p>
+<p>示例挂载参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount -o <span class="nv">logbufs</span><span class="o">=</span>8,logbsize<span class="o">=</span>256k /dev/sdb1 /mnt/xfs
+</span></span></code></pre></div><p>调整这些参数可以有效减少 I/O 等待，提高文件系统性能。</p>
+<p>查看挂载参数信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">findmnt
+</span></span><span class="line"><span class="cl">findmnt /
+</span></span></code></pre></div>
   </article>
 
 
@@ -2951,9 +2608,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -2984,11 +2638,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3626,27 +3275,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

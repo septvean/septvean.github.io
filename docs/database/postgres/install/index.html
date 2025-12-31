@@ -12,9 +12,11 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content=" 安装 PostgreSQL 18 基础包 官方文档：Linux downloads (Red Hat family)
+  <meta name="description" content="官方文档：Linux downloads (Red Hat family)
 运维环境：
-操作系统：AlmaLinux 9.6 数据库版本：PostgreSQL 18 # 因为 HTTP代理 的问题, 不要用 sudo, 使用 root 用户执行 sudo su - root # 安装 Perl 模块 dnf install -y --enablerepo=crb perl-IPC-Run # 设置代理 export http_proxy=http://127.0.0.1:1080;export https_proxy=http://127.0.0.1:1080; # 添加 PostgreSQL 仓库 dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # 禁用所有 PostgreSQL 模块 sed -i &#39;s/enabled=1/enabled=0/g&#39; /etc/yum.repos.d/pgdg-redhat-all.repo # 关闭所有 PostgreSQL 模块 dnf -qy module disable postgresql # 安装 PostgreSQL 18 基础包 dnf uninstall -y postgresql17 postgresql17-devel postgresql17-libs dnf install -y --enablerepo=pgdg18 postgresql18 postgresql18-devel postgresql18-libs " />
+操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm 验证仓库状态：
+percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。
+安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 percona-release setup ppg-18 说明：" />
 
     <title>PostgreSQL 安装 | ☘️ Septvean&#39;s Documents</title>
 
@@ -40,9 +42,11 @@
     content="PostgreSQL 安装"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content=" 安装 PostgreSQL 18 基础包 官方文档：Linux downloads (Red Hat family)
+  <meta property="og:description" content="官方文档：Linux downloads (Red Hat family)
 运维环境：
-操作系统：AlmaLinux 9.6 数据库版本：PostgreSQL 18 # 因为 HTTP代理 的问题, 不要用 sudo, 使用 root 用户执行 sudo su - root # 安装 Perl 模块 dnf install -y --enablerepo=crb perl-IPC-Run # 设置代理 export http_proxy=http://127.0.0.1:1080;export https_proxy=http://127.0.0.1:1080; # 添加 PostgreSQL 仓库 dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # 禁用所有 PostgreSQL 模块 sed -i &#39;s/enabled=1/enabled=0/g&#39; /etc/yum.repos.d/pgdg-redhat-all.repo # 关闭所有 PostgreSQL 模块 dnf -qy module disable postgresql # 安装 PostgreSQL 18 基础包 dnf uninstall -y postgresql17 postgresql17-devel postgresql17-libs dnf install -y --enablerepo=pgdg18 postgresql18 postgresql18-devel postgresql18-libs " />
+操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm 验证仓库状态：
+percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。
+安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 percona-release setup ppg-18 说明：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/database/postgres/install/" />
 
@@ -51,9 +55,11 @@
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="PostgreSQL 安装" />
-  <meta name="twitter:description" content=" 安装 PostgreSQL 18 基础包 官方文档：Linux downloads (Red Hat family)
+  <meta name="twitter:description" content="官方文档：Linux downloads (Red Hat family)
 运维环境：
-操作系统：AlmaLinux 9.6 数据库版本：PostgreSQL 18 # 因为 HTTP代理 的问题, 不要用 sudo, 使用 root 用户执行 sudo su - root # 安装 Perl 模块 dnf install -y --enablerepo=crb perl-IPC-Run # 设置代理 export http_proxy=http://127.0.0.1:1080;export https_proxy=http://127.0.0.1:1080; # 添加 PostgreSQL 仓库 dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # 禁用所有 PostgreSQL 模块 sed -i &#39;s/enabled=1/enabled=0/g&#39; /etc/yum.repos.d/pgdg-redhat-all.repo # 关闭所有 PostgreSQL 模块 dnf -qy module disable postgresql # 安装 PostgreSQL 18 基础包 dnf uninstall -y postgresql17 postgresql17-devel postgresql17-libs dnf install -y --enablerepo=pgdg18 postgresql18 postgresql18-devel postgresql18-libs " />
+操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm 验证仓库状态：
+percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。
+安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 percona-release setup ppg-18 说明：" />
 
 
   <script type="application/ld+json">
@@ -64,8 +70,8 @@
       "name": "PostgreSQL 安装",
       "url" : "https://documents.v2ep.com/database/postgres/install/",
       "headline": "PostgreSQL 安装",
-      "description": " 安装 PostgreSQL 18 基础包 官方文档：Linux downloads (Red Hat family)\n运维环境：\n操作系统：AlmaLinux 9.6 数据库版本：PostgreSQL 18 # 因为 HTTP代理 的问题, 不要用 sudo, 使用 root 用户执行 sudo su - root # 安装 Perl 模块 dnf install -y --enablerepo=crb perl-IPC-Run # 设置代理 export http_proxy=http:\/\/127.0.0.1:1080;export https_proxy=http:\/\/127.0.0.1:1080; # 添加 PostgreSQL 仓库 dnf install -y https:\/\/download.postgresql.org\/pub\/repos\/yum\/reporpms\/EL-9-x86_64\/pgdg-redhat-repo-latest.noarch.rpm # 禁用所有 PostgreSQL 模块 sed -i \u0027s\/enabled=1\/enabled=0\/g\u0027 \/etc\/yum.repos.d\/pgdg-redhat-all.repo # 关闭所有 PostgreSQL 模块 dnf -qy module disable postgresql # 安装 PostgreSQL 18 基础包 dnf uninstall -y postgresql17 postgresql17-devel postgresql17-libs dnf install -y --enablerepo=pgdg18 postgresql18 postgresql18-devel postgresql18-libs ",
-      "wordCount" : "84",
+      "description": "官方文档：Linux downloads (Red Hat family)\n运维环境：\n操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https:\/\/repo.percona.com\/yum\/percona-release-latest.noarch.rpm 验证仓库状态：\npercona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。\n安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 percona-release setup ppg-18 说明：",
+      "wordCount" : "368",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2056,32 +2062,230 @@
   >
     <h1>PostgreSQL 安装</h1>
     
-    <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="安装-postgresql-18-基础包"
-    >
-        安装 PostgreSQL 18 基础包
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#安装-postgresql-18-基础包" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 PostgreSQL 18 基础包" aria-label="Anchor to: 安装 PostgreSQL 18 基础包" href="#%e5%ae%89%e8%a3%85-postgresql-18-%e5%9f%ba%e7%a1%80%e5%8c%85">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>官方文档：<a
+    <p>官方文档：<a
   class="gdoc-markdown__link"
   href="https://www.postgresql.org/download/linux/redhat/"
 >Linux downloads (Red Hat family)</a></p>
 <p>运维环境：</p>
 <ul>
-<li>操作系统：AlmaLinux 9.6</li>
+<li>操作系统：AlmaLinux 9.7</li>
 <li>数据库版本：PostgreSQL 18</li>
 </ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="准备工作"
+    >
+        准备工作
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#准备工作" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 准备工作" aria-label="Anchor to: 准备工作" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="安装-percona-官方-yum-仓库"
+    >
+        安装 Percona 官方 YUM 仓库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#安装-percona-官方-yum-仓库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 Percona 官方 YUM 仓库" aria-label="Anchor to: 安装 Percona 官方 YUM 仓库" href="#%e5%ae%89%e8%a3%85-percona-%e5%ae%98%e6%96%b9-yum-%e4%bb%93%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+</span></span></code></pre></div><p>验证仓库状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">percona-release show
+</span></span></code></pre></div><blockquote>
+<p>⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="安装-percona-postgresql-18"
+    >
+        安装 Percona PostgreSQL 18
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#安装-percona-postgresql-18" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 Percona PostgreSQL 18" aria-label="Anchor to: 安装 Percona PostgreSQL 18" href="#%e5%ae%89%e8%a3%85-percona-postgresql-18">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="启用-postgresql-18-仓库"
+    >
+        启用 PostgreSQL 18 仓库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#启用-postgresql-18-仓库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 启用 PostgreSQL 18 仓库" aria-label="Anchor to: 启用 PostgreSQL 18 仓库" href="#%e5%90%af%e7%94%a8-postgresql-18-%e4%bb%93%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">percona-release setup ppg-18
+</span></span></code></pre></div><p>说明：</p>
+<ul>
+<li><code>ppg</code> = Percona PostgreSQL</li>
+<li><code>18</code> = PostgreSQL 18（当前稳定大版本）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="安装-postgresql-18-及常用组件"
+    >
+        安装 PostgreSQL 18 及常用组件
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#安装-postgresql-18-及常用组件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 PostgreSQL 18 及常用组件" aria-label="Anchor to: 安装 PostgreSQL 18 及常用组件" href="#%e5%ae%89%e8%a3%85-postgresql-18-%e5%8f%8a%e5%b8%b8%e7%94%a8%e7%bb%84%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># dnf -qy module disable postgresql</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 如何 dnf install 速度很慢, 可以设置代理</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># export http_proxy=http://127.0.0.1:1080;export https_proxy=http://127.0.0.1:1080;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dnf install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --enablerepo<span class="o">=</span>crb perl-IPC-Run <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-postgresql18 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-postgresql18-devel <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-postgresql18-libs <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-postgresql18-server <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-pg_repack18 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-pgbackrest <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-pgbouncer <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-pgvector_18
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="组件说明"
+    >
+        组件说明
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#组件说明" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 组件说明" aria-label="Anchor to: 组件说明" href="#%e7%bb%84%e4%bb%b6%e8%af%b4%e6%98%8e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>包名</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>percona-postgresql18</td>
+          <td>PostgreSQL 客户端</td>
+      </tr>
+      <tr>
+          <td>percona-postgresql18-server</td>
+          <td>PostgreSQL 服务端</td>
+      </tr>
+      <tr>
+          <td>percona-postgresql18-libs</td>
+          <td>运行时库</td>
+      </tr>
+      <tr>
+          <td>percona-postgresql18-devel</td>
+          <td>编译扩展用</td>
+      </tr>
+      <tr>
+          <td>percona-pgbackrest</td>
+          <td>生产级备份工具</td>
+      </tr>
+      <tr>
+          <td>percona-pgbouncer</td>
+          <td>连接池</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="初始化数据库"
+    >
+        初始化数据库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#初始化数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 初始化数据库" aria-label="Anchor to: 初始化数据库" href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 默认数据目录</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   /var/lib/pgsql/18/data</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改为</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#  /data/pgsql/18/data</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建目录并设置权限</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># /var/lib/pgsql/18 目录必须创建, 否则会报错</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   /usr/pgsql-18/bin/postgresql-18-setup initdb</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   Initializing database ... touch: cannot touch &#39;/var/lib/pgsql/18/initdb.log&#39;: No such file or directory</span>
+</span></span><span class="line"><span class="cl">rm -rf /data/pgsql/18 /var/lib/pgsql/18
+</span></span><span class="line"><span class="cl">mkdir -p /data/pgsql/18/<span class="o">{</span>backup,data<span class="o">}</span> /var/lib/pgsql/18
+</span></span><span class="line"><span class="cl">chown -R postgres:postgres /data/pgsql/18/<span class="o">{</span>backup,data<span class="o">}</span>
+</span></span><span class="line"><span class="cl">chmod <span class="m">700</span> /data/pgsql/18/<span class="o">{</span>backup,data<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># initdb 参数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 不要添加 --pwprompt</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PGSETUP_INITDB_OPTIONS</span><span class="o">=</span><span class="s2">&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">--pgdata=/data/pgsql/18/data
+</span></span></span><span class="line"><span class="cl"><span class="s2">--encoding=UTF8
+</span></span></span><span class="line"><span class="cl"><span class="s2">--locale=C
+</span></span></span><span class="line"><span class="cl"><span class="s2">--auth-host=scram-sha-256
+</span></span></span><span class="line"><span class="cl"><span class="s2">--data-checksums
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 初始化</span>
+</span></span><span class="line"><span class="cl">/usr/pgsql-18/bin/postgresql-18-setup initdb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入数据目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/pgsql/18/data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 备份配置文件</span>
+</span></span><span class="line"><span class="cl">cp pg_hba.conf pg_hba.conf_default
+</span></span><span class="line"><span class="cl">cp postgresql.conf postgresql.conf_default
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改配置文件</span>
+</span></span><span class="line"><span class="cl">tee pg_hba.conf &gt;/dev/null <span class="s">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">#TYPE   DATABASE    USER    ADDRESS         METHOD
+</span></span></span><span class="line"><span class="cl"><span class="s">local   all         all                     trust
+</span></span></span><span class="line"><span class="cl"><span class="s">host    all         all     127.0.0.1/32    trust
+</span></span></span><span class="line"><span class="cl"><span class="s">host    all         all     all             scram-sha-256
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改监听地址</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^#\(listen_addresses =\).*/\1 &#39;*&#39;/g&#34;</span> postgresql.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改 systemd 参数</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s|^Environment=PGDATA=.*|Environment=PGDATA=/data/pgsql/18/data|g&#39;</span> /usr/lib/systemd/system/postgresql-18.service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重载 systemd</span>
+</span></span><span class="line"><span class="cl">systemctl daemon-reload
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
+</span></span><span class="line"><span class="cl">systemctl start postgresql-18
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看状态</span>
+</span></span><span class="line"><span class="cl">systemctl status postgresql-18
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看端口</span>
+</span></span><span class="line"><span class="cl">ss -netlap <span class="p">|</span> grep postgres
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># psql: symbol lookup error: psql: undefined symbol: PQpipelineStatus</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rpm -qa | grep -E &#39;postgresql.*libs|libpq&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># dnf remove libpq</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改密码</span>
+</span></span><span class="line"><span class="cl">/usr/pgsql-18/bin/psql -d postgres -U postgres -c <span class="s2">&#34;ALTER USER postgres WITH PASSWORD &#39;KdX3V7nC&#39;;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 验证 PostgreSQL 版本</span>
+</span></span><span class="line"><span class="cl">/usr/pgsql-18/bin/psql -d postgres -U postgres -c <span class="s2">&#34;SELECT version();&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置开机自启</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> postgresql-18
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="官方仓库安装方法"
+    >
+        官方仓库安装方法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/install/#官方仓库安装方法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 官方仓库安装方法" aria-label="Anchor to: 官方仓库安装方法" href="#%e5%ae%98%e6%96%b9%e4%bb%93%e5%ba%93%e5%ae%89%e8%a3%85%e6%96%b9%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 因为 HTTP代理 的问题, 不要用 sudo, 使用 root 用户执行</span>
-</span></span><span class="line"><span class="cl">sudo su - root
+</span></span><span class="line"><span class="cl">su - root
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 安装 Perl 模块</span>
-</span></span><span class="line"><span class="cl">dnf install -y --enablerepo<span class="o">=</span>crb perl-IPC-Run
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 设置代理</span>
-</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:1080<span class="p">;</span><span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:1080<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 如何 dnf install 速度很慢, 可以设置代理</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># export http_proxy=http://127.0.0.1:1080;export https_proxy=http://127.0.0.1:1080;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 添加 PostgreSQL 仓库</span>
 </span></span><span class="line"><span class="cl">dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
@@ -2092,8 +2296,10 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 关闭所有 PostgreSQL 模块</span>
 </span></span><span class="line"><span class="cl">dnf -qy module disable postgresql
 </span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装 Perl 模块</span>
+</span></span><span class="line"><span class="cl">dnf install -y --enablerepo<span class="o">=</span>crb perl-IPC-Run
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 安装 PostgreSQL 18 基础包</span>
-</span></span><span class="line"><span class="cl">dnf uninstall -y postgresql17 postgresql17-devel postgresql17-libs
 </span></span><span class="line"><span class="cl">dnf install -y --enablerepo<span class="o">=</span>pgdg18 postgresql18 postgresql18-devel postgresql18-libs
 </span></span></code></pre></div>
   </article>
