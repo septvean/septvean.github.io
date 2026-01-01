@@ -12,10 +12,15 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 Docker Compose 最佳实践 Docker Compose 核心概念 Docker vs Podman Docker 网络原理 Docker-in-Docker (DinD) vs docker.sock Dockerfile 最佳实践 Dockerfile 详解 " />
+  <meta name="description" content=" 适用版本：PostgreSQL 17 / 18
+目标：防数据损坏 &#43; 可验证 &#43; 可回滚 &#43; 可恢复到任意时间点（PITR）
+一、为什么 pg_checksums &#43; pgBackRest 要一起用？ 一句话总结：
+pg_checksums 负责“发现数据坏了”
+pgBackRest 负责“把正确数据找回来”
+单独使用任何一个，容灾都是不完整的。
+能解决什么灾难？ 灾难类型 pg_checksums pgBackRest 磁盘 silent corruption ✅ 发现 ✅ 恢复 RAID / SSD 位翻转 ✅ ✅ 文件系统 bug ✅ ✅ 人为误删数据 ❌ ✅ 误 UPDATE / DELETE ❌ ✅（PITR） WAL 丢失 ❌ ✅ 主机宕机 ❌ ✅ 👉 两者组合 = PostgreSQL 官方最强数据安全方案" />
 
-    <title>Docker | ☘️ Septvean&#39;s Documents</title>
+    <title>pgBackRest &#43; pg_checksums 的完整容灾链路 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,38 +41,48 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
     
   <meta
     property="og:title"
-    content="Docker"
+    content="pgBackRest + pg_checksums 的完整容灾链路"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 Docker Compose 最佳实践 Docker Compose 核心概念 Docker vs Podman Docker 网络原理 Docker-in-Docker (DinD) vs docker.sock Dockerfile 最佳实践 Dockerfile 详解 " />
+  <meta property="og:description" content=" 适用版本：PostgreSQL 17 / 18
+目标：防数据损坏 &#43; 可验证 &#43; 可回滚 &#43; 可恢复到任意时间点（PITR）
+一、为什么 pg_checksums &#43; pgBackRest 要一起用？ 一句话总结：
+pg_checksums 负责“发现数据坏了”
+pgBackRest 负责“把正确数据找回来”
+单独使用任何一个，容灾都是不完整的。
+能解决什么灾难？ 灾难类型 pg_checksums pgBackRest 磁盘 silent corruption ✅ 发现 ✅ 恢复 RAID / SSD 位翻转 ✅ ✅ 文件系统 bug ✅ ✅ 人为误删数据 ❌ ✅ 误 UPDATE / DELETE ❌ ✅（PITR） WAL 丢失 ❌ ✅ 主机宕机 ❌ ✅ 👉 两者组合 = PostgreSQL 官方最强数据安全方案" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/docker/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/" />
 
-<meta property="article:section" content="Operations" />
+<meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Docker" />
-  <meta name="twitter:description" content="Document List:
-Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 Docker Compose 最佳实践 Docker Compose 核心概念 Docker vs Podman Docker 网络原理 Docker-in-Docker (DinD) vs docker.sock Dockerfile 最佳实践 Dockerfile 详解 " />
+<meta name="twitter:title" content="pgBackRest + pg_checksums 的完整容灾链路" />
+  <meta name="twitter:description" content=" 适用版本：PostgreSQL 17 / 18
+目标：防数据损坏 &#43; 可验证 &#43; 可回滚 &#43; 可恢复到任意时间点（PITR）
+一、为什么 pg_checksums &#43; pgBackRest 要一起用？ 一句话总结：
+pg_checksums 负责“发现数据坏了”
+pgBackRest 负责“把正确数据找回来”
+单独使用任何一个，容灾都是不完整的。
+能解决什么灾难？ 灾难类型 pg_checksums pgBackRest 磁盘 silent corruption ✅ 发现 ✅ 恢复 RAID / SSD 位翻转 ✅ ✅ 文件系统 bug ✅ ✅ 人为误删数据 ❌ ✅ 误 UPDATE / DELETE ❌ ✅（PITR） WAL 丢失 ❌ ✅ 主机宕机 ❌ ✅ 👉 两者组合 = PostgreSQL 官方最强数据安全方案" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Operations",
-      "name": "Docker",
-      "url" : "https://documents.v2ep.com/operations/docker/",
-      "headline": "Docker",
-      "description": "Document List:\nDocker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 Docker Compose 最佳实践 Docker Compose 核心概念 Docker vs Podman Docker 网络原理 Docker-in-Docker (DinD) vs docker.sock Dockerfile 最佳实践 Dockerfile 详解 ",
-      "wordCount" : "30",
+      "articleSection": "Database",
+      "name": "pgBackRest + pg_checksums 的完整容灾链路",
+      "url" : "https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/",
+      "headline": "pgBackRest + pg_checksums 的完整容灾链路",
+      "description": " 适用版本：PostgreSQL 17 \/ 18\n目标：防数据损坏 \u002b 可验证 \u002b 可回滚 \u002b 可恢复到任意时间点（PITR）\n一、为什么 pg_checksums \u002b pgBackRest 要一起用？ 一句话总结：\npg_checksums 负责“发现数据坏了”\npgBackRest 负责“把正确数据找回来”\n单独使用任何一个，容灾都是不完整的。\n能解决什么灾难？ 灾难类型 pg_checksums pgBackRest 磁盘 silent corruption ✅ 发现 ✅ 恢复 RAID \/ SSD 位翻转 ✅ ✅ 文件系统 bug ✅ ✅ 人为误删数据 ❌ ✅ 误 UPDATE \/ DELETE ❌ ✅（PITR） WAL 丢失 ❌ ✅ 主机宕机 ❌ ✅ 👉 两者组合 = PostgreSQL 官方最强数据安全方案",
+      "wordCount" : "341",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/docker/"
+          "@id": "https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +166,7 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/docker/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -997,6 +1012,42 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
               
                 <span class="flex">
                   <a
+                    href="/operations/docker/faq/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker FAQ
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
                     href="/operations/linux/"
                     class="gdoc-nav__entry"
                   >
@@ -1018,6 +1069,78 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
         
       
 
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/tutorial/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker 基础教程
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/core/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker 核心概念
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
       
         
           
@@ -1317,10 +1440,298 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
               
                 <span class="flex">
                   <a
-                    href="/operations/docker/"
-                    class="gdoc-nav__entry is-active"
+                    href="/operations/dns/"
+                    class="gdoc-nav__entry"
                   >
-                    Docker
+                    DNS
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/docker-compose-yaml/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker Compose 字段讲解
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/docker-compose-best-practices/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker Compose 最佳实践
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/docker-compose-core/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker Compose 核心概念
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/docker-vs-podman/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker vs Podman
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/network/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker 网络原理
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/dind-vs-docker-sock/"
+                    class="gdoc-nav__entry"
+                  >
+                    Docker-in-Docker (DinD) vs docker.sock
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/dockerfile-best-practices/"
+                    class="gdoc-nav__entry"
+                  >
+                    Dockerfile 最佳实践
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/operations/docker/dockerfile/"
+                    class="gdoc-nav__entry"
+                  >
+                    Dockerfile 详解
                   </a>
                 </span>
               
@@ -2024,7 +2435,15 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Docker</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>pgBackRest + pg_checksums 的完整容灾链路</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2043,106 +2462,471 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Docker</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>pgBackRest &#43; pg_checksums 的完整容灾链路</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/docker/faq/" class="gdoc-toc__entry">Docker FAQ
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/docker/tutorial/" class="gdoc-toc__entry">Docker 基础教程
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/core/" class="gdoc-toc__entry">Docker 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/docker/docker-compose-yaml/" class="gdoc-toc__entry">Docker Compose 字段讲解
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/docker-compose-best-practices/" class="gdoc-toc__entry">Docker Compose 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/docker-compose-core/" class="gdoc-toc__entry">Docker Compose 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/docker-vs-podman/" class="gdoc-toc__entry">Docker vs Podman
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/network/" class="gdoc-toc__entry">Docker 网络原理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/dind-vs-docker-sock/" class="gdoc-toc__entry">Docker-in-Docker (DinD) vs docker.sock
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/dockerfile-best-practices/" class="gdoc-toc__entry">Dockerfile 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/docker/dockerfile/" class="gdoc-toc__entry">Dockerfile 详解
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <blockquote>
+<p>适用版本：PostgreSQL <strong>17 / 18</strong><br />
+目标：<strong>防数据损坏 + 可验证 + 可回滚 + 可恢复到任意时间点（PITR）</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一为什么-pg_checksums--pgbackrest-要一起用"
+    >
+        一、为什么 pg_checksums + pgBackRest 要一起用？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#一为什么-pg_checksums--pgbackrest-要一起用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、为什么 pg_checksums &#43; pgBackRest 要一起用？" aria-label="Anchor to: 一、为什么 pg_checksums &#43; pgBackRest 要一起用？" href="#%e4%b8%80%e4%b8%ba%e4%bb%80%e4%b9%88-pg_checksums--pgbackrest-%e8%a6%81%e4%b8%80%e8%b5%b7%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>一句话总结：</p>
+<blockquote>
+<p><strong>pg_checksums 负责“发现数据坏了”</strong><br />
+<strong>pgBackRest 负责“把正确数据找回来”</strong></p>
+</blockquote>
+<p>单独使用任何一个，容灾都是不完整的。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="能解决什么灾难"
+    >
+        能解决什么灾难？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#能解决什么灾难" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 能解决什么灾难？" aria-label="Anchor to: 能解决什么灾难？" href="#%e8%83%bd%e8%a7%a3%e5%86%b3%e4%bb%80%e4%b9%88%e7%81%be%e9%9a%be">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>灾难类型</th>
+          <th>pg_checksums</th>
+          <th>pgBackRest</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>磁盘 silent corruption</td>
+          <td>✅ 发现</td>
+          <td>✅ 恢复</td>
+      </tr>
+      <tr>
+          <td>RAID / SSD 位翻转</td>
+          <td>✅</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>文件系统 bug</td>
+          <td>✅</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>人为误删数据</td>
+          <td>❌</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>误 UPDATE / DELETE</td>
+          <td>❌</td>
+          <td>✅（PITR）</td>
+      </tr>
+      <tr>
+          <td>WAL 丢失</td>
+          <td>❌</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>主机宕机</td>
+          <td>❌</td>
+          <td>✅</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>👉 <strong>两者组合 = PostgreSQL 官方最强数据安全方案</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二整体容灾架构图逻辑"
+    >
+        二、整体容灾架构图（逻辑）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#二整体容灾架构图逻辑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、整体容灾架构图（逻辑）" aria-label="Anchor to: 二、整体容灾架构图（逻辑）" href="#%e4%ba%8c%e6%95%b4%e4%bd%93%e5%ae%b9%e7%81%be%e6%9e%b6%e6%9e%84%e5%9b%be%e9%80%bb%e8%be%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">        ┌────────────┐
+</span></span><span class="line"><span class="cl">        │ PostgreSQL │
+</span></span><span class="line"><span class="cl">        │  Data Dir  │
+</span></span><span class="line"><span class="cl">        └─────┬──────┘
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">        pg_checksums
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">     校验数据页一致性
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">              ▼
+</span></span><span class="line"><span class="cl">        WAL 归档（archive-push）
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">              ▼
+</span></span><span class="line"><span class="cl">        ┌────────────┐
+</span></span><span class="line"><span class="cl">        │ pgBackRest │
+</span></span><span class="line"><span class="cl">        │ Repository │
+</span></span><span class="line"><span class="cl">        └────────────┘
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">     Full / Diff / Incr
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">              ▼
+</span></span><span class="line"><span class="cl">     任意时间点恢复（PITR）
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三阶段一启用-pg_checksums防-silent-corruption"
+    >
+        三、阶段一：启用 pg_checksums（防 silent corruption）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#三阶段一启用-pg_checksums防-silent-corruption" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、阶段一：启用 pg_checksums（防 silent corruption）" aria-label="Anchor to: 三、阶段一：启用 pg_checksums（防 silent corruption）" href="#%e4%b8%89%e9%98%b6%e6%ae%b5%e4%b8%80%e5%90%af%e7%94%a8-pg_checksums%e9%98%b2-silent-corruption">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-检查当前是否启用"
+    >
+        1️⃣ 检查当前是否启用
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#1-检查当前是否启用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 检查当前是否启用" aria-label="Anchor to: 1️⃣ 检查当前是否启用" href="#1-%e6%a3%80%e6%9f%a5%e5%bd%93%e5%89%8d%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_checksums --show --data-directory<span class="o">=</span>/var/lib/postgresql
+</span></span></code></pre></div><p>输出示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Checksums are enabled in cluster
+</span></span></code></pre></div><p>或：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Checksums are disabled in cluster
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-未启用时如何启用必须停库"
+    >
+        2️⃣ 未启用时，如何启用（必须停库）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#2-未启用时如何启用必须停库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 未启用时，如何启用（必须停库）" aria-label="Anchor to: 2️⃣ 未启用时，如何启用（必须停库）" href="#2-%e6%9c%aa%e5%90%af%e7%94%a8%e6%97%b6%e5%a6%82%e4%bd%95%e5%90%af%e7%94%a8%e5%bf%85%e9%a1%bb%e5%81%9c%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>⚠️ <strong>这是唯一一次破坏性操作，必须停 PostgreSQL</strong></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl stop postgresql
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_checksums --enable --data-directory<span class="o">=</span>/var/lib/postgresql
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl start postgresql
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-启用后的意义"
+    >
+        3️⃣ 启用后的意义
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#3-启用后的意义" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 启用后的意义" aria-label="Anchor to: 3️⃣ 启用后的意义" href="#3-%e5%90%af%e7%94%a8%e5%90%8e%e7%9a%84%e6%84%8f%e4%b9%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>每个 8KB 数据页都有校验值</li>
+<li>PostgreSQL <strong>读取数据前自动校验</strong></li>
+<li>一旦发现损坏 -&gt; <strong>直接 ERROR，避免脏数据扩散</strong></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四阶段二pgbackrest-构建可恢复时间轴"
+    >
+        四、阶段二：pgBackRest 构建“可恢复时间轴”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#四阶段二pgbackrest-构建可恢复时间轴" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、阶段二：pgBackRest 构建“可恢复时间轴”" aria-label="Anchor to: 四、阶段二：pgBackRest 构建“可恢复时间轴”" href="#%e5%9b%9b%e9%98%b6%e6%ae%b5%e4%ba%8cpgbackrest-%e6%9e%84%e5%bb%ba%e5%8f%af%e6%81%a2%e5%a4%8d%e6%97%b6%e9%97%b4%e8%bd%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-创建-stanza一次性"
+    >
+        1️⃣ 创建 stanza（一次性）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#1-创建-stanza一次性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 创建 stanza（一次性）" aria-label="Anchor to: 1️⃣ 创建 stanza（一次性）" href="#1-%e5%88%9b%e5%bb%ba-stanza%e4%b8%80%e6%ac%a1%e6%80%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main stanza-create
+</span></span></code></pre></div><p>这一步会生成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">repo/archive/main/archive.info
+</span></span><span class="line"><span class="cl">repo/backup/main/backup.info
+</span></span></code></pre></div><p>📌 <strong>这是 pgBackRest 的“元数据根基”</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-postgresql-wal-归档配置必选"
+    >
+        2️⃣ PostgreSQL WAL 归档配置（必选）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#2-postgresql-wal-归档配置必选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ PostgreSQL WAL 归档配置（必选）" aria-label="Anchor to: 2️⃣ PostgreSQL WAL 归档配置（必选）" href="#2-postgresql-wal-%e5%bd%92%e6%a1%a3%e9%85%8d%e7%bd%ae%e5%bf%85%e9%80%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">archive_mode = on
+wal_level = replica
+archive_command = &#39;pgbackrest --stanza=main archive-push %p&#39;
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-验证-wal-是否正常归档"
+    >
+        3️⃣ 验证 WAL 是否正常归档
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#3-验证-wal-是否正常归档" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 验证 WAL 是否正常归档" aria-label="Anchor to: 3️⃣ 验证 WAL 是否正常归档" href="#3-%e9%aa%8c%e8%af%81-wal-%e6%98%af%e5%90%a6%e6%ad%a3%e5%b8%b8%e5%bd%92%e6%a1%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_switch_wal</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls /var/lib/pgbackrest/archive/main/
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-执行完整备份策略推荐"
+    >
+        4️⃣ 执行完整备份策略（推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#4-执行完整备份策略推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 执行完整备份策略（推荐）" aria-label="Anchor to: 4️⃣ 执行完整备份策略（推荐）" href="#4-%e6%89%a7%e8%a1%8c%e5%ae%8c%e6%95%b4%e5%a4%87%e4%bb%bd%e7%ad%96%e7%95%a5%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## 每周一次</span>
+</span></span><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main backup --type<span class="o">=</span>full
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## 每天</span>
+</span></span><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main backup --type<span class="o">=</span>diff
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## 每小时</span>
+</span></span><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main backup --type<span class="o">=</span>incr
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五阶段三灾难发现---精准定位"
+    >
+        五、阶段三：灾难发现 -&gt; 精准定位
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#五阶段三灾难发现---精准定位" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、阶段三：灾难发现 -&gt; 精准定位" aria-label="Anchor to: 五、阶段三：灾难发现 -&gt; 精准定位" href="#%e4%ba%94%e9%98%b6%e6%ae%b5%e4%b8%89%e7%81%be%e9%9a%be%e5%8f%91%e7%8e%b0---%e7%b2%be%e5%87%86%e5%ae%9a%e4%bd%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-1pg_checksums-报错最危险"
+    >
+        场景 1：pg_checksums 报错（最危险）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#场景-1pg_checksums-报错最危险" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 1：pg_checksums 报错（最危险）" aria-label="Anchor to: 场景 1：pg_checksums 报错（最危险）" href="#%e5%9c%ba%e6%99%af-1pg_checksums-%e6%8a%a5%e9%94%99%e6%9c%80%e5%8d%b1%e9%99%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ERROR: invalid page in block 123 of relation base/...
+</span></span></code></pre></div><p>说明：</p>
+<ul>
+<li>数据页已经损坏</li>
+<li><strong>VACUUM / SELECT 触发了校验失败</strong></li>
+</ul>
+<p>此时：</p>
+<p>❌ 不要继续写数据<br />
+❌ 不要盲目重启</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-2手动全库校验冷校验"
+    >
+        场景 2：手动全库校验（冷校验）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#场景-2手动全库校验冷校验" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 2：手动全库校验（冷校验）" aria-label="Anchor to: 场景 2：手动全库校验（冷校验）" href="#%e5%9c%ba%e6%99%af-2%e6%89%8b%e5%8a%a8%e5%85%a8%e5%ba%93%e6%a0%a1%e9%aa%8c%e5%86%b7%e6%a0%a1%e9%aa%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_checksums --check --data-directory<span class="o">=</span>/var/lib/postgresql
+</span></span></code></pre></div><p>可以精确定位：</p>
+<ul>
+<li>哪个 relation</li>
+<li>哪个 block</li>
+<li>是否可恢复</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六阶段四容灾恢复核心"
+    >
+        六、阶段四：容灾恢复（核心）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#六阶段四容灾恢复核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、阶段四：容灾恢复（核心）" aria-label="Anchor to: 六、阶段四：容灾恢复（核心）" href="#%e5%85%ad%e9%98%b6%e6%ae%b5%e5%9b%9b%e5%ae%b9%e7%81%be%e6%81%a2%e5%a4%8d%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="恢复策略一整库恢复最安全"
+    >
+        恢复策略一：整库恢复（最安全）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#恢复策略一整库恢复最安全" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 恢复策略一：整库恢复（最安全）" aria-label="Anchor to: 恢复策略一：整库恢复（最安全）" href="#%e6%81%a2%e5%a4%8d%e7%ad%96%e7%95%a5%e4%b8%80%e6%95%b4%e5%ba%93%e6%81%a2%e5%a4%8d%e6%9c%80%e5%ae%89%e5%85%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-停库"
+    >
+        1️⃣ 停库
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#1-停库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 停库" aria-label="Anchor to: 1️⃣ 停库" href="#1-%e5%81%9c%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl stop postgresql
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-清空数据目录"
+    >
+        2️⃣ 清空数据目录
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#2-清空数据目录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 清空数据目录" aria-label="Anchor to: 2️⃣ 清空数据目录" href="#2-%e6%b8%85%e7%a9%ba%e6%95%b0%e6%8d%ae%e7%9b%ae%e5%bd%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rm -rf /var/lib/postgresql/*
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="3-pgbackrest-恢复含校验"
+    >
+        3️⃣ pgBackRest 恢复（含校验）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#3-pgbackrest-恢复含校验" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ pgBackRest 恢复（含校验）" aria-label="Anchor to: 3️⃣ pgBackRest 恢复（含校验）" href="#3-pgbackrest-%e6%81%a2%e5%a4%8d%e5%90%ab%e6%a0%a1%e9%aa%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main restore
+</span></span></code></pre></div><p>默认行为：</p>
+<ul>
+<li>自动恢复最近一次 <strong>一致性备份</strong></li>
+<li>自动回放 WAL</li>
+<li><strong>校验 checksum + timeline</strong></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="4-启动数据库"
+    >
+        4️⃣ 启动数据库
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#4-启动数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 启动数据库" aria-label="Anchor to: 4️⃣ 启动数据库" href="#4-%e5%90%af%e5%8a%a8%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl start postgresql
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="恢复策略二pitr误操作专用"
+    >
+        恢复策略二：PITR（误操作专用）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#恢复策略二pitr误操作专用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 恢复策略二：PITR（误操作专用）" aria-label="Anchor to: 恢复策略二：PITR（误操作专用）" href="#%e6%81%a2%e5%a4%8d%e7%ad%96%e7%95%a5%e4%ba%8cpitr%e8%af%af%e6%93%8d%e4%bd%9c%e4%b8%93%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>例如：</p>
+<blockquote>
+<p>误删数据发生在 <code>2025-12-27 09:15:00</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pgbackrest <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --stanza<span class="o">=</span>main restore <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --type<span class="o">=</span><span class="nb">time</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --target<span class="o">=</span><span class="s2">&#34;2025-12-27 09:14:59&#34;</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七pg_checksums-在恢复中的作用"
+    >
+        七、pg_checksums 在恢复中的作用
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#七pg_checksums-在恢复中的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、pg_checksums 在恢复中的作用" aria-label="Anchor to: 七、pg_checksums 在恢复中的作用" href="#%e4%b8%83pg_checksums-%e5%9c%a8%e6%81%a2%e5%a4%8d%e4%b8%ad%e7%9a%84%e4%bd%9c%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>备份前</td>
+          <td>确保备份数据是“干净的”</td>
+      </tr>
+      <tr>
+          <td>备份时</td>
+          <td>pgBackRest 会跳过损坏页并报错</td>
+      </tr>
+      <tr>
+          <td>恢复时</td>
+          <td>自动校验页一致性</td>
+      </tr>
+      <tr>
+          <td>恢复后</td>
+          <td>防止“恢复后才发现坏数据”</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>👉 <strong>没有 pg_checksums，坏数据可能被“合法备份”</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八生产级最佳实践清单强烈建议"
+    >
+        八、生产级最佳实践清单（强烈建议）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#八生产级最佳实践清单强烈建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、生产级最佳实践清单（强烈建议）" aria-label="Anchor to: 八、生产级最佳实践清单（强烈建议）" href="#%e5%85%ab%e7%94%9f%e4%ba%a7%e7%ba%a7%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%b8%85%e5%8d%95%e5%bc%ba%e7%83%88%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-强制开启"
+    >
+        ✅ 强制开启
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#-强制开启" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 强制开启" aria-label="Anchor to: ✅ 强制开启" href="#-%e5%bc%ba%e5%88%b6%e5%bc%80%e5%90%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">archive_mode = on
+full_page_writes = on
+wal_log_hints = on
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-pgbackrest-推荐参数"
+    >
+        ✅ pgBackRest 推荐参数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#-pgbackrest-推荐参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ pgBackRest 推荐参数" aria-label="Anchor to: ✅ pgBackRest 推荐参数" href="#-pgbackrest-%e6%8e%a8%e8%8d%90%e5%8f%82%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[global]</span>
+</span></span><span class="line"><span class="cl"><span class="na">repo1-retention-full</span><span class="o">=</span><span class="s">2</span>
+</span></span><span class="line"><span class="cl"><span class="na">repo1-retention-diff</span><span class="o">=</span><span class="s">7</span>
+</span></span><span class="line"><span class="cl"><span class="na">start-fast</span><span class="o">=</span><span class="s">y</span>
+</span></span><span class="line"><span class="cl"><span class="na">delta</span><span class="o">=</span><span class="s">y</span>
+</span></span><span class="line"><span class="cl"><span class="na">checksum-page</span><span class="o">=</span><span class="s">y</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-定期校验cron"
+    >
+        ✅ 定期校验（cron）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#-定期校验cron" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 定期校验（cron）" aria-label="Anchor to: ✅ 定期校验（cron）" href="#-%e5%ae%9a%e6%9c%9f%e6%a0%a1%e9%aa%8ccron">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main check
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_checksums --check --data-directory<span class="o">=</span>/var/lib/postgresql
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九最终一句话总结牢记"
+    >
+        九、最终一句话总结（牢记）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/pgbackrest-pg_checksums/#九最终一句话总结牢记" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、最终一句话总结（牢记）" aria-label="Anchor to: 九、最终一句话总结（牢记）" href="#%e4%b9%9d%e6%9c%80%e7%bb%88%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93%e7%89%a2%e8%ae%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>pg_checksums 让 PostgreSQL“敢报错”</strong><br />
+<strong>pgBackRest 让 PostgreSQL“报错后还能活”</strong></p>
+</blockquote>
 
   </article>
 
@@ -2679,105 +3463,6 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
         
       
     
-
-  
-    
-
-    
-      
-    
-
-    
-      
-      
-
-      
-        
-        
-        
-        
-
-        
-        
-
-        
-
-        
-
-        
-          
-        
-
-        
-        
-      
-    
-
-  
-    
-
-    
-      
-    
-
-    
-      
-      
-
-      
-        
-        
-        
-        
-
-        
-        
-
-        
-
-        
-
-        
-          
-        
-
-        
-        
-      
-    
-      
-      
-
-      
-        
-        
-        
-        
-
-        
-        
-
-        
-
-        
-
-        
-          
-        
-
-        
-        
-      
-    
-
-  
-    
-
-    
-      
-    
-
-    
       
       
 
@@ -2883,6 +3568,15 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
         
       
     
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -2897,9 +3591,6 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
 
         
 
-        
-          
-          
         
 
         
@@ -2923,10 +3614,359 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
         
 
         
+
+        
+
+        
           
-            
-            
+        
+
+        
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
           
+        
+
+        
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
         
 
         
@@ -3345,27 +4385,9 @@ Docker FAQ Docker 基础教程 Docker 核心概念 Docker Compose 字段讲解 D
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/debezium/"
-      title="Debezium"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Debezium
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/git/"
-      title="Git"
-    >
-      Git
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
