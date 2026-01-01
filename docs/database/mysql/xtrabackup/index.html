@@ -71,7 +71,7 @@
       "url" : "https://documents.v2ep.com/database/mysql/xtrabackup/",
       "headline": "XtraBackup 基础教程",
       "description": "覆盖：核心原理、备份类型、使用方法、恢复流程、性能优化、与 mysqldump\/mydumper 对比、生产最佳实践。\n🧱 1. XtraBackup 是什么？ XtraBackup（Percona XtraBackup） 是 MySQL \/ MariaDB 最专业的 物理热备工具，支持 InnoDB 的 无锁备份（hot backup），企业生产最常用。\n特点：\n物理备份（拷贝数据文件，而不是导出 SQL） 不阻塞读写（hot backup） 支持 全备、增量备份、差异备份 备份速度极快（文件级别） 支持 redo \u002b undo 恢复一致性 可用于 MySQL、Percona Server、MariaDB 🔥 XtraBackup 可认为是 MySQL 物理备份的工业标准。\n🧱 2. 适用场景（企业常用） 在线备份，不中断业务 数据库超过 50GB、100GB、甚至数 TB MHA \/ MGR \/ PXC 集群节点复制 做从库、延迟库 自动备份脚本 灾难恢复（DR） 如果你是运维 \/ DBA，在企业里基本离不开它。",
-      "wordCount" : "424",
+      "wordCount" : "608",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2970,7 +2970,130 @@
 <li>大型数据库强烈推荐 XtraBackup + binlog 的方案</li>
 <li>企业必须搭配自动化脚本与定期恢复演练</li>
 </ul>
-
+<hr>
+<p>Percona XtraBackup (PXB) 是<strong>用于 MySQL 的开源物理热备工具，支持全量与增量备份</strong>。</p>
+<p>全量备份流程包括：备份数据文件 (&ndash;backup)、准备数据 (&ndash;prepare) 以确保一致性、恢复数据 (&ndash;copy-back)，最后调整权限并重启服务。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一-xtrabackup-全量备份-backup"
+    >
+        一、 XtraBackup 全量备份 (Backup)
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/xtrabackup/#一-xtrabackup-全量备份-backup" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、 XtraBackup 全量备份 (Backup)" aria-label="Anchor to: 一、 XtraBackup 全量备份 (Backup)" href="#%e4%b8%80-xtrabackup-%e5%85%a8%e9%87%8f%e5%a4%87%e4%bb%bd-backup">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>全量备份将数据库所有文件复制到指定目录。</p>
+<ol>
+<li>
+<p>执行备份命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xtrabackup --defaults-file<span class="o">=</span>/etc/my.cnf --backup --target-dir<span class="o">=</span>/data/backups/full_base --user<span class="o">=</span>root --password<span class="o">=</span>your_password
+</span></span></code></pre></div><ul>
+<li><code>--backup</code>: 执行备份模式。</li>
+<li><code>--target-dir</code>: 备份文件存储目录。</li>
+</ul>
+</li>
+<li>
+<p>验证备份：查看备份目录下的 <code>xtrabackup_checkpoints</code> 文件，确保最后一行显示 <code>backup_type = full-backuped</code>。</p>
+</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二-准备备份数据-prepare"
+    >
+        二、 准备备份数据 (Prepare)
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/xtrabackup/#二-准备备份数据-prepare" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、 准备备份数据 (Prepare)" aria-label="Anchor to: 二、 准备备份数据 (Prepare)" href="#%e4%ba%8c-%e5%87%86%e5%a4%87%e5%a4%87%e4%bb%bd%e6%95%b0%e6%8d%ae-prepare">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>备份完成后，数据文件不一致，需要应用 Redo Log 使数据达到一致性状态，此步骤必须在恢复前执行。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xtrabackup --prepare --target-dir<span class="o">=</span>/data/backups/full_base
+</span></span></code></pre></div><ul>
+<li><code>--prepare</code>: 对备份数据进行准备。此操作会应用 redo 日志并回滚未提交的事务。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三-恢复全量备份-restore"
+    >
+        三、 恢复全量备份 (Restore)
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/xtrabackup/#三-恢复全量备份-restore" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、 恢复全量备份 (Restore)" aria-label="Anchor to: 三、 恢复全量备份 (Restore)" href="#%e4%b8%89-%e6%81%a2%e5%a4%8d%e5%85%a8%e9%87%8f%e5%a4%87%e4%bb%bd-restore">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>将准备好的一致性数据文件复制回 MySQL 数据目录。</p>
+<ol>
+<li>
+<p><strong>停止 MySQL 服务</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl stop mysqld
+</span></span></code></pre></div></li>
+<li>
+<p><strong>清空数据目录</strong></p>
+<p>确保数据目录 datadir 为空（通常是 /var/lib/mysql）。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rm -rf /var/lib/mysql/*
+</span></span></code></pre></div></li>
+<li>
+<p><strong>恢复数据</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xtrabackup --copy-back --target-dir<span class="o">=</span>/data/backups/full_base
+</span></span></code></pre></div><ul>
+<li><code>--copy-back</code>: 将备份文件从备份目录复制回 MySQL 的数据目录。</li>
+</ul>
+</li>
+<li>
+<p><strong>修改权限与重启</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chown -R mysql:mysql /var/lib/mysql
+</span></span><span class="line"><span class="cl">systemctl start mysqld
+</span></span></code></pre></div></li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="关键点总结"
+    >
+        关键点总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/xtrabackup/#关键点总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键点总结" aria-label="Anchor to: 关键点总结" href="#%e5%85%b3%e9%94%ae%e7%82%b9%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>一致性</strong>：<code>--prepare</code> 阶段是必须的，它将备份时间点的不一致数据文件恢复到一致状态。</li>
+<li><strong>目录要求</strong>：<code>--copy-back</code> 要求目标数据库目录（datadir）为空。</li>
+<li><strong>权限</strong>：恢复数据后，必须将目录所有者修改为 mysql 用户。</li>
+</ul>
+<p>工具版本：XtraBackup 8.0 用于 MySQL 8.0，早期版本（如 2.4）用于 MySQL 5.7。</p>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p /data/mysql/8.0/backup/full
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># rm -rf /data/mysql/8.0/backup/full/20260101</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 全量备份</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 不要添加 --compress 参数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 否则恢复时会出现错误:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2026-01-01T21:26:36.470732+08:00 0 [ERROR] [MY-011825] [Xtrabackup] cannot open ./xtrabackup_info</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2026-01-01T21:26:36.470745+08:00 0 [ERROR] [MY-011825] [Xtrabackup] Failed to parse xtrabackup_info from &#39;./xtrabackup_info&#39;</span>
+</span></span><span class="line"><span class="cl">xtrabackup --backup --user<span class="o">=</span>root --password<span class="o">=</span><span class="s1">&#39;KdX3V7nC!9#Q&#39;</span> --target-dir<span class="o">=</span>/data/mysql/8.0/backup/full/20260101
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">xtrabackup --prepare --target-dir<span class="o">=</span>/data/mysql/8.0/backup/full/20260101
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">systemctl stop mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mv /data/mysql/8.0/data /data/mysql/8.0/data_bak
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># rm -rf /data/mysql/8.0/data</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mkdir -p /data/mysql/8.0/data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">rsync -avP /data/mysql/8.0/backup/full/20260101/ /data/mysql/8.0/data/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">xtrabackup --copy-back --target-dir<span class="o">=</span>/data/mysql/8.0/backup/full/20260101
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">chown -R mysql:mysql /data/mysql/8.0/data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">systemctl start mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 增量备份</span>
+</span></span><span class="line"><span class="cl">mkdir -p /data/mysql/8.0/backup/incremental
+</span></span><span class="line"><span class="cl">xtrabackup --backup --user<span class="o">=</span>root --password<span class="o">=</span><span class="s1">&#39;KdX3V7nC!9#Q&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --incremental-basedir<span class="o">=</span>/data/mysql/8.0/backup/full/20260101 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --target-dir<span class="o">=</span>/data/mysql/8.0/backup/incremental/20260101_001
+</span></span></code></pre></div>
   </article>
 
 
