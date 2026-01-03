@@ -74,7 +74,7 @@
       "url" : "https://documents.v2ep.com/operations/jenkins/jnlp-agent/",
       "headline": "JNLP Agent",
       "description": "JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent\/Slave）连接到 Jenkins 主节点（Master\/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。\n🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。\n在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。\n也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。\n✅ 适合场景：\n你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙\/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 在 Jenkins Web UI 中创建一个 Permanent Agent（永久节点），类型选择 “Launch agent via Java Web Start”（即 JNLP）。",
-      "wordCount" : "529",
+      "wordCount" : "548",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2202,46 +2202,77 @@
 <p>保存后，进入该节点页面，你会看到：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">build-node-01
 </span></span><span class="line"><span class="cl">Built-In Node
-</span></span></code></pre></div><p>点击 build-node-01，会给出相关的命令：</p>
-<p>Run from agent command line: (Unix)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
-</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
-</span></span></code></pre></div><p>Run from agent command line: (Windows)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl.exe -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
-</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
-</span></span></code></pre></div><p>Or run from agent command line, with the secret stored in a file: (Unix)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee &gt; secret-file
-</span></span><span class="line"><span class="cl">curl -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
-</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret @secret-file -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
-</span></span></code></pre></div><p>Or run from agent command line, with the secret stored in a file: (Windows)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee&gt; secret-file
-</span></span><span class="line"><span class="cl">curl.exe -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
-</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret @secret-file -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
-</span></span></code></pre></div><p>登录 Agent 节点服务器</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p /data/jenkins/<span class="o">{</span>app,agent<span class="o">}</span>
+</span></span></code></pre></div><p>点击 build-node-01，会给出相关的命令。</p>
+<p>登录 Jenkins Agent 节点服务器，执行相关操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建用户</span>
+</span></span><span class="line"><span class="cl">useradd jenkins
 </span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建目录</span>
+</span></span><span class="line"><span class="cl">mkdir -p /data/jenkins/<span class="o">{</span>app,data,log<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入目录</span>
 </span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/jenkins/app
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee &gt; secret-file
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建密钥文件</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> ea388ed70f35857f98c23d73f8bc75b5f81a8ecef9ea93842ae4b6fae4c6a7b2 &gt; secret-file
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">curl -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
+</span></span><span class="line"><span class="cl"><span class="c1"># 下载 JNLP Agent</span>
+</span></span><span class="line"><span class="cl">curl -sO http://192.168.101.201:8200/jnlpJars/agent.jar
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">cat &gt; start.sh <span class="s">&lt;&lt;&#39;EOF&#39;
-</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置权限</span>
+</span></span><span class="line"><span class="cl">chown -R jenkins:jenkins /data/jenkins
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 JNLP Agent</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># java -jar agent.jar -url http://192.168.101.201:8200/ -secret @secret-file -name &#34;build-node-01&#34; -webSocket -workDir &#34;/data/jenkins/data&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建服务</span>
+</span></span><span class="line"><span class="cl">tee /etc/systemd/system/jenkins-agent.service <span class="s">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">[Unit]
+</span></span></span><span class="line"><span class="cl"><span class="s">Description=Jenkins Agent
+</span></span></span><span class="line"><span class="cl"><span class="s">After=network.target
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">cd $(dirname $0)
+</span></span></span><span class="line"><span class="cl"><span class="s">[Service]
+</span></span></span><span class="line"><span class="cl"><span class="s">Type=simple
+</span></span></span><span class="line"><span class="cl"><span class="s">User=jenkins
+</span></span></span><span class="line"><span class="cl"><span class="s">Group=jenkins
 </span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">nohup /usr/local/jdk/21.0.9/bin/java \
-</span></span></span><span class="line"><span class="cl"><span class="s">    -jar agent.jar \
-</span></span></span><span class="line"><span class="cl"><span class="s">    -url http://192.168.101.201:8910/jenkins/ \
-</span></span></span><span class="line"><span class="cl"><span class="s">    -secret @secret-file \
-</span></span></span><span class="line"><span class="cl"><span class="s">    -name &#34;build-node-01&#34; \
-</span></span></span><span class="line"><span class="cl"><span class="s">    -webSocket \
-</span></span></span><span class="line"><span class="cl"><span class="s">    -workDir &#34;/data/jenkins/agent&#34; \
-</span></span></span><span class="line"><span class="cl"><span class="s">    &gt; agent.log 2&gt;&amp;1 &amp;
+</span></span></span><span class="line"><span class="cl"><span class="s"># 工作目录
+</span></span></span><span class="line"><span class="cl"><span class="s">WorkingDirectory=/data/jenkins/app
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># 启动命令
+</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/jdk/21.0.9/bin/java -jar agent.jar -url http://192.168.101.201:8200/ -secret @secret-file -name &#34;build-node-01&#34; -webSocket -workDir &#34;/data/jenkins/data&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># 日志输出到文件
+</span></span></span><span class="line"><span class="cl"><span class="s">StandardOutput=append:/data/jenkins/log/run.log
+</span></span></span><span class="line"><span class="cl"><span class="s">StandardError=append:/data/jenkins/log/error.log
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s"># 自动重启策略
+</span></span></span><span class="line"><span class="cl"><span class="s">Restart=always
+</span></span></span><span class="line"><span class="cl"><span class="s">RestartSec=5s
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">[Install]
+</span></span></span><span class="line"><span class="cl"><span class="s">WantedBy=multi-user.target
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">bash -x start.sh
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动服务</span>
+</span></span><span class="line"><span class="cl">systemctl daemon-reload
+</span></span><span class="line"><span class="cl">systemctl start jenkins-agent
+</span></span><span class="line"><span class="cl">systemctl status jenkins-agent
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ● jenkins-agent.service - Jenkins Agent</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      Loaded: loaded (/etc/systemd/system/jenkins-agent.service; disabled; preset: disabled)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      Active: active (running) since Sat 2026-01-03 23:32:17 CST; 13s ago</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#    Main PID: 1456 (java)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       Tasks: 41 (limit: 209715)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      Memory: 59.5M (peak: 60.1M)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#         CPU: 2.761s</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      CGroup: /system.slice/jenkins-agent.service</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#              └─1456 /usr/local/jdk/21.0.9/bin/java -jar agent.jar -url http://192.168.101.201:8200/ -secret @secret-file -name build-node-01 -webSocket -workDir /data/jenkins/data</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Jan 03 23:32:17 node-202.server.com systemd[1]: Started Jenkins Agent.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建服务</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> jenkins-agent
 </span></span></code></pre></div><p>回到 <strong>Nodes</strong> 页面，点击 <strong>Built-In Node</strong>，选择 <strong>Configure</strong>，将 <strong>Number of executors</strong> 设置为 0，保存（save）。</p>
 <ul>
 <li>JNLP 启动链接（如 <code>http://jenkins:8080/computer/build-node-01/slave-agent.jnlp</code>）</li>
