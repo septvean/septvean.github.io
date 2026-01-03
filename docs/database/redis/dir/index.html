@@ -12,10 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta name="description" content="Redis RDB 和 AOF 可以保存在同一目录吗？如何可以，如何设置？
+可以，而且这是 Redis 的标准做法。
+Redis 默认就是把 RDB 和 AOF 保存在同一目录 的，只是很多人没注意或没系统理解。
+下面是一个 结论 -&gt; 原理 -&gt; 配置方式 -&gt; 生产建议 -&gt; 面试标准答案 的完整说明。
+一、结论（直接记） Redis 的 RDB 和 AOF 完全可以、也通常保存在同一个目录中，通过 dir 参数统一指定。
+RDB：dump.rdb AOF：appendonly.aof（或 AOF 目录） 两者 不会互相覆盖 Redis 启动时 优先加载 AOF 二、Redis 是如何决定“保存到哪里”的？ 关键只有一个参数 dir /data/redis 👉 所有持久化文件都保存在这个目录下" />
 
-    <title>Redis | ☘️ Septvean&#39;s Documents</title>
+    <title>Redis 文件存储目录 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +40,29 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   <meta
     property="og:title"
-    content="Redis"
+    content="Redis 文件存储目录"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta property="og:description" content="Redis RDB 和 AOF 可以保存在同一目录吗？如何可以，如何设置？
+可以，而且这是 Redis 的标准做法。
+Redis 默认就是把 RDB 和 AOF 保存在同一目录 的，只是很多人没注意或没系统理解。
+下面是一个 结论 -&gt; 原理 -&gt; 配置方式 -&gt; 生产建议 -&gt; 面试标准答案 的完整说明。
+一、结论（直接记） Redis 的 RDB 和 AOF 完全可以、也通常保存在同一个目录中，通过 dir 参数统一指定。
+RDB：dump.rdb AOF：appendonly.aof（或 AOF 目录） 两者 不会互相覆盖 Redis 启动时 优先加载 AOF 二、Redis 是如何决定“保存到哪里”的？ 关键只有一个参数 dir /data/redis 👉 所有持久化文件都保存在这个目录下" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/redis/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/redis/dir/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Redis" />
-  <meta name="twitter:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+<meta name="twitter:title" content="Redis 文件存储目录" />
+  <meta name="twitter:description" content="Redis RDB 和 AOF 可以保存在同一目录吗？如何可以，如何设置？
+可以，而且这是 Redis 的标准做法。
+Redis 默认就是把 RDB 和 AOF 保存在同一目录 的，只是很多人没注意或没系统理解。
+下面是一个 结论 -&gt; 原理 -&gt; 配置方式 -&gt; 生产建议 -&gt; 面试标准答案 的完整说明。
+一、结论（直接记） Redis 的 RDB 和 AOF 完全可以、也通常保存在同一个目录中，通过 dir 参数统一指定。
+RDB：dump.rdb AOF：appendonly.aof（或 AOF 目录） 两者 不会互相覆盖 Redis 启动时 优先加载 AOF 二、Redis 是如何决定“保存到哪里”的？ 关键只有一个参数 dir /data/redis 👉 所有持久化文件都保存在这个目录下" />
 
 
   <script type="application/ld+json">
@@ -58,16 +70,16 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "Redis",
-      "url" : "https://documents.v2ep.com/database/redis/",
-      "headline": "Redis",
-      "description": "Document List:\nRedis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 ",
-      "wordCount" : "26",
+      "name": "Redis 文件存储目录",
+      "url" : "https://documents.v2ep.com/database/redis/dir/",
+      "headline": "Redis 文件存储目录",
+      "description": "Redis RDB 和 AOF 可以保存在同一目录吗？如何可以，如何设置？\n可以，而且这是 Redis 的标准做法。\nRedis 默认就是把 RDB 和 AOF 保存在同一目录 的，只是很多人没注意或没系统理解。\n下面是一个 结论 -\u003e 原理 -\u003e 配置方式 -\u003e 生产建议 -\u003e 面试标准答案 的完整说明。\n一、结论（直接记） Redis 的 RDB 和 AOF 完全可以、也通常保存在同一个目录中，通过 dir 参数统一指定。\nRDB：dump.rdb AOF：appendonly.aof（或 AOF 目录） 两者 不会互相覆盖 Redis 启动时 优先加载 AOF 二、Redis 是如何决定“保存到哪里”的？ 关键只有一个参数 dir \/data\/redis 👉 所有持久化文件都保存在这个目录下",
+      "wordCount" : "245",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/redis/"
+          "@id": "https://documents.v2ep.com/database/redis/dir/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +163,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/redis/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/redis/dir/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -900,7 +912,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
                 <span class="flex">
                   <a
                     href="/database/redis/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Redis
                   </a>
@@ -2060,7 +2072,15 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/redis/' href='/database/redis/'><span itemprop='name'>Redis</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis 文件存储目录</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,112 +2099,253 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Redis</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Redis 文件存储目录</h1>
     
-  <ul>
-    
-      
+    <p>Redis RDB 和 AOF 可以保存在同一目录吗？如何可以，如何设置？</p>
+<p><strong>可以，而且这是 Redis 的标准做法。</strong></p>
+<p>Redis <strong>默认就是把 RDB 和 AOF 保存在同一目录</strong> 的，只是很多人没注意或没系统理解。</p>
+<p>下面是一个 <strong>结论 -&gt; 原理 -&gt; 配置方式 -&gt; 生产建议 -&gt; 面试标准答案</strong> 的完整说明。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一结论直接记"
+    >
+        一、结论（直接记）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#一结论直接记" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、结论（直接记）" aria-label="Anchor to: 一、结论（直接记）" href="#%e4%b8%80%e7%bb%93%e8%ae%ba%e7%9b%b4%e6%8e%a5%e8%ae%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>Redis 的 RDB 和 AOF 完全可以、也通常保存在同一个目录中，通过 <code>dir</code> 参数统一指定。</strong></p>
+</blockquote>
+<ul>
+<li><strong>RDB</strong>：<code>dump.rdb</code></li>
+<li><strong>AOF</strong>：<code>appendonly.aof</code>（或 AOF 目录）</li>
+<li>两者 <strong>不会互相覆盖</strong></li>
+<li>Redis 启动时 <strong>优先加载 AOF</strong></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二redis-是如何决定保存到哪里的"
+    >
+        二、Redis 是如何决定“保存到哪里”的？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#二redis-是如何决定保存到哪里的" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Redis 是如何决定“保存到哪里”的？" aria-label="Anchor to: 二、Redis 是如何决定“保存到哪里”的？" href="#%e4%ba%8credis-%e6%98%af%e5%a6%82%e4%bd%95%e5%86%b3%e5%ae%9a%e4%bf%9d%e5%ad%98%e5%88%b0%e5%93%aa%e9%87%8c%e7%9a%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="关键只有一个参数"
+    >
+        关键只有一个参数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#关键只有一个参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键只有一个参数" aria-label="Anchor to: 关键只有一个参数" href="#%e5%85%b3%e9%94%ae%e5%8f%aa%e6%9c%89%e4%b8%80%e4%b8%aa%e5%8f%82%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">dir /data/redis
+</code></pre><p>👉 <strong>所有持久化文件都保存在这个目录下</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rdb-相关参数"
+    >
+        RDB 相关参数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#rdb-相关参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RDB 相关参数" aria-label="Anchor to: RDB 相关参数" href="#rdb-%e7%9b%b8%e5%85%b3%e5%8f%82%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">dbfilename dump.rdb
+</code></pre><p>最终路径：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/redis/dump.rdb
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="aof-相关参数redis--6x"
+    >
+        AOF 相关参数（Redis ≤ 6.x）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#aof-相关参数redis--6x" class="gdoc-page__anchor clip flex align-center" title="Anchor to: AOF 相关参数（Redis ≤ 6.x）" aria-label="Anchor to: AOF 相关参数（Redis ≤ 6.x）" href="#aof-%e7%9b%b8%e5%85%b3%e5%8f%82%e6%95%b0redis--6x">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">appendonly yes
+appendfilename appendonly.aof
+</code></pre><p>最终路径：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/redis/appendonly.aof
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="aof-相关参数redis--7x推荐"
+    >
+        AOF 相关参数（Redis ≥ 7.x，推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#aof-相关参数redis--7x推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: AOF 相关参数（Redis ≥ 7.x，推荐）" aria-label="Anchor to: AOF 相关参数（Redis ≥ 7.x，推荐）" href="#aof-%e7%9b%b8%e5%85%b3%e5%8f%82%e6%95%b0redis--7x%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">appendonly yes
+appenddirname appendonlydir
+</code></pre><p>最终目录结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/redis/
+</span></span><span class="line"><span class="cl">├── dump.rdb
+</span></span><span class="line"><span class="cl">└── appendonlydir/
+</span></span><span class="line"><span class="cl">    ├── appendonly.aof
+</span></span><span class="line"><span class="cl">    ├── appendonly.aof.1.incr
+</span></span><span class="line"><span class="cl">    └── appendonly.aof.1.base
+</span></span></code></pre></div><p>📌 <strong>注意</strong>：</p>
+<ul>
+<li><code>appenddirname</code> 是 <strong>相对于 <code>dir</code> 的子目录</strong></li>
+<li>AOF 文件会被拆分，便于管理和恢复</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三完整示例生产推荐配置"
+    >
+        三、完整示例（生产推荐配置）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#三完整示例生产推荐配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、完整示例（生产推荐配置）" aria-label="Anchor to: 三、完整示例（生产推荐配置）" href="#%e4%b8%89%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8b%e7%94%9f%e4%ba%a7%e6%8e%a8%e8%8d%90%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"># 统一数据目录
+dir /data/redis
 
-      
-        
-      
+# RDB
+save 900 1
+save 300 10
+save 60 10000
+dbfilename dump.rdb
 
-      
-          <li>
-              <span>
-                <a href="/database/redis/faq/" class="gdoc-toc__entry">Redis FAQ
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/tutorial/" class="gdoc-toc__entry">Redis 基础教程
-                </a>
-              </span>
-          </li>
-      
+# AOF
+appendonly yes
+appenddirname appendonlydir
+appendfsync everysec
 
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/core/" class="gdoc-toc__entry">Redis 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/classic-issues/" class="gdoc-toc__entry">Redis 经典问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cache-hit-ratio/" class="gdoc-toc__entry">Redis 缓存命中率
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/base/" class="gdoc-toc__entry">Redis 基础
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/backup-restore/" class="gdoc-toc__entry">Redis 备份与恢复
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/command/" class="gdoc-toc__entry">Redis 常用命令
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/dir/" class="gdoc-toc__entry">Redis 文件存储目录
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/best-practices/" class="gdoc-toc__entry">Redis 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/three-major-issues-with-redis-caching/" class="gdoc-toc__entry">Redis 缓存三大问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cluster/" class="gdoc-toc__entry">Redis 集群
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+# 混合持久化
+aof-use-rdb-preamble yes
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四redis-启动时如何加载非常爱考"
+    >
+        四、Redis 启动时如何加载？（非常爱考）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#四redis-启动时如何加载非常爱考" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Redis 启动时如何加载？（非常爱考）" aria-label="Anchor to: 四、Redis 启动时如何加载？（非常爱考）" href="#%e5%9b%9bredis-%e5%90%af%e5%8a%a8%e6%97%b6%e5%a6%82%e4%bd%95%e5%8a%a0%e8%bd%bd%e9%9d%9e%e5%b8%b8%e7%88%b1%e8%80%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>加载顺序：</strong></p>
+<p>1️⃣ 如果 <code>appendonly yes</code> 且 AOF 存在 -&gt; <strong>优先加载 AOF</strong></p>
+<p>2️⃣ 否则加载 <code>dump.rdb</code></p>
+<p>📌 即使 RDB 和 AOF 在同一目录，也不会冲突。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五是否可以分开目录可以但不推荐"
+    >
+        五、是否可以“分开目录”？可以，但不推荐
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#五是否可以分开目录可以但不推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、是否可以“分开目录”？可以，但不推荐" aria-label="Anchor to: 五、是否可以“分开目录”？可以，但不推荐" href="#%e4%ba%94%e6%98%af%e5%90%a6%e5%8f%af%e4%bb%a5%e5%88%86%e5%bc%80%e7%9b%ae%e5%bd%95%e5%8f%af%e4%bb%a5%e4%bd%86%e4%b8%8d%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="理论上可以吗"
+    >
+        理论上可以吗？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#理论上可以吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 理论上可以吗？" aria-label="Anchor to: 理论上可以吗？" href="#%e7%90%86%e8%ae%ba%e4%b8%8a%e5%8f%af%e4%bb%a5%e5%90%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>❌ <strong>不支持</strong></p>
+<p>Redis <strong>只有一个 <code>dir</code></strong>，不能为 RDB 和 AOF 单独指定不同绝对路径。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="那怎么看起来分开"
+    >
+        那怎么“看起来分开”？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#那怎么看起来分开" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 那怎么“看起来分开”？" aria-label="Anchor to: 那怎么“看起来分开”？" href="#%e9%82%a3%e6%80%8e%e4%b9%88%e7%9c%8b%e8%b5%b7%e6%9d%a5%e5%88%86%e5%bc%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ <strong>用 AOF 子目录（Redis 7+）</strong></p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">appenddirname appendonlydir
+</code></pre><p>或者：</p>
+<p>✅ <strong>文件系统层面</strong></p>
+<ul>
+<li>使用软链接（ln -s）</li>
+<li>使用不同磁盘挂载到同一目录下的子目录</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六生产环境建议你这个水平一定要知道"
+    >
+        六、生产环境建议（你这个水平一定要知道）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#六生产环境建议你这个水平一定要知道" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、生产环境建议（你这个水平一定要知道）" aria-label="Anchor to: 六、生产环境建议（你这个水平一定要知道）" href="#%e5%85%ad%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e5%bb%ba%e8%ae%ae%e4%bd%a0%e8%bf%99%e4%b8%aa%e6%b0%b4%e5%b9%b3%e4%b8%80%e5%ae%9a%e8%a6%81%e7%9f%a5%e9%81%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-推荐做法"
+    >
+        ✅ 推荐做法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#-推荐做法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 推荐做法" aria-label="Anchor to: ✅ 推荐做法" href="#-%e6%8e%a8%e8%8d%90%e5%81%9a%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>RDB + AOF 放同一数据目录</li>
+<li>定期 <strong>拷贝 /data/redis/</strong> 做异地备份</li>
+<li>在从节点做备份</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-不推荐"
+    >
+        ❌ 不推荐
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#-不推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 不推荐" aria-label="Anchor to: ❌ 不推荐" href="#-%e4%b8%8d%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>把 RDB、AOF 放到不同 <code>dir</code>（做不到）</li>
+<li>手动修改 AOF 文件位置</li>
+<li>主节点频繁 fork</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七常见误区面试常踩"
+    >
+        七、常见误区（面试常踩）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#七常见误区面试常踩" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、常见误区（面试常踩）" aria-label="Anchor to: 七、常见误区（面试常踩）" href="#%e4%b8%83%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e9%9d%a2%e8%af%95%e5%b8%b8%e8%b8%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>❌ 认为 RDB 和 AOF 不能共存</li>
+<li>❌ 认为必须分目录</li>
+<li>❌ 不知道 Redis 启动优先加载 AOF</li>
+<li>❌ Redis 7 之前不知道 AOF 不能拆分</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八总结"
+    >
+        八、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/redis/dir/#八总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、总结" aria-label="Anchor to: 八、总结" href="#%e5%85%ab%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>Redis 的 RDB 和 AOF 可以也通常保存在同一目录中，通过 <code>dir</code> 参数统一指定。</strong></p>
+<p>RDB 使用 <code>dbfilename</code>，AOF 使用 <code>appendfilename</code> 或 <code>appenddirname</code> 指定文件名或子目录。</p>
+<p>Redis 启动时如果开启 AOF，会优先加载 AOF，不会与 RDB 冲突。</p>
+<p>生产环境一般采用 RDB + AOF 混合持久化，并在从节点统一备份该目录。</p>
+</blockquote>
 
   </article>
 
@@ -2638,9 +2799,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
 
         
-          
-          
-        
 
         
           
@@ -2677,11 +2835,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3411,27 +3564,9 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Prometheus
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      Operations
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

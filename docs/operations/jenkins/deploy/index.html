@@ -12,12 +12,9 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="基础环境：
-系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.2 Jenkins 官方安装文档：Installing Jenkins
+  <meta name="description" content=" 基础环境 系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins
 主要文档：WAR file 查看 Java 要求：Java Support Policy
-这里部署 Jenkins LTS（版本号：2.528.2），使用 Java 21（版本号：21.0.9） 部署 JDK
-查看最新版本号：Java Downloads cd /data/septvean/bash/java sudo bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins
-查看最新版本号：Jenkins Downloads # 安装依赖包 sudo dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 sudo useradd -r -s /sbin/nologin jenkins # 创建目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 # war: Jenkins War包 目录 sudo mkdir -pv /data/jenkins/{builder,data,log,war} # 下载 War 包 cd /data/jenkins/war sudo wget -c -O jenkins-2.528.2.war https://get.jenkins.io/war-stable/2.528.2/jenkins.war sudo ln -svf jenkins-2.528.2.war jenkins.war # 创建日志文件 sudo touch /data/jenkins/log/{error.log,run.log} # 设置权限 sudo chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8910, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8910 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # 将 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 sudo tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/war # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 sudo systemctl daemon-reload sudo systemctl enable jenkins sudo systemctl start jenkins sudo systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; enabled; preset: disabled) # Active: active (running) since Thu 2025-12-11 16:28:06 CST; 8s ago # Main PID: 40713 (java) # Tasks: 31 (limit: 6270) # Memory: 221.4M # CPU: 13.445s # CGroup: /system.slice/jenkins.service # └─40713 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # Dec 11 16:28:06 ss.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 sudo journalctl -u jenkins -f Nginx 配置：" />
+这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd /data/septvean/bash/java bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s /sbin/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv /data/jenkins/{app,builder,data,log} # 设置代理 # export http_proxy=http://192.168.101.200:1080; export https_proxy=http://192.168.101.200:1080; # 下载 War 包 cd /data/jenkins/app wget -c -O jenkins-2.528.3.war https://get.jenkins.io/war-stable/2.528.3/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch /data/jenkins/log/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8200, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8200 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=/jenkins tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/app # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: /system.slice/jenkins.service # └─3822 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http://192.168.101.201:8200/" />
 
     <title>Jenkins 部署 | ☘️ Septvean&#39;s Documents</title>
 
@@ -43,12 +40,9 @@
     content="Jenkins 部署"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="基础环境：
-系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.2 Jenkins 官方安装文档：Installing Jenkins
+  <meta property="og:description" content=" 基础环境 系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins
 主要文档：WAR file 查看 Java 要求：Java Support Policy
-这里部署 Jenkins LTS（版本号：2.528.2），使用 Java 21（版本号：21.0.9） 部署 JDK
-查看最新版本号：Java Downloads cd /data/septvean/bash/java sudo bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins
-查看最新版本号：Jenkins Downloads # 安装依赖包 sudo dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 sudo useradd -r -s /sbin/nologin jenkins # 创建目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 # war: Jenkins War包 目录 sudo mkdir -pv /data/jenkins/{builder,data,log,war} # 下载 War 包 cd /data/jenkins/war sudo wget -c -O jenkins-2.528.2.war https://get.jenkins.io/war-stable/2.528.2/jenkins.war sudo ln -svf jenkins-2.528.2.war jenkins.war # 创建日志文件 sudo touch /data/jenkins/log/{error.log,run.log} # 设置权限 sudo chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8910, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8910 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # 将 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 sudo tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/war # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 sudo systemctl daemon-reload sudo systemctl enable jenkins sudo systemctl start jenkins sudo systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; enabled; preset: disabled) # Active: active (running) since Thu 2025-12-11 16:28:06 CST; 8s ago # Main PID: 40713 (java) # Tasks: 31 (limit: 6270) # Memory: 221.4M # CPU: 13.445s # CGroup: /system.slice/jenkins.service # └─40713 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # Dec 11 16:28:06 ss.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 sudo journalctl -u jenkins -f Nginx 配置：" />
+这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd /data/septvean/bash/java bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s /sbin/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv /data/jenkins/{app,builder,data,log} # 设置代理 # export http_proxy=http://192.168.101.200:1080; export https_proxy=http://192.168.101.200:1080; # 下载 War 包 cd /data/jenkins/app wget -c -O jenkins-2.528.3.war https://get.jenkins.io/war-stable/2.528.3/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch /data/jenkins/log/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8200, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8200 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=/jenkins tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/app # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: /system.slice/jenkins.service # └─3822 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http://192.168.101.201:8200/" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/jenkins/deploy/" />
 
@@ -57,12 +51,9 @@
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Jenkins 部署" />
-  <meta name="twitter:description" content="基础环境：
-系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.2 Jenkins 官方安装文档：Installing Jenkins
+  <meta name="twitter:description" content=" 基础环境 系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins
 主要文档：WAR file 查看 Java 要求：Java Support Policy
-这里部署 Jenkins LTS（版本号：2.528.2），使用 Java 21（版本号：21.0.9） 部署 JDK
-查看最新版本号：Java Downloads cd /data/septvean/bash/java sudo bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins
-查看最新版本号：Jenkins Downloads # 安装依赖包 sudo dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 sudo useradd -r -s /sbin/nologin jenkins # 创建目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 # war: Jenkins War包 目录 sudo mkdir -pv /data/jenkins/{builder,data,log,war} # 下载 War 包 cd /data/jenkins/war sudo wget -c -O jenkins-2.528.2.war https://get.jenkins.io/war-stable/2.528.2/jenkins.war sudo ln -svf jenkins-2.528.2.war jenkins.war # 创建日志文件 sudo touch /data/jenkins/log/{error.log,run.log} # 设置权限 sudo chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8910, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8910 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # 将 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 sudo tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/war # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 sudo systemctl daemon-reload sudo systemctl enable jenkins sudo systemctl start jenkins sudo systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; enabled; preset: disabled) # Active: active (running) since Thu 2025-12-11 16:28:06 CST; 8s ago # Main PID: 40713 (java) # Tasks: 31 (limit: 6270) # Memory: 221.4M # CPU: 13.445s # CGroup: /system.slice/jenkins.service # └─40713 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins # Dec 11 16:28:06 ss.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 sudo journalctl -u jenkins -f Nginx 配置：" />
+这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd /data/septvean/bash/java bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s /sbin/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv /data/jenkins/{app,builder,data,log} # 设置代理 # export http_proxy=http://192.168.101.200:1080; export https_proxy=http://192.168.101.200:1080; # 下载 War 包 cd /data/jenkins/app wget -c -O jenkins-2.528.3.war https://get.jenkins.io/war-stable/2.528.3/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch /data/jenkins/log/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8200, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8200 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=/jenkins tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/app # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: /system.slice/jenkins.service # └─3822 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http://192.168.101.201:8200/" />
 
 
   <script type="application/ld+json">
@@ -73,8 +64,8 @@
       "name": "Jenkins 部署",
       "url" : "https://documents.v2ep.com/operations/jenkins/deploy/",
       "headline": "Jenkins 部署",
-      "description": "基础环境：\n系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.2 Jenkins 官方安装文档：Installing Jenkins\n主要文档：WAR file 查看 Java 要求：Java Support Policy\n这里部署 Jenkins LTS（版本号：2.528.2），使用 Java 21（版本号：21.0.9） 部署 JDK\n查看最新版本号：Java Downloads cd \/data\/septvean\/bash\/java sudo bash -x deploy-jdk-21.sh 21.0.9 \/usr\/local\/jdk\/21.0.9\/bin\/java -version # java version \u002221.0.9\u0022 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9\u002b7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9\u002b7-LTS-338, mixed mode, sharing) 部署 Jenkins\n查看最新版本号：Jenkins Downloads # 安装依赖包 sudo dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 sudo useradd -r -s \/sbin\/nologin jenkins # 创建目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 # war: Jenkins War包 目录 sudo mkdir -pv \/data\/jenkins\/{builder,data,log,war} # 下载 War 包 cd \/data\/jenkins\/war sudo wget -c -O jenkins-2.528.2.war https:\/\/get.jenkins.io\/war-stable\/2.528.2\/jenkins.war sudo ln -svf jenkins-2.528.2.war jenkins.war # 创建日志文件 sudo touch \/data\/jenkins\/log\/{error.log,run.log} # 设置权限 sudo chown -R jenkins:jenkins \/data\/jenkins # 设置环境变量 # export JENKINS_HOME=\u0027\/data\/jenkins\/data\u0027 # 启动 (端口 8910, 前缀 \/jenkins) 用于测试 # \/usr\/local\/jdk\/21.0.9\/bin\/java \\ # -jar jenkins.war \\ # --httpPort=8910 \\ # --prefix=\/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # 将 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 sudo tee \/etc\/systemd\/system\/jenkins.service \u003c\u003c\u0027EOF\u0027 [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=\u0022JENKINS_HOME=\/data\/jenkins\/data\u0022 Environment=\u0022JAVA_OPTS=\u0027-server -Xmx512 -Xms256m\u0027\u0022 # 工作目录 WorkingDirectory=\/data\/jenkins\/war # 启动命令 ExecStart=\/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=\/jenkins # 日志输出到文件 StandardOutput=append:\/data\/jenkins\/log\/run.log StandardError=append:\/data\/jenkins\/log\/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 sudo systemctl daemon-reload sudo systemctl enable jenkins sudo systemctl start jenkins sudo systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (\/etc\/systemd\/system\/jenkins.service; enabled; preset: disabled) # Active: active (running) since Thu 2025-12-11 16:28:06 CST; 8s ago # Main PID: 40713 (java) # Tasks: 31 (limit: 6270) # Memory: 221.4M # CPU: 13.445s # CGroup: \/system.slice\/jenkins.service # └─40713 \/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=\/jenkins # Dec 11 16:28:06 ss.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 sudo journalctl -u jenkins -f Nginx 配置：",
-      "wordCount" : "569",
+      "description": " 基础环境 系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins\n主要文档：WAR file 查看 Java 要求：Java Support Policy\n这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd \/data\/septvean\/bash\/java bash -x deploy-jdk-21.sh 21.0.9 \/usr\/local\/jdk\/21.0.9\/bin\/java -version # java version \u002221.0.9\u0022 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9\u002b7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9\u002b7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s \/sbin\/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv \/data\/jenkins\/{app,builder,data,log} # 设置代理 # export http_proxy=http:\/\/192.168.101.200:1080; export https_proxy=http:\/\/192.168.101.200:1080; # 下载 War 包 cd \/data\/jenkins\/app wget -c -O jenkins-2.528.3.war https:\/\/get.jenkins.io\/war-stable\/2.528.3\/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch \/data\/jenkins\/log\/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins \/data\/jenkins # 设置环境变量 # export JENKINS_HOME=\u0027\/data\/jenkins\/data\u0027 # 启动 (端口 8200, 前缀 \/jenkins) 用于测试 # \/usr\/local\/jdk\/21.0.9\/bin\/java \\ # -jar jenkins.war \\ # --httpPort=8200 \\ # --prefix=\/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=\/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=\/jenkins tee \/etc\/systemd\/system\/jenkins.service \u003c\u003c\u0027EOF\u0027 [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=\u0022JENKINS_HOME=\/data\/jenkins\/data\u0022 Environment=\u0022JAVA_OPTS=\u0027-server -Xmx512 -Xms256m\u0027\u0022 # 工作目录 WorkingDirectory=\/data\/jenkins\/app # 启动命令 ExecStart=\/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:\/data\/jenkins\/log\/run.log StandardError=append:\/data\/jenkins\/log\/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (\/etc\/systemd\/system\/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: \/system.slice\/jenkins.service # └─3822 \/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http:\/\/192.168.101.201:8200\/",
+      "wordCount" : "606",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2101,11 +2092,19 @@
   >
     <h1>Jenkins 部署</h1>
     
-    <p>基础环境：</p>
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="基础环境"
+    >
+        基础环境
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#基础环境" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 基础环境" aria-label="Anchor to: 基础环境" href="#%e5%9f%ba%e7%a1%80%e7%8e%af%e5%a2%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>系统：AlmaLinux 9.6</li>
 <li>Java：21.0.9</li>
-<li>Jenkins：2.528.2</li>
+<li>Jenkins：2.528.3</li>
 </ul>
 <p>Jenkins 官方安装文档：<a
   class="gdoc-markdown__link"
@@ -2122,9 +2121,17 @@
   href="https://www.jenkins.io/doc/book/platform-information/support-policy-java/"
 >Java Support Policy</a></p>
 <ul>
-<li>这里部署 Jenkins LTS（版本号：2.528.2），使用 Java 21（版本号：21.0.9）</li>
+<li>这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9）</li>
 </ul>
-<p>部署 JDK</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="部署-jdk"
+    >
+        部署 JDK
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#部署-jdk" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 部署 JDK" aria-label="Anchor to: 部署 JDK" href="#%e9%83%a8%e7%bd%b2-jdk">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>查看最新版本号：<a
   class="gdoc-markdown__link"
@@ -2133,14 +2140,22 @@
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> /data/septvean/bash/java
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">sudo bash -x deploy-jdk-21.sh 21.0.9
+</span></span><span class="line"><span class="cl">bash -x deploy-jdk-21.sh 21.0.9
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">/usr/local/jdk/21.0.9/bin/java -version
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># java version &#34;21.0.9&#34; 2025-10-21 LTS</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># Java(TM) SE Runtime Environment (build 21.0.9+7-LTS-338)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># Java HotSpot(TM) 64-Bit Server VM (build 21.0.9+7-LTS-338, mixed mode, sharing)</span>
-</span></span></code></pre></div><p>部署 Jenkins</p>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="部署-jenkins"
+    >
+        部署 Jenkins
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#部署-jenkins" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 部署 Jenkins" aria-label="Anchor to: 部署 Jenkins" href="#%e9%83%a8%e7%bd%b2-jenkins">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>查看最新版本号：<a
   class="gdoc-markdown__link"
@@ -2148,44 +2163,53 @@
 >Jenkins Downloads</a></li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 安装依赖包</span>
-</span></span><span class="line"><span class="cl">sudo dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb
+</span></span><span class="line"><span class="cl">dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建用户</span>
-</span></span><span class="line"><span class="cl">sudo useradd -r -s /sbin/nologin jenkins
+</span></span><span class="line"><span class="cl">useradd -r -s /sbin/nologin jenkins
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建目录</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   app: Jenkins War包 目录</span>
 </span></span><span class="line"><span class="cl"><span class="c1">#   builder: 编译工具 目录</span>
 </span></span><span class="line"><span class="cl"><span class="c1">#   data: Jenkins HOME 目录</span>
 </span></span><span class="line"><span class="cl"><span class="c1">#   log: Jenkins 日志</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#   war: Jenkins War包 目录</span>
-</span></span><span class="line"><span class="cl">sudo mkdir -pv /data/jenkins/<span class="o">{</span>builder,data,log,war<span class="o">}</span>
+</span></span><span class="line"><span class="cl">mkdir -pv /data/jenkins/<span class="o">{</span>app,builder,data,log<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置代理</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># export http_proxy=http://192.168.101.200:1080; export https_proxy=http://192.168.101.200:1080;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 下载 War 包</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/jenkins/war
-</span></span><span class="line"><span class="cl">sudo wget -c -O jenkins-2.528.2.war https://get.jenkins.io/war-stable/2.528.2/jenkins.war
-</span></span><span class="line"><span class="cl">sudo ln -svf jenkins-2.528.2.war jenkins.war
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/jenkins/app
+</span></span><span class="line"><span class="cl">wget -c -O jenkins-2.528.3.war https://get.jenkins.io/war-stable/2.528.3/jenkins.war
+</span></span><span class="line"><span class="cl">ln -svf jenkins-2.528.3.war jenkins.war
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建日志文件</span>
-</span></span><span class="line"><span class="cl">sudo touch /data/jenkins/log/<span class="o">{</span>error.log,run.log<span class="o">}</span>
+</span></span><span class="line"><span class="cl">touch /data/jenkins/log/<span class="o">{</span>error.log,run.log<span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 设置权限</span>
-</span></span><span class="line"><span class="cl">sudo chown -R jenkins:jenkins /data/jenkins
+</span></span><span class="line"><span class="cl">chown -R jenkins:jenkins /data/jenkins
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 设置环境变量</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># export JENKINS_HOME=&#39;/data/jenkins/data&#39;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 启动 (端口 8910, 前缀 /jenkins) 用于测试</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 (端口 8200, 前缀 /jenkins) 用于测试</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># /usr/local/jdk/21.0.9/bin/java \</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># -jar jenkins.war \</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># --httpPort=8910 \</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --httpPort=8200 \</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># --prefix=/jenkins</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 其它参数</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># java -jar jenkins.war --help</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建 service</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 将 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理</span>
-</span></span><span class="line"><span class="cl">sudo tee /etc/systemd/system/jenkins.service <span class="s">&lt;&lt;&#39;EOF&#39;
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   httpListenAddress 设置为 0.0.0.0</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   httpPort 设置为 8200</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=/jenkins</span>
+</span></span><span class="line"><span class="cl">tee /etc/systemd/system/jenkins.service <span class="s">&lt;&lt;&#39;EOF&#39;
 </span></span></span><span class="line"><span class="cl"><span class="s">[Unit]
 </span></span></span><span class="line"><span class="cl"><span class="s">Description=Jenkins Server
 </span></span></span><span class="line"><span class="cl"><span class="s">After=network.target
@@ -2200,10 +2224,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">Environment=&#34;JAVA_OPTS=&#39;-server -Xmx512 -Xms256m&#39;&#34;
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># 工作目录
-</span></span></span><span class="line"><span class="cl"><span class="s">WorkingDirectory=/data/jenkins/war
+</span></span></span><span class="line"><span class="cl"><span class="s">WorkingDirectory=/data/jenkins/app
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># 启动命令
-</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins
+</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200
 </span></span></span><span class="line"><span class="cl"><span class="s">
 </span></span></span><span class="line"><span class="cl"><span class="s"># 日志输出到文件
 </span></span></span><span class="line"><span class="cl"><span class="s">StandardOutput=append:/data/jenkins/log/run.log
@@ -2221,30 +2245,50 @@
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建服务</span>
-</span></span><span class="line"><span class="cl">sudo systemctl daemon-reload
-</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> jenkins
-</span></span><span class="line"><span class="cl">sudo systemctl start jenkins
-</span></span><span class="line"><span class="cl">sudo systemctl status jenkins
+</span></span><span class="line"><span class="cl">systemctl daemon-reload
+</span></span><span class="line"><span class="cl">systemctl start jenkins
+</span></span><span class="line"><span class="cl">systemctl status jenkins
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># ● jenkins.service - Jenkins Server</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#     Loaded: loaded (/etc/systemd/system/jenkins.service; enabled; preset: disabled)</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#     Active: active (running) since Thu 2025-12-11 16:28:06 CST; 8s ago</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># Main PID: 40713 (java)</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#     Tasks: 31 (limit: 6270)</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#     Memory: 221.4M</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#         CPU: 13.445s</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#     CGroup: /system.slice/jenkins.service</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#             └─40713 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8910 --prefix=/jenkins</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      Loaded: loaded (/etc/systemd/system/jenkins.service; disabled; preset: disabled)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#    Main PID: 3822 (java)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       Tasks: 32 (limit: 209715)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      Memory: 254.4M (peak: 254.4M)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#         CPU: 7.262s</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#      CGroup: /system.slice/jenkins.service</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#              └─3822 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Dec 11 16:28:06 ss.server.com systemd[1]: Started Jenkins Server.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server.</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看 Jenkins 日志</span>
-</span></span><span class="line"><span class="cl">sudo journalctl -u jenkins -f
-</span></span></code></pre></div><p>Nginx 配置：</p>
+</span></span><span class="line"><span class="cl">journalctl -u jenkins -f
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置为开机启动</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> jenkins
+</span></span></code></pre></div><p>访问：<a
+  class="gdoc-markdown__link"
+  href="http://192.168.101.201:8200/"
+>http://192.168.101.201:8200/</a></p>
+<ul>
+<li>如果添加了 <code>--prefix=/jenkins</code> 参数，则访问 <a
+  class="gdoc-markdown__link"
+  href="http://192.168.101.201:8200/jenkins/"
+>http://192.168.101.201:8200/jenkins/</a></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="nginx-配置"
+    >
+        Nginx 配置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#nginx-配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Nginx 配置" aria-label="Anchor to: Nginx 配置" href="#nginx-%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl">    <span class="k">location</span> <span class="s">/jenkins</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># 代理
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:8910</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:8200</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># 修正 Jenkins 返回的重定向路径
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_redirect</span> <span class="n">127.0.0.1</span> <span class="nv">$scheme://$host/jenkins</span><span class="p">;</span>
@@ -2269,92 +2313,279 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_buffering</span> <span class="no">off</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span></code></pre></div><p>Nginx 加载配置：</p>
+</span></span></code></pre></div><p>Nginx 加载配置</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nginx -t
 </span></span><span class="line"><span class="cl">nginx -s reload
 </span></span></code></pre></div><p>访问：<a
   class="gdoc-markdown__link"
-  href="https://documents.v2ep.com/jenkins/"
->https://documents.v2ep.com/jenkins/</a></p>
-<p>解锁 Jenkins</p>
-<ul>
-<li>管理员密码 <code>sudo cat /data/jenkins/data/secrets/initialAdminPassword</code></li>
-</ul>
-<p>自定义Jenkins：选择插件来安装</p>
-<ul>
-<li>Organization and Administration
+  href="https://devops.v2ep.com/jenkins/"
+>https://devops.v2ep.com/jenkins/</a></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="初始化-jenkins"
+    >
+        初始化 Jenkins
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#初始化-jenkins" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 初始化 Jenkins" aria-label="Anchor to: 初始化 Jenkins" href="#%e5%88%9d%e5%a7%8b%e5%8c%96-jenkins">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="管理员密码"
+    >
+        管理员密码
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#管理员密码" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 管理员密码" aria-label="Anchor to: 管理员密码" href="#%e7%ae%a1%e7%90%86%e5%91%98%e5%af%86%e7%a0%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /data/jenkins/data/secrets/initialAdminPassword
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="自定义-jenkins选择插件来安装"
+    >
+        自定义 Jenkins：<strong>选择插件来安装</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#自定义-jenkins选择插件来安装" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 自定义 Jenkins：选择插件来安装" aria-label="Anchor to: 自定义 Jenkins：选择插件来安装" href="#%e8%87%aa%e5%ae%9a%e4%b9%89-jenkins%e9%80%89%e6%8b%a9%e6%8f%92%e4%bb%b6%e6%9d%a5%e5%ae%89%e8%a3%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="organization-and-administration"
+    >
+        Organization and Administration
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#organization-and-administration" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Organization and Administration" aria-label="Anchor to: Organization and Administration" href="#organization-and-administration">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>Dashboard View</li>
 <li>Folders</li>
 <li>OWASP Markup Formatter</li>
 </ul>
-</li>
-<li>Build Features
+<p><img
+  src="../deploy-01.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="build-features"
+    >
+        Build Features
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#build-features" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Build Features" aria-label="Anchor to: Build Features" href="#build-features">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>默认</li>
+<li>Build Name and Description Setter</li>
+<li>Build Timeout</li>
+<li>Credentials Binding</li>
+<li>Timestamper</li>
+<li>Workspace Cleanup</li>
 </ul>
-</li>
-<li>Build Tools
+<p><img
+  src="../deploy-02.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="build-tools"
+    >
+        Build Tools
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#build-tools" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Build Tools" aria-label="Anchor to: Build Tools" href="#build-tools">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>全不选</li>
 </ul>
-</li>
-<li>Build Analysis and Reporting
+<p><img
+  src="../deploy-03.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="build-analysis-and-reporting"
+    >
+        Build Analysis and Reporting
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#build-analysis-and-reporting" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Build Analysis and Reporting" aria-label="Anchor to: Build Analysis and Reporting" href="#build-analysis-and-reporting">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>默认 (全不选)</li>
 </ul>
-</li>
-<li>Pipelines and Continuous Delivery
+<p><img
+  src="../deploy-04.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="pipelines-and-continuous-delivery"
+    >
+        Pipelines and Continuous Delivery
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#pipelines-and-continuous-delivery" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Pipelines and Continuous Delivery" aria-label="Anchor to: Pipelines and Continuous Delivery" href="#pipelines-and-continuous-delivery">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>Pipeline</li>
+<li>Pipeline Graph View</li>
+<li>Conditional BuildStep</li>
+<li>Parameterized Trigger</li>
+<li>Copy Artifact</li>
 </ul>
-</li>
-<li>Source Code Management
+<p><img
+  src="../deploy-05.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="source-code-management"
+    >
+        Source Code Management
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#source-code-management" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Source Code Management" aria-label="Anchor to: Source Code Management" href="#source-code-management">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>Git</li>
 <li>Git Parameter</li>
-<li>GitLab | GitHub (按需选择)</li>
+<li>GitLab</li>
 </ul>
-</li>
-<li>Distributed Builds
+<p><img
+  src="../deploy-06.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="distributed-builds"
+    >
+        Distributed Builds
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#distributed-builds" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Distributed Builds" aria-label="Anchor to: Distributed Builds" href="#distributed-builds">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li>全不选</li>
+<li>单机：全不选</li>
+<li>集群：Matrix Project</li>
 </ul>
-</li>
-<li>User Management and Security
+<p><img
+  src="../deploy-07.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="user-management-and-security"
+    >
+        User Management and Security
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#user-management-and-security" class="gdoc-page__anchor clip flex align-center" title="Anchor to: User Management and Security" aria-label="Anchor to: User Management and Security" href="#user-management-and-security">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>Matrix Authorization Strategy</li>
 <li>PAM Authentication</li>
 <li>Role-based Authorization Strategy</li>
 </ul>
-</li>
-<li>Notifications and Publishing
+<p><img
+  src="../deploy-08.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="notifications-and-publishing"
+    >
+        Notifications and Publishing
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#notifications-and-publishing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Notifications and Publishing" aria-label="Anchor to: Notifications and Publishing" href="#notifications-and-publishing">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>默认</li>
+</ul>
+<p><img
+  src="../deploy-09.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="appearance"
+    >
+        Appearance
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#appearance" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Appearance" aria-label="Anchor to: Appearance" href="#appearance">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>全不选</li>
 </ul>
-</li>
-<li>Appearance
-<ul>
-<li>全不选</li>
-</ul>
-</li>
-<li>Languages
+<p><img
+  src="../deploy-10.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="languages"
+    >
+        Languages
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#languages" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Languages" aria-label="Anchor to: Languages" href="#languages">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>Locale</li>
+<li>千万不要选择 Localization: Chinese (Simplified) !!</li>
 </ul>
-</li>
-<li>安装</li>
-</ul>
-<p>创建第一个管理员用户</p>
+<p><img
+  src="../deploy-11.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="安装"
+    >
+        安装
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#安装" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装" aria-label="Anchor to: 安装" href="#%e5%ae%89%e8%a3%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="创建第一个管理员用户"
+    >
+        创建第一个管理员用户
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#创建第一个管理员用户" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建第一个管理员用户" aria-label="Anchor to: 创建第一个管理员用户" href="#%e5%88%9b%e5%bb%ba%e7%ac%ac%e4%b8%80%e4%b8%aa%e7%ae%a1%e7%90%86%e5%91%98%e7%94%a8%e6%88%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
 <li>不创建 -&gt; &ldquo;使用admin账户继续&rdquo;</li>
 </ul>
 <p>实例配置</p>
 <ul>
-<li>Jenkins URL 根据情况修改 (默认)</li>
+<li>Jenkins URL：根据情况修改 (默认)</li>
 <li>保存并完成</li>
 </ul>
-<p>开始使用 Jenkins</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="开始使用-jenkins"
+    >
+        开始使用 Jenkins
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/deploy/#开始使用-jenkins" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 开始使用 Jenkins" aria-label="Anchor to: 开始使用 Jenkins" href="#%e5%bc%80%e5%a7%8b%e4%bd%bf%e7%94%a8-jenkins">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <p>Manage Jenkins</p>
 <ul>
 <li>Building on the built-in node can be a security issue. You should set up distributed builds. See the documentation.
@@ -2384,7 +2615,7 @@
 <li>Security -&gt; Password</li>
 </ul>
 <p>重启 Jenkins</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo systemctl restart jenkins
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl restart jenkins
 </span></span></code></pre></div><ul>
 <li>或者：<a
   class="gdoc-markdown__link"
@@ -2415,12 +2646,12 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> /data/jenkins/war/
-</span></span><span class="line"><span class="cl">ll
-</span></span><span class="line"><span class="cl">sudo wget -c -O jenkins-2.528.3.war https://updates.jenkins.io/download/war/2.528.3/jenkins.war
-</span></span><span class="line"><span class="cl">sudo ln -svf jenkins-2.528.3.war jenkins.war
-</span></span><span class="line"><span class="cl">sudo chown -R jenkins:jenkins jenkins.*
-</span></span><span class="line"><span class="cl">sudo systemctl restart jenkins.service
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">cd</span> /data/jenkins/app/
+</span></span><span class="line"><span class="cl">ls -al
+</span></span><span class="line"><span class="cl">wget -c -O jenkins-2.528.3.war https://updates.jenkins.io/download/war/2.528.3/jenkins.war
+</span></span><span class="line"><span class="cl">ln -svf jenkins-2.528.3.war jenkins.war
+</span></span><span class="line"><span class="cl">chown -R jenkins:jenkins jenkins.*
+</span></span><span class="line"><span class="cl">systemctl restart jenkins.service
 </span></span></code></pre></div>
   </article>
 

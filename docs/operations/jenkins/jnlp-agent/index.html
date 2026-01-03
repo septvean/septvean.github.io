@@ -12,10 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta name="description" content="JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent/Slave）连接到 Jenkins 主节点（Master/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。
+🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。
+在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。
+也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。
+✅ 适合场景：
+你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 在 Jenkins Web UI 中创建一个 Permanent Agent（永久节点），类型选择 “Launch agent via Java Web Start”（即 JNLP）。" />
 
-    <title>Redis | ☘️ Septvean&#39;s Documents</title>
+    <title>JNLP Agent | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,38 +40,46 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   <meta
     property="og:title"
-    content="Redis"
+    content="JNLP Agent"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta property="og:description" content="JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent/Slave）连接到 Jenkins 主节点（Master/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。
+🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。
+在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。
+也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。
+✅ 适合场景：
+你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 在 Jenkins Web UI 中创建一个 Permanent Agent（永久节点），类型选择 “Launch agent via Java Web Start”（即 JNLP）。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/redis/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/jenkins/jnlp-agent/" />
 
-<meta property="article:section" content="Database" />
+<meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Redis" />
-  <meta name="twitter:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+<meta name="twitter:title" content="JNLP Agent" />
+  <meta name="twitter:description" content="JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent/Slave）连接到 Jenkins 主节点（Master/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。
+🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。
+在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。
+也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。
+✅ 适合场景：
+你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 在 Jenkins Web UI 中创建一个 Permanent Agent（永久节点），类型选择 “Launch agent via Java Web Start”（即 JNLP）。" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Database",
-      "name": "Redis",
-      "url" : "https://documents.v2ep.com/database/redis/",
-      "headline": "Redis",
-      "description": "Document List:\nRedis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 ",
-      "wordCount" : "26",
+      "articleSection": "Operations",
+      "name": "JNLP Agent",
+      "url" : "https://documents.v2ep.com/operations/jenkins/jnlp-agent/",
+      "headline": "JNLP Agent",
+      "description": "JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent\/Slave）连接到 Jenkins 主节点（Master\/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。\n🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。\n在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。\n也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。\n✅ 适合场景：\n你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙\/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 在 Jenkins Web UI 中创建一个 Permanent Agent（永久节点），类型选择 “Launch agent via Java Web Start”（即 JNLP）。",
+      "wordCount" : "529",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/redis/"
+          "@id": "https://documents.v2ep.com/operations/jenkins/jnlp-agent/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +163,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/redis/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/jenkins/jnlp-agent/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -900,7 +912,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
                 <span class="flex">
                   <a
                     href="/database/redis/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Redis
                   </a>
@@ -2060,7 +2072,15 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/jenkins/' href='/operations/jenkins/'><span itemprop='name'>Jenkins</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>JNLP Agent</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,112 +2099,303 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Redis</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>JNLP Agent</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/faq/" class="gdoc-toc__entry">Redis FAQ
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/tutorial/" class="gdoc-toc__entry">Redis 基础教程
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/core/" class="gdoc-toc__entry">Redis 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/classic-issues/" class="gdoc-toc__entry">Redis 经典问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cache-hit-ratio/" class="gdoc-toc__entry">Redis 缓存命中率
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/base/" class="gdoc-toc__entry">Redis 基础
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/backup-restore/" class="gdoc-toc__entry">Redis 备份与恢复
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/command/" class="gdoc-toc__entry">Redis 常用命令
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/dir/" class="gdoc-toc__entry">Redis 文件存储目录
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/best-practices/" class="gdoc-toc__entry">Redis 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/three-major-issues-with-redis-caching/" class="gdoc-toc__entry">Redis 缓存三大问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cluster/" class="gdoc-toc__entry">Redis 集群
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p><strong>JNLP Agent</strong>（Java Network Launch Protocol Agent）是 Jenkins 中一种将 <strong>远程节点</strong>（Agent/Slave）连接到 <strong>Jenkins 主节点</strong>（Master/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-一什么是-jnlp-agent"
+    >
+        🔧 一、什么是 JNLP Agent？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#-一什么是-jnlp-agent" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔧 一、什么是 JNLP Agent？" aria-label="Anchor to: 🔧 一、什么是 JNLP Agent？" href="#-%e4%b8%80%e4%bb%80%e4%b9%88%e6%98%af-jnlp-agent">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>JNLP</strong>（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。</p>
+<p>在 Jenkins 中，<strong>JNLP Agent</strong> 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。</p>
+<p>也称为 <strong>“Inbound Agent”</strong>（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。</p>
+<blockquote>
+<p>✅ 适合场景：</p>
+<ul>
+<li>你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。</li>
+<li>构建节点在防火墙/NAT 后，只能主动向外连接。</li>
+<li>需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。</li>
+</ul>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-二jnlp-agent-的工作原理"
+    >
+        📦 二、JNLP Agent 的工作原理
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#-二jnlp-agent-的工作原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📦 二、JNLP Agent 的工作原理" aria-label="Anchor to: 📦 二、JNLP Agent 的工作原理" href="#-%e4%ba%8cjnlp-agent-%e7%9a%84%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>
+<p>在 Jenkins Web UI 中创建一个 <strong>Permanent Agent</strong>（永久节点），类型选择 <strong>“Launch agent via Java Web Start”</strong>（即 JNLP）。</p>
+</li>
+<li>
+<p>Jenkins 为主机生成一个唯一的 <strong>Agent 名称</strong> 和 <strong>密钥</strong>（secret）。</p>
+</li>
+<li>
+<p>在目标机器上执行以下命令启动 Agent：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java -jar agent.jar -jnlpUrl http://&lt;jenkins-url&gt;/computer/&lt;agent-name&gt;/slave-agent.jnlp -secret &lt;secret&gt; -workDir <span class="s2">&#34;/path/to/workspace&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Agent 通过 HTTP/HTTPS 连接到 Jenkins 主节点，建立持久连接。</p>
+</li>
+<li>
+<p>Jenkins 主节点可向该 Agent 分配 Job 构建任务。</p>
+</li>
+</ol>
+<blockquote>
+<p>⚠️ 注意：</p>
+<ul>
+<li><code>agent.jar</code> 是 Jenkins 提供的客户端 JAR 文件，可从 <code>http://&lt;jenkins-url&gt;/jnlpJars/agent.jar</code> 下载。</li>
+<li>必须安装 <strong>Java 运行环境</strong>（JRE 或 JDK）在 Agent 机器上（Java 8 或 11 推荐）。</li>
+</ul>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-三配置-jnlp-agent-的步骤"
+    >
+        🛠 三、配置 JNLP Agent 的步骤
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#-三配置-jnlp-agent-的步骤" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🛠 三、配置 JNLP Agent 的步骤" aria-label="Anchor to: 🛠 三、配置 JNLP Agent 的步骤" href="#-%e4%b8%89%e9%85%8d%e7%bd%ae-jnlp-agent-%e7%9a%84%e6%ad%a5%e9%aa%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-在-jenkins-主节点创建-agent"
+    >
+        1. <strong>在 Jenkins 主节点创建 Agent</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#1-在-jenkins-主节点创建-agent" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 在 Jenkins 主节点创建 Agent" aria-label="Anchor to: 1. 在 Jenkins 主节点创建 Agent" href="#1-%e5%9c%a8-jenkins-%e4%b8%bb%e8%8a%82%e7%82%b9%e5%88%9b%e5%bb%ba-agent">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>进入 <strong>Manage Jenkins &gt; Nodes &gt; New Node</strong></li>
+<li>输入节点名称（如 <code>build-node-01</code>）</li>
+<li>选择 <strong>Permanent Agent</strong></li>
+<li>配置：
+<ul>
+<li><strong>Number of executors</strong>：并发构建数（如 2）</li>
+<li><strong>Remote root directory</strong>：远程工作目录（如 <code>/data/jenkins/agent</code>）</li>
+<li><strong>Labels</strong>：标签（用于 Pipeline 中 <code>agent { label 'xxx' }</code> 调度），这里设置为 <code>agent</code></li>
+<li><strong>Launch method</strong>：选择 <strong>Launch agent by connecting it to the controller</strong></li>
+</ul>
+</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-获取连接信息"
+    >
+        2. <strong>获取连接信息</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#2-获取连接信息" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 获取连接信息" aria-label="Anchor to: 2. 获取连接信息" href="#2-%e8%8e%b7%e5%8f%96%e8%bf%9e%e6%8e%a5%e4%bf%a1%e6%81%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>保存后，进入该节点页面，你会看到：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">build-node-01
+</span></span><span class="line"><span class="cl">Built-In Node
+</span></span></code></pre></div><p>点击 build-node-01，会给出相关的命令：</p>
+<p>Run from agent command line: (Unix)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
+</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
+</span></span></code></pre></div><p>Run from agent command line: (Windows)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl.exe -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
+</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
+</span></span></code></pre></div><p>Or run from agent command line, with the secret stored in a file: (Unix)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee &gt; secret-file
+</span></span><span class="line"><span class="cl">curl -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
+</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret @secret-file -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
+</span></span></code></pre></div><p>Or run from agent command line, with the secret stored in a file: (Windows)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee&gt; secret-file
+</span></span><span class="line"><span class="cl">curl.exe -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
+</span></span><span class="line"><span class="cl">java -jar agent.jar -url http://192.168.101.201:8910/jenkins/ -secret @secret-file -name <span class="s2">&#34;build-node-01&#34;</span> -webSocket -workDir <span class="s2">&#34;/data/jenkins/agent&#34;</span>
+</span></span></code></pre></div><p>登录 Agent 节点服务器</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p /data/jenkins/<span class="o">{</span>app,agent<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/jenkins/app
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> 4c4e607d4387f58010817498a674c22994a7af907ca99a04da19eb4530377eee &gt; secret-file
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -sO http://192.168.101.201:8910/jenkins/jnlpJars/agent.jar
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat &gt; start.sh <span class="s">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">cd $(dirname $0)
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">nohup /usr/local/jdk/21.0.9/bin/java \
+</span></span></span><span class="line"><span class="cl"><span class="s">    -jar agent.jar \
+</span></span></span><span class="line"><span class="cl"><span class="s">    -url http://192.168.101.201:8910/jenkins/ \
+</span></span></span><span class="line"><span class="cl"><span class="s">    -secret @secret-file \
+</span></span></span><span class="line"><span class="cl"><span class="s">    -name &#34;build-node-01&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    -webSocket \
+</span></span></span><span class="line"><span class="cl"><span class="s">    -workDir &#34;/data/jenkins/agent&#34; \
+</span></span></span><span class="line"><span class="cl"><span class="s">    &gt; agent.log 2&gt;&amp;1 &amp;
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">bash -x start.sh
+</span></span></code></pre></div><p>回到 <strong>Nodes</strong> 页面，点击 <strong>Built-In Node</strong>，选择 <strong>Configure</strong>，将 <strong>Number of executors</strong> 设置为 0，保存（save）。</p>
+<ul>
+<li>JNLP 启动链接（如 <code>http://jenkins:8080/computer/build-node-01/slave-agent.jnlp</code>）</li>
+<li>Secret 密钥（点击 “Secret” 显示）</li>
+<li><code>agent.jar</code> 下载地址（<code>http://jenkins:8080/jnlpJars/agent.jar</code>）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-在目标机器启动-agent"
+    >
+        3. <strong>在目标机器启动 Agent</strong>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#3-在目标机器启动-agent" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 在目标机器启动 Agent" aria-label="Anchor to: 3. 在目标机器启动 Agent" href="#3-%e5%9c%a8%e7%9b%ae%e6%a0%87%e6%9c%ba%e5%99%a8%e5%90%af%e5%8a%a8-agent">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 下载 agent.jar</span>
+</span></span><span class="line"><span class="cl">wget http://jenkins:8080/jnlpJars/agent.jar
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 Agent（推荐使用 -secret 参数，更安全）</span>
+</span></span><span class="line"><span class="cl">java -jar agent.jar <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -jnlpUrl http://jenkins:8080/computer/build-node-01/slave-agent.jnlp <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -secret 1234567890abcdef1234567890abcdef <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -workDir <span class="s2">&#34;/home/jenkins/agent&#34;</span>
+</span></span></code></pre></div><blockquote>
+<p>💡 提示：可将命令写入 systemd 服务、Windows 服务或启动脚本，实现开机自启。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-四安全性考虑"
+    >
+        🔐 四、安全性考虑
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#-四安全性考虑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔐 四、安全性考虑" aria-label="Anchor to: 🔐 四、安全性考虑" href="#-%e5%9b%9b%e5%ae%89%e5%85%a8%e6%80%a7%e8%80%83%e8%99%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>Secret 密钥</strong>：用于身份验证，防止未授权连接。</li>
+<li><strong>Jenkins 安全设置</strong>：
+<ul>
+<li>建议启用 <strong>Security Realm</strong>（如 LDAP、用户认证）。</li>
+<li>开启 <strong>Agent -&gt; Master Security</strong>（防止 Agent 执行恶意命令）。</li>
+<li>限制 Agent 可访问的文件系统路径。</li>
+</ul>
+</li>
+<li><strong>网络加密</strong>：建议通过 HTTPS 提供 Jenkins 服务，避免明文传输。</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-五jnlp-vs-ssh-agent-对比"
+    >
+        🔄 五、JNLP vs SSH Agent 对比
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#-五jnlp-vs-ssh-agent-对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔄 五、JNLP vs SSH Agent 对比" aria-label="Anchor to: 🔄 五、JNLP vs SSH Agent 对比" href="#-%e4%ba%94jnlp-vs-ssh-agent-%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>特性</th>
+          <th>JNLP Agent</th>
+          <th>SSH Agent</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>连接方向</strong></td>
+          <td>Agent -&gt; Master（入站）</td>
+          <td>Master -&gt; Agent（出站）</td>
+      </tr>
+      <tr>
+          <td><strong>防火墙友好</strong></td>
+          <td>✅ 适合 NAT/防火墙后</td>
+          <td>❌ 需开放 SSH 端口</td>
+      </tr>
+      <tr>
+          <td><strong>操作系统支持</strong></td>
+          <td>跨平台（需 Java）</td>
+          <td>主要 Linux（需 SSH 服务）</td>
+      </tr>
+      <tr>
+          <td><strong>启动方式</strong></td>
+          <td>手动执行 Java 命令</td>
+          <td>Jenkins 自动 SSH 登录启动</td>
+      </tr>
+      <tr>
+          <td><strong>资源开销</strong></td>
+          <td>需常驻 Java 进程</td>
+          <td>按需启动，更轻量（一次性 Agent）</td>
+      </tr>
+  </tbody>
+</table> </div>
+<blockquote>
+<p>✅ 现代推荐：对于云环境或容器化场景，使用 <strong>Pod Template</strong>（Kubernetes Plugin）或 <strong>Docker Agent</strong> 更灵活，它们底层也常基于 JNLP。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-六常见问题排查"
+    >
+        🚀 六、常见问题排查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#-六常见问题排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🚀 六、常见问题排查" aria-label="Anchor to: 🚀 六、常见问题排查" href="#-%e5%85%ad%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e6%8e%92%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>问题</th>
+          <th>可能原因</th>
+          <th>解决方案</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>Connection refused</code></td>
+          <td>Jenkins URL 不可达</td>
+          <td>检查网络、防火墙、Jenkins 是否运行</td>
+      </tr>
+      <tr>
+          <td><code>Invalid secret</code></td>
+          <td>密钥错误或过期</td>
+          <td>重新复制 Secret，或在节点配置中点击 “Fix”</td>
+      </tr>
+      <tr>
+          <td><code>Unsupported protocol</code></td>
+          <td>Java 版本不兼容</td>
+          <td>使用 Java 8/11，避免 Java 17+（除非 Jenkins 支持）</td>
+      </tr>
+      <tr>
+          <td>Agent 频繁断开</td>
+          <td>网络不稳定</td>
+          <td>增加重连脚本，或改用更稳定连接方式</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-总结"
+    >
+        ✅ 总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jnlp-agent/#-总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 总结" aria-label="Anchor to: ✅ 总结" href="#-%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>JNLP Agent 是 Jenkins 分布式构建的核心机制之一，特别适合：</p>
+<ul>
+<li>无法被主节点直接访问的构建机器</li>
+<li>需要灵活扩展构建资源的场景</li>
+<li>Windows 或混合环境构建</li>
+</ul>
+<p>虽然配置略复杂（需手动启动 Java 进程），但它是实现 <strong>横向扩展 Jenkins 能力</strong> 的关键一环。</p>
 
   </article>
 
@@ -2638,9 +2849,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
 
         
-          
-          
-        
 
         
           
@@ -2677,11 +2885,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3411,27 +3614,9 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Prometheus
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      Operations
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

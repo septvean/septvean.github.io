@@ -12,10 +12,17 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta name="description" content="运行环境：
+CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HDD) &#43; 500G (SSD) 操作系统：AlmaLinux 9.7 宿主机禁用了 swap 分区。
+运行了 3 个 KVM 虚拟机，第一个虚拟机 2核 4G 内存，其它两个虚拟机 2核 2G 内存。
+在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。
+内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。
+解决方法：
+添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
+安装操作系统时，必须创建 swap 分区。
+物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
 
-    <title>Redis | ☘️ Septvean&#39;s Documents</title>
+    <title>内存不足导致 KVM 虚拟机挂掉 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,38 +43,52 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   <meta
     property="og:title"
-    content="Redis"
+    content="内存不足导致 KVM 虚拟机挂掉"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta property="og:description" content="运行环境：
+CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HDD) &#43; 500G (SSD) 操作系统：AlmaLinux 9.7 宿主机禁用了 swap 分区。
+运行了 3 个 KVM 虚拟机，第一个虚拟机 2核 4G 内存，其它两个虚拟机 2核 2G 内存。
+在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。
+内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。
+解决方法：
+添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
+安装操作系统时，必须创建 swap 分区。
+物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/redis/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/troubleshooting/memory-and-kvm/" />
 
-<meta property="article:section" content="Database" />
+<meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Redis" />
-  <meta name="twitter:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+<meta name="twitter:title" content="内存不足导致 KVM 虚拟机挂掉" />
+  <meta name="twitter:description" content="运行环境：
+CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HDD) &#43; 500G (SSD) 操作系统：AlmaLinux 9.7 宿主机禁用了 swap 分区。
+运行了 3 个 KVM 虚拟机，第一个虚拟机 2核 4G 内存，其它两个虚拟机 2核 2G 内存。
+在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。
+内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。
+解决方法：
+添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
+安装操作系统时，必须创建 swap 分区。
+物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Database",
-      "name": "Redis",
-      "url" : "https://documents.v2ep.com/database/redis/",
-      "headline": "Redis",
-      "description": "Document List:\nRedis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 ",
-      "wordCount" : "26",
+      "articleSection": "Operations",
+      "name": "内存不足导致 KVM 虚拟机挂掉",
+      "url" : "https://documents.v2ep.com/operations/troubleshooting/memory-and-kvm/",
+      "headline": "内存不足导致 KVM 虚拟机挂掉",
+      "description": "运行环境：\nCPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HDD) \u002b 500G (SSD) 操作系统：AlmaLinux 9.7 宿主机禁用了 swap 分区。\n运行了 3 个 KVM 虚拟机，第一个虚拟机 2核 4G 内存，其它两个虚拟机 2核 2G 内存。\n在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。\n内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。\n解决方法：\n添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：\n安装操作系统时，必须创建 swap 分区。\n物理机：8G (超过 8G 意义不大) 虚拟机：2G \/ 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD \u002b SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。",
+      "wordCount" : "100",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/redis/"
+          "@id": "https://documents.v2ep.com/operations/troubleshooting/memory-and-kvm/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +172,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/redis/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/troubleshooting/memory-and-kvm/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -900,7 +921,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
                 <span class="flex">
                   <a
                     href="/database/redis/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Redis
                   </a>
@@ -2060,7 +2081,15 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/troubleshooting/' href='/operations/troubleshooting/'><span itemprop='name'>Troubleshooting</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>内存不足导致 KVM 虚拟机挂掉</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,112 +2108,41 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Redis</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>内存不足导致 KVM 虚拟机挂掉</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/faq/" class="gdoc-toc__entry">Redis FAQ
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/tutorial/" class="gdoc-toc__entry">Redis 基础教程
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/core/" class="gdoc-toc__entry">Redis 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/classic-issues/" class="gdoc-toc__entry">Redis 经典问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cache-hit-ratio/" class="gdoc-toc__entry">Redis 缓存命中率
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/base/" class="gdoc-toc__entry">Redis 基础
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/backup-restore/" class="gdoc-toc__entry">Redis 备份与恢复
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/command/" class="gdoc-toc__entry">Redis 常用命令
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/dir/" class="gdoc-toc__entry">Redis 文件存储目录
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/best-practices/" class="gdoc-toc__entry">Redis 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/three-major-issues-with-redis-caching/" class="gdoc-toc__entry">Redis 缓存三大问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cluster/" class="gdoc-toc__entry">Redis 集群
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>运行环境：</p>
+<ul>
+<li>CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核)</li>
+<li>内存：8G</li>
+<li>硬盘：1T (HDD) + 500G (SSD)</li>
+<li>操作系统：AlmaLinux 9.7</li>
+</ul>
+<p>宿主机禁用了 swap 分区。</p>
+<p>运行了 3 个 KVM 虚拟机，第一个虚拟机 2核 4G 内存，其它两个虚拟机 2核 2G 内存。</p>
+<p>在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。</p>
+<p>内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。</p>
+<p>解决方法：</p>
+<ol>
+<li>添加 SSD 硬盘</li>
+<li>启用 swap，并在 SSD 硬盘上创建 swap 文件</li>
+<li>将 KVM 虚拟机镜像移动到到 SSD 硬盘</li>
+</ol>
+<p>总结：</p>
+<ol>
+<li>
+<p>安装操作系统时，必须创建 swap 分区。</p>
+<ul>
+<li>物理机：8G (超过 8G 意义不大)</li>
+<li>虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区)</li>
+</ul>
+</li>
+<li>
+<p>如果是 HDD + SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。</p>
+<ul>
+<li>可有效提升性能，缓解 OOM 问题。</li>
+</ul>
+</li>
+</ol>
 
   </article>
 
@@ -2638,9 +2596,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
 
         
-          
-          
-        
 
         
           
@@ -2677,11 +2632,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3411,27 +3361,9 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Prometheus
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      Operations
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

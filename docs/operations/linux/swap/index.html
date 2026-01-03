@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta name="description" content=" 一、swap 是什么（不要再被“虚拟内存”带偏） 1️⃣ swap 的真实定义 swap = 内核用于回收匿名页（anonymous pages）的后备存储
+它只服务于匿名页：
+进程堆（heap） 栈（stack） malloc/new 出来的内存 JVM / Python / Go runtime 内存 ❌ 不直接用于：
+文件页（page cache） 磁盘映射文件（mmap 文件） 2️⃣ swap ≠ 内存扩容 误解 真相 swap 是慢内存 ❌ swap 能当内存用 ❌ swap 会拖慢系统 ❌ (前提是没乱用) 正确理解：" />
 
-    <title>Redis | ☘️ Septvean&#39;s Documents</title>
+    <title>swap | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,38 +38,42 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   <meta
     property="og:title"
-    content="Redis"
+    content="swap"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta property="og:description" content=" 一、swap 是什么（不要再被“虚拟内存”带偏） 1️⃣ swap 的真实定义 swap = 内核用于回收匿名页（anonymous pages）的后备存储
+它只服务于匿名页：
+进程堆（heap） 栈（stack） malloc/new 出来的内存 JVM / Python / Go runtime 内存 ❌ 不直接用于：
+文件页（page cache） 磁盘映射文件（mmap 文件） 2️⃣ swap ≠ 内存扩容 误解 真相 swap 是慢内存 ❌ swap 能当内存用 ❌ swap 会拖慢系统 ❌ (前提是没乱用) 正确理解：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/redis/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/swap/" />
 
-<meta property="article:section" content="Database" />
+<meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Redis" />
-  <meta name="twitter:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+<meta name="twitter:title" content="swap" />
+  <meta name="twitter:description" content=" 一、swap 是什么（不要再被“虚拟内存”带偏） 1️⃣ swap 的真实定义 swap = 内核用于回收匿名页（anonymous pages）的后备存储
+它只服务于匿名页：
+进程堆（heap） 栈（stack） malloc/new 出来的内存 JVM / Python / Go runtime 内存 ❌ 不直接用于：
+文件页（page cache） 磁盘映射文件（mmap 文件） 2️⃣ swap ≠ 内存扩容 误解 真相 swap 是慢内存 ❌ swap 能当内存用 ❌ swap 会拖慢系统 ❌ (前提是没乱用) 正确理解：" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Database",
-      "name": "Redis",
-      "url" : "https://documents.v2ep.com/database/redis/",
-      "headline": "Redis",
-      "description": "Document List:\nRedis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 ",
-      "wordCount" : "26",
+      "articleSection": "Operations",
+      "name": "swap",
+      "url" : "https://documents.v2ep.com/operations/linux/swap/",
+      "headline": "swap",
+      "description": " 一、swap 是什么（不要再被“虚拟内存”带偏） 1️⃣ swap 的真实定义 swap = 内核用于回收匿名页（anonymous pages）的后备存储\n它只服务于匿名页：\n进程堆（heap） 栈（stack） malloc\/new 出来的内存 JVM \/ Python \/ Go runtime 内存 ❌ 不直接用于：\n文件页（page cache） 磁盘映射文件（mmap 文件） 2️⃣ swap ≠ 内存扩容 误解 真相 swap 是慢内存 ❌ swap 能当内存用 ❌ swap 会拖慢系统 ❌ (前提是没乱用) 正确理解：",
+      "wordCount" : "663",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/redis/"
+          "@id": "https://documents.v2ep.com/operations/linux/swap/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/redis/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/swap/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -900,7 +906,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
                 <span class="flex">
                   <a
                     href="/database/redis/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Redis
                   </a>
@@ -2060,7 +2066,15 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>swap</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,112 +2093,996 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Redis</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>swap</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/faq/" class="gdoc-toc__entry">Redis FAQ
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/tutorial/" class="gdoc-toc__entry">Redis 基础教程
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/core/" class="gdoc-toc__entry">Redis 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/classic-issues/" class="gdoc-toc__entry">Redis 经典问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cache-hit-ratio/" class="gdoc-toc__entry">Redis 缓存命中率
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/base/" class="gdoc-toc__entry">Redis 基础
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/backup-restore/" class="gdoc-toc__entry">Redis 备份与恢复
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/command/" class="gdoc-toc__entry">Redis 常用命令
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/dir/" class="gdoc-toc__entry">Redis 文件存储目录
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/best-practices/" class="gdoc-toc__entry">Redis 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/three-major-issues-with-redis-caching/" class="gdoc-toc__entry">Redis 缓存三大问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cluster/" class="gdoc-toc__entry">Redis 集群
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一swap-是什么不要再被虚拟内存带偏"
+    >
+        一、swap 是什么（不要再被“虚拟内存”带偏）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#一swap-是什么不要再被虚拟内存带偏" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、swap 是什么（不要再被“虚拟内存”带偏）" aria-label="Anchor to: 一、swap 是什么（不要再被“虚拟内存”带偏）" href="#%e4%b8%80swap-%e6%98%af%e4%bb%80%e4%b9%88%e4%b8%8d%e8%a6%81%e5%86%8d%e8%a2%ab%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e5%b8%a6%e5%81%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-swap-的真实定义"
+    >
+        1️⃣ swap 的真实定义
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#1-swap-的真实定义" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ swap 的真实定义" aria-label="Anchor to: 1️⃣ swap 的真实定义" href="#1-swap-%e7%9a%84%e7%9c%9f%e5%ae%9e%e5%ae%9a%e4%b9%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>swap = 内核用于回收匿名页（anonymous pages）的后备存储</strong></p>
+</blockquote>
+<p>它<strong>只服务于匿名页</strong>：</p>
+<ul>
+<li>进程堆（heap）</li>
+<li>栈（stack）</li>
+<li>malloc/new 出来的内存</li>
+<li>JVM / Python / Go runtime 内存</li>
+</ul>
+<p>❌ 不直接用于：</p>
+<ul>
+<li>文件页（page cache）</li>
+<li>磁盘映射文件（mmap 文件）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-swap--内存扩容"
+    >
+        2️⃣ swap ≠ 内存扩容
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#2-swap--内存扩容" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ swap ≠ 内存扩容" aria-label="Anchor to: 2️⃣ swap ≠ 内存扩容" href="#2-swap--%e5%86%85%e5%ad%98%e6%89%a9%e5%ae%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>误解</th>
+          <th>真相</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>swap 是慢内存</td>
+          <td>❌</td>
+      </tr>
+      <tr>
+          <td>swap 能当内存用</td>
+          <td>❌</td>
+      </tr>
+      <tr>
+          <td>swap 会拖慢系统</td>
+          <td>❌ (前提是没乱用)</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p><strong>正确理解：</strong></p>
+<blockquote>
+<p>swap 是 <strong>OOM 之前的缓冲区</strong>，不是 RAM 的替代品</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二linux-内存回收路径里-swap-在哪"
+    >
+        二、Linux 内存回收路径里 swap 在哪？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#二linux-内存回收路径里-swap-在哪" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Linux 内存回收路径里 swap 在哪？" aria-label="Anchor to: 二、Linux 内存回收路径里 swap 在哪？" href="#%e4%ba%8clinux-%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6%e8%b7%af%e5%be%84%e9%87%8c-swap-%e5%9c%a8%e5%93%aa">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>内核回收顺序（极简版）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">内存压力 ↑
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">回收 page cache
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">回收 slab
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">回收匿名页（→ swap）
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">OOM Killer
+</span></span></code></pre></div><p>👉 <strong>没有 swap，匿名页回收这一步直接失败</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三swap-的三种形式非常重要"
+    >
+        三、swap 的三种形式（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#三swap-的三种形式非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、swap 的三种形式（非常重要）" aria-label="Anchor to: 三、swap 的三种形式（非常重要）" href="#%e4%b8%89swap-%e7%9a%84%e4%b8%89%e7%a7%8d%e5%bd%a2%e5%bc%8f%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-swap-分区最稳定"
+    >
+        1️⃣ swap 分区（最稳定）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#1-swap-分区最稳定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ swap 分区（最稳定）" aria-label="Anchor to: 1️⃣ swap 分区（最稳定）" href="#1-swap-%e5%88%86%e5%8c%ba%e6%9c%80%e7%a8%b3%e5%ae%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/dev/sda2   swap   swap   defaults   <span class="m">0</span> <span class="m">0</span>
+</span></span></code></pre></div><ul>
+<li>✅ 吞吐稳定</li>
+<li>✅ 不受文件系统影响</li>
+<li>❌ 灵活性差</li>
+</ul>
+<p><strong>适合：</strong></p>
+<ul>
+<li>裸机数据库</li>
+<li>物理服务器</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-swap-文件最常用"
+    >
+        2️⃣ swap 文件（最常用）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#2-swap-文件最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ swap 文件（最常用）" aria-label="Anchor to: 2️⃣ swap 文件（最常用）" href="#2-swap-%e6%96%87%e4%bb%b6%e6%9c%80%e5%b8%b8%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/data/swapfile/2G.swap
+</span></span></code></pre></div><ul>
+<li>✅ 可动态调整</li>
+<li>✅ 云主机友好</li>
+<li>❌ 老内核可能碎片化（新内核已解决）</li>
+</ul>
+<p><strong>现代内核（≥ 4.0）完全可用</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-zram--zswap压缩-swap"
+    >
+        3️⃣ zram / zswap（压缩 swap）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#3-zram--zswap压缩-swap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ zram / zswap（压缩 swap）" aria-label="Anchor to: 3️⃣ zram / zswap（压缩 swap）" href="#3-zram--zswap%e5%8e%8b%e7%bc%a9-swap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>技术</th>
+          <th>本质</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>zram</td>
+          <td>内存里压缩 swap</td>
+      </tr>
+      <tr>
+          <td>zswap</td>
+          <td>swap 前压缩层</td>
+      </tr>
+  </tbody>
+</table> </div>
+<ul>
+<li>✅ 延迟低</li>
+<li>✅ 减少磁盘 IO</li>
+</ul>
+<p><strong>适合：</strong></p>
+<ul>
+<li>小内存</li>
+<li>VPS</li>
+<li>桌面</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四swap-什么时候真的被用到"
+    >
+        四、swap 什么时候“真的被用到”？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#四swap-什么时候真的被用到" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、swap 什么时候“真的被用到”？" aria-label="Anchor to: 四、swap 什么时候“真的被用到”？" href="#%e5%9b%9bswap-%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%9c%9f%e7%9a%84%e8%a2%ab%e7%94%a8%e5%88%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="swap-触发的真实场景"
+    >
+        swap 触发的真实场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#swap-触发的真实场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: swap 触发的真实场景" aria-label="Anchor to: swap 触发的真实场景" href="#swap-%e8%a7%a6%e5%8f%91%e7%9a%84%e7%9c%9f%e5%ae%9e%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li><strong>内存碎片</strong></li>
+<li><strong>匿名页长期不访问</strong></li>
+<li><strong>瞬时峰值</strong></li>
+<li><strong>fork / copy-on-write</strong></li>
+<li><strong>Python / JVM GC 前</strong></li>
+</ol>
+<blockquote>
+<p>swap 使用 ≠ 性能问题<br />
+<strong>大量 swap in/out 才是问题</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五核心内核参数必须掌握"
+    >
+        五、核心内核参数（必须掌握）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#五核心内核参数必须掌握" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、核心内核参数（必须掌握）" aria-label="Anchor to: 五、核心内核参数（必须掌握）" href="#%e4%ba%94%e6%a0%b8%e5%bf%83%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0%e5%bf%85%e9%a1%bb%e6%8e%8c%e6%8f%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-vmswappiness最常被误用"
+    >
+        1️⃣ vm.swappiness（最常被误用）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#1-vmswappiness最常被误用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ vm.swappiness（最常被误用）" aria-label="Anchor to: 1️⃣ vm.swappiness（最常被误用）" href="#1-vmswappiness%e6%9c%80%e5%b8%b8%e8%a2%ab%e8%af%af%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">0 ~ 200</span>
+</span></span></code></pre></div><div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>值</th>
+          <th>行为</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td>几乎不用 swap (不是完全不用)</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>仅作为安全阀 (推荐)</td>
+      </tr>
+      <tr>
+          <td>10</td>
+          <td>温和</td>
+      </tr>
+      <tr>
+          <td>60</td>
+          <td>默认</td>
+      </tr>
+      <tr>
+          <td>100+</td>
+          <td>积极 swap</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="推荐值"
+    >
+        推荐值
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#推荐值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 推荐值" aria-label="Anchor to: 推荐值" href="#%e6%8e%a8%e8%8d%90%e5%80%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>swappiness</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>数据库</td>
+          <td>1</td>
+      </tr>
+      <tr>
+          <td>容器宿主机</td>
+          <td>1~5</td>
+      </tr>
+      <tr>
+          <td>通用服务器</td>
+          <td>10</td>
+      </tr>
+      <tr>
+          <td>桌面</td>
+          <td>60</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-vmovercommit_memory和-swap-强相关"
+    >
+        2️⃣ vm.overcommit_memory（和 swap 强相关）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#2-vmovercommit_memory和-swap-强相关" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ vm.overcommit_memory（和 swap 强相关）" aria-label="Anchor to: 2️⃣ vm.overcommit_memory（和 swap 强相关）" href="#2-vmovercommit_memory%e5%92%8c-swap-%e5%bc%ba%e7%9b%b8%e5%85%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>值</th>
+          <th>行为</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td>启发式 (默认)</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>允许超额</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>严格限制</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>数据库推荐：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-vmmin_free_kbytes间接影响-swap"
+    >
+        3️⃣ vm.min_free_kbytes（间接影响 swap）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#3-vmmin_free_kbytes间接影响-swap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ vm.min_free_kbytes（间接影响 swap）" aria-label="Anchor to: 3️⃣ vm.min_free_kbytes（间接影响 swap）" href="#3-vmmin_free_kbytes%e9%97%b4%e6%8e%a5%e5%bd%b1%e5%93%8d-swap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>防止系统进入“内存抖动”</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.min_free_kbytes</span> <span class="o">=</span> <span class="s">1% ~ 3% RAM</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六swap-与数据库重点"
+    >
+        六、swap 与数据库（重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#六swap-与数据库重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、swap 与数据库（重点）" aria-label="Anchor to: 六、swap 与数据库（重点）" href="#%e5%85%adswap-%e4%b8%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="postgresql--mysql-官方共识"
+    >
+        PostgreSQL / MySQL 官方共识
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#postgresql--mysql-官方共识" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL / MySQL 官方共识" aria-label="Anchor to: PostgreSQL / MySQL 官方共识" href="#postgresql--mysql-%e5%ae%98%e6%96%b9%e5%85%b1%e8%af%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>小 swap + 极低 swappiness 是最稳方案</strong></p>
+</blockquote>
+<p>原因：</p>
+<ul>
+<li>避免匿名页分配失败</li>
+<li>防止 fork / bgwriter 失败</li>
+<li>防止 OOM 误杀数据库</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="推荐组合"
+    >
+        推荐组合
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#推荐组合" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 推荐组合" aria-label="Anchor to: 推荐组合" href="#%e6%8e%a8%e8%8d%90%e7%bb%84%e5%90%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><p>swap：</p>
+<ul>
+<li>4~8GB 即可（不追求使用）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七swap-与容器--kubernetes"
+    >
+        七、swap 与容器 / Kubernetes
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#七swap-与容器--kubernetes" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、swap 与容器 / Kubernetes" aria-label="Anchor to: 七、swap 与容器 / Kubernetes" href="#%e4%b8%83swap-%e4%b8%8e%e5%ae%b9%e5%99%a8--kubernetes">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="为什么-k8s-不建议禁-swap"
+    >
+        为什么 K8S 不建议禁 swap？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#为什么-k8s-不建议禁-swap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为什么 K8S 不建议禁 swap？" aria-label="Anchor to: 为什么 K8S 不建议禁 swap？" href="#%e4%b8%ba%e4%bb%80%e4%b9%88-k8s-%e4%b8%8d%e5%bb%ba%e8%ae%ae%e7%a6%81-swap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>cgroup OOM ≠ kernel OOM</li>
+<li>container 突发内存不可控</li>
+<li>page cache 竞争严重</li>
+</ul>
+<blockquote>
+<p><strong>没有 swap，OOM 会更早、更狠</strong></p>
+</blockquote>
+<p>推荐：</p>
+<ul>
+<li>swap = 8~16GB</li>
+<li>swappiness = 1</li>
+<li>严格 memory limit</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八swap-的性能真相"
+    >
+        八、swap 的性能真相
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#八swap-的性能真相" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、swap 的性能真相" aria-label="Anchor to: 八、swap 的性能真相" href="#%e5%85%abswap-%e7%9a%84%e6%80%a7%e8%83%bd%e7%9c%9f%e7%9b%b8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="swap-慢的根本原因不是-swap"
+    >
+        swap 慢的根本原因不是 swap
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#swap-慢的根本原因不是-swap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: swap 慢的根本原因不是 swap" aria-label="Anchor to: swap 慢的根本原因不是 swap" href="#swap-%e6%85%a2%e7%9a%84%e6%a0%b9%e6%9c%ac%e5%8e%9f%e5%9b%a0%e4%b8%8d%e6%98%af-swap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>真正原因</th>
+          <th>表现</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>内存不足</td>
+          <td>持续 swap in/out</td>
+      </tr>
+      <tr>
+          <td>swappiness 过高</td>
+          <td>不必要换出</td>
+      </tr>
+      <tr>
+          <td>IO 瓶颈</td>
+          <td>swap 等待</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="正确判断是否有问题"
+    >
+        正确判断是否“有问题”
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#正确判断是否有问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 正确判断是否“有问题”" aria-label="Anchor to: 正确判断是否“有问题”" href="#%e6%ad%a3%e7%a1%ae%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%9c%89%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vmstat <span class="m">1</span>
+</span></span></code></pre></div><p>关注：</p>
+<ul>
+<li><code>si / so</code> 是否持续非 0</li>
+<li>不是偶尔出现</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九关于禁用-swap的真话"
+    >
+        九、关于“禁用 swap”的真话
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#九关于禁用-swap的真话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、关于“禁用 swap”的真话" aria-label="Anchor to: 九、关于“禁用 swap”的真话" href="#%e4%b9%9d%e5%85%b3%e4%ba%8e%e7%a6%81%e7%94%a8-swap%e7%9a%84%e7%9c%9f%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="什么时候可以禁"
+    >
+        什么时候可以禁？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#什么时候可以禁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 什么时候可以禁？" aria-label="Anchor to: 什么时候可以禁？" href="#%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e5%8f%af%e4%bb%a5%e7%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>✅ 内存 ≥ 128GB</li>
+<li>✅ 单一、可控负载</li>
+<li>✅ 无容器 / 无 JVM</li>
+<li>✅ 明确 OOM 策略</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="什么时候别禁"
+    >
+        什么时候别禁？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#什么时候别禁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 什么时候别禁？" aria-label="Anchor to: 什么时候别禁？" href="#%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e5%88%ab%e7%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>❌ 容器宿主机</li>
+<li>❌ 多语言运行时</li>
+<li>❌ 第三方程序</li>
+<li>❌ 云主机</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十你可以直接照抄的工程模板"
+    >
+        十、你可以直接照抄的工程模板
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#十你可以直接照抄的工程模板" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、你可以直接照抄的工程模板" aria-label="Anchor to: 十、你可以直接照抄的工程模板" href="#%e5%8d%81%e4%bd%a0%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e7%85%a7%e6%8a%84%e7%9a%84%e5%b7%a5%e7%a8%8b%e6%a8%a1%e6%9d%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="通用服务器"
+    >
+        通用服务器
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#通用服务器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 通用服务器" aria-label="Anchor to: 通用服务器" href="#%e9%80%9a%e7%94%a8%e6%9c%8d%e5%8a%a1%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">10</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">0</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.min_free_kbytes</span> <span class="o">=</span> <span class="s">262144</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="数据库服务器"
+    >
+        数据库服务器
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#数据库服务器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库服务器" aria-label="Anchor to: 数据库服务器" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e6%9c%8d%e5%8a%a1%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="容器宿主机"
+    >
+        容器宿主机
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#容器宿主机" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 容器宿主机" aria-label="Anchor to: 容器宿主机" href="#%e5%ae%b9%e5%99%a8%e5%ae%bf%e4%b8%bb%e6%9c%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="总结"
+    >
+        总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 总结" aria-label="Anchor to: 总结" href="#%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>swap 是内核回收匿名页的退路，不是内存的替代</strong><br />
+<strong>没有 swap，系统更容易 OOM；乱用 swap，系统才会慢</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="补充"
+    >
+        补充
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#补充" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 补充" aria-label="Anchor to: 补充" href="#%e8%a1%a5%e5%85%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>Swap（交换空间）是物理内存（RAM）不足时的磁盘缓存，二者通过“借用”关系协同工作以防止系统崩溃，用于休眠或缓解突发内存压力。</strong></p>
+<p>Swap 与物理内存的依赖关系</p>
+<ul>
+<li>功能互补：Swap 本质是磁盘上的一个区域，当物理内存被占满时，操作系统将不常用的数据移动到 Swap，从而释放物理内存给紧急程序使用。</li>
+<li>性能权衡：硬盘（Swap）的速度远慢于 RAM，大量使用 Swap 会导致系统运行非常缓慢（系统响应迟钝）。</li>
+<li>休眠支持：在笔记本电脑中，要实现“休眠到硬盘”（Suspend to Disk），Swap 空间通常需要等于或大于物理内存。</li>
+</ul>
+<p>特殊场景</p>
+<ul>
+<li>服务器：<strong>如果经常爆内存，应优先增加物理内存，而非依赖 Swap</strong>。</li>
+<li>SSD 硬盘：<strong>在使用 SSD 时，过大的 Swap 交换可能会加快硬盘寿命衰减，应尽量保证足够大的物理内存</strong>。</li>
+</ul>
+<p>总而言之，Swap 不是越大越好，其合理大小依赖于物理内存的大小和实际工作负载。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一句话结论先记住"
+    >
+        一句话结论（先记住）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#一句话结论先记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一句话结论（先记住）" aria-label="Anchor to: 一句话结论（先记住）" href="#%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%93%e8%ae%ba%e5%85%88%e8%ae%b0%e4%bd%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>内存 ≤ 32GB：swap 有现实意义<br />
+内存 ≥ 64GB：swap 更多是“安全阀”，而不是性能工具<br />
+内存 ≥ 128GB：大多数生产场景可以不要 swap</strong></p>
+</blockquote>
+<p>但 &ndash;</p>
+<p>👉 <strong>数据库 / JVM / 容器宿主机是例外，需要单独看</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="核心本质先把认知掰正"
+    >
+        核心本质（先把认知掰正）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#核心本质先把认知掰正" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心本质（先把认知掰正）" aria-label="Anchor to: 核心本质（先把认知掰正）" href="#%e6%a0%b8%e5%bf%83%e6%9c%ac%e8%b4%a8%e5%85%88%e6%8a%8a%e8%ae%a4%e7%9f%a5%e6%8e%b0%e6%ad%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="swap-的本质不是扩容内存"
+    >
+        swap 的本质不是“扩容内存”
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#swap-的本质不是扩容内存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: swap 的本质不是“扩容内存”" aria-label="Anchor to: swap 的本质不是“扩容内存”" href="#swap-%e7%9a%84%e6%9c%ac%e8%b4%a8%e4%b8%8d%e6%98%af%e6%89%a9%e5%ae%b9%e5%86%85%e5%ad%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>swap = 给内核一个“缓冲带”，避免瞬时内存压力直接触发 OOM</strong></p>
+</blockquote>
+<p>它解决的是三个问题：</p>
+<ol>
+<li><strong>匿名页回收失败</strong></li>
+<li><strong>内存碎片化</strong></li>
+<li><strong>突发峰值（spike）</strong></li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="按内存规模给你一份是否有意义的判断表"
+    >
+        按内存规模给你一份“是否有意义”的判断表
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#按内存规模给你一份是否有意义的判断表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 按内存规模给你一份“是否有意义”的判断表" aria-label="Anchor to: 按内存规模给你一份“是否有意义”的判断表" href="#%e6%8c%89%e5%86%85%e5%ad%98%e8%a7%84%e6%a8%a1%e7%bb%99%e4%bd%a0%e4%b8%80%e4%bb%bd%e6%98%af%e5%90%a6%e6%9c%89%e6%84%8f%e4%b9%89%e7%9a%84%e5%88%a4%e6%96%ad%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="--8gb-内存非常有意义"
+    >
+        🟢 ≤ 8GB 内存（非常有意义）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#--8gb-内存非常有意义" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟢 ≤ 8GB 内存（非常有意义）" aria-label="Anchor to: 🟢 ≤ 8GB 内存（非常有意义）" href="#--8gb-%e5%86%85%e5%ad%98%e9%9d%9e%e5%b8%b8%e6%9c%89%e6%84%8f%e4%b9%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>作用</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>防 OOM</td>
+          <td>极其关键</td>
+      </tr>
+      <tr>
+          <td>内存碎片</td>
+          <td>非常明显</td>
+      </tr>
+      <tr>
+          <td>后台任务</td>
+          <td>有 swap 才能活</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>✅ <strong>建议</strong></p>
+<ul>
+<li>swap = <strong>内存 × 1～2</strong></li>
+<li><code>swappiness = 10~30</code></li>
+</ul>
+<p>❌ 不要禁 swap</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-16gb-内存仍然有意义"
+    >
+        🟢 16GB 内存（仍然有意义）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#-16gb-内存仍然有意义" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟢 16GB 内存（仍然有意义）" aria-label="Anchor to: 🟢 16GB 内存（仍然有意义）" href="#-16gb-%e5%86%85%e5%ad%98%e4%bb%8d%e7%84%b6%e6%9c%89%e6%84%8f%e4%b9%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>swap 价值</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Web / API</td>
+          <td>明显</td>
+      </tr>
+      <tr>
+          <td>Python / Node</td>
+          <td>明显</td>
+      </tr>
+      <tr>
+          <td>小型数据库</td>
+          <td>有价值</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>✅ <strong>建议</strong></p>
+<ul>
+<li>swap = 8~16GB</li>
+<li><code>swappiness = 10</code></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-32gb-内存临界点"
+    >
+        🟡 32GB 内存（临界点）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#-32gb-内存临界点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟡 32GB 内存（临界点）" aria-label="Anchor to: 🟡 32GB 内存（临界点）" href="#-32gb-%e5%86%85%e5%ad%98%e4%b8%b4%e7%95%8c%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>这是 swap“有没有意义”的分水岭</strong></p>
+</blockquote>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>建议</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>通用服务器</td>
+          <td>保留小 swap</td>
+      </tr>
+      <tr>
+          <td>数据库</td>
+          <td>小 swap</td>
+      </tr>
+      <tr>
+          <td>容器宿主机</td>
+          <td>必须有</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>✅ <strong>建议</strong></p>
+<ul>
+<li>swap = 8GB（不是为了用，是为了不 OOM）</li>
+<li><code>swappiness = 1~5</code></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-64gb-内存安全阀级别"
+    >
+        🟠 64GB 内存（安全阀级别）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#-64gb-内存安全阀级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🟠 64GB 内存（安全阀级别）" aria-label="Anchor to: 🟠 64GB 内存（安全阀级别）" href="#-64gb-%e5%86%85%e5%ad%98%e5%ae%89%e5%85%a8%e9%98%80%e7%ba%a7%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>swap 不再是“资源”，而是“保险丝”</strong></p>
+</blockquote>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>价值</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>性能</td>
+          <td>基本无</td>
+      </tr>
+      <tr>
+          <td>稳定性</td>
+          <td>有</td>
+      </tr>
+      <tr>
+          <td>防误杀</td>
+          <td>有</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>✅ <strong>建议</strong></p>
+<ul>
+<li>swap = 4~8GB</li>
+<li><code>swappiness = 1</code></li>
+</ul>
+<p>❌ 不建议完全禁用（除非你非常自信）</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="--128gb-内存多数场景可不要"
+    >
+        🔴 ≥ 128GB 内存（多数场景可不要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#--128gb-内存多数场景可不要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔴 ≥ 128GB 内存（多数场景可不要）" aria-label="Anchor to: 🔴 ≥ 128GB 内存（多数场景可不要）" href="#--128gb-%e5%86%85%e5%ad%98%e5%a4%9a%e6%95%b0%e5%9c%ba%e6%99%af%e5%8f%af%e4%b8%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>绝大多数工作负载已经不需要 swap</strong></p>
+</blockquote>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>建议</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>裸机数据库</td>
+          <td>可禁</td>
+      </tr>
+      <tr>
+          <td>大内存缓存</td>
+          <td>可禁</td>
+      </tr>
+      <tr>
+          <td>HPC</td>
+          <td>禁</td>
+      </tr>
+  </tbody>
+</table> </div>
+<p>❌ <strong>但以下情况例外</strong>：</p>
+<ul>
+<li>容器宿主机</li>
+<li>Kubernetes 节点</li>
+<li>JVM / Python 混合负载</li>
+<li>有不可控第三方进程</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="特殊场景数据库你这个用户非常关键"
+    >
+        特殊场景：数据库（你这个用户非常关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#特殊场景数据库你这个用户非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 特殊场景：数据库（你这个用户非常关键）" aria-label="Anchor to: 特殊场景：数据库（你这个用户非常关键）" href="#%e7%89%b9%e6%ae%8a%e5%9c%ba%e6%99%af%e6%95%b0%e6%8d%ae%e5%ba%93%e4%bd%a0%e8%bf%99%e4%b8%aa%e7%94%a8%e6%88%b7%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="postgresql--mysql-的真实建议"
+    >
+        PostgreSQL / MySQL 的真实建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#postgresql--mysql-的真实建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL / MySQL 的真实建议" aria-label="Anchor to: PostgreSQL / MySQL 的真实建议" href="#postgresql--mysql-%e7%9a%84%e7%9c%9f%e5%ae%9e%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>“小 swap + 极低 swappiness” &gt; “完全禁 swap”</strong></p>
+</blockquote>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="为什么"
+    >
+        为什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#为什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为什么？" aria-label="Anchor to: 为什么？" href="#%e4%b8%ba%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>避免：</p>
+<ul>
+<li>内存碎片导致 <code>malloc</code> 失败</li>
+<li>WAL / shared memory 分配失败</li>
+</ul>
+</li>
+<li>
+<p>swap 只换出 <strong>冷匿名页</strong></p>
+</li>
+<li>
+<p>不会换数据库 buffer（page cache）</p>
+</li>
+</ul>
+<p>✅ <strong>推荐配置</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><p>swap 大小：</p>
+<ul>
+<li>物理内存 ≤ 64GB：4~8GB</li>
+<li>≥ 128GB：可不要</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="kubernetes--容器宿主机重点"
+    >
+        Kubernetes / 容器宿主机（重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#kubernetes--容器宿主机重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Kubernetes / 容器宿主机（重点）" aria-label="Anchor to: Kubernetes / 容器宿主机（重点）" href="#kubernetes--%e5%ae%b9%e5%99%a8%e5%ae%bf%e4%b8%bb%e6%9c%ba%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>没有 swap 的宿主机，更容易“整节点 OOM”</strong></p>
+</blockquote>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="原因"
+    >
+        原因
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#原因" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 原因" aria-label="Anchor to: 原因" href="#%e5%8e%9f%e5%9b%a0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>cgroups OOM ≠ kernel OOM</li>
+<li>container burst 非常常见</li>
+<li>page cache 竞争激烈</li>
+</ul>
+<p>✅ <strong>推荐</strong></p>
+<ul>
+<li>swap = 8~16GB（不追求使用）</li>
+<li><code>swappiness = 1</code></li>
+<li>cgroup memory limit 严格</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="为什么禁-swap反而容易翻车"
+    >
+        为什么“禁 swap”反而容易翻车？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#为什么禁-swap反而容易翻车" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为什么“禁 swap”反而容易翻车？" aria-label="Anchor to: 为什么“禁 swap”反而容易翻车？" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e7%a6%81-swap%e5%8f%8d%e8%80%8c%e5%ae%b9%e6%98%93%e7%bf%bb%e8%bd%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="真实机制"
+    >
+        真实机制
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#真实机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 真实机制" aria-label="Anchor to: 真实机制" href="#%e7%9c%9f%e5%ae%9e%e6%9c%ba%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li><strong>内存分配是提前的</strong></li>
+<li><strong>OOM 是最后手段</strong></li>
+<li>没 swap -&gt; <strong>回收路径更短</strong></li>
+<li>直接 kill 进程</li>
+</ol>
+<p>换句话说：</p>
+<blockquote>
+<p><strong>swap 是 OOM 的“缓冲带”，不是性能工具</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一个工程级判断公式"
+    >
+        一个“工程级判断公式”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#一个工程级判断公式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一个“工程级判断公式”" aria-label="Anchor to: 一个“工程级判断公式”" href="#%e4%b8%80%e4%b8%aa%e5%b7%a5%e7%a8%8b%e7%ba%a7%e5%88%a4%e6%96%ad%e5%85%ac%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>如果你的内存峰值不可精确预测 -&gt; 保留 swap
+如果你的进程集合不可控 -&gt; 保留 swap
+如果你运行的是容器 / JVM / Python -&gt; 保留 swap</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="最后的关键一句话请记住"
+    >
+        最后的关键一句话（请记住）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/swap/#最后的关键一句话请记住" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 最后的关键一句话（请记住）" aria-label="Anchor to: 最后的关键一句话（请记住）" href="#%e6%9c%80%e5%90%8e%e7%9a%84%e5%85%b3%e9%94%ae%e4%b8%80%e5%8f%a5%e8%af%9d%e8%af%b7%e8%ae%b0%e4%bd%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>swap 不是慢的根源，乱用 swap 才是
+真正危险的是：没 swap + 内存估算错误</strong></p>
+</blockquote>
 
   </article>
 
@@ -2638,9 +3536,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
 
         
-          
-          
-        
 
         
           
@@ -2677,11 +3572,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3411,27 +4301,9 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Prometheus
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      Operations
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

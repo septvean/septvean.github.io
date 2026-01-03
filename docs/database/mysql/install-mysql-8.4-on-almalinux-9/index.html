@@ -12,10 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta name="description" content="运维环境：
+操作系统：AlmaLinux 9.7 数据库版本：Percona Server 8.4 准备工作 ⚠️ 不推荐 Percona 官方的 YUM 仓库，因为有些版本可能较低，或者兼容性有问题。
+✅ 推荐下载 RPM 包，并手动安装。
+下载 RPM 包 Percona 官方下载链接：https://www.percona.com/downloads
+Percona Distribution for MySQL
+Select Product：Percona Distribution for MySQL Select Product Version：PERCONA-DISTRIBUTION-MYSQL-PS-8.4.7 Select Platform：RED HAT ENTERPRISE LINUX / CENTOS / ORACLE LINUX 9 下载以下文件" />
 
-    <title>Redis | ☘️ Septvean&#39;s Documents</title>
+    <title>在 AlmaLinux 9 上安装 MySQL 8.4 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +40,29 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   <meta
     property="og:title"
-    content="Redis"
+    content="在 AlmaLinux 9 上安装 MySQL 8.4"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta property="og:description" content="运维环境：
+操作系统：AlmaLinux 9.7 数据库版本：Percona Server 8.4 准备工作 ⚠️ 不推荐 Percona 官方的 YUM 仓库，因为有些版本可能较低，或者兼容性有问题。
+✅ 推荐下载 RPM 包，并手动安装。
+下载 RPM 包 Percona 官方下载链接：https://www.percona.com/downloads
+Percona Distribution for MySQL
+Select Product：Percona Distribution for MySQL Select Product Version：PERCONA-DISTRIBUTION-MYSQL-PS-8.4.7 Select Platform：RED HAT ENTERPRISE LINUX / CENTOS / ORACLE LINUX 9 下载以下文件" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/redis/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Redis" />
-  <meta name="twitter:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+<meta name="twitter:title" content="在 AlmaLinux 9 上安装 MySQL 8.4" />
+  <meta name="twitter:description" content="运维环境：
+操作系统：AlmaLinux 9.7 数据库版本：Percona Server 8.4 准备工作 ⚠️ 不推荐 Percona 官方的 YUM 仓库，因为有些版本可能较低，或者兼容性有问题。
+✅ 推荐下载 RPM 包，并手动安装。
+下载 RPM 包 Percona 官方下载链接：https://www.percona.com/downloads
+Percona Distribution for MySQL
+Select Product：Percona Distribution for MySQL Select Product Version：PERCONA-DISTRIBUTION-MYSQL-PS-8.4.7 Select Platform：RED HAT ENTERPRISE LINUX / CENTOS / ORACLE LINUX 9 下载以下文件" />
 
 
   <script type="application/ld+json">
@@ -58,16 +70,16 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "Redis",
-      "url" : "https://documents.v2ep.com/database/redis/",
-      "headline": "Redis",
-      "description": "Document List:\nRedis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 ",
-      "wordCount" : "26",
+      "name": "在 AlmaLinux 9 上安装 MySQL 8.4",
+      "url" : "https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/",
+      "headline": "在 AlmaLinux 9 上安装 MySQL 8.4",
+      "description": "运维环境：\n操作系统：AlmaLinux 9.7 数据库版本：Percona Server 8.4 准备工作 ⚠️ 不推荐 Percona 官方的 YUM 仓库，因为有些版本可能较低，或者兼容性有问题。\n✅ 推荐下载 RPM 包，并手动安装。\n下载 RPM 包 Percona 官方下载链接：https:\/\/www.percona.com\/downloads\nPercona Distribution for MySQL\nSelect Product：Percona Distribution for MySQL Select Product Version：PERCONA-DISTRIBUTION-MYSQL-PS-8.4.7 Select Platform：RED HAT ENTERPRISE LINUX \/ CENTOS \/ ORACLE LINUX 9 下载以下文件",
+      "wordCount" : "257",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/redis/"
+          "@id": "https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +163,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/redis/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -900,7 +912,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
                 <span class="flex">
                   <a
                     href="/database/redis/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Redis
                   </a>
@@ -2060,7 +2072,15 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/mysql/' href='/database/mysql/'><span itemprop='name'>MySQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>在 AlmaLinux 9 上安装 MySQL 8.4</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,113 +2099,196 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Redis</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>在 AlmaLinux 9 上安装 MySQL 8.4</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/faq/" class="gdoc-toc__entry">Redis FAQ
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/tutorial/" class="gdoc-toc__entry">Redis 基础教程
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/core/" class="gdoc-toc__entry">Redis 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/classic-issues/" class="gdoc-toc__entry">Redis 经典问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cache-hit-ratio/" class="gdoc-toc__entry">Redis 缓存命中率
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/base/" class="gdoc-toc__entry">Redis 基础
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/backup-restore/" class="gdoc-toc__entry">Redis 备份与恢复
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/command/" class="gdoc-toc__entry">Redis 常用命令
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/dir/" class="gdoc-toc__entry">Redis 文件存储目录
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/best-practices/" class="gdoc-toc__entry">Redis 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/three-major-issues-with-redis-caching/" class="gdoc-toc__entry">Redis 缓存三大问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cluster/" class="gdoc-toc__entry">Redis 集群
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
-
+    <p>运维环境：</p>
+<ul>
+<li>操作系统：AlmaLinux 9.7</li>
+<li>数据库版本：Percona Server 8.4</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="准备工作"
+    >
+        准备工作
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/#准备工作" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 准备工作" aria-label="Anchor to: 准备工作" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>⚠️ <strong>不推荐 Percona 官方的 YUM 仓库，因为有些版本可能较低，或者兼容性有问题。</strong></p>
+<p>✅ <strong>推荐下载 RPM 包，并手动安装。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="下载-rpm-包"
+    >
+        下载 RPM 包
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/#下载-rpm-包" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 下载 RPM 包" aria-label="Anchor to: 下载 RPM 包" href="#%e4%b8%8b%e8%bd%bd-rpm-%e5%8c%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Percona 官方下载链接：<a
+  class="gdoc-markdown__link"
+  href="https://www.percona.com/downloads"
+>https://www.percona.com/downloads</a></p>
+<p>Percona Distribution for MySQL</p>
+<ul>
+<li>Select Product：<strong>Percona Distribution for MySQL</strong></li>
+<li>Select Product Version：<strong>PERCONA-DISTRIBUTION-MYSQL-PS-8.4.7</strong></li>
+<li>Select Platform：<strong>RED HAT ENTERPRISE LINUX / CENTOS / ORACLE LINUX 9</strong></li>
+</ul>
+<p>下载以下文件</p>
+<ul>
+<li>注意：平台是 <strong>x86_64</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">jemalloc
+</span></span><span class="line"><span class="cl">jemalloc-devel
+</span></span><span class="line"><span class="cl">percona-icu-data-files
+</span></span><span class="line"><span class="cl">percona-mysql-router
+</span></span><span class="line"><span class="cl">percona-mysql-shell
+</span></span><span class="line"><span class="cl">percona-orchestrator
+</span></span><span class="line"><span class="cl">percona-orchestrator-cli
+</span></span><span class="line"><span class="cl">percona-orchestrator-client
+</span></span><span class="line"><span class="cl">percona-server-client
+</span></span><span class="line"><span class="cl">percona-server-devel
+</span></span><span class="line"><span class="cl">percona-server-js
+</span></span><span class="line"><span class="cl">percona-server-rocksdb
+</span></span><span class="line"><span class="cl">percona-server-server
+</span></span><span class="line"><span class="cl">percona-server-shared
+</span></span><span class="line"><span class="cl">percona-telemetry-agent
+</span></span><span class="line"><span class="cl">percona-toolkit
+</span></span><span class="line"><span class="cl">percona-xtrabackup-84
+</span></span><span class="line"><span class="cl">perl-DBD-MySQL
+</span></span><span class="line"><span class="cl">proxysql2
+</span></span><span class="line"><span class="cl">qpress-11
+</span></span></code></pre></div><p>Percona Server 8.4.7 的相关文件</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">jemalloc-3.6.0-1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">jemalloc-devel-3.6.0-1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-icu-data-files-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-mysql-router-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-mysql-shell-8.4.7-1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-orchestrator-3.2.6-19.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-orchestrator-cli-3.2.6-19.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-orchestrator-client-3.2.6-19.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-server-client-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-server-devel-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-server-js-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-server-rocksdb-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-server-server-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-server-shared-8.4.7-7.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-telemetry-agent-1.0.7-1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-toolkit-3.7.1-2.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">percona-xtrabackup-84-8.4.0-5.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">perl-DBD-MySQL-5.013-1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">proxysql2-2.7.3-1.1.el9.x86_64.rpm
+</span></span><span class="line"><span class="cl">qpress-11-4.el9.x86_64.rpm
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="安装-percona-mysql"
+    >
+        安装 Percona MySQL
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/#安装-percona-mysql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 Percona MySQL" aria-label="Anchor to: 安装 Percona MySQL" href="#%e5%ae%89%e8%a3%85-percona-mysql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="禁用系统默认的-mysql-仓库"
+    >
+        禁用系统默认的 MySQL 仓库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/#禁用系统默认的-mysql-仓库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 禁用系统默认的 MySQL 仓库" aria-label="Anchor to: 禁用系统默认的 MySQL 仓库" href="#%e7%a6%81%e7%94%a8%e7%b3%bb%e7%bb%9f%e9%bb%98%e8%ae%a4%e7%9a%84-mysql-%e4%bb%93%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dnf module disable mysql
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="安装-mysql-服务端客户端运维工具"
+    >
+        安装 MySQL 服务端、客户端、运维工具
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/#安装-mysql-服务端客户端运维工具" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 MySQL 服务端、客户端、运维工具" aria-label="Anchor to: 安装 MySQL 服务端、客户端、运维工具" href="#%e5%ae%89%e8%a3%85-mysql-%e6%9c%8d%e5%8a%a1%e7%ab%af%e5%ae%a2%e6%88%b7%e7%ab%af%e8%bf%90%e7%bb%b4%e5%b7%a5%e5%85%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dnf install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-icu-data-files-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-mysql-shell-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-server-client-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-server-devel-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-server-server-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-server-shared-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-telemetry-agent-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-toolkit-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    percona-xtrabackup-84-*.rpm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    perl-DBD-MySQL-*.rpm
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="启动并设置开机自启"
+    >
+        启动并设置开机自启
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/#启动并设置开机自启" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 启动并设置开机自启" aria-label="Anchor to: 启动并设置开机自启" href="#%e5%90%af%e5%8a%a8%e5%b9%b6%e8%ae%be%e7%bd%ae%e5%bc%80%e6%9c%ba%e8%87%aa%e5%90%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 备份配置文件</span>
+</span></span><span class="line"><span class="cl">cp -v /etc/my.cnf /etc/my.cnf_default
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 Go 语言编写的 gen-mysql-cnf 生成配置文件 mysql.cnf</span>
+</span></span><span class="line"><span class="cl">./gen-mysql-cnf-linux-amd64 -version 8.4
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 拷贝配置文件</span>
+</span></span><span class="line"><span class="cl">cp -v mysql.cnf /etc/my.cnf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除数据目录</span>
+</span></span><span class="line"><span class="cl">rm -rf /data/mysql/8.4/<span class="o">{</span>data,log<span class="o">}</span> /var/lib/mysql /var/run/mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建数据目录</span>
+</span></span><span class="line"><span class="cl">mkdir -p /data/mysql/8.4/<span class="o">{</span>data,log<span class="o">}</span> /var/lib/mysql /var/run/mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置权限</span>
+</span></span><span class="line"><span class="cl">chown -R mysql:mysql /data/mysql/8.4/<span class="o">{</span>data,log<span class="o">}</span> /var/lib/mysql /var/run/mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动服务</span>
+</span></span><span class="line"><span class="cl">systemctl start mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 首次启动需要等待一会, MySQL 需要初始化数据库</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看状态</span>
+</span></span><span class="line"><span class="cl">systemctl status mysqld
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看日志</span>
+</span></span><span class="line"><span class="cl">cat /data/mysql/8.4/log/mysqld.log
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置开机自启</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> mysqld
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="修改-mysql-root-密码"
+    >
+        修改 MySQL root 密码
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/mysql/install-mysql-8.4-on-almalinux-9/#修改-mysql-root-密码" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 修改 MySQL root 密码" aria-label="Anchor to: 修改 MySQL root 密码" href="#%e4%bf%ae%e6%94%b9-mysql-root-%e5%af%86%e7%a0%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 获取 MySQL 初始 root 密码</span>
+</span></span><span class="line"><span class="cl">grep <span class="s1">&#39;temporary password&#39;</span> /data/mysql/8.4/log/mysqld.log
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 登录 MySQL</span>
+</span></span><span class="line"><span class="cl">mysql -uroot -p
+</span></span></code></pre></div><p>修改密码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;root&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;KdX3V7nC!9#Q&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;root&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;KdX3V7nC!9#Q&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;root&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="k">GRANT</span><span class="w"> </span><span class="k">OPTION</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;root&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;KdX3V7nC!9#Q&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;root&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="k">GRANT</span><span class="w"> </span><span class="k">OPTION</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div>
   </article>
 
 
@@ -2638,9 +2741,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
 
         
-          
-          
-        
 
         
           
@@ -2677,11 +2777,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3411,27 +3506,9 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Prometheus
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      Operations
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

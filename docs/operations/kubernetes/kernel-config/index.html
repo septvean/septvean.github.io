@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta name="description" content="下面是一套 生产级 Kubernetes（K8S）宿主机内核配置总表，适用于 AlmaLinux 9 / RHEL 9 / Rocky 9 / CentOS Stream 9，同时说明 为什么要配、哪些是必须、哪些是场景可选，避免“玄学调参”。
+按 Kubernetes 依赖关系 -&gt; 内核子系统 -&gt; 场景分类 来讲。
+一、Kubernetes 对 Linux 内核的核心要求（先给结论） Kubernetes 本质依赖：
+cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂载隔离 netfilter / conntrack：Service / NAT / Pod 网络 overlayfs：容器镜像 sysctl：网络、内存、进程数量控制 👉 所以 K8S 内核配置 重点在：网络 &#43; 内存 &#43; cgroups &#43; 文件句柄" />
 
-    <title>Redis | ☘️ Septvean&#39;s Documents</title>
+    <title>Kubernetes 内核配置 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,38 +38,42 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   <meta
     property="og:title"
-    content="Redis"
+    content="Kubernetes 内核配置"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta property="og:description" content="下面是一套 生产级 Kubernetes（K8S）宿主机内核配置总表，适用于 AlmaLinux 9 / RHEL 9 / Rocky 9 / CentOS Stream 9，同时说明 为什么要配、哪些是必须、哪些是场景可选，避免“玄学调参”。
+按 Kubernetes 依赖关系 -&gt; 内核子系统 -&gt; 场景分类 来讲。
+一、Kubernetes 对 Linux 内核的核心要求（先给结论） Kubernetes 本质依赖：
+cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂载隔离 netfilter / conntrack：Service / NAT / Pod 网络 overlayfs：容器镜像 sysctl：网络、内存、进程数量控制 👉 所以 K8S 内核配置 重点在：网络 &#43; 内存 &#43; cgroups &#43; 文件句柄" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/redis/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/kubernetes/kernel-config/" />
 
-<meta property="article:section" content="Database" />
+<meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Redis" />
-  <meta name="twitter:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+<meta name="twitter:title" content="Kubernetes 内核配置" />
+  <meta name="twitter:description" content="下面是一套 生产级 Kubernetes（K8S）宿主机内核配置总表，适用于 AlmaLinux 9 / RHEL 9 / Rocky 9 / CentOS Stream 9，同时说明 为什么要配、哪些是必须、哪些是场景可选，避免“玄学调参”。
+按 Kubernetes 依赖关系 -&gt; 内核子系统 -&gt; 场景分类 来讲。
+一、Kubernetes 对 Linux 内核的核心要求（先给结论） Kubernetes 本质依赖：
+cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂载隔离 netfilter / conntrack：Service / NAT / Pod 网络 overlayfs：容器镜像 sysctl：网络、内存、进程数量控制 👉 所以 K8S 内核配置 重点在：网络 &#43; 内存 &#43; cgroups &#43; 文件句柄" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Database",
-      "name": "Redis",
-      "url" : "https://documents.v2ep.com/database/redis/",
-      "headline": "Redis",
-      "description": "Document List:\nRedis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 ",
-      "wordCount" : "26",
+      "articleSection": "Operations",
+      "name": "Kubernetes 内核配置",
+      "url" : "https://documents.v2ep.com/operations/kubernetes/kernel-config/",
+      "headline": "Kubernetes 内核配置",
+      "description": "下面是一套 生产级 Kubernetes（K8S）宿主机内核配置总表，适用于 AlmaLinux 9 \/ RHEL 9 \/ Rocky 9 \/ CentOS Stream 9，同时说明 为什么要配、哪些是必须、哪些是场景可选，避免“玄学调参”。\n按 Kubernetes 依赖关系 -\u003e 内核子系统 -\u003e 场景分类 来讲。\n一、Kubernetes 对 Linux 内核的核心要求（先给结论） Kubernetes 本质依赖：\ncgroups：资源隔离（CPU \/ 内存 \/ IO） namespaces：进程 \/ 网络 \/ 挂载隔离 netfilter \/ conntrack：Service \/ NAT \/ Pod 网络 overlayfs：容器镜像 sysctl：网络、内存、进程数量控制 👉 所以 K8S 内核配置 重点在：网络 \u002b 内存 \u002b cgroups \u002b 文件句柄",
+      "wordCount" : "420",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/redis/"
+          "@id": "https://documents.v2ep.com/operations/kubernetes/kernel-config/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/redis/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/kubernetes/kernel-config/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -900,7 +906,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
                 <span class="flex">
                   <a
                     href="/database/redis/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Redis
                   </a>
@@ -2060,7 +2066,15 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/kubernetes/' href='/operations/kubernetes/'><span itemprop='name'>Kubernetes</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Kubernetes 内核配置</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,112 +2093,445 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Redis</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Kubernetes 内核配置</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/faq/" class="gdoc-toc__entry">Redis FAQ
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/tutorial/" class="gdoc-toc__entry">Redis 基础教程
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/core/" class="gdoc-toc__entry">Redis 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/classic-issues/" class="gdoc-toc__entry">Redis 经典问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cache-hit-ratio/" class="gdoc-toc__entry">Redis 缓存命中率
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/base/" class="gdoc-toc__entry">Redis 基础
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/backup-restore/" class="gdoc-toc__entry">Redis 备份与恢复
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/command/" class="gdoc-toc__entry">Redis 常用命令
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/dir/" class="gdoc-toc__entry">Redis 文件存储目录
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/best-practices/" class="gdoc-toc__entry">Redis 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/three-major-issues-with-redis-caching/" class="gdoc-toc__entry">Redis 缓存三大问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cluster/" class="gdoc-toc__entry">Redis 集群
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>下面是一套 <strong>生产级 Kubernetes（K8S）宿主机内核配置总表</strong>，适用于 <strong>AlmaLinux 9 / RHEL 9 / Rocky 9 / CentOS Stream 9</strong>，同时说明 <strong>为什么要配、哪些是必须、哪些是场景可选</strong>，避免“玄学调参”。</p>
+<p>按 <strong>Kubernetes 依赖关系 -&gt; 内核子系统 -&gt; 场景分类</strong> 来讲。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一kubernetes-对-linux-内核的核心要求先给结论"
+    >
+        一、Kubernetes 对 Linux 内核的核心要求（先给结论）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#一kubernetes-对-linux-内核的核心要求先给结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、Kubernetes 对 Linux 内核的核心要求（先给结论）" aria-label="Anchor to: 一、Kubernetes 对 Linux 内核的核心要求（先给结论）" href="#%e4%b8%80kubernetes-%e5%af%b9-linux-%e5%86%85%e6%a0%b8%e7%9a%84%e6%a0%b8%e5%bf%83%e8%a6%81%e6%b1%82%e5%85%88%e7%bb%99%e7%bb%93%e8%ae%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Kubernetes 本质依赖：</p>
+<ul>
+<li><strong>cgroups</strong>：资源隔离（CPU / 内存 / IO）</li>
+<li><strong>namespaces</strong>：进程 / 网络 / 挂载隔离</li>
+<li><strong>netfilter / conntrack</strong>：Service / NAT / Pod 网络</li>
+<li><strong>overlayfs</strong>：容器镜像</li>
+<li><strong>sysctl</strong>：网络、内存、进程数量控制</li>
+</ul>
+<p>👉 所以 K8S 内核配置 <strong>重点在：网络 + 内存 + cgroups + 文件句柄</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二kubernetes-必须配置不配会出问题"
+    >
+        二、Kubernetes 必须配置（不配会出问题）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#二kubernetes-必须配置不配会出问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、Kubernetes 必须配置（不配会出问题）" aria-label="Anchor to: 二、Kubernetes 必须配置（不配会出问题）" href="#%e4%ba%8ckubernetes-%e5%bf%85%e9%a1%bb%e9%85%8d%e7%bd%ae%e4%b8%8d%e9%85%8d%e4%bc%9a%e5%87%ba%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-禁用-swap强制"
+    >
+        1️⃣ 禁用 swap（强制）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#1-禁用-swap强制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 禁用 swap（强制）" aria-label="Anchor to: 1️⃣ 禁用 swap（强制）" href="#1-%e7%a6%81%e7%94%a8-swap%e5%bc%ba%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Kubernetes <strong>不支持 swap</strong>（除非特殊 kubelet 参数）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="关闭-swap"
+    >
+        关闭 swap
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#关闭-swap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关闭 swap" aria-label="Anchor to: 关闭 swap" href="#%e5%85%b3%e9%97%ad-swap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">swapoff -a
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;/swap/d&#39;</span> /etc/fstab
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="内核参数"
+    >
+        内核参数
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#内核参数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 内核参数" aria-label="Anchor to: 内核参数" href="#%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><blockquote>
+<p>原因：
+K8S 调度和 QoS 依赖 <strong>内存可预期性</strong>，swap 会破坏 OOM 判断</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-网络转发必须"
+    >
+        2️⃣ 网络转发（必须）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#2-网络转发必须" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 网络转发（必须）" aria-label="Anchor to: 2️⃣ 网络转发（必须）" href="#2-%e7%bd%91%e7%bb%9c%e8%bd%ac%e5%8f%91%e5%bf%85%e9%a1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.ipv4.ip_forward</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><blockquote>
+<p>Pod、Service、CNI 都依赖</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-netfilterk8s-官方硬要求"
+    >
+        3️⃣ netfilter（K8S 官方硬要求）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#3-netfilterk8s-官方硬要求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ netfilter（K8S 官方硬要求）" aria-label="Anchor to: 3️⃣ netfilter（K8S 官方硬要求）" href="#3-netfilterk8s-%e5%ae%98%e6%96%b9%e7%a1%ac%e8%a6%81%e6%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.bridge.bridge-nf-call-iptables</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.bridge.bridge-nf-call-ip6tables</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.bridge.bridge-nf-call-arptables</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><p>并加载模块：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">modprobe br_netfilter
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-conntrack非常关键"
+    >
+        4️⃣ conntrack（非常关键）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#4-conntrack非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ conntrack（非常关键）" aria-label="Anchor to: 4️⃣ conntrack（非常关键）" href="#4-conntrack%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.netfilter.nf_conntrack_max</span> <span class="o">=</span> <span class="s">262144</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.netfilter.nf_conntrack_buckets</span> <span class="o">=</span> <span class="s">65536</span>
+</span></span></code></pre></div><blockquote>
+<p>不配置会出现：</p>
+</blockquote>
+<ul>
+<li>Service 访问异常</li>
+<li>NodePort 偶发超时</li>
+<li>kube-proxy 不稳定</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-文件句柄--进程数"
+    >
+        5️⃣ 文件句柄 &amp; 进程数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#5-文件句柄--进程数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 文件句柄 &amp; 进程数" aria-label="Anchor to: 5️⃣ 文件句柄 &amp; 进程数" href="#5-%e6%96%87%e4%bb%b6%e5%8f%a5%e6%9f%84--%e8%bf%9b%e7%a8%8b%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">fs.file-max</span> <span class="o">=</span> <span class="s">2097152</span>
+</span></span><span class="line"><span class="cl"><span class="na">kernel.pid_max</span> <span class="o">=</span> <span class="s">1048576</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三kubernetes-推荐网络内核配置生产"
+    >
+        三、Kubernetes 推荐网络内核配置（生产）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#三kubernetes-推荐网络内核配置生产" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、Kubernetes 推荐网络内核配置（生产）" aria-label="Anchor to: 三、Kubernetes 推荐网络内核配置（生产）" href="#%e4%b8%89kubernetes-%e6%8e%a8%e8%8d%90%e7%bd%91%e7%bb%9c%e5%86%85%e6%a0%b8%e9%85%8d%e7%bd%ae%e7%94%9f%e4%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1">## TCP 队列</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.core.somaxconn</span> <span class="o">=</span> <span class="s">65535</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.core.netdev_max_backlog</span> <span class="o">=</span> <span class="s">16384</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## TCP 缓冲</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.core.rmem_max</span> <span class="o">=</span> <span class="s">16777216</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.core.wmem_max</span> <span class="o">=</span> <span class="s">16777216</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## TIME_WAIT 优化</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.tcp_tw_reuse</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.tcp_fin_timeout</span> <span class="o">=</span> <span class="s">15</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## 端口范围（Pod 高并发）</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.ip_local_port_range</span> <span class="o">=</span> <span class="s">1024 65535</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四内存管理k8s-非常敏感"
+    >
+        四、内存管理（K8S 非常敏感）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#四内存管理k8s-非常敏感" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、内存管理（K8S 非常敏感）" aria-label="Anchor to: 四、内存管理（K8S 非常敏感）" href="#%e5%9b%9b%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86k8s-%e9%9d%9e%e5%b8%b8%e6%95%8f%e6%84%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-内存超分配策略推荐"
+    >
+        1️⃣ 内存超分配策略（推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#1-内存超分配策略推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 内存超分配策略（推荐）" aria-label="Anchor to: 1️⃣ 内存超分配策略（推荐）" href="#1-%e5%86%85%e5%ad%98%e8%b6%85%e5%88%86%e9%85%8d%e7%ad%96%e7%95%a5%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><blockquote>
+<p>避免容器频繁触发 OOM Killer</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-脏页控制防止-io-抖动"
+    >
+        2️⃣ 脏页控制（防止 I/O 抖动）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#2-脏页控制防止-io-抖动" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 脏页控制（防止 I/O 抖动）" aria-label="Anchor to: 2️⃣ 脏页控制（防止 I/O 抖动）" href="#2-%e8%84%8f%e9%a1%b5%e6%8e%a7%e5%88%b6%e9%98%b2%e6%ad%a2-io-%e6%8a%96%e5%8a%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.dirty_ratio</span> <span class="o">=</span> <span class="s">20</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_background_ratio</span> <span class="o">=</span> <span class="s">10</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_expire_centisecs</span> <span class="o">=</span> <span class="s">1000</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.dirty_writeback_centisecs</span> <span class="o">=</span> <span class="s">100</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-内存碎片与回收"
+    >
+        3️⃣ 内存碎片与回收
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#3-内存碎片与回收" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 内存碎片与回收" aria-label="Anchor to: 3️⃣ 内存碎片与回收" href="#3-%e5%86%85%e5%ad%98%e7%a2%8e%e7%89%87%e4%b8%8e%e5%9b%9e%e6%94%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.zone_reclaim_mode</span> <span class="o">=</span> <span class="s">0</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.vfs_cache_pressure</span> <span class="o">=</span> <span class="s">100</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-max_map_count某些组件必须"
+    >
+        4️⃣ max_map_count（某些组件必须）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#4-max_map_count某些组件必须" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ max_map_count（某些组件必须）" aria-label="Anchor to: 4️⃣ max_map_count（某些组件必须）" href="#4-max_map_count%e6%9f%90%e4%ba%9b%e7%bb%84%e4%bb%b6%e5%bf%85%e9%a1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.max_map_count</span> <span class="o">=</span> <span class="s">262144</span>
+</span></span></code></pre></div><blockquote>
+<p>Elasticsearch / OpenSearch / some JVM 应用</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五cgroupsk8s-关键点"
+    >
+        五、cgroups（K8S 关键点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#五cgroupsk8s-关键点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、cgroups（K8S 关键点）" aria-label="Anchor to: 五、cgroups（K8S 关键点）" href="#%e4%ba%94cgroupsk8s-%e5%85%b3%e9%94%ae%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rhel--almalinux-9-默认"
+    >
+        RHEL / AlmaLinux 9 默认
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#rhel--almalinux-9-默认" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RHEL / AlmaLinux 9 默认" aria-label="Anchor to: RHEL / AlmaLinux 9 默认" href="#rhel--almalinux-9-%e9%bb%98%e8%ae%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>cgroups v2</strong> ✅</li>
+<li>kubelet、containerd、crio <strong>完全支持</strong></li>
+</ul>
+<p>确认：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">stat -fc %T /sys/fs/cgroup
+</span></span><span class="line"><span class="cl"><span class="c1">## cgroup2fs</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="kubelet-推荐参数不是-sysctl但很重要"
+    >
+        kubelet 推荐参数（不是 sysctl，但很重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#kubelet-推荐参数不是-sysctl但很重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: kubelet 推荐参数（不是 sysctl，但很重要）" aria-label="Anchor to: kubelet 推荐参数（不是 sysctl，但很重要）" href="#kubelet-%e6%8e%a8%e8%8d%90%e5%8f%82%e6%95%b0%e4%b8%8d%e6%98%af-sysctl%e4%bd%86%e5%be%88%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">--cgroup-driver</span><span class="o">=</span><span class="s">systemd</span>
+</span></span><span class="line"><span class="cl"><span class="na">--runtime-cgroups</span><span class="o">=</span><span class="s">/system.slice/containerd.service</span>
+</span></span><span class="line"><span class="cl"><span class="na">--kubelet-cgroups</span><span class="o">=</span><span class="s">/system.slice/kubelet.service</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六ipv6-策略重要但容易踩坑"
+    >
+        六、IPv6 策略（重要但容易踩坑）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#六ipv6-策略重要但容易踩坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、IPv6 策略（重要但容易踩坑）" aria-label="Anchor to: 六、IPv6 策略（重要但容易踩坑）" href="#%e5%85%adipv6-%e7%ad%96%e7%95%a5%e9%87%8d%e8%a6%81%e4%bd%86%e5%ae%b9%e6%98%93%e8%b8%a9%e5%9d%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-推荐做法生产最稳"
+    >
+        ✅ 推荐做法（生产最稳）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#-推荐做法生产最稳" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 推荐做法（生产最稳）" aria-label="Anchor to: ✅ 推荐做法（生产最稳）" href="#-%e6%8e%a8%e8%8d%90%e5%81%9a%e6%b3%95%e7%94%9f%e4%ba%a7%e6%9c%80%e7%a8%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>不禁用 IPv6 内核</strong></li>
+<li><strong>不使用 IPv6 网络</strong></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="sysctl不要禁用-ipv6"
+    >
+        sysctl（不要禁用 IPv6）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#sysctl不要禁用-ipv6" class="gdoc-page__anchor clip flex align-center" title="Anchor to: sysctl（不要禁用 IPv6）" aria-label="Anchor to: sysctl（不要禁用 IPv6）" href="#sysctl%e4%b8%8d%e8%a6%81%e7%a6%81%e7%94%a8-ipv6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>❌ 不推荐：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.ipv6.conf.all.disable_ipv6</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><p>✅ 推荐：</p>
+<ul>
+<li>交给 CNI / NetworkManager 控制</li>
+<li>避免 rpcbind / kubelet / systemd socket 异常</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七numa是否需要"
+    >
+        七、NUMA（是否需要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#七numa是否需要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、NUMA（是否需要）" aria-label="Anchor to: 七、NUMA（是否需要）" href="#%e4%b8%83numa%e6%98%af%e5%90%a6%e9%9c%80%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="大多数-k8s-节点"
+    >
+        大多数 K8S 节点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#大多数-k8s-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 大多数 K8S 节点" aria-label="Anchor to: 大多数 K8S 节点" href="#%e5%a4%a7%e5%a4%9a%e6%95%b0-k8s-%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">kernel.numa_balancing</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="以下情况可以考虑关闭"
+    >
+        以下情况可以考虑关闭
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#以下情况可以考虑关闭" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 以下情况可以考虑关闭" aria-label="Anchor to: 以下情况可以考虑关闭" href="#%e4%bb%a5%e4%b8%8b%e6%83%85%e5%86%b5%e5%8f%af%e4%bb%a5%e8%80%83%e8%99%91%e5%85%b3%e9%97%ad">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>单 NUMA 节点</li>
+<li>明确使用 <code>numactl</code></li>
+<li>数据库裸跑在节点上</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">kernel.numa_balancing</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><blockquote>
+<p><strong>普通 K8S Node 不需要手动 numactl</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八推荐-sysctl-文件完整示例"
+    >
+        八、推荐 sysctl 文件（完整示例）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#八推荐-sysctl-文件完整示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、推荐 sysctl 文件（完整示例）" aria-label="Anchor to: 八、推荐 sysctl 文件（完整示例）" href="#%e5%85%ab%e6%8e%a8%e8%8d%90-sysctl-%e6%96%87%e4%bb%b6%e5%ae%8c%e6%95%b4%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>👉 <code>/etc/sysctl.d/99-kubernetes.conf</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1">## ---- Kubernetes Core ----</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.ip_forward</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">0</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## ---- Netfilter ----</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.bridge.bridge-nf-call-iptables</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.bridge.bridge-nf-call-ip6tables</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.bridge.bridge-nf-call-arptables</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## ---- Conntrack ----</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.netfilter.nf_conntrack_max</span> <span class="o">=</span> <span class="s">262144</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.netfilter.nf_conntrack_buckets</span> <span class="o">=</span> <span class="s">65536</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## ---- Network ----</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.core.somaxconn</span> <span class="o">=</span> <span class="s">65535</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.core.netdev_max_backlog</span> <span class="o">=</span> <span class="s">16384</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.ip_local_port_range</span> <span class="o">=</span> <span class="s">1024 65535</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.tcp_tw_reuse</span> <span class="o">=</span> <span class="s">1</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.tcp_fin_timeout</span> <span class="o">=</span> <span class="s">15</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## ---- Memory ----</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.max_map_count</span> <span class="o">=</span> <span class="s">262144</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.zone_reclaim_mode</span> <span class="o">=</span> <span class="s">0</span>
+</span></span><span class="line"><span class="cl"><span class="na">vm.vfs_cache_pressure</span> <span class="o">=</span> <span class="s">100</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## ---- Files / PIDs ----</span>
+</span></span><span class="line"><span class="cl"><span class="na">fs.file-max</span> <span class="o">=</span> <span class="s">2097152</span>
+</span></span><span class="line"><span class="cl"><span class="na">kernel.pid_max</span> <span class="o">=</span> <span class="s">1048576</span>
+</span></span></code></pre></div><p>加载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sysctl --system
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九按节点角色给建议"
+    >
+        九、按节点角色给建议
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#九按节点角色给建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、按节点角色给建议" aria-label="Anchor to: 九、按节点角色给建议" href="#%e4%b9%9d%e6%8c%89%e8%8a%82%e7%82%b9%e8%a7%92%e8%89%b2%e7%bb%99%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-master-节点"
+    >
+        🧱 Master 节点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#-master-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 Master 节点" aria-label="Anchor to: 🧱 Master 节点" href="#-master-%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>conntrack：中等</li>
+<li>网络稳定优先</li>
+<li>swap 必须关</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-worker-节点"
+    >
+        ⚙ Worker 节点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#-worker-节点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚙ Worker 节点" aria-label="Anchor to: ⚙ Worker 节点" href="#-worker-%e8%8a%82%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>conntrack 要大</li>
+<li>文件句柄要高</li>
+<li>网络参数更重要</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-跑数据库的-node不推荐"
+    >
+        🗄 跑数据库的 Node（不推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#-跑数据库的-node不推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🗄 跑数据库的 Node（不推荐）" aria-label="Anchor to: 🗄 跑数据库的 Node（不推荐）" href="#-%e8%b7%91%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84-node%e4%b8%8d%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>建议 <strong>独立节点</strong></li>
+<li>明确 CPU / 内存绑核</li>
+<li>不建议与普通 Pod 混用</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十总结"
+    >
+        十、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kubernetes/kernel-config/#十总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、总结" aria-label="Anchor to: 十、总结" href="#%e5%8d%81%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>Kubernetes 内核配置的核心目标不是“跑得快”，而是：网络稳定、内存可预测、资源可控、行为一致。</strong></p>
+</blockquote>
 
   </article>
 
@@ -2638,9 +2985,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
 
         
-          
-          
-        
 
         
           
@@ -2677,11 +3021,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3411,27 +3750,9 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Prometheus
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      Operations
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

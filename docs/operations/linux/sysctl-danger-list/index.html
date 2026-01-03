@@ -12,10 +12,17 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta name="description" content="下面这份是 真正的「一调就翻车」内核参数黑名单。
+特点只有一个：不是性能参数，而是“语义 / 安全 / 正确性”参数，
+👉 调错不是“变慢”，而是：断网、丢数据、进程被杀、系统不稳定。
+按 风险等级 &#43; 翻车方式 &#43; 正确认知 给你一份可直接纳入运维规范的清单。
+结论先行
+👉 这些参数 不适合“动态算”
+👉 不适合“网上抄一套”
+👉 改之前必须知道“你在改变什么系统行为”
+一、内存 / OOM / 进程相关（最高翻车率）🔥🔥🔥 1. vm.overcommit_memory（翻车王） vm.overcommit_memory = 2 ❌ 常见翻车 PostgreSQL / Redis 启动失败 Java / Python malloc failed K8S Pod 随机启动不了 ❗本质 这是“内存分配策略”，不是性能参数" />
 
-    <title>Redis | ☘️ Septvean&#39;s Documents</title>
+    <title>Linux 内核 &#34;一调就翻车&#34; 危险参数清单 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,38 +43,52 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   <meta
     property="og:title"
-    content="Redis"
+    content="Linux 内核 \"一调就翻车\" 危险参数清单"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+  <meta property="og:description" content="下面这份是 真正的「一调就翻车」内核参数黑名单。
+特点只有一个：不是性能参数，而是“语义 / 安全 / 正确性”参数，
+👉 调错不是“变慢”，而是：断网、丢数据、进程被杀、系统不稳定。
+按 风险等级 &#43; 翻车方式 &#43; 正确认知 给你一份可直接纳入运维规范的清单。
+结论先行
+👉 这些参数 不适合“动态算”
+👉 不适合“网上抄一套”
+👉 改之前必须知道“你在改变什么系统行为”
+一、内存 / OOM / 进程相关（最高翻车率）🔥🔥🔥 1. vm.overcommit_memory（翻车王） vm.overcommit_memory = 2 ❌ 常见翻车 PostgreSQL / Redis 启动失败 Java / Python malloc failed K8S Pod 随机启动不了 ❗本质 这是“内存分配策略”，不是性能参数" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/redis/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/sysctl-danger-list/" />
 
-<meta property="article:section" content="Database" />
+<meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Redis" />
-  <meta name="twitter:description" content="Document List:
-Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 " />
+<meta name="twitter:title" content="Linux 内核 \"一调就翻车\" 危险参数清单" />
+  <meta name="twitter:description" content="下面这份是 真正的「一调就翻车」内核参数黑名单。
+特点只有一个：不是性能参数，而是“语义 / 安全 / 正确性”参数，
+👉 调错不是“变慢”，而是：断网、丢数据、进程被杀、系统不稳定。
+按 风险等级 &#43; 翻车方式 &#43; 正确认知 给你一份可直接纳入运维规范的清单。
+结论先行
+👉 这些参数 不适合“动态算”
+👉 不适合“网上抄一套”
+👉 改之前必须知道“你在改变什么系统行为”
+一、内存 / OOM / 进程相关（最高翻车率）🔥🔥🔥 1. vm.overcommit_memory（翻车王） vm.overcommit_memory = 2 ❌ 常见翻车 PostgreSQL / Redis 启动失败 Java / Python malloc failed K8S Pod 随机启动不了 ❗本质 这是“内存分配策略”，不是性能参数" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Database",
-      "name": "Redis",
-      "url" : "https://documents.v2ep.com/database/redis/",
-      "headline": "Redis",
-      "description": "Document List:\nRedis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存命中率 Redis 基础 Redis 备份与恢复 Redis 常用命令 Redis 文件存储目录 Redis 最佳实践 Redis 缓存三大问题 Redis 集群 ",
-      "wordCount" : "26",
+      "articleSection": "Operations",
+      "name": "Linux 内核 \"一调就翻车\" 危险参数清单",
+      "url" : "https://documents.v2ep.com/operations/linux/sysctl-danger-list/",
+      "headline": "Linux 内核 \"一调就翻车\" 危险参数清单",
+      "description": "下面这份是 真正的「一调就翻车」内核参数黑名单。\n特点只有一个：不是性能参数，而是“语义 \/ 安全 \/ 正确性”参数，\n👉 调错不是“变慢”，而是：断网、丢数据、进程被杀、系统不稳定。\n按 风险等级 \u002b 翻车方式 \u002b 正确认知 给你一份可直接纳入运维规范的清单。\n结论先行\n👉 这些参数 不适合“动态算”\n👉 不适合“网上抄一套”\n👉 改之前必须知道“你在改变什么系统行为”\n一、内存 \/ OOM \/ 进程相关（最高翻车率）🔥🔥🔥 1. vm.overcommit_memory（翻车王） vm.overcommit_memory = 2 ❌ 常见翻车 PostgreSQL \/ Redis 启动失败 Java \/ Python malloc failed K8S Pod 随机启动不了 ❗本质 这是“内存分配策略”，不是性能参数",
+      "wordCount" : "344",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/redis/"
+          "@id": "https://documents.v2ep.com/operations/linux/sysctl-danger-list/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +172,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/redis/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/sysctl-danger-list/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -900,7 +921,7 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
                 <span class="flex">
                   <a
                     href="/database/redis/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Redis
                   </a>
@@ -2060,7 +2081,15 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Redis</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux 内核 "一调就翻车" 危险参数清单</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,112 +2108,724 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Redis</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Linux 内核 &#34;一调就翻车&#34; 危险参数清单</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/faq/" class="gdoc-toc__entry">Redis FAQ
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/tutorial/" class="gdoc-toc__entry">Redis 基础教程
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/core/" class="gdoc-toc__entry">Redis 核心概念
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/classic-issues/" class="gdoc-toc__entry">Redis 经典问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cache-hit-ratio/" class="gdoc-toc__entry">Redis 缓存命中率
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/redis/base/" class="gdoc-toc__entry">Redis 基础
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/backup-restore/" class="gdoc-toc__entry">Redis 备份与恢复
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/command/" class="gdoc-toc__entry">Redis 常用命令
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/dir/" class="gdoc-toc__entry">Redis 文件存储目录
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/best-practices/" class="gdoc-toc__entry">Redis 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/three-major-issues-with-redis-caching/" class="gdoc-toc__entry">Redis 缓存三大问题
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/database/redis/cluster/" class="gdoc-toc__entry">Redis 集群
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>下面这份是 <strong>真正的「一调就翻车」内核参数黑名单</strong>。</p>
+<p>特点只有一个：<strong>不是性能参数，而是“语义 / 安全 / 正确性”参数</strong>，</p>
+<p>👉 <strong>调错不是“变慢”，而是：断网、丢数据、进程被杀、系统不稳定。</strong></p>
+<p>按 <strong>风险等级 + 翻车方式 + 正确认知</strong> 给你一份可直接纳入运维规范的清单。</p>
+<hr>
+<blockquote>
+<p><strong>结论先行</strong><br />
+👉 这些参数 <strong>不适合“动态算”</strong><br />
+👉 不适合“网上抄一套”<br />
+👉 改之前必须知道“你在改变什么系统行为”</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一内存--oom--进程相关最高翻车率"
+    >
+        一、内存 / OOM / 进程相关（最高翻车率）🔥🔥🔥
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#一内存--oom--进程相关最高翻车率" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、内存 / OOM / 进程相关（最高翻车率）🔥🔥🔥" aria-label="Anchor to: 一、内存 / OOM / 进程相关（最高翻车率）🔥🔥🔥" href="#%e4%b8%80%e5%86%85%e5%ad%98--oom--%e8%bf%9b%e7%a8%8b%e7%9b%b8%e5%85%b3%e6%9c%80%e9%ab%98%e7%bf%bb%e8%bd%a6%e7%8e%87">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-vmovercommit_memory翻车王"
+    >
+        1. <code>vm.overcommit_memory</code>（翻车王）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#1-vmovercommit_memory翻车王" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. vm.overcommit_memory（翻车王）" aria-label="Anchor to: 1. vm.overcommit_memory（翻车王）" href="#1-vmovercommit_memory%e7%bf%bb%e8%bd%a6%e7%8e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">2</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PostgreSQL / Redis 启动失败</li>
+<li>Java / Python <code>malloc failed</code></li>
+<li>K8S Pod 随机启动不了</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>这是“内存分配策略”，不是性能参数</strong></p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>值</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td>启发式（默认，最安全）</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td>允许过度分配</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>严格限制（生产最容易翻）</td>
+      </tr>
+  </tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>通用服务器</strong>：<code>0</code></li>
+<li><strong>数据库专用 + 精确计算</strong>：才考虑 <code>2</code></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-vmpanic_on_oom"
+    >
+        2. <code>vm.panic_on_oom</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#2-vmpanic_on_oom" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. vm.panic_on_oom" aria-label="Anchor to: 2. vm.panic_on_oom" href="#2-vmpanic_on_oom">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.panic_on_oom</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-1"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>一次 OOM -&gt; <strong>整机直接重启</strong></li>
+<li>KVM / 裸机全部业务瞬间消失</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-1"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>这是“系统自杀开关”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-1"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>几乎永远不应该开启</strong></li>
+<li>只用于极端金融 / 高可用节点</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-kerneloom_kill_allocating_task"
+    >
+        3. <code>kernel.oom_kill_allocating_task</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#3-kerneloom_kill_allocating_task" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. kernel.oom_kill_allocating_task" aria-label="Anchor to: 3. kernel.oom_kill_allocating_task" href="#3-kerneloom_kill_allocating_task">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">kernel.oom_kill_allocating_task</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-2"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>正在写数据的数据库进程被直接杀</li>
+<li>Redis RDB / AOF 中断</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-2"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>谁申请内存就杀谁（不看重要性）</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-2"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>保持默认 <code>0</code></li>
+<li>用 <code>OOMScoreAdjust</code> 精准控制</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二numa--cpu-相关隐蔽型翻车"
+    >
+        二、NUMA / CPU 相关（隐蔽型翻车）🔥🔥
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#二numa--cpu-相关隐蔽型翻车" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、NUMA / CPU 相关（隐蔽型翻车）🔥🔥" aria-label="Anchor to: 二、NUMA / CPU 相关（隐蔽型翻车）🔥🔥" href="#%e4%ba%8cnuma--cpu-%e7%9b%b8%e5%85%b3%e9%9a%90%e8%94%bd%e5%9e%8b%e7%bf%bb%e8%bd%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-kernelnuma_balancing"
+    >
+        4. <code>kernel.numa_balancing</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#4-kernelnuma_balancing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. kernel.numa_balancing" aria-label="Anchor to: 4. kernel.numa_balancing" href="#4-kernelnuma_balancing">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">kernel.numa_balancing</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-3"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-3" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PostgreSQL / Redis 延迟抖动</li>
+<li>Python / Java 性能不稳定</li>
+<li>CPU 利用率低但性能差</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-3"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-3" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>内核自动搬内存页（频繁 TLB 失效）</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-3"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-3" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>数据库 / 延迟敏感服务</strong>：<code>0</code></li>
+<li><strong>桌面 / 通用负载</strong>：<code>1</code></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-kernelsched_autogroup_enabled"
+    >
+        5. <code>kernel.sched_autogroup_enabled</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#5-kernelsched_autogroup_enabled" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. kernel.sched_autogroup_enabled" aria-label="Anchor to: 5. kernel.sched_autogroup_enabled" href="#5-kernelsched_autogroup_enabled">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">kernel.sched_autogroup_enabled</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-4"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-4" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>后台服务 CPU 被“桌面交互”抢走</li>
+<li>容器调度异常</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-4"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-4" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>这是桌面友好策略</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-4"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-4" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>服务器统一设为 <code>0</code></strong></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三网络参数最容易看似优化其实断网"
+    >
+        三、网络参数（最容易“看似优化，其实断网”）🔥🔥🔥
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#三网络参数最容易看似优化其实断网" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、网络参数（最容易“看似优化，其实断网”）🔥🔥🔥" aria-label="Anchor to: 三、网络参数（最容易“看似优化，其实断网”）🔥🔥🔥" href="#%e4%b8%89%e7%bd%91%e7%bb%9c%e5%8f%82%e6%95%b0%e6%9c%80%e5%ae%b9%e6%98%93%e7%9c%8b%e4%bc%bc%e4%bc%98%e5%8c%96%e5%85%b6%e5%ae%9e%e6%96%ad%e7%bd%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="6-netipv4tcp_tw_recycle已废弃但仍有人乱配"
+    >
+        6. <code>net.ipv4.tcp_tw_recycle</code>（已废弃，但仍有人乱配）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#6-netipv4tcp_tw_recycle已废弃但仍有人乱配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. net.ipv4.tcp_tw_recycle（已废弃，但仍有人乱配）" aria-label="Anchor to: 6. net.ipv4.tcp_tw_recycle（已废弃，但仍有人乱配）" href="#6-netipv4tcp_tw_recycle%e5%b7%b2%e5%ba%9f%e5%bc%83%e4%bd%86%e4%bb%8d%e6%9c%89%e4%ba%ba%e4%b9%b1%e9%85%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.ipv4.tcp_tw_recycle</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-5"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-5" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>NAT 后客户端大量连接失败</li>
+<li>Web 服务“时好时坏”</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-5"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-5" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>违反 TCP 协议设计</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-5"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-5" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>永远不要配置</strong></li>
+<li>新内核已移除</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="7-rp_filter--1多网卡直接翻"
+    >
+        7. <code>rp_filter = 1</code>（多网卡直接翻）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#7-rp_filter--1多网卡直接翻" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. rp_filter = 1（多网卡直接翻）" aria-label="Anchor to: 7. rp_filter = 1（多网卡直接翻）" href="#7-rp_filter--1%e5%a4%9a%e7%bd%91%e5%8d%a1%e7%9b%b4%e6%8e%a5%e7%bf%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.ipv4.conf.all.rp_filter</span> <span class="o">=</span> <span class="s">1</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-6"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-6" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>双网卡 / 多路由服务器无法回包</li>
+<li>K8S / VPN / overlay 网络异常</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-6"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-6" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>严格反向路径校验</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-6"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-6" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.ipv4.conf.all.rp_filter</span> <span class="o">=</span> <span class="s">0</span>
+</span></span><span class="line"><span class="cl"><span class="na">net.ipv4.conf.default.rp_filter</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="8-tcp_syncookies--0"
+    >
+        8. <code>tcp_syncookies = 0</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#8-tcp_syncookies--0" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. tcp_syncookies = 0" aria-label="Anchor to: 8. tcp_syncookies = 0" href="#8-tcp_syncookies--0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.ipv4.tcp_syncookies</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-7"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-7" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>SYN flood 下直接拒绝连接</li>
+<li>负载高峰服务雪崩</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-7"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-7" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>关闭 TCP 防护机制</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-7"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-7" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>永远保持 <code>1</code></li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四swap--内存回收数据库翻车高发区"
+    >
+        四、Swap / 内存回收（数据库翻车高发区）🔥🔥🔥
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#四swap--内存回收数据库翻车高发区" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、Swap / 内存回收（数据库翻车高发区）🔥🔥🔥" aria-label="Anchor to: 四、Swap / 内存回收（数据库翻车高发区）🔥🔥🔥" href="#%e5%9b%9bswap--%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6%e6%95%b0%e6%8d%ae%e5%ba%93%e7%bf%bb%e8%bd%a6%e9%ab%98%e5%8f%91%e5%8c%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="9-vmswappiness--0被严重误用"
+    >
+        9. <code>vm.swappiness = 0</code>（被严重误用）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#9-vmswappiness--0被严重误用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. vm.swappiness = 0（被严重误用）" aria-label="Anchor to: 9. vm.swappiness = 0（被严重误用）" href="#9-vmswappiness--0%e8%a2%ab%e4%b8%a5%e9%87%8d%e8%af%af%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">0</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-8"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-8" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>内存紧张时直接 OOM</li>
+<li>数据库被杀而不是 swap</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-8"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-8" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>不是“禁用 swap”，而是“极度厌恶 swap”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-8"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-8" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>值</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>数据库</td>
+          <td>1</td>
+      </tr>
+      <tr>
+          <td>通用服务器</td>
+          <td>10~30</td>
+      </tr>
+      <tr>
+          <td>禁 swap</td>
+          <td>swapoff</td>
+      </tr>
+  </tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="10-vmdrop_caches-定时任务"
+    >
+        10. <code>vm.drop_caches</code> 定时任务
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#10-vmdrop_caches-定时任务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. vm.drop_caches 定时任务" aria-label="Anchor to: 10. vm.drop_caches 定时任务" href="#10-vmdrop_caches-%e5%ae%9a%e6%97%b6%e4%bb%bb%e5%8a%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">3</span> &gt; /proc/sys/vm/drop_caches
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-9"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-9" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>磁盘 IO 暴增</li>
+<li>数据库缓存被清空</li>
+<li>延迟雪崩</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-9"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-9" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>这是调试接口，不是优化手段</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-9"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-9" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>禁止定时执行</strong></li>
+<li>仅用于一次性测试</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五文件系统--数据一致性数据级翻车"
+    >
+        五、文件系统 / 数据一致性（数据级翻车）🔥🔥🔥
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#五文件系统--数据一致性数据级翻车" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、文件系统 / 数据一致性（数据级翻车）🔥🔥🔥" aria-label="Anchor to: 五、文件系统 / 数据一致性（数据级翻车）🔥🔥🔥" href="#%e4%ba%94%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f--%e6%95%b0%e6%8d%ae%e4%b8%80%e8%87%b4%e6%80%a7%e6%95%b0%e6%8d%ae%e7%ba%a7%e7%bf%bb%e8%bd%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="11-nobarrier--barrier0"
+    >
+        11. <code>nobarrier</code> / <code>barrier=0</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#11-nobarrier--barrier0" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. nobarrier / barrier=0" aria-label="Anchor to: 11. nobarrier / barrier=0" href="#11-nobarrier--barrier0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-fstab" data-lang="fstab">nobarrier
+</code></pre><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-10"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-10" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-10">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>掉电 -&gt; 文件系统损坏</li>
+<li>数据库不可恢复</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="本质-10"
+    >
+        ❗本质
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#本质-10" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❗本质" aria-label="Anchor to: ❗本质" href="#%e6%9c%ac%e8%b4%a8-10">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>你在告诉内核：底层存储“绝对可靠”</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-10"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-10" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-10">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>仅在 <strong>带电池 RAID / 企业级存储</strong> 使用</li>
+<li>云盘 / 本地盘禁止</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="12-datawriteback"
+    >
+        12. <code>data=writeback</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#12-datawriteback" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. data=writeback" aria-label="Anchor to: 12. data=writeback" href="#12-datawriteback">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-常见翻车-11"
+    >
+        ❌ 常见翻车
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-常见翻车-11" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 常见翻车" aria-label="Anchor to: ❌ 常见翻车" href="#-%e5%b8%b8%e8%a7%81%e7%bf%bb%e8%bd%a6-11">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>元数据和数据不一致</li>
+<li>文件“存在但内容错乱”</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-正确建议-11"
+    >
+        ✅ 正确建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-正确建议-11" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 正确建议" aria-label="Anchor to: ✅ 正确建议" href="#-%e6%ad%a3%e7%a1%ae%e5%bb%ba%e8%ae%ae-11">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>非缓存目录谨慎使用</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六一句话红线总结"
+    >
+        六、一句话“红线总结”🧠
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#六一句话红线总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、一句话“红线总结”🧠" aria-label="Anchor to: 六、一句话“红线总结”🧠" href="#%e5%85%ad%e4%b8%80%e5%8f%a5%e8%af%9d%e7%ba%a2%e7%ba%bf%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>凡是改变「分配策略 / 网络语义 / 一致性保证 / 安全假设」的内核参数，<br />
+都属于“一调就翻车”级别，绝不允许模板化、动态化、照抄。</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七可以直接纳入规范的分类"
+    >
+        七、可以直接纳入规范的分类
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#七可以直接纳入规范的分类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、可以直接纳入规范的分类" aria-label="Anchor to: 七、可以直接纳入规范的分类" href="#%e4%b8%83%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e7%ba%b3%e5%85%a5%e8%a7%84%e8%8c%83%e7%9a%84%e5%88%86%e7%b1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-禁止修改黑名单"
+    >
+        🚫 禁止修改（黑名单）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-禁止修改黑名单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🚫 禁止修改（黑名单）" aria-label="Anchor to: 🚫 禁止修改（黑名单）" href="#-%e7%a6%81%e6%ad%a2%e4%bf%ae%e6%94%b9%e9%bb%91%e5%90%8d%e5%8d%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><code>vm.panic_on_oom</code></li>
+<li><code>tcp_tw_recycle</code></li>
+<li><code>drop_caches</code></li>
+<li><code>data=writeback</code>（非缓存目录）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-必须评审"
+    >
+        ⚠️ 必须评审
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-必须评审" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚠️ 必须评审" aria-label="Anchor to: ⚠️ 必须评审" href="#-%e5%bf%85%e9%a1%bb%e8%af%84%e5%ae%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><code>vm.overcommit_memory</code></li>
+<li><code>nobarrier</code></li>
+<li><code>kernel.numa_balancing</code></li>
+<li><code>rp_filter</code></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-可安全调优"
+    >
+        ✅ 可安全调优
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/sysctl-danger-list/#-可安全调优" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 可安全调优" aria-label="Anchor to: ✅ 可安全调优" href="#-%e5%8f%af%e5%ae%89%e5%85%a8%e8%b0%83%e4%bc%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><code>fs.file-max</code></li>
+<li><code>pid_max</code></li>
+<li><code>conntrack_max</code></li>
+<li>TCP buffer</li>
+</ul>
 
   </article>
 
@@ -2638,9 +3279,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
 
         
-          
-          
-        
 
         
           
@@ -2677,11 +3315,6 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3411,27 +4044,9 @@ Redis FAQ Redis 基础教程 Redis 核心概念 Redis 经典问题 Redis 缓存�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Prometheus
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      Operations
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

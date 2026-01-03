@@ -68,7 +68,7 @@ egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
       "url" : "https://documents.v2ep.com/operations/kvm/install-kvm-on-almalinux-9/",
       "headline": "在 AlmaLinux 9 上安装 KVM",
       "description": " 一、环境与前置条件 硬件要求\nCPU：支持 Intel VT-x \/ AMD-V BIOS：开启 Virtualization 内存：≥ 16 GB（8 GB 勉强） 磁盘：≥ 100 GB 验证 CPU 虚拟化\negrep -c \u0027(vmx|svm)\u0027 \/proc\/cpuinfo ≥1 即支持\n二、安装 KVM 核心组件 1️⃣ 安装虚拟化组件 dnf install -y \\ qemu-kvm \\ libvirt \\ virt-install \\ virt-manager \\ virt-viewer \\ bridge-utils \\ cockpit \\ cockpit-files \\ cockpit-machines \\ cockpit-podman \\ cockpit-storaged 将有 sudo 权限的用户加入 libvirt 组：",
-      "wordCount" : "145",
+      "wordCount" : "150",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2201,7 +2201,17 @@ egrep -c &#39;(vmx|svm)&#39; /proc/cpuinfo ≥1 即支持
 </ul>
 <p>如果右上角显示 <strong>🔒被限制的访问</strong>，点击，切换为 <strong>管理员模式</strong>。</p>
 <p>接下来 <strong>创建桥接网卡</strong>，然后 <strong>创建虚拟机</strong>，最后 <strong>配置网络</strong>。</p>
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="五监控"
+    >
+        五、监控
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/kvm/install-kvm-on-almalinux-9/#五监控" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、监控" aria-label="Anchor to: 五、监控" href="#%e4%ba%94%e7%9b%91%e6%8e%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl <span class="nb">enable</span> --now pmlogger.service
+</span></span></code></pre></div>
   </article>
 
 

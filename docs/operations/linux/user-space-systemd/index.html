@@ -68,7 +68,7 @@
       "url" : "https://documents.v2ep.com/operations/linux/user-space-systemd/",
       "headline": "systemd",
       "description": "“从设计哲学到内核协同”的 systemd 核心概念 \/ 基础理论总览，定位是 RHEL \/ AlmaLinux \/ Rocky \/ Debian \/ Ubuntu 通用，不是命令手册，看完就知道 systemd 在“控制什么、怎么控制、为什么这样设计”。\n一、systemd 是什么（先纠正认知） systemd 不是“启动脚本工具”，而是：Linux 的用户态系统管理框架。\n它负责的不是“开机跑几个服务”，而是：\n系统状态管理 \u002b 服务生命周期 \u002b 资源控制 \u002b 依赖调度 systemd 的角色 维度 作用 进程管理 替代传统 init 服务编排 依赖、顺序、并行 资源管理 对接 cgroups 状态管理 系统运行状态 日志 journald 设备 udev 网络 networkd（可选） 会话 logind 📌 systemd = 用户态“操作系统控制平面”",
-      "wordCount" : "410",
+      "wordCount" : "395",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2390,11 +2390,32 @@
     </a>
 </div>
 <p>target = 状态集合，不是顺序脚本</p>
-<p>| target | 传统 runlevel |
-| multi-user.target | 3 |
-| graphical.target | 5 |
-| rescue.target | 单用户 |
-| emergency.target | 最小系统 |</p>
+<div class="table-wrap"> <table>
+  <thead>
+      <tr>
+          <th>target</th>
+          <th>传统 runlevel</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>multi-user.target</td>
+          <td>3</td>
+      </tr>
+      <tr>
+          <td>graphical.target</td>
+          <td>5</td>
+      </tr>
+      <tr>
+          <td>rescue.target</td>
+          <td>单用户</td>
+      </tr>
+      <tr>
+          <td>emergency.target</td>
+          <td>最小系统</td>
+      </tr>
+  </tbody>
+</table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl set-default multi-user.target
 </span></span></code></pre></div><p>📌 <strong>target 是“系统状态快照”</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
