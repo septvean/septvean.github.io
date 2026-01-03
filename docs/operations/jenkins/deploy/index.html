@@ -65,7 +65,7 @@
       "url" : "https://documents.v2ep.com/operations/jenkins/deploy/",
       "headline": "Jenkins 部署",
       "description": " 基础环境 系统：AlmaLinux 9.6 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins\n主要文档：WAR file 查看 Java 要求：Java Support Policy\n这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd \/data\/septvean\/bash\/java bash -x deploy-jdk-21.sh 21.0.9 \/usr\/local\/jdk\/21.0.9\/bin\/java -version # java version \u002221.0.9\u0022 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9\u002b7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9\u002b7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s \/sbin\/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv \/data\/jenkins\/{app,builder,data,log} # 设置代理 # export http_proxy=http:\/\/192.168.101.200:1080; export https_proxy=http:\/\/192.168.101.200:1080; # 下载 War 包 cd \/data\/jenkins\/app wget -c -O jenkins-2.528.3.war https:\/\/get.jenkins.io\/war-stable\/2.528.3\/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch \/data\/jenkins\/log\/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins \/data\/jenkins # 设置环境变量 # export JENKINS_HOME=\u0027\/data\/jenkins\/data\u0027 # 启动 (端口 8200, 前缀 \/jenkins) 用于测试 # \/usr\/local\/jdk\/21.0.9\/bin\/java \\ # -jar jenkins.war \\ # --httpPort=8200 \\ # --prefix=\/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=\/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=\/jenkins tee \/etc\/systemd\/system\/jenkins.service \u003c\u003c\u0027EOF\u0027 [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=\u0022JENKINS_HOME=\/data\/jenkins\/data\u0022 Environment=\u0022JAVA_OPTS=\u0027-server -Xmx512 -Xms256m\u0027\u0022 # 工作目录 WorkingDirectory=\/data\/jenkins\/app # 启动命令 ExecStart=\/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:\/data\/jenkins\/log\/run.log StandardError=append:\/data\/jenkins\/log\/error.log # 自动重启策略 Restart=always RestartSec=5s # 限制（可选） LimitNOFILE=65536 [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (\/etc\/systemd\/system\/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: \/system.slice\/jenkins.service # └─3822 \/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http:\/\/192.168.101.201:8200\/",
-      "wordCount" : "606",
+      "wordCount" : "609",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2339,7 +2339,23 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /data/jenkins/data/secrets/initialAdminPassword
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+</span></span></code></pre></div><p><img
+  src="../deploy-01.png"
+  alt=""
+  
+/></p>
+<p>如果提示离线，添加 HTTP 代理。</p>
+<p><img
+  src="../deploy-02.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../deploy-03.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="自定义-jenkins选择插件来安装"
     >
         自定义 Jenkins：<strong>选择插件来安装</strong>
@@ -2348,6 +2364,11 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<p><img
+  src="../deploy-04.png"
+  alt=""
+  
+/></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="organization-and-administration"
     >
@@ -2363,7 +2384,7 @@
 <li>OWASP Markup Formatter</li>
 </ul>
 <p><img
-  src="../deploy-01.png"
+  src="../deploy-05.png"
   alt=""
   
 /></p>
@@ -2384,7 +2405,7 @@
 <li>Workspace Cleanup</li>
 </ul>
 <p><img
-  src="../deploy-02.png"
+  src="../deploy-06.png"
   alt=""
   
 /></p>
@@ -2400,11 +2421,6 @@
 <ul>
 <li>全不选</li>
 </ul>
-<p><img
-  src="../deploy-03.png"
-  alt=""
-  
-/></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="build-analysis-and-reporting"
     >
@@ -2418,7 +2434,7 @@
 <li>默认 (全不选)</li>
 </ul>
 <p><img
-  src="../deploy-04.png"
+  src="../deploy-07.png"
   alt=""
   
 /></p>
@@ -2439,7 +2455,7 @@
 <li>Copy Artifact</li>
 </ul>
 <p><img
-  src="../deploy-05.png"
+  src="../deploy-08.png"
   alt=""
   
 /></p>
@@ -2458,7 +2474,7 @@
 <li>GitLab</li>
 </ul>
 <p><img
-  src="../deploy-06.png"
+  src="../deploy-09.png"
   alt=""
   
 /></p>
@@ -2475,11 +2491,6 @@
 <li>单机：全不选</li>
 <li>集群：Matrix Project</li>
 </ul>
-<p><img
-  src="../deploy-07.png"
-  alt=""
-  
-/></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="user-management-and-security"
     >
@@ -2495,7 +2506,7 @@
 <li>Role-based Authorization Strategy</li>
 </ul>
 <p><img
-  src="../deploy-08.png"
+  src="../deploy-10.png"
   alt=""
   
 /></p>
@@ -2511,11 +2522,6 @@
 <ul>
 <li>默认</li>
 </ul>
-<p><img
-  src="../deploy-09.png"
-  alt=""
-  
-/></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="appearance"
     >
@@ -2528,11 +2534,6 @@
 <ul>
 <li>全不选</li>
 </ul>
-<p><img
-  src="../deploy-10.png"
-  alt=""
-  
-/></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="languages"
     >
