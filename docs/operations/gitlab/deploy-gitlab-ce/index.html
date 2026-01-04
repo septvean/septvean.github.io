@@ -68,7 +68,7 @@
       "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/",
       "headline": "GitLab CE 部署",
       "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接用于生产 \/ 内网的 podman-compose 部署 GitLab CE（社区版）完整方案，包含：\n目录规划 podman-compose.yaml 核心配置项说明 首次启动 \u0026 登录 常见问题 生产环境注意事项 内容偏 运维级，不是只跑起来那种。\n一、部署前准备（必须） 1️⃣ 服务器最低配置（真实可用） 项目 建议 CPU ≥ 2 Core（推荐 4 Core） 内存 ≥ 4G（最低），推荐 8G 磁盘 ≥ 50G（代码 \u002b CI \u002b 日志） OS Linux（AlmaLinux \/ Ubuntu \/ Debian） ⚠️ 内存小于 4G 非常容易 OOM",
-      "wordCount" : "863",
+      "wordCount" : "894",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2608,7 +2608,10 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>Admin area -&gt; Settings -&gt; General -&gt; Sign-up restrictions -&gt; Sign-up Enabled: 取消前面的勾</p>
+<p>Admin area -&gt; Settings -&gt; General -&gt; Sign-up restrictions -&gt;</p>
+<ul>
+<li>❌ Sign-up Enabled</li>
+</ul>
 <p><img
   src="../deploy-gitlab-ce-10.png"
   alt=""
@@ -2624,9 +2627,36 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>Admin area -&gt; Settings -&gt; Metrics and profiling -&gt; Event tracking -&gt; Enable event tracking: 取消前面的勾</p>
+<p>Admin area -&gt; Settings -&gt; Metrics and profiling -&gt; Event tracking</p>
+<ul>
+<li>❌ Enable event tracking</li>
+</ul>
 <p><img
   src="../deploy-gitlab-ce-11.png"
+  alt=""
+  
+/></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="允许从webhooks和集成到本地网络请求"
+    >
+        允许从webhooks和集成到本地网络请求
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#允许从webhooks和集成到本地网络请求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 允许从webhooks和集成到本地网络请求" aria-label="Anchor to: 允许从webhooks和集成到本地网络请求" href="#%e5%85%81%e8%ae%b8%e4%bb%8ewebhooks%e5%92%8c%e9%9b%86%e6%88%90%e5%88%b0%e6%9c%ac%e5%9c%b0%e7%bd%91%e7%bb%9c%e8%af%b7%e6%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Admin area -&gt; Settings -&gt; Network -&gt; Outbound requests</p>
+<ul>
+<li>
+<p>✅ Allow requests to the local network from webhooks and integrations</p>
+</li>
+<li>
+<p>解决 Webhook 添加内网 IP 的 Jenkins 报 <strong>Invalid url given</strong> 的错误</p>
+</li>
+</ul>
+<p><img
+  src="../deploy-gitlab-ce-12.png"
   alt=""
   
 /></p>

@@ -68,7 +68,7 @@ Name：devops Username: devops (登录账号) Email: devops@example.com 创建�
       "url" : "https://documents.v2ep.com/operations/gitlab/ci-cd-test/",
       "headline": "GitLab CI/CD 测试",
       "description": " 创建用户组、用户和仓库 创建用户 Admin area -\u003e Overview -\u003e Users -\u003e New user\nName：devops Username: devops (登录账号) Email: devops@example.com 创建完成后，编辑用户，设置密码：\n首次登录时需要重新设置密码：\n创建组 Admin area -\u003e Overview -\u003e Groups -\u003e New group",
-      "wordCount" : "183",
+      "wordCount" : "128",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2274,37 +2274,6 @@ Name：devops Username: devops (登录账号) Email: devops@example.com 创建�
 </span></span><span class="line"><span class="cl">git config --unset core.excludesfile
 </span></span><span class="line"><span class="cl">git config user.name devops
 </span></span><span class="line"><span class="cl">git config user.email devops@example.com
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="基础配置"
-    >
-        基础配置
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#基础配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 基础配置" aria-label="Anchor to: 基础配置" href="#%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 设置 sudo 权限</span>
-</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;jenkins ALL=(ALL) NOPASSWD: /usr/bin/podman,/usr/bin/docker&#39;</span> &gt; /etc/sudoers.d/jenkins
-</span></span><span class="line"><span class="cl">chmod <span class="m">400</span> /etc/sudoers.d/jenkins
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 查看用户 ID</span>
-</span></span><span class="line"><span class="cl">id jenkins
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 允许用户登录</span>
-</span></span><span class="line"><span class="cl">loginctl enable-linger <span class="m">1001</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 切换用户</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># sudo su - jenkins</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># podman 重制</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># podman system migrate</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># podman system reset -f</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 查看镜像</span>
-</span></span><span class="line"><span class="cl">podman images
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
-</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull custom/jdk:21.0.9-0
 </span></span></code></pre></div>
   </article>
 
