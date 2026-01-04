@@ -12,10 +12,11 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
+  <meta name="description" content="服务器：
+192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
 一、GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
 
-    <title>使用 Podman Compose 部署 GitLab Runner | ☘️ Septvean&#39;s Documents</title>
+    <title>GitLab Runner 部署 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,10 +37,11 @@
     
   <meta
     property="og:title"
-    content="使用 Podman Compose 部署 GitLab Runner"
+    content="GitLab Runner 部署"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
+  <meta property="og:description" content="服务器：
+192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
 一、GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/" />
@@ -48,8 +50,9 @@
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="使用 Podman Compose 部署 GitLab Runner" />
-  <meta name="twitter:description" content="下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
+<meta name="twitter:title" content="GitLab Runner 部署" />
+  <meta name="twitter:description" content="服务器：
+192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
 一、GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
 
 
@@ -58,11 +61,11 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "使用 Podman Compose 部署 GitLab Runner",
+      "name": "GitLab Runner 部署",
       "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/",
-      "headline": "使用 Podman Compose 部署 GitLab Runner",
-      "description": "下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -\u003e 部署 -\u003e 注册 -\u003e 常见坑 -\u003e 生产最佳实践，偏运维 \/ CI 实战，而不是只“能跑”。\n一、GitLab Runner 核心认知（先搞清楚） GitLab \/ Runner \/ CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell \/ docker \/ k8s） ⚠️ Runner ≠ GitLab",
-      "wordCount" : "697",
+      "headline": "GitLab Runner 部署",
+      "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -\u003e 部署 -\u003e 注册 -\u003e 常见坑 -\u003e 生产最佳实践，偏运维 \/ CI 实战，而不是只“能跑”。\n一、GitLab Runner 核心认知（先搞清楚） GitLab \/ Runner \/ CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell \/ docker \/ k8s） ⚠️ Runner ≠ GitLab",
+      "wordCount" : "594",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2066,7 +2069,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/gitlab/' href='/operations/gitlab/'><span itemprop='name'>GitLab</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>使用 Podman Compose 部署 GitLab Runner</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/gitlab/' href='/operations/gitlab/'><span itemprop='name'>GitLab</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>GitLab Runner 部署</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2087,9 +2090,15 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>使用 Podman Compose 部署 GitLab Runner</h1>
+    <h1>GitLab Runner 部署</h1>
     
-    <p>下面是一套 <strong>可直接落地的 podman-compose 部署 GitLab Runner 全教程</strong>，覆盖 <strong>原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践</strong>，偏运维 / CI 实战，而不是只“能跑”。</p>
+    <p>服务器：</p>
+<ul>
+<li>192.168.101.201：GitLab CE</li>
+<li>192.168.101.202：GitLab Runner</li>
+<li>192.168.101.203：GitLab Runner</li>
+</ul>
+<p>下面是一套 <strong>可直接落地的 podman-compose 部署 GitLab Runner 全教程</strong>，覆盖 <strong>原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践</strong>，偏运维 / CI 实战，而不是只“能跑”。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="一gitlab-runner-核心认知先搞清楚"
     >
@@ -2229,16 +2238,18 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
-</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://127.0.0.1:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://127.0.0.1:1080 podman pull gitlab/gitlab-runner:v18.7.1
+</span></span><span class="line"><span class="cl"><span class="c1"># HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 podman pull gitlab/gitlab-runner:v18.7.1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull gitlab/gitlab-runner:v18.7.1
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/gitlab-runner
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/gitlab-runner/compose
 </span></span><span class="line"><span class="cl">podman-compose up -d
 </span></span></code></pre></div><p>检查：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker ps <span class="p">|</span> grep gitlab-runner
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman ps
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">podman logs -f gitlab-runner
-</span></span><span class="line"><span class="cl"><span class="c1"># 报以下错误是正常的</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 首次启动，报以下错误是正常的</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># ERROR: Failed to load config stat /etc/gitlab-runner/config.toml: no such file or directory  builds=0 max_builds=1</span>
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2251,137 +2262,147 @@
     </a>
 </div>
 <hr>
+<p>进入 CI/CD 配置页面</p>
+<p><img
+  src="../deploy-gitlab-runner-01.png"
+  alt=""
+  
+/></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-获取注册-token"
+    <h3 id="1-创建-runner"
     >
-        1️⃣ 获取注册 Token
+        1️⃣ 创建 Runner
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#1-获取注册-token" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 获取注册 Token" aria-label="Anchor to: 1️⃣ 获取注册 Token" href="#1-%e8%8e%b7%e5%8f%96%e6%b3%a8%e5%86%8c-token">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#1-创建-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 创建 Runner" aria-label="Anchor to: 1️⃣ 创建 Runner" href="#1-%e5%88%9b%e5%bb%ba-runner">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>GitLab Web：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">管理页面 -&gt; 右上角: Admin -&gt; CI/CD -&gt; Runners -&gt; Create instance runner 右边的 3个点  -&gt; Registration token
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">URL: http://192.168.101.200:8800/admin/runners
-</span></span></code></pre></div><p>或 <strong>实例级</strong>：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Admin -&gt; Runners
-</span></span></code></pre></div><hr>
+<p>Admin area -&gt; CI/CD -&gt; Runners -&gt; Create instance runner</p>
+<ul>
+<li>填写标签</li>
+</ul>
+<p><img
+  src="../deploy-gitlab-runner-02.png"
+  alt=""
+  
+/></p>
+<p>创建完成之后，会给出提示：</p>
+<p><img
+  src="../deploy-gitlab-runner-03.png"
+  alt=""
+  
+/></p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-进入-runner-容器"
+    <h3 id="2-注册-runner"
     >
-        2️⃣ 进入 Runner 容器
+        2️⃣ 注册 Runner
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#2-进入-runner-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 进入 Runner 容器" aria-label="Anchor to: 2️⃣ 进入 Runner 容器" href="#2-%e8%bf%9b%e5%85%a5-runner-%e5%ae%b9%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#2-注册-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 注册 Runner" aria-label="Anchor to: 2️⃣ 注册 Runner" href="#2-%e6%b3%a8%e5%86%8c-runner">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-runner gitlab-runner register
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-注册过程示例逐项解释"
-    >
-        3️⃣ 注册过程示例（逐项解释）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#3-注册过程示例逐项解释" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 注册过程示例（逐项解释）" aria-label="Anchor to: 3️⃣ 注册过程示例（逐项解释）" href="#3-%e6%b3%a8%e5%86%8c%e8%bf%87%e7%a8%8b%e7%a4%ba%e4%be%8b%e9%80%90%e9%a1%b9%e8%a7%a3%e9%87%8a">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Enter the GitLab instance URL:
-</span></span><span class="line"><span class="cl">http://gitlab.example.com
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter the registration token:
-</span></span><span class="line"><span class="cl">xxxxxxxxxxxx
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter a description for the runner:
-</span></span><span class="line"><span class="cl">docker-runner-01
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter tags for the runner (comma-separated):
-</span></span><span class="line"><span class="cl">docker,linux
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter optional maintenance note:
-</span></span><span class="line"><span class="cl">(empty)
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter the executor:
-</span></span><span class="line"><span class="cl">docker
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter the GitLab instance URL (for example, https://gitlab.com/):
-</span></span><span class="line"><span class="cl">http://192.168.101.200:8800/
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter the registration token:
-</span></span><span class="line"><span class="cl">5s9W1RxYfpDsdxcdYkq8
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter a description for the runner:
-</span></span><span class="line"><span class="cl">[1f31d0293f73]: docker-runner-01
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter tags for the runner (comma-separated):
-</span></span><span class="line"><span class="cl">docker,linux,shell
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter optional maintenance note for the runner:
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">WARNING: Support for registration tokens and runner parameters in the &#39;register&#39; command has been deprecated in GitLab Runner 15.6 and will be replaced with support for authentication tokens. For more information, see https://docs.gitlab.com/ci/runners/new_creation_workflow/
-</span></span><span class="line"><span class="cl">Registering runner... succeeded                     correlation_id=01KDPQP3R9C5V0MN67XHCCSEBY runner=5s9W1RxYf
-</span></span><span class="line"><span class="cl">Enter an executor: custom, shell, ssh, docker-windows, instance, parallels, virtualbox, docker, docker+machine, kubernetes, docker-autoscaler:
-</span></span><span class="line"><span class="cl">docker
-</span></span><span class="line"><span class="cl">Enter the default Docker image (for example, ruby:3.3):
-</span></span><span class="line"><span class="cl">alpine:3.23.2
-</span></span><span class="line"><span class="cl">Runner registered successfully. Feel free to start it, but if it&#39;s running already the config should be automatically reloaded!
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Configuration (with the authentication token) was saved in &#34;/etc/gitlab-runner/config.toml&#34;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Create instance runner
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">- Tags: docker,linux,shell
-</span></span><span class="line"><span class="cl">- Runner description: docker-runner-01
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Create runner
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">podman exec -it gitlab-runner \
-</span></span><span class="line"><span class="cl">    gitlab-runner register \
-</span></span><span class="line"><span class="cl">    --url http://192.168.101.200:8800 \
-</span></span><span class="line"><span class="cl">    --token glrt-t5GBJG57vD0HR5C0J0KZ9286MQp0OjEKdToxCw.01.121av3c0y
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Enter the GitLab instance URL (for example, https://gitlab.com/):
-</span></span><span class="line"><span class="cl">[http://192.168.101.200:8800]:
-</span></span><span class="line"><span class="cl">Verifying runner... is valid                        correlation_id=01KDPXS3CYHDXXMNX8ADQ6QMH8 runner=t5GBJG57v
+<p>运行命令：</p>
+<ul>
+<li>服务器：192.168.101.202</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-runner <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gitlab-runner register <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --url http://192.168.101.201:7000 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --token glrt-UJAwY5U5B2arIh-riT6A9W86MQp0OjEKdToxCw.01.12125weuh
+</span></span></code></pre></div><p>注册过程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Enter the GitLab instance URL (for example, https://gitlab.com/):
+</span></span><span class="line"><span class="cl">[http://192.168.101.201:7000]:
+</span></span><span class="line"><span class="cl">Verifying runner... is valid                        correlation_id=01KE3DHH8MG7E349D22VGMAC0B runner=UJAwY5U5B
 </span></span><span class="line"><span class="cl">Enter a name for the runner. This is stored only in the local config.toml file:
-</span></span><span class="line"><span class="cl">[ce4938d68e70]: docker-runner-01
-</span></span><span class="line"><span class="cl">Enter an executor: ssh, parallels, kubernetes, docker-autoscaler, custom, shell, virtualbox, docker, docker-windows, docker+machine, instance:
+</span></span><span class="line"><span class="cl">[d8b01effba2e]: docker-runner-202
+</span></span><span class="line"><span class="cl">Enter an executor: custom, shell, ssh, parallels, docker, docker+machine, kubernetes, instance, virtualbox, docker-windows, docker-autoscaler:
 </span></span><span class="line"><span class="cl">docker
 </span></span><span class="line"><span class="cl">Enter the default Docker image (for example, ruby:3.3):
-</span></span><span class="line"><span class="cl">alpine:3.23.2
+</span></span><span class="line"><span class="cl">debian:trixie-slim
 </span></span><span class="line"><span class="cl">Runner registered successfully. Feel free to start it, but if it&#39;s running already the config should be automatically reloaded!
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Configuration (with the authentication token) was saved in &#34;/etc/gitlab-runner/config.toml&#34;
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-docker-executor-配置关键"
+</span></span></code></pre></div><p>查看配置文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /data/gitlab-runner/config/config.toml
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nx">check_interval</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nx">shutdown_timeout</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">session_server</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">session_timeout</span> <span class="p">=</span> <span class="mi">1800</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">runners</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;docker-runner-202&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;http://192.168.101.201:7000&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;glrt-UJAwY5U5B2arIh-riT6A9W86MQp0OjEKdToxCw.01.12125weuh&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_obtained_at</span> <span class="p">=</span> <span class="ld">2026-01-04T02:31:51Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_expires_at</span> <span class="p">=</span> <span class="ld">0001-01-01T00:00:00Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">executor</span> <span class="p">=</span> <span class="s2">&#34;docker&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MaxUploadedArchiveSize</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">s3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">gcs</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">azure</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">docker</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tls_verify</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">image</span> <span class="p">=</span> <span class="s2">&#34;debian:trixie-slim&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">privileged</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_entrypoint_overwrite</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">oom_kill_disable</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">disable_cache</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/cache&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">shm_size</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">network_mtu</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="err">```</span><span class="nx">text</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">修改配置文件：</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">```</span><span class="nx">sh</span>
+</span></span><span class="line"><span class="cl"><span class="nx">vim</span> <span class="err">/</span><span class="nx">data</span><span class="err">/</span><span class="nx">gitlab-runner</span><span class="err">/</span><span class="nx">config</span><span class="err">/</span><span class="nx">config</span><span class="p">.</span><span class="nx">toml</span>
+</span></span></code></pre></div><ul>
+<li>将 <code>concurrent = 1</code> 改为 <code>concurrent = 2</code> (并发数，按需更改，如果每次 Runner 运行多个任务，则改为 4 或者更大)</li>
+<li>将 <code>privileged = false</code> 改为 <code>privileged = true</code></li>
+<li>将 <code>volumes = [&quot;/cache&quot;]</code> 改为 <code>volumes = [&quot;/cache&quot;, &quot;/var/run/docker.sock:/var/run/docker.sock&quot;]</code></li>
+</ul>
+<p>重启 GitLab Runner</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">podman stop gitlab-runner
+</span></span><span class="line"><span class="cl">systemctl start podman@gitlab-runner
+</span></span><span class="line"><span class="cl">podman ps
+</span></span></code></pre></div><p>拉取镜像：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull docker.io/debian:trixie-slim
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-查看-runner"
     >
-        4️⃣ Docker executor 配置（关键）
+        3️⃣ 查看 Runner
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#4-docker-executor-配置关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ Docker executor 配置（关键）" aria-label="Anchor to: 4️⃣ Docker executor 配置（关键）" href="#4-docker-executor-%e9%85%8d%e7%bd%ae%e5%85%b3%e9%94%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#3-查看-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 查看 Runner" aria-label="Anchor to: 3️⃣ 查看 Runner" href="#3-%e6%9f%a5%e7%9c%8b-runner">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Enter the default Docker image:
-</span></span><span class="line"><span class="cl">alpine:3.23.2
-</span></span></code></pre></div><p>拉取镜像</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://127.0.0.1:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://127.0.0.1:1080 podman pull alpine:3.23.2
-</span></span></code></pre></div><hr>
+<p>192.168.101.202 / 203 都注册好之后，在 CI/CD Runners 页面可以看到状态</p>
+<p><img
+  src="../deploy-gitlab-runner-04.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../deploy-gitlab-runner-05.png"
+  alt=""
+  
+/></p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="5-是否启用-privileged是否允许-docker-in-docker"
+    <h3 id="4-是否启用-privileged是否允许-docker-in-docker"
     >
-        5️⃣ 是否启用 privileged（是否允许 Docker in Docker）
+        4️⃣ 是否启用 privileged（是否允许 Docker in Docker）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#5-是否启用-privileged是否允许-docker-in-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 是否启用 privileged（是否允许 Docker in Docker）" aria-label="Anchor to: 5️⃣ 是否启用 privileged（是否允许 Docker in Docker）" href="#5-%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8-privileged%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8-docker-in-docker">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#4-是否启用-privileged是否允许-docker-in-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 是否启用 privileged（是否允许 Docker in Docker）" aria-label="Anchor to: 4️⃣ 是否启用 privileged（是否允许 Docker in Docker）" href="#4-%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8-privileged%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8-docker-in-docker">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Do you want to use Docker privileged mode? [true/false]:
-</span></span><span class="line"><span class="cl">true
-</span></span></code></pre></div><blockquote>
-<p>如果你要：</p>
-</blockquote>
+<p>如果要：</p>
 <ul>
 <li>docker build</li>
 <li>docker push</li>
@@ -2390,39 +2411,11 @@
 <p>👉 <strong>必须 true</strong></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七注册完成后的配置文件"
+    <h2 id="七测试-runner-是否正常"
     >
-        七、注册完成后的配置文件
+        七、测试 Runner 是否正常
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#七注册完成后的配置文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、注册完成后的配置文件" aria-label="Anchor to: 七、注册完成后的配置文件" href="#%e4%b8%83%e6%b3%a8%e5%86%8c%e5%ae%8c%e6%88%90%e5%90%8e%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>路径：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/gitlab-runner/config/config.toml
-</span></span></code></pre></div><p>示例（关键字段）：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">4</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">runners</span><span class="p">]]</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;docker-runner-01&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;http://gitlab.example.com&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;xxxxxxxx&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">executor</span> <span class="p">=</span> <span class="s2">&#34;docker&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">docker</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">image</span> <span class="p">=</span> <span class="s2">&#34;alpine:3.19&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">privileged</span> <span class="p">=</span> <span class="kc">true</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;/cache&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;/var/run/docker.sock:/var/run/docker.sock&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">]</span>
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八测试-runner-是否正常"
-    >
-        八、测试 Runner 是否正常
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#八测试-runner-是否正常" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、测试 Runner 是否正常" aria-label="Anchor to: 八、测试 Runner 是否正常" href="#%e5%85%ab%e6%b5%8b%e8%af%95-runner-%e6%98%af%e5%90%a6%e6%ad%a3%e5%b8%b8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#七测试-runner-是否正常" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、测试 Runner 是否正常" aria-label="Anchor to: 七、测试 Runner 是否正常" href="#%e4%b8%83%e6%b5%8b%e8%af%95-runner-%e6%98%af%e5%90%a6%e6%ad%a3%e5%b8%b8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

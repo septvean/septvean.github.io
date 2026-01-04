@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="服务器：
-192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接用于生产 / 内网的 podman-compose 部署 GitLab CE（社区版）完整方案，包含：
-目录规划 podman-compose.yaml 核心配置项说明 首次启动 &amp; 登录 常见问题 生产环境注意事项 内容偏 运维级，不是只跑起来那种。
-一、部署前准备（必须） 1️⃣ 服务器最低配置（真实可用） 项目 建议 CPU ≥ 2 Core（推荐 4 Core） 内存 ≥ 4G（最低），推荐 8G 磁盘 ≥ 50G（代码 &#43; CI &#43; 日志） OS Linux（AlmaLinux / Ubuntu / Debian） ⚠️ 内存小于 4G 非常容易 OOM" />
+  <meta name="description" content=" 创建用户组、用户和仓库 创建用户 Admin area -&gt; Overview -&gt; Users -&gt; New user
+Name：devops Username: devops (登录账号) Email: devops@example.com 创建完成后，编辑用户，设置密码：
+首次登录时需要重新设置密码：
+创建组 Admin area -&gt; Overview -&gt; Groups -&gt; New group" />
 
-    <title>GitLab CE 部署 | ☘️ Septvean&#39;s Documents</title>
+    <title>GitLab CI/CD 测试 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@
     
   <meta
     property="og:title"
-    content="GitLab CE 部署"
+    content="GitLab CI/CD 测试"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="服务器：
-192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接用于生产 / 内网的 podman-compose 部署 GitLab CE（社区版）完整方案，包含：
-目录规划 podman-compose.yaml 核心配置项说明 首次启动 &amp; 登录 常见问题 生产环境注意事项 内容偏 运维级，不是只跑起来那种。
-一、部署前准备（必须） 1️⃣ 服务器最低配置（真实可用） 项目 建议 CPU ≥ 2 Core（推荐 4 Core） 内存 ≥ 4G（最低），推荐 8G 磁盘 ≥ 50G（代码 &#43; CI &#43; 日志） OS Linux（AlmaLinux / Ubuntu / Debian） ⚠️ 内存小于 4G 非常容易 OOM" />
+  <meta property="og:description" content=" 创建用户组、用户和仓库 创建用户 Admin area -&gt; Overview -&gt; Users -&gt; New user
+Name：devops Username: devops (登录账号) Email: devops@example.com 创建完成后，编辑用户，设置密码：
+首次登录时需要重新设置密码：
+创建组 Admin area -&gt; Overview -&gt; Groups -&gt; New group" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/gitlab/ci-cd-test/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="GitLab CE 部署" />
-  <meta name="twitter:description" content="服务器：
-192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接用于生产 / 内网的 podman-compose 部署 GitLab CE（社区版）完整方案，包含：
-目录规划 podman-compose.yaml 核心配置项说明 首次启动 &amp; 登录 常见问题 生产环境注意事项 内容偏 运维级，不是只跑起来那种。
-一、部署前准备（必须） 1️⃣ 服务器最低配置（真实可用） 项目 建议 CPU ≥ 2 Core（推荐 4 Core） 内存 ≥ 4G（最低），推荐 8G 磁盘 ≥ 50G（代码 &#43; CI &#43; 日志） OS Linux（AlmaLinux / Ubuntu / Debian） ⚠️ 内存小于 4G 非常容易 OOM" />
+<meta name="twitter:title" content="GitLab CI/CD 测试" />
+  <meta name="twitter:description" content=" 创建用户组、用户和仓库 创建用户 Admin area -&gt; Overview -&gt; Users -&gt; New user
+Name：devops Username: devops (登录账号) Email: devops@example.com 创建完成后，编辑用户，设置密码：
+首次登录时需要重新设置密码：
+创建组 Admin area -&gt; Overview -&gt; Groups -&gt; New group" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "GitLab CE 部署",
-      "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/",
-      "headline": "GitLab CE 部署",
-      "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接用于生产 \/ 内网的 podman-compose 部署 GitLab CE（社区版）完整方案，包含：\n目录规划 podman-compose.yaml 核心配置项说明 首次启动 \u0026 登录 常见问题 生产环境注意事项 内容偏 运维级，不是只跑起来那种。\n一、部署前准备（必须） 1️⃣ 服务器最低配置（真实可用） 项目 建议 CPU ≥ 2 Core（推荐 4 Core） 内存 ≥ 4G（最低），推荐 8G 磁盘 ≥ 50G（代码 \u002b CI \u002b 日志） OS Linux（AlmaLinux \/ Ubuntu \/ Debian） ⚠️ 内存小于 4G 非常容易 OOM",
-      "wordCount" : "863",
+      "name": "GitLab CI/CD 测试",
+      "url" : "https://documents.v2ep.com/operations/gitlab/ci-cd-test/",
+      "headline": "GitLab CI/CD 测试",
+      "description": " 创建用户组、用户和仓库 创建用户 Admin area -\u003e Overview -\u003e Users -\u003e New user\nName：devops Username: devops (登录账号) Email: devops@example.com 创建完成后，编辑用户，设置密码：\n首次登录时需要重新设置密码：\n创建组 Admin area -\u003e Overview -\u003e Groups -\u003e New group",
+      "wordCount" : "183",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/"
+          "@id": "https://documents.v2ep.com/operations/gitlab/ci-cd-test/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -157,7 +157,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/gitlab/ci-cd-test/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2072,7 +2072,7 @@
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/gitlab/' href='/operations/gitlab/'><span itemprop='name'>GitLab</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>GitLab CE 部署</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/gitlab/' href='/operations/gitlab/'><span itemprop='name'>GitLab</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>GitLab CI/CD 测试</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2093,706 +2093,219 @@
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>GitLab CE 部署</h1>
+    <h1>GitLab CI/CD 测试</h1>
     
-    <p>服务器：</p>
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="创建用户组用户和仓库"
+    >
+        创建用户组、用户和仓库
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#创建用户组用户和仓库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建用户组、用户和仓库" aria-label="Anchor to: 创建用户组、用户和仓库" href="#%e5%88%9b%e5%bb%ba%e7%94%a8%e6%88%b7%e7%bb%84%e7%94%a8%e6%88%b7%e5%92%8c%e4%bb%93%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="创建用户"
+    >
+        创建用户
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#创建用户" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建用户" aria-label="Anchor to: 创建用户" href="#%e5%88%9b%e5%bb%ba%e7%94%a8%e6%88%b7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Admin area -&gt; Overview -&gt; Users -&gt; New user</p>
 <ul>
-<li>192.168.101.201：GitLab CE</li>
-<li>192.168.101.202：GitLab Runner</li>
-<li>192.168.101.203：GitLab Runner</li>
-</ul>
-<p>下面是一套 <strong>可直接用于生产 / 内网的 <code>podman-compose</code> 部署 GitLab CE（社区版）完整方案</strong>，包含：</p>
-<ul>
-<li>目录规划</li>
-<li>podman-compose.yaml</li>
-<li>核心配置项说明</li>
-<li>首次启动 &amp; 登录</li>
-<li>常见问题</li>
-<li>生产环境注意事项</li>
-</ul>
-<p>内容偏 <strong>运维级</strong>，不是只跑起来那种。</p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一部署前准备必须"
-    >
-        一、部署前准备（必须）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#一部署前准备必须" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、部署前准备（必须）" aria-label="Anchor to: 一、部署前准备（必须）" href="#%e4%b8%80%e9%83%a8%e7%bd%b2%e5%89%8d%e5%87%86%e5%a4%87%e5%bf%85%e9%a1%bb">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-服务器最低配置真实可用"
-    >
-        1️⃣ 服务器最低配置（真实可用）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#1-服务器最低配置真实可用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 服务器最低配置（真实可用）" aria-label="Anchor to: 1️⃣ 服务器最低配置（真实可用）" href="#1-%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%9c%80%e4%bd%8e%e9%85%8d%e7%bd%ae%e7%9c%9f%e5%ae%9e%e5%8f%af%e7%94%a8">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU</td>
-          <td>≥ 2 Core（推荐 4 Core）</td>
-      </tr>
-      <tr>
-          <td>内存</td>
-          <td><strong>≥ 4G（最低）</strong>，推荐 8G</td>
-      </tr>
-      <tr>
-          <td>磁盘</td>
-          <td>≥ 50G（代码 + CI + 日志）</td>
-      </tr>
-      <tr>
-          <td>OS</td>
-          <td>Linux（AlmaLinux / Ubuntu / Debian）</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p>⚠️ <strong>内存小于 4G 非常容易 OOM</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-安装-podman--podman-compose"
-    >
-        2️⃣ 安装 podman &amp; podman-compose
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#2-安装-podman--podman-compose" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 安装 podman &amp; podman-compose" aria-label="Anchor to: 2️⃣ 安装 podman &amp; podman-compose" href="#2-%e5%ae%89%e8%a3%85-podman--podman-compose">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>确保版本：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman version
-</span></span><span class="line"><span class="cl">podman-compose version
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二目录规划强烈建议"
-    >
-        二、目录规划（强烈建议）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#二目录规划强烈建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、目录规划（强烈建议）" aria-label="Anchor to: 二、目录规划（强烈建议）" href="#%e4%ba%8c%e7%9b%ae%e5%bd%95%e8%a7%84%e5%88%92%e5%bc%ba%e7%83%88%e5%bb%ba%e8%ae%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/gitlab-ce/
-</span></span><span class="line"><span class="cl">├── compose/    # docker-compose
-</span></span><span class="line"><span class="cl">├── config/     # GitLab 配置
-</span></span><span class="line"><span class="cl">├── data/       # Git 仓库 + 数据
-</span></span><span class="line"><span class="cl">└── logs/       # 日志
-</span></span></code></pre></div><p>创建目录：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p /data/gitlab-ce/<span class="o">{</span>compose,config,data,logs<span class="o">}</span>
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三docker-composeyaml核心"
-    >
-        三、docker-compose.yaml（核心）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#三docker-composeyaml核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、docker-compose.yaml（核心）" aria-label="Anchor to: 三、docker-compose.yaml（核心）" href="#%e4%b8%89docker-composeyaml%e6%a0%b8%e5%bf%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-最小可用生产模板"
-    >
-        ✅ <strong>最小可用生产模板</strong>
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#-最小可用生产模板" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 最小可用生产模板" aria-label="Anchor to: ✅ 最小可用生产模板" href="#-%e6%9c%80%e5%b0%8f%e5%8f%af%e7%94%a8%e7%94%9f%e4%ba%a7%e6%a8%a1%e6%9d%bf">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>文件：/data/gitlab-ce/compose/docker-compose.yaml</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">gitlab</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-ce:18.7.0-ce.0</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab-ce</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 注意: 端口号要和 external_url 的端口一致</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;7000:7000&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/gitlab-ce/config:/etc/gitlab</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/gitlab-ce/logs:/var/log/gitlab</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/data/gitlab-ce/data:/var/opt/gitlab</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">TZ</span><span class="p">:</span><span class="w"> </span><span class="l">Asia/Shanghai</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">GITLAB_OMNIBUS_CONFIG</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
-</span></span></span><span class="line"><span class="cl"><span class="sd">        external_url &#39;http://192.168.101.201:7000&#39;
-</span></span></span><span class="line"><span class="cl"><span class="sd">        gitlab_rails[&#39;time_zone&#39;] = &#39;Asia/Shanghai&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">shm_size</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;256m&#34;</span><span class="w">
-</span></span></span></code></pre></div><p><strong>注意</strong>：一定要配置 <code>external_url</code>，否则后面可能出现一些莫名其妙的错误。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 后期修改</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s|^# external_url .*|external_url &#39;http://192.168.101.201:7000&#39;|g&#34;</span> gitlab.rb
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四启动-gitlab"
-    >
-        四、启动 GitLab
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#四启动-gitlab" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、启动 GitLab" aria-label="Anchor to: 四、启动 GitLab" href="#%e5%9b%9b%e5%90%af%e5%8a%a8-gitlab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 podman pull gitlab/gitlab-ce:18.7.0-ce.0</span>
-</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull gitlab/gitlab-ce:18.7.0-ce.0
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/gitlab-ce/compose
-</span></span><span class="line"><span class="cl">podman-compose up -d
-</span></span></code></pre></div><p>首次启动 <strong>5～10 分钟是正常的</strong>：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman logs -f gitlab-ce
-</span></span></code></pre></div><p>看到类似：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">gitlab Reconfigured!
-</span></span></code></pre></div><p>表示启动完成。</p>
-<p>或者在启动过程中可以一直刷新 <a
+<li>Name：devops</li>
+<li>Username: devops (登录账号)</li>
+<li>Email: <a
   class="gdoc-markdown__link"
-  href="http://192.168.101.201:7000"
->http://192.168.101.201:7000</a>，直到看到 <strong>GitLab</strong> 登录页面。</p>
-<p><img
-  src="../deploy-gitlab-ce-01.png"
-  alt=""
-  
-/></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五首次登录-gitlab"
-    >
-        五、首次登录 GitLab
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#五首次登录-gitlab" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、首次登录 GitLab" aria-label="Anchor to: 五、首次登录 GitLab" href="#%e4%ba%94%e9%a6%96%e6%ac%a1%e7%99%bb%e5%bd%95-gitlab">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-获取-root-初始密码"
-    >
-        1️⃣ 获取 root 初始密码
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#1-获取-root-初始密码" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 获取 root 初始密码" aria-label="Anchor to: 1️⃣ 获取 root 初始密码" href="#1-%e8%8e%b7%e5%8f%96-root-%e5%88%9d%e5%a7%8b%e5%af%86%e7%a0%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-ce grep <span class="s1">&#39;Password:&#39;</span> /etc/gitlab/initial_root_password
-</span></span></code></pre></div><p>⚠️ 该文件 <strong>24 小时后会自动删除</strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-登录"
-    >
-        2️⃣ 登录
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#2-登录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 登录" aria-label="Anchor to: 2️⃣ 登录" href="#2-%e7%99%bb%e5%bd%95">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>浏览器访问：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http://192.168.101.201:7000
-</span></span></code></pre></div><ul>
-<li>用户名：<code>root</code></li>
-<li>密码：上一步获取的密码</li>
+  href="mailto:devops@example.com"
+>devops@example.com</a></li>
 </ul>
 <p><img
-  src="../deploy-gitlab-ce-02.png"
+  src="../ci-cd-test-01.png"
   alt=""
   
 /></p>
+<p>创建完成后，编辑用户，设置密码：</p>
 <p><img
-  src="../deploy-gitlab-ce-03.png"
+  src="../ci-cd-test-02.png"
   alt=""
   
 /></p>
-<p>修改密码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">右上角头像 -&gt; Edit Profile -&gt; User settings -&gt; Password
-</span></span></code></pre></div><p><img
-  src="../deploy-gitlab-ce-04.png"
-  alt=""
-  
-/></p>
+<p>首次登录时需要重新设置密码：</p>
 <p><img
-  src="../deploy-gitlab-ce-05.png"
+  src="../ci-cd-test-03.png"
   alt=""
   
 /></p>
-<p>修改完密码需要重新登录一次。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-启动设置"
+    <h2 id="创建组"
     >
-        3️⃣ 启动设置
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#3-启动设置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 启动设置" aria-label="Anchor to: 3️⃣ 启动设置" href="#3-%e5%90%af%e5%8a%a8%e8%ae%be%e7%bd%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 停止容器</span>
-</span></span><span class="line"><span class="cl">podman-compose stop
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 使用 systemd 启动</span>
-</span></span><span class="line"><span class="cl">systemctl start podman@gitlab-ce
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 创建系统服务</span>
-</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> podman@gitlab-ce
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六关键配置说明必须理解"
-    >
-        六、关键配置说明（必须理解）
+        创建组
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#六关键配置说明必须理解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、关键配置说明（必须理解）" aria-label="Anchor to: 六、关键配置说明（必须理解）" href="#%e5%85%ad%e5%85%b3%e9%94%ae%e9%85%8d%e7%bd%ae%e8%af%b4%e6%98%8e%e5%bf%85%e9%a1%bb%e7%90%86%e8%a7%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#创建组" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建组" aria-label="Anchor to: 创建组" href="#%e5%88%9b%e5%bb%ba%e7%bb%84">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-external_url最重要"
-    >
-        1️⃣ external_url（最重要）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#1-external_url最重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ external_url（最重要）" aria-label="Anchor to: 1️⃣ external_url（最重要）" href="#1-external_url%e6%9c%80%e9%87%8d%e8%a6%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">external_url</span> <span class="s1">&#39;http://gitlab.example.com&#39;</span>
-</span></span></code></pre></div><p>影响：</p>
+<p>Admin area -&gt; Overview -&gt; Groups -&gt; New group</p>
 <ul>
-<li>Git clone URL</li>
-<li>Webhook</li>
-<li>CI/CD</li>
-<li>邮件链接</li>
+<li>Group name: test</li>
 </ul>
-<p>如果是 <strong>内网 IP</strong>，可写：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">external_url</span> <span class="s1">&#39;http://192.168.101.201:7000&#39;</span>
-</span></span></code></pre></div><hr>
+<p><img
+  src="../ci-cd-test-10.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../ci-cd-test-11.png"
+  alt=""
+  
+/></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-ssh-端口配置"
+    <h2 id="添加成员"
     >
-        2️⃣ SSH 端口配置
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#2-ssh-端口配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ SSH 端口配置" aria-label="Anchor to: 2️⃣ SSH 端口配置" href="#2-ssh-%e7%ab%af%e5%8f%a3%e9%85%8d%e7%bd%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>如果你改了宿主机 SSH 端口（如 2222）：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">ports</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="s2">&#34;2222:22&#34;</span><span class="w">
-</span></span></span></code></pre></div><p>同时：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">gitlab_rails</span><span class="o">[</span><span class="s1">&#39;gitlab_shell_ssh_port&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2222</span>
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-gitlab-数据说明重要"
-    >
-        3️⃣ GitLab 数据说明（重要）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#3-gitlab-数据说明重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ GitLab 数据说明（重要）" aria-label="Anchor to: 3️⃣ GitLab 数据说明（重要）" href="#3-gitlab-%e6%95%b0%e6%8d%ae%e8%af%b4%e6%98%8e%e9%87%8d%e8%a6%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>目录</th>
-          <th>内容</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>/etc/gitlab</td>
-          <td>gitlab.rb 配置</td>
-      </tr>
-      <tr>
-          <td>/var/log/gitlab</td>
-          <td>日志</td>
-      </tr>
-      <tr>
-          <td>/var/lib/gitlab</td>
-          <td>Git 仓库 / DB / CI</td>
-      </tr>
-  </tbody>
-</table> </div>
-<p><strong>备份的核心就是 <code>/var/lib/gitlab</code></strong></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七常见高级配置生产推荐"
-    >
-        七、常见高级配置（生产推荐）
+        添加成员
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#七常见高级配置生产推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、常见高级配置（生产推荐）" aria-label="Anchor to: 七、常见高级配置（生产推荐）" href="#%e4%b8%83%e5%b8%b8%e8%a7%81%e9%ab%98%e7%ba%a7%e9%85%8d%e7%bd%ae%e7%94%9f%e4%ba%a7%e6%8e%a8%e8%8d%90">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#添加成员" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 添加成员" aria-label="Anchor to: 添加成员" href="#%e6%b7%bb%e5%8a%a0%e6%88%90%e5%91%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<hr>
-<p>备份配置文件:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /data/gitlab-ce/config
-</span></span><span class="line"><span class="cl">cp gitlab.rb gitlab.rb_default
+<p>Group members -&gt; Manage members -&gt; Invete member</p>
+<p><img
+  src="../ci-cd-test-12.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../ci-cd-test-13.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="创建项目"
+    >
+        创建项目
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#创建项目" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建项目" aria-label="Anchor to: 创建项目" href="#%e5%88%9b%e5%bb%ba%e9%a1%b9%e7%9b%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Admin area -&gt; Overview -&gt; Projects -&gt; New Project</p>
+<p><img
+  src="../ci-cd-test-20.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../ci-cd-test-21.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../ci-cd-test-22.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="创建分支"
+    >
+        创建分支
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#创建分支" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建分支" aria-label="Anchor to: 创建分支" href="#%e5%88%9b%e5%bb%ba%e5%88%86%e6%94%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><img
+  src="../ci-cd-test-23.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../ci-cd-test-24.png"
+  alt=""
+  
+/></p>
+<p><img
+  src="../ci-cd-test-25.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="设置默认分支"
+    >
+        设置默认分支
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#设置默认分支" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 设置默认分支" aria-label="Anchor to: 设置默认分支" href="#%e8%ae%be%e7%bd%ae%e9%bb%98%e8%ae%a4%e5%88%86%e6%94%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Project -&gt; Settings -&gt; Repository -&gt; Branch defaults -&gt; Default branch -&gt; 选择 dev</p>
+<p><img
+  src="../ci-cd-test-26.png"
+  alt=""
+  
+/></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="上传文件"
+    >
+        上传文件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#上传文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 上传文件" aria-label="Anchor to: 上传文件" href="#%e4%b8%8a%e4%bc%a0%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># clone</span>
+</span></span><span class="line"><span class="cl">git clone http://192.168.101.201:7000/test/java.git
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入项目目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> java
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Git 配置</span>
+</span></span><span class="line"><span class="cl">git config core.autocrlf input
+</span></span><span class="line"><span class="cl">git config core.bare <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">git config core.filemode <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">git config core.ignorecase <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">git config core.quotepath <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">git config core.repositoryformatversion <span class="m">0</span>
+</span></span><span class="line"><span class="cl">git config core.safecrlf <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">git config credential.helper store
+</span></span><span class="line"><span class="cl">git config pull.rebase <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">git config --unset core.excludesfile
+</span></span><span class="line"><span class="cl">git config user.name devops
+</span></span><span class="line"><span class="cl">git config user.email devops@example.com
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="关闭不必要组件省内存"
+    <h2 id="基础配置"
     >
-        关闭不必要组件（省内存）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#关闭不必要组件省内存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关闭不必要组件（省内存）" aria-label="Anchor to: 关闭不必要组件（省内存）" href="#%e5%85%b3%e9%97%ad%e4%b8%8d%e5%bf%85%e8%a6%81%e7%bb%84%e4%bb%b6%e7%9c%81%e5%86%85%e5%ad%98">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># sed -i -E &#34;s/^[[:space:]]*#?[[:space:]]*(alertmanager|prometheus_monitoring|prometheus)\[&#39;enable&#39;\][[:space:]]*=[[:space:]]*true|\1[&#39;enable&#39;] = false|&#34; gitlab.rb</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># sed -i -E &#34;s/^# (alertmanager|prometheus_monitoring|prometheus)\[&#39;enable&#39;\] =.*/\1[&#39;enable&#39;] = false/g&#34; gitlab.rb</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Puma Worker 进程数 (测试环境调小一些, 正式环境调大一些)</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 内存紧张时，将 puma[&#39;worker_processes&#39;] 调小，可以缓解内存不足问题</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 尤其是在虚拟机中最实验的时候，虚拟机内存会不够用，所以将 puma[&#39;worker_processes&#39;] 调小</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(puma\[&#39;worker_processes&#39;\] =\).*/\1 2/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Prometheus Alertmanager</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(alertmanager\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># HA 配置，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(consul\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Geo 可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(geo_logcursor\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Geo 二级节点，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(geo_postgresql\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 可关闭，备份可用外部工具</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(gitlab_backup_cli\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># GitLab Exporter</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(gitlab_exporter\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Kubernetes Agent Server，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(gitlab_kas\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># GitLab Pages 服务</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(gitlab_pages\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># GitLab Shell SSH 服务 (如果需要 SSH clone/push 必须启用)</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(gitlab_sshd\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 如果使用自定义证书，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(letsencrypt\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 内置聊天服务</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(mattermost\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Mattermost Nginx</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(mattermost_nginx\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># GitLab 内置监控，可以关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(monitoring_role\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Prometheus Node Exporter</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(node_exporter\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Pages Nginx 配合 Pages，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(pages_nginx\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 高可用 Postgres，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(patroni\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># HA standby，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(patroni\[&#39;standby_cluster&#39;\]\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(pgbouncer\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Prometheus pgbouncer Exporter</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(pgbouncer_exporter\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Prometheus PostgreSQL Exporter</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(postgres_exporter\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Gitaly 集群协调器，如果只有单节点可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(praefect\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 内置 Prometheus</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(prometheus\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># GitLab 内置 Prometheus Dashboard</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(prometheus_monitoring\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Prometheus Redis Exporter</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(redis_exporter\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 高可用 Sentinel，可单节点关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(redis_sentinel_role\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 内置 Docker Registry</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(registry\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Registry Nginx</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(registry_nginx\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 高可用 Sentinel，可单节点关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(sentinel\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 邮件防垃圾，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(spamcheck\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 定期存储检查，可关闭</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(storage_check\[&#39;enable&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># https://docs.gitlab.com/18.7/administration/settings/event_data/</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^# \(gitlab_rails\[&#39;initial_gitlab_product_usage_data&#39;\] =\).*/\1 false/g&#34;</span> gitlab.rb
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="后台配置"
-    >
-        后台配置
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#后台配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 后台配置" aria-label="Anchor to: 后台配置" href="#%e5%90%8e%e5%8f%b0%e9%85%8d%e7%bd%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p><img
-  src="../deploy-gitlab-ce-06.png"
-  alt=""
-  
-/></p>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="禁止-ssh-访问"
-    >
-        禁止 SSH 访问
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#禁止-ssh-访问" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 禁止 SSH 访问" aria-label="Anchor to: 禁止 SSH 访问" href="#%e7%a6%81%e6%ad%a2-ssh-%e8%ae%bf%e9%97%ae">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>Admin area -&gt; Settings -&gt; General -&gt; Visibility and access controls -&gt; Enabled Git access protocols -&gt; Only HTTP(S)</p>
-<p><img
-  src="../deploy-gitlab-ce-07.png"
-  alt=""
-  
-/></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="项目数量限制"
-    >
-        项目数量限制
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#项目数量限制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 项目数量限制" aria-label="Anchor to: 项目数量限制" href="#%e9%a1%b9%e7%9b%ae%e6%95%b0%e9%87%8f%e9%99%90%e5%88%b6">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>必须由管理员创建项目，禁止用户创建项目。</p>
-<p>Admin area -&gt; Settings -&gt; General -&gt; Account and limit</p>
-<ul>
-<li>Default projects limit -&gt; 0</li>
-<li>User restrictions -&gt; 去掉所有的勾</li>
-</ul>
-<p><img
-  src="../deploy-gitlab-ce-08.png"
-  alt=""
-  
-/></p>
-<p><img
-  src="../deploy-gitlab-ce-09.png"
-  alt=""
-  
-/></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h4 id="禁止公开注册"
-    >
-        禁止公开注册
-    </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#禁止公开注册" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 禁止公开注册" aria-label="Anchor to: 禁止公开注册" href="#%e7%a6%81%e6%ad%a2%e5%85%ac%e5%bc%80%e6%b3%a8%e5%86%8c">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>Admin area -&gt; Settings -&gt; General -&gt; Sign-up restrictions -&gt; Sign-up Enabled: 取消前面的勾</p>
-<p><img
-  src="../deploy-gitlab-ce-10.png"
-  alt=""
-  
-/></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="禁止事件统计"
-    >
-        禁止事件统计
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#禁止事件统计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 禁止事件统计" aria-label="Anchor to: 禁止事件统计" href="#%e7%a6%81%e6%ad%a2%e4%ba%8b%e4%bb%b6%e7%bb%9f%e8%ae%a1">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>Admin area -&gt; Settings -&gt; Metrics and profiling -&gt; Event tracking -&gt; Enable event tracking: 取消前面的勾</p>
-<p><img
-  src="../deploy-gitlab-ce-11.png"
-  alt=""
-  
-/></p>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="邮件配置可选"
-    >
-        邮件配置（可选）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#邮件配置可选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 邮件配置（可选）" aria-label="Anchor to: 邮件配置（可选）" href="#%e9%82%ae%e4%bb%b6%e9%85%8d%e7%bd%ae%e5%8f%af%e9%80%89">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">gitlab_rails</span><span class="o">[</span><span class="s1">&#39;smtp_enable&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
-</span></span><span class="line"><span class="cl"><span class="n">gitlab_rails</span><span class="o">[</span><span class="s1">&#39;smtp_address&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&#34;smtp.example.com&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">gitlab_rails</span><span class="o">[</span><span class="s1">&#39;smtp_port&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="mi">465</span>
-</span></span><span class="line"><span class="cl"><span class="n">gitlab_rails</span><span class="o">[</span><span class="s1">&#39;smtp_user_name&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&#34;gitlab@example.com&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">gitlab_rails</span><span class="o">[</span><span class="s1">&#39;smtp_password&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&#34;password&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">gitlab_rails</span><span class="o">[</span><span class="s1">&#39;smtp_tls&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="时区"
-    >
-        时区
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#时区" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 时区" aria-label="Anchor to: 时区" href="#%e6%97%b6%e5%8c%ba">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># gitlab_rails[&#39;time_zone&#39;] = &#39;UTC&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># gitlab_rails[&#39;time_zone&#39;] = &#39;Asia/Shanghai&#39;</span>
-</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s|^# \(gitlab_rails\[&#39;time_zone&#39;\] =\).*|\1 &#39;Asia/Shanghai&#39;|g&#34;</span> gitlab.rb
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="八修改配置后的生效方式"
-    >
-        八、修改配置后的生效方式
+        基础配置
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#八修改配置后的生效方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、修改配置后的生效方式" aria-label="Anchor to: 八、修改配置后的生效方式" href="#%e5%85%ab%e4%bf%ae%e6%94%b9%e9%85%8d%e7%bd%ae%e5%90%8e%e7%9a%84%e7%94%9f%e6%95%88%e6%96%b9%e5%bc%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/ci-cd-test/#基础配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 基础配置" aria-label="Anchor to: 基础配置" href="#%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-ce gitlab-ctl reconfigure
-</span></span><span class="line"><span class="cl">systemctl restart podman@gitlab-ce.service
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九gitlab-备份与恢复docker-版"
-    >
-        九、GitLab 备份与恢复（Docker 版）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#九gitlab-备份与恢复docker-版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、GitLab 备份与恢复（Docker 版）" aria-label="Anchor to: 九、GitLab 备份与恢复（Docker 版）" href="#%e4%b9%9dgitlab-%e5%a4%87%e4%bb%bd%e4%b8%8e%e6%81%a2%e5%a4%8ddocker-%e7%89%88">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-手动备份"
-    >
-        1️⃣ 手动备份
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#1-手动备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 手动备份" aria-label="Anchor to: 1️⃣ 手动备份" href="#1-%e6%89%8b%e5%8a%a8%e5%a4%87%e4%bb%bd">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-ce gitlab-backup create
-</span></span></code></pre></div><p>备份文件在：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/gitlab-ce/data/backups/
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-恢复简述"
-    >
-        2️⃣ 恢复（简述）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#2-恢复简述" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 恢复（简述）" aria-label="Anchor to: 2️⃣ 恢复（简述）" href="#2-%e6%81%a2%e5%a4%8d%e7%ae%80%e8%bf%b0">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it gitlab gitlab-backup restore <span class="nv">BACKUP</span><span class="o">=</span>xxxx
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十常见问题高频"
-    >
-        十、常见问题（高频）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#十常见问题高频" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、常见问题（高频）" aria-label="Anchor to: 十、常见问题（高频）" href="#%e5%8d%81%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e9%ab%98%e9%a2%91">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-1-启动卡住--oom"
-    >
-        ❌ 1. 启动卡住 / OOM
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#-1-启动卡住--oom" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 1. 启动卡住 / OOM" aria-label="Anchor to: ❌ 1. 启动卡住 / OOM" href="#-1-%e5%90%af%e5%8a%a8%e5%8d%a1%e4%bd%8f--oom">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>原因：内存不足</p>
-<p>解决：</p>
-<ul>
-<li>≥ 4G 内存</li>
-<li>关闭 Prometheus/Grafana</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-2-clone-提示-502--500"
-    >
-        ❌ 2. clone 提示 502 / 500
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#-2-clone-提示-502--500" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 2. clone 提示 502 / 500" aria-label="Anchor to: ❌ 2. clone 提示 502 / 500" href="#-2-clone-%e6%8f%90%e7%a4%ba-502--500">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>检查：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker logs gitlab
-</span></span></code></pre></div><p>通常是：</p>
-<ul>
-<li>external_url 配置错误</li>
-<li>Gitaly / Puma 启动失败</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-3-ci-runner-连接不上"
-    >
-        ❌ 3. CI Runner 连接不上
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#-3-ci-runner-连接不上" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 3. CI Runner 连接不上" aria-label="Anchor to: ❌ 3. CI Runner 连接不上" href="#-3-ci-runner-%e8%bf%9e%e6%8e%a5%e4%b8%8d%e4%b8%8a">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<p>记住：</p>
-<ul>
-<li>Runner 是 <strong>独立部署</strong></li>
-<li>GitLab ≠ Runner</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一生产级部署建议重要"
-    >
-        十一、生产级部署建议（重要）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#十一生产级部署建议重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、生产级部署建议（重要）" aria-label="Anchor to: 十一、生产级部署建议（重要）" href="#%e5%8d%81%e4%b8%80%e7%94%9f%e4%ba%a7%e7%ba%a7%e9%83%a8%e7%bd%b2%e5%bb%ba%e8%ae%ae%e9%87%8d%e8%a6%81">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<ul>
-<li>✅ GitLab 和 Runner 分离</li>
-<li>✅ GitLab 数据定期备份</li>
-<li>✅ 使用反向代理（Nginx）+ HTTPS</li>
-<li>✅ GitLab 升级前 반드시 备份</li>
-<li>✅ 不要频繁 <code>docker pull latest</code>（固定版本）</li>
-</ul>
-<hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十二推荐版本固定方式生产"
-    >
-        十二、推荐版本固定方式（生产）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/#十二推荐版本固定方式生产" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、推荐版本固定方式（生产）" aria-label="Anchor to: 十二、推荐版本固定方式（生产）" href="#%e5%8d%81%e4%ba%8c%e6%8e%a8%e8%8d%90%e7%89%88%e6%9c%ac%e5%9b%ba%e5%ae%9a%e6%96%b9%e5%bc%8f%e7%94%9f%e4%ba%a7">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-ce:18.7.0-ce.0</span><span class="w">
-</span></span></span></code></pre></div><p>避免版本升级事故。</p>
-
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 设置 sudo 权限</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;jenkins ALL=(ALL) NOPASSWD: /usr/bin/podman,/usr/bin/docker&#39;</span> &gt; /etc/sudoers.d/jenkins
+</span></span><span class="line"><span class="cl">chmod <span class="m">400</span> /etc/sudoers.d/jenkins
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看用户 ID</span>
+</span></span><span class="line"><span class="cl">id jenkins
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 允许用户登录</span>
+</span></span><span class="line"><span class="cl">loginctl enable-linger <span class="m">1001</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 切换用户</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sudo su - jenkins</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># podman 重制</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># podman system migrate</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># podman system reset -f</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看镜像</span>
+</span></span><span class="line"><span class="cl">podman images
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull custom/jdk:21.0.9-0
+</span></span></code></pre></div>
   </article>
 
 
