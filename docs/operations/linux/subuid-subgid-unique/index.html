@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 /etc/subuid 和 /etc/subgid 去重 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 内核 &#34;一调就翻车&#34; 危险参数清单 Linux 内核 根据 CPU 和 内存 动态调整 Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync swap swap | 启用 swap | 禁用 sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemctl systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta name="description" content="在 Linux 系统中，/etc/subuid（以及 /etc/subgid）文件的格式通常为 用户名:起始ID:范围长度。如果文件中存在重复的用户名配置，系统通常会按顺序读取，但为了保持文件整洁并确保最后一次配置生效，我们可以使用 awk 命令来进行去重处理。
+核心处理思路 由于 awk 在处理文本时是从上到下逐行读取的，我们可以利用 关联数组 记录每个用户名的最新行内容。当读取完整个文件后，再将数组中的内容打印出来。
+执行命令 可以运行以下命令来生成一个去重后的新文件：
+awk -F: &#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39; /etc/subuid &gt; /etc/subuid.new 命令详细解析 -F:: 指定冒号 : 为字段分隔符（subuid 的标准格式）。 res[$1] = $0: $1 是第一列（用户名）。 $0 是整行内容。 这行代码的意思是：以用户名为键，将当前行存入数组 res。如果后面出现了相同的用户名，它会覆盖掉之前存储的值，从而保证最后保留的是最后一次出现的配置。 END { for (u in res) print res[u] }: 在处理完所有行后，遍历数组并打印存储的最终结果。 安全操作步骤 修改系统级配置文件时，建议遵循以下流程以防配置丢失或出错：" />
 
-    <title>Linux | ☘️ Septvean&#39;s Documents</title>
+    <title>/etc/subuid 和 /etc/subgid 去重 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +38,25 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   <meta
     property="og:title"
-    content="Linux"
+    content="/etc/subuid 和 /etc/subgid 去重"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 /etc/subuid 和 /etc/subgid 去重 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 内核 &#34;一调就翻车&#34; 危险参数清单 Linux 内核 根据 CPU 和 内存 动态调整 Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync swap swap | 启用 swap | 禁用 sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemctl systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+  <meta property="og:description" content="在 Linux 系统中，/etc/subuid（以及 /etc/subgid）文件的格式通常为 用户名:起始ID:范围长度。如果文件中存在重复的用户名配置，系统通常会按顺序读取，但为了保持文件整洁并确保最后一次配置生效，我们可以使用 awk 命令来进行去重处理。
+核心处理思路 由于 awk 在处理文本时是从上到下逐行读取的，我们可以利用 关联数组 记录每个用户名的最新行内容。当读取完整个文件后，再将数组中的内容打印出来。
+执行命令 可以运行以下命令来生成一个去重后的新文件：
+awk -F: &#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39; /etc/subuid &gt; /etc/subuid.new 命令详细解析 -F:: 指定冒号 : 为字段分隔符（subuid 的标准格式）。 res[$1] = $0: $1 是第一列（用户名）。 $0 是整行内容。 这行代码的意思是：以用户名为键，将当前行存入数组 res。如果后面出现了相同的用户名，它会覆盖掉之前存储的值，从而保证最后保留的是最后一次出现的配置。 END { for (u in res) print res[u] }: 在处理完所有行后，遍历数组并打印存储的最终结果。 安全操作步骤 修改系统级配置文件时，建议遵循以下流程以防配置丢失或出错：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/linux/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/linux/subuid-subgid-unique/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Linux" />
-  <meta name="twitter:description" content="Document List:
-Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices &amp; Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL / PostgreSQL NUMA 最佳实践 MySQL / PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 /etc/subuid 和 /etc/subgid 去重 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 内核 &#34;一调就翻车&#34; 危险参数清单 Linux 内核 根据 CPU 和 内存 动态调整 Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync swap swap | 启用 swap | 禁用 sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemctl systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 " />
+<meta name="twitter:title" content="/etc/subuid 和 /etc/subgid 去重" />
+  <meta name="twitter:description" content="在 Linux 系统中，/etc/subuid（以及 /etc/subgid）文件的格式通常为 用户名:起始ID:范围长度。如果文件中存在重复的用户名配置，系统通常会按顺序读取，但为了保持文件整洁并确保最后一次配置生效，我们可以使用 awk 命令来进行去重处理。
+核心处理思路 由于 awk 在处理文本时是从上到下逐行读取的，我们可以利用 关联数组 记录每个用户名的最新行内容。当读取完整个文件后，再将数组中的内容打印出来。
+执行命令 可以运行以下命令来生成一个去重后的新文件：
+awk -F: &#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39; /etc/subuid &gt; /etc/subuid.new 命令详细解析 -F:: 指定冒号 : 为字段分隔符（subuid 的标准格式）。 res[$1] = $0: $1 是第一列（用户名）。 $0 是整行内容。 这行代码的意思是：以用户名为键，将当前行存入数组 res。如果后面出现了相同的用户名，它会覆盖掉之前存储的值，从而保证最后保留的是最后一次出现的配置。 END { for (u in res) print res[u] }: 在处理完所有行后，遍历数组并打印存储的最终结果。 安全操作步骤 修改系统级配置文件时，建议遵循以下流程以防配置丢失或出错：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +64,16 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Linux",
-      "url" : "https://documents.v2ep.com/operations/linux/",
-      "headline": "Linux",
-      "description": "Document List:\nLinux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Linux 网络子系统（Networking） Linux 设备与驱动（Devices \u0026 Drivers） Linux 进程管理（Process） Linux cgroups Linux Namespace Linux NUMA Linux UnionFS libc overlay2 runc shell systemd systemd 和 runc 之间的关系 Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系 overlay2 为什么对数据库不友好 overlay2 和 UnionFS 的联系 从硬件到容器 容器如何使用硬件资源 数据库为什么不适合跑在容器 硬件 内核 虚拟化 容器化 MySQL \/ PostgreSQL NUMA 最佳实践 MySQL \/ PostgreSQL 针对 cgroups（v2）的调优清单 多应用场景 NUMA 实践 性能优化 \/etc\/subuid 和 \/etc\/subgid 去重 Docker 使用的是哪个内核 Docker 部署数据库 vs 宿主机直装数据库 Drop Caches irqbalance journal Linux 内核 \u0022一调就翻车\u0022 危险参数清单 Linux 内核 根据 CPU 和 内存 动态调整 Linux 磁盘挂载与性能优化 Linux 系统，内网服务器，有没有必要禁用 IPv6？ Linux 系统故障排查 -- rpcbind lsblk nftables RHEL 系列 vs Debian 系列 RHEL 系列系统初始化方案 rsync swap swap | 启用 swap | 禁用 sysbench sysctl -- net.core.default_qdisc sysctl 会加载哪些目录下的配置文件？加载顺序是什么？ systemctl systemd 环境变量 PATH XFS log XFS 禁用 atime 如何判断系统用户是否存在 如何计算内存实际剩余多少 数据库（MySQL \/ PostgreSQL）是否应该关闭 irqbalance 日志清理 检查硬盘是 SSD 还是 HDD 检查硬盘读写速度 ",
-      "wordCount" : "143",
+      "name": "/etc/subuid 和 /etc/subgid 去重",
+      "url" : "https://documents.v2ep.com/operations/linux/subuid-subgid-unique/",
+      "headline": "/etc/subuid 和 /etc/subgid 去重",
+      "description": "在 Linux 系统中，\/etc\/subuid（以及 \/etc\/subgid）文件的格式通常为 用户名:起始ID:范围长度。如果文件中存在重复的用户名配置，系统通常会按顺序读取，但为了保持文件整洁并确保最后一次配置生效，我们可以使用 awk 命令来进行去重处理。\n核心处理思路 由于 awk 在处理文本时是从上到下逐行读取的，我们可以利用 关联数组 记录每个用户名的最新行内容。当读取完整个文件后，再将数组中的内容打印出来。\n执行命令 可以运行以下命令来生成一个去重后的新文件：\nawk -F: \u0027{ res[$1] = $0 } END { for (u in res) print res[u] }\u0027 \/etc\/subuid \u003e \/etc\/subuid.new 命令详细解析 -F:: 指定冒号 : 为字段分隔符（subuid 的标准格式）。 res[$1] = $0: $1 是第一列（用户名）。 $0 是整行内容。 这行代码的意思是：以用户名为键，将当前行存入数组 res。如果后面出现了相同的用户名，它会覆盖掉之前存储的值，从而保证最后保留的是最后一次出现的配置。 END { for (u in res) print res[u] }: 在处理完所有行后，遍历数组并打印存储的最终结果。 安全操作步骤 修改系统级配置文件时，建议遵循以下流程以防配置丢失或出错：",
+      "wordCount" : "160",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/linux/"
+          "@id": "https://documents.v2ep.com/operations/linux/subuid-subgid-unique/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/linux/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/linux/subuid-subgid-unique/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -998,7 +1004,7 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
                 <span class="flex">
                   <a
                     href="/operations/linux/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Linux
                   </a>
@@ -2060,7 +2066,15 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Linux</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/linux/' href='/operations/linux/'><span itemprop='name'>Linux</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>/etc/subuid 和 /etc/subgid 去重</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2079,429 +2093,96 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Linux</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>/etc/subuid 和 /etc/subgid 去重</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/core/" class="gdoc-toc__entry">Linux 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-memory/" class="gdoc-toc__entry">Linux 内存管理（Memory）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-fs/" class="gdoc-toc__entry">Linux 文件系统（FS）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-networking/" class="gdoc-toc__entry">Linux 网络子系统（Networking）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-devices/" class="gdoc-toc__entry">Linux 设备与驱动（Devices &amp; Drivers）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-process/" class="gdoc-toc__entry">Linux 进程管理（Process）
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-cgroups/" class="gdoc-toc__entry">Linux cgroups
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-namespace/" class="gdoc-toc__entry">Linux Namespace
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-numa/" class="gdoc-toc__entry">Linux NUMA
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-unionfs/" class="gdoc-toc__entry">Linux UnionFS
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-libc/" class="gdoc-toc__entry">libc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-overlay2/" class="gdoc-toc__entry">overlay2
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-runc/" class="gdoc-toc__entry">runc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-shell/" class="gdoc-toc__entry">shell
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/user-space-systemd/" class="gdoc-toc__entry">systemd
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-and-runc/" class="gdoc-toc__entry">systemd 和 runc 之间的关系
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/kernel-relationship/" class="gdoc-toc__entry">Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-not-good-to-database/" class="gdoc-toc__entry">overlay2 为什么对数据库不友好
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/overlay2-and-unionfs/" class="gdoc-toc__entry">overlay2 和 UnionFS 的联系
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/from-hardware-to-container/" class="gdoc-toc__entry">从硬件到容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/how-containers-use-hardware-resources/" class="gdoc-toc__entry">容器如何使用硬件资源
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/" class="gdoc-toc__entry">数据库为什么不适合跑在容器
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/hardware-kernel-virtualization-containers/" class="gdoc-toc__entry">硬件 内核 虚拟化 容器化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-numa/" class="gdoc-toc__entry">MySQL / PostgreSQL NUMA 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mysql-postgres-cgroups/" class="gdoc-toc__entry">MySQL / PostgreSQL 针对 cgroups（v2）的调优清单
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/numa-practice/" class="gdoc-toc__entry">多应用场景 NUMA 实践
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/performance/" class="gdoc-toc__entry">性能优化
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/linux/subuid-subgid-unique/" class="gdoc-toc__entry">/etc/subuid 和 /etc/subgid 去重
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-kernel/" class="gdoc-toc__entry">Docker 使用的是哪个内核
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/docker-vs-host-delpoy-database/" class="gdoc-toc__entry">Docker 部署数据库 vs 宿主机直装数据库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/drop-caches/" class="gdoc-toc__entry">Drop Caches
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance/" class="gdoc-toc__entry">irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/journal/" class="gdoc-toc__entry">journal
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysctl-danger-list/" class="gdoc-toc__entry">Linux 内核 &#34;一调就翻车&#34; 危险参数清单
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysctl-dynamic-adjustment/" class="gdoc-toc__entry">Linux 内核 根据 CPU 和 内存 动态调整
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mount/" class="gdoc-toc__entry">Linux 磁盘挂载与性能优化
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/setup-ipv6/" class="gdoc-toc__entry">Linux 系统，内网服务器，有没有必要禁用 IPv6？
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/troubleshooting-rpcbind/" class="gdoc-toc__entry">Linux 系统故障排查 -- rpcbind
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/lsblk/" class="gdoc-toc__entry">lsblk
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/nftables/" class="gdoc-toc__entry">nftables
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-vs-debian/" class="gdoc-toc__entry">RHEL 系列 vs Debian 系列
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rhel-init-system/" class="gdoc-toc__entry">RHEL 系列系统初始化方案
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/rsync/" class="gdoc-toc__entry">rsync
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/swap/" class="gdoc-toc__entry">swap
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/swap-enable/" class="gdoc-toc__entry">swap | 启用
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/swap-disable/" class="gdoc-toc__entry">swap | 禁用
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysbench/" class="gdoc-toc__entry">sysbench
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysctl-net.core.default_qdisc/" class="gdoc-toc__entry">sysctl -- net.core.default_qdisc
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/sysctl-load/" class="gdoc-toc__entry">sysctl 会加载哪些目录下的配置文件？加载顺序是什么？
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemctl/" class="gdoc-toc__entry">systemctl
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/systemd-path/" class="gdoc-toc__entry">systemd 环境变量 PATH
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-log/" class="gdoc-toc__entry">XFS log
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/xfs-disable-atime/" class="gdoc-toc__entry">XFS 禁用 atime
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-user-exist/" class="gdoc-toc__entry">如何判断系统用户是否存在
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/mem-available/" class="gdoc-toc__entry">如何计算内存实际剩余多少
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/irqbalance-database/" class="gdoc-toc__entry">数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/log-cleanup/" class="gdoc-toc__entry">日志清理
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-if-ssd/" class="gdoc-toc__entry">检查硬盘是 SSD 还是 HDD
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/linux/check-disk-speed/" class="gdoc-toc__entry">检查硬盘读写速度
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>在 Linux 系统中，<code>/etc/subuid</code>（以及 <code>/etc/subgid</code>）文件的格式通常为 <code>用户名:起始ID:范围长度</code>。如果文件中存在重复的用户名配置，系统通常会按顺序读取，但为了保持文件整洁并确保<strong>最后一次配置</strong>生效，我们可以使用 <code>awk</code> 命令来进行去重处理。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="核心处理思路"
+    >
+        核心处理思路
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/subuid-subgid-unique/#核心处理思路" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心处理思路" aria-label="Anchor to: 核心处理思路" href="#%e6%a0%b8%e5%bf%83%e5%a4%84%e7%90%86%e6%80%9d%e8%b7%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>由于 <code>awk</code> 在处理文本时是从上到下逐行读取的，我们可以利用 <strong>关联数组</strong> 记录每个用户名的最新行内容。当读取完整个文件后，再将数组中的内容打印出来。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="执行命令"
+    >
+        执行命令
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/subuid-subgid-unique/#执行命令" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 执行命令" aria-label="Anchor to: 执行命令" href="#%e6%89%a7%e8%a1%8c%e5%91%bd%e4%bb%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>可以运行以下命令来生成一个去重后的新文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subuid &gt; /etc/subuid.new
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="命令详细解析"
+    >
+        命令详细解析
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/subuid-subgid-unique/#命令详细解析" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 命令详细解析" aria-label="Anchor to: 命令详细解析" href="#%e5%91%bd%e4%bb%a4%e8%af%a6%e7%bb%86%e8%a7%a3%e6%9e%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong><code>-F:</code></strong>: 指定冒号 <code>:</code> 为字段分隔符（subuid 的标准格式）。</li>
+<li><strong><code>res[$1] = $0</code></strong>:
+<ul>
+<li><code>$1</code> 是第一列（用户名）。</li>
+<li><code>$0</code> 是整行内容。</li>
+<li>这行代码的意思是：以用户名为键，将当前行存入数组 <code>res</code>。如果后面出现了相同的用户名，它会<strong>覆盖</strong>掉之前存储的值，从而保证最后保留的是最后一次出现的配置。</li>
+</ul>
+</li>
+<li><strong><code>END { for (u in res) print res[u] }</code></strong>: 在处理完所有行后，遍历数组并打印存储的最终结果。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="安全操作步骤"
+    >
+        安全操作步骤
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/subuid-subgid-unique/#安全操作步骤" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安全操作步骤" aria-label="Anchor to: 安全操作步骤" href="#%e5%ae%89%e5%85%a8%e6%93%8d%e4%bd%9c%e6%ad%a5%e9%aa%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>修改系统级配置文件时，建议遵循以下流程以防配置丢失或出错：</p>
+<ol>
+<li>
+<p><strong>备份原始文件</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /etc/subuid /etc/subuid.bak
+</span></span></code></pre></div></li>
+<li>
+<p><strong>执行去重并检查结果</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subuid <span class="p">|</span> sort <span class="p">|</span> column -t -s:
+</span></span></code></pre></div><p><strong>注意：<code>column -t -s:</code> 仅用于格式化输出预览，方便检查。</strong></p>
+</li>
+<li>
+<p><strong>覆盖原文件</strong></p>
+<p>如果预览结果无误，将其写入原文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subuid <span class="p">|</span> sort <span class="p">|</span> sudo tee /etc/subuid
+</span></span></code></pre></div></li>
+<li>
+<p><strong>对 subgid 执行相同操作（可选）</strong></p>
+<p>通常这两个文件是同步修改的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subgid <span class="p">|</span> sort <span class="p">|</span> sudo tee /etc/subgid
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="注意事项"
+    >
+        注意事项
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/subuid-subgid-unique/#注意事项" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 注意事项" aria-label="Anchor to: 注意事项" href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li><strong>顺序问题</strong>：<code>awk</code> 的关联数组在输出时通常是<strong>无序</strong>的。如果希望保持某种特定的排序（例如按用户名排序），可以在命令末尾加上 <code>| sort</code>。</li>
+<li><strong>权限</strong>：修改 <code>/etc/subuid</code> 需要 root 权限，所以请确保使用 <code>sudo</code> 或以 root 身份运行。</li>
+</ul>
 
   </article>
 
@@ -3029,9 +2710,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
 
         
-          
-          
-        
 
         
           
@@ -3062,11 +2740,6 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3728,27 +3401,9 @@ Linux 核心概念 Linux 内存管理（Memory） Linux 文件系统（FS） Lin
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/"
-      title="Operations"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Operations
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/hardware/"
-      title="Hardware"
-    >
-      Hardware
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
