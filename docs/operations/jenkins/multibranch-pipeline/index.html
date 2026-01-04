@@ -83,7 +83,7 @@ Project Repository Credentials 配置策略
       "url" : "https://documents.v2ep.com/operations/jenkins/multibranch-pipeline/",
       "headline": "Jenkins Multibranch Pipeline",
       "description": "Jenkins Multibranch Pipeline 是 Jenkins 的一个核心功能，用于管理多个分支的构建任务。\n创建 Multibranch Pipeline Jenkins -\u003e New Item\n填写 Name，选择 Multibranch Pipeline\nGeneral 默认即可。\n配置 Branch Sources\nBranch Sources -\u003e Add source -\u003e Git 配置 Git：\nProject Repository Credentials 配置策略\n限制分支，只允许以下规则的分支：\n^(main|dev|test|prod|release\/.*)$ ",
-      "wordCount" : "224",
+      "wordCount" : "269",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2236,6 +2236,9 @@ Project Repository Credentials 配置策略
   class="gdoc-markdown__link"
   href="http://192.168.101.201:8200/project/Java%20Test"
 >http://192.168.101.201:8200/project/Java%20Test</a></p>
+<ul>
+<li><strong>注意</strong>：这里的 Job Name 若包含特殊字符需要进行 URL 编码，所以 Job Name 为 <strong>Java Test</strong>，则 URL 编码为 <strong>Java%20Test</strong></li>
+</ul>
 <p>登录 GitLab，进入项目，点击 <strong>Settings -&gt; WebHooks</strong></p>
 <p><img
   src="../multibranch-pipeline-20.png"
@@ -2320,6 +2323,28 @@ Project Repository Credentials 配置策略
 <li><strong>触发方式区别</strong>：这里的配置仅用于触发 SCM 分支扫描（发现新分支或提交），具体的构建（Build）是由扫描到变化后的 Branch Source 触发。</li>
 </ul>
 <p>若需更灵活的定时任务，建议在 Jenkinsfile 中使用 <code>triggers { cron('H 0 * * *') }</code> 配置。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="hook-executed-successfully-but-returned-http-403"
+    >
+        Hook executed successfully but returned HTTP 403
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/multibranch-pipeline/#hook-executed-successfully-but-returned-http-403" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Hook executed successfully but returned HTTP 403" aria-label="Anchor to: Hook executed successfully but returned HTTP 403" href="#hook-executed-successfully-but-returned-http-403">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>匿名用户权限不足</p>
+<p><strong>现象</strong>：GitLab 无法访问 Jenkins 的构建接口。</p>
+<p><strong>解决方法</strong>：</p>
+<ul>
+<li>Manage Jenkins -&gt; Security -&gt; Authorization -&gt; 启用 Project-based Matrix Authorization Strategy</li>
+<li>Anonymous 用户（如果没有则添加），并勾选 Job/Read 和 Job/Build 权限</li>
+</ul>
+<p><img
+  src="../multibranch-pipeline-50.png"
+  alt=""
+  
+/></p>
 
   </article>
 

@@ -13,8 +13,7 @@
 
 
   <meta name="description" content="服务器：
-192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
-一、GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
+192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
 
     <title>GitLab Runner 部署 | ☘️ Septvean&#39;s Documents</title>
 
@@ -41,8 +40,7 @@
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
   <meta property="og:description" content="服务器：
-192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
-一、GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
+192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/" />
 
@@ -52,8 +50,7 @@
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="GitLab Runner 部署" />
   <meta name="twitter:description" content="服务器：
-192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践，偏运维 / CI 实战，而不是只“能跑”。
-一、GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
+192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner GitLab Runner 核心认知（先搞清楚） GitLab / Runner / CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell / docker / k8s） ⚠️ Runner ≠ GitLab" />
 
 
   <script type="application/ld+json">
@@ -64,8 +61,8 @@
       "name": "GitLab Runner 部署",
       "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/",
       "headline": "GitLab Runner 部署",
-      "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接落地的 podman-compose 部署 GitLab Runner 全教程，覆盖 原理 -\u003e 部署 -\u003e 注册 -\u003e 常见坑 -\u003e 生产最佳实践，偏运维 \/ CI 实战，而不是只“能跑”。\n一、GitLab Runner 核心认知（先搞清楚） GitLab \/ Runner \/ CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell \/ docker \/ k8s） ⚠️ Runner ≠ GitLab",
-      "wordCount" : "594",
+      "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner GitLab Runner 核心认知（先搞清楚） GitLab \/ Runner \/ CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell \/ docker \/ k8s） ⚠️ Runner ≠ GitLab",
+      "wordCount" : "886",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2098,13 +2095,13 @@
 <li>192.168.101.202：GitLab Runner</li>
 <li>192.168.101.203：GitLab Runner</li>
 </ul>
-<p>下面是一套 <strong>可直接落地的 podman-compose 部署 GitLab Runner 全教程</strong>，覆盖 <strong>原理 -&gt; 部署 -&gt; 注册 -&gt; 常见坑 -&gt; 生产最佳实践</strong>，偏运维 / CI 实战，而不是只“能跑”。</p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="一gitlab-runner-核心认知先搞清楚"
+    <h2 id="gitlab-runner-核心认知先搞清楚"
     >
-        一、GitLab Runner 核心认知（先搞清楚）
+        GitLab Runner 核心认知（先搞清楚）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#一gitlab-runner-核心认知先搞清楚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、GitLab Runner 核心认知（先搞清楚）" aria-label="Anchor to: 一、GitLab Runner 核心认知（先搞清楚）" href="#%e4%b8%80gitlab-runner-%e6%a0%b8%e5%bf%83%e8%ae%a4%e7%9f%a5%e5%85%88%e6%90%9e%e6%b8%85%e6%a5%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#gitlab-runner-核心认知先搞清楚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: GitLab Runner 核心认知（先搞清楚）" aria-label="Anchor to: GitLab Runner 核心认知（先搞清楚）" href="#gitlab-runner-%e6%a0%b8%e5%bf%83%e8%ae%a4%e7%9f%a5%e5%85%88%e6%90%9e%e6%b8%85%e6%a5%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2132,11 +2129,11 @@
 </ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="二部署方式选择重要"
+    <h2 id="部署方式选择重要"
     >
-        二、部署方式选择（重要）
+        部署方式选择（重要）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#二部署方式选择重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、部署方式选择（重要）" aria-label="Anchor to: 二、部署方式选择（重要）" href="#%e4%ba%8c%e9%83%a8%e7%bd%b2%e6%96%b9%e5%bc%8f%e9%80%89%e6%8b%a9%e9%87%8d%e8%a6%81">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#部署方式选择重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 部署方式选择（重要）" aria-label="Anchor to: 部署方式选择（重要）" href="#%e9%83%a8%e7%bd%b2%e6%96%b9%e5%bc%8f%e9%80%89%e6%8b%a9%e9%87%8d%e8%a6%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2152,7 +2149,7 @@
       <tr>
           <td>shell</td>
           <td>简单</td>
-          <td>❌（污染宿主机）</td>
+          <td>❌ (污染宿主机)</td>
       </tr>
       <tr>
           <td>docker</td>
@@ -2176,14 +2173,89 @@
       </tr>
   </tbody>
 </table> </div>
-<p>👉 <strong>本文使用 <code>docker executor</code></strong></p>
+<p>👉 <strong>本文使用 <code>shell executor</code> + <code>docker executor</code></strong></p>
+<p>宿主机是 AlmaLinux 9，使用 podman 代替 docker，使用 docker executor 部署，运行 docker 命令会报错</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-runner docker version
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/usr/bin/podman: error while loading shared libraries: libsubid.so.3: cannot open shared object file: No such file or directory
+</span></span></code></pre></div><p>所以主要以 shell executor 部署。</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="三目录规划强烈建议"
+    <h2 id="shell-executor"
     >
-        三、目录规划（强烈建议）
+        Shell executor
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#三目录规划强烈建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、目录规划（强烈建议）" aria-label="Anchor to: 三、目录规划（强烈建议）" href="#%e4%b8%89%e7%9b%ae%e5%bd%95%e8%a7%84%e5%88%92%e5%bc%ba%e7%83%88%e5%bb%ba%e8%ae%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#shell-executor" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Shell executor" aria-label="Anchor to: Shell executor" href="#shell-executor">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="下载-rpm-包"
+    >
+        下载 RPM 包
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#下载-rpm-包" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 下载 RPM 包" aria-label="Anchor to: 下载 RPM 包" href="#%e4%b8%8b%e8%bd%bd-rpm-%e5%8c%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>访问官网 <a
+  class="gdoc-markdown__link"
+  href="https://packages.gitlab.com/runner/gitlab-runner"
+>https://packages.gitlab.com/runner/gitlab-runner</a></p>
+<p>搜索 <strong>18.7.1</strong>，Distribution：<strong>el/9</strong></p>
+<p><img
+  src="../deploy-gitlab-runner-20.png"
+  alt=""
+  
+/></p>
+<p>找到 RPM 包：</p>
+<ul>
+<li>gitlab-runner-18.7.1-1.x86_64.rpm</li>
+<li>gitlab-runner-helper-images-18.7.1-1.noarch.rpm</li>
+</ul>
+<p><img
+  src="../deploy-gitlab-runner-21.png"
+  alt=""
+  
+/></p>
+<p>点击上面的两个 RPM 的连接，然后点击右上角的 <strong>Download</strong> 下载 RPM 包</p>
+<p><img
+  src="../deploy-gitlab-runner-22.png"
+  alt=""
+  
+/></p>
+<p>将这两个 RPM 包上传到服务器，保存：</p>
+<ul>
+<li>服务器：192.168.101.200</li>
+<li>路径：/data/files/rpms/gitlab-runner/18.7.1</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="安装-rpm-包"
+    >
+        安装 RPM 包
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#安装-rpm-包" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 RPM 包" aria-label="Anchor to: 安装 RPM 包" href="#%e5%ae%89%e8%a3%85-rpm-%e5%8c%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>将 RPM 上传到服务器 192.168.101.202 和 192.168.101.203</p>
+<p>安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dnf install -y gitlab-runner-18.7.1-1.x86_64.rpm gitlab-runner-helper-images-18.7.1-1.noarch.rpm
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="docker-executor"
+    >
+        Docker executor
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#docker-executor" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Docker executor" aria-label="Anchor to: Docker executor" href="#docker-executor">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="docker-目录规划强烈建议"
+    >
+        Docker 目录规划（强烈建议）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#docker-目录规划强烈建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Docker 目录规划（强烈建议）" aria-label="Anchor to: Docker 目录规划（强烈建议）" href="#docker-%e7%9b%ae%e5%bd%95%e8%a7%84%e5%88%92%e5%bc%ba%e7%83%88%e5%bb%ba%e8%ae%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2192,22 +2264,12 @@
 </span></span><span class="line"><span class="cl">├── compose/    # docker-compose
 </span></span><span class="line"><span class="cl">└── config/     # Runner 配置
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p /data/gitlab-runner/<span class="o">{</span>cache,compose,config<span class="o">}</span>
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="四docker-composeyaml核心"
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="docker-composeyaml核心"
     >
-        四、docker-compose.yaml（核心）
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#四docker-composeyaml核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、docker-compose.yaml（核心）" aria-label="Anchor to: 四、docker-compose.yaml（核心）" href="#%e5%9b%9bdocker-composeyaml%e6%a0%b8%e5%bf%83">
-        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-    </a>
-</div>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="-标准生产可用模板"
-    >
-        ✅ 标准生产可用模板
+        docker-compose.yaml（核心）
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#-标准生产可用模板" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ 标准生产可用模板" aria-label="Anchor to: ✅ 标准生产可用模板" href="#-%e6%a0%87%e5%87%86%e7%94%9f%e4%ba%a7%e5%8f%af%e7%94%a8%e6%a8%a1%e6%9d%bf">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#docker-composeyaml核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: docker-compose.yaml（核心）" aria-label="Anchor to: docker-compose.yaml（核心）" href="#docker-composeyaml%e6%a0%b8%e5%bf%83">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2227,18 +2289,17 @@
 </span></span></span></code></pre></div><blockquote>
 <p>绑定 <code>/var/run/docker.sock</code> 是 <strong>docker executor 的关键</strong></p>
 </blockquote>
-<hr>
+<p>⚠️ 注意：挂载了 <code>/var/run/docker.sock</code>，使 Runner 可以直接利用宿主机的 Docker 守护进程，这是最常用的方式；若需更高的隔离性，可考虑 Docker-in-Docker。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="五启动-runner-容器"
+    <h3 id="启动-runner-容器"
     >
-        五、启动 Runner 容器
-    </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#五启动-runner-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、启动 Runner 容器" aria-label="Anchor to: 五、启动 Runner 容器" href="#%e4%ba%94%e5%90%af%e5%8a%a8-runner-%e5%ae%b9%e5%99%a8">
+        启动 Runner 容器
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#启动-runner-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 启动 Runner 容器" aria-label="Anchor to: 启动 Runner 容器" href="#%e5%90%af%e5%8a%a8-runner-%e5%ae%b9%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 podman pull gitlab/gitlab-runner:v18.7.1</span>
 </span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull gitlab/gitlab-runner:v18.7.1
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
@@ -2253,15 +2314,14 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># ERROR: Failed to load config stat /etc/gitlab-runner/config.toml: no such file or directory  builds=0 max_builds=1</span>
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="六注册-gitlab-runner重点"
+    <h2 id="注册-gitlab-runner重点"
     >
-        六、注册 GitLab Runner（重点）
+        注册 GitLab Runner（重点）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#六注册-gitlab-runner重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、注册 GitLab Runner（重点）" aria-label="Anchor to: 六、注册 GitLab Runner（重点）" href="#%e5%85%ad%e6%b3%a8%e5%86%8c-gitlab-runner%e9%87%8d%e7%82%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#注册-gitlab-runner重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 注册 GitLab Runner（重点）" aria-label="Anchor to: 注册 GitLab Runner（重点）" href="#%e6%b3%a8%e5%86%8c-gitlab-runner%e9%87%8d%e7%82%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<hr>
 <p>进入 CI/CD 配置页面</p>
 <p><img
   src="../deploy-gitlab-runner-01.png"
@@ -2269,17 +2329,19 @@
   
 /></p>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-创建-runner"
+    <h3 id="创建-runner"
     >
-        1️⃣ 创建 Runner
+        创建 Runner
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#1-创建-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 创建 Runner" aria-label="Anchor to: 1️⃣ 创建 Runner" href="#1-%e5%88%9b%e5%bb%ba-runner">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#创建-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建 Runner" aria-label="Anchor to: 创建 Runner" href="#%e5%88%9b%e5%bb%ba-runner">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <p>Admin area -&gt; CI/CD -&gt; Runners -&gt; Create instance runner</p>
+<p>填写标签：</p>
 <ul>
-<li>填写标签</li>
+<li>如果用 RPM 包部署，建议使用 <code>linux</code> 标签</li>
+<li>如果用 Docker 容器部署，建议使用 <code>docker</code> 标签</li>
 </ul>
 <p><img
   src="../deploy-gitlab-runner-02.png"
@@ -2292,13 +2354,12 @@
   alt=""
   
 /></p>
-<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-注册-runner"
+    <h3 id="注册-runner"
     >
-        2️⃣ 注册 Runner
+        注册 Runner
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#2-注册-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 注册 Runner" aria-label="Anchor to: 2️⃣ 注册 Runner" href="#2-%e6%b3%a8%e5%86%8c-runner">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#注册-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 注册 Runner" aria-label="Anchor to: 注册 Runner" href="#%e6%b3%a8%e5%86%8c-runner">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2306,24 +2367,117 @@
 <ul>
 <li>服务器：192.168.101.202</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-runner <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># shell executor</span>
+</span></span><span class="line"><span class="cl">rm -f /etc/gitlab-runner/config.toml
+</span></span><span class="line"><span class="cl">gitlab-runner <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    gitlab-runner register <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    --url http://192.168.101.201:7000 <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    --token glrt-UJAwY5U5B2arIh-riT6A9W86MQp0OjEKdToxCw.01.12125weuh
-</span></span></code></pre></div><p>注册过程：</p>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># docker executor</span>
+</span></span><span class="line"><span class="cl">rm -f /data/gitlab-runner/config/config.toml
+</span></span><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-runner <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gitlab-runner register <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --url http://192.168.101.201:7000 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --token glrt-YhHnYasZjvAxCclbzb9f7286MQp0OjEKdToxCw.01.121l1z4dk
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="注册过程"
+    >
+        注册过程
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#注册过程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 注册过程" aria-label="Anchor to: 注册过程" href="#%e6%b3%a8%e5%86%8c%e8%bf%87%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="shell-executor-1"
+    >
+        shell executor
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#shell-executor-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: shell executor" aria-label="Anchor to: shell executor" href="#shell-executor-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Enter the GitLab instance URL (for example, https://gitlab.com/):
 </span></span><span class="line"><span class="cl">[http://192.168.101.201:7000]:
-</span></span><span class="line"><span class="cl">Verifying runner... is valid                        correlation_id=01KE3DHH8MG7E349D22VGMAC0B runner=UJAwY5U5B
+</span></span><span class="line"><span class="cl">Verifying runner... is valid                        correlation_id=01KE52A09KBEPPGEVMM7DK538V runner=pvgww0NeJ
 </span></span><span class="line"><span class="cl">Enter a name for the runner. This is stored only in the local config.toml file:
-</span></span><span class="line"><span class="cl">[d8b01effba2e]: docker-runner-202
-</span></span><span class="line"><span class="cl">Enter an executor: custom, shell, ssh, parallels, docker, docker+machine, kubernetes, instance, virtualbox, docker-windows, docker-autoscaler:
+</span></span><span class="line"><span class="cl">[node-202.server.com]:
+</span></span><span class="line"><span class="cl">Enter an executor: ssh, parallels, virtualbox, docker, docker-windows, docker+machine, instance, custom, shell, kubernetes, docker-autoscaler:
+</span></span><span class="line"><span class="cl">shell
+</span></span><span class="line"><span class="cl">Runner registered successfully. Feel free to start it, but if it&#39;s running already the config should be automatically reloaded!
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Configuration (with the authentication token) was saved in &#34;/etc/gitlab-runner/config.toml&#34;
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="docker-executor-1"
+    >
+        docker executor
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#docker-executor-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: docker executor" aria-label="Anchor to: docker executor" href="#docker-executor-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Enter the GitLab instance URL (for example, https://gitlab.com/):
+</span></span><span class="line"><span class="cl">[http://192.168.101.201:7000]:
+</span></span><span class="line"><span class="cl">Verifying runner... is valid                        correlation_id=01KE53F4W2VTZFS8H45M336H5E runner=YhHnYasZj
+</span></span><span class="line"><span class="cl">Enter a name for the runner. This is stored only in the local config.toml file:
+</span></span><span class="line"><span class="cl">[86327c775580]: node-203.server.com
+</span></span><span class="line"><span class="cl">Enter an executor: shell, parallels, virtualbox, docker-windows, docker+machine, kubernetes, docker-autoscaler, custom, ssh, docker, instance:
 </span></span><span class="line"><span class="cl">docker
 </span></span><span class="line"><span class="cl">Enter the default Docker image (for example, ruby:3.3):
 </span></span><span class="line"><span class="cl">debian:trixie-slim
 </span></span><span class="line"><span class="cl">Runner registered successfully. Feel free to start it, but if it&#39;s running already the config should be automatically reloaded!
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Configuration (with the authentication token) was saved in &#34;/etc/gitlab-runner/config.toml&#34;
-</span></span></code></pre></div><p>查看配置文件：</p>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="查看配置文件"
+    >
+        查看配置文件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#查看配置文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看配置文件" aria-label="Anchor to: 查看配置文件" href="#%e6%9f%a5%e7%9c%8b%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="shell-executor-2"
+    >
+        shell executor
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#shell-executor-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: shell executor" aria-label="Anchor to: shell executor" href="#shell-executor-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /etc/gitlab-runner/config.toml
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="nx">check_interval</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nx">shutdown_timeout</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">session_server</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">session_timeout</span> <span class="p">=</span> <span class="mi">1800</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">runners</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;node-202.server.com&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;http://192.168.101.201:7000&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span> <span class="p">=</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;glrt-pvgww0NeJ1-bF_NGsAA7G286MQp0OjEKdToxCw.01.121rryw7l&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_obtained_at</span> <span class="p">=</span> <span class="ld">2026-01-04T17:53:59Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_expires_at</span> <span class="p">=</span> <span class="ld">0001-01-01T00:00:00Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">executor</span> <span class="p">=</span> <span class="s2">&#34;shell&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">MaxUploadedArchiveSize</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">s3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">gcs</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">.</span><span class="nx">azure</span><span class="p">]</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="docker-executor-2"
+    >
+        docker executor
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#docker-executor-2" class="gdoc-page__anchor clip flex align-center" title="Anchor to: docker executor" aria-label="Anchor to: docker executor" href="#docker-executor-2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /data/gitlab-runner/config/config.toml
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="nx">check_interval</span> <span class="p">=</span> <span class="mi">0</span>
@@ -2333,11 +2487,11 @@
 </span></span><span class="line"><span class="cl">  <span class="nx">session_timeout</span> <span class="p">=</span> <span class="mi">1800</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">runners</span><span class="p">]]</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;docker-runner-202&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;node-203.server.com&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;http://192.168.101.201:7000&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">id</span> <span class="p">=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;glrt-UJAwY5U5B2arIh-riT6A9W86MQp0OjEKdToxCw.01.12125weuh&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">token_obtained_at</span> <span class="p">=</span> <span class="ld">2026-01-04T02:31:51Z</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span> <span class="p">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;glrt-YhHnYasZjvAxCclbzb9f7286MQp0OjEKdToxCw.01.121l1z4dk&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">token_obtained_at</span> <span class="p">=</span> <span class="ld">2026-01-04T18:14:16Z</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">token_expires_at</span> <span class="p">=</span> <span class="ld">0001-01-01T00:00:00Z</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">executor</span> <span class="p">=</span> <span class="s2">&#34;docker&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">runners</span><span class="p">.</span><span class="nx">cache</span><span class="p">]</span>
@@ -2355,29 +2509,54 @@
 </span></span><span class="line"><span class="cl">    <span class="nx">volumes</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;/cache&#34;</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">shm_size</span> <span class="p">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">network_mtu</span> <span class="p">=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl"><span class="err">```</span><span class="nx">text</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="err">修改配置文件：</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="err">```</span><span class="nx">sh</span>
-</span></span><span class="line"><span class="cl"><span class="nx">vim</span> <span class="err">/</span><span class="nx">data</span><span class="err">/</span><span class="nx">gitlab-runner</span><span class="err">/</span><span class="nx">config</span><span class="err">/</span><span class="nx">config</span><span class="p">.</span><span class="nx">toml</span>
-</span></span></code></pre></div><ul>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="修改配置文件"
+    >
+        修改配置文件
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#修改配置文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 修改配置文件" aria-label="Anchor to: 修改配置文件" href="#%e4%bf%ae%e6%94%b9%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>shell executor 和 docker executor 通用配置</p>
+<ul>
 <li>将 <code>concurrent = 1</code> 改为 <code>concurrent = 2</code> (并发数，按需更改，如果每次 Runner 运行多个任务，则改为 4 或者更大)</li>
+<li>将 <code>request_concurrency = 2</code> 添加到 <code>[[runners]]</code> 块中 (<code>executor = &quot;......&quot;</code> 的下一行)</li>
+</ul>
+<p>docker executor 特别配置</p>
+<ul>
 <li>将 <code>privileged = false</code> 改为 <code>privileged = true</code></li>
 <li>将 <code>volumes = [&quot;/cache&quot;]</code> 改为 <code>volumes = [&quot;/cache&quot;, &quot;/var/run/docker.sock:/var/run/docker.sock&quot;]</code></li>
+<li>将 <code>pull_policy = &quot;if-not-present&quot;</code> 添加到末尾</li>
 </ul>
-<p>重启 GitLab Runner</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="重启-gitlab-runner"
+    >
+        重启 GitLab Runner
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#重启-gitlab-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 重启 GitLab Runner" aria-label="Anchor to: 重启 GitLab Runner" href="#%e9%87%8d%e5%90%af-gitlab-runner">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>shell executor</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl restart gitlab-runner.service
+</span></span><span class="line"><span class="cl">systemctl status gitlab-runner.service
+</span></span></code></pre></div><p>docker executor</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">podman stop gitlab-runner
 </span></span><span class="line"><span class="cl">systemctl start podman@gitlab-runner
 </span></span><span class="line"><span class="cl">podman ps
+</span></span><span class="line"><span class="cl">podman logs -f gitlab-runner
 </span></span></code></pre></div><p>拉取镜像：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull docker.io/debian:trixie-slim
-</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-查看-runner"
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="查看-runner"
     >
-        3️⃣ 查看 Runner
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#3-查看-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 查看 Runner" aria-label="Anchor to: 3️⃣ 查看 Runner" href="#3-%e6%9f%a5%e7%9c%8b-runner">
+        查看 Runner
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#查看-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看 Runner" aria-label="Anchor to: 查看 Runner" href="#%e6%9f%a5%e7%9c%8b-runner">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2394,11 +2573,26 @@
 /></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-是否启用-privileged是否允许-docker-in-docker"
+    <h2 id="开机启动"
     >
-        4️⃣ 是否启用 privileged（是否允许 Docker in Docker）
-    </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#4-是否启用-privileged是否允许-docker-in-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 是否启用 privileged（是否允许 Docker in Docker）" aria-label="Anchor to: 4️⃣ 是否启用 privileged（是否允许 Docker in Docker）" href="#4-%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8-privileged%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8-docker-in-docker">
+        开机启动
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#开机启动" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 开机启动" aria-label="Anchor to: 开机启动" href="#%e5%bc%80%e6%9c%ba%e5%90%af%e5%8a%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># shell executor</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> gitlab-runner.service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># docker executor</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> podman@gitlab-runner
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="是否启用-privileged是否允许-docker-in-docker"
+    >
+        是否启用 privileged（是否允许 Docker in Docker）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#是否启用-privileged是否允许-docker-in-docker" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 是否启用 privileged（是否允许 Docker in Docker）" aria-label="Anchor to: 是否启用 privileged（是否允许 Docker in Docker）" href="#%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8-privileged%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8-docker-in-docker">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2411,11 +2605,11 @@
 <p>👉 <strong>必须 true</strong></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="七测试-runner-是否正常"
+    <h2 id="测试-runner-是否正常"
     >
-        七、测试 Runner 是否正常
+        测试 Runner 是否正常
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#七测试-runner-是否正常" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、测试 Runner 是否正常" aria-label="Anchor to: 七、测试 Runner 是否正常" href="#%e4%b8%83%e6%b5%8b%e8%af%95-runner-%e6%98%af%e5%90%a6%e6%ad%a3%e5%b8%b8">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#测试-runner-是否正常" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 测试 Runner 是否正常" aria-label="Anchor to: 测试 Runner 是否正常" href="#%e6%b5%8b%e8%af%95-runner-%e6%98%af%e5%90%a6%e6%ad%a3%e5%b8%b8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2426,26 +2620,66 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">test-job</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">tags</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">docker</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">linux</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">echo &#34;GitLab Runner is working&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">docker version</span><span class="w">
-</span></span></span></code></pre></div><p>Push 后应看到：</p>
+</span></span></span></code></pre></div><p>⚠️ <strong>注意：tags 必须与 Runner 的 Tags 一致 ‼️</strong></p>
+<p>Push 后应看到：</p>
 <ul>
 <li>Runner 被选中</li>
 <li>Job 成功执行</li>
 </ul>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="九常见问题--坑非常高频"
+    <h2 id="查看-pipeline-和-jobs"
     >
-        九、常见问题 &amp; 坑（非常高频）
+        查看 Pipeline 和 Jobs
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#九常见问题--坑非常高频" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、常见问题 &amp; 坑（非常高频）" aria-label="Anchor to: 九、常见问题 &amp; 坑（非常高频）" href="#%e4%b9%9d%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98--%e5%9d%91%e9%9d%9e%e5%b8%b8%e9%ab%98%e9%a2%91">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#查看-pipeline-和-jobs" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查看 Pipeline 和 Jobs" aria-label="Anchor to: 查看 Pipeline 和 Jobs" href="#%e6%9f%a5%e7%9c%8b-pipeline-%e5%92%8c-jobs">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
+<p>查看 Pipeline</p>
+<p><img
+  src="../deploy-gitlab-runner-10.png"
+  alt=""
+  
+/></p>
+<p>手动触发 Pipeline：点击右上角的 <strong>New pipeline</strong>，再点击 <strong>New pipeline</strong>，即可。</p>
+<p><img
+  src="../deploy-gitlab-runner-11.png"
+  alt=""
+  
+/></p>
+<p>触发成功后，可以看到 Pipeline 运行成功</p>
+<p><img
+  src="../deploy-gitlab-runner-12.png"
+  alt=""
+  
+/></p>
+<p>查看 Job 运行情况</p>
+<p><img
+  src="../deploy-gitlab-runner-13.png"
+  alt=""
+  
+/></p>
+<p>查看 Jobs</p>
+<p><img
+  src="../deploy-gitlab-runner-14.png"
+  alt=""
+  
+/></p>
 <hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="常见问题--坑非常高频"
+    >
+        常见问题 &amp; 坑（非常高频）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#常见问题--坑非常高频" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见问题 &amp; 坑（非常高频）" aria-label="Anchor to: 常见问题 &amp; 坑（非常高频）" href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98--%e5%9d%91%e9%9d%9e%e5%b8%b8%e9%ab%98%e9%a2%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-1-job-一直-pending"
     >
@@ -2463,8 +2697,7 @@
 </ul>
 <p>检查：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gitlab-runner list
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-2-docker-command-not-found"
     >
         ❌ 2. docker: command not found
@@ -2478,7 +2711,6 @@
 <li>没挂 docker.sock</li>
 <li>没 privileged</li>
 </ul>
-<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-3-权限问题dockersock"
     >
@@ -2491,8 +2723,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod <span class="m">666</span> /var/run/docker.sock
 </span></span></code></pre></div><p>或：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">usermod -aG docker root
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-4-runner-容器自己被-ci-杀掉"
     >
         ❌ 4. Runner 容器自己被 CI 杀掉
@@ -2509,21 +2740,20 @@
 <p>👉 <strong>生产建议 Runner 独立节点</strong></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十生产最佳实践非常重要"
+    <h2 id="生产最佳实践非常重要"
     >
-        十、生产最佳实践（非常重要）
+        生产最佳实践（非常重要）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#十生产最佳实践非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、生产最佳实践（非常重要）" aria-label="Anchor to: 十、生产最佳实践（非常重要）" href="#%e5%8d%81%e7%94%9f%e4%ba%a7%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#生产最佳实践非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生产最佳实践（非常重要）" aria-label="Anchor to: 生产最佳实践（非常重要）" href="#%e7%94%9f%e4%ba%a7%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="1-runner-与-gitlab-分离"
+    <h3 id="runner-与-gitlab-分离"
     >
-        1️⃣ Runner 与 GitLab 分离
+        Runner 与 GitLab 分离
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#1-runner-与-gitlab-分离" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ Runner 与 GitLab 分离" aria-label="Anchor to: 1️⃣ Runner 与 GitLab 分离" href="#1-runner-%e4%b8%8e-gitlab-%e5%88%86%e7%a6%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#runner-与-gitlab-分离" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Runner 与 GitLab 分离" aria-label="Anchor to: Runner 与 GitLab 分离" href="#runner-%e4%b8%8e-gitlab-%e5%88%86%e7%a6%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2531,63 +2761,59 @@
 <li>GitLab：稳定</li>
 <li>Runner：可随意扩缩</li>
 </ul>
-<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="2-使用-tag-控制-runner"
+    <h3 id="使用-tag-控制-runner"
     >
-        2️⃣ 使用 Tag 控制 Runner
+        使用 Tag 控制 Runner
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#2-使用-tag-控制-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 使用 Tag 控制 Runner" aria-label="Anchor to: 2️⃣ 使用 Tag 控制 Runner" href="#2-%e4%bd%bf%e7%94%a8-tag-%e6%8e%a7%e5%88%b6-runner">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#使用-tag-控制-runner" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 使用 Tag 控制 Runner" aria-label="Anchor to: 使用 Tag 控制 Runner" href="#%e4%bd%bf%e7%94%a8-tag-%e6%8e%a7%e5%88%b6-runner">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">tags</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">docker</span><span class="w">
-</span></span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="3-一个-runner--一个并发"
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="一个-runner--一个并发"
     >
-        3️⃣ 一个 Runner ≠ 一个并发
+        一个 Runner ≠ 一个并发
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#3-一个-runner--一个并发" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 一个 Runner ≠ 一个并发" aria-label="Anchor to: 3️⃣ 一个 Runner ≠ 一个并发" href="#3-%e4%b8%80%e4%b8%aa-runner--%e4%b8%80%e4%b8%aa%e5%b9%b6%e5%8f%91">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#一个-runner--一个并发" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一个 Runner ≠ 一个并发" aria-label="Anchor to: 一个 Runner ≠ 一个并发" href="#%e4%b8%80%e4%b8%aa-runner--%e4%b8%80%e4%b8%aa%e5%b9%b6%e5%8f%91">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">concurrent</span> <span class="p">=</span> <span class="mi">4</span>
-</span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="4-固定-runner-版本"
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="固定-runner-版本"
     >
-        4️⃣ 固定 Runner 版本
+        固定 Runner 版本
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#4-固定-runner-版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 固定 Runner 版本" aria-label="Anchor to: 4️⃣ 固定 Runner 版本" href="#4-%e5%9b%ba%e5%ae%9a-runner-%e7%89%88%e6%9c%ac">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#固定-runner-版本" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 固定 Runner 版本" aria-label="Anchor to: 固定 Runner 版本" href="#%e5%9b%ba%e5%ae%9a-runner-%e7%89%88%e6%9c%ac">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-runner:16.11.0</span><span class="w">
-</span></span></span></code></pre></div><hr>
-<div class="flex align-center gdoc-page__anchorwrap">
-    <h3 id="5-ci-镜像缓存"
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-runner:18.7.1</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="ci-镜像缓存"
     >
-        5️⃣ CI 镜像缓存
+        CI 镜像缓存
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#5-ci-镜像缓存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ CI 镜像缓存" aria-label="Anchor to: 5️⃣ CI 镜像缓存" href="#5-ci-%e9%95%9c%e5%83%8f%e7%bc%93%e5%ad%98">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#ci-镜像缓存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: CI 镜像缓存" aria-label="Anchor to: CI 镜像缓存" href="#ci-%e9%95%9c%e5%83%8f%e7%bc%93%e5%ad%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">pull_policy</span> <span class="p">=</span> <span class="s2">&#34;if-not-present&#34;</span>
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
-    <h2 id="十一安全建议容易被忽略"
+    <h2 id="安全建议容易被忽略"
     >
-        十一、安全建议（容易被忽略）
+        安全建议（容易被忽略）
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#十一安全建议容易被忽略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、安全建议（容易被忽略）" aria-label="Anchor to: 十一、安全建议（容易被忽略）" href="#%e5%8d%81%e4%b8%80%e5%ae%89%e5%85%a8%e5%bb%ba%e8%ae%ae%e5%ae%b9%e6%98%93%e8%a2%ab%e5%bf%bd%e7%95%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#安全建议容易被忽略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安全建议（容易被忽略）" aria-label="Anchor to: 安全建议（容易被忽略）" href="#%e5%ae%89%e5%85%a8%e5%bb%ba%e8%ae%ae%e5%ae%b9%e6%98%93%e8%a2%ab%e5%bf%bd%e7%95%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>⚠️ docker.sock = root 权限
-等价于 <strong>宿主机 root</strong></p>
+<p>⚠️ docker.sock = root 权限</p>
+<p>等价于 <strong>宿主机 root</strong></p>
 <p>建议：</p>
 <ul>
 <li>Runner 独立机器</li>
