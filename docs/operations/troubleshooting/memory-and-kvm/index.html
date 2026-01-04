@@ -18,9 +18,9 @@ CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HD
 在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。
 内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。
 解决方法：
-添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
+添加 SSD 硬盘 在 SSD 硬盘上创建 swap 文件，启用 swap 分区 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
 安装操作系统时，必须创建 swap 分区。
-物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
+物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G / 8G (可以自动分区, 如果超过 8G, 则删除 swap 分区, 手动添加一个 8G 的 swap 分区) 虚拟机一般硬盘空间有限，创建一个 2G 或者 4G 的 swap 分区即可 首选 4G 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
 
     <title>内存不足导致 KVM 虚拟机挂掉 | ☘️ Septvean&#39;s Documents</title>
 
@@ -52,9 +52,9 @@ CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HD
 在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。
 内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。
 解决方法：
-添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
+添加 SSD 硬盘 在 SSD 硬盘上创建 swap 文件，启用 swap 分区 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
 安装操作系统时，必须创建 swap 分区。
-物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
+物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G / 8G (可以自动分区, 如果超过 8G, 则删除 swap 分区, 手动添加一个 8G 的 swap 分区) 虚拟机一般硬盘空间有限，创建一个 2G 或者 4G 的 swap 分区即可 首选 4G 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/troubleshooting/memory-and-kvm/" />
 
@@ -69,9 +69,9 @@ CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HD
 在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。
 内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。
 解决方法：
-添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
+添加 SSD 硬盘 在 SSD 硬盘上创建 swap 文件，启用 swap 分区 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：
 安装操作系统时，必须创建 swap 分区。
-物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
+物理机：8G (超过 8G 意义不大) 虚拟机：2G / 4G / 8G (可以自动分区, 如果超过 8G, 则删除 swap 分区, 手动添加一个 8G 的 swap 分区) 虚拟机一般硬盘空间有限，创建一个 2G 或者 4G 的 swap 分区即可 首选 4G 如果是 HDD &#43; SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。" />
 
 
   <script type="application/ld+json">
@@ -82,8 +82,8 @@ CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HD
       "name": "内存不足导致 KVM 虚拟机挂掉",
       "url" : "https://documents.v2ep.com/operations/troubleshooting/memory-and-kvm/",
       "headline": "内存不足导致 KVM 虚拟机挂掉",
-      "description": "运行环境：\nCPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HDD) \u002b 500G (SSD) 操作系统：AlmaLinux 9.7 宿主机禁用了 swap 分区。\n运行了 3 个 KVM 虚拟机，第一个虚拟机 2核 4G 内存，其它两个虚拟机 2核 2G 内存。\n在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。\n内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。\n解决方法：\n添加 SSD 硬盘 启用 swap，并在 SSD 硬盘上创建 swap 文件 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：\n安装操作系统时，必须创建 swap 分区。\n物理机：8G (超过 8G 意义不大) 虚拟机：2G \/ 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区) 如果是 HDD \u002b SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。",
-      "wordCount" : "100",
+      "description": "运行环境：\nCPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HDD) \u002b 500G (SSD) 操作系统：AlmaLinux 9.7 宿主机禁用了 swap 分区。\n运行了 3 个 KVM 虚拟机，第一个虚拟机 2核 4G 内存，其它两个虚拟机 2核 2G 内存。\n在第一个虚拟机上安装 GitLab 和 Jinkins，内存要求 GitLab 是 4G，Jinkins 是 1G。\n内存不足，加上禁用了 swap，所以 4G 的内存无法正常运行 GitLab，简单的一个操作，GitLab 就会挂掉，或者 KVM 虚拟机卡死。\n解决方法：\n添加 SSD 硬盘 在 SSD 硬盘上创建 swap 文件，启用 swap 分区 将 KVM 虚拟机镜像移动到到 SSD 硬盘 总结：\n安装操作系统时，必须创建 swap 分区。\n物理机：8G (超过 8G 意义不大) 虚拟机：2G \/ 4G \/ 8G (可以自动分区, 如果超过 8G, 则删除 swap 分区, 手动添加一个 8G 的 swap 分区) 虚拟机一般硬盘空间有限，创建一个 2G 或者 4G 的 swap 分区即可 首选 4G 如果是 HDD \u002b SSD，禁用 HDD 上的 swap，在 SSD 硬盘上创建 swap 文件，并挂载到 swap 分区。",
+      "wordCount" : "112",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2124,7 +2124,7 @@ CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HD
 <p>解决方法：</p>
 <ol>
 <li>添加 SSD 硬盘</li>
-<li>启用 swap，并在 SSD 硬盘上创建 swap 文件</li>
+<li>在 SSD 硬盘上创建 swap 文件，启用 swap 分区</li>
 <li>将 KVM 虚拟机镜像移动到到 SSD 硬盘</li>
 </ol>
 <p>总结：</p>
@@ -2133,7 +2133,12 @@ CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HD
 <p>安装操作系统时，必须创建 swap 分区。</p>
 <ul>
 <li>物理机：8G (超过 8G 意义不大)</li>
-<li>虚拟机：2G / 4G (可以自动分区, 如果超过 4G, 则删除 swap 分区, 手动添加一个 4G 的 swap 分区)</li>
+<li>虚拟机：2G / 4G / 8G (可以自动分区, 如果超过 8G, 则删除 swap 分区, 手动添加一个 8G 的 swap 分区)
+<ul>
+<li>虚拟机一般硬盘空间有限，创建一个 2G 或者 4G 的 swap 分区即可</li>
+<li>首选 4G</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -2143,6 +2148,11 @@ CPU：Intel(R) Pentium(R) CPU G4560 @ 3.50GHz (4核) 内存：8G 硬盘：1T (HD
 </ul>
 </li>
 </ol>
+<p><img
+  src="../memory-and-kvm.png"
+  alt=""
+  
+/></p>
 
   </article>
 
