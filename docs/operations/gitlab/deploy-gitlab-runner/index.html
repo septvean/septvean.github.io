@@ -62,7 +62,7 @@
       "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/",
       "headline": "GitLab Runner 部署",
       "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner GitLab Runner 核心认知（先搞清楚） GitLab \/ Runner \/ CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell \/ docker \/ k8s） ⚠️ Runner ≠ GitLab",
-      "wordCount" : "886",
+      "wordCount" : "1054",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2586,6 +2586,63 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># docker executor</span>
 </span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> podman@gitlab-runner
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="podman-podman-设置-重要"
+    >
+        Podman Podman 设置 (重要‼️)
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/#podman-podman-设置-重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Podman Podman 设置 (重要‼️)" aria-label="Anchor to: Podman Podman 设置 (重要‼️)" href="#podman-podman-%e8%ae%be%e7%bd%ae-%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 允许用户在无登录状态下运行</span>
+</span></span><span class="line"><span class="cl">loginctl enable-linger gitlab-runner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置密码</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;wR5zxK2R&#39;</span> <span class="p">|</span> passwd --stdin gitlab-runner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 禁止 jenkins 用户通过 SSH 登录</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 编辑 /etc/ssh/sshd_config.d/99-deny-users.conf</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   DenyUsers jenkins gitlab-runner</span>
+</span></span><span class="line"><span class="cl">systemctl restart sshd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置 sudo 权限</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;gitlab-runner ALL=(ALL) NOPASSWD: /usr/bin/podman,/usr/bin/docker&#39;</span> &gt;&gt; /etc/sudoers.d/gitlab-runner
+</span></span><span class="line"><span class="cl">chmod <span class="m">400</span> /etc/sudoers.d/gitlab-runner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置 UID 和 GID</span>
+</span></span><span class="line"><span class="cl">usermod --add-subuids 100000-165535 --add-subgids 100000-165535 gitlab-runner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 去重 &amp; 排序</span>
+</span></span><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subuid <span class="p">|</span> sort <span class="p">|</span> sudo tee /etc/subuid
+</span></span><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subgid <span class="p">|</span> sort <span class="p">|</span> sudo tee /etc/subgid
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 切换用户</span>
+</span></span><span class="line"><span class="cl">su - gitlab-runner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查配置</span>
+</span></span><span class="line"><span class="cl">cat ~/.config/containers/containers.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果配置文件不存在, 创建配置文件</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 强制 Podman 使用默认的 ulimit, 避免它尝试去设置过高的值</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将其设置为一个 Jenkins 进程允许的值 (通常 4096 是比较安全的)</span>
+</span></span><span class="line"><span class="cl">mkdir -p ~/.config/containers
+</span></span><span class="line"><span class="cl">cat &gt; ~/.config/containers/containers.conf <span class="s">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">[containers]
+</span></span></span><span class="line"><span class="cl"><span class="s">default_ulimits = [ &#34;nofile=1024:4096&#34; ]
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重置 podman</span>
+</span></span><span class="line"><span class="cl">podman system migrate
+</span></span><span class="line"><span class="cl">podman system reset -f
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看镜像</span>
+</span></span><span class="line"><span class="cl">podman images
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull custom/jdk:21.0.9-0
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="是否启用-privileged是否允许-docker-in-docker"

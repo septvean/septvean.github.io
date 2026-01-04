@@ -74,7 +74,7 @@
       "url" : "https://documents.v2ep.com/operations/jenkins/jnlp-agent/",
       "headline": "JNLP Agent",
       "description": "JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent\/Slave）连接到 Jenkins 主节点（Master\/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。\n🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。\n在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。\n也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。\n✅ 适合场景：\n你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙\/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -\u003e Nodes -\u003e New node -\u003e Type: Permanent Agent 创建一个永久节点。",
-      "wordCount" : "616",
+      "wordCount" : "677",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2317,6 +2317,13 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 设置 sudo 权限</span>
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;jenkins ALL=(ALL) NOPASSWD: /usr/bin/podman,/usr/bin/docker&#39;</span> &gt;&gt; /etc/sudoers.d/jenkins
 </span></span><span class="line"><span class="cl">chmod <span class="m">400</span> /etc/sudoers.d/jenkins
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置 UID 和 GID</span>
+</span></span><span class="line"><span class="cl">usermod --add-subuids 100000-165535 --add-subgids 100000-165535 jenkins
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 去重 &amp; 排序</span>
+</span></span><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subuid <span class="p">|</span> sort <span class="p">|</span> sudo tee /etc/subuid
+</span></span><span class="line"><span class="cl">awk -F: <span class="s1">&#39;{ res[$1] = $0 } END { for (u in res) print res[u] }&#39;</span> /etc/subgid <span class="p">|</span> sort <span class="p">|</span> sudo tee /etc/subgid
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 切换用户</span>
 </span></span><span class="line"><span class="cl">su - jenkins
