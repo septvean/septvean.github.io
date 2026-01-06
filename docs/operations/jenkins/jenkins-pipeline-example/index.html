@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Directory List:
-Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 GitHub 创建 Token Jenkins Agent 调度策略 Jenkins docker build error Jenkins GitHub Pipeline Jenkins Multibranch Pipeline Jenkins Multibranch Pipeline 定时触发 Jenkins Pipeline 完整示例 Jenkins 凭据错误 Jenkins 最佳实践 Jenkins 集群（Master &#43; Agent） JNLP Agent 使用 Docker 部署的 Jenkins 如何打包其他 Docker 镜像 " />
+  <meta name="description" content="一个“完整”的 Jenkins Pipeline 示例通常包含：代码拉取、环境准备、构建/测试、制品归档、通知这几个阶段。
+下面是一个通用的 Declarative Pipeline 示例，适用于大多数基于 Maven (Java) 或 Node.js 的 Web 项目。代码中包含了详细的注释，方便理解每一部分的作用。
+🛠️ 完整 Jenkinsfile 示例 可以将这段代码保存在项目根目录下的 Jenkinsfile 中，或者直接在 Jenkins 任务的配置页面中输入。
+pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表示任意可用的 agent // 也可以指定标签，如 label &#39;docker-node&#39; agent any // 2. 环境变量定义 // 这里定义的变量可以在整个 Pipeline 中使用 environment { // 从 Jenkins 凭证管理中获取 Docker 仓库密码 // &#39;docker-hub&#39; 是你在 Jenkins 中创建的凭证 ID DOCKER_CREDENTIALS = credentials(&#39;docker-hub&#39;) // 定义应用名称 APP_NAME = &#39;my-awesome-app&#39; // 获取构建编号，用于打 Docker 镜像标签 IMAGE_TAG = &#39;{BUILD_NUMBER}&#39; } // 3. 参数化构建 // 允许在点击“立即构建”时手动输入参数 parameters { string(name: &#39;VERSION&#39;, defaultValue: &#39;1.0&#39;, description: &#39;请输入构建的版本号&#39;) booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: false, description: &#39;是否开启调试模式？&#39;) } // 4. 主要执行阶段 stages { // 阶段 1：检出代码 stage(&#39;检出代码&#39;) { steps { script { echo &#39;开始拉取代码...&#39; // 删除工作空间旧文件（相当于 clean） cleanWs() } // 使用 Git 插件拉取代码 // 替换为你自己的仓库地址 git branch: &#39;main&#39;, url: &#39;https://github.com/yourname/your-repo.git&#39;, credentialsId: &#39;github-token&#39; // 如果是私有仓库需要凭证 } } // 阶段 2：依赖安装与构建 stage(&#39;构建项目&#39;) { steps { script { echo &#39;开始构建项目，版本: {params.VERSION}&#39; // 示例：如果是 Node.js 项目 // sh &#39;npm install&#39; // sh &#39;npm run build&#39; // 示例：如果是 Maven 项目 // sh &#39;mvn clean package -DskipTests&#39; // 这里我们模拟一个构建过程 sh &#39;echo &#34;模拟编译过程...&#34;&#39; sh &#39;sleep 5&#39; // 模拟耗时操作 } } } // 阶段 3：运行测试 stage(&#39;运行测试&#39;) { steps { script { echo &#39;运行单元测试...&#39; // 这里可以集成 JUnit 测试报告 // sh &#39;mvn test&#39; sh &#39;echo &#34;测试通过！&#34;&#39; // 归档测试报告（如果有的话） // junit &#39;**/target/surefire-reports/*.xml&#39; } } } // 阶段 4：代码质量检查 (SonarQube 示例) stage(&#39;代码质量检查&#39;) { steps { script { echo &#39;正在扫描代码质量...&#39; // 需要安装 SonarQube Scanner 插件 // withSonarQubeEnv(&#39;MySonarServer&#39;) { // sh &#39;mvn sonar:sonar&#39; // } } } } // 阶段 5：制作 Docker 镜像 stage(&#39;打包 Docker 镜像&#39;) { when { // 仅在 master 分支执行 branch &#39;main&#39; } steps { script { echo &#39;正在构建 Docker 镜像...&#39; // 使用 Docker 插件 docker.build(&#39;{env.APP_NAME}:{env.IMAGE_TAG}&#39;) } } } // 阶段 6：部署 stage(&#39;部署到服务器&#39;) { when { expression { // 只有构建参数 DEBUG_BUILD 为 false 时才部署 return !params.DEBUG_BUILD } } steps { script { echo &#39;开始部署应用...&#39; // 这里可以使用 SSH 插件发送脚本到远程服务器 // sshPublisher(publishers: [ // sshPublisherDesc( // configName: &#39;prod-server&#39;, // transfers: [sshTransfer(cleanRemote: false, excludes: &#39;&#39;, execCommand: &#39;docker-compose up -d&#39;, ...)] // ) // ]) // 模拟部署 sh &#39;echo &#34;应用已部署到生产环境！&#34;&#39; } } } } // 5. 无论构建成功还是失败，都会执行的清理或通知步骤 post { // 构建成功 success { steps { echo &#39;🎉 构建成功！&#39; // 发送企业微信或钉钉通知 // slackSend channel: &#39;#jenkins&#39;, message: &#34;构建成功: {env.BUILD_URL}&#34; } } // 构建失败 failure { steps { echo &#39;🚨 构建失败！请检查日志。&#39; // 发送邮件通知负责人 emailext( subject: &#39;构建失败: {currentBuild.fullDisplayName}&#39;, body: &#34;请登录 Jenkins 查看详细日志: ${env.BUILD_URL}&#34;, to: &#39;dev-team@example.com&#39; ) } } // 始终执行（归档制品） always { steps { script { // 归档构建产物（如 jar 包、zip 文件） // 这样可以在 Jenkins 界面下载 archiveArtifacts artifacts: &#39;target/*.jar&#39;, fingerprint: true } } } // 清理工作空间 cleanup { cleanWs() } } } 🧩 关键组件解析 为了让你更好地修改这个模板，这里解释几个核心点：" />
 
-    <title>Jenkins | ☘️ Septvean&#39;s Documents</title>
+    <title>Jenkins Pipeline 完整示例 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +38,25 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
     
   <meta
     property="og:title"
-    content="Jenkins"
+    content="Jenkins Pipeline 完整示例"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Directory List:
-Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 GitHub 创建 Token Jenkins Agent 调度策略 Jenkins docker build error Jenkins GitHub Pipeline Jenkins Multibranch Pipeline Jenkins Multibranch Pipeline 定时触发 Jenkins Pipeline 完整示例 Jenkins 凭据错误 Jenkins 最佳实践 Jenkins 集群（Master &#43; Agent） JNLP Agent 使用 Docker 部署的 Jenkins 如何打包其他 Docker 镜像 " />
+  <meta property="og:description" content="一个“完整”的 Jenkins Pipeline 示例通常包含：代码拉取、环境准备、构建/测试、制品归档、通知这几个阶段。
+下面是一个通用的 Declarative Pipeline 示例，适用于大多数基于 Maven (Java) 或 Node.js 的 Web 项目。代码中包含了详细的注释，方便理解每一部分的作用。
+🛠️ 完整 Jenkinsfile 示例 可以将这段代码保存在项目根目录下的 Jenkinsfile 中，或者直接在 Jenkins 任务的配置页面中输入。
+pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表示任意可用的 agent // 也可以指定标签，如 label &#39;docker-node&#39; agent any // 2. 环境变量定义 // 这里定义的变量可以在整个 Pipeline 中使用 environment { // 从 Jenkins 凭证管理中获取 Docker 仓库密码 // &#39;docker-hub&#39; 是你在 Jenkins 中创建的凭证 ID DOCKER_CREDENTIALS = credentials(&#39;docker-hub&#39;) // 定义应用名称 APP_NAME = &#39;my-awesome-app&#39; // 获取构建编号，用于打 Docker 镜像标签 IMAGE_TAG = &#39;{BUILD_NUMBER}&#39; } // 3. 参数化构建 // 允许在点击“立即构建”时手动输入参数 parameters { string(name: &#39;VERSION&#39;, defaultValue: &#39;1.0&#39;, description: &#39;请输入构建的版本号&#39;) booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: false, description: &#39;是否开启调试模式？&#39;) } // 4. 主要执行阶段 stages { // 阶段 1：检出代码 stage(&#39;检出代码&#39;) { steps { script { echo &#39;开始拉取代码...&#39; // 删除工作空间旧文件（相当于 clean） cleanWs() } // 使用 Git 插件拉取代码 // 替换为你自己的仓库地址 git branch: &#39;main&#39;, url: &#39;https://github.com/yourname/your-repo.git&#39;, credentialsId: &#39;github-token&#39; // 如果是私有仓库需要凭证 } } // 阶段 2：依赖安装与构建 stage(&#39;构建项目&#39;) { steps { script { echo &#39;开始构建项目，版本: {params.VERSION}&#39; // 示例：如果是 Node.js 项目 // sh &#39;npm install&#39; // sh &#39;npm run build&#39; // 示例：如果是 Maven 项目 // sh &#39;mvn clean package -DskipTests&#39; // 这里我们模拟一个构建过程 sh &#39;echo &#34;模拟编译过程...&#34;&#39; sh &#39;sleep 5&#39; // 模拟耗时操作 } } } // 阶段 3：运行测试 stage(&#39;运行测试&#39;) { steps { script { echo &#39;运行单元测试...&#39; // 这里可以集成 JUnit 测试报告 // sh &#39;mvn test&#39; sh &#39;echo &#34;测试通过！&#34;&#39; // 归档测试报告（如果有的话） // junit &#39;**/target/surefire-reports/*.xml&#39; } } } // 阶段 4：代码质量检查 (SonarQube 示例) stage(&#39;代码质量检查&#39;) { steps { script { echo &#39;正在扫描代码质量...&#39; // 需要安装 SonarQube Scanner 插件 // withSonarQubeEnv(&#39;MySonarServer&#39;) { // sh &#39;mvn sonar:sonar&#39; // } } } } // 阶段 5：制作 Docker 镜像 stage(&#39;打包 Docker 镜像&#39;) { when { // 仅在 master 分支执行 branch &#39;main&#39; } steps { script { echo &#39;正在构建 Docker 镜像...&#39; // 使用 Docker 插件 docker.build(&#39;{env.APP_NAME}:{env.IMAGE_TAG}&#39;) } } } // 阶段 6：部署 stage(&#39;部署到服务器&#39;) { when { expression { // 只有构建参数 DEBUG_BUILD 为 false 时才部署 return !params.DEBUG_BUILD } } steps { script { echo &#39;开始部署应用...&#39; // 这里可以使用 SSH 插件发送脚本到远程服务器 // sshPublisher(publishers: [ // sshPublisherDesc( // configName: &#39;prod-server&#39;, // transfers: [sshTransfer(cleanRemote: false, excludes: &#39;&#39;, execCommand: &#39;docker-compose up -d&#39;, ...)] // ) // ]) // 模拟部署 sh &#39;echo &#34;应用已部署到生产环境！&#34;&#39; } } } } // 5. 无论构建成功还是失败，都会执行的清理或通知步骤 post { // 构建成功 success { steps { echo &#39;🎉 构建成功！&#39; // 发送企业微信或钉钉通知 // slackSend channel: &#39;#jenkins&#39;, message: &#34;构建成功: {env.BUILD_URL}&#34; } } // 构建失败 failure { steps { echo &#39;🚨 构建失败！请检查日志。&#39; // 发送邮件通知负责人 emailext( subject: &#39;构建失败: {currentBuild.fullDisplayName}&#39;, body: &#34;请登录 Jenkins 查看详细日志: ${env.BUILD_URL}&#34;, to: &#39;dev-team@example.com&#39; ) } } // 始终执行（归档制品） always { steps { script { // 归档构建产物（如 jar 包、zip 文件） // 这样可以在 Jenkins 界面下载 archiveArtifacts artifacts: &#39;target/*.jar&#39;, fingerprint: true } } } // 清理工作空间 cleanup { cleanWs() } } } 🧩 关键组件解析 为了让你更好地修改这个模板，这里解释几个核心点：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/jenkins/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Jenkins" />
-  <meta name="twitter:description" content="Directory List:
-Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 GitHub 创建 Token Jenkins Agent 调度策略 Jenkins docker build error Jenkins GitHub Pipeline Jenkins Multibranch Pipeline Jenkins Multibranch Pipeline 定时触发 Jenkins Pipeline 完整示例 Jenkins 凭据错误 Jenkins 最佳实践 Jenkins 集群（Master &#43; Agent） JNLP Agent 使用 Docker 部署的 Jenkins 如何打包其他 Docker 镜像 " />
+<meta name="twitter:title" content="Jenkins Pipeline 完整示例" />
+  <meta name="twitter:description" content="一个“完整”的 Jenkins Pipeline 示例通常包含：代码拉取、环境准备、构建/测试、制品归档、通知这几个阶段。
+下面是一个通用的 Declarative Pipeline 示例，适用于大多数基于 Maven (Java) 或 Node.js 的 Web 项目。代码中包含了详细的注释，方便理解每一部分的作用。
+🛠️ 完整 Jenkinsfile 示例 可以将这段代码保存在项目根目录下的 Jenkinsfile 中，或者直接在 Jenkins 任务的配置页面中输入。
+pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表示任意可用的 agent // 也可以指定标签，如 label &#39;docker-node&#39; agent any // 2. 环境变量定义 // 这里定义的变量可以在整个 Pipeline 中使用 environment { // 从 Jenkins 凭证管理中获取 Docker 仓库密码 // &#39;docker-hub&#39; 是你在 Jenkins 中创建的凭证 ID DOCKER_CREDENTIALS = credentials(&#39;docker-hub&#39;) // 定义应用名称 APP_NAME = &#39;my-awesome-app&#39; // 获取构建编号，用于打 Docker 镜像标签 IMAGE_TAG = &#39;{BUILD_NUMBER}&#39; } // 3. 参数化构建 // 允许在点击“立即构建”时手动输入参数 parameters { string(name: &#39;VERSION&#39;, defaultValue: &#39;1.0&#39;, description: &#39;请输入构建的版本号&#39;) booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: false, description: &#39;是否开启调试模式？&#39;) } // 4. 主要执行阶段 stages { // 阶段 1：检出代码 stage(&#39;检出代码&#39;) { steps { script { echo &#39;开始拉取代码...&#39; // 删除工作空间旧文件（相当于 clean） cleanWs() } // 使用 Git 插件拉取代码 // 替换为你自己的仓库地址 git branch: &#39;main&#39;, url: &#39;https://github.com/yourname/your-repo.git&#39;, credentialsId: &#39;github-token&#39; // 如果是私有仓库需要凭证 } } // 阶段 2：依赖安装与构建 stage(&#39;构建项目&#39;) { steps { script { echo &#39;开始构建项目，版本: {params.VERSION}&#39; // 示例：如果是 Node.js 项目 // sh &#39;npm install&#39; // sh &#39;npm run build&#39; // 示例：如果是 Maven 项目 // sh &#39;mvn clean package -DskipTests&#39; // 这里我们模拟一个构建过程 sh &#39;echo &#34;模拟编译过程...&#34;&#39; sh &#39;sleep 5&#39; // 模拟耗时操作 } } } // 阶段 3：运行测试 stage(&#39;运行测试&#39;) { steps { script { echo &#39;运行单元测试...&#39; // 这里可以集成 JUnit 测试报告 // sh &#39;mvn test&#39; sh &#39;echo &#34;测试通过！&#34;&#39; // 归档测试报告（如果有的话） // junit &#39;**/target/surefire-reports/*.xml&#39; } } } // 阶段 4：代码质量检查 (SonarQube 示例) stage(&#39;代码质量检查&#39;) { steps { script { echo &#39;正在扫描代码质量...&#39; // 需要安装 SonarQube Scanner 插件 // withSonarQubeEnv(&#39;MySonarServer&#39;) { // sh &#39;mvn sonar:sonar&#39; // } } } } // 阶段 5：制作 Docker 镜像 stage(&#39;打包 Docker 镜像&#39;) { when { // 仅在 master 分支执行 branch &#39;main&#39; } steps { script { echo &#39;正在构建 Docker 镜像...&#39; // 使用 Docker 插件 docker.build(&#39;{env.APP_NAME}:{env.IMAGE_TAG}&#39;) } } } // 阶段 6：部署 stage(&#39;部署到服务器&#39;) { when { expression { // 只有构建参数 DEBUG_BUILD 为 false 时才部署 return !params.DEBUG_BUILD } } steps { script { echo &#39;开始部署应用...&#39; // 这里可以使用 SSH 插件发送脚本到远程服务器 // sshPublisher(publishers: [ // sshPublisherDesc( // configName: &#39;prod-server&#39;, // transfers: [sshTransfer(cleanRemote: false, excludes: &#39;&#39;, execCommand: &#39;docker-compose up -d&#39;, ...)] // ) // ]) // 模拟部署 sh &#39;echo &#34;应用已部署到生产环境！&#34;&#39; } } } } // 5. 无论构建成功还是失败，都会执行的清理或通知步骤 post { // 构建成功 success { steps { echo &#39;🎉 构建成功！&#39; // 发送企业微信或钉钉通知 // slackSend channel: &#39;#jenkins&#39;, message: &#34;构建成功: {env.BUILD_URL}&#34; } } // 构建失败 failure { steps { echo &#39;🚨 构建失败！请检查日志。&#39; // 发送邮件通知负责人 emailext( subject: &#39;构建失败: {currentBuild.fullDisplayName}&#39;, body: &#34;请登录 Jenkins 查看详细日志: ${env.BUILD_URL}&#34;, to: &#39;dev-team@example.com&#39; ) } } // 始终执行（归档制品） always { steps { script { // 归档构建产物（如 jar 包、zip 文件） // 这样可以在 Jenkins 界面下载 archiveArtifacts artifacts: &#39;target/*.jar&#39;, fingerprint: true } } } // 清理工作空间 cleanup { cleanWs() } } } 🧩 关键组件解析 为了让你更好地修改这个模板，这里解释几个核心点：" />
 
 
   <script type="application/ld+json">
@@ -58,16 +64,16 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Jenkins",
-      "url" : "https://documents.v2ep.com/operations/jenkins/",
-      "headline": "Jenkins",
-      "description": "Directory List:\nJenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 GitHub 创建 Token Jenkins Agent 调度策略 Jenkins docker build error Jenkins GitHub Pipeline Jenkins Multibranch Pipeline Jenkins Multibranch Pipeline 定时触发 Jenkins Pipeline 完整示例 Jenkins 凭据错误 Jenkins 最佳实践 Jenkins 集群（Master \u002b Agent） JNLP Agent 使用 Docker 部署的 Jenkins 如何打包其他 Docker 镜像 ",
-      "wordCount" : "52",
+      "name": "Jenkins Pipeline 完整示例",
+      "url" : "https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/",
+      "headline": "Jenkins Pipeline 完整示例",
+      "description": "一个“完整”的 Jenkins Pipeline 示例通常包含：代码拉取、环境准备、构建\/测试、制品归档、通知这几个阶段。\n下面是一个通用的 Declarative Pipeline 示例，适用于大多数基于 Maven (Java) 或 Node.js 的 Web 项目。代码中包含了详细的注释，方便理解每一部分的作用。\n🛠️ 完整 Jenkinsfile 示例 可以将这段代码保存在项目根目录下的 Jenkinsfile 中，或者直接在 Jenkins 任务的配置页面中输入。\npipeline { \/\/ 1. Agent 配置：指定在哪个节点运行 \/\/ \u0027any\u0027 表示任意可用的 agent \/\/ 也可以指定标签，如 label \u0027docker-node\u0027 agent any \/\/ 2. 环境变量定义 \/\/ 这里定义的变量可以在整个 Pipeline 中使用 environment { \/\/ 从 Jenkins 凭证管理中获取 Docker 仓库密码 \/\/ \u0027docker-hub\u0027 是你在 Jenkins 中创建的凭证 ID DOCKER_CREDENTIALS = credentials(\u0027docker-hub\u0027) \/\/ 定义应用名称 APP_NAME = \u0027my-awesome-app\u0027 \/\/ 获取构建编号，用于打 Docker 镜像标签 IMAGE_TAG = \u0027{BUILD_NUMBER}\u0027 } \/\/ 3. 参数化构建 \/\/ 允许在点击“立即构建”时手动输入参数 parameters { string(name: \u0027VERSION\u0027, defaultValue: \u00271.0\u0027, description: \u0027请输入构建的版本号\u0027) booleanParam(name: \u0027DEBUG_BUILD\u0027, defaultValue: false, description: \u0027是否开启调试模式？\u0027) } \/\/ 4. 主要执行阶段 stages { \/\/ 阶段 1：检出代码 stage(\u0027检出代码\u0027) { steps { script { echo \u0027开始拉取代码...\u0027 \/\/ 删除工作空间旧文件（相当于 clean） cleanWs() } \/\/ 使用 Git 插件拉取代码 \/\/ 替换为你自己的仓库地址 git branch: \u0027main\u0027, url: \u0027https:\/\/github.com\/yourname\/your-repo.git\u0027, credentialsId: \u0027github-token\u0027 \/\/ 如果是私有仓库需要凭证 } } \/\/ 阶段 2：依赖安装与构建 stage(\u0027构建项目\u0027) { steps { script { echo \u0027开始构建项目，版本: {params.VERSION}\u0027 \/\/ 示例：如果是 Node.js 项目 \/\/ sh \u0027npm install\u0027 \/\/ sh \u0027npm run build\u0027 \/\/ 示例：如果是 Maven 项目 \/\/ sh \u0027mvn clean package -DskipTests\u0027 \/\/ 这里我们模拟一个构建过程 sh \u0027echo \u0022模拟编译过程...\u0022\u0027 sh \u0027sleep 5\u0027 \/\/ 模拟耗时操作 } } } \/\/ 阶段 3：运行测试 stage(\u0027运行测试\u0027) { steps { script { echo \u0027运行单元测试...\u0027 \/\/ 这里可以集成 JUnit 测试报告 \/\/ sh \u0027mvn test\u0027 sh \u0027echo \u0022测试通过！\u0022\u0027 \/\/ 归档测试报告（如果有的话） \/\/ junit \u0027**\/target\/surefire-reports\/*.xml\u0027 } } } \/\/ 阶段 4：代码质量检查 (SonarQube 示例) stage(\u0027代码质量检查\u0027) { steps { script { echo \u0027正在扫描代码质量...\u0027 \/\/ 需要安装 SonarQube Scanner 插件 \/\/ withSonarQubeEnv(\u0027MySonarServer\u0027) { \/\/ sh \u0027mvn sonar:sonar\u0027 \/\/ } } } } \/\/ 阶段 5：制作 Docker 镜像 stage(\u0027打包 Docker 镜像\u0027) { when { \/\/ 仅在 master 分支执行 branch \u0027main\u0027 } steps { script { echo \u0027正在构建 Docker 镜像...\u0027 \/\/ 使用 Docker 插件 docker.build(\u0027{env.APP_NAME}:{env.IMAGE_TAG}\u0027) } } } \/\/ 阶段 6：部署 stage(\u0027部署到服务器\u0027) { when { expression { \/\/ 只有构建参数 DEBUG_BUILD 为 false 时才部署 return !params.DEBUG_BUILD } } steps { script { echo \u0027开始部署应用...\u0027 \/\/ 这里可以使用 SSH 插件发送脚本到远程服务器 \/\/ sshPublisher(publishers: [ \/\/ sshPublisherDesc( \/\/ configName: \u0027prod-server\u0027, \/\/ transfers: [sshTransfer(cleanRemote: false, excludes: \u0027\u0027, execCommand: \u0027docker-compose up -d\u0027, ...)] \/\/ ) \/\/ ]) \/\/ 模拟部署 sh \u0027echo \u0022应用已部署到生产环境！\u0022\u0027 } } } } \/\/ 5. 无论构建成功还是失败，都会执行的清理或通知步骤 post { \/\/ 构建成功 success { steps { echo \u0027🎉 构建成功！\u0027 \/\/ 发送企业微信或钉钉通知 \/\/ slackSend channel: \u0027#jenkins\u0027, message: \u0022构建成功: {env.BUILD_URL}\u0022 } } \/\/ 构建失败 failure { steps { echo \u0027🚨 构建失败！请检查日志。\u0027 \/\/ 发送邮件通知负责人 emailext( subject: \u0027构建失败: {currentBuild.fullDisplayName}\u0027, body: \u0022请登录 Jenkins 查看详细日志: ${env.BUILD_URL}\u0022, to: \u0027dev-team@example.com\u0027 ) } } \/\/ 始终执行（归档制品） always { steps { script { \/\/ 归档构建产物（如 jar 包、zip 文件） \/\/ 这样可以在 Jenkins 界面下载 archiveArtifacts artifacts: \u0027target\/*.jar\u0027, fingerprint: true } } } \/\/ 清理工作空间 cleanup { cleanWs() } } } 🧩 关键组件解析 为了让你更好地修改这个模板，这里解释几个核心点：",
+      "wordCount" : "499",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/jenkins/"
+          "@id": "https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/jenkins/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1578,7 +1584,7 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
                 <span class="flex">
                   <a
                     href="/operations/jenkins/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Jenkins
                   </a>
@@ -2112,7 +2118,15 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Jenkins</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/jenkins/' href='/operations/jenkins/'><span itemprop='name'>Jenkins</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Jenkins Pipeline 完整示例</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2131,143 +2145,274 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Jenkins</h1>
-    <p>Directory List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>Jenkins Pipeline 完整示例</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/jenkins/faq/" class="gdoc-toc__entry">Jenkins FAQ
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/jenkins/tutorial/" class="gdoc-toc__entry">Jenkins 基础教程
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/core/" class="gdoc-toc__entry">Jenkins 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/jenkins/deploy/" class="gdoc-toc__entry">Jenkins 部署
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/jenkins/gitlab-github-token/" class="gdoc-toc__entry">GitLab 和 GitHub 创建 Token
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/agent-scheduler/" class="gdoc-toc__entry">Jenkins Agent 调度策略
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/docker-build-error/" class="gdoc-toc__entry">Jenkins docker build error
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/github-pipeline/" class="gdoc-toc__entry">Jenkins GitHub Pipeline
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/multibranch-pipeline/" class="gdoc-toc__entry">Jenkins Multibranch Pipeline
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/multibranch-pipeline-cron/" class="gdoc-toc__entry">Jenkins Multibranch Pipeline 定时触发
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/jenkins-pipeline-example/" class="gdoc-toc__entry">Jenkins Pipeline 完整示例
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/credentials-error/" class="gdoc-toc__entry">Jenkins 凭据错误
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/best-practices/" class="gdoc-toc__entry">Jenkins 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/cluster/" class="gdoc-toc__entry">Jenkins 集群（Master &#43; Agent）
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/jnlp-agent/" class="gdoc-toc__entry">JNLP Agent
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/jenkins/build-docker/" class="gdoc-toc__entry">使用 Docker 部署的 Jenkins 如何打包其他 Docker 镜像
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+    <p>一个“完整”的 Jenkins Pipeline 示例通常包含：代码拉取、环境准备、构建/测试、制品归档、通知这几个阶段。</p>
+<p>下面是一个通用的 Declarative Pipeline 示例，适用于大多数基于 Maven (Java) 或 Node.js 的 Web 项目。代码中包含了详细的注释，方便理解每一部分的作用。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-完整-jenkinsfile-示例"
+    >
+        🛠️ 完整 Jenkinsfile 示例
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#-完整-jenkinsfile-示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🛠️ 完整 Jenkinsfile 示例" aria-label="Anchor to: 🛠️ 完整 Jenkinsfile 示例" href="#-%e5%ae%8c%e6%95%b4-jenkinsfile-%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>可以将这段代码保存在项目根目录下的 Jenkinsfile 中，或者直接在 Jenkins 任务的配置页面中输入。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">pipeline</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 1. Agent 配置：指定在哪个节点运行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// &#39;any&#39; 表示任意可用的 agent
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 也可以指定标签，如 label &#39;docker-node&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">agent</span> <span class="n">any</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 2. 环境变量定义
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 这里定义的变量可以在整个 Pipeline 中使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">environment</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 从 Jenkins 凭证管理中获取 Docker 仓库密码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// &#39;docker-hub&#39; 是你在 Jenkins 中创建的凭证 ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">DOCKER_CREDENTIALS</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">(</span><span class="s1">&#39;docker-hub&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 定义应用名称
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">APP_NAME</span> <span class="o">=</span> <span class="s1">&#39;my-awesome-app&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 获取构建编号，用于打 Docker 镜像标签
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">IMAGE_TAG</span> <span class="o">=</span> <span class="s1">&#39;{BUILD_NUMBER}&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 3. 参数化构建
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 允许在点击“立即构建”时手动输入参数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">parameters</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">string</span><span class="o">(</span><span class="nl">name:</span> <span class="s1">&#39;VERSION&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="s1">&#39;1.0&#39;</span><span class="o">,</span> <span class="nl">description:</span> <span class="s1">&#39;请输入构建的版本号&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">booleanParam</span><span class="o">(</span><span class="nl">name:</span> <span class="s1">&#39;DEBUG_BUILD&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">description:</span> <span class="s1">&#39;是否开启调试模式？&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 4. 主要执行阶段
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">stages</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 阶段 1：检出代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;检出代码&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">echo</span> <span class="s1">&#39;开始拉取代码...&#39;</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 删除工作空间旧文件（相当于 clean）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">cleanWs</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 使用 Git 插件拉取代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// 替换为你自己的仓库地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">git</span> <span class="nl">branch:</span> <span class="s1">&#39;main&#39;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="nl">url:</span> <span class="s1">&#39;https://github.com/yourname/your-repo.git&#39;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="nl">credentialsId:</span> <span class="s1">&#39;github-token&#39;</span> <span class="c1">// 如果是私有仓库需要凭证
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 阶段 2：依赖安装与构建
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;构建项目&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">echo</span> <span class="s1">&#39;开始构建项目，版本: {params.VERSION}&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 示例：如果是 Node.js 项目
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">// sh &#39;npm install&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">// sh &#39;npm run build&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 示例：如果是 Maven 项目
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">// sh &#39;mvn clean package -DskipTests&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 这里我们模拟一个构建过程
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">sh</span> <span class="s1">&#39;echo &#34;模拟编译过程...&#34;&#39;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">sh</span> <span class="s1">&#39;sleep 5&#39;</span> <span class="c1">// 模拟耗时操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 阶段 3：运行测试
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;运行测试&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">echo</span> <span class="s1">&#39;运行单元测试...&#39;</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 这里可以集成 JUnit 测试报告
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">// sh &#39;mvn test&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">sh</span> <span class="s1">&#39;echo &#34;测试通过！&#34;&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="c1">// 归档测试报告（如果有的话）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// junit &#39;**/target/surefire-reports/*.xml&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 阶段 4：代码质量检查 (SonarQube 示例)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;代码质量检查&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">echo</span> <span class="s1">&#39;正在扫描代码质量...&#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 需要安装 SonarQube Scanner 插件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// withSonarQubeEnv(&#39;MySonarServer&#39;) {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//     sh &#39;mvn sonar:sonar&#39;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 阶段 5：制作 Docker 镜像
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;打包 Docker 镜像&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">when</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 仅在 master 分支执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">branch</span> <span class="s1">&#39;main&#39;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">echo</span> <span class="s1">&#39;正在构建 Docker 镜像...&#39;</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 使用 Docker 插件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">docker</span><span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="s1">&#39;{env.APP_NAME}:{env.IMAGE_TAG}&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 阶段 6：部署
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;部署到服务器&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">when</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">expression</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 只有构建参数 DEBUG_BUILD 为 false 时才部署
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">return</span> <span class="o">!</span><span class="n">params</span><span class="o">.</span><span class="na">DEBUG_BUILD</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">echo</span> <span class="s1">&#39;开始部署应用...&#39;</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 这里可以使用 SSH 插件发送脚本到远程服务器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">// sshPublisher(publishers: [
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">//     sshPublisherDesc(
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">//         configName: &#39;prod-server&#39;,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">//         transfers: [sshTransfer(cleanRemote: false, excludes: &#39;&#39;, execCommand: &#39;docker-compose up -d&#39;, ...)]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">//     )
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">// ])
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 模拟部署
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">sh</span> <span class="s1">&#39;echo &#34;应用已部署到生产环境！&#34;&#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 5. 无论构建成功还是失败，都会执行的清理或通知步骤
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">post</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 构建成功
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">success</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">echo</span> <span class="s1">&#39;🎉 构建成功！&#39;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 发送企业微信或钉钉通知
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// slackSend channel: &#39;#jenkins&#39;, message: &#34;构建成功: {env.BUILD_URL}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 构建失败
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">failure</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">echo</span> <span class="s1">&#39;🚨 构建失败！请检查日志。&#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 发送邮件通知负责人
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">emailext</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="nl">subject:</span> <span class="s1">&#39;构建失败: {currentBuild.fullDisplayName}&#39;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nl">body:</span> <span class="s2">&#34;请登录 Jenkins 查看详细日志: ${env.BUILD_URL}&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nl">to:</span> <span class="s1">&#39;dev-team@example.com&#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 始终执行（归档制品）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">always</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 归档构建产物（如 jar 包、zip 文件）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="c1">// 这样可以在 Jenkins 界面下载
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">archiveArtifacts</span> <span class="nl">artifacts:</span> <span class="s1">&#39;target/*.jar&#39;</span><span class="o">,</span> <span class="nl">fingerprint:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 清理工作空间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">cleanup</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cleanWs</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-关键组件解析"
+    >
+        🧩 关键组件解析
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#-关键组件解析" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧩 关键组件解析" aria-label="Anchor to: 🧩 关键组件解析" href="#-%e5%85%b3%e9%94%ae%e7%bb%84%e4%bb%b6%e8%a7%a3%e6%9e%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>为了让你更好地修改这个模板，这里解释几个核心点：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="agent-any"
+    >
+        agent any
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#agent-any" class="gdoc-page__anchor clip flex align-center" title="Anchor to: agent any" aria-label="Anchor to: agent any" href="#agent-any">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>决定了 Pipeline 在哪里运行。如果你有专门的 Docker 节点，可以写 label &lsquo;docker&rsquo;。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="environment"
+    >
+        environment
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#environment" class="gdoc-page__anchor clip flex align-center" title="Anchor to: environment" aria-label="Anchor to: environment" href="#environment">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>用于存放环境变量和敏感信息（如密码）。强烈建议使用 credentials() 来引用 Jenkins 凭证，而不是直接把密码写在代码里。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="parameters"
+    >
+        parameters
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#parameters" class="gdoc-page__anchor clip flex align-center" title="Anchor to: parameters" aria-label="Anchor to: parameters" href="#parameters">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>实现了“参数化构建”。当你点击构建时，Jenkins 会弹窗让你输入版本号或选择开关。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="when-指令"
+    >
+        when 指令
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#when-指令" class="gdoc-page__anchor clip flex align-center" title="Anchor to: when 指令" aria-label="Anchor to: when 指令" href="#when-%e6%8c%87%e4%bb%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>条件判断。比如上面的例子中，只有 master 分支才会执行打包 Docker 镜像的操作，其他分支（如 feature 分支）只会构建和测试。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="post-阶段"
+    >
+        post 阶段
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#post-阶段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: post 阶段" aria-label="Anchor to: post 阶段" href="#post-%e9%98%b6%e6%ae%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这是构建结束后的收尾工作。通常用于发送通知或归档文件。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-如何使用"
+    >
+        🚀 如何使用
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/jenkins/jenkins-pipeline-example/#-如何使用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🚀 如何使用" aria-label="Anchor to: 🚀 如何使用" href="#-%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>安装插件：确保 Jenkins 安装了必要的插件，如 Git, Pipeline, Docker, Email Extension 等。</li>
+<li>新建任务：在 Jenkins 界面选择“新建任务” -&gt; “流水线”。</li>
+<li>配置流水线：
+<ul>
+<li>在“构建触发器”中可以选择 GitHub hook trigger 实现自动触发，或者使用 Build periodically 设置定时任务。</li>
+<li>在“流水线”部分，选择 Pipeline script from SCM，然后填写你的 Git 仓库地址和 Jenkinsfile 的路径。</li>
+</ul>
+</li>
+<li>点击构建：保存后点击“立即构建”，观察左侧的构建队列和日志输出。</li>
+</ol>
+<p>这个示例涵盖了 CI/CD 的大部分场景，可以根据项目的具体语言（Go, Python, Java 等）替换 steps 中的 Shell 命令即可。</p>
 
   </article>
 
@@ -3200,9 +3345,6 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
         
 
         
-          
-          
-        
 
         
           
@@ -3224,11 +3366,6 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3536,27 +3673,9 @@ Jenkins FAQ Jenkins 基础教程 Jenkins 核心概念 Jenkins 部署 GitLab 和 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/java/"
-      title="Java"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      Java
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/operations/kafka/"
-      title="Kafka"
-    >
-      Kafka
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
