@@ -62,7 +62,7 @@
       "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/",
       "headline": "GitLab Runner 部署",
       "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner GitLab Runner 核心认知（先搞清楚） GitLab \/ Runner \/ CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell \/ docker \/ k8s） ⚠️ Runner ≠ GitLab",
-      "wordCount" : "1054",
+      "wordCount" : "1053",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2289,7 +2289,7 @@
   class="gdoc-markdown__link"
   href="https://packages.gitlab.com/runner/gitlab-runner"
 >https://packages.gitlab.com/runner/gitlab-runner</a></p>
-<p>搜索 <strong>18.7.1</strong>，Distribution：<strong>el/9</strong></p>
+<p>搜索 <strong>18.7.2</strong>，Distribution：<strong>el/9</strong></p>
 <p><img
   src="../deploy-gitlab-runner-20.png"
   alt=""
@@ -2297,8 +2297,8 @@
 /></p>
 <p>找到 RPM 包：</p>
 <ul>
-<li>gitlab-runner-18.7.1-1.x86_64.rpm</li>
-<li>gitlab-runner-helper-images-18.7.1-1.noarch.rpm</li>
+<li>gitlab-runner-18.7.2-1.x86_64.rpm</li>
+<li>gitlab-runner-helper-images-18.7.2-1.noarch.rpm</li>
 </ul>
 <p><img
   src="../deploy-gitlab-runner-21.png"
@@ -2314,7 +2314,7 @@
 <p>将这两个 RPM 包上传到服务器，保存：</p>
 <ul>
 <li>服务器：192.168.101.200</li>
-<li>路径：/data/files/rpms/gitlab-runner/18.7.1</li>
+<li>路径：/data/files/rpms/gitlab-runner/18.7.2</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="安装-rpm-包"
@@ -2326,8 +2326,8 @@
     </a>
 </div>
 <p>将 RPM 上传到服务器 192.168.101.202 和 192.168.101.203</p>
-<p>安装：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dnf install -y gitlab-runner-18.7.1-1.x86_64.rpm gitlab-runner-helper-images-18.7.1-1.noarch.rpm
+<p>安装或更新：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dnf install -y ./gitlab-runner-*.rpm
 </span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="docker-executor"
@@ -2366,7 +2366,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">gitlab-runner</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-runner:v18.7.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-runner:v18.7.2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab-runner</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -2388,7 +2388,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
-</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull gitlab/gitlab-runner:v18.7.1
+</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull gitlab/gitlab-runner:v18.7.2
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
 </span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/gitlab-runner/compose
@@ -2936,7 +2936,7 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-runner:18.7.1</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-runner:18.7.2</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="ci-镜像缓存"
     >

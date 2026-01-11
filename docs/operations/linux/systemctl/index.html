@@ -62,7 +62,7 @@
       "url" : "https://documents.v2ep.com/operations/linux/systemctl/",
       "headline": "systemctl",
       "description": " 一、systemctl 是什么（一句话） systemctl 是 systemd 的统一管理入口，用于控制、查询和调试 Linux 系统中的服务（unit）、启动流程和系统状态。\n二、systemd \/ systemctl 核心概念速览 1️⃣ Unit（单元） systemd 管理的一切都是 Unit",
-      "wordCount" : "677",
+      "wordCount" : "783",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -3168,6 +3168,58 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看特定服务是否启用</span>
 </span></span><span class="line"><span class="cl">systemctl is-enabled nginx
 </span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="判断服务是否在运行"
+    >
+        判断服务是否在运行
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemctl/#判断服务是否在运行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 判断服务是否在运行" aria-label="Anchor to: 判断服务是否在运行" href="#%e5%88%a4%e6%96%ad%e6%9c%8d%e5%8a%a1%e6%98%af%e5%90%a6%e5%9c%a8%e8%bf%90%e8%a1%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>要判断 systemd 服务是否在运行，最常用和推荐的方法是使用 <code>systemctl is-active &lt;服务名称&gt;</code> 查看是否 active，或者用 <code>systemctl status &lt;服务名称&gt;</code> 获取详细信息，其中关键是查看 Active: 状态是 active (running)。脚本中常结合 <code>if systemctl is-active --quiet &lt;服务名称&gt;; then ... fi</code> 来判断并执行后续操作。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="常用命令"
+    >
+        常用命令
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemctl/#常用命令" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常用命令" aria-label="Anchor to: 常用命令" href="#%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>systemctl status &lt;服务名称&gt;</strong>: 查看服务详细状态。</p>
+<ul>
+<li>Active: <strong>active</strong> (running) 表示服务正在运行。</li>
+<li>Active: <strong>inactive</strong> (dead) 表示服务已停止。</li>
+<li>Active: <strong>failed</strong> 表示服务启动失败。</li>
+<li>Active: <strong>activating</strong> 或 <strong>deactivating</strong> 表示服务正在启动或停止中。</li>
+</ul>
+<p><strong>systemctl is-active &lt;服务名称&gt;</strong>: 仅返回服务的运行状态（active 或 inactive），适合在脚本中判断。</p>
+<ul>
+<li>&ndash;quiet 选项 (如 systemctl is-active &ndash;quiet) 则不输出，只返回退出码，更适合自动化脚本。</li>
+</ul>
+<p><strong>systemctl list-units &ndash;type=service &ndash;state=running</strong>: 列出所有正在运行的服务。</p>
+<p><strong>pgrep &lt;服务名&gt;/pidof &lt;服务名&gt;</strong>: （辅助方式）通过进程名或 PID 检查，不依赖 systemctl 状态，但 systemctl 检查更全面。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="示例shell脚本判断"
+    >
+        示例：Shell脚本判断
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/linux/systemctl/#示例shell脚本判断" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 示例：Shell脚本判断" aria-label="Anchor to: 示例：Shell脚本判断" href="#%e7%a4%ba%e4%be%8bshell%e8%84%9a%e6%9c%ac%e5%88%a4%e6%96%ad">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">SERVICE_NAME</span><span class="o">=</span><span class="s2">&#34;nginx&#34;</span> <span class="c1"># 替换成你的服务名</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> systemctl is-active --quiet <span class="s2">&#34;</span><span class="nv">$SERVICE_NAME</span><span class="s2">&#34;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;服务 </span><span class="nv">$SERVICE_NAME</span><span class="s2"> 正在运行。&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;服务 </span><span class="nv">$SERVICE_NAME</span><span class="s2"> 未运行，正在尝试启动...&#34;</span>
+</span></span><span class="line"><span class="cl">    sudo systemctl start <span class="s2">&#34;</span><span class="nv">$SERVICE_NAME</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></div><p>选择 <code>systemctl is-active</code> 进行判断，在脚本中获取服务的活动状态，是判断 systemd 服务运行情况最简洁高效的方法。</p>
+<hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="总结"
     >

@@ -68,7 +68,7 @@
       "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/",
       "headline": "GitLab CE 部署",
       "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接用于生产 \/ 内网的 podman-compose 部署 GitLab CE（社区版）完整方案，包含：\n目录规划 podman-compose.yaml 核心配置项说明 首次启动 \u0026 登录 常见问题 生产环境注意事项 内容偏 运维级，不是只跑起来那种。\n一、部署前准备（必须） 1️⃣ 服务器最低配置（真实可用） 项目 建议 CPU ≥ 2 Core（推荐 4 Core） 内存 ≥ 4G（最低），推荐 8G 磁盘 ≥ 50G（代码 \u002b CI \u002b 日志） OS Linux（AlmaLinux \/ Ubuntu \/ Debian） ⚠️ 内存小于 4G 非常容易 OOM",
-      "wordCount" : "894",
+      "wordCount" : "910",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2298,7 +2298,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">gitlab</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-ce:18.7.0-ce.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-ce:18.7.1-ce.0</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab-ce</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -2332,11 +2332,14 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 拉取镜像</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 podman pull gitlab/gitlab-ce:18.7.0-ce.0</span>
-</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull gitlab/gitlab-ce:18.7.0-ce.0
+</span></span><span class="line"><span class="cl"><span class="c1"># HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 podman pull gitlab/gitlab-ce:18.7.1-ce.0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 <span class="nv">HTTPS_PROXY</span><span class="o">=</span>http://192.168.101.200:1080 podman pull gitlab/gitlab-ce:18.7.1-ce.0
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 切换目录</span>
 </span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/gitlab-ce/compose
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建 或 重建 容器, 并启动</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果更新了 YAML 文件中的内容, 比如 image, 直接执行以下命令, podman-compose 会自动删除容器, 并启动创建新容器</span>
 </span></span><span class="line"><span class="cl">podman-compose up -d
 </span></span></code></pre></div><p>首次启动 <strong>5～10 分钟是正常的</strong>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman logs -f gitlab-ce
@@ -2908,7 +2911,7 @@
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-ce:18.7.0-ce.0</span><span class="w">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-ce:18.7.1-ce.0</span><span class="w">
 </span></span></span></code></pre></div><p>避免版本升级事故。</p>
 
   </article>
