@@ -15,12 +15,9 @@
   <meta name="description" content="Jenkins Multibranch Pipeline 是 Jenkins 的一个核心功能，用于管理多个分支的构建任务。
 创建 Multibranch Pipeline Jenkins -&gt; New Item
 填写 Name，选择 Multibranch Pipeline
-General 默认即可。
+注意：Name 中不能包含特殊字符，如 /，不推荐使用空格（将空格替换为 -），建议和 Git 仓库名称一致。 原因：配置 Webhook 时，需要用到 Name，Name 中如果包含特殊字符，需要转换为 URL 编码。空格会被转换为 %20，如 test%20branch。 General 默认即可。
 配置 Branch Sources
-Branch Sources -&gt; Add source -&gt; Git 配置 Git：
-Project Repository Credentials 配置策略
-限制分支，只允许以下规则的分支：
-^(main|dev|test|prod|release/.*)$ " />
+Branch Sources -&gt; Add source -&gt; Git " />
 
     <title>Jenkins Multibranch Pipeline | ☘️ Septvean&#39;s Documents</title>
 
@@ -49,12 +46,9 @@ Project Repository Credentials 配置策略
   <meta property="og:description" content="Jenkins Multibranch Pipeline 是 Jenkins 的一个核心功能，用于管理多个分支的构建任务。
 创建 Multibranch Pipeline Jenkins -&gt; New Item
 填写 Name，选择 Multibranch Pipeline
-General 默认即可。
+注意：Name 中不能包含特殊字符，如 /，不推荐使用空格（将空格替换为 -），建议和 Git 仓库名称一致。 原因：配置 Webhook 时，需要用到 Name，Name 中如果包含特殊字符，需要转换为 URL 编码。空格会被转换为 %20，如 test%20branch。 General 默认即可。
 配置 Branch Sources
-Branch Sources -&gt; Add source -&gt; Git 配置 Git：
-Project Repository Credentials 配置策略
-限制分支，只允许以下规则的分支：
-^(main|dev|test|prod|release/.*)$ " />
+Branch Sources -&gt; Add source -&gt; Git " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/jenkins/multibranch-pipeline/" />
 
@@ -66,12 +60,9 @@ Project Repository Credentials 配置策略
   <meta name="twitter:description" content="Jenkins Multibranch Pipeline 是 Jenkins 的一个核心功能，用于管理多个分支的构建任务。
 创建 Multibranch Pipeline Jenkins -&gt; New Item
 填写 Name，选择 Multibranch Pipeline
-General 默认即可。
+注意：Name 中不能包含特殊字符，如 /，不推荐使用空格（将空格替换为 -），建议和 Git 仓库名称一致。 原因：配置 Webhook 时，需要用到 Name，Name 中如果包含特殊字符，需要转换为 URL 编码。空格会被转换为 %20，如 test%20branch。 General 默认即可。
 配置 Branch Sources
-Branch Sources -&gt; Add source -&gt; Git 配置 Git：
-Project Repository Credentials 配置策略
-限制分支，只允许以下规则的分支：
-^(main|dev|test|prod|release/.*)$ " />
+Branch Sources -&gt; Add source -&gt; Git " />
 
 
   <script type="application/ld+json">
@@ -82,8 +73,8 @@ Project Repository Credentials 配置策略
       "name": "Jenkins Multibranch Pipeline",
       "url" : "https://documents.v2ep.com/operations/jenkins/multibranch-pipeline/",
       "headline": "Jenkins Multibranch Pipeline",
-      "description": "Jenkins Multibranch Pipeline 是 Jenkins 的一个核心功能，用于管理多个分支的构建任务。\n创建 Multibranch Pipeline Jenkins -\u003e New Item\n填写 Name，选择 Multibranch Pipeline\nGeneral 默认即可。\n配置 Branch Sources\nBranch Sources -\u003e Add source -\u003e Git 配置 Git：\nProject Repository Credentials 配置策略\n限制分支，只允许以下规则的分支：\n^(main|dev|test|prod|release\/.*)$ ",
-      "wordCount" : "269",
+      "description": "Jenkins Multibranch Pipeline 是 Jenkins 的一个核心功能，用于管理多个分支的构建任务。\n创建 Multibranch Pipeline Jenkins -\u003e New Item\n填写 Name，选择 Multibranch Pipeline\n注意：Name 中不能包含特殊字符，如 \/，不推荐使用空格（将空格替换为 -），建议和 Git 仓库名称一致。 原因：配置 Webhook 时，需要用到 Name，Name 中如果包含特殊字符，需要转换为 URL 编码。空格会被转换为 %20，如 test%20branch。 General 默认即可。\n配置 Branch Sources\nBranch Sources -\u003e Add source -\u003e Git ",
+      "wordCount" : "291",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2215,6 +2206,10 @@ Project Repository Credentials 配置策略
   
 /></p>
 <p>填写 Name，选择 <strong>Multibranch Pipeline</strong></p>
+<ul>
+<li><strong>注意</strong>：Name 中不能包含特殊字符，如 /，不推荐使用空格（将空格替换为 -），<strong>建议和 Git 仓库名称一致</strong>。</li>
+<li><strong>原因</strong>：配置 Webhook 时，需要用到 Name，Name 中如果包含特殊字符，需要转换为 URL 编码。空格会被转换为 %20，如 test%20branch。</li>
+</ul>
 <p><img
   src="../multibranch-pipeline-02.png"
   alt=""
@@ -2275,13 +2270,16 @@ Project Repository Credentials 配置策略
   
 /></p>
 <p>保存 (Save)</p>
-<p>进入 Status 页面，点击左侧的 <strong>Scan Multibranch Pipeline Now</strong></p>
+<p>Jenkins 会自动执行 Scan Multibranch Pipeline。</p>
+<ul>
+<li>如果没有自动触发 Scan Multibranch Pipeline，点击左侧的 <strong>Scan Multibranch Pipeline Now</strong></li>
+</ul>
 <p><img
   src="../multibranch-pipeline-10.png"
   alt=""
   
 /></p>
-<p>刷新页面，然后就可以看到状态了</p>
+<p>进入 Status 页面，就可以看到状态了</p>
 <ul>
 <li>因为策略限制，dev 和 test 分支的代码进行了构建，tmp 分支的代码没有进行构建。</li>
 </ul>
@@ -2317,13 +2315,13 @@ Project Repository Credentials 配置策略
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>Java Test 在 浏览器中的 URL 是 <a
+<p>spring-boot-hello 在 浏览器中的 URL 是 <a
   class="gdoc-markdown__link"
-  href="http://192.168.101.201:8200/job/Java%20Test/"
->http://192.168.101.201:8200/job/Java%20Test/</a>，webHook 的 URL 则是 <a
+  href="http://192.168.101.201:8200/job/spring-boot-hello/"
+>http://192.168.101.201:8200/job/spring-boot-hello/</a>，webHook 的 URL 则是 <a
   class="gdoc-markdown__link"
-  href="http://192.168.101.201:8200/project/Java%20Test"
->http://192.168.101.201:8200/project/Java%20Test</a></p>
+  href="http://192.168.101.201:8200/project/spring-boot-hello"
+>http://192.168.101.201:8200/project/spring-boot-hello</a></p>
 <ul>
 <li><strong>注意</strong>：这里的 Job Name 若包含特殊字符需要进行 URL 编码，所以 Job Name 为 <strong>Java Test</strong>，则 URL 编码为 <strong>Java%20Test</strong></li>
 </ul>
