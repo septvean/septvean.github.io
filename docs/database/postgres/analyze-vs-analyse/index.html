@@ -12,11 +12,14 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="官方文档：
-Python 教程 Python 语言参考手册 Python 标准库 Python 指南 Directory List:
-Python FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Python 高级用法 Python 重点和难点 Python 最佳实践 Python 惯用法 next/map/filter/lambda 最佳实践 Async (异步) Async &#43; Multiprocessing Asyncio Basic Operations (基本运算) Built-in Functions (内置函数) Built-in Types (内置类型) Class (类) Closure (闭包) Collections (增强数据结构) Context (上下文) Copy (拷贝) Data Processing (数据处理) Datetime (日期时间) Decimal (十进制小数) Decorator -- classmethod Decorator -- dataclass Decorator -- property Decorator -- staticmethod Decorator -- staticmethod / classmethod / property 的超强对比表 Decorator (装饰器) Dict (字典) Enumerate (枚举) Eval 函数 f-string Filter 函数 For (循环) Function (函数) Functional Programming (函数式编程) Functools -- cache Functools -- cached_property Functools -- cmp_to_key Functools -- lru_cache Functools -- partial Functools -- partialmethod Functools -- reduce Functools -- singledispatch Functools -- singledispatchmethod Functools -- total_ordering Functools -- update_wrapper Functools -- wraps Get ENV (获取环境变量) If (条件判断) Itertools (高性能迭代器工具库) JSON Lambda Lazy (惰性) List (列表) List / Tuple / Set Map 函数 Match (匹配) Multiprocessing (多进程) Next 函数 OS 库 Queue (队列) Random Range Regex (正则表达式) Regex compile (正则表达式编译) Set (集合) Sort (排序) String (字符串) TOML Try Tuple (元组) Unpacking (解包) Variable (变量) While (循环) With Yield 函数 Zip 函数 函数参数中的 * 是什么意思? " />
+  <meta name="description" content="在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。
+关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。
+拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。
+PostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。
+使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。
+举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。" />
 
-    <title>Official | ☘️ Septvean&#39;s Documents</title>
+    <title>PostgreSQL ANALYZE vs ANALYSE | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -37,40 +40,46 @@ Python FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Pyt
     
   <meta
     property="og:title"
-    content="Official"
+    content="PostgreSQL ANALYZE vs ANALYSE"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="官方文档：
-Python 教程 Python 语言参考手册 Python 标准库 Python 指南 Directory List:
-Python FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Python 高级用法 Python 重点和难点 Python 最佳实践 Python 惯用法 next/map/filter/lambda 最佳实践 Async (异步) Async &#43; Multiprocessing Asyncio Basic Operations (基本运算) Built-in Functions (内置函数) Built-in Types (内置类型) Class (类) Closure (闭包) Collections (增强数据结构) Context (上下文) Copy (拷贝) Data Processing (数据处理) Datetime (日期时间) Decimal (十进制小数) Decorator -- classmethod Decorator -- dataclass Decorator -- property Decorator -- staticmethod Decorator -- staticmethod / classmethod / property 的超强对比表 Decorator (装饰器) Dict (字典) Enumerate (枚举) Eval 函数 f-string Filter 函数 For (循环) Function (函数) Functional Programming (函数式编程) Functools -- cache Functools -- cached_property Functools -- cmp_to_key Functools -- lru_cache Functools -- partial Functools -- partialmethod Functools -- reduce Functools -- singledispatch Functools -- singledispatchmethod Functools -- total_ordering Functools -- update_wrapper Functools -- wraps Get ENV (获取环境变量) If (条件判断) Itertools (高性能迭代器工具库) JSON Lambda Lazy (惰性) List (列表) List / Tuple / Set Map 函数 Match (匹配) Multiprocessing (多进程) Next 函数 OS 库 Queue (队列) Random Range Regex (正则表达式) Regex compile (正则表达式编译) Set (集合) Sort (排序) String (字符串) TOML Try Tuple (元组) Unpacking (解包) Variable (变量) While (循环) With Yield 函数 Zip 函数 函数参数中的 * 是什么意思? " />
+  <meta property="og:description" content="在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。
+关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。
+拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。
+PostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。
+使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。
+举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/backend/python/official/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/analyze-vs-analyse/" />
 
-<meta property="article:section" content="Backend" />
+<meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Official" />
-  <meta name="twitter:description" content="官方文档：
-Python 教程 Python 语言参考手册 Python 标准库 Python 指南 Directory List:
-Python FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Python 高级用法 Python 重点和难点 Python 最佳实践 Python 惯用法 next/map/filter/lambda 最佳实践 Async (异步) Async &#43; Multiprocessing Asyncio Basic Operations (基本运算) Built-in Functions (内置函数) Built-in Types (内置类型) Class (类) Closure (闭包) Collections (增强数据结构) Context (上下文) Copy (拷贝) Data Processing (数据处理) Datetime (日期时间) Decimal (十进制小数) Decorator -- classmethod Decorator -- dataclass Decorator -- property Decorator -- staticmethod Decorator -- staticmethod / classmethod / property 的超强对比表 Decorator (装饰器) Dict (字典) Enumerate (枚举) Eval 函数 f-string Filter 函数 For (循环) Function (函数) Functional Programming (函数式编程) Functools -- cache Functools -- cached_property Functools -- cmp_to_key Functools -- lru_cache Functools -- partial Functools -- partialmethod Functools -- reduce Functools -- singledispatch Functools -- singledispatchmethod Functools -- total_ordering Functools -- update_wrapper Functools -- wraps Get ENV (获取环境变量) If (条件判断) Itertools (高性能迭代器工具库) JSON Lambda Lazy (惰性) List (列表) List / Tuple / Set Map 函数 Match (匹配) Multiprocessing (多进程) Next 函数 OS 库 Queue (队列) Random Range Regex (正则表达式) Regex compile (正则表达式编译) Set (集合) Sort (排序) String (字符串) TOML Try Tuple (元组) Unpacking (解包) Variable (变量) While (循环) With Yield 函数 Zip 函数 函数参数中的 * 是什么意思? " />
+<meta name="twitter:title" content="PostgreSQL ANALYZE vs ANALYSE" />
+  <meta name="twitter:description" content="在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。
+关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。
+拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。
+PostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。
+使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。
+举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。" />
 
 
   <script type="application/ld+json">
   {
       "@context": "http://schema.org",
       "@type": "TechArticle",
-      "articleSection": "Backend",
-      "name": "Official",
-      "url" : "https://documents.v2ep.com/backend/python/official/",
-      "headline": "Official",
-      "description": "官方文档：\nPython 教程 Python 语言参考手册 Python 标准库 Python 指南 Directory List:\nPython FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Python 高级用法 Python 重点和难点 Python 最佳实践 Python 惯用法 next\/map\/filter\/lambda 最佳实践 Async (异步) Async \u002b Multiprocessing Asyncio Basic Operations (基本运算) Built-in Functions (内置函数) Built-in Types (内置类型) Class (类) Closure (闭包) Collections (增强数据结构) Context (上下文) Copy (拷贝) Data Processing (数据处理) Datetime (日期时间) Decimal (十进制小数) Decorator -- classmethod Decorator -- dataclass Decorator -- property Decorator -- staticmethod Decorator -- staticmethod \/ classmethod \/ property 的超强对比表 Decorator (装饰器) Dict (字典) Enumerate (枚举) Eval 函数 f-string Filter 函数 For (循环) Function (函数) Functional Programming (函数式编程) Functools -- cache Functools -- cached_property Functools -- cmp_to_key Functools -- lru_cache Functools -- partial Functools -- partialmethod Functools -- reduce Functools -- singledispatch Functools -- singledispatchmethod Functools -- total_ordering Functools -- update_wrapper Functools -- wraps Get ENV (获取环境变量) If (条件判断) Itertools (高性能迭代器工具库) JSON Lambda Lazy (惰性) List (列表) List \/ Tuple \/ Set Map 函数 Match (匹配) Multiprocessing (多进程) Next 函数 OS 库 Queue (队列) Random Range Regex (正则表达式) Regex compile (正则表达式编译) Set (集合) Sort (排序) String (字符串) TOML Try Tuple (元组) Unpacking (解包) Variable (变量) While (循环) With Yield 函数 Zip 函数 函数参数中的 * 是什么意思? ",
-      "wordCount" : "196",
+      "articleSection": "Database",
+      "name": "PostgreSQL ANALYZE vs ANALYSE",
+      "url" : "https://documents.v2ep.com/database/postgres/analyze-vs-analyse/",
+      "headline": "PostgreSQL ANALYZE vs ANALYSE",
+      "description": "在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。\n关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。\n拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。\nPostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。\n使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。\n举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。",
+      "wordCount" : "52",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/backend/python/official/"
+          "@id": "https://documents.v2ep.com/database/postgres/analyze-vs-analyse/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -154,7 +163,7 @@ Python FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Pyt
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/backend/python/official/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/analyze-vs-analyse/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2157,7 +2166,7 @@ Python FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Pyt
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/backend/' href='/backend/'><span itemprop='name'>Backend</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/backend/python/' href='/backend/python/'><span itemprop='name'>Python</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Official</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL ANALYZE vs ANALYSE</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2178,581 +2187,46 @@ Python FAQ Python 基础教程 Python 核心概念 Python 官方教程总结 Pyt
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Official</h1>
-    <p>官方文档：</p>
+    <h1>PostgreSQL ANALYZE vs ANALYSE</h1>
+    
+    <p>在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 <code>EXPLAIN ANALYZE</code> 和 <code>EXPLAIN ANALYSE</code> 效果一样。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="关键点"
+    >
+        关键点
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/analyze-vs-analyse/#关键点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键点" aria-label="Anchor to: 关键点" href="#%e5%85%b3%e9%94%ae%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="https://docs.python.org/zh-cn/3.12/tutorial/index.html"
->Python 教程</a></li>
-<li><a
-  class="gdoc-markdown__link"
-  href="https://docs.python.org/zh-cn/3.12/reference/index.html"
->Python 语言参考手册</a></li>
-<li><a
-  class="gdoc-markdown__link"
-  href="https://docs.python.org/zh-cn/3.12/library/index.html"
->Python 标准库</a></li>
-<li><a
-  class="gdoc-markdown__link"
-  href="https://docs.python.org/zh-cn/3.12/howto/index.html"
->Python 指南</a></li>
+<li>
+<p><strong>功能一致</strong>：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。</p>
+</li>
+<li>
+<p><strong>拼写差异</strong>：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。</p>
+</li>
+<li>
+<p><strong>PostgreSQL 兼容</strong>：PostgreSQL 的代码和系统都同时支持这两种拼写。</p>
+</li>
+<li>
+<p><strong>使用场景</strong>：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。</p>
+</li>
 </ul>
-<p>Directory List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/python-faq/" class="gdoc-toc__entry">Python FAQ
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/python-base/" class="gdoc-toc__entry">Python 基础教程
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/python-core/" class="gdoc-toc__entry">Python 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/python-tutorial/" class="gdoc-toc__entry">Python 官方教程总结
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/python-advanced/" class="gdoc-toc__entry">Python 高级用法
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/python-key-points-and-difficulties/" class="gdoc-toc__entry">Python 重点和难点
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/python-best-practices/" class="gdoc-toc__entry">Python 最佳实践
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/python-idioms/" class="gdoc-toc__entry">Python 惯用法
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/next-map-filter-lambda/" class="gdoc-toc__entry">next/map/filter/lambda 最佳实践
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/backend/python/official/async/" class="gdoc-toc__entry">Async (异步)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/async-multiprocessing/" class="gdoc-toc__entry">Async &#43; Multiprocessing
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/asyncio/" class="gdoc-toc__entry">Asyncio
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/basic-operations/" class="gdoc-toc__entry">Basic Operations (基本运算)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/built-in-functions/" class="gdoc-toc__entry">Built-in Functions (内置函数)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/built-in-types/" class="gdoc-toc__entry">Built-in Types (内置类型)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/class/" class="gdoc-toc__entry">Class (类)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/closure/" class="gdoc-toc__entry">Closure (闭包)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/collections/" class="gdoc-toc__entry">Collections (增强数据结构)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/context/" class="gdoc-toc__entry">Context (上下文)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/copy/" class="gdoc-toc__entry">Copy (拷贝)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/data-processing/" class="gdoc-toc__entry">Data Processing (数据处理)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/datetime/" class="gdoc-toc__entry">Datetime (日期时间)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/decimal/" class="gdoc-toc__entry">Decimal (十进制小数)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/decorator-classmethod/" class="gdoc-toc__entry">Decorator -- classmethod
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/decorator-dataclass/" class="gdoc-toc__entry">Decorator -- dataclass
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/decorator-property/" class="gdoc-toc__entry">Decorator -- property
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/decorator-staticmethod/" class="gdoc-toc__entry">Decorator -- staticmethod
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/decorator-comparison/" class="gdoc-toc__entry">Decorator -- staticmethod / classmethod / property 的超强对比表
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/decorator/" class="gdoc-toc__entry">Decorator (装饰器)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/dict/" class="gdoc-toc__entry">Dict (字典)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/enumerate/" class="gdoc-toc__entry">Enumerate (枚举)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/eval/" class="gdoc-toc__entry">Eval 函数
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/f-string/" class="gdoc-toc__entry">f-string
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/filter/" class="gdoc-toc__entry">Filter 函数
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/for/" class="gdoc-toc__entry">For (循环)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/function/" class="gdoc-toc__entry">Function (函数)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functional-programming/" class="gdoc-toc__entry">Functional Programming (函数式编程)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-cache/" class="gdoc-toc__entry">Functools -- cache
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-cached_property/" class="gdoc-toc__entry">Functools -- cached_property
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-cmp_to_key/" class="gdoc-toc__entry">Functools -- cmp_to_key
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-lru_cache/" class="gdoc-toc__entry">Functools -- lru_cache
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-partial/" class="gdoc-toc__entry">Functools -- partial
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-partialmethod/" class="gdoc-toc__entry">Functools -- partialmethod
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-reduce/" class="gdoc-toc__entry">Functools -- reduce
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-singledispatch/" class="gdoc-toc__entry">Functools -- singledispatch
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-singledispatchmethod/" class="gdoc-toc__entry">Functools -- singledispatchmethod
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-total_ordering/" class="gdoc-toc__entry">Functools -- total_ordering
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-update_wrapper/" class="gdoc-toc__entry">Functools -- update_wrapper
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/functools-wraps/" class="gdoc-toc__entry">Functools -- wraps
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/get-env/" class="gdoc-toc__entry">Get ENV (获取环境变量)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/if/" class="gdoc-toc__entry">If (条件判断)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/itertools/" class="gdoc-toc__entry">Itertools (高性能迭代器工具库)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/json/" class="gdoc-toc__entry">JSON
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/lambda/" class="gdoc-toc__entry">Lambda
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/lazy/" class="gdoc-toc__entry">Lazy (惰性)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/list/" class="gdoc-toc__entry">List (列表)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/list-tuple-set/" class="gdoc-toc__entry">List / Tuple / Set
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/map/" class="gdoc-toc__entry">Map 函数
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/match/" class="gdoc-toc__entry">Match (匹配)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/multiprocessing/" class="gdoc-toc__entry">Multiprocessing (多进程)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/next/" class="gdoc-toc__entry">Next 函数
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/os/" class="gdoc-toc__entry">OS 库
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/queue/" class="gdoc-toc__entry">Queue (队列)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/random/" class="gdoc-toc__entry">Random
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/range/" class="gdoc-toc__entry">Range
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/regex/" class="gdoc-toc__entry">Regex (正则表达式)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/regex-compile/" class="gdoc-toc__entry">Regex compile (正则表达式编译)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/set/" class="gdoc-toc__entry">Set (集合)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/sort/" class="gdoc-toc__entry">Sort (排序)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/string/" class="gdoc-toc__entry">String (字符串)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/toml/" class="gdoc-toc__entry">TOML
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/try/" class="gdoc-toc__entry">Try
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/tuple/" class="gdoc-toc__entry">Tuple (元组)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/unpacking/" class="gdoc-toc__entry">Unpacking (解包)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/variable/" class="gdoc-toc__entry">Variable (变量)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/while/" class="gdoc-toc__entry">While (循环)
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/with/" class="gdoc-toc__entry">With
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/yield/" class="gdoc-toc__entry">Yield 函数
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/zip/" class="gdoc-toc__entry">Zip 函数
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/backend/python/official/function-arg-xing/" class="gdoc-toc__entry">函数参数中的 * 是什么意思?
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="举例"
+    >
+        举例
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/analyze-vs-analyse/#举例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 举例" aria-label="Anchor to: 举例" href="#%e4%b8%be%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="w"> </span><span class="n">my_table</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ANALYSE</span><span class="w"> </span><span class="n">my_table</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYZE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYSE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。</p>
 
   </article>
 
