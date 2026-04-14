@@ -2750,11 +2750,11 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 <li>👉 不同版本对应不同 PG 版本</li>
 <li>👉 升级顺序通常是：</li>
 </ul>
-<p>TimescaleDB 升级 →（必要时）PostgreSQL 升级</p>
+<p>TimescaleDB 升级 -&gt;（必要时）PostgreSQL 升级</p>
 <p>📌 官方规则（简化理解）：</p>
 <ul>
-<li>PG 12–14 → 常见支持 TimescaleDB 2.x</li>
-<li>PG 15+ → 需要较新 TimescaleDB</li>
+<li>PG 12–14 -&gt; 常见支持 TimescaleDB 2.x</li>
+<li>PG 15+ -&gt; 需要较新 TimescaleDB</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="三升级-timescaledb推荐流程"
@@ -2833,7 +2833,7 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </span></span></code></pre></div><p>👉 说明你跨版本太大</p>
 <p>解决：</p>
 <ul>
-<li>一步步升级（例如 2.8 → 2.10 → 2.13）</li>
+<li>一步步升级（例如 2.8 -&gt; 2.10 -&gt; 2.13）</li>
 </ul>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="-2postgresql-不兼容"
@@ -2928,7 +2928,7 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 <ul>
 <li>PostgreSQL</li>
 <li>TimescaleDB</li>
-<li>当前扩展版本：2.25.1 → 目标：2.26.3</li>
+<li>当前扩展版本：2.25.1 -&gt; 目标：2.26.3</li>
 </ul>
 <p>👉 这是同一大版本内的小版本升级（minor upgrade），属于安全升级路径，不需要跨版本跳跃，难度不高。</p>
 <p>我直接给你一套 <strong>标准生产级步骤（可执行）</strong>👇</p>
@@ -2960,7 +2960,7 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </span></span></code></pre></div><p>或：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">dpkg -l <span class="p">|</span> grep timescaledb
 </span></span></code></pre></div><p>👉 你要看到 2.26.3</p>
-<p>如果没有 → 安装升级包</p>
+<p>如果没有 -&gt; 安装升级包</p>
 <p>Ubuntu / Debian：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo apt update
 </span></span><span class="line"><span class="cl">sudo apt install timescaledb-2-postgresql-18
@@ -3044,7 +3044,7 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
-<p>👉 你不会遇到（2.25 → 2.26 是连续版本）</p>
+<p>👉 你不会遇到（2.25 -&gt; 2.26 是连续版本）</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="-2报错-extension-not-found"
     >
@@ -3117,7 +3117,7 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
     </a>
 </div>
 <p>👉 这次升级的本质就是：</p>
-<p>先装新版本二进制 → 重启 PG → 执行 ALTER EXTENSION UPDATE</p>
+<p>先装新版本二进制 -&gt; 重启 PG -&gt; 执行 ALTER EXTENSION UPDATE</p>
 
   </article>
 
