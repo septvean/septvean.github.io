@@ -12,10 +12,12 @@
 <meta name="generator" content="Hugo 0.152.2">
 
 
-  <meta name="description" content="Document List:
-Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心概念 Zabbix 最佳实践 使用 Docker 部署 Zabbix 6.0 " />
+  <meta name="description" content="Zabbix 部署步骤和升级步骤基本相同, 升级操作跳过数据库操作即可.
+数据库配置 PostgreSQL 创建 Zabbix 用户和数据库 (首次部署时执行这一步):
+/* 创建 zabbix 用户和数据库 */ CREATE USER zabbix WITH PASSWORD &#39;Qa6oT7BKzx&#39;; CREATE DATABASE zabbix OWNER=zabbix ENCODING=UTF8 TEMPLATE=template0; https://www.zabbix.com/documentation/6.0/en/manual/appendix/install/db_scripts https://www.postgresql.org/docs/14/multibyte.html MySQL 8.0 创建 Zabbix 用户和数据库 (首次部署时执行这一步):
+/* 创建 zabbix 数据库 */ /* 如果不使用 utf8 字符集, 可能会报以下错误: */ /* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes */ DROP DATABASE IF EXISTS zabbix; CREATE DATABASE zabbix CHARACTER SET utf8 COLLATE utf8_bin; /* 创建 zabbix 用户, 设置权限 */ DROP USER IF EXISTS &#39;zabbix&#39;@&#39;localhost&#39;; CREATE USER &#39;zabbix&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;zabbix&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;localhost&#39;; DROP USER IF EXISTS &#39;zabbix&#39;@&#39;127.0.0.1&#39;; CREATE USER &#39;zabbix&#39;@&#39;127.0.0.1&#39; IDENTIFIED BY &#39;zabbix&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;127.0.0.1&#39;; DROP USER IF EXISTS &#39;zabbix&#39;@&#39;%&#39;; CREATE USER &#39;zabbix&#39;@&#39;%&#39; IDENTIFIED BY &#39;Qa6oT7BKzx&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;%&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;localhost&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;127.0.0.1&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;%&#39;; /* 刷新权限 */ FLUSH PRIVILEGES; 创建 Zabbix Server 容器 使用 PostgreSQL 数据库:" />
 
-    <title>Zabbix | ☘️ Septvean&#39;s Documents</title>
+    <title>使用 Docker 部署 Zabbix 6.0 | ☘️ Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -36,21 +38,25 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
     
   <meta
     property="og:title"
-    content="Zabbix"
+    content="使用 Docker 部署 Zabbix 6.0"
   />
   <meta property="og:site_name" content="☘️ Septvean's Documents" />
-  <meta property="og:description" content="Document List:
-Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心概念 Zabbix 最佳实践 使用 Docker 部署 Zabbix 6.0 " />
+  <meta property="og:description" content="Zabbix 部署步骤和升级步骤基本相同, 升级操作跳过数据库操作即可.
+数据库配置 PostgreSQL 创建 Zabbix 用户和数据库 (首次部署时执行这一步):
+/* 创建 zabbix 用户和数据库 */ CREATE USER zabbix WITH PASSWORD &#39;Qa6oT7BKzx&#39;; CREATE DATABASE zabbix OWNER=zabbix ENCODING=UTF8 TEMPLATE=template0; https://www.zabbix.com/documentation/6.0/en/manual/appendix/install/db_scripts https://www.postgresql.org/docs/14/multibyte.html MySQL 8.0 创建 Zabbix 用户和数据库 (首次部署时执行这一步):
+/* 创建 zabbix 数据库 */ /* 如果不使用 utf8 字符集, 可能会报以下错误: */ /* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes */ DROP DATABASE IF EXISTS zabbix; CREATE DATABASE zabbix CHARACTER SET utf8 COLLATE utf8_bin; /* 创建 zabbix 用户, 设置权限 */ DROP USER IF EXISTS &#39;zabbix&#39;@&#39;localhost&#39;; CREATE USER &#39;zabbix&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;zabbix&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;localhost&#39;; DROP USER IF EXISTS &#39;zabbix&#39;@&#39;127.0.0.1&#39;; CREATE USER &#39;zabbix&#39;@&#39;127.0.0.1&#39; IDENTIFIED BY &#39;zabbix&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;127.0.0.1&#39;; DROP USER IF EXISTS &#39;zabbix&#39;@&#39;%&#39;; CREATE USER &#39;zabbix&#39;@&#39;%&#39; IDENTIFIED BY &#39;Qa6oT7BKzx&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;%&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;localhost&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;127.0.0.1&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;%&#39;; /* 刷新权限 */ FLUSH PRIVILEGES; 创建 Zabbix Server 容器 使用 PostgreSQL 数据库:" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/operations/zabbix/" />
+<meta property="og:url" content="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/" />
 
 <meta property="article:section" content="Operations" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Zabbix" />
-  <meta name="twitter:description" content="Document List:
-Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心概念 Zabbix 最佳实践 使用 Docker 部署 Zabbix 6.0 " />
+<meta name="twitter:title" content="使用 Docker 部署 Zabbix 6.0" />
+  <meta name="twitter:description" content="Zabbix 部署步骤和升级步骤基本相同, 升级操作跳过数据库操作即可.
+数据库配置 PostgreSQL 创建 Zabbix 用户和数据库 (首次部署时执行这一步):
+/* 创建 zabbix 用户和数据库 */ CREATE USER zabbix WITH PASSWORD &#39;Qa6oT7BKzx&#39;; CREATE DATABASE zabbix OWNER=zabbix ENCODING=UTF8 TEMPLATE=template0; https://www.zabbix.com/documentation/6.0/en/manual/appendix/install/db_scripts https://www.postgresql.org/docs/14/multibyte.html MySQL 8.0 创建 Zabbix 用户和数据库 (首次部署时执行这一步):
+/* 创建 zabbix 数据库 */ /* 如果不使用 utf8 字符集, 可能会报以下错误: */ /* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes */ DROP DATABASE IF EXISTS zabbix; CREATE DATABASE zabbix CHARACTER SET utf8 COLLATE utf8_bin; /* 创建 zabbix 用户, 设置权限 */ DROP USER IF EXISTS &#39;zabbix&#39;@&#39;localhost&#39;; CREATE USER &#39;zabbix&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;zabbix&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;localhost&#39;; DROP USER IF EXISTS &#39;zabbix&#39;@&#39;127.0.0.1&#39;; CREATE USER &#39;zabbix&#39;@&#39;127.0.0.1&#39; IDENTIFIED BY &#39;zabbix&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;127.0.0.1&#39;; DROP USER IF EXISTS &#39;zabbix&#39;@&#39;%&#39;; CREATE USER &#39;zabbix&#39;@&#39;%&#39; IDENTIFIED BY &#39;Qa6oT7BKzx&#39;; GRANT ALL PRIVILEGES ON zabbix.* TO &#39;zabbix&#39;@&#39;%&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;localhost&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;127.0.0.1&#39;; GRANT PROCESS ON *.* TO &#39;zabbix&#39;@&#39;%&#39;; /* 刷新权限 */ FLUSH PRIVILEGES; 创建 Zabbix Server 容器 使用 PostgreSQL 数据库:" />
 
 
   <script type="application/ld+json">
@@ -58,16 +64,16 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Operations",
-      "name": "Zabbix",
-      "url" : "https://documents.v2ep.com/operations/zabbix/",
-      "headline": "Zabbix",
-      "description": "Document List:\nZabbix FAQ Zabbix vs Prometheus \u002b Grafana Zabbix 基础教程 Zabbix 核心概念 Zabbix 最佳实践 使用 Docker 部署 Zabbix 6.0 ",
-      "wordCount" : "20",
+      "name": "使用 Docker 部署 Zabbix 6.0",
+      "url" : "https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/",
+      "headline": "使用 Docker 部署 Zabbix 6.0",
+      "description": "Zabbix 部署步骤和升级步骤基本相同, 升级操作跳过数据库操作即可.\n数据库配置 PostgreSQL 创建 Zabbix 用户和数据库 (首次部署时执行这一步):\n\/* 创建 zabbix 用户和数据库 *\/ CREATE USER zabbix WITH PASSWORD \u0027Qa6oT7BKzx\u0027; CREATE DATABASE zabbix OWNER=zabbix ENCODING=UTF8 TEMPLATE=template0; https:\/\/www.zabbix.com\/documentation\/6.0\/en\/manual\/appendix\/install\/db_scripts https:\/\/www.postgresql.org\/docs\/14\/multibyte.html MySQL 8.0 创建 Zabbix 用户和数据库 (首次部署时执行这一步):\n\/* 创建 zabbix 数据库 *\/ \/* 如果不使用 utf8 字符集, 可能会报以下错误: *\/ \/* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes *\/ DROP DATABASE IF EXISTS zabbix; CREATE DATABASE zabbix CHARACTER SET utf8 COLLATE utf8_bin; \/* 创建 zabbix 用户, 设置权限 *\/ DROP USER IF EXISTS \u0027zabbix\u0027@\u0027localhost\u0027; CREATE USER \u0027zabbix\u0027@\u0027localhost\u0027 IDENTIFIED BY \u0027zabbix\u0027; GRANT ALL PRIVILEGES ON zabbix.* TO \u0027zabbix\u0027@\u0027localhost\u0027; DROP USER IF EXISTS \u0027zabbix\u0027@\u0027127.0.0.1\u0027; CREATE USER \u0027zabbix\u0027@\u0027127.0.0.1\u0027 IDENTIFIED BY \u0027zabbix\u0027; GRANT ALL PRIVILEGES ON zabbix.* TO \u0027zabbix\u0027@\u0027127.0.0.1\u0027; DROP USER IF EXISTS \u0027zabbix\u0027@\u0027%\u0027; CREATE USER \u0027zabbix\u0027@\u0027%\u0027 IDENTIFIED BY \u0027Qa6oT7BKzx\u0027; GRANT ALL PRIVILEGES ON zabbix.* TO \u0027zabbix\u0027@\u0027%\u0027; GRANT PROCESS ON *.* TO \u0027zabbix\u0027@\u0027localhost\u0027; GRANT PROCESS ON *.* TO \u0027zabbix\u0027@\u0027127.0.0.1\u0027; GRANT PROCESS ON *.* TO \u0027zabbix\u0027@\u0027%\u0027; \/* 刷新权限 *\/ FLUSH PRIVILEGES; 创建 Zabbix Server 容器 使用 PostgreSQL 数据库:",
+      "wordCount" : "960",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/operations/zabbix/"
+          "@id": "https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/"
       },
       "copyrightHolder" : "☘️ Septvean\u0027s Documents",
       "copyrightYear" : "0001",
@@ -151,7 +157,7 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/operations/zabbix/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -1974,7 +1980,7 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
                 <span class="flex">
                   <a
                     href="/operations/zabbix/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     Zabbix
                   </a>
@@ -2148,7 +2154,15 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>Zabbix</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/' href='/operations/'><span itemprop='name'>Operations</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/operations/zabbix/' href='/operations/zabbix/'><span itemprop='name'>Zabbix</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>使用 Docker 部署 Zabbix 6.0</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2167,77 +2181,396 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>Zabbix</h1>
-    <p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
+    <h1>使用 Docker 部署 Zabbix 6.0</h1>
     
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/zabbix/faq/" class="gdoc-toc__entry">Zabbix FAQ
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/zabbix/zabbix-vs-prometheus-grafana/" class="gdoc-toc__entry">Zabbix vs Prometheus &#43; Grafana
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/zabbix/tutorial/" class="gdoc-toc__entry">Zabbix 基础教程
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/zabbix/core/" class="gdoc-toc__entry">Zabbix 核心概念
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/operations/zabbix/best-practices/" class="gdoc-toc__entry">Zabbix 最佳实践
-                </a>
-              </span>
-          </li>
-          <li>
-              <span>
-                <a href="/operations/zabbix/zabbix-7.0-container/" class="gdoc-toc__entry">使用 Docker 部署 Zabbix 6.0
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
-
+    <p>Zabbix 部署步骤和升级步骤基本相同, 升级操作跳过数据库操作即可.</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="数据库配置"
+    >
+        数据库配置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#数据库配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库配置" aria-label="Anchor to: 数据库配置" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 创建 Zabbix 用户和数据库 (首次部署时执行这一步):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="cm">/* 创建 zabbix 用户和数据库 */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="s1">&#39;Qa6oT7BKzx&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="k">OWNER</span><span class="o">=</span><span class="n">zabbix</span><span class="w"> </span><span class="k">ENCODING</span><span class="o">=</span><span class="n">UTF8</span><span class="w"> </span><span class="k">TEMPLATE</span><span class="o">=</span><span class="n">template0</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><a
+  class="gdoc-markdown__link"
+  href="https://www.zabbix.com/documentation/6.0/en/manual/appendix/install/db_scripts"
+>https://www.zabbix.com/documentation/6.0/en/manual/appendix/install/db_scripts</a></li>
+<li><a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/14/multibyte.html"
+>https://www.postgresql.org/docs/14/multibyte.html</a></li>
+</ul>
+<p>MySQL 8.0 创建 Zabbix 用户和数据库 (首次部署时执行这一步):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="cm">/* 创建 zabbix 数据库 */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* 如果不使用 utf8 字符集, 可能会报以下错误: */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">zabbix</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf8_bin</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* 创建 zabbix 用户, 设置权限 */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;Qa6oT7BKzx&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* 刷新权限 */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="创建-zabbix-server-容器"
+    >
+        创建 Zabbix Server 容器
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#创建-zabbix-server-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建 Zabbix Server 容器" aria-label="Anchor to: 创建 Zabbix Server 容器" href="#%e5%88%9b%e5%bb%ba-zabbix-server-%e5%ae%b9%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用 PostgreSQL 数据库:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 删除容器</span>
+</span></span><span class="line"><span class="cl">podman rm -f zabbix_server
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建容器</span>
+</span></span><span class="line"><span class="cl">podman create <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">5432</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_DB</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTPOLLERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTTRAPPERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTDISCOVERERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_CACHESIZE</span><span class="o">=</span>1024M <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 10051:10051 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_server <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-server-pgsql:6.0.21-ol
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 拷贝数据库文件 (首次部署时执行这一步)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># podman cp zabbix_server:/usr/share/doc/zabbix-server-postgresql .</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 导入数据 (首次部署时执行这一步)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># zcat zabbix-server-postgresql/create.sql.gz | psql -h 10.25.246.200 -U zabbix -d zabbix</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动容器</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> --now podman@zabbix_server
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看日志</span>
+</span></span><span class="line"><span class="cl">podman logs -f zabbix_server
+</span></span></code></pre></div><p>使用 MySQL 数据库:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 删除容器</span>
+</span></span><span class="line"><span class="cl">podman rm -f zabbix_server
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建容器</span>
+</span></span><span class="line"><span class="cl">podman create <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">3306</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTPOLLERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTTRAPPERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTDISCOVERERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_CACHESIZE</span><span class="o">=</span>1024M <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 10051:10051 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_server <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-server-mysql:6.0.21-ol
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 拷贝数据库文件 (首次部署时执行这一步)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># podman cp zabbix_server:/usr/share/doc/zabbix-server-mysql .</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 导入数据 (首次部署时执行这一步, MySQL 使用 root 账户)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># zcat zabbix-server-mysql/create.sql.gz | mysql -h10.25.246.200 -P3306 -uroot -pDRbL2TS7IE zabbix</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动容器</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> --now podman@zabbix_server
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看日志</span>
+</span></span><span class="line"><span class="cl">podman logs -f zabbix_server
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="创建-zabbix-web-容器"
+    >
+        创建 Zabbix Web 容器
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#创建-zabbix-web-容器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 创建 Zabbix Web 容器" aria-label="Anchor to: 创建 Zabbix Web 容器" href="#%e5%88%9b%e5%bb%ba-zabbix-web-%e5%ae%b9%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 删除容器</span>
+</span></span><span class="line"><span class="cl">podman rm -f zabbix_web_60
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建容器(PostgreSQL)</span>
+</span></span><span class="line"><span class="cl">podman run <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_HOST</span><span class="o">=</span>10.25.193.187 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_PORT</span><span class="o">=</span><span class="m">10051</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">5432</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_DB</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">PHP_TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_MEMORYLIMIT</span><span class="o">=</span>512M <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_POSTMAXSIZE</span><span class="o">=</span>64M <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 8050:8080 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --detach <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_web_60 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-web-nginx-pgsql:6.0.21-ol
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建容器(MySQL)</span>
+</span></span><span class="line"><span class="cl">podman run <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_HOST</span><span class="o">=</span>10.25.193.187 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_PORT</span><span class="o">=</span><span class="m">10051</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">3306</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">PHP_TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_MEMORYLIMIT</span><span class="o">=</span>512M <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_POSTMAXSIZE</span><span class="o">=</span>64M <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 8050:8080 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --detach <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_web_60 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-web-nginx-mysql:6.0.21-ol
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Nginx 移除 IPv6 绑定</span>
+</span></span><span class="line"><span class="cl">podman <span class="nb">exec</span> -it --user root zabbix_web_60 sed -i <span class="s1">&#39;/listen \[::\]:8080*/d&#39;</span> /etc/zabbix/nginx.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># PHP 性能优化</span>
+</span></span><span class="line"><span class="cl">podman <span class="nb">exec</span> -it --user root zabbix_web_60 sed -i <span class="s1">&#39;s/^post_max_size =.*/post_max_size = 64M/g;s/memory_limit =.*/memory_limit = 512M/g&#39;</span> /etc/php.ini
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启容器</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> podman@zabbix_web_60
+</span></span><span class="line"><span class="cl">systemctl restart podman@zabbix_web_60
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看日志</span>
+</span></span><span class="line"><span class="cl">podman logs -f zabbix_web_60
+</span></span></code></pre></div><p>访问 Zabbix Web: <a
+  class="gdoc-markdown__link"
+  href="http://10.25.193.187:8050"
+>http://10.25.193.187:8050</a>, 默认用户 <code>Admin</code>, 默认密码 <code>zabbix</code></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="nginx-配置"
+    >
+        Nginx 配置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#nginx-配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Nginx 配置" aria-label="Anchor to: Nginx 配置" href="#nginx-%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Nginx 代理, 用于外网访问 ( <strong>注意: <code>location</code> 和 <code>proxy_pass</code> 结尾都要加 <code>/</code></strong> )</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl">    <span class="k">location</span> <span class="s">/zabbix/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://10.25.193.187:8050/</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-Host</span> <span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-Server</span> <span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="删除-zabbix-server"
+    >
+        删除 Zabbix server
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#删除-zabbix-server" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 删除 Zabbix server" aria-label="Anchor to: 删除 Zabbix server" href="#%e5%88%a0%e9%99%a4-zabbix-server">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>创建自动注册规则: Zabbix -&gt; Configuration -&gt; Hosts</p>
+<p>删除 Zabbix server</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="zabbix-server-自动注册配置"
+    >
+        Zabbix Server 自动注册配置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#zabbix-server-自动注册配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Zabbix Server 自动注册配置" aria-label="Anchor to: Zabbix Server 自动注册配置" href="#zabbix-server-%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%86%8c%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>创建 Host group: Zabbix -&gt; Configuration -&gt; Host groups -&gt; 点击右上角的 Create host group 按钮</p>
+<ul>
+<li>Group name: Linux servers</li>
+<li>Add</li>
+</ul>
+<p>创建自动注册规则: Zabbix -&gt; Configuration -&gt; Actions -&gt; Autoregistration actions -&gt; 点击右上角的 Create action 按钮</p>
+<ul>
+<li>Action
+<ul>
+<li>Name: Linux servers</li>
+<li>Conditions: Add (用于自动注册, Zabbix Agent 的 HostMetadata 设置为 Linux 即可)
+<ul>
+<li>Type: Host metadata</li>
+<li>Operator: contains</li>
+<li>Value: Linux</li>
+</ul>
+</li>
+<li>Add</li>
+</ul>
+</li>
+<li>Operations
+<ul>
+<li>Operations: Add
+<ul>
+<li>Operation type: Add to host groups</li>
+<li>Host groups: Linux servers</li>
+<li>Add</li>
+</ul>
+</li>
+<li>Operations: Add
+<ul>
+<li>Operation type: Link to template</li>
+<li>Templates -&gt; Select -&gt; Host groups: Templates/Operating systems -&gt; Linux by Zabbix agent active -&gt; Select</li>
+<li>Add</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Add</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="zabbix-agent-配置"
+    >
+        Zabbix Agent 配置
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#zabbix-agent-配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Zabbix Agent 配置" aria-label="Anchor to: Zabbix Agent 配置" href="#zabbix-agent-%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Zabbix 5.0 版本以后推出了使用 Go 语言重写的 Agent2</p>
+<ul>
+<li>RHEL 下载地址: <a
+  class="gdoc-markdown__link"
+  href="https://repo.zabbix.com/zabbix/6.0/rhel/"
+>https://repo.zabbix.com/zabbix/6.0/rhel/</a></li>
+<li>Debian 下载地址: <a
+  class="gdoc-markdown__link"
+  href="https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix/"
+>https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix/</a></li>
+<li>Ubuntu 下载地址: <a
+  class="gdoc-markdown__link"
+  href="https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix/"
+>https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix/</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 安装 Zabbix Agent</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># dpkg -i zabbix-agent2_6.0.14-1+debian10_amd64.deb</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># yum -y install zabbix-agent2-6.0.21-release1.el7.x86_64.rpm</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Server</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ServerActive</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Hostname 在 Zabbix Web 显示的名称</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># HostMetadata 用于自动注册的信息</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># RefreshActiveChecks 自动监测时间</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Zabbix Agent (Zabbix Server 宿主服务器设置)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 获取 Zabbix Server 容器的 IP</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://stackoverflow.com/a/20686101</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 注意: 容器重新创建以后, 容器的 IP 会改变, 需要重新配置</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># docker inspect --format &#39;{{ .NetworkSettings.IPAddress }}&#39; zabbix_server</span>
+</span></span><span class="line"><span class="cl">podman inspect -f <span class="s1">&#39;{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> zabbix_server
+</span></span><span class="line"><span class="cl"><span class="c1"># 上条命令获取的 IP 为 10.88.0.37, Zabbix Agent 的 Server 和 ServerActive 需要设置为这个 IP</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^\(Server\)=.*/\1=10.88.0.1,10.88.0.37/g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^\(ServerActive\)=.*/\1=10.88.0.37/g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^\(Hostname\)=.*/\1=10.25.193.187/g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s!^# \(HostMetadata\)=.*!\1=Linux!g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s!^# \(RefreshActiveChecks\)=.*!\1=60!g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Zabbix Agent (通用设置, Zabbix Server 的 IP 是 10.25.193.187)</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^\(Server\)=.*/\1=10.25.193.187/g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^\(ServerActive\)=.*/\1=10.25.193.187/g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s!^# \(HostMetadata\)=.*!\1=Linux!g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s!^# \(RefreshActiveChecks\)=.*!\1=60!g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Zabbix Agent (Hostname 设置为每台服务器的真实 IP)</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^\(Hostname\)=.*/\1=10.25.193.187/g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Zabbix Agent 修改端口 (可选)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sed -i &#39;s/^# \(ListenPort\)=.*/\1=10050/g&#39; /etc/zabbix/zabbix_agent2.conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启 Zabbix Agent2</span>
+</span></span><span class="line"><span class="cl">systemctl restart zabbix-agent2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机自动启动 Zabbix Agent2</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> zabbix-agent2
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="故障排查"
+    >
+        故障排查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#故障排查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 故障排查" aria-label="Anchor to: 故障排查" href="#%e6%95%85%e9%9a%9c%e6%8e%92%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 检查 Zabbix Agent 是否访问正常</span>
+</span></span><span class="line"><span class="cl">podman <span class="nb">exec</span> -it zabbix_server zabbix_get -s 10.25.193.187 -k agent.ping
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果出现以下错误</span>
+</span></span><span class="line"><span class="cl"><span class="s">&lt;&lt; COMMENT
+</span></span></span><span class="line"><span class="cl"><span class="s">zabbix_get [270]: Get value error: ZBX_TCP_READ() failed: [104] Connection reset by peer
+</span></span></span><span class="line"><span class="cl"><span class="s">zabbix_get [270]: Check access restrictions in Zabbix agent configuration
+</span></span></span><span class="line"><span class="cl"><span class="s">COMMENT</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 10.25.193.187 的日志 /var/log/zabbix/zabbix_agent2.log 报以下</span>
+</span></span><span class="line"><span class="cl"><span class="s">&lt;&lt; COMMENT
+</span></span></span><span class="line"><span class="cl"><span class="s">cannot accept incoming connection for peer: 10.25.193.187
+</span></span></span><span class="line"><span class="cl"><span class="s">COMMENT</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 原因是 Server 设置错误, 修改 Server 配置</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^\(Server\)=.*/\1=10.25.193.187/g&#39;</span> /etc/zabbix/zabbix_agent2.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启 Zabbix Agent2</span>
+</span></span><span class="line"><span class="cl">systemctl restart zabbix-agent2
+</span></span></code></pre></div><p>RESOLVED 半个小时后才会消失</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="防火墙"
+    >
+        防火墙
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/#防火墙" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 防火墙" aria-label="Anchor to: 防火墙" href="#%e9%98%b2%e7%81%ab%e5%a2%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>端口开放:</p>
+<ul>
+<li>Zabbix Agent: 10050</li>
+<li>Zabbix Server: 10051</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Zabbix Agent</span>
+</span></span><span class="line"><span class="cl">iptables -I INPUT -p tcp -m tcp --dport <span class="m">10050</span> -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -m state --state NEW -p tcp --dport <span class="m">10050</span> -j ACCEPT
+</span></span><span class="line"><span class="cl">service iptables save
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Zabbix Server</span>
+</span></span><span class="line"><span class="cl">iptables -t nat -A PREROUTING -d xxx.xxx.xxx.xxx/32,xxx.xxx.xxx.xxx/32 -p tcp -m tcp --dport <span class="m">10051</span> -j DNAT --to-destination 10.25.193.187:10051
+</span></span></code></pre></div>
   </article>
 
 
@@ -3433,9 +3766,6 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
         
 
         
-          
-          
-        
 
         
           
@@ -3472,11 +3802,6 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3529,27 +3854,9 @@ Zabbix FAQ Zabbix vs Prometheus &#43; Grafana Zabbix 基础教程 Zabbix 核心�
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/operations/vsftpd/"
-      title="vsftpd"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      vsftpd
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/college/"
-      title="College"
-    >
-      College
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
