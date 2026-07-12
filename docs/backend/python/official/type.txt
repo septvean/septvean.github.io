@@ -1,0 +1,236 @@
+Python 3.12 版本，除了以下变量类型，还有哪些常见的变量类型？
+
+int（整数）
+float（浮点数）
+bool（布尔）
+str（字符串）
+list（列表）
+dict（字典）
+datetime（日期时间）
+None（空）
+
+你列的已经覆盖了 Python 里最常用的80%类型了 👍
+但在 Python 3.12 里，还有一批非常重要、但经常被忽略的类型，很多高级用法都离不开它们。
+
+我帮你按“使用频率 + 实战价值”整理一版👇
+
+⸻
+
+一、核心补充类型（强烈建议掌握）
+
+1️⃣ tuple（元组）
+
+t = (1, 2, 3)
+
+* 不可变（不能改）
+* 比 list 更安全、更快
+* 常用于：函数返回多个值
+
+👉 场景：
+
+def get_user():
+    return ("Martin", 25)
+
+⸻
+
+2️⃣ set（集合）
+
+s = {1, 2, 3}
+
+* 自动去重
+* 无序
+* 支持数学集合操作（交集、并集）
+
+👉 场景：
+
+a = {1, 2, 3}
+b = {2, 3, 4}
+print(a & b)  # 交集
+
+⸻
+
+3️⃣ bytes（字节）
+
+b = b"hello"
+
+* 二进制数据
+* 用于：文件、网络、音视频处理
+
+👉 你做剪辑/音频，这个会用到
+
+⸻
+
+4️⃣ complex（复数）
+
+c = 1 + 2j
+
+* 科学计算用
+* 一般业务很少用
+
+⸻
+
+二、进阶常用类型（实战很重要）
+
+5️⃣ range（范围对象）
+
+r = range(5)
+
+* 用于循环
+* 节省内存（不是 list）
+
+⸻
+
+6️⃣ frozenset（不可变集合）
+
+fs = frozenset([1, 2, 3])
+
+* set 的“锁定版”
+* 可作为 dict 的 key
+
+⸻
+
+7️⃣ bytearray（可变字节）
+
+ba = bytearray(b"hello")
+
+* bytes 的可修改版本
+* 用于性能敏感场景
+
+⸻
+
+三、函数 & 迭代相关类型（很多人忽略）
+
+8️⃣ function（函数本身也是变量）
+
+def foo():
+    pass
+f = foo
+
+⸻
+
+9️⃣ generator（生成器）
+
+g = (x for x in range(5))
+
+或：
+
+def gen():
+    yield 1
+
+* 惰性计算（超省内存）
+* 数据量大时必用
+
+👉 做数据分析 / 股票数据，很关键
+
+⸻
+
+🔟 iterator（迭代器）
+
+it = iter([1, 2, 3])
+
+* 所有 for 循环底层都是它
+
+⸻
+
+四、面向对象相关
+
+1️⃣1️⃣ class / object（类 & 对象）
+
+class Person:
+    pass
+p = Person()
+
+👉 一切皆对象（Python核心哲学）
+
+⸻
+
+五、类型提示相关（Python 3.12 很重要）
+
+1️⃣2️⃣ typing 类型（静态类型提示）
+
+from typing import List, Dict, Union
+def foo(x: int) -> str:
+    return str(x)
+
+常见：
+
+* List[int]
+* Dict[str, int]
+* Optional[str]
+* Union[int, str]
+
+👉 Python 3.12 越来越重视这个（工程化必备）
+
+⸻
+
+六、你这份清单可以升级成这样👇
+
+✅ 基础类型
+
+* int
+* float
+* bool
+* str
+* None
+
+✅ 容器类型
+
+* list
+* tuple
+* dict
+* set
+* frozenset
+
+✅ 时间类型
+
+* datetime
+
+✅ 二进制类型
+
+* bytes
+* bytearray
+
+✅ 迭代相关
+
+* range
+* generator
+* iterator
+
+✅ 高级结构
+
+* function
+* class / object
+
+⸻
+
+七、给你一个“高手视角总结”
+
+如果只记一条：
+
+👉 Python 类型本质分三类：
+
+1️⃣ 不可变
+
+* int / float / str / tuple / frozenset
+
+2️⃣ 可变
+
+* list / dict / set / bytearray
+
+3️⃣ 流式数据
+
+* generator / iterator
+
+⸻
+
+如果你想更进一步（建议）
+
+我可以帮你做一件更“实战”的事👇
+
+👉 给你做一个：
+
+* 股票数据分析脚本（用 list / dict / generator）
+* 或一个自动整理音频库工具（用 pathlib + bytes）
+
+你直接说一句：
+👉「￼ 做一个实战项目」 or 「￼ 讲底层原理（可变 vs 不可变）」
