@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 真正生产可用的 Nacos 故障排查指南（最全版）。
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nacos 故障排查",
-      "url" : "https://documents.v2ep.com/operations/nacos/troubleshooting/",
+      "url": "https://documents.v2ep.com/operations/nacos/troubleshooting/",
       "headline": "Nacos 故障排查",
       "description": "下面是一份 真正生产可用的 Nacos 故障排查指南（最全版）。\n覆盖：注册中心问题、配置中心问题、集群问题、MySQL 问题、gRPC 通信、端口、客户端问题、性能瓶颈、日志定位。\n这是 运维、后端、架构师都能直接拿来用的实战手册。\n0. 故障排查总思路（速查） Nacos 故障 -\u003e 80% 按下面 5 步就能定位：\n看端口（8848、9848、7848 是否正常） 看 MySQL（连接、慢 SQL、连接池，是否 down） 看节点状态 \/nacos\/v1\/ns\/operator\/servers 看日志（naming、config、core，几乎全部能看到） 看客户端错误（gRPC 连不通、心跳失败、没有推送） 这些就是 80% 的根因。\n1. 服务注册异常（Naming）排查 ❌ 1.1 服务反复上下线（最常见） 🔍 常见原因",
-      "wordCount" : "479",
+      "wordCount": "479",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nacos/troubleshooting/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2252,7 +2237,7 @@
 </span></span></code></pre></div><p><strong>② Kubernetes 健康检查调整</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">livenessProbe</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">30</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">readinessProbe</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">readinessProbe</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">30</span><span class="w">
 </span></span></span></code></pre></div><p><strong>③ 检查客户端 -&gt; Nacos gRPC 通道</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">telnet nacos-ip <span class="m">9848</span>
@@ -2579,34 +2564,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>日志文件</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>naming-server.log</td>
-          <td>服务注册、心跳、健康检查</td>
-      </tr>
-      <tr>
-          <td>config-server.log</td>
-          <td>配置推送、监听、diff</td>
-      </tr>
-      <tr>
-          <td>core-auth.log</td>
-          <td>鉴权、登录失败</td>
-      </tr>
-      <tr>
-          <td>start.out</td>
-          <td>启动过程问题</td>
-      </tr>
-      <tr>
-          <td>nacos.log</td>
-          <td>统一日志（部分异常）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>日志文件</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>naming-server.log</td>
+					<td>服务注册、心跳、健康检查</td>
+			</tr>
+			<tr>
+					<td>config-server.log</td>
+					<td>配置推送、监听、diff</td>
+			</tr>
+			<tr>
+					<td>core-auth.log</td>
+					<td>鉴权、登录失败</td>
+			</tr>
+			<tr>
+					<td>start.out</td>
+					<td>启动过程问题</td>
+			</tr>
+			<tr>
+					<td>nacos.log</td>
+					<td>统一日志（部分异常）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="8-故障速查表最常见-top-10"
@@ -2618,65 +2603,65 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>问题</th>
-          <th>根因</th>
-          <th>解决方法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>服务上下线频繁</td>
-          <td>心跳丢失 / gRPC 不通</td>
-          <td>调心跳，开 9848</td>
-      </tr>
-      <tr>
-          <td>配置不刷新</td>
-          <td>YAML 错 / gRPC 错</td>
-          <td>修 YAML；开 9848</td>
-      </tr>
-      <tr>
-          <td>节点 DOWN</td>
-          <td>7848 不通</td>
-          <td>打通节点通信端口</td>
-      </tr>
-      <tr>
-          <td>服务列表不一致</td>
-          <td>客户端连单节点</td>
-          <td>一律走 LB</td>
-      </tr>
-      <tr>
-          <td>集群节点不互通</td>
-          <td>cluster.conf 配错</td>
-          <td>改成内网 IP</td>
-      </tr>
-      <tr>
-          <td>MySQL 连接失败</td>
-          <td>用户密码/防火墙</td>
-          <td>修权限</td>
-      </tr>
-      <tr>
-          <td>MySQL 慢导致卡顿</td>
-          <td>无索引</td>
-          <td>加索引优化</td>
-      </tr>
-      <tr>
-          <td>高 CPU</td>
-          <td>推送量大/GC</td>
-          <td>扩容/调 JVM</td>
-      </tr>
-      <tr>
-          <td>脑裂</td>
-          <td>双节点/网络隔离</td>
-          <td>3 节点以上</td>
-      </tr>
-      <tr>
-          <td>gRPC 超时</td>
-          <td>防火墙拦截</td>
-          <td>telnet 9848</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>根因</th>
+					<th>解决方法</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>服务上下线频繁</td>
+					<td>心跳丢失 / gRPC 不通</td>
+					<td>调心跳，开 9848</td>
+			</tr>
+			<tr>
+					<td>配置不刷新</td>
+					<td>YAML 错 / gRPC 错</td>
+					<td>修 YAML；开 9848</td>
+			</tr>
+			<tr>
+					<td>节点 DOWN</td>
+					<td>7848 不通</td>
+					<td>打通节点通信端口</td>
+			</tr>
+			<tr>
+					<td>服务列表不一致</td>
+					<td>客户端连单节点</td>
+					<td>一律走 LB</td>
+			</tr>
+			<tr>
+					<td>集群节点不互通</td>
+					<td>cluster.conf 配错</td>
+					<td>改成内网 IP</td>
+			</tr>
+			<tr>
+					<td>MySQL 连接失败</td>
+					<td>用户密码/防火墙</td>
+					<td>修权限</td>
+			</tr>
+			<tr>
+					<td>MySQL 慢导致卡顿</td>
+					<td>无索引</td>
+					<td>加索引优化</td>
+			</tr>
+			<tr>
+					<td>高 CPU</td>
+					<td>推送量大/GC</td>
+					<td>扩容/调 JVM</td>
+			</tr>
+			<tr>
+					<td>脑裂</td>
+					<td>双节点/网络隔离</td>
+					<td>3 节点以上</td>
+			</tr>
+			<tr>
+					<td>gRPC 超时</td>
+					<td>防火墙拦截</td>
+					<td>telnet 9848</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

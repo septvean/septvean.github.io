@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 真正适用于生产环境、简洁但专业、可直接落地的《Nginx 负载均衡最佳实践》。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nginx 负载均衡最佳实践",
-      "url" : "https://documents.v2ep.com/operations/nginx/upstream-best-practices/",
+      "url": "https://documents.v2ep.com/operations/nginx/upstream-best-practices/",
       "headline": "Nginx 负载均衡最佳实践",
       "description": "下面是一份 真正适用于生产环境、简洁但专业、可直接落地的《Nginx 负载均衡最佳实践》。\n内容全是企业真实经验总结，注意事项、坑点、调优都有。\n1. 明确目标：高可用、高性能、可扩展 负载均衡的核心目的：\n分摊流量，避免单机瓶颈 避免雪崩效应（一个节点挂掉导致全部卡死） 保证服务可扩展 提升吞吐与稳定性 **务必记住：**LB 不只是简单轮询，它是整个服务稳定性的核心组件。\n2. Upstream 最佳结构（keepalive \u002b health check \u002b retry） upstream backend { least_conn; server 10.0.0.1:8000 max_fails=3 fail_timeout=30s; server 10.0.0.2:8000 max_fails=3 fail_timeout=30s; keepalive 50; # ⭐ 必开：减少后端连接开销 } 推荐算法：",
-      "wordCount" : "383",
+      "wordCount": "383",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nginx/upstream-best-practices/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2221,7 +2206,7 @@
 </span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="n">10.0.0.2</span><span class="p">:</span><span class="mi">8000</span> <span class="s">max_fails=3</span> <span class="s">fail_timeout=30s</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kn">keepalive</span> <span class="mi">50</span><span class="p">;</span>  <span class="c1"># ⭐ 必开：减少后端连接开销
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>推荐算法：</p>
 <p><strong>优先 least_conn</strong>（避免慢节点拖累系统）。</p>
 <p>为什么不用默认 round robin？</p>

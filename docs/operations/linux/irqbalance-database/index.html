@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面给你一个明确结论 &#43; 原理解释 &#43; 可执行建议的答案，适用于 MySQL / PostgreSQL，并区分 单机 / NUMA / 云环境。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance",
-      "url" : "https://documents.v2ep.com/operations/linux/irqbalance-database/",
+      "url": "https://documents.v2ep.com/operations/linux/irqbalance-database/",
       "headline": "数据库（MySQL / PostgreSQL）是否应该关闭 irqbalance",
       "description": "下面给你一个明确结论 \u002b 原理解释 \u002b 可执行建议的答案，适用于 MySQL \/ PostgreSQL，并区分 单机 \/ NUMA \/ 云环境。\n一、先给结论（非常重要） 数据库是否关闭 irqbalance，取决于你是否“人工接管了中断调度”。\n总结表（直接可用） 场景 是否关闭 irqbalance 原因 单路服务器 \/ 普通云主机 ❌ 不关闭 自动调度比人工更稳 双路 NUMA 服务器 ❌ 通常不关闭 NUMA 感知分配更合理 已手动绑定网卡 \/ NVMe IRQ ✅ 必须关闭 避免被覆盖 极致低延迟数据库 ✅ 关闭 保证中断可预测 云厂商托管数据库 ❌ 不关闭 平台已调优 二、为什么“默认不该关 irqbalance” 1. 数据库严重依赖 I\/O 中断 MySQL \/ PostgreSQL 对以下中断非常敏感：",
-      "wordCount" : "241",
+      "wordCount": "241",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/irqbalance-database/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2203,40 +2188,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>是否关闭 irqbalance</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单路服务器 / 普通云主机</td>
-          <td>❌ 不关闭</td>
-          <td>自动调度比人工更稳</td>
-      </tr>
-      <tr>
-          <td>双路 NUMA 服务器</td>
-          <td>❌ 通常不关闭</td>
-          <td>NUMA 感知分配更合理</td>
-      </tr>
-      <tr>
-          <td>已手动绑定网卡 / NVMe IRQ</td>
-          <td>✅ 必须关闭</td>
-          <td>避免被覆盖</td>
-      </tr>
-      <tr>
-          <td>极致低延迟数据库</td>
-          <td>✅ 关闭</td>
-          <td>保证中断可预测</td>
-      </tr>
-      <tr>
-          <td>云厂商托管数据库</td>
-          <td>❌ 不关闭</td>
-          <td>平台已调优</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>是否关闭 irqbalance</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单路服务器 / 普通云主机</td>
+					<td>❌ 不关闭</td>
+					<td>自动调度比人工更稳</td>
+			</tr>
+			<tr>
+					<td>双路 NUMA 服务器</td>
+					<td>❌ 通常不关闭</td>
+					<td>NUMA 感知分配更合理</td>
+			</tr>
+			<tr>
+					<td>已手动绑定网卡 / NVMe IRQ</td>
+					<td>✅ 必须关闭</td>
+					<td>避免被覆盖</td>
+			</tr>
+			<tr>
+					<td>极致低延迟数据库</td>
+					<td>✅ 关闭</td>
+					<td>保证中断可预测</td>
+			</tr>
+			<tr>
+					<td>云厂商托管数据库</td>
+					<td>❌ 不关闭</td>
+					<td>平台已调优</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="二为什么默认不该关-irqbalance"

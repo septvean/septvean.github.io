@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、CREATE TABLE 基本语法 CREATE TABLE table_name ( column_name data_type [column_constraint], ... [table_constraint] ); 二、最基础示例 CREATE TABLE users ( id BIGSERIAL PRIMARY KEY, username TEXT NOT NULL, created_at TIMESTAMP NOT NULL DEFAULT now() ); 三、常用字段类型（核心） 1️⃣ 整数类型 类型 字节 说明 SMALLINT 2 小整数 INTEGER / INT 4 常用 BIGINT 8 大数据量 id BIGSERIAL 2️⃣ 自增主键（推荐方式） PostgreSQL 10&#43;（最佳实践）" />
@@ -56,18 +56,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL CREATE TABLE",
-      "url" : "https://documents.v2ep.com/database/postgres/create-table/",
+      "url": "https://documents.v2ep.com/database/postgres/create-table/",
       "headline": "PostgreSQL CREATE TABLE",
       "description": " 一、CREATE TABLE 基本语法 CREATE TABLE table_name ( column_name data_type [column_constraint], ... [table_constraint] ); 二、最基础示例 CREATE TABLE users ( id BIGSERIAL PRIMARY KEY, username TEXT NOT NULL, created_at TIMESTAMP NOT NULL DEFAULT now() ); 三、常用字段类型（核心） 1️⃣ 整数类型 类型 字节 说明 SMALLINT 2 小整数 INTEGER \/ INT 4 常用 BIGINT 8 大数据量 id BIGSERIAL 2️⃣ 自增主键（推荐方式） PostgreSQL 10\u002b（最佳实践）",
-      "wordCount" : "387",
+      "wordCount": "387",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/create-table/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -87,8 +87,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -107,12 +107,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -263,21 +263,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2187,7 +2172,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">column_name</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="p">[</span><span class="n">column_constraint</span><span class="p">],</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">...</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">[</span><span class="n">table_constraint</span><span class="p">]</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="二最基础示例"
     >
@@ -2201,7 +2186,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">username</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三常用字段类型核心"
     >
@@ -2221,30 +2206,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>字节</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SMALLINT</td>
-          <td>2</td>
-          <td>小整数</td>
-      </tr>
-      <tr>
-          <td>INTEGER / INT</td>
-          <td>4</td>
-          <td>常用</td>
-      </tr>
-      <tr>
-          <td>BIGINT</td>
-          <td>8</td>
-          <td>大数据量</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>字节</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SMALLINT</td>
+					<td>2</td>
+					<td>小整数</td>
+			</tr>
+			<tr>
+					<td>INTEGER / INT</td>
+					<td>4</td>
+					<td>常用</td>
+			</tr>
+			<tr>
+					<td>BIGINT</td>
+					<td>8</td>
+					<td>大数据量</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
@@ -2275,29 +2260,29 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>VARCHAR(n)</td>
-          <td>有明确长度限制</td>
-      </tr>
-      <tr>
-          <td>TEXT</td>
-          <td>长度未知（推荐）</td>
-      </tr>
-      <tr>
-          <td>CHAR(n)</td>
-          <td>定长（不推荐）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>VARCHAR(n)</td>
+					<td>有明确长度限制</td>
+			</tr>
+			<tr>
+					<td>TEXT</td>
+					<td>长度未知（推荐）</td>
+			</tr>
+			<tr>
+					<td>CHAR(n)</td>
+					<td>定长（不推荐）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">title</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">content</span><span class="w"> </span><span class="nb">TEXT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">content</span><span class="w"> </span><span class="nb">TEXT</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-时间类型重点"
     >
@@ -2308,9 +2293,9 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">TIMESTAMP</span><span class="w">           </span><span class="c1">-- 不带时区
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">TIMESTAMPTZ</span><span class="w">         </span><span class="c1">-- 带时区（推荐）
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nb">DATE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TIME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">TIMESTAMPTZ</span><span class="w">         </span><span class="c1">-- 带时区（推荐）
+</span></span></span><span class="line"><span class="cl"><span class="nb">DATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">TIME</span><span class="w">
 </span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">created_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="5-布尔--json"
@@ -2322,7 +2307,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">is_active</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">true</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">meta</span><span class="w"> </span><span class="n">JSONB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">meta</span><span class="w"> </span><span class="n">JSONB</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四列约束column-constraints"
     >
@@ -2421,7 +2406,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">role_id</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">user_roles</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">role_id</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">REFERENCES</span><span class="w"> </span><span class="n">user_roles</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">role_id</span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六完整实战建表示例推荐写法"
     >
@@ -2446,7 +2431,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">url</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">uk_articles_code_url</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">url</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七create-table--索引最佳实践"
     >
@@ -2459,7 +2444,7 @@
 <p>📌 <strong>表结构 ≠ 索引</strong></p>
 <p><strong>建表后再建索引（推荐）</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_datetime</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="p">(</span><span class="n">datetime</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_code</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_code</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="like-xxx-搜索"
     >
@@ -2489,13 +2474,13 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_source_trgm</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="k">source</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="k">source</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_title_trgm</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_title_trgm</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_url_trgm</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">url</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_url_trgm</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">url</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八if-not-exists--temp--unlogged"
     >
@@ -2550,7 +2535,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">COMMENT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="s1">&#39;文章表&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMENT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">articles</span><span class="p">.</span><span class="n">url</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="s1">&#39;文章原始链接&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMENT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">articles</span><span class="p">.</span><span class="n">url</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="s1">&#39;文章原始链接&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十create-table-常见坑"
     >
@@ -2610,7 +2595,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">created_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">updated_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">...</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十二总结"
     >

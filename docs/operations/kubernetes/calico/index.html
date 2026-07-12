@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 Kubernetes Calico 最详细介绍（基于 K8S 1.33 最新认知），涵盖架构、工作原理、组件、网络策略、BGP、IPIP/VXLAN、企业特性等，全程用工程师视角写，帮助你在实际集群中落地。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes Calico",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/calico/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/calico/",
       "headline": "Kubernetes Calico",
       "description": "下面是一份 Kubernetes Calico 最详细介绍（基于 K8S 1.33 最新认知），涵盖架构、工作原理、组件、网络策略、BGP、IPIP\/VXLAN、企业特性等，全程用工程师视角写，帮助你在实际集群中落地。\n🚀 Kubernetes Calico 详细介绍（基于 Kubernetes ≥1.33） Calico 是目前 Kubernetes 最主流的 CNI 插件之一，以高性能、可观测性强、企业特性丰富而著称。\n它不是简单的 Pod 网络方案，而是一套 L3 网络、BGP 路由、网络策略执行、跨集群通信、安全合规的大型网络平台。\n1. 什么是 Calico？ Calico 是一个基于 三层路由（L3 Routing） 的 Kubernetes 网络方案，核心理念：",
-      "wordCount" : "552",
+      "wordCount": "552",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/calico/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2214,35 +2199,35 @@
 </ul>
 <p>支持网络模式包括：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>描述</th>
-          <th>性能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>BGP 模式（无 overlay）</td>
-          <td>直接使用 BGP 交换路由，Pod IP 可达</td>
-          <td>⭐⭐⭐⭐⭐（最高）</td>
-      </tr>
-      <tr>
-          <td>IPIP overlay</td>
-          <td>节点之间包一层 IPIP</td>
-          <td>⭐⭐⭐</td>
-      </tr>
-      <tr>
-          <td>VXLAN overlay</td>
-          <td>用 VXLAN 封装 Pod 流量</td>
-          <td>⭐⭐⭐⭐</td>
-      </tr>
-      <tr>
-          <td>WireGuard</td>
-          <td>Pod 间端到端加密</td>
-          <td>⭐⭐⭐⭐</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>描述</th>
+					<th>性能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>BGP 模式（无 overlay）</td>
+					<td>直接使用 BGP 交换路由，Pod IP 可达</td>
+					<td>⭐⭐⭐⭐⭐（最高）</td>
+			</tr>
+			<tr>
+					<td>IPIP overlay</td>
+					<td>节点之间包一层 IPIP</td>
+					<td>⭐⭐⭐</td>
+			</tr>
+			<tr>
+					<td>VXLAN overlay</td>
+					<td>用 VXLAN 封装 Pod 流量</td>
+					<td>⭐⭐⭐⭐</td>
+			</tr>
+			<tr>
+					<td>WireGuard</td>
+					<td>Pod 间端到端加密</td>
+					<td>⭐⭐⭐⭐</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>同时支持：</p>
 <ul>
@@ -2428,10 +2413,10 @@
 </ul>
 <p>你可以定义不同 IP 池分配给不同 namespace：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">projectcalico.org/v3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">IPPool</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">IPPool</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="m">10.100.0.0</span><span class="l">/16</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">natOutgoing</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ipipMode</span><span class="p">:</span><span class="w"> </span><span class="l">Always</span><span class="w">
@@ -2446,25 +2431,25 @@
 </div>
 <p>Calico 支持两种策略：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>作用范围</th>
-          <th>功能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>NetworkPolicy（标准）</strong></td>
-          <td>namespace 内</td>
-          <td>L3/L4 控制</td>
-      </tr>
-      <tr>
-          <td><strong>GlobalNetworkPolicy（Calico 扩展）</strong></td>
-          <td>全集群</td>
-          <td>L3/L4/L7 控制（企业版）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>作用范围</th>
+					<th>功能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>NetworkPolicy（标准）</strong></td>
+					<td>namespace 内</td>
+					<td>L3/L4 控制</td>
+			</tr>
+			<tr>
+					<td><strong>GlobalNetworkPolicy（Calico 扩展）</strong></td>
+					<td>全集群</td>
+					<td>L3/L4/L7 控制（企业版）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="51-标准-networkpolicy"
@@ -2477,11 +2462,11 @@
 </div>
 <p>例如只允许 frontend -&gt; backend:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">NetworkPolicy</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.k8s.io/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">networking.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">allow-frontend</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">backend</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">podSelector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">backend</span><span class="w">
@@ -2501,10 +2486,10 @@
 </div>
 <p>全局级别，优先级更高：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">projectcalico.org/v3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">GlobalNetworkPolicy</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">GlobalNetworkPolicy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">deny-all</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span><span class="l">all()</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">types</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">Ingress</span><span class="w">
@@ -2574,34 +2559,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Multi-cluster</td>
-          <td>多集群连接</td>
-      </tr>
-      <tr>
-          <td>L7 Policy</td>
-          <td>基于域名、HTTP 方法控制</td>
-      </tr>
-      <tr>
-          <td>Compliance reports</td>
-          <td>网络安全报表</td>
-      </tr>
-      <tr>
-          <td>Enterprise eBPF</td>
-          <td>全链路可观测</td>
-      </tr>
-      <tr>
-          <td>Zero Trust Segmentation</td>
-          <td>租户隔离、安全控制</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Multi-cluster</td>
+					<td>多集群连接</td>
+			</tr>
+			<tr>
+					<td>L7 Policy</td>
+					<td>基于域名、HTTP 方法控制</td>
+			</tr>
+			<tr>
+					<td>Compliance reports</td>
+					<td>网络安全报表</td>
+			</tr>
+			<tr>
+					<td>Enterprise eBPF</td>
+					<td>全链路可观测</td>
+			</tr>
+			<tr>
+					<td>Zero Trust Segmentation</td>
+					<td>租户隔离、安全控制</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="9-calico-总结"
@@ -2614,40 +2599,40 @@
 </div>
 <p>Calico 与 Flannel 的区别？</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>Calico</th>
-          <th>Flannel</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>模式</td>
-          <td>L3 Routing</td>
-          <td>L2 Overlay</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>⭐⭐⭐</td>
-      </tr>
-      <tr>
-          <td>安全</td>
-          <td>NetworkPolicy</td>
-          <td>无</td>
-      </tr>
-      <tr>
-          <td>BGP</td>
-          <td>支持</td>
-          <td>不支持</td>
-      </tr>
-      <tr>
-          <td>eBPF</td>
-          <td>支持</td>
-          <td>不支持</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>Calico</th>
+					<th>Flannel</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>模式</td>
+					<td>L3 Routing</td>
+					<td>L2 Overlay</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>⭐⭐⭐</td>
+			</tr>
+			<tr>
+					<td>安全</td>
+					<td>NetworkPolicy</td>
+					<td>无</td>
+			</tr>
+			<tr>
+					<td>BGP</td>
+					<td>支持</td>
+					<td>不支持</td>
+			</tr>
+			<tr>
+					<td>eBPF</td>
+					<td>支持</td>
+					<td>不支持</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>Calico 如何提高性能？</p>
 <ul>
@@ -2658,30 +2643,30 @@
 </ul>
 <p>IPIP 与 VXLAN 区别？</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>IPIP</th>
-          <th>VXLAN</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Header</td>
-          <td>20 bytes</td>
-          <td>50 bytes</td>
-      </tr>
-      <tr>
-          <td>硬件 offload</td>
-          <td>不支持</td>
-          <td>支持</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>中</td>
-          <td>高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>IPIP</th>
+					<th>VXLAN</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Header</td>
+					<td>20 bytes</td>
+					<td>50 bytes</td>
+			</tr>
+			<tr>
+					<td>硬件 offload</td>
+					<td>不支持</td>
+					<td>支持</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>中</td>
+					<td>高</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-最后总结工程师视角"

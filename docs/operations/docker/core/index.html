@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、Docker 的本质 Docker = 利用 Linux 内核能力（Namespace &#43; cgroups &#43; UnionFS）， 把应用进程“隔离、限制、打包、分发、运行”的一整套工程体系。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Docker 核心概念",
-      "url" : "https://documents.v2ep.com/operations/docker/core/",
+      "url": "https://documents.v2ep.com/operations/docker/core/",
       "headline": "Docker 核心概念",
       "description": " 一、Docker 的本质 Docker = 利用 Linux 内核能力（Namespace \u002b cgroups \u002b UnionFS）， 把应用进程“隔离、限制、打包、分发、运行”的一整套工程体系。\n⚠️ Docker 不是虚拟机\n⚠️ 容器不是 OS\n⚠️ Docker 本质是 进程管理 \u002b 文件系统抽象\n二、Docker 解决了什么问题（Why） 1️⃣ 环境一致性 开发 \/ 测试 \/ 生产环境不一致 “在我机器上是好的” Docker 用 镜像 固化环境。",
-      "wordCount" : "358",
+      "wordCount": "358",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/docker/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2272,38 +2257,38 @@
 <p>Namespace 解决的是：“容器里的进程，为什么以为自己是独占系统？”</p>
 <p>Linux Namespace 让一个进程看到的是“假的世界”。</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Namespace</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>PID</td>
-          <td>进程号隔离</td>
-      </tr>
-      <tr>
-          <td>NET</td>
-          <td>网络隔离</td>
-      </tr>
-      <tr>
-          <td>MNT</td>
-          <td>挂载点隔离</td>
-      </tr>
-      <tr>
-          <td>IPC</td>
-          <td>进程通信隔离</td>
-      </tr>
-      <tr>
-          <td>UTS</td>
-          <td>主机名隔离</td>
-      </tr>
-      <tr>
-          <td>USER</td>
-          <td>用户隔离</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Namespace</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>PID</td>
+					<td>进程号隔离</td>
+			</tr>
+			<tr>
+					<td>NET</td>
+					<td>网络隔离</td>
+			</tr>
+			<tr>
+					<td>MNT</td>
+					<td>挂载点隔离</td>
+			</tr>
+			<tr>
+					<td>IPC</td>
+					<td>进程通信隔离</td>
+			</tr>
+			<tr>
+					<td>UTS</td>
+					<td>主机名隔离</td>
+			</tr>
+			<tr>
+					<td>USER</td>
+					<td>用户隔离</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 结果：</p>
 <ul>
@@ -2468,34 +2453,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>职责</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>docker CLI</td>
-          <td>用户接口</td>
-      </tr>
-      <tr>
-          <td>dockerd</td>
-          <td>容器生命周期管理</td>
-      </tr>
-      <tr>
-          <td>containerd</td>
-          <td>容器运行管理</td>
-      </tr>
-      <tr>
-          <td>runc</td>
-          <td>真正调用内核创建容器</td>
-      </tr>
-      <tr>
-          <td>OCI</td>
-          <td>标准</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>职责</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>docker CLI</td>
+					<td>用户接口</td>
+			</tr>
+			<tr>
+					<td>dockerd</td>
+					<td>容器生命周期管理</td>
+			</tr>
+			<tr>
+					<td>containerd</td>
+					<td>容器运行管理</td>
+			</tr>
+			<tr>
+					<td>runc</td>
+					<td>真正调用内核创建容器</td>
+			</tr>
+			<tr>
+					<td>OCI</td>
+					<td>标准</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六docker-网络基础理论"
@@ -2564,40 +2549,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>Docker</th>
-          <th>VM</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>内核</td>
-          <td>共享</td>
-          <td>独立</td>
-      </tr>
-      <tr>
-          <td>虚拟层级</td>
-          <td>进程级</td>
-          <td>硬件级</td>
-      </tr>
-      <tr>
-          <td>启动</td>
-          <td>秒级</td>
-          <td>分钟</td>
-      </tr>
-      <tr>
-          <td>资源</td>
-          <td>少</td>
-          <td>多</td>
-      </tr>
-      <tr>
-          <td>密度</td>
-          <td>高</td>
-          <td>低</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>Docker</th>
+					<th>VM</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>内核</td>
+					<td>共享</td>
+					<td>独立</td>
+			</tr>
+			<tr>
+					<td>虚拟层级</td>
+					<td>进程级</td>
+					<td>硬件级</td>
+			</tr>
+			<tr>
+					<td>启动</td>
+					<td>秒级</td>
+					<td>分钟</td>
+			</tr>
+			<tr>
+					<td>资源</td>
+					<td>少</td>
+					<td>多</td>
+			</tr>
+			<tr>
+					<td>密度</td>
+					<td>高</td>
+					<td>低</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="九docker-的工程哲学非常重要"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent/Slave）连接到 Jenkins 主节点（Master/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Jenkins JNLP Agent",
-      "url" : "https://documents.v2ep.com/operations/jenkins/jnlp-agent/",
+      "url": "https://documents.v2ep.com/operations/jenkins/jnlp-agent/",
       "headline": "Jenkins JNLP Agent",
       "description": "JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent\/Slave）连接到 Jenkins 主节点（Master\/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。\n🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。\n在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。\n也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。\n✅ 适合场景：\n你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙\/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -\u003e Nodes -\u003e New node -\u003e Type: Permanent Agent 创建一个永久节点。",
-      "wordCount" : "677",
+      "wordCount": "677",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/jnlp-agent/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2452,40 +2437,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>JNLP Agent</th>
-          <th>SSH Agent</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>连接方向</strong></td>
-          <td>Agent -&gt; Master（入站）</td>
-          <td>Master -&gt; Agent（出站）</td>
-      </tr>
-      <tr>
-          <td><strong>防火墙友好</strong></td>
-          <td>✅ 适合 NAT/防火墙后</td>
-          <td>❌ 需开放 SSH 端口</td>
-      </tr>
-      <tr>
-          <td><strong>操作系统支持</strong></td>
-          <td>跨平台（需 Java）</td>
-          <td>主要 Linux（需 SSH 服务）</td>
-      </tr>
-      <tr>
-          <td><strong>启动方式</strong></td>
-          <td>手动执行 Java 命令</td>
-          <td>Jenkins 自动 SSH 登录启动</td>
-      </tr>
-      <tr>
-          <td><strong>资源开销</strong></td>
-          <td>需常驻 Java 进程</td>
-          <td>按需启动，更轻量（一次性 Agent）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>JNLP Agent</th>
+					<th>SSH Agent</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>连接方向</strong></td>
+					<td>Agent -&gt; Master（入站）</td>
+					<td>Master -&gt; Agent（出站）</td>
+			</tr>
+			<tr>
+					<td><strong>防火墙友好</strong></td>
+					<td>✅ 适合 NAT/防火墙后</td>
+					<td>❌ 需开放 SSH 端口</td>
+			</tr>
+			<tr>
+					<td><strong>操作系统支持</strong></td>
+					<td>跨平台（需 Java）</td>
+					<td>主要 Linux（需 SSH 服务）</td>
+			</tr>
+			<tr>
+					<td><strong>启动方式</strong></td>
+					<td>手动执行 Java 命令</td>
+					<td>Jenkins 自动 SSH 登录启动</td>
+			</tr>
+			<tr>
+					<td><strong>资源开销</strong></td>
+					<td>需常驻 Java 进程</td>
+					<td>按需启动，更轻量（一次性 Agent）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <blockquote>
 <p>✅ 现代推荐：对于云环境或容器化场景，使用 <strong>Pod Template</strong>（Kubernetes Plugin）或 <strong>Docker Agent</strong> 更灵活，它们底层也常基于 JNLP。</p>
@@ -2501,35 +2486,35 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>问题</th>
-          <th>可能原因</th>
-          <th>解决方案</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>Connection refused</code></td>
-          <td>Jenkins URL 不可达</td>
-          <td>检查网络、防火墙、Jenkins 是否运行</td>
-      </tr>
-      <tr>
-          <td><code>Invalid secret</code></td>
-          <td>密钥错误或过期</td>
-          <td>重新复制 Secret，或在节点配置中点击 “Fix”</td>
-      </tr>
-      <tr>
-          <td><code>Unsupported protocol</code></td>
-          <td>Java 版本不兼容</td>
-          <td>使用 Java 8/11，避免 Java 17+（除非 Jenkins 支持）</td>
-      </tr>
-      <tr>
-          <td>Agent 频繁断开</td>
-          <td>网络不稳定</td>
-          <td>增加重连脚本，或改用更稳定连接方式</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>可能原因</th>
+					<th>解决方案</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>Connection refused</code></td>
+					<td>Jenkins URL 不可达</td>
+					<td>检查网络、防火墙、Jenkins 是否运行</td>
+			</tr>
+			<tr>
+					<td><code>Invalid secret</code></td>
+					<td>密钥错误或过期</td>
+					<td>重新复制 Secret，或在节点配置中点击 “Fix”</td>
+			</tr>
+			<tr>
+					<td><code>Unsupported protocol</code></td>
+					<td>Java 版本不兼容</td>
+					<td>使用 Java 8/11，避免 Java 17+（除非 Jenkins 支持）</td>
+			</tr>
+			<tr>
+					<td>Agent 频繁断开</td>
+					<td>网络不稳定</td>
+					<td>增加重连脚本，或改用更稳定连接方式</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">

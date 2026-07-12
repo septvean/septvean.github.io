@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Service 是 Kubernetes 中稳定访问后端 Pod 的抽象，通过 标签选择器 &#43; 集群网络 为 Pod 提供：
@@ -65,18 +65,18 @@ Pod 删除重建 Pod 重启 Pod IP 会变化 Service 解决两个关键问题：
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes Service",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/service/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/service/",
       "headline": "Kubernetes Service",
       "description": "Service 是 Kubernetes 中稳定访问后端 Pod 的抽象，通过 标签选择器 \u002b 集群网络 为 Pod 提供：\n固定虚拟 IP（ClusterIP） 负载均衡（kube-proxy \/ eBPF） 稳定 DNS 名称 跨节点透明访问能力（无 NAT 或带 NAT，视 CNI 和 kube-proxy 模式决定） 1. Service 为什么存在？ Pod 会不断变化：\nPod 删除重建 Pod 重启 Pod IP 会变化 Service 解决两个关键问题：\n问题 Service 提供的解决方案 如何稳定访问 Pod？ 创建 固定 IP：ClusterIP 多个 Pod 怎么负载均衡？ kube-proxy \/ CNI eBPF 2. Service 由什么组成？ 核心组件",
-      "wordCount" : "494",
+      "wordCount": "494",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/service/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ Pod 删除重建 Pod 重启 Pod IP 会变化 Service 解决两个关键问题：
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ Pod 删除重建 Pod 重启 Pod IP 会变化 Service 解决两个关键问题：
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ Pod 删除重建 Pod 重启 Pod IP 会变化 Service 解决两个关键问题：
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2207,22 +2192,22 @@ Pod 删除重建 Pod 重启 Pod IP 会变化 Service 解决两个关键问题：
 </ul>
 <p>Service 解决两个关键问题：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>问题</th>
-          <th>Service 提供的解决方案</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>如何稳定访问 Pod？</td>
-          <td>创建 固定 IP：ClusterIP</td>
-      </tr>
-      <tr>
-          <td>多个 Pod 怎么负载均衡？</td>
-          <td>kube-proxy / CNI eBPF</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>Service 提供的解决方案</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>如何稳定访问 Pod？</td>
+					<td>创建 固定 IP：ClusterIP</td>
+			</tr>
+			<tr>
+					<td>多个 Pod 怎么负载均衡？</td>
+					<td>kube-proxy / CNI eBPF</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="2-service-由什么组成"
@@ -2622,10 +2607,10 @@ Pod 删除重建 Pod 重启 Pod IP 会变化 Service 解决两个关键问题：
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">backend</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">backend</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w">

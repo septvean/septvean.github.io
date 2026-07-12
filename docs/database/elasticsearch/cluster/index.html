@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容涵盖：集群架构、节点角色、分片机制、路由、复制、主节点选举、网络、扩容缩容、最佳实践、集群规划方案。
@@ -65,18 +65,18 @@ cluster name（必须一致） 一个或多个节点 索引（index） &#43; 分
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "ElasticSearch 集群",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/cluster/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/cluster/",
       "headline": "ElasticSearch 集群",
       "description": "内容涵盖：集群架构、节点角色、分片机制、路由、复制、主节点选举、网络、扩容缩容、最佳实践、集群规划方案。\n1. 什么是 ES 集群？ ElasticSearch 集群是 多个节点（Nodes）协同工作，存储数据、提供搜索、提供高可用能力的逻辑整体。\n一个集群由：\ncluster name（必须一致） 一个或多个节点 索引（index） \u002b 分片（shard） 主节点（master）管理集群元数据 data 节点存储数据 2. ElasticSearch 节点类型（非常关键） 节点角色类型 ⭐ 从 ES 7.x 以后所有节点「默认全角色」，但生产必须拆分。",
-      "wordCount" : "389",
+      "wordCount": "389",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/cluster/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ cluster name（必须一致） 一个或多个节点 索引（index） &#43; 分
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ cluster name（必须一致） 一个或多个节点 索引（index） &#43; 分
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ cluster name（必须一致） 一个或多个节点 索引（index） &#43; 分
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2222,45 +2207,45 @@ cluster name（必须一致） 一个或多个节点 索引（index） &#43; 分
 </div>
 <p>从 ES 7.x 以后所有节点「默认全角色」，但生产必须拆分。</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>角色</th>
-          <th>功能</th>
-          <th>是否建议独立</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>master</td>
-          <td>元数据、集群管理、分片调度</td>
-          <td>✅ 强烈建议独立 3 节点</td>
-      </tr>
-      <tr>
-          <td>data</td>
-          <td>存储 + 搜索 + 聚合</td>
-          <td>✅ 数据量大时需要多节点</td>
-      </tr>
-      <tr>
-          <td>data_hot</td>
-          <td>热数据写入</td>
-          <td>✅ 热数据分层场景</td>
-      </tr>
-      <tr>
-          <td>data_warm/cold</td>
-          <td>冷数据存储</td>
-          <td>✅ ILM</td>
-      </tr>
-      <tr>
-          <td>coordinating-only</td>
-          <td>负责 query 分发、合并结果</td>
-          <td>可选</td>
-      </tr>
-      <tr>
-          <td>ingest</td>
-          <td>pipeline 预处理</td>
-          <td>可选</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>角色</th>
+					<th>功能</th>
+					<th>是否建议独立</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>master</td>
+					<td>元数据、集群管理、分片调度</td>
+					<td>✅ 强烈建议独立 3 节点</td>
+			</tr>
+			<tr>
+					<td>data</td>
+					<td>存储 + 搜索 + 聚合</td>
+					<td>✅ 数据量大时需要多节点</td>
+			</tr>
+			<tr>
+					<td>data_hot</td>
+					<td>热数据写入</td>
+					<td>✅ 热数据分层场景</td>
+			</tr>
+			<tr>
+					<td>data_warm/cold</td>
+					<td>冷数据存储</td>
+					<td>✅ ILM</td>
+			</tr>
+			<tr>
+					<td>coordinating-only</td>
+					<td>负责 query 分发、合并结果</td>
+					<td>可选</td>
+			</tr>
+			<tr>
+					<td>ingest</td>
+					<td>pipeline 预处理</td>
+					<td>可选</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="集群推荐结构常用三种"
@@ -2421,30 +2406,30 @@ cluster name（必须一致） 一个或多个节点 索引（index） &#43; 分
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>状态</th>
-          <th>含义</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>🟢 Green</td>
-          <td>主 + 副本全部 ok</td>
-          <td>集群健康</td>
-      </tr>
-      <tr>
-          <td>🟡 Yellow</td>
-          <td>主分片 ok，副本未分配</td>
-          <td>节点不足 / 磁盘不足</td>
-      </tr>
-      <tr>
-          <td>🔴 Red</td>
-          <td>主分片不可用</td>
-          <td>数据丢失风险、节点崩溃</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>状态</th>
+					<th>含义</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>🟢 Green</td>
+					<td>主 + 副本全部 ok</td>
+					<td>集群健康</td>
+			</tr>
+			<tr>
+					<td>🟡 Yellow</td>
+					<td>主分片 ok，副本未分配</td>
+					<td>节点不足 / 磁盘不足</td>
+			</tr>
+			<tr>
+					<td>🔴 Red</td>
+					<td>主分片不可用</td>
+					<td>数据丢失风险、节点崩溃</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>排查命令：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">GET /_cluster/allocation/explain
@@ -2604,35 +2589,35 @@ cluster name（必须一致） 一个或多个节点 索引（index） &#43; 分
 </div>
 <p>10 节点</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>节点</th>
-          <th>数量</th>
-          <th>配置</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Master</td>
-          <td>3</td>
-          <td>4C16G</td>
-      </tr>
-      <tr>
-          <td>Data Hot</td>
-          <td>4</td>
-          <td>16C64G</td>
-      </tr>
-      <tr>
-          <td>Data Warm</td>
-          <td>2</td>
-          <td>16C64G</td>
-      </tr>
-      <tr>
-          <td>Coordinating</td>
-          <td>1</td>
-          <td>4C16G</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>节点</th>
+					<th>数量</th>
+					<th>配置</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Master</td>
+					<td>3</td>
+					<td>4C16G</td>
+			</tr>
+			<tr>
+					<td>Data Hot</td>
+					<td>4</td>
+					<td>16C64G</td>
+			</tr>
+			<tr>
+					<td>Data Warm</td>
+					<td>2</td>
+					<td>16C64G</td>
+			</tr>
+			<tr>
+					<td>Coordinating</td>
+					<td>1</td>
+					<td>4C16G</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>适合：日志、业务搜索、订单系统。</p>
 <div class="flex align-center gdoc-page__anchorwrap">

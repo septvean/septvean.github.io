@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 基础环境 系统：AlmaLinux 9 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Jenkins 部署",
-      "url" : "https://documents.v2ep.com/operations/jenkins/deploy/",
+      "url": "https://documents.v2ep.com/operations/jenkins/deploy/",
       "headline": "Jenkins 部署",
       "description": " 基础环境 系统：AlmaLinux 9 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins\n主要文档：WAR file 查看 Java 要求：Java Support Policy\n这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd \/data\/septvean\/bash\/java bash -x deploy-jdk-21.sh 21.0.9 \/usr\/local\/jdk\/21.0.9\/bin\/java -version # java version \u002221.0.9\u0022 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9\u002b7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9\u002b7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s \/sbin\/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv \/data\/jenkins\/{app,builder,data,log} # 设置代理 # export http_proxy=http:\/\/192.168.101.200:1080; export https_proxy=http:\/\/192.168.101.200:1080; # 下载 War 包 cd \/data\/jenkins\/app wget -c -O jenkins-2.528.3.war https:\/\/get.jenkins.io\/war-stable\/2.528.3\/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch \/data\/jenkins\/log\/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins \/data\/jenkins # 设置环境变量 # export JENKINS_HOME=\u0027\/data\/jenkins\/data\u0027 # 启动 (端口 8200, 前缀 \/jenkins) 用于测试 # \/usr\/local\/jdk\/21.0.9\/bin\/java \\ # -jar jenkins.war \\ # --httpPort=8200 \\ # --prefix=\/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # JVM 参数根据实际情况配置 # # Environment=\u0022JAVA_OPTS=\u0027-server -Xms256m -Xmx512m\u0027\u0022 # # 启动参数 # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=\/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=\/jenkins tee \/etc\/systemd\/system\/jenkins.service \u003c\u003c\u0027EOF\u0027 [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=\u0022JENKINS_HOME=\/data\/jenkins\/data\u0022 Environment=\u0022JAVA_OPTS=\u0027-server -Xms256m -Xmx512m\u0027\u0022 # 工作目录 WorkingDirectory=\/data\/jenkins\/app # 启动命令 ExecStart=\/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:\/data\/jenkins\/log\/run.log StandardError=append:\/data\/jenkins\/log\/error.log # 自动重启策略 Restart=always RestartSec=5s [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (\/etc\/systemd\/system\/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: \/system.slice\/jenkins.service # └─3822 \/usr\/local\/jdk\/21.0.9\/bin\/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http:\/\/192.168.101.201:8200\/",
-      "wordCount" : "713",
+      "wordCount": "713",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/deploy/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2382,29 +2367,29 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl">    <span class="k">location</span> <span class="s">/jenkins</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># 代理
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:8200</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:8200</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># 修正 Jenkins 返回的重定向路径
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_redirect</span> <span class="n">127.0.0.1</span> <span class="nv">$scheme://$host/jenkins</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">        <span class="kn">proxy_redirect</span> <span class="n">127.0.0.1</span> <span class="nv">$scheme://$host/jenkins</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># 设置请求头
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host:$server_port</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host:$server_port</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-Proto</span> <span class="nv">$scheme</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># WebSocket
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">        <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Upgrade</span> <span class="nv">$http_upgrade</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#34;upgrade&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># 超时设置
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_connect_timeout</span>   <span class="s">3s</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">        <span class="kn">proxy_connect_timeout</span>   <span class="s">3s</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_send_timeout</span>      <span class="s">300s</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="kn">proxy_read_timeout</span>      <span class="s">300s</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1"># 关闭代理缓冲
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_buffering</span> <span class="no">off</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">        <span class="kn">proxy_buffering</span> <span class="no">off</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span></code></pre></div><p>Nginx 加载配置</p>

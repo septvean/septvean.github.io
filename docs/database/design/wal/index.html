@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、WAL 的概念 WAL = Write-Ahead Logging（预写日志）
@@ -74,18 +74,18 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "WAL",
-      "url" : "https://documents.v2ep.com/database/design/wal/",
+      "url": "https://documents.v2ep.com/database/design/wal/",
       "headline": "WAL",
       "description": " 一、WAL 的概念 WAL = Write-Ahead Logging（预写日志）\n核心思想：先记录日志，再修改数据\n所有对数据库的修改，先写入 WAL 日志文件 只有日志写入成功，事务才算提交 数据页可以延迟刷盘，保证崩溃恢复时可回滚或重做 WAL 的目的 事务持久性（Durability）\n数据修改未落盘，系统崩溃也能恢复 崩溃恢复（Crash Recovery）\n系统挂掉，重放 WAL 可恢复未落盘的数据 高性能写入\n避免每次修改都直接刷磁盘 顺序写日志比随机写数据快很多 支持复制\nWAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 事务修改 -\u003e 写 WAL 日志 日志刷盘（fsync） -\u003e 事务提交 脏页延迟刷盘 -\u003e 数据页异步写入磁盘 崩溃恢复： Redo 日志：回放 WAL，保证修改持久 Undo 日志：回滚未提交事务（部分数据库通过 MVCC 或 redo\/undo 实现） WAL 的典型写入顺序 事务开始 | v 修改 -\u003e 写 WAL | v fsync WAL（保证持久） | v 事务提交 | v 异步写入数据页 三、WAL 的数据结构 以 PostgreSQL 为例：",
-      "wordCount" : "237",
+      "wordCount": "237",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/design/wal/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2332,50 +2317,50 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>PostgreSQL WAL</th>
-          <th>MySQL InnoDB redo log</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>叫法</td>
-          <td>WAL</td>
-          <td>redo log (也称 redo)</td>
-      </tr>
-      <tr>
-          <td>事务提交</td>
-          <td>WAL 写入 fsync -&gt; 提交</td>
-          <td>redo log 写入 buffer -&gt; flush 或 group commit</td>
-      </tr>
-      <tr>
-          <td>数据页写入</td>
-          <td>异步刷脏页</td>
-          <td>异步刷脏页</td>
-      </tr>
-      <tr>
-          <td>文件类型</td>
-          <td>WAL segment files</td>
-          <td>redo log files (循环)</td>
-      </tr>
-      <tr>
-          <td>事务恢复</td>
-          <td>通过重放 WAL</td>
-          <td>redo log 重做，undo log 回滚</td>
-      </tr>
-      <tr>
-          <td>MVCC 关系</td>
-          <td>直接支持 MVCC</td>
-          <td>InnoDB MVCC 使用 undo log</td>
-      </tr>
-      <tr>
-          <td>复制</td>
-          <td>WAL 可流复制</td>
-          <td>binlog 复制（逻辑复制）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>PostgreSQL WAL</th>
+					<th>MySQL InnoDB redo log</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>叫法</td>
+					<td>WAL</td>
+					<td>redo log (也称 redo)</td>
+			</tr>
+			<tr>
+					<td>事务提交</td>
+					<td>WAL 写入 fsync -&gt; 提交</td>
+					<td>redo log 写入 buffer -&gt; flush 或 group commit</td>
+			</tr>
+			<tr>
+					<td>数据页写入</td>
+					<td>异步刷脏页</td>
+					<td>异步刷脏页</td>
+			</tr>
+			<tr>
+					<td>文件类型</td>
+					<td>WAL segment files</td>
+					<td>redo log files (循环)</td>
+			</tr>
+			<tr>
+					<td>事务恢复</td>
+					<td>通过重放 WAL</td>
+					<td>redo log 重做，undo log 回滚</td>
+			</tr>
+			<tr>
+					<td>MVCC 关系</td>
+					<td>直接支持 MVCC</td>
+					<td>InnoDB MVCC 使用 undo log</td>
+			</tr>
+			<tr>
+					<td>复制</td>
+					<td>WAL 可流复制</td>
+					<td>binlog 复制（逻辑复制）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="五wal-的性能优化点"

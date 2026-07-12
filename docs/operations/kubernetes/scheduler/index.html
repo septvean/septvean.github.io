@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Kubernetes Scheduler 负责将 Pending 状态的 Pod 分配到合适的 Node 上，是从 调度策略 -&gt; 算法实现 -&gt; 决策输出 的核心组件。
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes Scheduler",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/scheduler/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/scheduler/",
       "headline": "Kubernetes Scheduler",
       "description": "Kubernetes Scheduler 负责将 Pending 状态的 Pod 分配到合适的 Node 上，是从 调度策略 -\u003e 算法实现 -\u003e 决策输出 的核心组件。\n目录 ☘️ 调度器的目标 🔧 调度器的架构 🔄 调度器工作流程（Filter -\u003e Score -\u003e Bind） 🔌 调度插件（Kubernetes 1.33 完整插件体系） 🧩 调度器的算法逻辑 🧲 Affinity \/ AntiAffinity \/ Taint \/ Toleration ⚡ 优雅抢占（Preemption） 🪝 调度扩展：自定义调度器 \/ 多调度器 📈 调度性能优化 🧪 调度问题排查指南 1. 调度器目标（核心概念） Kubernetes Scheduler 的目标：",
-      "wordCount" : "435",
+      "wordCount": "435",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/scheduler/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2212,22 +2197,22 @@
 <p><strong>在满足约束条件的前提下，选择最合适的节点。</strong></p>
 <p>约束条件包括：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>硬约束（必须满足）</td>
-          <td>CPU/Mem 足够、NodeSelector、Taints、Volume、PodAffinity</td>
-      </tr>
-      <tr>
-          <td>软约束（尽量满足）</td>
-          <td>Spread 分散、负载最小、镜像本地存在等</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>硬约束（必须满足）</td>
+					<td>CPU/Mem 足够、NodeSelector、Taints、Volume、PodAffinity</td>
+			</tr>
+			<tr>
+					<td>软约束（尽量满足）</td>
+					<td>Spread 分散、负载最小、镜像本地存在等</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="2-scheduler-架构v133-标准流程"
@@ -2358,65 +2343,65 @@
 </div>
 <p>调度器通过插件组成，主要分：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>阶段</th>
-          <th>功能</th>
-          <th>插件</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>PreFilter</td>
-          <td>准备调度所需数据</td>
-          <td>NodePorts、PodAffinity</td>
-      </tr>
-      <tr>
-          <td>Filter</td>
-          <td>硬约束过滤</td>
-          <td>NodeResourcesFit、TaintToleration、VolumeRestrictions</td>
-      </tr>
-      <tr>
-          <td>PostFilter</td>
-          <td>回调 / 抢占</td>
-          <td>DefaultPreemption</td>
-      </tr>
-      <tr>
-          <td>PreScore</td>
-          <td>评分前处理</td>
-          <td>PodTopologySpread</td>
-      </tr>
-      <tr>
-          <td>Score</td>
-          <td>节点评分</td>
-          <td>LeastAllocated、BalancedAllocation、ImageLocality</td>
-      </tr>
-      <tr>
-          <td>Reserve</td>
-          <td>临时占用资源</td>
-          <td>VolumeBinding</td>
-      </tr>
-      <tr>
-          <td>Permit</td>
-          <td>可阻塞调度</td>
-          <td>QueueSort</td>
-      </tr>
-      <tr>
-          <td>PreBind</td>
-          <td>绑定前动作</td>
-          <td>VolumeBinding</td>
-      </tr>
-      <tr>
-          <td>Bind</td>
-          <td>最终绑定</td>
-          <td>DefaultBinder</td>
-      </tr>
-      <tr>
-          <td>PostBind</td>
-          <td>结束日志</td>
-          <td>-</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>阶段</th>
+					<th>功能</th>
+					<th>插件</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>PreFilter</td>
+					<td>准备调度所需数据</td>
+					<td>NodePorts、PodAffinity</td>
+			</tr>
+			<tr>
+					<td>Filter</td>
+					<td>硬约束过滤</td>
+					<td>NodeResourcesFit、TaintToleration、VolumeRestrictions</td>
+			</tr>
+			<tr>
+					<td>PostFilter</td>
+					<td>回调 / 抢占</td>
+					<td>DefaultPreemption</td>
+			</tr>
+			<tr>
+					<td>PreScore</td>
+					<td>评分前处理</td>
+					<td>PodTopologySpread</td>
+			</tr>
+			<tr>
+					<td>Score</td>
+					<td>节点评分</td>
+					<td>LeastAllocated、BalancedAllocation、ImageLocality</td>
+			</tr>
+			<tr>
+					<td>Reserve</td>
+					<td>临时占用资源</td>
+					<td>VolumeBinding</td>
+			</tr>
+			<tr>
+					<td>Permit</td>
+					<td>可阻塞调度</td>
+					<td>QueueSort</td>
+			</tr>
+			<tr>
+					<td>PreBind</td>
+					<td>绑定前动作</td>
+					<td>VolumeBinding</td>
+			</tr>
+			<tr>
+					<td>Bind</td>
+					<td>最终绑定</td>
+					<td>DefaultBinder</td>
+			</tr>
+			<tr>
+					<td>PostBind</td>
+					<td>结束日志</td>
+					<td>-</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="5-调度算法核心逻辑"

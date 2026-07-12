@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：类型对比、范围、存储、性能、最佳实践、常见坑。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 整数",
-      "url" : "https://documents.v2ep.com/database/postgres/integer/",
+      "url": "https://documents.v2ep.com/database/postgres/integer/",
       "headline": "PostgreSQL 整数",
       "description": "内容：类型对比、范围、存储、性能、最佳实践、常见坑。\n一、PostgreSQL 整数类型一览（核心表） 类型 别名 字节 范围 SMALLINT INT2 2 -32,768 ～ 32,767 INTEGER INT \/ INT4 4 -2,147,483,648 ～ 2,147,483,647 BIGINT INT8 8 -9,223,372,036,854,775,808 ～ 9,223,372,036,854,775,807 📌 没有 INT1 \/ INT16\n二、如何选择整数类型（结论先行） ✅ 推荐规则（直接照用）\n场景 推荐类型 表主键 \/ ID BIGINT 行数 \u003c 20 亿 INTEGER 状态码 \/ 枚举 SMALLINT 计数 \/ 自增 BIGINT 跨系统数据 BIGINT 三、建表示例（标准写法） 1️⃣ 普通整数列 CREATE TABLE example ( count INTEGER NOT NULL, status SMALLINT NOT NULL ); 2️⃣ 自增整数（PostgreSQL 10\u002b 推荐） id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY 或：",
-      "wordCount" : "227",
+      "wordCount": "227",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/integer/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2194,34 +2179,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>别名</th>
-          <th>字节</th>
-          <th>范围</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SMALLINT</td>
-          <td>INT2</td>
-          <td>2</td>
-          <td>-32,768 ～ 32,767</td>
-      </tr>
-      <tr>
-          <td>INTEGER</td>
-          <td>INT / INT4</td>
-          <td>4</td>
-          <td>-2,147,483,648 ～ 2,147,483,647</td>
-      </tr>
-      <tr>
-          <td>BIGINT</td>
-          <td>INT8</td>
-          <td>8</td>
-          <td>-9,223,372,036,854,775,808 ～ 9,223,372,036,854,775,807</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>别名</th>
+					<th>字节</th>
+					<th>范围</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SMALLINT</td>
+					<td>INT2</td>
+					<td>2</td>
+					<td>-32,768 ～ 32,767</td>
+			</tr>
+			<tr>
+					<td>INTEGER</td>
+					<td>INT / INT4</td>
+					<td>4</td>
+					<td>-2,147,483,648 ～ 2,147,483,647</td>
+			</tr>
+			<tr>
+					<td>BIGINT</td>
+					<td>INT8</td>
+					<td>8</td>
+					<td>-9,223,372,036,854,775,808 ～ 9,223,372,036,854,775,807</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>没有 INT1 / INT16</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2235,34 +2220,34 @@
 </div>
 <p>✅ <strong>推荐规则（直接照用）</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>推荐类型</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>表主键 / ID</td>
-          <td>BIGINT</td>
-      </tr>
-      <tr>
-          <td>行数 &lt; 20 亿</td>
-          <td>INTEGER</td>
-      </tr>
-      <tr>
-          <td>状态码 / 枚举</td>
-          <td>SMALLINT</td>
-      </tr>
-      <tr>
-          <td>计数 / 自增</td>
-          <td>BIGINT</td>
-      </tr>
-      <tr>
-          <td>跨系统数据</td>
-          <td>BIGINT</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐类型</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>表主键 / ID</td>
+					<td>BIGINT</td>
+			</tr>
+			<tr>
+					<td>行数 &lt; 20 亿</td>
+					<td>INTEGER</td>
+			</tr>
+			<tr>
+					<td>状态码 / 枚举</td>
+					<td>SMALLINT</td>
+			</tr>
+			<tr>
+					<td>计数 / 自增</td>
+					<td>BIGINT</td>
+			</tr>
+			<tr>
+					<td>跨系统数据</td>
+					<td>BIGINT</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三建表示例标准写法"
@@ -2285,7 +2270,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">example</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">count</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="nb">SMALLINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-自增整数postgresql-10-推荐"
     >
@@ -2308,37 +2293,37 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w">
 </span></span></span></code></pre></div><p>四、整数 vs 数值类型（重要区别）</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>精度</th>
-          <th>性能</th>
-          <th>适用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>INTEGER</td>
-          <td>固定</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>ID / 计数</td>
-      </tr>
-      <tr>
-          <td>NUMERIC</td>
-          <td>任意</td>
-          <td>⭐⭐</td>
-          <td>金额</td>
-      </tr>
-      <tr>
-          <td>FLOAT</td>
-          <td>浮点</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>科学计算</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>精度</th>
+					<th>性能</th>
+					<th>适用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>INTEGER</td>
+					<td>固定</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>ID / 计数</td>
+			</tr>
+			<tr>
+					<td>NUMERIC</td>
+					<td>任意</td>
+					<td>⭐⭐</td>
+					<td>金额</td>
+			</tr>
+			<tr>
+					<td>FLOAT</td>
+					<td>浮点</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>科学计算</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>ID / 数量永远不要用 NUMERIC</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2457,8 +2442,8 @@
 </div>
 <p>CSV 示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-csv" data-lang="csv"><span class="line"><span class="cl"><span class="s">id</span><span class="p">,</span><span class="s">count</span><span class="p">
-</span></span></span><span class="line"><span class="cl"><span class="p"></span><span class="s">1</span><span class="p">,</span><span class="s">100</span><span class="p">
-</span></span></span><span class="line"><span class="cl"><span class="p"></span><span class="s">2</span><span class="p">,</span><span class="s">200</span><span class="p">
+</span></span></span><span class="line"><span class="cl"><span class="s">1</span><span class="p">,</span><span class="s">100</span><span class="p">
+</span></span></span><span class="line"><span class="cl"><span class="s">2</span><span class="p">,</span><span class="s">200</span><span class="p">
 </span></span></span></code></pre></div><ul>
 <li>纯数字</li>
 <li>不要加引号（可以加，但没必要）</li>
@@ -2475,8 +2460,8 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">typname</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">typlen</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_type</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">typname</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;int2&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;int4&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;int8&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_type</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">typname</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;int2&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;int4&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;int8&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十总结"
     >

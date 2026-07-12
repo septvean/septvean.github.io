@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="在 systemd 服务脚本中扩展 PATH 环境变量，可以通过 Environment= 或 EnvironmentFile= 指令在 [Service] 节设置，使用 PATH=/new/path:$PATH 语法追加新路径，或在单独的文件中定义后再引用。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "systemd 环境变量 PATH",
-      "url" : "https://documents.v2ep.com/operations/linux/systemd-path/",
+      "url": "https://documents.v2ep.com/operations/linux/systemd-path/",
       "headline": "systemd 环境变量 PATH",
       "description": "在 systemd 服务脚本中扩展 PATH 环境变量，可以通过 Environment= 或 EnvironmentFile= 指令在 [Service] 节设置，使用 PATH=\/new\/path:$PATH 语法追加新路径，或在单独的文件中定义后再引用。\n方法一：直接在服务单元文件中扩展（推荐小型修改） 在 systemd 服务单元文件（如 \/etc\/systemd\/system\/my-service.service）的 [Service] 段落中添加 Environment 指令：\n[Unit] Description=My Custom Service [Service] Type=simple ExecStart=\/usr\/local\/bin\/my_app # 扩展 PATH，将 \/opt\/mytools\/bin 添加到现有 PATH 的最前面 Environment=\u0022PATH=\/opt\/mytools\/bin:$PATH\u0022 # 或者添加在末尾 # Environment=\u0022PATH=$PATH:\/opt\/mytools\/bin\u0022 User=myuser [Install] WantedBy=multi-user.target 方法二：使用环境变量文件（推荐大型\/多服务共享） 创建一个包含环境变量的文件，例如 \/etc\/sysconfig\/my-app-env 或 \/etc\/default\/my-app-env：",
-      "wordCount" : "259",
+      "wordCount": "259",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/systemd-path/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="前提 双路服务器 / 中断亲和性 / NUMA，所以默认：2 Socket，NUMA node0 &#43; node1，大内存场景
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "MySQL / PostgreSQL NUMA 最佳实践",
-      "url" : "https://documents.v2ep.com/operations/linux/mysql-postgres-numa/",
+      "url": "https://documents.v2ep.com/operations/linux/mysql-postgres-numa/",
       "headline": "MySQL / PostgreSQL NUMA 最佳实践",
       "description": "前提 双路服务器 \/ 中断亲和性 \/ NUMA，所以默认：2 Socket，NUMA node0 \u002b node1，大内存场景\n一、NUMA 通用核心原则（先背下来） 1️⃣ CPU、内存、IRQ 三件事必须“对齐” 项目 必须 CPU 运行在哪个 NUMA node ✅ 内存从哪个 NUMA node 分配 ✅ 磁盘 \/ 网卡 IRQ 在哪个 node ✅ 👉 任何一个错位，性能都会抖。",
-      "wordCount" : "332",
+      "wordCount": "332",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/mysql-postgres-numa/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2197,26 +2182,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>必须</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU 运行在哪个 NUMA node</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>内存从哪个 NUMA node 分配</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>磁盘 / 网卡 IRQ 在哪个 node</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>必须</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CPU 运行在哪个 NUMA node</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>内存从哪个 NUMA node 分配</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>磁盘 / 网卡 IRQ 在哪个 node</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 任何一个错位，性能都会抖。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2245,22 +2230,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>适用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单 NUMA Node 绑定</td>
-          <td>单实例、内存 ≤ 单 node</td>
-      </tr>
-      <tr>
-          <td>NUMA interleave</td>
-          <td>内存 &gt; 单 node</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>适用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单 NUMA Node 绑定</td>
+					<td>单实例、内存 ≤ 单 node</td>
+			</tr>
+			<tr>
+					<td>NUMA interleave</td>
+					<td>内存 &gt; 单 node</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="二mysql-numa-最佳实践重点"
@@ -2456,22 +2441,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>设置</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL</td>
-          <td>关闭</td>
-      </tr>
-      <tr>
-          <td>PostgreSQL</td>
-          <td>关闭</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>设置</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL</td>
+					<td>关闭</td>
+			</tr>
+			<tr>
+					<td>PostgreSQL</td>
+					<td>关闭</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">0</span> &gt; /proc/sys/kernel/numa_balancing
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
@@ -2552,26 +2537,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>数据库</th>
-          <th>推荐策略</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL</td>
-          <td>interleave 或 单 NUMA</td>
-      </tr>
-      <tr>
-          <td>PostgreSQL</td>
-          <td>单 NUMA &gt; interleave</td>
-      </tr>
-      <tr>
-          <td>两者</td>
-          <td>不要半 NUMA</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>数据库</th>
+					<th>推荐策略</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL</td>
+					<td>interleave 或 单 NUMA</td>
+			</tr>
+			<tr>
+					<td>PostgreSQL</td>
+					<td>单 NUMA &gt; interleave</td>
+			</tr>
+			<tr>
+					<td>两者</td>
+					<td>不要半 NUMA</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八总结"

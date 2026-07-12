@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="本文所有的脚本保存在 /data/septvean/bash/log-cleanup 目录
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "日志清理",
-      "url" : "https://documents.v2ep.com/operations/linux/log-cleanup/",
+      "url": "https://documents.v2ep.com/operations/linux/log-cleanup/",
       "headline": "日志清理",
       "description": "本文所有的脚本保存在 \/data\/septvean\/bash\/log-cleanup 目录\n执行 deploy.sh 脚本部署脚本。\n一、设计原则（先说清楚） ✅ 只清理日志，不破坏目录结构 ✅ truncate 优先于 rm（系统服务更安全） ✅ journalctl 用官方 vacuum ✅ 可扩展其它日志 ✅ 适合每周执行一次 二、日志清理脚本（推荐版本） 📄 \/usr\/sbin\/log-cleanup.sh\n#!\/bin\/bash set -euo pipefail # ------------------------ # 基本变量 # ------------------------ LOG_DATE=\u0022$(date \u0027\u002b%F %T\u0027)\u0022 LOG_FILE=\u0022\/var\/log\/log-cleanup.log\u0022 echo \u0022[$LOG_DATE] log cleanup start\u0022 \u003e\u003e\u0022$LOG_FILE\u0022 # ------------------------ # 1. 清理 dnf 日志 # ------------------------ rm -fv \/var\/log\/dnf.* \u003e\u003e\u0022$LOG_FILE\u0022 2\u003e\u00261 || true # ------------------------ # 2. truncate 系统日志（不删除文件） # ------------------------ : \u003e\/var\/log\/cron : \u003e\/var\/log\/messages # 可选扩展 : \u003e\/var\/log\/secure || true : \u003e\/var\/log\/maillog || true : \u003e\/var\/log\/spooler || true # ------------------------ # 3. systemd journal 清理（保留 1 周） # ------------------------ journalctl --vacuum-time=1w \u003e\u003e\u0022$LOG_FILE\u0022 2\u003e\u00261 # ------------------------ # 4. 扩展：清理过期 .gz \/ .old 日志（保留 7 天） # ------------------------ find \/var\/log -type f \\ \\( -name \u0022*.gz\u0022 -o -name \u0022*.old\u0022 -o -name \u0022*.log.*\u0022 \\) \\ -mtime \u002b7 -print -delete \u003e\u003e\u0022$LOG_FILE\u0022 2\u003e\u00261 # ------------------------ # 结束 # ------------------------ echo \u0022[$(date \u0027\u002b%F %T\u0027)] log cleanup done\u0022 \u003e\u003e\u0022$LOG_FILE\u0022 三、脚本说明（关键点） 1️⃣ 为什么用 : \u003e file : \u003e\/var\/log\/messages 不删除 inode systemd \/ rsyslog 不会崩 这是 生产环境标准做法 2️⃣ 为什么 dnf 用 rm rm -fv \/var\/log\/dnf.* dnf 不依赖长期日志 删除比 truncate 更干净 3️⃣ journalctl 正确姿势 journalctl --vacuum-time=1w 官方支持 不要手动 rm \/var\/log\/journal 4️⃣ 扩展日志清理规则（安全） *.gz *.old *.log.1 *.log.2 只清理 轮转后的历史日志",
-      "wordCount" : "287",
+      "wordCount": "287",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/log-cleanup/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2212,7 +2197,7 @@
 </div>
 <p>📄 /usr/sbin/log-cleanup.sh</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">set</span> -euo pipefail
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># ------------------------</span>
@@ -2248,8 +2233,8 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 4. 扩展：清理过期 .gz / .old 日志（保留 7 天）</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># ------------------------</span>
 </span></span><span class="line"><span class="cl">find /var/log -type f <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="se">\(</span> -name <span class="s2">&#34;*.gz&#34;</span> -o -name <span class="s2">&#34;*.old&#34;</span> -o -name <span class="s2">&#34;*.log.*&#34;</span> <span class="se">\)</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -mtime +7 -print -delete &gt;&gt;<span class="s2">&#34;</span><span class="nv">$LOG_FILE</span><span class="s2">&#34;</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span></span></span><span class="line"><span class="cl">    <span class="se">\(</span> -name <span class="s2">&#34;*.gz&#34;</span> -o -name <span class="s2">&#34;*.old&#34;</span> -o -name <span class="s2">&#34;*.log.*&#34;</span> <span class="se">\)</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -mtime +7 -print -delete &gt;&gt;<span class="s2">&#34;</span><span class="nv">$LOG_FILE</span><span class="s2">&#34;</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># ------------------------</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 结束</span>

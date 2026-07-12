@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、Podman 是什么（本质） Podman = 一个符合 OCI 标准的容器管理 CLI 工具
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Podman 核心概念",
-      "url" : "https://documents.v2ep.com/operations/podman/core/",
+      "url": "https://documents.v2ep.com/operations/podman/core/",
       "headline": "Podman 核心概念",
       "description": " 一、Podman 是什么（本质） Podman = 一个符合 OCI 标准的容器管理 CLI 工具\n它做的事情本质只有三类：\n镜像管理（pull \/ push \/ build） 容器生命周期管理（create \/ start \/ stop \/ rm） Pod 管理（一组共享 namespace 的容器） 👉 Podman 不是容器运行时，它只是调度者。\n二、Podman 架构（非常重要） 1️⃣ Podman 本身不运行容器 Podman 调用的是一整套 OCI 组件链：",
-      "wordCount" : "419",
+      "wordCount": "419",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/podman/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2240,45 +2225,45 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比点</th>
-          <th>Podman</th>
-          <th>Docker</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>守护进程</td>
-          <td>❌ 无 daemon</td>
-          <td>✅ dockerd</td>
-      </tr>
-      <tr>
-          <td>权限模型</td>
-          <td>root / rootless</td>
-          <td>以 root 为主</td>
-      </tr>
-      <tr>
-          <td>安全模型</td>
-          <td>更严格</td>
-          <td>较宽松</td>
-      </tr>
-      <tr>
-          <td>Pod 概念</td>
-          <td>原生支持</td>
-          <td>不支持</td>
-      </tr>
-      <tr>
-          <td>systemd 集成</td>
-          <td>原生</td>
-          <td>较弱</td>
-      </tr>
-      <tr>
-          <td>容器标准</td>
-          <td>OCI</td>
-          <td>OCI</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比点</th>
+					<th>Podman</th>
+					<th>Docker</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>守护进程</td>
+					<td>❌ 无 daemon</td>
+					<td>✅ dockerd</td>
+			</tr>
+			<tr>
+					<td>权限模型</td>
+					<td>root / rootless</td>
+					<td>以 root 为主</td>
+			</tr>
+			<tr>
+					<td>安全模型</td>
+					<td>更严格</td>
+					<td>较宽松</td>
+			</tr>
+			<tr>
+					<td>Pod 概念</td>
+					<td>原生支持</td>
+					<td>不支持</td>
+			</tr>
+			<tr>
+					<td>systemd 集成</td>
+					<td>原生</td>
+					<td>较弱</td>
+			</tr>
+			<tr>
+					<td>容器标准</td>
+					<td>OCI</td>
+					<td>OCI</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 Podman 天生为 server / 安全场景设计</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2324,26 +2309,26 @@
 </span></span><span class="line"><span class="cl">admin:100000:65536
 </span></span></code></pre></div><p>表示：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>容器 UID</th>
-          <th>宿主 UID</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>0</td>
-          <td>100000</td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td>100001</td>
-      </tr>
-      <tr>
-          <td>…</td>
-          <td>…</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>容器 UID</th>
+					<th>宿主 UID</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>0</td>
+					<td>100000</td>
+			</tr>
+			<tr>
+					<td>1</td>
+					<td>100001</td>
+			</tr>
+			<tr>
+					<td>…</td>
+					<td>…</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>如果没有它，就会出现：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">potentially insufficient UIDs or GIDs
@@ -2388,22 +2373,22 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">manifest list
 </span></span></code></pre></div><p>含义</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>manifest</td>
-          <td>单架构镜像</td>
-      </tr>
-      <tr>
-          <td>manifest list</td>
-          <td>多架构镜像（amd64 / arm64）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>manifest</td>
+					<td>单架构镜像</td>
+			</tr>
+			<tr>
+					<td>manifest list</td>
+					<td>多架构镜像（amd64 / arm64）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>Podman pull 时流程：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">manifest list
@@ -2463,30 +2448,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>行为</th>
-          <th>默认</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>HTTPS</td>
-          <td>✅ 必须</td>
-      </tr>
-      <tr>
-          <td>HTTP</td>
-          <td>❌ 禁止</td>
-      </tr>
-      <tr>
-          <td>自签证书</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>匿名访问</td>
-          <td>看 registry</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>行为</th>
+					<th>默认</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>HTTPS</td>
+					<td>✅ 必须</td>
+			</tr>
+			<tr>
+					<td>HTTP</td>
+					<td>❌ 禁止</td>
+			</tr>
+			<tr>
+					<td>自签证书</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>匿名访问</td>
+					<td>看 registry</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-registriesconf核心配置"
@@ -2537,7 +2522,7 @@
 </ul>
 <p>正确方式：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nv">HTTP_PROXY</span><span class="o">=</span>http://127.0.0.1:1087 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>podman pull ...
+</span></span></span><span class="line"><span class="cl">podman pull ...
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十podpodman-的灵魂"
     >

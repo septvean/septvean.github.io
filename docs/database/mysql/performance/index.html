@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 适用版本：MySQL 8.x 适用场景：生产集群、K8S 部署、高并发业务、高可用架构 内容体系：查询优化 -&gt; 索引优化 -&gt; 表结构优化 -&gt; InnoDB 引擎优化 -&gt; my.cnf 推荐配置 -&gt; 架构优化 -&gt; 系统优化 -&gt; 运维优化 -&gt; 性能监控 -&gt; 最终黄金法则 1. SQL 查询优化（最重要的优化方向） SQL 是 MySQL 性能的决定因素，80% 的问题来自 SQL 设计错误。
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL 性能优化",
-      "url" : "https://documents.v2ep.com/database/mysql/performance/",
+      "url": "https://documents.v2ep.com/database/mysql/performance/",
       "headline": "MySQL 性能优化",
       "description": " 适用版本：MySQL 8.x 适用场景：生产集群、K8S 部署、高并发业务、高可用架构 内容体系：查询优化 -\u003e 索引优化 -\u003e 表结构优化 -\u003e InnoDB 引擎优化 -\u003e my.cnf 推荐配置 -\u003e 架构优化 -\u003e 系统优化 -\u003e 运维优化 -\u003e 性能监控 -\u003e 最终黄金法则 1. SQL 查询优化（最重要的优化方向） SQL 是 MySQL 性能的决定因素，80% 的问题来自 SQL 设计错误。\n1.1 使用 EXPLAIN 分析 SQL EXPLAIN 是 SQL 优化的入口",
-      "wordCount" : "766",
+      "wordCount": "766",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/performance/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2204,34 +2189,34 @@
 <p>EXPLAIN 是 SQL 优化的入口</p>
 <p>重点字段：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>字段</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>type</strong></td>
-          <td><strong>访问类型</strong>，决定扫描效率（最关键）</td>
-      </tr>
-      <tr>
-          <td><strong>possible_keys</strong></td>
-          <td>哪些索引可使用</td>
-      </tr>
-      <tr>
-          <td><strong>key</strong></td>
-          <td>实际使用的索</td>
-      </tr>
-      <tr>
-          <td><strong>rows</strong></td>
-          <td>扫描行数（越小越好）</td>
-      </tr>
-      <tr>
-          <td><strong>Extra</strong></td>
-          <td>是否出现 filesort、temporary</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>字段</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>type</strong></td>
+					<td><strong>访问类型</strong>，决定扫描效率（最关键）</td>
+			</tr>
+			<tr>
+					<td><strong>possible_keys</strong></td>
+					<td>哪些索引可使用</td>
+			</tr>
+			<tr>
+					<td><strong>key</strong></td>
+					<td>实际使用的索</td>
+			</tr>
+			<tr>
+					<td><strong>rows</strong></td>
+					<td>扫描行数（越小越好）</td>
+			</tr>
+			<tr>
+					<td><strong>Extra</strong></td>
+					<td>是否出现 filesort、temporary</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>type：高性能访问路径从好到坏</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL
@@ -2435,76 +2420,76 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>字段类型</th>
-          <th>推荐程度</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>INT / BIGINT</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>性能最好，存储小</td>
-      </tr>
-      <tr>
-          <td>VARCHAR</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>灵活、节省空间</td>
-      </tr>
-      <tr>
-          <td>DATETIME(6)</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>精确到微秒</td>
-      </tr>
-      <tr>
-          <td>DECIMAL</td>
-          <td>⭐⭐⭐</td>
-          <td>精确计算</td>
-      </tr>
-      <tr>
-          <td>TEXT / BLOB</td>
-          <td>⭐</td>
-          <td>慎用（溢出页、慢）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>字段类型</th>
+					<th>推荐程度</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>INT / BIGINT</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>性能最好，存储小</td>
+			</tr>
+			<tr>
+					<td>VARCHAR</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>灵活、节省空间</td>
+			</tr>
+			<tr>
+					<td>DATETIME(6)</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>精确到微秒</td>
+			</tr>
+			<tr>
+					<td>DECIMAL</td>
+					<td>⭐⭐⭐</td>
+					<td>精确计算</td>
+			</tr>
+			<tr>
+					<td>TEXT / BLOB</td>
+					<td>⭐</td>
+					<td>慎用（溢出页、慢）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>优先级</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>INT(M)</td>
-          <td>快、紧凑</td>
-          <td>固定长度</td>
-      </tr>
-      <tr>
-          <td>BIGINT</td>
-          <td>大范围</td>
-          <td>兼容未来</td>
-      </tr>
-      <tr>
-          <td>VARCHAR</td>
-          <td>节省空间</td>
-          <td>动态长度</td>
-      </tr>
-      <tr>
-          <td>DATETIME(6)</td>
-          <td>推荐</td>
-          <td>支持微秒</td>
-      </tr>
-      <tr>
-          <td>TIMESTAMP</td>
-          <td>不推荐</td>
-          <td>2038 年问题</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>优先级</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>INT(M)</td>
+					<td>快、紧凑</td>
+					<td>固定长度</td>
+			</tr>
+			<tr>
+					<td>BIGINT</td>
+					<td>大范围</td>
+					<td>兼容未来</td>
+			</tr>
+			<tr>
+					<td>VARCHAR</td>
+					<td>节省空间</td>
+					<td>动态长度</td>
+			</tr>
+			<tr>
+					<td>DATETIME(6)</td>
+					<td>推荐</td>
+					<td>支持微秒</td>
+			</tr>
+			<tr>
+					<td>TIMESTAMP</td>
+					<td>不推荐</td>
+					<td>2038 年问题</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>避免使用 TEXT、BLOB，能拆表就拆表。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2702,40 +2687,40 @@ performance_schema = ON
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>架构</th>
-          <th>强一致性</th>
-          <th>可用性</th>
-          <th>推荐情况</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>InnoDB Cluster（MGR）</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>官方最推荐</td>
-      </tr>
-      <tr>
-          <td>Percona XtraDB Cluster（PXC）</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>⭐⭐⭐</td>
-          <td>写入延迟高</td>
-      </tr>
-      <tr>
-          <td>半同步复制</td>
-          <td>⭐⭐⭐</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>写增多情况下强一致性不够</td>
-      </tr>
-      <tr>
-          <td>异步复制（主从）</td>
-          <td>⭐</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>最常见方案</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>架构</th>
+					<th>强一致性</th>
+					<th>可用性</th>
+					<th>推荐情况</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>InnoDB Cluster（MGR）</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>官方最推荐</td>
+			</tr>
+			<tr>
+					<td>Percona XtraDB Cluster（PXC）</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>⭐⭐⭐</td>
+					<td>写入延迟高</td>
+			</tr>
+			<tr>
+					<td>半同步复制</td>
+					<td>⭐⭐⭐</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>写增多情况下强一致性不够</td>
+			</tr>
+			<tr>
+					<td>异步复制（主从）</td>
+					<td>⭐</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>最常见方案</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>强一致性推荐：</p>
 <div class="flex align-center gdoc-page__anchorwrap">

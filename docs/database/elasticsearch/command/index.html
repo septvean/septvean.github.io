@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容覆盖：集群、节点、索引、分片、路由、性能、健康、任务、快照、ILM、模板、Pipeline。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "ElasticSearch 常用命令",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/command/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/command/",
       "headline": "ElasticSearch 常用命令",
       "description": "内容覆盖：集群、节点、索引、分片、路由、性能、健康、任务、快照、ILM、模板、Pipeline。\n全部采用 最常用、最高频、运维必备、业务常见场景 的命令。\n🚀 ElasticSearch 常用命令大全（含集群命令） 结构如下：\n集群命令（最重要） 节点命令 索引命令 分片命令 文档命令 搜索命令 监控和性能 Task \u0026 Reindex 模板（index template） ILM 生命周期 Snapshot \u0026 Restore Pipeline（ingest） 用户与角色（安全） 全部实战可用。\n1. 集群命令（Cluster） 查看集群状态（最常用） GET \/_cluster\/health 查看所有集群信息 GET \/_cluster\/state 查看未分配的 shard（必查） GET \/_cluster\/allocation\/explain 查看集群设置 GET \/_cluster\/settings?include_defaults=true 修改集群设置（临时） PUT \/_cluster\/settings { \u0022transient\u0022: { \u0022cluster.routing.allocation.enable\u0022: \u0022all\u0022 } } 修改集群设置（持久） PUT \/_cluster\/settings { \u0022persistent\u0022: { \u0022indices.recovery.max_bytes_per_sec\u0022: \u0022200mb\u0022 } } 手动排除节点（用于下线节点） PUT \/_cluster\/settings { \u0022transient\u0022: { \u0022cluster.routing.allocation.exclude._name\u0022: \u0022node-1\u0022 } } 2. 节点命令（Nodes） 查看所有节点 GET \/_cat\/nodes?v 查看某节点详细信息 GET \/_nodes\/node-1 查看角色、堆、线程池、磁盘等。",
-      "wordCount" : "415",
+      "wordCount": "415",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/command/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

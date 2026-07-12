@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="环境：
@@ -77,18 +77,18 @@ enp0s31f6 (无 IP，仅 slave) │ └── br0 (继承原 enp0s31f6 的 IP / �
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "创建桥接网卡",
-      "url" : "https://documents.v2ep.com/operations/kvm/create-bridge/",
+      "url": "https://documents.v2ep.com/operations/kvm/create-bridge/",
       "headline": "创建桥接网卡",
       "description": "环境：\n系统：AlmaLinux 9.7 网卡：enp0s31f6 KVM：qemu-kvm 9.1.0 目标：\n在物理网卡 enp0s31f6 的前提下，创建 br0，并且“不破坏、不掉线”物理主机当前网络\n下面是「不中断网络」的标准做法，生产环境可直接用的方案。\n一、核心原则（先记住这 4 条） 不破坏网络 = 不动 IP、不动网关、不动 DNS、不强制 down 网卡\n正确模型：\nenp0s31f6 (无 IP，仅 slave) │ └── br0 (继承原 enp0s31f6 的 IP \/ 网关 \/ DNS) 关键点：\n❌ enp0s31f6 不再配置 IP ✅ br0 接管原有网络配置 ✅ 使用 NetworkManager 热切换（不中断） 二、开始前：记录当前网络配置（非常重要） 这是“保险步骤”，防止误操作",
-      "wordCount" : "335",
+      "wordCount": "335",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kvm/create-bridge/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -108,8 +108,8 @@ enp0s31f6 (无 IP，仅 slave) │ └── br0 (继承原 enp0s31f6 的 IP / �
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -128,12 +128,12 @@ enp0s31f6 (无 IP，仅 slave) │ └── br0 (继承原 enp0s31f6 的 IP / �
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -284,21 +284,6 @@ enp0s31f6 (无 IP，仅 slave) │ └── br0 (继承原 enp0s31f6 的 IP / �
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2298,10 +2283,10 @@ enp0s31f6 (无 IP，仅 slave) │ └── br0 (继承原 enp0s31f6 的 IP / �
 </div>
 <p>用刚才记录的信息替换</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nmcli con modify br0 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ipv4.method manual <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ipv4.addresses 192.168.101.200/24 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ipv4.gateway 192.168.101.1 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ipv4.dns <span class="s2">&#34;223.5.5.5 223.6.6.6&#34;</span>
+</span></span></span><span class="line"><span class="cl">    ipv4.method manual <span class="se">\
+</span></span></span><span class="line"><span class="cl">    ipv4.addresses 192.168.101.200/24 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    ipv4.gateway 192.168.101.1 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    ipv4.dns <span class="s2">&#34;223.5.5.5 223.6.6.6&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">nmcli con modify br0 ipv6.method disabled
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">

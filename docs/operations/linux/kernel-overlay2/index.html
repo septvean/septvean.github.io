@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、overlay2 是什么？ overlay2 是 Docker / containerd 默认、推荐使用的 联合文件系统（Union FS）存储驱动，基于 Linux OverlayFS 实现。
@@ -68,18 +68,18 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "overlay2",
-      "url" : "https://documents.v2ep.com/operations/linux/kernel-overlay2/",
+      "url": "https://documents.v2ep.com/operations/linux/kernel-overlay2/",
       "headline": "overlay2",
       "description": " 一、overlay2 是什么？ overlay2 是 Docker \/ containerd 默认、推荐使用的 联合文件系统（Union FS）存储驱动，基于 Linux OverlayFS 实现。\noverlay2 = OverlayFS \u002b 多层镜像优化方案\n二、overlay2 解决了什么问题？ 在容器场景中：\n镜像是 多层只读 容器需要一个 可写层 多个容器需要 共享镜像层 不希望复制整份文件（节省空间） overlay2 正是为此而生。\n三、OverlayFS 核心概念（非常重要） OverlayFS 把多个目录“叠加”成一个视图。",
-      "wordCount" : "330",
+      "wordCount": "330",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/kernel-overlay2/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2226,30 +2211,30 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
 <p>OverlayFS 把多个目录“叠加”成一个视图。</p>
 <p><strong>四个关键目录</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>目录</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>lowerdir</td>
-          <td>只读层（镜像层，可多层）</td>
-      </tr>
-      <tr>
-          <td>upperdir</td>
-          <td>可写层（容器层）</td>
-      </tr>
-      <tr>
-          <td>workdir</td>
-          <td>内部工作目录（必须空）</td>
-      </tr>
-      <tr>
-          <td>merged</td>
-          <td>挂载后对外暴露的目录</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>目录</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>lowerdir</td>
+					<td>只读层（镜像层，可多层）</td>
+			</tr>
+			<tr>
+					<td>upperdir</td>
+					<td>可写层（容器层）</td>
+			</tr>
+			<tr>
+					<td>workdir</td>
+					<td>内部工作目录（必须空）</td>
+			</tr>
+			<tr>
+					<td>merged</td>
+					<td>挂载后对外暴露的目录</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>示意图：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">           merged (容器看到的文件系统)
@@ -2268,35 +2253,35 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>overlay</th>
-          <th>overlay2</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>lowerdir 层数</td>
-          <td>只能 1 层</td>
-          <td>支持 多层</td>
-      </tr>
-      <tr>
-          <td>镜像层数</td>
-          <td>受限</td>
-          <td>几乎无限</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>一般</td>
-          <td>更优</td>
-      </tr>
-      <tr>
-          <td>是否推荐</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>overlay</th>
+					<th>overlay2</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>lowerdir 层数</td>
+					<td>只能 1 层</td>
+					<td>支持 多层</td>
+			</tr>
+			<tr>
+					<td>镜像层数</td>
+					<td>受限</td>
+					<td>几乎无限</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>一般</td>
+					<td>更优</td>
+			</tr>
+			<tr>
+					<td>是否推荐</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>Docker 17+ 默认使用 <strong>overlay2</strong>。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2322,34 +2307,34 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
 </span></span><span class="line"><span class="cl">│   ├── ABCDEF... -&gt; ../3a1c.../diff
 </span></span></code></pre></div><p>各目录含义</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>目录</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>diff/</td>
-          <td>当前层的真实文件</td>
-      </tr>
-      <tr>
-          <td>lower</td>
-          <td>父层引用（多层）</td>
-      </tr>
-      <tr>
-          <td>merged/</td>
-          <td>容器运行时看到的 FS</td>
-      </tr>
-      <tr>
-          <td>work/</td>
-          <td>OverlayFS 工作目录</td>
-      </tr>
-      <tr>
-          <td>l/</td>
-          <td>layer 的短路径索引（避免 mount 参数过长）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>目录</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>diff/</td>
+					<td>当前层的真实文件</td>
+			</tr>
+			<tr>
+					<td>lower</td>
+					<td>父层引用（多层）</td>
+			</tr>
+			<tr>
+					<td>merged/</td>
+					<td>容器运行时看到的 FS</td>
+			</tr>
+			<tr>
+					<td>work/</td>
+					<td>OverlayFS 工作目录</td>
+			</tr>
+			<tr>
+					<td>l/</td>
+					<td>layer 的短路径索引（避免 mount 参数过长）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六容器读写行为重点"
@@ -2437,30 +2422,30 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>问题</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>小文件大量写入</td>
-          <td>性能下降</td>
-      </tr>
-      <tr>
-          <td>inode 消耗快</td>
-          <td>upperdir 占 inode</td>
-      </tr>
-      <tr>
-          <td>fsync 开销</td>
-          <td>overlay fsync 成本高</td>
-      </tr>
-      <tr>
-          <td>目录层级深</td>
-          <td>lookup 变慢</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>小文件大量写入</td>
+					<td>性能下降</td>
+			</tr>
+			<tr>
+					<td>inode 消耗快</td>
+					<td>upperdir 占 inode</td>
+			</tr>
+			<tr>
+					<td>fsync 开销</td>
+					<td>overlay fsync 成本高</td>
+			</tr>
+			<tr>
+					<td>目录层级深</td>
+					<td>lookup 变慢</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八文件系统要求非常关键"
@@ -2473,26 +2458,26 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
 </div>
 <p>overlay2 对底层 FS 有要求：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>文件系统</th>
-          <th>支持情况</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>ext4</td>
-          <td>✅ 推荐</td>
-      </tr>
-      <tr>
-          <td>xfs (ftype=1)</td>
-          <td>✅ 必须</td>
-      </tr>
-      <tr>
-          <td>xfs (ftype=0)</td>
-          <td>❌ 不支持</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>文件系统</th>
+					<th>支持情况</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>ext4</td>
+					<td>✅ 推荐</td>
+			</tr>
+			<tr>
+					<td>xfs (ftype=1)</td>
+					<td>✅ 必须</td>
+			</tr>
+			<tr>
+					<td>xfs (ftype=0)</td>
+					<td>❌ 不支持</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>检查方式</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">xfs_info /var/lib/docker <span class="p">|</span> grep ftype
@@ -2572,35 +2557,35 @@ overlay2 = OverlayFS &#43; 多层镜像优化方案
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>驱动</th>
-          <th>状态</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>overlay2</td>
-          <td>✅ 默认推荐</td>
-          <td>主流</td>
-      </tr>
-      <tr>
-          <td>devicemapper</td>
-          <td>⚠️ 过时</td>
-          <td>复杂、慢</td>
-      </tr>
-      <tr>
-          <td>btrfs</td>
-          <td>⚠️ 小众</td>
-          <td>功能强、问题多</td>
-      </tr>
-      <tr>
-          <td>zfs</td>
-          <td>⚠️ 特定场景</td>
-          <td>依赖 ZFS</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>驱动</th>
+					<th>状态</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>overlay2</td>
+					<td>✅ 默认推荐</td>
+					<td>主流</td>
+			</tr>
+			<tr>
+					<td>devicemapper</td>
+					<td>⚠️ 过时</td>
+					<td>复杂、慢</td>
+			</tr>
+			<tr>
+					<td>btrfs</td>
+					<td>⚠️ 小众</td>
+					<td>功能强、问题多</td>
+			</tr>
+			<tr>
+					<td>zfs</td>
+					<td>⚠️ 特定场景</td>
+					<td>依赖 ZFS</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十二生产最佳实践"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、vsftpd 是什么？ vsftpd（Very Secure FTP Daemon） 是 Linux 上最常用的 FTP 服务端，以：
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "vsftpd 核心概念",
-      "url" : "https://documents.v2ep.com/operations/vsftpd/core/",
+      "url": "https://documents.v2ep.com/operations/vsftpd/core/",
       "headline": "vsftpd 核心概念",
       "description": " 一、vsftpd 是什么？ vsftpd（Very Secure FTP Daemon） 是 Linux 上最常用的 FTP 服务端，以：\n🔒 安全性高 ⚡ 性能好 ☘️ 架构简单、可控 🐧 默认内置于多数发行版 著称，广泛用于：\n文件上传 \/ 下载 软件仓库 内网文件分发 运维自动化（已逐步被 SFTP 取代） 二、FTP 协议基础（理解 vsftpd 的前提） 1️⃣ FTP 的两条连接 FTP 不是单连接协议，而是：",
-      "wordCount" : "316",
+      "wordCount": "316",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/vsftpd/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2223,25 +2208,25 @@
 </div>
 <p>FTP <strong>不是单连接协议</strong>，而是：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>连接类型</th>
-          <th>端口</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>控制连接</td>
-          <td>TCP 21</td>
-          <td>发送命令（USER / PASS / LIST 等）</td>
-      </tr>
-      <tr>
-          <td>数据连接</td>
-          <td>随机端口</td>
-          <td>实际传输文件数据</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>连接类型</th>
+					<th>端口</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>控制连接</td>
+					<td>TCP 21</td>
+					<td>发送命令（USER / PASS / LIST 等）</td>
+			</tr>
+			<tr>
+					<td>数据连接</td>
+					<td>随机端口</td>
+					<td>实际传输文件数据</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>控制连接始终存在，数据连接按需建立</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2494,26 +2479,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>配置</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>write_enable=YES</td>
-          <td>是否允许写操作</td>
-      </tr>
-      <tr>
-          <td>anon_upload_enable</td>
-          <td>匿名用户上传</td>
-      </tr>
-      <tr>
-          <td>anon_delete_enable</td>
-          <td>匿名删除</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>配置</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>write_enable=YES</td>
+					<td>是否允许写操作</td>
+			</tr>
+			<tr>
+					<td>anon_upload_enable</td>
+					<td>匿名用户上传</td>
+			</tr>
+			<tr>
+					<td>anon_delete_enable</td>
+					<td>匿名删除</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>vsftpd 允许 ≠ 文件系统允许</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2585,35 +2570,35 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>vsftpd (FTP)</th>
-          <th>SFTP</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>端口</td>
-          <td>21 + 多端口</td>
-          <td>22</td>
-      </tr>
-      <tr>
-          <td>加密</td>
-          <td>需 FTPS</td>
-          <td>原生加密</td>
-      </tr>
-      <tr>
-          <td>防火墙</td>
-          <td>复杂</td>
-          <td>简单</td>
-      </tr>
-      <tr>
-          <td>推荐场景</td>
-          <td>内网 / 兼容系统</td>
-          <td>现代生产环境</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比项</th>
+					<th>vsftpd (FTP)</th>
+					<th>SFTP</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>端口</td>
+					<td>21 + 多端口</td>
+					<td>22</td>
+			</tr>
+			<tr>
+					<td>加密</td>
+					<td>需 FTPS</td>
+					<td>原生加密</td>
+			</tr>
+			<tr>
+					<td>防火墙</td>
+					<td>复杂</td>
+					<td>简单</td>
+			</tr>
+			<tr>
+					<td>推荐场景</td>
+					<td>内网 / 兼容系统</td>
+					<td>现代生产环境</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>现代生产优先 SFTP，但 vsftpd 仍大量存在</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">

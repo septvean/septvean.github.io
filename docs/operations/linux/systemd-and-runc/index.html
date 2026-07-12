@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="有关系，而且关系非常清晰，但层级一定要分清。
@@ -68,18 +68,18 @@ systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器�
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "systemd 和 runc 之间的关系",
-      "url" : "https://documents.v2ep.com/operations/linux/systemd-and-runc/",
+      "url": "https://documents.v2ep.com/operations/linux/systemd-and-runc/",
       "headline": "systemd 和 runc 之间的关系",
       "description": "有关系，而且关系非常清晰，但层级一定要分清。\n内容：结论 -\u003e 架构关系 -\u003e 典型交互路径 -\u003e 常见误区澄清。\n一、一句话结论（先记住） systemd 和 runc 不在同一层，但它们通过“进程模型”和“cgroups”产生了间接联系。\nsystemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器进程启动器 👉 它们不是互相调用关系，而是“可以协作，但互不依赖”\n二、各自是谁？（严格定位） 1️⃣ systemd 是什么 systemd 是 PID 1，负责整个系统的：",
-      "wordCount" : "303",
+      "wordCount": "303",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/systemd-and-runc/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2399,40 +2384,40 @@ systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器�
 </div>
 <p>这是理解它们关系的关键类比：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>systemd-run</th>
-          <th>runc</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>作用</td>
-          <td>启动一个受控进程</td>
-          <td>启动一个受控进程</td>
-      </tr>
-      <tr>
-          <td>是否一次性</td>
-          <td>是</td>
-          <td>是</td>
-      </tr>
-      <tr>
-          <td>是否管理生命周期</td>
-          <td>否</td>
-          <td>否</td>
-      </tr>
-      <tr>
-          <td>使用 cgroups</td>
-          <td>是</td>
-          <td>是</td>
-      </tr>
-      <tr>
-          <td>隔离维度</td>
-          <td>资源</td>
-          <td>资源 + namespace</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>systemd-run</th>
+					<th>runc</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>作用</td>
+					<td>启动一个受控进程</td>
+					<td>启动一个受控进程</td>
+			</tr>
+			<tr>
+					<td>是否一次性</td>
+					<td>是</td>
+					<td>是</td>
+			</tr>
+			<tr>
+					<td>是否管理生命周期</td>
+					<td>否</td>
+					<td>否</td>
+			</tr>
+			<tr>
+					<td>使用 cgroups</td>
+					<td>是</td>
+					<td>是</td>
+			</tr>
+			<tr>
+					<td>隔离维度</td>
+					<td>资源</td>
+					<td>资源 + namespace</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>runc = systemd-run + namespace + rootfs</strong></p>
 <hr>
@@ -2462,35 +2447,35 @@ systemd：通用的 系统与服务管理器 runc：符合 OCI 规范的 容器�
 </ul>
 <p>但 systemd <strong>不等同于 OCI runtime</strong>：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>能力</th>
-          <th>systemd</th>
-          <th>runc</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>OCI 规范</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>Namespace 组合</td>
-          <td>有</td>
-          <td>完整</td>
-      </tr>
-      <tr>
-          <td>rootfs 管理</td>
-          <td>有</td>
-          <td>标准化</td>
-      </tr>
-      <tr>
-          <td>容器生态兼容</td>
-          <td>低</td>
-          <td>高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>能力</th>
+					<th>systemd</th>
+					<th>runc</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>OCI 规范</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>Namespace 组合</td>
+					<td>有</td>
+					<td>完整</td>
+			</tr>
+			<tr>
+					<td>rootfs 管理</td>
+					<td>有</td>
+					<td>标准化</td>
+			</tr>
+			<tr>
+					<td>容器生态兼容</td>
+					<td>低</td>
+					<td>高</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">

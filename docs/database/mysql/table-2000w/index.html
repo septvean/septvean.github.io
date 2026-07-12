@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="MySQL 单表行数建议不超过 2000 万行（2000w），因为超过后 B&#43;Tree 索引高度会增加，导致查询磁盘IO增多、性能下降，并增加内存/磁盘空间消耗，但这不是绝对限制，可根据硬件和业务优化。
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL 单表不要超过 2000 万行",
-      "url" : "https://documents.v2ep.com/database/mysql/table-2000w/",
+      "url": "https://documents.v2ep.com/database/mysql/table-2000w/",
       "headline": "MySQL 单表不要超过 2000 万行",
       "description": "MySQL 单表行数建议不超过 2000 万行（2000w），因为超过后 B\u002bTree 索引高度会增加，导致查询磁盘IO增多、性能下降，并增加内存\/磁盘空间消耗，但这不是绝对限制，可根据硬件和业务优化。\n2000万行限制的原因 B\u002bTree 高度增加: 约2000万行数据，索引 B\u002bTree 通常是3层，能较好地在内存中加载，超过此值会增加树层级（4层以上），带来更多磁盘I\/O。 查询性能下降: 树高增加意味着需要更多磁盘I\/O和索引维护成本，查询速度变慢。 内存\/磁盘压力: 大量数据和索引会占用更多内存（InnoDB Buffer Pool）和磁盘空间。 并非绝对限制 这个值是基于 OLTP（联机事务处理）场景和常见硬件（如普通SSD）的经验值。 如果硬件性能强劲、索引设计合理、查询模式简单，单表支持更大行数（如MySQL 5.7\u002b InnoDB支持2000亿行，但性能会受影响）也是可能的。 超过2000万时，需要考虑分库分表、合理索引、硬件升级或参数调优等策略。 参考文档 为什么说MySQL单表行数不要超过2000w? 为什么单表不要超过 2000w ",
-      "wordCount" : "29",
+      "wordCount": "29",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/table-2000w/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

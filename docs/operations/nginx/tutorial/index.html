@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 1. Master / Worker 架构 Nginx 是 多进程事件驱动模型：
@@ -62,18 +62,18 @@ master 进程 读取配置文件 管理 worker 进程（启动、停止、重载
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nginx 基础教程",
-      "url" : "https://documents.v2ep.com/operations/nginx/tutorial/",
+      "url": "https://documents.v2ep.com/operations/nginx/tutorial/",
       "headline": "Nginx 基础教程",
       "description": " 1. Master \/ Worker 架构 Nginx 是 多进程事件驱动模型：\nmaster 进程 读取配置文件 管理 worker 进程（启动、停止、重载） worker 进程 真正处理客户端请求 每个 worker 单线程 使用 “异步非阻塞 \u002b epoll” 处理大量连接 📌 核心原则：worker_processes = CPU 核心数（auto 默认最优）\n2. 事件驱动（Event-driven） Nginx 使用 epoll（Linux）模型：",
-      "wordCount" : "307",
+      "wordCount": "307",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nginx/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@ master 进程 读取配置文件 管理 worker 进程（启动、停止、重载
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@ master 进程 读取配置文件 管理 worker 进程（启动、停止、重载
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@ master 进程 读取配置文件 管理 worker 进程（启动、停止、重载
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2363,38 +2348,38 @@ master 进程 读取配置文件 管理 worker 进程（启动、停止、重载
 </div>
 <p>Nginx 有大量内置变量：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>变量</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>$host</td>
-          <td>请求的 Host 头</td>
-      </tr>
-      <tr>
-          <td>$uri</td>
-          <td>请求路径</td>
-      </tr>
-      <tr>
-          <td>$request_uri</td>
-          <td>原始URI（含参数）</td>
-      </tr>
-      <tr>
-          <td>$args</td>
-          <td>query 参数</td>
-      </tr>
-      <tr>
-          <td>$remote_addr</td>
-          <td>客户端IP</td>
-      </tr>
-      <tr>
-          <td>$proxy_add_x_forwarded_for</td>
-          <td>XFF链</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>变量</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>$host</td>
+					<td>请求的 Host 头</td>
+			</tr>
+			<tr>
+					<td>$uri</td>
+					<td>请求路径</td>
+			</tr>
+			<tr>
+					<td>$request_uri</td>
+					<td>原始URI（含参数）</td>
+			</tr>
+			<tr>
+					<td>$args</td>
+					<td>query 参数</td>
+			</tr>
+			<tr>
+					<td>$remote_addr</td>
+					<td>客户端IP</td>
+			</tr>
+			<tr>
+					<td>$proxy_add_x_forwarded_for</td>
+					<td>XFF链</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>

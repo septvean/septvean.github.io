@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="官方文档: https://docs.sqlalchemy.org.cn/en/20/core/connections.html#sqlalchemy.engine.Result
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "Result",
-      "url" : "https://documents.v2ep.com/backend/python/sqlalchemy/result/",
+      "url": "https://documents.v2ep.com/backend/python/sqlalchemy/result/",
       "headline": "Result",
       "description": "官方文档: https:\/\/docs.sqlalchemy.org.cn\/en\/20\/core\/connections.html#sqlalchemy.engine.Result\n下面给你一版 最全、最系统、SQLAlchemy 2.0 Result \/ ScalarResult \/ Row \/ RowMapping 的方法详解\n覆盖同步\/异步通用 API，包含常用、少用、底层细节与性能特性，适合你现在大量使用 SQLAlchemy ORM \u002b Core 的场景。\n⚠️ SQLAlchemy 2.0 的结果系统与 1.4 完全重写：\n不再返回 ResultProxy 结果由 Result \/ ScalarResult \/ ChunkedIteratorResult 组成 行类型为 Row，索引结构在 Row._mapping 中 🚀 一、SQLAlchemy Result 的类型体系 SQLAlchemy 2.0 中，有 3 种主要结果类型：\n类型 出现场景 说明 Result 执行 session.execute(select…) 行为对象结果，包含 Row ScalarResult 执行 session.scalars(select…) 或 result.scalars() 单值结果（单个或单列），如 count()、select(User.id) CursorResult 执行 Core 原生 SQL (connection.execute(text)) 直接游标结果 并且 Result 内部行对象是：",
-      "wordCount" : "1981",
+      "wordCount": "1981",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/sqlalchemy/result/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2220,49 +2205,49 @@
 </div>
 <p>SQLAlchemy 2.0 中，有 3 种主要结果类型：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>出现场景</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Result</strong></td>
-          <td>执行 session.execute(select…)</td>
-          <td>行为对象结果，包含 Row</td>
-      </tr>
-      <tr>
-          <td><strong>ScalarResult</strong></td>
-          <td>执行 session.scalars(select…) 或 result.scalars()</td>
-          <td>单值结果（单个或单列），如 count()、select(User.id)</td>
-      </tr>
-      <tr>
-          <td><strong>CursorResult</strong></td>
-          <td>执行 Core 原生 SQL (connection.execute(text))</td>
-          <td>直接游标结果</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>出现场景</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Result</strong></td>
+					<td>执行 session.execute(select…)</td>
+					<td>行为对象结果，包含 Row</td>
+			</tr>
+			<tr>
+					<td><strong>ScalarResult</strong></td>
+					<td>执行 session.scalars(select…) 或 result.scalars()</td>
+					<td>单值结果（单个或单列），如 count()、select(User.id)</td>
+			</tr>
+			<tr>
+					<td><strong>CursorResult</strong></td>
+					<td>执行 Core 原生 SQL (connection.execute(text))</td>
+					<td>直接游标结果</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>并且 Result 内部行对象是：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Row</strong></td>
-          <td>类似 tuple，可通过 index、attr、key 访问</td>
-      </tr>
-      <tr>
-          <td><strong>RowMapping</strong></td>
-          <td>row._mapping，真正的 dict-like 结构</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Row</strong></td>
+					<td>类似 tuple，可通过 index、attr、key 访问</td>
+			</tr>
+			<tr>
+					<td><strong>RowMapping</strong></td>
+					<td>row._mapping，真正的 dict-like 结构</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-二result-方法大全"
@@ -2280,179 +2265,179 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># [&#39;__annotations__&#39;, &#39;__class__&#39;, &#39;__class_getitem__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__enter__&#39;, &#39;__eq__&#39;, &#39;__exit__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__getstate__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__iter__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__next__&#39;, &#39;__orig_bases__&#39;, &#39;__parameters__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__slots__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;_allrows&#39;, &#39;_assert_no_memoizations&#39;, &#39;_attributes&#39;, &#39;_column_slices&#39;, &#39;_fetchall_impl&#39;, &#39;_fetchiter_impl&#39;, &#39;_fetchmany_impl&#39;, &#39;_fetchone_impl&#39;, &#39;_generate&#39;, &#39;_generate_rows&#39;, &#39;_getter&#39;, &#39;_is_cursor&#39;, &#39;_iter_impl&#39;, &#39;_iterator_getter&#39;, &#39;_manyrow_getter&#39;, &#39;_memoized_keys&#39;, &#39;_metadata&#39;, &#39;_next_impl&#39;, &#39;_onerow_getter&#39;, &#39;_only_one_row&#39;, &#39;_post_creational_filter&#39;, &#39;_raw_all_rows&#39;, &#39;_raw_row_iterator&#39;, &#39;_real_result&#39;, &#39;_reset_memoizations&#39;, &#39;_row_getter&#39;, &#39;_row_logging_fn&#39;, &#39;_set_memoized_attribute&#39;, &#39;_soft_close&#39;, &#39;_soft_closed&#39;, &#39;_source_supports_scalars&#39;, &#39;_tuple_getter&#39;, &#39;_unique_filter_state&#39;, &#39;_unique_strategy&#39;, &#39;_yield_per&#39;, &#39;all&#39;, &#39;close&#39;, &#39;closed&#39;, &#39;columns&#39;, &#39;fetchall&#39;, &#39;fetchmany&#39;, &#39;fetchone&#39;, &#39;first&#39;, &#39;freeze&#39;, &#39;keys&#39;, &#39;mappings&#39;, &#39;memoized_attribute&#39;, &#39;memoized_instancemethod&#39;, &#39;merge&#39;, &#39;one&#39;, &#39;one_or_none&#39;, &#39;partitions&#39;, &#39;scalar&#39;, &#39;scalar_one&#39;, &#39;scalar_one_or_none&#39;, &#39;scalars&#39;, &#39;t&#39;, &#39;tuples&#39;, &#39;unique&#39;, &#39;yield_per&#39;]</span>
 </span></span></code></pre></div><p>方法说明：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方法</th>
-          <th>说明</th>
-          <th>备注</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>all</strong></td>
-          <td>以序列形式返回所有行</td>
-          <td><strong>常用 (将结果转换为 list 类型的数据)</strong></td>
-      </tr>
-      <tr>
-          <td>close</td>
-          <td>关闭此 Result</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>closed</td>
-          <td>如果此 Result 报告 .closed，则返回 True</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>columns</td>
-          <td>建立每行应返回的列</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>fetchall</td>
-          <td>all 方法的同义词</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>fetchmany</td>
-          <td>提取多行</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>fetchone</td>
-          <td>提取一行</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>first</td>
-          <td>提取第一行，如果没有行则返回 None</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>freeze</td>
-          <td>返回一个可调用对象</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>keys</td>
-          <td>返回一个包含所有字段名的序列</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><strong>mappings</strong></td>
-          <td>返回一个 MappingResult</td>
-          <td><strong>常用 (将结果转换为 <code>list[dict]</code> 类型的数据)</strong></td>
-      </tr>
-      <tr>
-          <td>memoized_attribute</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>memoized_instancemethod</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>merge</td>
-          <td>将此 Result 与其他兼容的结果对象合并</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>one</td>
-          <td>返回恰好一行，否则引发异常 (必须返回 1 行)</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>one_or_none</td>
-          <td>最多返回一个结果，否则引发异常 (0 或 1 行)</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>partitions</td>
-          <td>迭代处理给定大小的行子列表</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>scalar</td>
-          <td>获取第一行的第一列</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>scalar_one</td>
-          <td>返回恰好一个标量结果，否则引发异常</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>scalar_one_or_none</td>
-          <td>返回恰好一个标量结果，或者 None</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>scalars</td>
-          <td>返回一个 ScalarResult</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>t</td>
-          <td>tuples 方法的同义词</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><strong>tuples</strong></td>
-          <td>将 “类型化元组” 类型过滤器应用于返回的行</td>
-          <td><strong>常用 (将结果转换为 tuple 类型的数据)</strong></td>
-      </tr>
-      <tr>
-          <td>unique</td>
-          <td>对此 Result 返回的对象应用唯一性过滤</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>yield_per</td>
-          <td>配置行提取策略，一次提取 num 行</td>
-          <td></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>说明</th>
+					<th>备注</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>all</strong></td>
+					<td>以序列形式返回所有行</td>
+					<td><strong>常用 (将结果转换为 list 类型的数据)</strong></td>
+			</tr>
+			<tr>
+					<td>close</td>
+					<td>关闭此 Result</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>closed</td>
+					<td>如果此 Result 报告 .closed，则返回 True</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>columns</td>
+					<td>建立每行应返回的列</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>fetchall</td>
+					<td>all 方法的同义词</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>fetchmany</td>
+					<td>提取多行</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>fetchone</td>
+					<td>提取一行</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>first</td>
+					<td>提取第一行，如果没有行则返回 None</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>freeze</td>
+					<td>返回一个可调用对象</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>keys</td>
+					<td>返回一个包含所有字段名的序列</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><strong>mappings</strong></td>
+					<td>返回一个 MappingResult</td>
+					<td><strong>常用 (将结果转换为 <code>list[dict]</code> 类型的数据)</strong></td>
+			</tr>
+			<tr>
+					<td>memoized_attribute</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>memoized_instancemethod</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>merge</td>
+					<td>将此 Result 与其他兼容的结果对象合并</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>one</td>
+					<td>返回恰好一行，否则引发异常 (必须返回 1 行)</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>one_or_none</td>
+					<td>最多返回一个结果，否则引发异常 (0 或 1 行)</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>partitions</td>
+					<td>迭代处理给定大小的行子列表</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>scalar</td>
+					<td>获取第一行的第一列</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>scalar_one</td>
+					<td>返回恰好一个标量结果，否则引发异常</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>scalar_one_or_none</td>
+					<td>返回恰好一个标量结果，或者 None</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>scalars</td>
+					<td>返回一个 ScalarResult</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>t</td>
+					<td>tuples 方法的同义词</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td><strong>tuples</strong></td>
+					<td>将 “类型化元组” 类型过滤器应用于返回的行</td>
+					<td><strong>常用 (将结果转换为 tuple 类型的数据)</strong></td>
+			</tr>
+			<tr>
+					<td>unique</td>
+					<td>对此 Result 返回的对象应用唯一性过滤</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>yield_per</td>
+					<td>配置行提取策略，一次提取 num 行</td>
+					<td></td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📒 <strong>多数情况下，对象都有方法。如果返回的是对象，则调用对象的方法，不要直接使用 list 或 tuple 转换数据！</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>返回对象的方法</th>
-          <th>获取数据</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>columns</td>
-          <td>调用方法</td>
-      </tr>
-      <tr>
-          <td>keys</td>
-          <td>list 或 tuple</td>
-      </tr>
-      <tr>
-          <td>mappings</td>
-          <td>调用方法</td>
-      </tr>
-      <tr>
-          <td>partitions</td>
-          <td>list 或 tuple</td>
-      </tr>
-      <tr>
-          <td>scalars</td>
-          <td>调用方法</td>
-      </tr>
-      <tr>
-          <td>tuples</td>
-          <td>调用方法</td>
-      </tr>
-      <tr>
-          <td>unique</td>
-          <td>调用方法</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>返回对象的方法</th>
+					<th>获取数据</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>columns</td>
+					<td>调用方法</td>
+			</tr>
+			<tr>
+					<td>keys</td>
+					<td>list 或 tuple</td>
+			</tr>
+			<tr>
+					<td>mappings</td>
+					<td>调用方法</td>
+			</tr>
+			<tr>
+					<td>partitions</td>
+					<td>list 或 tuple</td>
+			</tr>
+			<tr>
+					<td>scalars</td>
+					<td>调用方法</td>
+			</tr>
+			<tr>
+					<td>tuples</td>
+					<td>调用方法</td>
+			</tr>
+			<tr>
+					<td>unique</td>
+					<td>调用方法</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="21-all"
@@ -2673,80 +2658,80 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># [&#39;__annotations__&#39;, &#39;__class__&#39;, &#39;__class_getitem__&#39;, &#39;__delattr__&#39;, &#39;__dict__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__enter__&#39;, &#39;__eq__&#39;, &#39;__exit__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__getstate__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__iter__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__module__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__next__&#39;, &#39;__orig_bases__&#39;, &#39;__parameters__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__slots__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;_allrows&#39;, &#39;_assert_no_memoizations&#39;, &#39;_attributes&#39;, &#39;_column_slices&#39;, &#39;_fetchall_impl&#39;, &#39;_fetchiter_impl&#39;, &#39;_fetchmany_impl&#39;, &#39;_fetchone_impl&#39;, &#39;_generate&#39;, &#39;_generate_rows&#39;, &#39;_is_cursor&#39;, &#39;_iter_impl&#39;, &#39;_iterator_getter&#39;, &#39;_manyrow_getter&#39;, &#39;_memoized_keys&#39;, &#39;_metadata&#39;, &#39;_next_impl&#39;, &#39;_onerow_getter&#39;, &#39;_only_one_row&#39;, &#39;_post_creational_filter&#39;, &#39;_raw_all_rows&#39;, &#39;_real_result&#39;, &#39;_reset_memoizations&#39;, &#39;_row_getter&#39;, &#39;_set_memoized_attribute&#39;, &#39;_soft_close&#39;, &#39;_soft_closed&#39;, &#39;_unique_filter_state&#39;, &#39;_unique_strategy&#39;, &#39;all&#39;, &#39;close&#39;, &#39;closed&#39;, &#39;fetchall&#39;, &#39;fetchmany&#39;, &#39;first&#39;, &#39;memoized_attribute&#39;, &#39;memoized_instancemethod&#39;, &#39;one&#39;, &#39;one_or_none&#39;, &#39;partitions&#39;, &#39;unique&#39;, &#39;yield_per&#39;]</span>
 </span></span></code></pre></div><p>方法说明：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方法</th>
-          <th>说明</th>
-          <th>适用范围</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>all</td>
-          <td>返回所有标量</td>
-          <td>单列多行</td>
-      </tr>
-      <tr>
-          <td>close</td>
-          <td>关闭此 FilterResult</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>closed</td>
-          <td>如果底层 Result 报告已关闭，则返回 True</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>fetchall</td>
-          <td>all 方法的同义词</td>
-          <td>单列多行</td>
-      </tr>
-      <tr>
-          <td>fetchmany</td>
-          <td>获取多个对象</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>first</td>
-          <td>获取第一个对象，如果没有对象则返回 None</td>
-          <td>单列多行</td>
-      </tr>
-      <tr>
-          <td>memoized_attribute</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>memoized_instancemethod</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>one</td>
-          <td>最多返回一个对象，否则引发异常 (必须返回 1 个)</td>
-          <td>单列单行 (单个)</td>
-      </tr>
-      <tr>
-          <td>one_or_none</td>
-          <td>最多返回一个对象，否则引发异常 (0 或 1 个)</td>
-          <td>单列单行 (单个)</td>
-      </tr>
-      <tr>
-          <td>partitions</td>
-          <td>迭代给定大小的元素子列表</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>unique</td>
-          <td>唯一性过滤 (去重)</td>
-          <td>单列多行</td>
-      </tr>
-      <tr>
-          <td>yield_per</td>
-          <td>配置行提取策略，一次提取 num 行</td>
-          <td></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>说明</th>
+					<th>适用范围</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>all</td>
+					<td>返回所有标量</td>
+					<td>单列多行</td>
+			</tr>
+			<tr>
+					<td>close</td>
+					<td>关闭此 FilterResult</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>closed</td>
+					<td>如果底层 Result 报告已关闭，则返回 True</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>fetchall</td>
+					<td>all 方法的同义词</td>
+					<td>单列多行</td>
+			</tr>
+			<tr>
+					<td>fetchmany</td>
+					<td>获取多个对象</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>first</td>
+					<td>获取第一个对象，如果没有对象则返回 None</td>
+					<td>单列多行</td>
+			</tr>
+			<tr>
+					<td>memoized_attribute</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>memoized_instancemethod</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>one</td>
+					<td>最多返回一个对象，否则引发异常 (必须返回 1 个)</td>
+					<td>单列单行 (单个)</td>
+			</tr>
+			<tr>
+					<td>one_or_none</td>
+					<td>最多返回一个对象，否则引发异常 (0 或 1 个)</td>
+					<td>单列单行 (单个)</td>
+			</tr>
+			<tr>
+					<td>partitions</td>
+					<td>迭代给定大小的元素子列表</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>unique</td>
+					<td>唯一性过滤 (去重)</td>
+					<td>单列多行</td>
+			</tr>
+			<tr>
+					<td>yield_per</td>
+					<td>配置行提取策略，一次提取 num 行</td>
+					<td></td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">scalars</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">))</span>
@@ -2846,50 +2831,50 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>推荐方法</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>返回 ORM 对象</td>
-          <td>scalars().all()</td>
-          <td>最常用</td>
-      </tr>
-      <tr>
-          <td>返回 dict</td>
-          <td>mappings().all()</td>
-          <td>强烈推荐</td>
-      </tr>
-      <tr>
-          <td>返回 tuple</td>
-          <td>tuples().all()</td>
-          <td>更快</td>
-      </tr>
-      <tr>
-          <td>返回标量</td>
-          <td>scalar()</td>
-          <td>一值</td>
-      </tr>
-      <tr>
-          <td>返回单行对象</td>
-          <td>first() / one()</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>判断是否返回行</td>
-          <td>returns_rows</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>UPDATE 影响行数</td>
-          <td>rowcount</td>
-          <td></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>推荐方法</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>返回 ORM 对象</td>
+					<td>scalars().all()</td>
+					<td>最常用</td>
+			</tr>
+			<tr>
+					<td>返回 dict</td>
+					<td>mappings().all()</td>
+					<td>强烈推荐</td>
+			</tr>
+			<tr>
+					<td>返回 tuple</td>
+					<td>tuples().all()</td>
+					<td>更快</td>
+			</tr>
+			<tr>
+					<td>返回标量</td>
+					<td>scalar()</td>
+					<td>一值</td>
+			</tr>
+			<tr>
+					<td>返回单行对象</td>
+					<td>first() / one()</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>判断是否返回行</td>
+					<td>returns_rows</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>UPDATE 影响行数</td>
+					<td>rowcount</td>
+					<td></td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3024,40 +3009,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方式</th>
-          <th>Result 可多次使用？</th>
-          <th>推荐？</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>直接使用 Result</td>
-          <td>❌ 不能</td>
-          <td>不推荐</td>
-      </tr>
-      <tr>
-          <td>使用 .all() 转列表</td>
-          <td>✅ 能</td>
-          <td>★★★★★</td>
-      </tr>
-      <tr>
-          <td>使用 .mappings().all()</td>
-          <td>✅ 能</td>
-          <td>★★★★★</td>
-      </tr>
-      <tr>
-          <td>使用 scalars().all()</td>
-          <td>✅ 能</td>
-          <td>★★★★★</td>
-      </tr>
-      <tr>
-          <td>重新执行查询</td>
-          <td>✅ 能（但低效）</td>
-          <td>★★☆☆☆</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方式</th>
+					<th>Result 可多次使用？</th>
+					<th>推荐？</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>直接使用 Result</td>
+					<td>❌ 不能</td>
+					<td>不推荐</td>
+			</tr>
+			<tr>
+					<td>使用 .all() 转列表</td>
+					<td>✅ 能</td>
+					<td>★★★★★</td>
+			</tr>
+			<tr>
+					<td>使用 .mappings().all()</td>
+					<td>✅ 能</td>
+					<td>★★★★★</td>
+			</tr>
+			<tr>
+					<td>使用 scalars().all()</td>
+					<td>✅ 能</td>
+					<td>★★★★★</td>
+			</tr>
+			<tr>
+					<td>重新执行查询</td>
+					<td>✅ 能（但低效）</td>
+					<td>★★☆☆☆</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">

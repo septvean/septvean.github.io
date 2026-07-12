@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="以下是一份 超完整、系统化、可用于生产的 Ansible 详细介绍，包含核心概念、架构、最佳实践、常用模块、目录结构示例、Playbook 设计规范，以及适合你 Kubernetes / Linux / DevOps 场景的实战建议。
@@ -68,18 +68,18 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Ansible 基础教程",
-      "url" : "https://documents.v2ep.com/operations/ansible/tutorial/",
+      "url": "https://documents.v2ep.com/operations/ansible/tutorial/",
       "headline": "Ansible 基础教程",
       "description": "以下是一份 超完整、系统化、可用于生产的 Ansible 详细介绍，包含核心概念、架构、最佳实践、常用模块、目录结构示例、Playbook 设计规范，以及适合你 Kubernetes \/ Linux \/ DevOps 场景的实战建议。\n🧩 一、Ansible 是什么？ Ansible = 自动化运维 \u002b 配置管理 \u002b 应用部署 \u002b 编排工具\n特点：\nAgentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安装客户端程序 Idempotent（幂等）：多次执行结果一致（自动判断是否需要改变） Declarative（声明式）：写“想要的状态”，由 Ansible 负责实现 Simple（易上手）：核心用 YAML Extensible（扩展性强）：模块、插件、角色体系非常灵活 适合多平台：Linux、Unix、Windows、网络设备（Cisco、Juniper）、云平台（AWS、AliCloud） 适用于：\n服务器一键初始化 Kubernetes 集群部署 CI\/CD 环境自动化 应用发布（Nginx、MySQL、Redis、PostgreSQL、Docker） 防火墙 \/ 网络设备配置 批量作业执行（like SaltStack, but agentless） 🛠️ 二、Ansible 的架构 Ansible Controller（控制节点） | |—— SSH \/ WinRM \/ API | Managed Hosts（被管节点） 核心组成：",
-      "wordCount" : "406",
+      "wordCount": "406",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/ansible/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2231,42 +2216,42 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
 </span></span><span class="line"><span class="cl">Managed Hosts（被管节点）
 </span></span></code></pre></div><p>核心组成：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Inventory</td>
-          <td>主机清单（主机组、变量）</td>
-      </tr>
-      <tr>
-          <td>Module</td>
-          <td>执行任务的功能模块（核心）</td>
-      </tr>
-      <tr>
-          <td>Play</td>
-          <td>定义“对哪些主机执行哪些任务”</td>
-      </tr>
-      <tr>
-          <td>Playbook</td>
-          <td>YAML 文件，包含多个 Play</td>
-      </tr>
-      <tr>
-          <td>Role</td>
-          <td>结构化脚本集合（模板、变量、任务）</td>
-      </tr>
-      <tr>
-          <td>Facts</td>
-          <td>自动收集系统信息（CPU/Mem/OS/网卡）</td>
-      </tr>
-      <tr>
-          <td>Plugins</td>
-          <td>执行插件，如 connection、lookups、filters</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Inventory</td>
+					<td>主机清单（主机组、变量）</td>
+			</tr>
+			<tr>
+					<td>Module</td>
+					<td>执行任务的功能模块（核心）</td>
+			</tr>
+			<tr>
+					<td>Play</td>
+					<td>定义“对哪些主机执行哪些任务”</td>
+			</tr>
+			<tr>
+					<td>Playbook</td>
+					<td>YAML 文件，包含多个 Play</td>
+			</tr>
+			<tr>
+					<td>Role</td>
+					<td>结构化脚本集合（模板、变量、任务）</td>
+			</tr>
+			<tr>
+					<td>Facts</td>
+					<td>自动收集系统信息（CPU/Mem/OS/网卡）</td>
+			</tr>
+			<tr>
+					<td>Plugins</td>
+					<td>执行插件，如 connection、lookups、filters</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-三ansible-inventory主机清单"
@@ -2315,38 +2300,38 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模块</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>shell / command</td>
-          <td>执行命令（非优先，尽量用专用模块）</td>
-      </tr>
-      <tr>
-          <td>user / group</td>
-          <td>管理用户、权限</td>
-      </tr>
-      <tr>
-          <td>service</td>
-          <td>管理系统服务</td>
-      </tr>
-      <tr>
-          <td>cron</td>
-          <td>定时任务</td>
-      </tr>
-      <tr>
-          <td>lineinfile</td>
-          <td>修改配置文件中特定行</td>
-      </tr>
-      <tr>
-          <td>copy / template</td>
-          <td>上传文件与模板</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模块</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>shell / command</td>
+					<td>执行命令（非优先，尽量用专用模块）</td>
+			</tr>
+			<tr>
+					<td>user / group</td>
+					<td>管理用户、权限</td>
+			</tr>
+			<tr>
+					<td>service</td>
+					<td>管理系统服务</td>
+			</tr>
+			<tr>
+					<td>cron</td>
+					<td>定时任务</td>
+			</tr>
+			<tr>
+					<td>lineinfile</td>
+					<td>修改配置文件中特定行</td>
+			</tr>
+			<tr>
+					<td>copy / template</td>
+					<td>上传文件与模板</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-2-文件与目录"
@@ -2358,26 +2343,26 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模块</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>file</td>
-          <td>创建目录、软链、修改权限</td>
-      </tr>
-      <tr>
-          <td>unarchive</td>
-          <td>解压文件</td>
-      </tr>
-      <tr>
-          <td>synchronize</td>
-          <td>rsync 同步</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模块</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>file</td>
+					<td>创建目录、软链、修改权限</td>
+			</tr>
+			<tr>
+					<td>unarchive</td>
+					<td>解压文件</td>
+			</tr>
+			<tr>
+					<td>synchronize</td>
+					<td>rsync 同步</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-3-软件包"
@@ -2389,26 +2374,26 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模块</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>yum</td>
-          <td>RHEL/CentOS</td>
-      </tr>
-      <tr>
-          <td>apt</td>
-          <td>Ubuntu/Debian</td>
-      </tr>
-      <tr>
-          <td>package</td>
-          <td>通用接口</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模块</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>yum</td>
+					<td>RHEL/CentOS</td>
+			</tr>
+			<tr>
+					<td>apt</td>
+					<td>Ubuntu/Debian</td>
+			</tr>
+			<tr>
+					<td>package</td>
+					<td>通用接口</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-4-数据库"
@@ -2420,26 +2405,26 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模块</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>mysql_db / mysql_user</td>
-          <td>MySQL 相关</td>
-      </tr>
-      <tr>
-          <td>postgresql_db / postgresql_user</td>
-          <td>PostgreSQL</td>
-      </tr>
-      <tr>
-          <td>mongodb_user</td>
-          <td>MongoDB</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模块</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>mysql_db / mysql_user</td>
+					<td>MySQL 相关</td>
+			</tr>
+			<tr>
+					<td>postgresql_db / postgresql_user</td>
+					<td>PostgreSQL</td>
+			</tr>
+			<tr>
+					<td>mongodb_user</td>
+					<td>MongoDB</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-5-云平台与容器"
@@ -2451,26 +2436,26 @@ Agentless（无客户端）：被管理节点通过 SSH 或 WinRM，不需要安
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模块</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>docker_container</td>
-          <td>创建/管理 Docker 容器</td>
-      </tr>
-      <tr>
-          <td>docker_image</td>
-          <td>拉取镜像</td>
-      </tr>
-      <tr>
-          <td>k8s</td>
-          <td>Kubernetes 资源管理</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模块</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>docker_container</td>
+					<td>创建/管理 Docker 容器</td>
+			</tr>
+			<tr>
+					<td>docker_image</td>
+					<td>拉取镜像</td>
+			</tr>
+			<tr>
+					<td>k8s</td>
+					<td>Kubernetes 资源管理</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-五playbook-结构"

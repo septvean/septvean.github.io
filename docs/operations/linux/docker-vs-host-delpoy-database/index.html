@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="一、结论
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Docker 部署数据库 vs 宿主机直装数据库",
-      "url" : "https://documents.v2ep.com/operations/linux/docker-vs-host-delpoy-database/",
+      "url": "https://documents.v2ep.com/operations/linux/docker-vs-host-delpoy-database/",
       "headline": "Docker 部署数据库 vs 宿主机直装数据库",
       "description": "一、结论\n在 “配置正确” 的前提下，Docker 部署数据库 vs 宿主机直装数据库：性能差距通常在 0% ～ 5%，多数场景可忽略。\n❗ 真正拉开差距的不是 Docker，而是：\n存储方式 网络模式 内核参数 IO 调度 数据库参数 二、为什么很多人“感觉 Docker 慢”？ 👉 90% 是配置问题，不是 Docker 问题。\n常见误区：\n误区 后果 使用 overlay2 \u002b 容器层写数据 IO 明显变慢 volume 映射到慢磁盘 TPS 降 docker0 NAT 网络 网络延迟增大 cgroup 默认限制 CPU \/ 内存被限 没调 sysctl fsync \/ shm 受限 三、从“内核层”解释性能差距（关键） 1️⃣ CPU：几乎无差距 容器 = 宿主机普通进程 无虚拟化指令开销 cgroups 只在你限制时才影响 📌 CPU 性能 ≈ 原生",
-      "wordCount" : "624",
+      "wordCount": "624",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/docker-vs-host-delpoy-database/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2211,34 +2196,34 @@
 <p>👉 <strong>90% 是配置问题，不是 Docker 问题。</strong></p>
 <p>常见误区：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>误区</th>
-          <th>后果</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>使用 overlay2 + 容器层写数据</td>
-          <td>IO 明显变慢</td>
-      </tr>
-      <tr>
-          <td>volume 映射到慢磁盘</td>
-          <td>TPS 降</td>
-      </tr>
-      <tr>
-          <td>docker0 NAT 网络</td>
-          <td>网络延迟增大</td>
-      </tr>
-      <tr>
-          <td>cgroup 默认限制</td>
-          <td>CPU / 内存被限</td>
-      </tr>
-      <tr>
-          <td>没调 sysctl</td>
-          <td>fsync / shm 受限</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>误区</th>
+					<th>后果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>使用 overlay2 + 容器层写数据</td>
+					<td>IO 明显变慢</td>
+			</tr>
+			<tr>
+					<td>volume 映射到慢磁盘</td>
+					<td>TPS 降</td>
+			</tr>
+			<tr>
+					<td>docker0 NAT 网络</td>
+					<td>网络延迟增大</td>
+			</tr>
+			<tr>
+					<td>cgroup 默认限制</td>
+					<td>CPU / 内存被限</td>
+			</tr>
+			<tr>
+					<td>没调 sysctl</td>
+					<td>fsync / shm 受限</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三从内核层解释性能差距关键"
@@ -2294,26 +2279,26 @@
 </div>
 <p>不同网络模式对比：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>网络模式</th>
-          <th>RTT 差距</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>host</td>
-          <td>≈ 0</td>
-      </tr>
-      <tr>
-          <td>bridge</td>
-          <td>+5%～15%</td>
-      </tr>
-      <tr>
-          <td>overlay</td>
-          <td>+10%～30%</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>网络模式</th>
+					<th>RTT 差距</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>host</td>
+					<td>≈ 0</td>
+			</tr>
+			<tr>
+					<td>bridge</td>
+					<td>+5%～15%</td>
+			</tr>
+			<tr>
+					<td>overlay</td>
+					<td>+10%～30%</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 数据库建议：</p>
 <ul>
@@ -2331,30 +2316,30 @@
 </div>
 <p><strong>IO 性能对比（关键）</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>存储方式</th>
-          <th>性能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>宿主机直写磁盘</td>
-          <td>100%</td>
-      </tr>
-      <tr>
-          <td>bind mount（推荐）</td>
-          <td>≈ 95～100%</td>
-      </tr>
-      <tr>
-          <td>named volume</td>
-          <td>≈ 95%</td>
-      </tr>
-      <tr>
-          <td>容器层写入</td>
-          <td>❌ 50% 甚至更低</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>存储方式</th>
+					<th>性能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>宿主机直写磁盘</td>
+					<td>100%</td>
+			</tr>
+			<tr>
+					<td>bind mount（推荐）</td>
+					<td>≈ 95～100%</td>
+			</tr>
+			<tr>
+					<td>named volume</td>
+					<td>≈ 95%</td>
+			</tr>
+			<tr>
+					<td>容器层写入</td>
+					<td>❌ 50% 甚至更低</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>数据库数据目录必须用 volume / bind mount</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2368,26 +2353,26 @@
 </div>
 <p><strong>MySQL / PostgreSQL</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>性能差距</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>正确 volume + host 网络</td>
-          <td>0～3%</td>
-      </tr>
-      <tr>
-          <td>bridge 网络</td>
-          <td>3～10%</td>
-      </tr>
-      <tr>
-          <td>overlay2 容器层</td>
-          <td>20～50%（不可接受）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>性能差距</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>正确 volume + host 网络</td>
+					<td>0～3%</td>
+			</tr>
+			<tr>
+					<td>bridge 网络</td>
+					<td>3～10%</td>
+			</tr>
+			<tr>
+					<td>overlay2 容器层</td>
+					<td>20～50%（不可接受）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>Redis</strong></p>
 <ul>

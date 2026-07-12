@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：是什么 -&gt; 怎么存 -&gt; 怎么查 -&gt; 怎么扩 -&gt; 为什么这样设计。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "ElasticSearch 核心概念",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/core/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/core/",
       "headline": "ElasticSearch 核心概念",
       "description": "内容：是什么 -\u003e 怎么存 -\u003e 怎么查 -\u003e 怎么扩 -\u003e 为什么这样设计。\n一、Elasticsearch 是什么？ Elasticsearch 是一个基于 Lucene 的分布式搜索与分析引擎， 用于 全文检索、结构化查询、聚合分析、日志与指标分析。\n核心特点\n分布式（天然集群） Near Real Time（准实时） Schema-on-write（写入时建结构） 面向文档（JSON） 高可扩展、高并发读 二、ES 的数据模型（最核心） Index（索引） └── Shard（分片） └── Segment（段） └── Document（文档） └── Field（字段） 1️⃣ Index（索引） 类似 数据库 一类数据的集合 mapping 在这里定义 index = 表结构 \u002b 数据集合",
-      "wordCount" : "350",
+      "wordCount": "350",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2276,65 +2261,65 @@
 <p>Mapping 决定了数据如何被索引和搜索</p>
 <p>常见字段类型</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>text</td>
-          <td>全文检索</td>
-      </tr>
-      <tr>
-          <td>keyword</td>
-          <td>精确匹配 / 聚合</td>
-      </tr>
-      <tr>
-          <td>long / integer</td>
-          <td>数值</td>
-      </tr>
-      <tr>
-          <td>date</td>
-          <td>时间</td>
-      </tr>
-      <tr>
-          <td>boolean</td>
-          <td>布尔</td>
-      </tr>
-      <tr>
-          <td>object / nested</td>
-          <td>对象</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>text</td>
+					<td>全文检索</td>
+			</tr>
+			<tr>
+					<td>keyword</td>
+					<td>精确匹配 / 聚合</td>
+			</tr>
+			<tr>
+					<td>long / integer</td>
+					<td>数值</td>
+			</tr>
+			<tr>
+					<td>date</td>
+					<td>时间</td>
+			</tr>
+			<tr>
+					<td>boolean</td>
+					<td>布尔</td>
+			</tr>
+			<tr>
+					<td>object / nested</td>
+					<td>对象</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>text vs keyword（必考）</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比</th>
-          <th>text</th>
-          <th>keyword</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>是否分词</td>
-          <td>是</td>
-          <td>否</td>
-      </tr>
-      <tr>
-          <td>是否支持聚合</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>场景</td>
-          <td>搜索</td>
-          <td>过滤 / 排序</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比</th>
+					<th>text</th>
+					<th>keyword</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>是否分词</td>
+					<td>是</td>
+					<td>否</td>
+			</tr>
+			<tr>
+					<td>是否支持聚合</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>场景</td>
+					<td>搜索</td>
+					<td>过滤 / 排序</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四倒排索引es-的灵魂"
@@ -2352,22 +2337,22 @@
 <p>词 -&gt; 文档列表</p>
 <p>示例</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>文档</th>
-          <th>内容</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>doc1</td>
-          <td>I love ES</td>
-      </tr>
-      <tr>
-          <td>doc2</td>
-          <td>I love you</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>文档</th>
+					<th>内容</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>doc1</td>
+					<td>I love ES</td>
+			</tr>
+			<tr>
+					<td>doc2</td>
+					<td>I love you</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>倒排索引：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">I     -&gt; doc1, doc2
@@ -2388,30 +2373,30 @@
 <p>Character Filter -&gt; Tokenizer -&gt; Token Filter</p>
 <p>常见分词器</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>分词器</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>standard</td>
-          <td>默认</td>
-      </tr>
-      <tr>
-          <td>ik_smart</td>
-          <td>中文</td>
-      </tr>
-      <tr>
-          <td>ik_max_word</td>
-          <td>中文</td>
-      </tr>
-      <tr>
-          <td>keyword</td>
-          <td>不分词</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>分词器</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>standard</td>
+					<td>默认</td>
+			</tr>
+			<tr>
+					<td>ik_smart</td>
+					<td>中文</td>
+			</tr>
+			<tr>
+					<td>ik_max_word</td>
+					<td>中文</td>
+			</tr>
+			<tr>
+					<td>keyword</td>
+					<td>不分词</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六shard分片分布式基础"
@@ -2460,22 +2445,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>指标</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单分片大小</td>
-          <td>10~50GB</td>
-      </tr>
-      <tr>
-          <td>分片总数</td>
-          <td>≤ 节点 × 2~3</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>指标</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单分片大小</td>
+					<td>10~50GB</td>
+			</tr>
+			<tr>
+					<td>分片总数</td>
+					<td>≤ 节点 × 2~3</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七写入流程原理题必考"
@@ -2572,30 +2557,30 @@
 </div>
 <p>常见节点角色</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>角色</th>
-          <th>职责</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>master</td>
-          <td>集群元数据</td>
-      </tr>
-      <tr>
-          <td>data</td>
-          <td>存储和搜索</td>
-      </tr>
-      <tr>
-          <td>ingest</td>
-          <td>预处理</td>
-      </tr>
-      <tr>
-          <td>coordinating</td>
-          <td>请求路由</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>角色</th>
+					<th>职责</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>master</td>
+					<td>集群元数据</td>
+			</tr>
+			<tr>
+					<td>data</td>
+					<td>存储和搜索</td>
+			</tr>
+			<tr>
+					<td>ingest</td>
+					<td>预处理</td>
+			</tr>
+			<tr>
+					<td>coordinating</td>
+					<td>请求路由</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十二es-的一致性模型"
@@ -2621,40 +2606,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>ES</th>
-          <th>数据库</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>核心能力</td>
-          <td>搜索</td>
-          <td>事务</td>
-      </tr>
-      <tr>
-          <td>一致性</td>
-          <td>弱</td>
-          <td>强</td>
-      </tr>
-      <tr>
-          <td>Join</td>
-          <td>不擅长</td>
-          <td>强</td>
-      </tr>
-      <tr>
-          <td>更新</td>
-          <td>delete + insert</td>
-          <td>in-place</td>
-      </tr>
-      <tr>
-          <td>扩展</td>
-          <td>天然分布式</td>
-          <td>较难</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>ES</th>
+					<th>数据库</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>核心能力</td>
+					<td>搜索</td>
+					<td>事务</td>
+			</tr>
+			<tr>
+					<td>一致性</td>
+					<td>弱</td>
+					<td>强</td>
+			</tr>
+			<tr>
+					<td>Join</td>
+					<td>不擅长</td>
+					<td>强</td>
+			</tr>
+			<tr>
+					<td>更新</td>
+					<td>delete + insert</td>
+					<td>in-place</td>
+			</tr>
+			<tr>
+					<td>扩展</td>
+					<td>天然分布式</td>
+					<td>较难</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十四为什么-es-这么设计"

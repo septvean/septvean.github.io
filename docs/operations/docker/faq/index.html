@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：基础概念、镜像、容器、网络、存储、Compose、Registry、优化、安全、生产运维实践。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Docker FAQ",
-      "url" : "https://documents.v2ep.com/operations/docker/faq/",
+      "url": "https://documents.v2ep.com/operations/docker/faq/",
       "headline": "Docker FAQ",
       "description": "内容：基础概念、镜像、容器、网络、存储、Compose、Registry、优化、安全、生产运维实践。\n1️⃣ Docker 基础概念 1. 什么是 Docker？ Docker 是一个基于 容器技术 的应用打包、分发、部署平台，解决了：\n应用环境一致性问题 打包与迁移困难 部署流程复杂 核心优势：构建一次，到处运行。\n2. 镜像（Image）是什么？ 镜像是 只读模板，类似：",
-      "wordCount" : "493",
+      "wordCount": "493",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/docker/faq/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2255,40 +2240,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>Docker</th>
-          <th>虚拟机</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>启动速度</td>
-          <td>秒级</td>
-          <td>分钟级</td>
-      </tr>
-      <tr>
-          <td>资源开销</td>
-          <td>低</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>隔离方式</td>
-          <td>进程级（Namespace + cgroups）</td>
-          <td>完整操作系统</td>
-      </tr>
-      <tr>
-          <td>镜像体积</td>
-          <td>小</td>
-          <td>大</td>
-      </tr>
-      <tr>
-          <td>部署方式</td>
-          <td>快速便携</td>
-          <td>笨重</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比项</th>
+					<th>Docker</th>
+					<th>虚拟机</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>启动速度</td>
+					<td>秒级</td>
+					<td>分钟级</td>
+			</tr>
+			<tr>
+					<td>资源开销</td>
+					<td>低</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>隔离方式</td>
+					<td>进程级（Namespace + cgroups）</td>
+					<td>完整操作系统</td>
+			</tr>
+			<tr>
+					<td>镜像体积</td>
+					<td>小</td>
+					<td>大</td>
+			</tr>
+			<tr>
+					<td>部署方式</td>
+					<td>快速便携</td>
+					<td>笨重</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="5-什么是-dockerfile"
@@ -2301,11 +2286,11 @@
 </div>
 <p>Dockerfile 是用于 <strong>构建镜像的脚本文件</strong>，包含：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="s">RUN</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="s">ENTRYPOINT</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="s">RUN</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">CMD</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPOSE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="s">ENTRYPOINT</span><span class="err">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="6-什么是-oci"
     >
@@ -2373,26 +2358,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>指令</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CMD</td>
-          <td>默认命令，可被覆盖</td>
-      </tr>
-      <tr>
-          <td>ENTRYPOINT</td>
-          <td>主命令，不会被覆盖</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>指令</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CMD</td>
+					<td>默认命令，可被覆盖</td>
+			</tr>
+			<tr>
+					<td>ENTRYPOINT</td>
+					<td>主命令，不会被覆盖</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>最佳实践：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;nginx&#34;</span><span class="p">]</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;-g&#34;</span><span class="p">,</span> <span class="s2">&#34;daemon off;&#34;</span><span class="p">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;-g&#34;</span><span class="p">,</span> <span class="s2">&#34;daemon off;&#34;</span><span class="p">]</span><span class="err">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="10-workdirenvexpose-的作用"
     >
@@ -2534,30 +2519,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>bridge</td>
-          <td>默认模式，私网</td>
-      </tr>
-      <tr>
-          <td>host</td>
-          <td>使用宿主机网络</td>
-      </tr>
-      <tr>
-          <td>none</td>
-          <td>无网络</td>
-      </tr>
-      <tr>
-          <td>container</td>
-          <td>共用另一个容器的网络</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>bridge</td>
+					<td>默认模式，私网</td>
+			</tr>
+			<tr>
+					<td>host</td>
+					<td>使用宿主机网络</td>
+			</tr>
+			<tr>
+					<td>none</td>
+					<td>无网络</td>
+			</tr>
+			<tr>
+					<td>container</td>
+					<td>共用另一个容器的网络</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="19-什么是端口映射"
@@ -2618,35 +2603,35 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>Volume</th>
-          <th>Bind mount</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>性能</td>
-          <td>高</td>
-          <td>中等</td>
-      </tr>
-      <tr>
-          <td>灵活性</td>
-          <td>中</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>隔离</td>
-          <td>高</td>
-          <td>低（直接访问宿主机目录）</td>
-      </tr>
-      <tr>
-          <td>Portability</td>
-          <td>好</td>
-          <td>差</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比项</th>
+					<th>Volume</th>
+					<th>Bind mount</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>性能</td>
+					<td>高</td>
+					<td>中等</td>
+			</tr>
+			<tr>
+					<td>灵活性</td>
+					<td>中</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>隔离</td>
+					<td>高</td>
+					<td>低（直接访问宿主机目录）</td>
+			</tr>
+			<tr>
+					<td>Portability</td>
+					<td>好</td>
+					<td>差</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="23-如何清理所有无用镜像与-volume"
@@ -2927,35 +2912,35 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>Swarm</th>
-          <th>Kubernetes</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>功能丰富</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>社区支持</td>
-          <td>弱</td>
-          <td>强</td>
-      </tr>
-      <tr>
-          <td>学习成本</td>
-          <td>低</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>企业使用量</td>
-          <td>低</td>
-          <td>极高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比项</th>
+					<th>Swarm</th>
+					<th>Kubernetes</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>功能丰富</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>社区支持</td>
+					<td>弱</td>
+					<td>强</td>
+			</tr>
+			<tr>
+					<td>学习成本</td>
+					<td>低</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>企业使用量</td>
+					<td>低</td>
+					<td>极高</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>如今企业基本都运行 Kubernetes。</p>
 

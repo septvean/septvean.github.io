@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是 「硬件虚拟化（VM） vs 操作系统级虚拟化（容器）」的本质级、架构级、机制级对比。
@@ -71,18 +71,18 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "硬件虚拟化（VM） vs 操作系统级虚拟化（容器）",
-      "url" : "https://documents.v2ep.com/operations/kvm/vm-vs-container/",
+      "url": "https://documents.v2ep.com/operations/kvm/vm-vs-container/",
       "headline": "硬件虚拟化（VM） vs 操作系统级虚拟化（容器）",
       "description": "下面是 「硬件虚拟化（VM） vs 操作系统级虚拟化（容器）」的本质级、架构级、机制级对比。\n不是 “VM 慢、容器快” 这种表层说法，而是从内核、隔离模型、资源抽象、适用边界把话讲透。\n先给结论\nVM 是 “虚拟一台完整计算机”，容器是 “在同一个内核里切进程空间”。\n一、本质区别（最核心） 维度 硬件虚拟化（VM \/ KVM） 操作系统级虚拟化（容器 \/ Docker） 本质 虚拟硬件 隔离进程 隔离层级 硬件层 内核层 是否共享内核 ❌ 不共享 ✅ 共享宿主机内核 最小单位 一台“机器” 一个“进程组” 一句话理解：\nVM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一个“隔离的运行空间” 二、架构层面对比（一定要看） 1️⃣ 硬件虚拟化（KVM 架构） 硬件 └── Hypervisor（KVM） └── Guest OS（完整内核） └── App 关键点",
-      "wordCount" : "320",
+      "wordCount": "320",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kvm/vm-vs-container/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2203,35 +2188,35 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>硬件虚拟化（VM / KVM）</th>
-          <th>操作系统级虚拟化（容器 / Docker）</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>本质</td>
-          <td><strong>虚拟硬件</strong></td>
-          <td><strong>隔离进程</strong></td>
-      </tr>
-      <tr>
-          <td>隔离层级</td>
-          <td>硬件层</td>
-          <td>内核层</td>
-      </tr>
-      <tr>
-          <td>是否共享内核</td>
-          <td>❌ 不共享</td>
-          <td>✅ 共享宿主机内核</td>
-      </tr>
-      <tr>
-          <td>最小单位</td>
-          <td>一台“机器”</td>
-          <td>一个“进程组”</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>硬件虚拟化（VM / KVM）</th>
+					<th>操作系统级虚拟化（容器 / Docker）</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>本质</td>
+					<td><strong>虚拟硬件</strong></td>
+					<td><strong>隔离进程</strong></td>
+			</tr>
+			<tr>
+					<td>隔离层级</td>
+					<td>硬件层</td>
+					<td>内核层</td>
+			</tr>
+			<tr>
+					<td>是否共享内核</td>
+					<td>❌ 不共享</td>
+					<td>✅ 共享宿主机内核</td>
+			</tr>
+			<tr>
+					<td>最小单位</td>
+					<td>一台“机器”</td>
+					<td>一个“进程组”</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>一句话理解：</strong></p>
 <ul>
@@ -2304,30 +2289,30 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项</th>
-          <th>VM</th>
-          <th>容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>技术</td>
-          <td>VT-x / AMD-V</td>
-          <td>原生 CPU</td>
-      </tr>
-      <tr>
-          <td>执行模式</td>
-          <td>VMX</td>
-          <td>用户态</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>接近裸机</td>
-          <td>等于裸机</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>VM</th>
+					<th>容器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>技术</td>
+					<td>VT-x / AMD-V</td>
+					<td>原生 CPU</td>
+			</tr>
+			<tr>
+					<td>执行模式</td>
+					<td>VMX</td>
+					<td>用户态</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>接近裸机</td>
+					<td>等于裸机</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 容器没有 CPU 虚拟化，<strong>就是普通进程</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2363,30 +2348,30 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项</th>
-          <th>VM</th>
-          <th>容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>PID</td>
-          <td>独立</td>
-          <td>Namespace</td>
-      </tr>
-      <tr>
-          <td>init</td>
-          <td>各自 init</td>
-          <td>共享宿主</td>
-      </tr>
-      <tr>
-          <td>系统调用</td>
-          <td>Trap</td>
-          <td>直接调用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>VM</th>
+					<th>容器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>PID</td>
+					<td>独立</td>
+					<td>Namespace</td>
+			</tr>
+			<tr>
+					<td>init</td>
+					<td>各自 init</td>
+					<td>共享宿主</td>
+			</tr>
+			<tr>
+					<td>系统调用</td>
+					<td>Trap</td>
+					<td>直接调用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-文件系统"
@@ -2398,26 +2383,26 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>VM</th>
-          <th>容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>独立磁盘</td>
-          <td>Union FS</td>
-      </tr>
-      <tr>
-          <td>ext4/xfs</td>
-          <td>overlay2</td>
-      </tr>
-      <tr>
-          <td>真正隔离</td>
-          <td>逻辑隔离</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>VM</th>
+					<th>容器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>独立磁盘</td>
+					<td>Union FS</td>
+			</tr>
+			<tr>
+					<td>ext4/xfs</td>
+					<td>overlay2</td>
+			</tr>
+			<tr>
+					<td>真正隔离</td>
+					<td>逻辑隔离</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四隔离与安全本质差异重点"
@@ -2475,30 +2460,30 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项</th>
-          <th>VM</th>
-          <th>容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>启动时间</td>
-          <td>秒级</td>
-          <td>毫秒级</td>
-      </tr>
-      <tr>
-          <td>内存占用</td>
-          <td>OS 级</td>
-          <td>极低</td>
-      </tr>
-      <tr>
-          <td>镜像体积</td>
-          <td>GB</td>
-          <td>MB</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>VM</th>
+					<th>容器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>启动时间</td>
+					<td>秒级</td>
+					<td>毫秒级</td>
+			</tr>
+			<tr>
+					<td>内存占用</td>
+					<td>OS 级</td>
+					<td>极低</td>
+			</tr>
+			<tr>
+					<td>镜像体积</td>
+					<td>GB</td>
+					<td>MB</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六操作系统支持能力很多人忽略"
@@ -2510,30 +2495,30 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>VM</th>
-          <th>容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Windows on Linux</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>不同内核版本</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>自定义内核</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>VM</th>
+					<th>容器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Windows on Linux</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>不同内核版本</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>自定义内核</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>容器无法跨内核</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2583,38 +2568,38 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>多租户云平台</td>
-          <td>VM</td>
-      </tr>
-      <tr>
-          <td>金融 / 政府</td>
-          <td>VM</td>
-      </tr>
-      <tr>
-          <td>Kubernetes 节点</td>
-          <td>VM</td>
-      </tr>
-      <tr>
-          <td>微服务</td>
-          <td>容器</td>
-      </tr>
-      <tr>
-          <td>CI/CD</td>
-          <td>容器</td>
-      </tr>
-      <tr>
-          <td>本地开发</td>
-          <td>容器</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>多租户云平台</td>
+					<td>VM</td>
+			</tr>
+			<tr>
+					<td>金融 / 政府</td>
+					<td>VM</td>
+			</tr>
+			<tr>
+					<td>Kubernetes 节点</td>
+					<td>VM</td>
+			</tr>
+			<tr>
+					<td>微服务</td>
+					<td>容器</td>
+			</tr>
+			<tr>
+					<td>CI/CD</td>
+					<td>容器</td>
+			</tr>
+			<tr>
+					<td>本地开发</td>
+					<td>容器</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>VM 是基础设施，容器是应用交付层</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2673,45 +2658,45 @@ VM：我给你一台“假的电脑” 容器：我在同一个 OS 里给你一�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>VM</th>
-          <th>容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>隔离级别</td>
-          <td>硬件</td>
-          <td>内核</td>
-      </tr>
-      <tr>
-          <td>内核</td>
-          <td>独立</td>
-          <td>共享</td>
-      </tr>
-      <tr>
-          <td>安全</td>
-          <td>强</td>
-          <td>依赖加固</td>
-      </tr>
-      <tr>
-          <td>启动</td>
-          <td>慢</td>
-          <td>极快</td>
-      </tr>
-      <tr>
-          <td>灵活性</td>
-          <td>OS 级</td>
-          <td>App 级</td>
-      </tr>
-      <tr>
-          <td>适合角色</td>
-          <td>IaaS</td>
-          <td>PaaS</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>VM</th>
+					<th>容器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>隔离级别</td>
+					<td>硬件</td>
+					<td>内核</td>
+			</tr>
+			<tr>
+					<td>内核</td>
+					<td>独立</td>
+					<td>共享</td>
+			</tr>
+			<tr>
+					<td>安全</td>
+					<td>强</td>
+					<td>依赖加固</td>
+			</tr>
+			<tr>
+					<td>启动</td>
+					<td>慢</td>
+					<td>极快</td>
+			</tr>
+			<tr>
+					<td>灵活性</td>
+					<td>OS 级</td>
+					<td>App 级</td>
+			</tr>
+			<tr>
+					<td>适合角色</td>
+					<td>IaaS</td>
+					<td>PaaS</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

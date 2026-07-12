@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 🧨 Kubernetes 故障排查总纲（SOP） 排查顺序：自上而下 / 由外向内 / 先看事件、再查日志、最后进容器。
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes 故障排查",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/troubleshooting/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/troubleshooting/",
       "headline": "Kubernetes 故障排查",
       "description": " 🧨 Kubernetes 故障排查总纲（SOP） 排查顺序：自上而下 \/ 由外向内 \/ 先看事件、再查日志、最后进容器。\n资源状态 -\u003e kubectl get 事件记录 -\u003e kubectl describe Pod 日志 -\u003e kubectl logs Node 状态 -\u003e kubectl get nodes Kubelet 日志 -\u003e systemctl \/ journalctl 容器运行时 -\u003e crictl CNI 网络 -\u003e Calico \/ iptables \/ routes 存储 -\u003e PV \/ PVC \/ StorageClass 🚦 第一类：Pod 启动不了（Pending \/ ImagePullBackOff \/ CrashLoopBackOff） 1.1 Pod Pending 原因分类",
-      "wordCount" : "638",
+      "wordCount": "638",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/troubleshooting/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2217,30 +2202,30 @@
 </div>
 <p>原因分类</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>典型事件</th>
-          <th>解决办法</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>没节点可调度</td>
-          <td>0/3 nodes available</td>
-          <td>检查 taint、资源、污点</td>
-      </tr>
-      <tr>
-          <td>PVC 绑定失败</td>
-          <td>no persistent volumes found</td>
-          <td>修 storageClass</td>
-      </tr>
-      <tr>
-          <td>NodeSelector 不匹配</td>
-          <td>node(s) didn&rsquo;t match node selector</td>
-          <td>改 selector</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>典型事件</th>
+					<th>解决办法</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>没节点可调度</td>
+					<td>0/3 nodes available</td>
+					<td>检查 taint、资源、污点</td>
+			</tr>
+			<tr>
+					<td>PVC 绑定失败</td>
+					<td>no persistent volumes found</td>
+					<td>修 storageClass</td>
+			</tr>
+			<tr>
+					<td>NodeSelector 不匹配</td>
+					<td>node(s) didn&rsquo;t match node selector</td>
+					<td>改 selector</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>核心排查命令</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl describe pod &lt;pod&gt;
@@ -2259,30 +2244,30 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl describe pod &lt;pod&gt; <span class="p">|</span> grep -i image
 </span></span></code></pre></div><p>常见原因</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>原因</th>
-          <th>检查点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>镜像不存在</td>
-          <td>image 名字拼错</td>
-      </tr>
-      <tr>
-          <td>tag 不存在</td>
-          <td>latest 不可控</td>
-      </tr>
-      <tr>
-          <td>registry 认证失败</td>
-          <td>secret 不对</td>
-      </tr>
-      <tr>
-          <td>proxy 拦截</td>
-          <td>网络防火墙</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>原因</th>
+					<th>检查点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>镜像不存在</td>
+					<td>image 名字拼错</td>
+			</tr>
+			<tr>
+					<td>tag 不存在</td>
+					<td>latest 不可控</td>
+			</tr>
+			<tr>
+					<td>registry 认证失败</td>
+					<td>secret 不对</td>
+			</tr>
+			<tr>
+					<td>proxy 拦截</td>
+					<td>网络防火墙</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>解决</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl create secret docker-registry mysecret ...

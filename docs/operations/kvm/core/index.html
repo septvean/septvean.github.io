@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、KVM 是什么 KVM（Kernel-based Virtual Machine）是 Linux 内核中的虚拟化模块，把 Linux 本身变成一个 Type-1 Hypervisor。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "KVM 核心概念",
-      "url" : "https://documents.v2ep.com/operations/kvm/core/",
+      "url": "https://documents.v2ep.com/operations/kvm/core/",
       "headline": "KVM 核心概念",
       "description": " 一、KVM 是什么 KVM（Kernel-based Virtual Machine）是 Linux 内核中的虚拟化模块，把 Linux 本身变成一个 Type-1 Hypervisor。\n关键点：\n不是独立程序 是 内核模块 依赖 CPU 硬件虚拟化（VT-x \/ AMD-V） 二、KVM 的整体架构（必须吃透） 硬件 (CPU \/ Memory \/ NIC \/ Disk) └── Linux Kernel ├── KVM 模块（kvm.ko \/ kvm_intel.ko \/ kvm_amd.ko） ├── 内存管理 \/ 调度 \/ NUMA └── QEMU（用户态进程） └── 虚拟机（Guest OS） 各组件职责",
-      "wordCount" : "339",
+      "wordCount": "339",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kvm/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2213,30 +2198,30 @@
 </span></span><span class="line"><span class="cl">           └── 虚拟机（Guest OS）
 </span></span></code></pre></div><p><strong>各组件职责</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>KVM</td>
-          <td>CPU / 内存虚拟化</td>
-      </tr>
-      <tr>
-          <td>QEMU</td>
-          <td>设备模拟（磁盘、网卡、显卡）</td>
-      </tr>
-      <tr>
-          <td>libvirt</td>
-          <td>管理 API（VM 生命周期）</td>
-      </tr>
-      <tr>
-          <td>virtio</td>
-          <td>半虚拟化设备驱动</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>KVM</td>
+					<td>CPU / 内存虚拟化</td>
+			</tr>
+			<tr>
+					<td>QEMU</td>
+					<td>设备模拟（磁盘、网卡、显卡）</td>
+			</tr>
+			<tr>
+					<td>libvirt</td>
+					<td>管理 API（VM 生命周期）</td>
+			</tr>
+			<tr>
+					<td>virtio</td>
+					<td>半虚拟化设备驱动</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三kvm-的工作原理底层"
@@ -2282,30 +2267,30 @@
 </span></span><span class="line"><span class="cl"> -&gt; Host Physical Address
 </span></span></code></pre></div><p><strong>关键技术</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>技术</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>EPT / NPT</td>
-          <td>二级页表</td>
-      </tr>
-      <tr>
-          <td>HugePage</td>
-          <td>减少 TLB miss</td>
-      </tr>
-      <tr>
-          <td>Balloon</td>
-          <td>内存回收</td>
-      </tr>
-      <tr>
-          <td>NUMA</td>
-          <td>内存亲和</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>技术</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>EPT / NPT</td>
+					<td>二级页表</td>
+			</tr>
+			<tr>
+					<td>HugePage</td>
+					<td>减少 TLB miss</td>
+			</tr>
+			<tr>
+					<td>Balloon</td>
+					<td>内存回收</td>
+			</tr>
+			<tr>
+					<td>NUMA</td>
+					<td>内存亲和</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-io-虚拟化"
@@ -2318,26 +2303,26 @@
 </div>
 <p><strong>三种模式</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>特点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>全虚拟化</td>
-          <td>模拟真实硬件（慢）</td>
-      </tr>
-      <tr>
-          <td>半虚拟化</td>
-          <td>virtio（主流）</td>
-      </tr>
-      <tr>
-          <td>直通</td>
-          <td>PCI Passthrough / SR-IOV</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>特点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>全虚拟化</td>
+					<td>模拟真实硬件（慢）</td>
+			</tr>
+			<tr>
+					<td>半虚拟化</td>
+					<td>virtio（主流）</td>
+			</tr>
+			<tr>
+					<td>直通</td>
+					<td>PCI Passthrough / SR-IOV</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四qemu-在-kvm-中的角色常被误解"
@@ -2375,22 +2360,22 @@
 </ul>
 <p><strong>常见 URI</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>URI</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>qemu:///system</td>
-          <td>生产</td>
-      </tr>
-      <tr>
-          <td>qemu:///session</td>
-          <td>测试</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>URI</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>qemu:///system</td>
+					<td>生产</td>
+			</tr>
+			<tr>
+					<td>qemu:///session</td>
+					<td>测试</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六kvm-网络模型高频"
@@ -2457,30 +2442,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>文件（qcow2）</td>
-          <td>测试</td>
-      </tr>
-      <tr>
-          <td>LVM</td>
-          <td>生产</td>
-      </tr>
-      <tr>
-          <td>Ceph RBD</td>
-          <td>云平台</td>
-      </tr>
-      <tr>
-          <td>NFS</td>
-          <td>简单共享</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>文件（qcow2）</td>
+					<td>测试</td>
+			</tr>
+			<tr>
+					<td>LVM</td>
+					<td>生产</td>
+			</tr>
+			<tr>
+					<td>Ceph RBD</td>
+					<td>云平台</td>
+			</tr>
+			<tr>
+					<td>NFS</td>
+					<td>简单共享</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>qcow2 特点</strong></p>
 <ul>
@@ -2499,22 +2484,22 @@
 </div>
 <p><strong>system vs session</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>权限</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>system</td>
-          <td>root / libvirt 组</td>
-      </tr>
-      <tr>
-          <td>session</td>
-          <td>当前用户</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>权限</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>system</td>
+					<td>root / libvirt 组</td>
+			</tr>
+			<tr>
+					<td>session</td>
+					<td>当前用户</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>安全机制</strong></p>
 <ul>
@@ -2533,34 +2518,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比</th>
-          <th>KVM</th>
-          <th>Xen</th>
-          <th>ESXi</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>类型</td>
-          <td>内核</td>
-          <td>裸金属</td>
-          <td>裸金属</td>
-      </tr>
-      <tr>
-          <td>生态</td>
-          <td>最强</td>
-          <td>下降</td>
-          <td>商业</td>
-      </tr>
-      <tr>
-          <td>云厂商</td>
-          <td>主流</td>
-          <td>少</td>
-          <td>少</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比</th>
+					<th>KVM</th>
+					<th>Xen</th>
+					<th>ESXi</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>类型</td>
+					<td>内核</td>
+					<td>裸金属</td>
+					<td>裸金属</td>
+			</tr>
+			<tr>
+					<td>生态</td>
+					<td>最强</td>
+					<td>下降</td>
+					<td>商业</td>
+			</tr>
+			<tr>
+					<td>云厂商</td>
+					<td>主流</td>
+					<td>少</td>
+					<td>少</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十kvm-的典型应用场景"

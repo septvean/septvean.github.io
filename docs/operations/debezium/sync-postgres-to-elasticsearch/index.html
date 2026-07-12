@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="使用 Debezium 将 PostgreSQL 中的数据同步到 ElasticSearch
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Debezium sync PostgreSQL to ElasticSearch",
-      "url" : "https://documents.v2ep.com/operations/debezium/sync-postgres-to-elasticsearch/",
+      "url": "https://documents.v2ep.com/operations/debezium/sync-postgres-to-elasticsearch/",
       "headline": "Debezium sync PostgreSQL to ElasticSearch",
       "description": "使用 Debezium 将 PostgreSQL 中的数据同步到 ElasticSearch\n内容：架构 -\u003e 原理 -\u003e 实操 -\u003e 关键配置 -\u003e 生产注意点\n重点：PostgreSQL（logical replication）\n一、整体架构（标准做法） PostgreSQL ↓ (WAL \/ logical decoding) Debezium PostgreSQL Connector ↓ Kafka Topic ↓ Kafka Connect Elasticsearch Sink ↓ Elasticsearch Index Debezium 负责“抓变更”，ES Sink 负责“写索引”\n二、核心原理（PG 专属） PostgreSQL 写数据 -\u003e WAL Debezium 通过 logical replication slot 读取 WAL 将变更转成 CDC 事件写入 Kafka ES Sink 从 Kafka 消费并 upsert \/ delete 到 ES 📌 PG 的 CDC 强依赖 replication slot",
-      "wordCount" : "426",
+      "wordCount": "426",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/debezium/sync-postgres-to-elasticsearch/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2269,8 +2254,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">debezium</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">LOGIN</span><span class="w"> </span><span class="n">REPLICATION</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="s1">&#39;password&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">debezium</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">debezium</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">debezium</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">debezium</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四docker-compose推荐用于验证--poc"
     >
@@ -2283,7 +2268,7 @@
 <p>这是 最小可用 版本，生产请拆分部署。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3.8&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">zookeeper</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">confluentinc/cp-zookeeper</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
@@ -2391,30 +2376,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>PG 操作</th>
-          <th>Kafka 事件</th>
-          <th>ES 行为</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>INSERT</td>
-          <td>op=c</td>
-          <td>index</td>
-      </tr>
-      <tr>
-          <td>UPDATE</td>
-          <td>op=u</td>
-          <td>upsert</td>
-      </tr>
-      <tr>
-          <td>DELETE</td>
-          <td>op=d + tombstone</td>
-          <td>delete</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>PG 操作</th>
+					<th>Kafka 事件</th>
+					<th>ES 行为</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>INSERT</td>
+					<td>op=c</td>
+					<td>index</td>
+			</tr>
+			<tr>
+					<td>UPDATE</td>
+					<td>op=u</td>
+					<td>upsert</td>
+			</tr>
+			<tr>
+					<td>DELETE</td>
+					<td>op=d + tombstone</td>
+					<td>delete</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>关键配置：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">write.method=upsert

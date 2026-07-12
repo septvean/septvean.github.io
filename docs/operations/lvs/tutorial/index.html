@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：核心概念、三种模式、调度算法、实际架构、生产级配置、故障排查、最佳实践。
@@ -71,18 +71,18 @@ Web 服务（Nginx、Tomcat、Flask 等） TCP 服务（Redis、MySQL、MQ） �
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "LVS 基础教程",
-      "url" : "https://documents.v2ep.com/operations/lvs/tutorial/",
+      "url": "https://documents.v2ep.com/operations/lvs/tutorial/",
       "headline": "LVS 基础教程",
       "description": "内容：核心概念、三种模式、调度算法、实际架构、生产级配置、故障排查、最佳实践。\n一、LVS 是什么？ LVS = Linux Virtual Server\n是 Linux 内核中的四层负载均衡框架，通过 虚拟 IP（VIP）\u002b 转发服务器（Director） \u002b 后端 Real Server（RS） 的方式提供高并发、高可用、低延迟的负载均衡。\n适用于：\nWeb 服务（Nginx、Tomcat、Flask 等） TCP 服务（Redis、MySQL、MQ） 任意四层 TCP\/UDP 服务 特点：\n四层转发 -\u003e 极高性能（百万级并发） 内核态转发 -\u003e 极低延迟 搭配 Keepalived -\u003e 自动故障切换（HA） 二、LVS 的三种工作模式（核心） 1）LVS-NAT（Network Address Translation） 原理：Director 修改报文的源\/目的地址，转发给 RS。RS 的回复也回到 Director，再 NAT 回客户端。",
-      "wordCount" : "470",
+      "wordCount": "470",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/lvs/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ Web 服务（Nginx、Tomcat、Flask 等） TCP 服务（Redis、MySQL、MQ） �
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ Web 服务（Nginx、Tomcat、Flask 等） TCP 服务（Redis、MySQL、MQ） �
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ Web 服务（Nginx、Tomcat、Flask 等） TCP 服务（Redis、MySQL、MQ） �
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2291,57 +2276,57 @@ Web 服务（Nginx、Tomcat、Flask 等） TCP 服务（Redis、MySQL、MQ） �
 </div>
 <p>静态算法</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>算法</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>RR</td>
-          <td>轮询</td>
-      </tr>
-      <tr>
-          <td>WRR</td>
-          <td>带权重轮询</td>
-      </tr>
-      <tr>
-          <td>SH</td>
-          <td>源地址哈希（固定来源分配到固定 RS）</td>
-      </tr>
-      <tr>
-          <td>DHL</td>
-          <td>目标地址哈希</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>算法</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>RR</td>
+					<td>轮询</td>
+			</tr>
+			<tr>
+					<td>WRR</td>
+					<td>带权重轮询</td>
+			</tr>
+			<tr>
+					<td>SH</td>
+					<td>源地址哈希（固定来源分配到固定 RS）</td>
+			</tr>
+			<tr>
+					<td>DHL</td>
+					<td>目标地址哈希</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>动态算法</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>算法</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>LC</td>
-          <td>最少连接</td>
-      </tr>
-      <tr>
-          <td>WLC</td>
-          <td>加权最少连接</td>
-      </tr>
-      <tr>
-          <td>SED</td>
-          <td>最短期望延迟算法</td>
-      </tr>
-      <tr>
-          <td>NQ</td>
-          <td>从不排队（No Queue）算法</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>算法</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>LC</td>
+					<td>最少连接</td>
+			</tr>
+			<tr>
+					<td>WLC</td>
+					<td>加权最少连接</td>
+			</tr>
+			<tr>
+					<td>SED</td>
+					<td>最短期望延迟算法</td>
+			</tr>
+			<tr>
+					<td>NQ</td>
+					<td>从不排队（No Queue）算法</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>生产常用：<strong>WLC / WRR / SH</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">

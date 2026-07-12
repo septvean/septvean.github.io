@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、Dockerfile 是什么（一句话本质） Dockerfile 是一份“构建镜像的声明式脚本”，每一条指令都会生成一个新的镜像层（layer）。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Dockerfile 详解",
-      "url" : "https://documents.v2ep.com/operations/docker/dockerfile/",
+      "url": "https://documents.v2ep.com/operations/docker/dockerfile/",
       "headline": "Dockerfile 详解",
       "description": " 一、Dockerfile 是什么（一句话本质） Dockerfile 是一份“构建镜像的声明式脚本”，每一条指令都会生成一个新的镜像层（layer）。\n关键词：\n声明式 分层 可复现 二、镜像分层原理（理解 Dockerfile 的核心） 1. 每条指令 = 一个 Layer FROM ubuntu RUN apt update RUN apt install -y nginx 等价于：",
-      "wordCount" : "432",
+      "wordCount": "432",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/docker/dockerfile/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2215,8 +2200,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">ubuntu</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apt update<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apt install -y nginx<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> apt update<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> apt install -y nginx<span class="err">
 </span></span></span></code></pre></div><p>等价于：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Layer 1: ubuntu 基础镜像
 </span></span><span class="line"><span class="cl">Layer 2: apt update
@@ -2232,12 +2217,12 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">COPY</span> . /app<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> pip install -r requirements.txt<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> pip install -r requirements.txt<span class="err">
 </span></span></span></code></pre></div><p>❌ 每次代码变更 -&gt; 重新装依赖</p>
 <p>✅ 正确顺序：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">COPY</span> requirements.txt .<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> pip install -r requirements.txt<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> . /app<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> pip install -r requirements.txt<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> . /app<span class="err">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三dockerfile-构建流程how"
     >
@@ -2299,8 +2284,8 @@
 </ul>
 <p>最佳实践</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">RUN</span> apt update <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> apt install -y curl <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span class="err">
+</span></span></span><span class="line"><span class="cl">    <span class="o">&amp;&amp;</span> apt install -y curl <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span class="err">
 </span></span></span></code></pre></div><p>📌 减小镜像体积</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-copy-vs-add高频"
@@ -2375,29 +2360,29 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>固定主程序</td>
-          <td>ENTRYPOINT</td>
-      </tr>
-      <tr>
-          <td>可覆盖参数</td>
-          <td>CMD</td>
-      </tr>
-      <tr>
-          <td>二者结合</td>
-          <td>最佳实践</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>固定主程序</td>
+					<td>ENTRYPOINT</td>
+			</tr>
+			<tr>
+					<td>可覆盖参数</td>
+					<td>CMD</td>
+			</tr>
+			<tr>
+					<td>二者结合</td>
+					<td>最佳实践</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;python&#34;</span><span class="p">,</span> <span class="s2">&#34;app.py&#34;</span><span class="p">]</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;--help&#34;</span><span class="p">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;--help&#34;</span><span class="p">]</span><span class="err">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="8-env环境变量"
     >
@@ -2470,14 +2455,14 @@
 </div>
 <p>示例：前端构建 + Nginx</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">node:20</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">builder</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> package*.json ./<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> npm install<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> . .<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> npm run build<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> package*.json ./<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> npm install<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> . .<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> npm run build<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="w"> </span><span class="s">nginx:alpine</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>builder /app/dist /usr/share/nginx/html<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">nginx:alpine</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> --from<span class="o">=</span>builder /app/dist /usr/share/nginx/html<span class="err">
 </span></span></span></code></pre></div><ul>
 <li>✅ 构建环境 ≠ 运行环境</li>
 <li>✅ 镜像更小</li>
@@ -2511,30 +2496,30 @@ dist
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>技巧</th>
-          <th>效果</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>slim / alpine</td>
-          <td>↓ 70%</td>
-      </tr>
-      <tr>
-          <td>合并 RUN</td>
-          <td>↓ layer</td>
-      </tr>
-      <tr>
-          <td>删除缓存</td>
-          <td>↓ 体积</td>
-      </tr>
-      <tr>
-          <td>多阶段构建</td>
-          <td>↓↓↓</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>技巧</th>
+					<th>效果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>slim / alpine</td>
+					<td>↓ 70%</td>
+			</tr>
+			<tr>
+					<td>合并 RUN</td>
+					<td>↓ layer</td>
+			</tr>
+			<tr>
+					<td>删除缓存</td>
+					<td>↓ 体积</td>
+			</tr>
+			<tr>
+					<td>多阶段构建</td>
+					<td>↓↓↓</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八dockerfile-常见反模式必避"
@@ -2563,30 +2548,30 @@ dist
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>阶段</th>
-          <th>Dockerfile</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>构建</td>
-          <td>RUN / COPY</td>
-      </tr>
-      <tr>
-          <td>运行</td>
-          <td>CMD / ENTRYPOINT</td>
-      </tr>
-      <tr>
-          <td>配置</td>
-          <td>ENV</td>
-      </tr>
-      <tr>
-          <td>参数</td>
-          <td>docker run</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>阶段</th>
+					<th>Dockerfile</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>构建</td>
+					<td>RUN / COPY</td>
+			</tr>
+			<tr>
+					<td>运行</td>
+					<td>CMD / ENTRYPOINT</td>
+			</tr>
+			<tr>
+					<td>配置</td>
+					<td>ENV</td>
+			</tr>
+			<tr>
+					<td>参数</td>
+					<td>docker run</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 Dockerfile 不负责：</p>
 <ul>
@@ -2656,21 +2641,21 @@ dist
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.12-slim</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">PYTHONDONTWRITEBYTECODE</span><span class="o">=</span><span class="m">1</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="nv">PYTHONUNBUFFERED</span><span class="o">=</span><span class="m">1</span>
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">PYTHONDONTWRITEBYTECODE</span><span class="o">=</span><span class="m">1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    <span class="nv">PYTHONUNBUFFERED</span><span class="o">=</span><span class="m">1</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">COPY</span> requirements.txt .<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> pip install --no-cache-dir -r requirements.txt<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> pip install --no-cache-dir -r requirements.txt<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> . .<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> . .<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> useradd -m appuser<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">USER</span><span class="w"> </span><span class="s">appuser</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">RUN</span> useradd -m appuser<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">USER</span><span class="w"> </span><span class="s">appuser</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;python&#34;</span><span class="p">,</span> <span class="s2">&#34;main.py&#34;</span><span class="p">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;python&#34;</span><span class="p">,</span> <span class="s2">&#34;main.py&#34;</span><span class="p">]</span><span class="err">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十二总结"
     >

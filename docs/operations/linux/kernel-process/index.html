@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 “内核级视角”的 Linux 进程管理（Process）核心子系统详解，不是 ps/top 用法，而是从内核数据结构、调度、状态、上下文切换到容器/NUMA 的完整认知框架。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 进程管理（Process）",
-      "url" : "https://documents.v2ep.com/operations/linux/kernel-process/",
+      "url": "https://documents.v2ep.com/operations/linux/kernel-process/",
       "headline": "Linux 进程管理（Process）",
       "description": "下面是一份 “内核级视角”的 Linux 进程管理（Process）核心子系统详解，不是 ps\/top 用法，而是从内核数据结构、调度、状态、上下文切换到容器\/NUMA 的完整认知框架。\n适用 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu \/ 云 \/ 容器 \/ 数据库 \/ 虚拟化。\n一、进程在 Linux 内核中的本质 Linux 没有 “线程” 这种内核对象，只有 task（任务）。\n1️⃣ task_struct（核心数据结构） struct task_struct { pid_t pid; long state; struct mm_struct *mm; struct files_struct *files; struct signal_struct *signal; struct sched_entity se; struct cgroup_subsys_state *css; ... } 📌 进程 \/ 线程 = task_struct 的不同组合",
-      "wordCount" : "384",
+      "wordCount": "384",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/kernel-process/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2216,26 +2201,26 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>📌 <strong>进程 / 线程 = task_struct 的不同组合</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>概念</th>
-          <th>内核视角</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>进程</td>
-          <td>有独立 mm</td>
-      </tr>
-      <tr>
-          <td>线程</td>
-          <td>共享 mm</td>
-      </tr>
-      <tr>
-          <td>协程</td>
-          <td>用户态调度</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>概念</th>
+					<th>内核视角</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>进程</td>
+					<td>有独立 mm</td>
+			</tr>
+			<tr>
+					<td>线程</td>
+					<td>共享 mm</td>
+			</tr>
+			<tr>
+					<td>协程</td>
+					<td>用户态调度</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="二进程-vs-线程内核真实差异"
@@ -2247,35 +2232,35 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>进程</th>
-          <th>线程</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>PID</td>
-          <td>不同</td>
-          <td>不同</td>
-      </tr>
-      <tr>
-          <td>虚拟地址空间</td>
-          <td>独立</td>
-          <td>共享</td>
-      </tr>
-      <tr>
-          <td>文件描述符</td>
-          <td>独立</td>
-          <td>共享</td>
-      </tr>
-      <tr>
-          <td>调度单位</td>
-          <td>task</td>
-          <td>task</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>进程</th>
+					<th>线程</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>PID</td>
+					<td>不同</td>
+					<td>不同</td>
+			</tr>
+			<tr>
+					<td>虚拟地址空间</td>
+					<td>独立</td>
+					<td>共享</td>
+			</tr>
+			<tr>
+					<td>文件描述符</td>
+					<td>独立</td>
+					<td>共享</td>
+			</tr>
+			<tr>
+					<td>调度单位</td>
+					<td>task</td>
+					<td>task</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>Linux 的线程 = 轻量级进程</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2394,26 +2379,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类别</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CFS</td>
-          <td>普通进程</td>
-      </tr>
-      <tr>
-          <td>RT</td>
-          <td>实时任务</td>
-      </tr>
-      <tr>
-          <td>Deadline</td>
-          <td>确定性延迟</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类别</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CFS</td>
+					<td>普通进程</td>
+			</tr>
+			<tr>
+					<td>RT</td>
+					<td>实时任务</td>
+			</tr>
+			<tr>
+					<td>Deadline</td>
+					<td>确定性延迟</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-上下文切换context-switch"
@@ -2529,30 +2514,30 @@
 </div>
 <p>常见信号</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>信号</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SIGTERM</td>
-          <td>优雅退出</td>
-      </tr>
-      <tr>
-          <td>SIGKILL</td>
-          <td>强制</td>
-      </tr>
-      <tr>
-          <td>SIGSTOP</td>
-          <td>停止</td>
-      </tr>
-      <tr>
-          <td>SIGSEGV</td>
-          <td>段错误</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>信号</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SIGTERM</td>
+					<td>优雅退出</td>
+			</tr>
+			<tr>
+					<td>SIGKILL</td>
+					<td>强制</td>
+			</tr>
+			<tr>
+					<td>SIGSTOP</td>
+					<td>停止</td>
+			</tr>
+			<tr>
+					<td>SIGSEGV</td>
+					<td>段错误</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="信号处理流程"
@@ -2610,30 +2595,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Namespace</th>
-          <th>隔离内容</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>PID</td>
-          <td>进程号</td>
-      </tr>
-      <tr>
-          <td>Mount</td>
-          <td>文件系统</td>
-      </tr>
-      <tr>
-          <td>Network</td>
-          <td>网络</td>
-      </tr>
-      <tr>
-          <td>User</td>
-          <td>UID/GID</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Namespace</th>
+					<th>隔离内容</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>PID</td>
+					<td>进程号</td>
+			</tr>
+			<tr>
+					<td>Mount</td>
+					<td>文件系统</td>
+			</tr>
+			<tr>
+					<td>Network</td>
+					<td>网络</td>
+			</tr>
+			<tr>
+					<td>User</td>
+					<td>UID/GID</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>容器 = namespace + cgroup + rootfs</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">

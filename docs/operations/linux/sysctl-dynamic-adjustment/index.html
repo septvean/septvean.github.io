@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="哪些内核参数适合根据CPU和内存动态调整？
@@ -74,18 +74,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 内核 根据 CPU 和 内存 动态调整",
-      "url" : "https://documents.v2ep.com/operations/linux/sysctl-dynamic-adjustment/",
+      "url": "https://documents.v2ep.com/operations/linux/sysctl-dynamic-adjustment/",
       "headline": "Linux 内核 根据 CPU 和 内存 动态调整",
       "description": "哪些内核参数适合根据CPU和内存动态调整？\n这是一个非常专业、而且非常“生产向”的问题 👍\n结论先行：不是所有内核参数都适合“动态算”，但有一小部分“强烈适合”根据 CPU \/ 内存自动调整，其余要么固定值更安全，要么只和场景有关。\n按 “强烈建议动态 -\u003e 可选动态 -\u003e 不建议动态” 给你一份清晰清单，并给出计算逻辑与原因。\n一、强烈建议根据 CPU \/ 内存动态调整的内核参数 ✅ 这些参数与系统容量强相关，写死容易浪费或成为瓶颈。\n1️⃣ kernel.pid_max（强烈） 作用：最大进程 \/ 线程数\n核心瓶颈：线程多的服务（Java \/ Python \/ K8S \/ PostgreSQL）",
-      "wordCount" : "273",
+      "wordCount": "273",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/sysctl-dynamic-adjustment/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2239,30 +2224,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>CPU</th>
-          <th>推荐 pid_max</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>2 核</td>
-          <td>65536</td>
-      </tr>
-      <tr>
-          <td>4 核</td>
-          <td>131072</td>
-      </tr>
-      <tr>
-          <td>8 核</td>
-          <td>262144</td>
-      </tr>
-      <tr>
-          <td>≥16 核</td>
-          <td>524288 ~ 1048576</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>CPU</th>
+					<th>推荐 pid_max</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>2 核</td>
+					<td>65536</td>
+			</tr>
+			<tr>
+					<td>4 核</td>
+					<td>131072</td>
+			</tr>
+			<tr>
+					<td>8 核</td>
+					<td>262144</td>
+			</tr>
+			<tr>
+					<td>≥16 核</td>
+					<td>524288 ~ 1048576</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="配置示例"
@@ -2306,26 +2291,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>内存</th>
-          <th>file-max</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>4 GB</td>
-          <td>1048576</td>
-      </tr>
-      <tr>
-          <td>8 GB</td>
-          <td>2097152</td>
-      </tr>
-      <tr>
-          <td>16 GB</td>
-          <td>4194304</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>内存</th>
+					<th>file-max</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>4 GB</td>
+					<td>1048576</td>
+			</tr>
+			<tr>
+					<td>8 GB</td>
+					<td>2097152</td>
+			</tr>
+			<tr>
+					<td>16 GB</td>
+					<td>4194304</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">fs.file-max</span> <span class="o">=</span> <span class="s">4194304</span>
 </span></span></code></pre></div><hr>
@@ -2360,26 +2345,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>内存</th>
-          <th>conntrack</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>4 GB</td>
-          <td>262144</td>
-      </tr>
-      <tr>
-          <td>8 GB</td>
-          <td>524288</td>
-      </tr>
-      <tr>
-          <td>16 GB</td>
-          <td>1048576</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>内存</th>
+					<th>conntrack</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>4 GB</td>
+					<td>262144</td>
+			</tr>
+			<tr>
+					<td>8 GB</td>
+					<td>524288</td>
+			</tr>
+			<tr>
+					<td>16 GB</td>
+					<td>1048576</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">net.netfilter.nf_conntrack_max</span> <span class="o">=</span> <span class="s">524288</span>
 </span></span><span class="line"><span class="cl"><span class="na">net.netfilter.nf_conntrack_buckets</span> <span class="o">=</span> <span class="s">131072</span>
@@ -2462,22 +2447,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>内存</th>
-          <th>tcp_mem</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>≤8 GB</td>
-          <td>786432 1048576 1572864</td>
-      </tr>
-      <tr>
-          <td>≥16 GB</td>
-          <td>1572864 2097152 3145728</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>内存</th>
+					<th>tcp_mem</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>≤8 GB</td>
+					<td>786432 1048576 1572864</td>
+			</tr>
+			<tr>
+					<td>≥16 GB</td>
+					<td>1572864 2097152 3145728</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2540,46 +2525,46 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>vm.swappiness</code></td>
-          <td>策略参数，不是容量</td>
-      </tr>
-      <tr>
-          <td><code>vm.overcommit_memory</code></td>
-          <td>行为语义，非资源</td>
-      </tr>
-      <tr>
-          <td><code>kernel.numa_balancing</code></td>
-          <td>架构级决策</td>
-      </tr>
-      <tr>
-          <td><code>net.ipv4.tcp_tw_reuse</code></td>
-          <td>网络语义</td>
-      </tr>
-      <tr>
-          <td><code>net.ipv4.ip_forward</code></td>
-          <td>功能开关</td>
-      </tr>
-      <tr>
-          <td><code>rp_filter</code></td>
-          <td>路由策略</td>
-      </tr>
-      <tr>
-          <td><code>tcp_syncookies</code></td>
-          <td>安全策略</td>
-      </tr>
-      <tr>
-          <td><code>tcp_timestamps</code></td>
-          <td>协议语义</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>vm.swappiness</code></td>
+					<td>策略参数，不是容量</td>
+			</tr>
+			<tr>
+					<td><code>vm.overcommit_memory</code></td>
+					<td>行为语义，非资源</td>
+			</tr>
+			<tr>
+					<td><code>kernel.numa_balancing</code></td>
+					<td>架构级决策</td>
+			</tr>
+			<tr>
+					<td><code>net.ipv4.tcp_tw_reuse</code></td>
+					<td>网络语义</td>
+			</tr>
+			<tr>
+					<td><code>net.ipv4.ip_forward</code></td>
+					<td>功能开关</td>
+			</tr>
+			<tr>
+					<td><code>rp_filter</code></td>
+					<td>路由策略</td>
+			</tr>
+			<tr>
+					<td><code>tcp_syncookies</code></td>
+					<td>安全策略</td>
+			</tr>
+			<tr>
+					<td><code>tcp_timestamps</code></td>
+					<td>协议语义</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>这些参数“开 / 关 / 固定值”更安全</strong></p>
 <hr>

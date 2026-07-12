@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 “PostgreSQL 详细介绍（超完整、实战友好、架构级别）”，覆盖：
@@ -65,18 +65,18 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 基础教程",
-      "url" : "https://documents.v2ep.com/database/postgres/tutorial/",
+      "url": "https://documents.v2ep.com/database/postgres/tutorial/",
       "headline": "PostgreSQL 基础教程",
       "description": "下面是一份 “PostgreSQL 详细介绍（超完整、实战友好、架构级别）”，覆盖：\nPostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） 锁机制 查询执行流程 索引类型 分区与扩展性 并行查询 高可用与集群 实际使用场景 最佳实践 与 MySQL、Oracle 的对比 1. PostgreSQL 是什么？ PostgreSQL（简称 Postgres）是当前 最先进的开源关系型数据库之一，同时也是最像 Oracle 的数据库，被称为：\n最强开源数据库 世界上功能最完整的关系数据库 特点：\n真正的 企业级 数据库 支持 SQL \u002b JSON 混合模型 完整的事务、锁、MVCC 丰富索引类型（远超 MySQL） 可扩展（插件化、扩展、函数） 高水平查询优化器（比 MySQL 强很多） 可作为 OLTP \u002b OLAP 混合场景 选择 PostgreSQL 17 更快，更强，更现代 2. PostgreSQL 体系结构（Architecture） 核心组件：",
-      "wordCount" : "459",
+      "wordCount": "459",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2265,34 +2250,34 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
 </div>
 <p>主要文件：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>文件</th>
-          <th>意义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>data/base/xxx/yyy</td>
-          <td>表的数据文件（堆表 Heap）</td>
-      </tr>
-      <tr>
-          <td>pg_wal/</td>
-          <td>写前日志（保证持久化）</td>
-      </tr>
-      <tr>
-          <td>pg_xact</td>
-          <td>事务提交信息（Transaction Status）</td>
-      </tr>
-      <tr>
-          <td>pg_multixact</td>
-          <td>多事务锁信息</td>
-      </tr>
-      <tr>
-          <td>pg_statistic</td>
-          <td>统计信息</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>意义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>data/base/xxx/yyy</td>
+					<td>表的数据文件（堆表 Heap）</td>
+			</tr>
+			<tr>
+					<td>pg_wal/</td>
+					<td>写前日志（保证持久化）</td>
+			</tr>
+			<tr>
+					<td>pg_xact</td>
+					<td>事务提交信息（Transaction Status）</td>
+			</tr>
+			<tr>
+					<td>pg_multixact</td>
+					<td>多事务锁信息</td>
+			</tr>
+			<tr>
+					<td>pg_statistic</td>
+					<td>统计信息</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>关键机制：TOAST（The Oversized-Attribute Storage Technique）</strong></p>
 <p>用于存储大文本、大 JSON、大对象，大于 2KB 时自动拆分。</p>
@@ -2355,38 +2340,38 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
 </div>
 <p>锁类型丰富，是企业级数据库核心能力：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>锁类型</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Row lock（行锁）</td>
-          <td>UPDATE、DELETE</td>
-      </tr>
-      <tr>
-          <td>Table lock（表锁）</td>
-          <td>DDL、VACUUM</td>
-      </tr>
-      <tr>
-          <td>Advisory lock（咨询锁）</td>
-          <td>应用层分布式锁</td>
-      </tr>
-      <tr>
-          <td>LWLock</td>
-          <td>内部轻量锁</td>
-      </tr>
-      <tr>
-          <td>SpinLock</td>
-          <td>内部自旋锁</td>
-      </tr>
-      <tr>
-          <td>Predicate Lock</td>
-          <td>Serializable 隔离性</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>锁类型</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Row lock（行锁）</td>
+					<td>UPDATE、DELETE</td>
+			</tr>
+			<tr>
+					<td>Table lock（表锁）</td>
+					<td>DDL、VACUUM</td>
+			</tr>
+			<tr>
+					<td>Advisory lock（咨询锁）</td>
+					<td>应用层分布式锁</td>
+			</tr>
+			<tr>
+					<td>LWLock</td>
+					<td>内部轻量锁</td>
+			</tr>
+			<tr>
+					<td>SpinLock</td>
+					<td>内部自旋锁</td>
+			</tr>
+			<tr>
+					<td>Predicate Lock</td>
+					<td>Serializable 隔离性</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>PostgreSQL 行锁之间兼容度更高，死锁更少。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2400,38 +2385,38 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
 </div>
 <p>PostgreSQL 的索引比 MySQL 强太多：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>B-tree</td>
-          <td>主键、普通索引</td>
-      </tr>
-      <tr>
-          <td>Hash</td>
-          <td>等值匹配（很少用）</td>
-      </tr>
-      <tr>
-          <td>GIN</td>
-          <td>JSON、数组、全文搜索</td>
-      </tr>
-      <tr>
-          <td>GiST</td>
-          <td>地理位置、模糊匹配</td>
-      </tr>
-      <tr>
-          <td>BRIN</td>
-          <td>海量顺序数据（时序）</td>
-      </tr>
-      <tr>
-          <td>SP-GiST</td>
-          <td>树、图、空间结构</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>B-tree</td>
+					<td>主键、普通索引</td>
+			</tr>
+			<tr>
+					<td>Hash</td>
+					<td>等值匹配（很少用）</td>
+			</tr>
+			<tr>
+					<td>GIN</td>
+					<td>JSON、数组、全文搜索</td>
+			</tr>
+			<tr>
+					<td>GiST</td>
+					<td>地理位置、模糊匹配</td>
+			</tr>
+			<tr>
+					<td>BRIN</td>
+					<td>海量顺序数据（时序）</td>
+			</tr>
+			<tr>
+					<td>SP-GiST</td>
+					<td>树、图、空间结构</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>尤其 GIN/GiST/BRIN 是 PostgreSQL 独有的优势。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2495,45 +2480,45 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
 </div>
 <p>PostgreSQL 能加载扩展：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">timescaledb</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">btree_gin</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">citext</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">btree_gin</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">citext</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">...</span><span class="w">
 </span></span></span></code></pre></div><p>知名扩展：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>扩展</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>TimescaleDB</td>
-          <td>时序数据库引擎</td>
-      </tr>
-      <tr>
-          <td>PostGIS</td>
-          <td>地理空间数据库</td>
-      </tr>
-      <tr>
-          <td>pg_trgm</td>
-          <td>模糊匹配（相似度）</td>
-      </tr>
-      <tr>
-          <td>uuid-ossp</td>
-          <td>UUID</td>
-      </tr>
-      <tr>
-          <td>citext</td>
-          <td>不区分大小写字符串</td>
-      </tr>
-      <tr>
-          <td>tablefunc</td>
-          <td>pivot/crosstab</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>扩展</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>TimescaleDB</td>
+					<td>时序数据库引擎</td>
+			</tr>
+			<tr>
+					<td>PostGIS</td>
+					<td>地理空间数据库</td>
+			</tr>
+			<tr>
+					<td>pg_trgm</td>
+					<td>模糊匹配（相似度）</td>
+			</tr>
+			<tr>
+					<td>uuid-ossp</td>
+					<td>UUID</td>
+			</tr>
+			<tr>
+					<td>citext</td>
+					<td>不区分大小写字符串</td>
+			</tr>
+			<tr>
+					<td>tablefunc</td>
+					<td>pivot/crosstab</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>扩展生态极其丰富，是 PostgreSQL 最大杀手级优势。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2549,30 +2534,30 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Primary &lt;- WAL -&gt; Standby
 </span></span></code></pre></div><p>典型方案：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方案</th>
-          <th>特点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Patroni</td>
-          <td>最强、最成熟、企业级</td>
-      </tr>
-      <tr>
-          <td>pgpool-II</td>
-          <td>连接池 + 负载均衡</td>
-      </tr>
-      <tr>
-          <td>repmgr</td>
-          <td>主从管理</td>
-      </tr>
-      <tr>
-          <td>Native Logical Replication</td>
-          <td>分表同步、灵活</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方案</th>
+					<th>特点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Patroni</td>
+					<td>最强、最成熟、企业级</td>
+			</tr>
+			<tr>
+					<td>pgpool-II</td>
+					<td>连接池 + 负载均衡</td>
+			</tr>
+			<tr>
+					<td>repmgr</td>
+					<td>主从管理</td>
+			</tr>
+			<tr>
+					<td>Native Logical Replication</td>
+					<td>分表同步、灵活</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>企业推荐：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Patroni + etcd + HAProxy
@@ -2661,70 +2646,70 @@ PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） �
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>PostgreSQL</th>
-          <th>MySQL</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SQL 标准</td>
-          <td>✅ 最高</td>
-          <td>中等</td>
-      </tr>
-      <tr>
-          <td>JSON</td>
-          <td>✅ 强（jsonb）</td>
-          <td>弱</td>
-      </tr>
-      <tr>
-          <td>事务</td>
-          <td>✅ 强（MVCC+锁）</td>
-          <td>中</td>
-      </tr>
-      <tr>
-          <td>扩展能力</td>
-          <td>✅ 超强</td>
-          <td>弱</td>
-      </tr>
-      <tr>
-          <td>索引类型</td>
-          <td>✅ 很多</td>
-          <td>少</td>
-      </tr>
-      <tr>
-          <td>查询优化器</td>
-          <td>✅ 强</td>
-          <td>一般</td>
-      </tr>
-      <tr>
-          <td>ACID 一致性</td>
-          <td>✅ 强</td>
-          <td>中</td>
-      </tr>
-      <tr>
-          <td>聚合&amp;窗口函数</td>
-          <td>✅ 完整</td>
-          <td>部分</td>
-      </tr>
-      <tr>
-          <td>并行查询</td>
-          <td>✅ 强</td>
-          <td>弱</td>
-      </tr>
-      <tr>
-          <td>分区表</td>
-          <td>✅ 成熟</td>
-          <td>一般</td>
-      </tr>
-      <tr>
-          <td>时序数据库</td>
-          <td>✅ TimescaleDB</td>
-          <td>❌ 无</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>PostgreSQL</th>
+					<th>MySQL</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SQL 标准</td>
+					<td>✅ 最高</td>
+					<td>中等</td>
+			</tr>
+			<tr>
+					<td>JSON</td>
+					<td>✅ 强（jsonb）</td>
+					<td>弱</td>
+			</tr>
+			<tr>
+					<td>事务</td>
+					<td>✅ 强（MVCC+锁）</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>扩展能力</td>
+					<td>✅ 超强</td>
+					<td>弱</td>
+			</tr>
+			<tr>
+					<td>索引类型</td>
+					<td>✅ 很多</td>
+					<td>少</td>
+			</tr>
+			<tr>
+					<td>查询优化器</td>
+					<td>✅ 强</td>
+					<td>一般</td>
+			</tr>
+			<tr>
+					<td>ACID 一致性</td>
+					<td>✅ 强</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>聚合&amp;窗口函数</td>
+					<td>✅ 完整</td>
+					<td>部分</td>
+			</tr>
+			<tr>
+					<td>并行查询</td>
+					<td>✅ 强</td>
+					<td>弱</td>
+			</tr>
+			<tr>
+					<td>分区表</td>
+					<td>✅ 成熟</td>
+					<td>一般</td>
+			</tr>
+			<tr>
+					<td>时序数据库</td>
+					<td>✅ TimescaleDB</td>
+					<td>❌ 无</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="14-postgresql-最佳实践总结"

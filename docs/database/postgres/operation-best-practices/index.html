@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 体系化、生产可落地的 PostgreSQL 运维最佳实践，覆盖安装、配置、监控、备份、性能、容量、安全、高可用等关键内容。内容非常实用，适合新建生产集群或优化现有集群。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 运维最佳实践",
-      "url" : "https://documents.v2ep.com/database/postgres/operation-best-practices/",
+      "url": "https://documents.v2ep.com/database/postgres/operation-best-practices/",
       "headline": "PostgreSQL 运维最佳实践",
       "description": "下面是一份 体系化、生产可落地的 PostgreSQL 运维最佳实践，覆盖安装、配置、监控、备份、性能、容量、安全、高可用等关键内容。内容非常实用，适合新建生产集群或优化现有集群。\n目录：\n系统层面 安装与目录规划 配置文件最佳实践 连接管理 性能优化（CPU\/内存\/IO） 统计信息与 Vacuum 维护 监控与告警 日志管理 备份与恢复 安全 高可用（HA） 扩展与插件管理 常见运维命令 日常运维 checklist 1. 🖥️ 系统层面最佳实践 操作系统\n项 最佳实践 Linux 发行版 Debian\/Ubuntu、RHEL\/AlmaLinux\/Rocky 运行用户 使用独立用户 postgres 时钟 chrony 同步时间，避免主备漂移 I\/O 调度 deadline（SAS）、none（NVMe） 文件系统 xfs 或 ext4 Swappiness vm.swappiness = 1（避免换出） Hugepage 建议关闭（除非 PostgreSQL 大共享内存配置场景） 2. 📁 目录结构规划 \/data\/postgresql\/ ├── data\/ # PGDATA ├── wal\/ # WAL 独立盘强烈建议 ├── backup\/ # 备份 └── log\/ # 日志 **WAL 强烈建议放独立 SSD\/NVMe，**提升事务吞吐。",
-      "wordCount" : "444",
+      "wordCount": "444",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/operation-best-practices/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2212,42 +2197,42 @@
 </div>
 <p><strong>操作系统</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项</th>
-          <th>最佳实践</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Linux 发行版</td>
-          <td>Debian/Ubuntu、RHEL/AlmaLinux/Rocky</td>
-      </tr>
-      <tr>
-          <td>运行用户</td>
-          <td>使用独立用户 postgres</td>
-      </tr>
-      <tr>
-          <td>时钟</td>
-          <td>chrony 同步时间，避免主备漂移</td>
-      </tr>
-      <tr>
-          <td>I/O 调度</td>
-          <td>deadline（SAS）、none（NVMe）</td>
-      </tr>
-      <tr>
-          <td>文件系统</td>
-          <td>xfs 或 ext4</td>
-      </tr>
-      <tr>
-          <td>Swappiness</td>
-          <td>vm.swappiness = 1（避免换出）</td>
-      </tr>
-      <tr>
-          <td>Hugepage</td>
-          <td>建议关闭（除非 PostgreSQL 大共享内存配置场景）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>最佳实践</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Linux 发行版</td>
+					<td>Debian/Ubuntu、RHEL/AlmaLinux/Rocky</td>
+			</tr>
+			<tr>
+					<td>运行用户</td>
+					<td>使用独立用户 postgres</td>
+			</tr>
+			<tr>
+					<td>时钟</td>
+					<td>chrony 同步时间，避免主备漂移</td>
+			</tr>
+			<tr>
+					<td>I/O 调度</td>
+					<td>deadline（SAS）、none（NVMe）</td>
+			</tr>
+			<tr>
+					<td>文件系统</td>
+					<td>xfs 或 ext4</td>
+			</tr>
+			<tr>
+					<td>Swappiness</td>
+					<td>vm.swappiness = 1（避免换出）</td>
+			</tr>
+			<tr>
+					<td>Hugepage</td>
+					<td>建议关闭（除非 PostgreSQL 大共享内存配置场景）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="2--目录结构规划"
@@ -2429,7 +2414,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">VACUUM</span><span class="w"> </span><span class="k">VERBOSE</span><span class="w"> </span><span class="k">table</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ANALYZE</span><span class="w"> </span><span class="k">table</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="w"> </span><span class="k">table</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="53-检查膨胀率"
     >
@@ -2453,38 +2438,38 @@
 <p>推荐监控系统：Prometheus + Grafana + postgres_exporter</p>
 <p>关键指标：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类别</th>
-          <th>指标</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>连接</td>
-          <td>active connections、idle in transaction</td>
-      </tr>
-      <tr>
-          <td>锁</td>
-          <td>lock time、deadlocks</td>
-      </tr>
-      <tr>
-          <td>WAL</td>
-          <td>write rate、replication lag</td>
-      </tr>
-      <tr>
-          <td>Autovacuum</td>
-          <td>freeze age、running workers</td>
-      </tr>
-      <tr>
-          <td>IO</td>
-          <td>read/write latency</td>
-      </tr>
-      <tr>
-          <td>事务</td>
-          <td>TPS、XID 使用情况</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类别</th>
+					<th>指标</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>连接</td>
+					<td>active connections、idle in transaction</td>
+			</tr>
+			<tr>
+					<td>锁</td>
+					<td>lock time、deadlocks</td>
+			</tr>
+			<tr>
+					<td>WAL</td>
+					<td>write rate、replication lag</td>
+			</tr>
+			<tr>
+					<td>Autovacuum</td>
+					<td>freeze age、running workers</td>
+			</tr>
+			<tr>
+					<td>IO</td>
+					<td>read/write latency</td>
+			</tr>
+			<tr>
+					<td>事务</td>
+					<td>TPS、XID 使用情况</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="7--日志最佳实践"

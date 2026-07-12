@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="在所有 Linux 服务器上每天定时执行一次以下命令，是否可行？有什么利弊？
@@ -71,18 +71,18 @@ sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Drop Caches",
-      "url" : "https://documents.v2ep.com/operations/linux/drop-caches/",
+      "url": "https://documents.v2ep.com/operations/linux/drop-caches/",
       "headline": "Drop Caches",
       "description": "在所有 Linux 服务器上每天定时执行一次以下命令，是否可行？有什么利弊？\nsync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 \u003e \/proc\/sys\/vm\/drop_caches 结论先行（一句话版）\n不建议在所有 Linux 服务器上每天定时执行 sync; echo 1 \u003e \/proc\/sys\/vm\/drop_caches，它不是“优化”，而是一次“人为制造的冷启动 I\/O 抖动”，只有在极少数排障或测试场景才有价值。\n下面给你工程级、可落地的分析。\n一、这两条命令到底做了什么（澄清一个常见误解） 1️⃣ sync（你执行了 10 次） sync 作用：\n将 脏页（dirty pages） 刷写到磁盘 是一个 阻塞调用 多次执行 ≈ 一次执行 📌 结论：",
-      "wordCount" : "275",
+      "wordCount": "275",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/drop-caches/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2274,26 +2259,26 @@ sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>现象</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>free -h</code> 中 buff/cache 下降</td>
-          <td>看起来“内存变多了”</td>
-      </tr>
-      <tr>
-          <td>某些人感觉系统“清爽”</td>
-          <td><strong>心理安慰</strong></td>
-      </tr>
-      <tr>
-          <td>排障时可模拟冷缓存</td>
-          <td>测试用途</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>现象</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>free -h</code> 中 buff/cache 下降</td>
+					<td>看起来“内存变多了”</td>
+			</tr>
+			<tr>
+					<td>某些人感觉系统“清爽”</td>
+					<td><strong>心理安慰</strong></td>
+			</tr>
+			<tr>
+					<td>排障时可模拟冷缓存</td>
+					<td>测试用途</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2355,22 +2340,22 @@ sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>影响</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>PostgreSQL</td>
-          <td>OS Page Cache 是 shared_buffers 的“二级缓存”</td>
-      </tr>
-      <tr>
-          <td>MySQL InnoDB</td>
-          <td>即使有 buffer pool，也高度依赖 OS readahead</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>影响</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>PostgreSQL</td>
+					<td>OS Page Cache 是 shared_buffers 的“二级缓存”</td>
+			</tr>
+			<tr>
+					<td>MySQL InnoDB</td>
+					<td>即使有 buffer pool，也高度依赖 OS readahead</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>结果：</strong></p>
 <blockquote>
@@ -2444,30 +2429,30 @@ sync;sync;sync;sync;sync;sync;sync;sync;sync;sync echo 1 &gt; /proc/sys/vm/drop_
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>是否合理</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>性能基准测试（冷缓存）</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>内存泄漏排障</td>
-          <td>⚠️ 临时</td>
-      </tr>
-      <tr>
-          <td>内核/FS 行为验证</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>DBA 手动维护窗口</td>
-          <td>⚠️</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>是否合理</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>性能基准测试（冷缓存）</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>内存泄漏排障</td>
+					<td>⚠️ 临时</td>
+			</tr>
+			<tr>
+					<td>内核/FS 行为验证</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>DBA 手动维护窗口</td>
+					<td>⚠️</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>前提：</strong></p>
 <ul>

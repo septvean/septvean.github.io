@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 1. Pipeline 设计最佳实践（核心） 1.1 使用 Stage 构建标准 CI/CD 流水线结构 推荐标准三段式：
@@ -62,18 +62,18 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "GitLab CI/CD 最佳实践",
-      "url" : "https://documents.v2ep.com/operations/gitlab/ci-best-practices/",
+      "url": "https://documents.v2ep.com/operations/gitlab/ci-best-practices/",
       "headline": "GitLab CI/CD 最佳实践",
       "description": " 1. Pipeline 设计最佳实践（核心） 1.1 使用 Stage 构建标准 CI\/CD 流水线结构 推荐标准三段式：\nstages: - lint - test - build - deploy 理由：\nlinters 提前失败 -\u003e 节省 Runner 资源 单元测试通过后才允许打包 最后才触发部署 1.2 一个 Job 做“一类事”，保持最小职责 ❌ 反例：在同一个 job 里 lint \u002b test \u002b build ✅ 推荐：每个 job 独立，如 lint, unit_test, build_image 1.3 Job 要可重复执行（幂等） 避免：",
-      "wordCount" : "487",
+      "wordCount": "487",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/gitlab/ci-best-practices/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2250,7 +2235,7 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
 <p>确保 Runner、机器差异不会影响构建：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">python:3.12</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">before_script</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">before_script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">pip install -r requirements.txt</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="15-使用-cache-加速"
@@ -2290,7 +2275,7 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">before_script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">pip install -r requirements.txt</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">test</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">test</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="cp">*default_job</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">pytest</span><span class="w">
@@ -2327,10 +2312,10 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">unit_test</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">lint</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">lint</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">build</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">build</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">build</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;unit_test&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;lint&#34;</span><span class="p">]</span><span class="w">
 </span></span></span></code></pre></div><p>好处：</p>
@@ -2624,42 +2609,42 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>反模式</th>
-          <th>风险</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>job 里写多个职责</td>
-          <td>不可维护，难排错</td>
-      </tr>
-      <tr>
-          <td>不使用 cache</td>
-          <td>CI 超慢</td>
-      </tr>
-      <tr>
-          <td>使用 shell runner</td>
-          <td>不安全</td>
-      </tr>
-      <tr>
-          <td>重复拷贝 job 代码</td>
-          <td>无法维护</td>
-      </tr>
-      <tr>
-          <td>把密码写进 .gitlab-ci.yml</td>
-          <td>安全灾难</td>
-      </tr>
-      <tr>
-          <td>随意使用 artifact</td>
-          <td>CI 变慢，存储膨胀</td>
-      </tr>
-      <tr>
-          <td>部署 job 自动执行</td>
-          <td>误触生产环境</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>反模式</th>
+					<th>风险</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>job 里写多个职责</td>
+					<td>不可维护，难排错</td>
+			</tr>
+			<tr>
+					<td>不使用 cache</td>
+					<td>CI 超慢</td>
+			</tr>
+			<tr>
+					<td>使用 shell runner</td>
+					<td>不安全</td>
+			</tr>
+			<tr>
+					<td>重复拷贝 job 代码</td>
+					<td>无法维护</td>
+			</tr>
+			<tr>
+					<td>把密码写进 .gitlab-ci.yml</td>
+					<td>安全灾难</td>
+			</tr>
+			<tr>
+					<td>随意使用 artifact</td>
+					<td>CI 变慢，存储膨胀</td>
+			</tr>
+			<tr>
+					<td>部署 job 自动执行</td>
+					<td>误触生产环境</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-附最佳实践模板可直接用"
@@ -2676,24 +2661,24 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">build</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">deploy</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">.default</span><span class="p">:</span><span class="w"> </span><span class="cp">&amp;default</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">.default</span><span class="p">:</span><span class="w"> </span><span class="cp">&amp;default</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="l">docker]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">retry</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">lint</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">lint</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="cp">*default</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">lint</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">npm run lint</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">test</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">test</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="cp">*default</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;lint&#34;</span><span class="p">]</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">npm run test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">build</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">build</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="cp">*default</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">build</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;test&#34;</span><span class="p">]</span><span class="w">
@@ -2703,7 +2688,7 @@ linters 提前失败 -&gt; 节省 Runner 资源 单元测试通过后才允许�
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">dist/</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">deploy_prod</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">deploy_prod</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">&lt;&lt;</span><span class="p">:</span><span class="w"> </span><span class="cp">*default</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">deploy</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;build&#34;</span><span class="p">]</span><span class="w">

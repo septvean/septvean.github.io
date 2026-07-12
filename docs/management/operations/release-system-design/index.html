@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="「滚动 / 蓝绿 / 金丝雀 / 灰度 发布的架构设计与实现总览」。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Management",
       "name": "发布系统：发布架构设计与实现",
-      "url" : "https://documents.v2ep.com/management/operations/release-system-design/",
+      "url": "https://documents.v2ep.com/management/operations/release-system-design/",
       "headline": "发布系统：发布架构设计与实现",
       "description": "「滚动 \/ 蓝绿 \/ 金丝雀 \/ 灰度 发布的架构设计与实现总览」。\n用 统一的架构视角 来讲：流量在哪切、版本如何共存、如何回滚、如何落地实现。\n一、统一架构抽象（先立模型） 无论哪种发布方式，本质都是 4 层结构：\n┌─────────────────────────┐ │ 用户流量 │ └──────────┬──────────────┘ │ ┌──────────▼──────────────┐ │ 流量控制层 │ ← 关键 │ (LB \/ Ingress \/ GW) │ └──────────┬──────────────┘ │ ┌──────────▼──────────────┐ │ 应用运行层 │ │ (多版本实例共存) │ └──────────┬──────────────┘ │ ┌──────────▼──────────────┐ │ 数据与依赖层 │ │ (DB \/ Cache \/ MQ) │ └─────────────────────────┘ 👉 区别只在：",
-      "wordCount" : "324",
+      "wordCount": "324",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/management/operations/release-system-design/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2439,52 +2424,52 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>滚动</th>
-          <th>蓝绿</th>
-          <th>金丝雀</th>
-          <th>灰度</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>多版本共存</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>流量控制</td>
-          <td>❌</td>
-          <td>原子</td>
-          <td>比例</td>
-          <td>规则</td>
-      </tr>
-      <tr>
-          <td>回滚速度</td>
-          <td>中</td>
-          <td>秒级</td>
-          <td>快</td>
-          <td>极快</td>
-      </tr>
-      <tr>
-          <td>实现复杂度</td>
-          <td>低</td>
-          <td>中</td>
-          <td>高</td>
-          <td>最高</td>
-      </tr>
-      <tr>
-          <td>成本</td>
-          <td>低</td>
-          <td>高</td>
-          <td>中</td>
-          <td>中</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>滚动</th>
+					<th>蓝绿</th>
+					<th>金丝雀</th>
+					<th>灰度</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>多版本共存</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>流量控制</td>
+					<td>❌</td>
+					<td>原子</td>
+					<td>比例</td>
+					<td>规则</td>
+			</tr>
+			<tr>
+					<td>回滚速度</td>
+					<td>中</td>
+					<td>秒级</td>
+					<td>快</td>
+					<td>极快</td>
+			</tr>
+			<tr>
+					<td>实现复杂度</td>
+					<td>低</td>
+					<td>中</td>
+					<td>高</td>
+					<td>最高</td>
+			</tr>
+			<tr>
+					<td>成本</td>
+					<td>低</td>
+					<td>高</td>
+					<td>中</td>
+					<td>中</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七统一的发布系统设计推荐架构"

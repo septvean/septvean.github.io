@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面给你一份 真正生产可用的 Python Redis 最佳实践（结合你的场景：FastAPI &#43; SQLAlchemy &#43; PostgreSQL &#43; Kubernetes）。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "最佳实践",
-      "url" : "https://documents.v2ep.com/backend/python/redis/best-practices/",
+      "url": "https://documents.v2ep.com/backend/python/redis/best-practices/",
       "headline": "最佳实践",
       "description": "下面给你一份 真正生产可用的 Python Redis 最佳实践（结合你的场景：FastAPI \u002b SQLAlchemy \u002b PostgreSQL \u002b Kubernetes）。\n内容极简但专业，可直接复制进你项目。\n🚀 Python Redis 最佳实践（生产级） 📌 目录\n连接方式最佳实践 键名（Key）命名规范 数据结构使用最佳实践 原子操作最佳实践 高并发性能优化 高可靠性用法 FastAPI 项目结构推荐 可直接使用的封装工具类 1. 连接方式最佳实践 使用 连接池（必选） 避免高并发时 Redis 被打爆：",
-      "wordCount" : "494",
+      "wordCount": "494",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/redis/best-practices/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2556,55 +2541,55 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>最佳实践</th>
-          <th>必须执行？</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>使用 ConnectionPool</td>
-          <td>✅ 必须</td>
-          <td>避免高并发下卡死</td>
-      </tr>
-      <tr>
-          <td>使用 decode_responses</td>
-          <td>推荐</td>
-          <td>避免大量 bytes</td>
-      </tr>
-      <tr>
-          <td>用 incr 代替 get+set</td>
-          <td>超级关键</td>
-          <td>防止竞态</td>
-      </tr>
-      <tr>
-          <td>使用 Pipeline</td>
-          <td>推荐</td>
-          <td>降低 RTT</td>
-      </tr>
-      <tr>
-          <td>禁用 KEYS，用 SCAN</td>
-          <td>必须</td>
-          <td>防止卡死</td>
-      </tr>
-      <tr>
-          <td>随机 TTL 防雪崩</td>
-          <td>推荐</td>
-          <td>企业常用</td>
-      </tr>
-      <tr>
-          <td>分布式锁用 redis.lock</td>
-          <td>推荐</td>
-          <td>避免并发问题</td>
-      </tr>
-      <tr>
-          <td>key 名称规范化</td>
-          <td>推荐</td>
-          <td>代码清晰稳定</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>最佳实践</th>
+					<th>必须执行？</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>使用 ConnectionPool</td>
+					<td>✅ 必须</td>
+					<td>避免高并发下卡死</td>
+			</tr>
+			<tr>
+					<td>使用 decode_responses</td>
+					<td>推荐</td>
+					<td>避免大量 bytes</td>
+			</tr>
+			<tr>
+					<td>用 incr 代替 get+set</td>
+					<td>超级关键</td>
+					<td>防止竞态</td>
+			</tr>
+			<tr>
+					<td>使用 Pipeline</td>
+					<td>推荐</td>
+					<td>降低 RTT</td>
+			</tr>
+			<tr>
+					<td>禁用 KEYS，用 SCAN</td>
+					<td>必须</td>
+					<td>防止卡死</td>
+			</tr>
+			<tr>
+					<td>随机 TTL 防雪崩</td>
+					<td>推荐</td>
+					<td>企业常用</td>
+			</tr>
+			<tr>
+					<td>分布式锁用 redis.lock</td>
+					<td>推荐</td>
+					<td>避免并发问题</td>
+			</tr>
+			<tr>
+					<td>key 名称规范化</td>
+					<td>推荐</td>
+					<td>代码清晰稳定</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <p>扩展</p>

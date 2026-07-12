@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="PostgreSQL 中的 huge_pages 参数用于控制是否为 PostgreSQL 共享内存区域请求大页。有效值为 try（默认）、on 和 off。当设置为 on 时，如果请求失败（例如操作系统未配置或配置不当），数据库将无法启动；设置为 try 时，如果失败会回退到使用普通内存；设置为 off 则禁用大页。
@@ -74,18 +74,18 @@ off: 禁用大页。PostgreSQL 不会尝试使用大页。
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL huge_pages",
-      "url" : "https://documents.v2ep.com/database/postgres/huge_pages/",
+      "url": "https://documents.v2ep.com/database/postgres/huge_pages/",
       "headline": "PostgreSQL huge_pages",
       "description": "PostgreSQL 中的 huge_pages 参数用于控制是否为 PostgreSQL 共享内存区域请求大页。有效值为 try（默认）、on 和 off。当设置为 on 时，如果请求失败（例如操作系统未配置或配置不当），数据库将无法启动；设置为 try 时，如果失败会回退到使用普通内存；设置为 off 则禁用大页。\nhuge_pages 参数说明 try: 默认值。服务器会尝试使用大页，如果失败则会回退到使用普通内存。\non: 强制使用大页。如果大页请求失败（例如，操作系统未配置或配置的大页小于所需的内存），PostgreSQL 将无法启动。\noff: 禁用大页。PostgreSQL 不会尝试使用大页。\n使用建议 首选 try: 在大多数情况下，建议将 huge_pages 设置为 try，以确保在配置不当的情况下数据库仍能启动，并尝试利用大页提高性能。\n关注性能影响: 大页的使用性能取决于连接数。当连接数较少时，可能不如不使用大页。建议使用连接池来减少连接数，从而在启用大页的情况下提升性能。\n调整共享内存参数后需重新计算: 修改如 shared_buffers 和 wal_buffers 等共享内存相关参数时，需要重新计算所需的总大页内存，以确保操作系统能够满足要求，避免启动失败或内存浪费。",
-      "wordCount" : "40",
+      "wordCount": "40",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/huge_pages/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ off: 禁用大页。PostgreSQL 不会尝试使用大页。
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ off: 禁用大页。PostgreSQL 不会尝试使用大页。
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ off: 禁用大页。PostgreSQL 不会尝试使用大页。
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

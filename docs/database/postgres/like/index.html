@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="PostgreSQL 没有 LIKE IN 运算符的直接组合，但你可以通过在 SQL 语句中使用 LIKE 和 IN 运算符的组合来实现类似功能，或者使用 PostgreSQL 提供的正则表达式功能来实现更灵活的模糊匹配。
@@ -62,18 +62,18 @@ SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;,
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL Like",
-      "url" : "https://documents.v2ep.com/database/postgres/like/",
+      "url": "https://documents.v2ep.com/database/postgres/like/",
       "headline": "PostgreSQL Like",
       "description": "PostgreSQL 没有 LIKE IN 运算符的直接组合，但你可以通过在 SQL 语句中使用 LIKE 和 IN 运算符的组合来实现类似功能，或者使用 PostgreSQL 提供的正则表达式功能来实现更灵活的模糊匹配。\n实现方法 结合使用 LIKE 和 IN 如果你想在一个列表中查找包含特定模式的字符串，你可以先构建一个包含 LIKE 表达式的列表，然后将这个列表传递给 IN 子句。\nSELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[\u0027%pattern1%\u0027, \u0027%pattern2%\u0027, \u0027%pattern3%\u0027]); LIKE ANY 会检查 column_name 是否匹配 ARRAY 中的任何一个 LIKE 模式 %pattern% 是一个通配符，表示可以匹配任何字符序列 使用正则表达式(Regexp)功能 PostgreSQL 支持强大的正则表达式，可以通过其正则表达式运算符实现更灵活的模式匹配。",
-      "wordCount" : "78",
+      "wordCount": "78",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/like/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@ SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;,
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@ SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;,
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@ SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;,
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2201,8 +2186,8 @@ SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;,
 </div>
 <p>如果你想在一个列表中查找包含特定模式的字符串，你可以先构建一个包含 LIKE 表达式的列表，然后将这个列表传递给 IN 子句。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="k">TABLE_NAME</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">column_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="k">ANY</span><span class="w"> </span><span class="p">(</span><span class="nb">ARRAY</span><span class="p">[</span><span class="s1">&#39;%pattern1%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%pattern2%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%pattern3%&#39;</span><span class="p">]);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">TABLE_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">column_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="k">ANY</span><span class="w"> </span><span class="p">(</span><span class="nb">ARRAY</span><span class="p">[</span><span class="s1">&#39;%pattern1%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%pattern2%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%pattern3%&#39;</span><span class="p">]);</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li><code>LIKE ANY</code> 会检查 <code>column_name</code> 是否匹配 ARRAY 中的任何一个 LIKE 模式</li>
 <li><code>%pattern%</code> 是一个通配符，表示可以匹配任何字符序列</li>
@@ -2222,8 +2207,8 @@ SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;,
 <li><code>~*</code> 运算符：匹配大小写不敏感的正则表达式</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="k">TABLE_NAME</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">column_name</span><span class="w"> </span><span class="o">~*</span><span class="w"> </span><span class="s1">&#39;pattern1|pattern2|pattern3&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">TABLE_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">column_name</span><span class="w"> </span><span class="o">~*</span><span class="w"> </span><span class="s1">&#39;pattern1|pattern2|pattern3&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li><code>|</code> 是正则表达式中的“或”操作符，在这里表示匹配 pattern1 或 pattern2 或 pattern3。</li>
 <li>这个正则表达式也可以用来查找包含这些模式的字符串</li>

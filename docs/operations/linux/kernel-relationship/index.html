@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Linux 内核空间有五大核心子系统，namespaces，cgroups，UnionFS，NUMA，runc 等等，与五大核心子系统的关系是什么？
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系",
-      "url" : "https://documents.v2ep.com/operations/linux/kernel-relationship/",
+      "url": "https://documents.v2ep.com/operations/linux/kernel-relationship/",
       "headline": "Linux 内核空间五大核心子系统 与 namespaces、cgroups 等等的关系",
       "description": "Linux 内核空间有五大核心子系统，namespaces，cgroups，UnionFS，NUMA，runc 等等，与五大核心子系统的关系是什么？\n这是一个非常关键、但经常被讲乱的问题。\n按 内核视角 -\u003e 机制归属 -\u003e 关系映射，一次性把它理清楚。\n一、先定锚：Linux 内核的“五大核心子系统”是什么 内核空间的五大核心子系统（这是“内核内部结构”的划分）：\n进程管理（Process） 内存管理（Memory） 文件系统（VFS \/ FS） 网络子系统（Networking） 设备与驱动（Devices \/ Drivers） 👉 它们是 内核的基础功能模块，决定了 Linux 能不能运行程序、用内存、读写文件、收发网络、驱动硬件。\n二、namespaces \/ cgroups \/ UnionFS \/ NUMA \/ runc 是什么层级的东西？ 结论先给出：",
-      "wordCount" : "346",
+      "wordCount": "346",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/kernel-relationship/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2249,38 +2234,38 @@
 👉 <strong>隔离视图</strong>（让进程“看到的世界”不同）</p>
 <p><strong>归属关系（非常重要）</strong>：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Namespace 类型</th>
-          <th>依赖的核心子系统</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>PID namespace</td>
-          <td>进程管理</td>
-      </tr>
-      <tr>
-          <td>Mount namespace</td>
-          <td>文件系统</td>
-      </tr>
-      <tr>
-          <td>Network namespace</td>
-          <td>网络子系统</td>
-      </tr>
-      <tr>
-          <td>IPC namespace</td>
-          <td>进程管理</td>
-      </tr>
-      <tr>
-          <td>UTS namespace</td>
-          <td>进程管理</td>
-      </tr>
-      <tr>
-          <td>User namespace</td>
-          <td>进程管理 + 权限模型</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Namespace 类型</th>
+					<th>依赖的核心子系统</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>PID namespace</td>
+					<td>进程管理</td>
+			</tr>
+			<tr>
+					<td>Mount namespace</td>
+					<td>文件系统</td>
+			</tr>
+			<tr>
+					<td>Network namespace</td>
+					<td>网络子系统</td>
+			</tr>
+			<tr>
+					<td>IPC namespace</td>
+					<td>进程管理</td>
+			</tr>
+			<tr>
+					<td>UTS namespace</td>
+					<td>进程管理</td>
+			</tr>
+			<tr>
+					<td>User namespace</td>
+					<td>进程管理 + 权限模型</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>结论</strong></p>
 <blockquote>
@@ -2301,30 +2286,30 @@
 👉 <strong>限制与统计资源使用</strong></p>
 <p><strong>归属关系</strong>：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>控制对象</th>
-          <th>对应核心子系统</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU 配额 / 调度</td>
-          <td>进程管理</td>
-      </tr>
-      <tr>
-          <td>内存上限 / OOM</td>
-          <td>内存管理</td>
-      </tr>
-      <tr>
-          <td>块 IO 限速</td>
-          <td>文件系统 / 块设备</td>
-      </tr>
-      <tr>
-          <td>网络流量</td>
-          <td>网络子系统</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>控制对象</th>
+					<th>对应核心子系统</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CPU 配额 / 调度</td>
+					<td>进程管理</td>
+			</tr>
+			<tr>
+					<td>内存上限 / OOM</td>
+					<td>内存管理</td>
+			</tr>
+			<tr>
+					<td>块 IO 限速</td>
+					<td>文件系统 / 块设备</td>
+			</tr>
+			<tr>
+					<td>网络流量</td>
+					<td>网络子系统</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>结论</strong></p>
 <blockquote>
@@ -2344,26 +2329,26 @@
 👉 <strong>文件系统叠加机制</strong></p>
 <p><strong>归属关系</strong>：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>归属</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>VFS</td>
-          <td>文件系统核心</td>
-      </tr>
-      <tr>
-          <td>overlayfs</td>
-          <td>文件系统驱动</td>
-      </tr>
-      <tr>
-          <td>overlay2</td>
-          <td>Docker 对 overlayfs 的使用方式</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>归属</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>VFS</td>
+					<td>文件系统核心</td>
+			</tr>
+			<tr>
+					<td>overlayfs</td>
+					<td>文件系统驱动</td>
+			</tr>
+			<tr>
+					<td>overlay2</td>
+					<td>Docker 对 overlayfs 的使用方式</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>结论</strong></p>
 <blockquote>
@@ -2383,26 +2368,26 @@
 👉 <strong>硬件内存拓扑感知模型</strong></p>
 <p><strong>归属关系</strong>：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>影响对象</th>
-          <th>内核子系统</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>内存分配</td>
-          <td>内存管理</td>
-      </tr>
-      <tr>
-          <td>CPU 亲和性</td>
-          <td>进程管理</td>
-      </tr>
-      <tr>
-          <td>中断分配</td>
-          <td>设备与驱动</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>影响对象</th>
+					<th>内核子系统</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>内存分配</td>
+					<td>内存管理</td>
+			</tr>
+			<tr>
+					<td>CPU 亲和性</td>
+					<td>进程管理</td>
+			</tr>
+			<tr>
+					<td>中断分配</td>
+					<td>设备与驱动</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>结论</strong></p>
 <blockquote>

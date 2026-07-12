@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="初始 kubeadm 配置
@@ -59,18 +59,18 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes 初始化配置",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/init-config/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/init-config/",
       "headline": "Kubernetes 初始化配置",
       "description": "初始 kubeadm 配置\napiVersion: kubeadm.k8s.io\/v1beta4 kind: InitConfiguration localAPIEndpoint: advertiseAddress: 172.16.0.116 bindPort: 6443 nodeRegistration: criSocket: unix:\/\/\/var\/run\/containerd\/containerd.sock kubeletExtraArgs: fail-swap-on: \u0022false\u0022 taints: - effect: PreferNoSchedule key: node-role.kubernetes.io\/master --- apiServer: extraArgs: service-node-port-range: \u002210000-50000\u0022 apiVersion: kubeadm.k8s.io\/v1beta4 # clusterName: kubernetes controlPlaneEndpoint: 172.16.0.118:8443 etcd: external: endpoints: - http:\/\/172.16.0.113:2379 - http:\/\/172.16.0.114:2379 - http:\/\/172.16.0.115:2379 # imageRepository: registry.server.com kind: ClusterConfiguration kubernetesVersion: 1.33.3 networking: dnsDomain: cluster.local serviceSubnet: 10.96.0.0\/12 podSubnet: 10.244.0.0\/16 --- apiVersion: kubelet.config.k8s.io\/v1beta1 cgroupDriver: systemd kind: KubeletConfiguration failSwapOn: false --- apiVersion: kubeproxy.config.k8s.io\/v1alpha1 kind: KubeProxyConfiguration mode: ipvs ipvs: strictARP: true 下面根据给出的初始 kubeadm 配置，按 Kubernetes 1.33 \u002b Calico（推荐 eBPF \u002b VXLAN）最佳实践 做了优化与补充，输出 可直接使用的 kubeadm YAML（保留你原有字段并补足必要安全\/可用性项），并在后面给出逐段详解与注意事项，包含为什么这样配置、什么时候需要修改，以及与 Calico 的配套建议（eBPF \/ VXLAN \/ kube-proxy 处理等）。",
-      "wordCount" : "1939",
+      "wordCount": "1939",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/init-config/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2179,60 +2164,60 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
     
     <p>初始 kubeadm 配置</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta4</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">InitConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">localAPIEndpoint</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">InitConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">localAPIEndpoint</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">advertiseAddress</span><span class="p">:</span><span class="w"> </span><span class="m">172.16.0.116</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">bindPort</span><span class="p">:</span><span class="w"> </span><span class="m">6443</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">nodeRegistration</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">nodeRegistration</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">criSocket</span><span class="p">:</span><span class="w"> </span><span class="l">unix:///var/run/containerd/containerd.sock</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">kubeletExtraArgs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">fail-swap-on</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;false&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">taints</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="l">PreferNoSchedule</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">node-role.kubernetes.io/master</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiServer</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiServer</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">extraArgs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">service-node-port-range</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;10000-50000&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta4</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># clusterName: kubernetes</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="m">172.16.0.118</span><span class="p">:</span><span class="m">8443</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">etcd</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># clusterName: kubernetes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="m">172.16.0.118</span><span class="p">:</span><span class="m">8443</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">etcd</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">external</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">endpoints</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">http://172.16.0.113:2379</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">http://172.16.0.114:2379</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">http://172.16.0.115:2379</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># imageRepository: registry.server.com</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="m">1.33.3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networking</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># imageRepository: registry.server.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="m">1.33.3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">networking</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">dnsDomain</span><span class="p">:</span><span class="w"> </span><span class="l">cluster.local</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">serviceSubnet</span><span class="p">:</span><span class="w"> </span><span class="m">10.96.0.0</span><span class="l">/12</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">podSubnet</span><span class="p">:</span><span class="w"> </span><span class="m">10.244.0.0</span><span class="l">/16</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubelet.config.k8s.io/v1beta1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">cgroupDriver</span><span class="p">:</span><span class="w"> </span><span class="l">systemd</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeletConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">failSwapOn</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeproxy.config.k8s.io/v1alpha1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeProxyConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l">ipvs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ipvs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubelet.config.k8s.io/v1beta1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">cgroupDriver</span><span class="p">:</span><span class="w"> </span><span class="l">systemd</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeletConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">failSwapOn</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeproxy.config.k8s.io/v1alpha1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeProxyConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l">ipvs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">ipvs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">strictARP</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span></code></pre></div><p>下面根据给出的初始 kubeadm 配置，按 Kubernetes 1.33 + Calico（推荐 eBPF + VXLAN）最佳实践 做了优化与补充，输出 可直接使用的 kubeadm YAML（保留你原有字段并补足必要安全/可用性项），并在后面给出逐段详解与注意事项，包含为什么这样配置、什么时候需要修改，以及与 Calico 的配套建议（eBPF / VXLAN / kube-proxy 处理等）。</p>
 <p>注意：下面的 YAML 是用作 kubeadm init &ndash;config=&hellip; 或 kubeadm join &ndash;config=&hellip; 的配置文件片段（多段 YAML）。请根据你的实际 IP/域名/证书路径替换注释中标注的占位项（例如 external etcd TLS: CA、cert、key 路径）。如果你使用的是 Calico eBPF，请按文末说明替换或禁用 kube-proxy。</p>
 <p>✅ 推荐的 kubeadm 初始化配置（已优化）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 1) InitConfiguration: 本节点本地 API 及节点注册相关</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta4</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">InitConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">localAPIEndpoint</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 1) InitConfiguration: 本节点本地 API 及节点注册相关</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">InitConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">localAPIEndpoint</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">advertiseAddress</span><span class="p">:</span><span class="w"> </span><span class="m">172.16.0.116</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">bindPort</span><span class="p">:</span><span class="w"> </span><span class="m">6443</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">nodeRegistration</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">nodeRegistration</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">master-172-16-0-116            </span><span class="w"> </span><span class="c"># 节点名（可选但推荐，便于识别）</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">criSocket</span><span class="p">:</span><span class="w"> </span><span class="l">unix:///var/run/containerd/containerd.sock</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">kubeletExtraArgs</span><span class="p">:</span><span class="w">
@@ -2242,18 +2227,18 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">taints</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">node-role.kubernetes.io/master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="l">PreferNoSchedule</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 2) ClusterConfiguration: API Server、控制平面、etcd、网络等</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta4</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1.33.3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;172.16.0.118:8443&#34;</span><span class="w">   </span><span class="c"># 推荐改成 DNS（例如 api.k8s.example.com:6443）以便后续 HA/证书管理</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">imageRepository</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;registry.server.com&#34;</span><span class="w">       </span><span class="c"># 可选：私有镜像仓库（替换为你的镜像库）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 2) ClusterConfiguration: API Server、控制平面、etcd、网络等</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeadm.k8s.io/v1beta4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1.33.3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;172.16.0.118:8443&#34;</span><span class="w">   </span><span class="c"># 推荐改成 DNS（例如 api.k8s.example.com:6443）以便后续 HA/证书管理</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">imageRepository</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;registry.server.com&#34;</span><span class="w">       </span><span class="c"># 可选：私有镜像仓库（替换为你的镜像库）</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># API Server 参数</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiServer</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># API Server 参数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiServer</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">extraArgs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">service-node-port-range</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;10000-50000&#34;</span><span class="w">  </span><span class="c"># 你的要求</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 强烈建议显式设置 preferred-address-types（metrics 等会用）</span><span class="w">
@@ -2268,18 +2253,18 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># - &#34;api.k8s.example.com&#34; # 如果 controlPlaneEndpoint 是域名，请加入</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">timeoutForControlPlane</span><span class="p">:</span><span class="w"> </span><span class="l">4m</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># Controller manager 可选额外参数（示例：调整资源分配、leader-elect 等）</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">controllerManager</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># Controller manager 可选额外参数（示例：调整资源分配、leader-elect 等）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">controllerManager</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">extraArgs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">node-monitor-period</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;6s&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># Scheduler 可选参数</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">scheduler</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># Scheduler 可选参数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">scheduler</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">extraArgs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;127.0.0.1&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 外部 etcd（建议使用 HTTPS/TLS 而非 http）</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">etcd</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 外部 etcd（建议使用 HTTPS/TLS 而非 http）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">etcd</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">external</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">endpoints</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;https://172.16.0.113:2379&#34;</span><span class="w">
@@ -2290,46 +2275,46 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">certFile</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/kubernetes/pki/etcd/client.crt</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">keyFile</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/kubernetes/pki/etcd/client.key</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 网络配置：Service / Pod CIDR，需要与 Calico IPPool 保持一致</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">networking</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 网络配置：Service / Pod CIDR，需要与 Calico IPPool 保持一致</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">networking</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">dnsDomain</span><span class="p">:</span><span class="w"> </span><span class="l">cluster.local</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">serviceSubnet</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;10.96.0.0/12&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">podSubnet</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;10.244.0.0/16&#34;</span><span class="w">    </span><span class="c"># 与 Calico IPPool 对齐（示例：默认 Flannel/Calico 兼容）</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 3) KubeletConfiguration：kubelet 运行时参数（适配 systemd + containerd）</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubelet.config.k8s.io/v1beta1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeletConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">cgroupDriver</span><span class="p">:</span><span class="w"> </span><span class="l">systemd</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">failSwapOn</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 推荐增加的稳健性参数</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">systemReserved</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 3) KubeletConfiguration：kubelet 运行时参数（适配 systemd + containerd）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubelet.config.k8s.io/v1beta1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeletConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">cgroupDriver</span><span class="p">:</span><span class="w"> </span><span class="l">systemd</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">failSwapOn</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 推荐增加的稳健性参数</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">systemReserved</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;200m&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;256Mi&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kubeReserved</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kubeReserved</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;200m&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;256Mi&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">evictionHard</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">evictionHard</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">memory.available</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;100Mi&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># kubelet 连接超时、证书刷新等</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">imageGCHighThresholdPercent</span><span class="p">:</span><span class="w"> </span><span class="m">85</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">imageGCLowThresholdPercent</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">serializeImagePulls</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 4) KubeProxyConfiguration（默认 ipvs 模式，若使用 Calico eBPF，应移除或禁用 kube-proxy）</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeproxy.config.k8s.io/v1alpha1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeProxyConfiguration</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l">ipvs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">ipvs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># kubelet 连接超时、证书刷新等</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">imageGCHighThresholdPercent</span><span class="p">:</span><span class="w"> </span><span class="m">85</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">imageGCLowThresholdPercent</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">serializeImagePulls</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 4) KubeProxyConfiguration（默认 ipvs 模式，若使用 Calico eBPF，应移除或禁用 kube-proxy）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubeproxy.config.k8s.io/v1alpha1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeProxyConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l">ipvs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">ipvs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">strictARP</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 注意：如果你将使用 Calico BPF dataplane（推荐）请在 deploy Calico 时禁用 kube-proxy（或使用 kube-proxy mode=none）</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># End of config</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 注意：如果你将使用 Calico BPF dataplane（推荐）请在 deploy Calico 时禁用 kube-proxy（或使用 kube-proxy mode=none）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># End of config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># ---------------------------</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="逐段说明与优化理由逐项详解"
     >
@@ -2470,9 +2455,9 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 <li>
 <p>在 Calico Operator/Installation CR 中设置：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">calicoNetwork</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">linuxDataplane</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;BPF&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">encapMode</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;VXLAN&#34;</span><span class="w">     </span><span class="c"># 或 ipip，推荐 VXLAN for offload</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">mtu</span><span class="p">:</span><span class="w"> </span><span class="m">1450</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">linuxDataplane</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;BPF&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">encapMode</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;VXLAN&#34;</span><span class="w">     </span><span class="c"># 或 ipip，推荐 VXLAN for offload</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">mtu</span><span class="p">:</span><span class="w"> </span><span class="m">1450</span><span class="w">
 </span></span></span></code></pre></div></li>
 <li>
 <p><strong>禁用 kube-proxy</strong>：将 kube-proxy DaemonSet scale 到 0 或 remove；Calico BPF 会处理 Service/IPVS 功能。</p>
@@ -2600,7 +2585,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 </div>
 <p>保存为 calico-ebpf-preflight.sh，在每个 node（或通过 SSH 循环）执行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -euo pipefail
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -euo pipefail
 </span></span><span class="line"><span class="cl"><span class="c1"># Usage: sudo ./calico-ebpf-preflight.sh</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;=== preflight: kernel &amp; modules &amp; sysctl for Calico eBPF ===&#34;</span>
@@ -2663,7 +2648,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 </div>
 <p>保存为 install-calico-ebpf.sh 并在 control-plane（kubectl 可用）运行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -euo pipefail
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -euo pipefail
 </span></span><span class="line"><span class="cl"><span class="c1"># Usage: ./install-calico-ebpf.sh</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># Ensure KUBECONFIG or kubectl context points to target cluster</span>
 </span></span><span class="line"><span class="cl">
@@ -2753,7 +2738,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 </div>
 <p>保存为 calico-ipvs-preflight.sh：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -euo pipefail
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -euo pipefail
 </span></span><span class="line"><span class="cl"><span class="c1"># Usage: sudo ./calico-ipvs-preflight.sh</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;=== preflight: ipvs modules &amp; sysctl for Calico + kube-proxy(ipvs) ===&#34;</span>
@@ -2799,7 +2784,7 @@ apiVersion: kubeadm.k8s.io/v1beta4 kind: InitConfiguration localAPIEndpoint: adv
 </div>
 <p>保存为 install-calico-ipvs.sh 并在 control-plane 上运行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/usr/bin/env bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -euo pipefail
+</span></span></span><span class="line"><span class="cl"><span class="nb">set</span> -euo pipefail
 </span></span><span class="line"><span class="cl"><span class="c1"># Usage: ./install-calico-ipvs.sh</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nv">CALICO_MANIFEST</span><span class="o">=</span><span class="s2">&#34;https://docs.projectcalico.org/manifests/tigera-operator-manifests.yaml&#34;</span>

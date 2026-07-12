@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 1. 什么是索引？为什么要用索引？ 索引 = 加速 WHERE、JOIN、ORDER BY、GROUP BY 的结构
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 索引",
-      "url" : "https://documents.v2ep.com/database/postgres/indexs/",
+      "url": "https://documents.v2ep.com/database/postgres/indexs/",
       "headline": "PostgreSQL 索引",
       "description": " 1. 什么是索引？为什么要用索引？ 索引 = 加速 WHERE、JOIN、ORDER BY、GROUP BY 的结构\n本质是一个数据结构（通常是 B-Tree），可以通过二分查找快速定位行。\n有索引 -\u003e 查少量行（logN） 没索引 -\u003e 扫描整张表（O(N)） 2. PostgreSQL 支持哪些索引？ 类型 适用场景 是否常用 B-Tree（默认） 查询、排序、范围查询（=、\u003e、\u003c、BETWEEN、LIKE ‘abc%’） ⭐⭐⭐⭐⭐ 最常用 Hash 等值查询 (=) ⭐（一般用 B-Tree 替代） GIN JSONB、全文检索、数组 @\u003e ⭐⭐⭐⭐ GiST 地理位置、全文检索、模糊匹配 ⭐⭐⭐ BRIN 大型按时间顺序的表（亿级数据） ⭐⭐⭐⭐⭐ 大库神器 SP-GiST T-Tree、QuadTree 等特殊场景 ⭐ 3. B-Tree 索引（最常用） 创建普通索引",
-      "wordCount" : "460",
+      "wordCount": "460",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/indexs/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2205,45 +2190,45 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>适用场景</th>
-          <th>是否常用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>B-Tree</strong>（默认）</td>
-          <td>查询、排序、范围查询（=、&gt;、&lt;、BETWEEN、LIKE &lsquo;abc%&rsquo;）</td>
-          <td>⭐⭐⭐⭐⭐ 最常用</td>
-      </tr>
-      <tr>
-          <td><strong>Hash</strong></td>
-          <td>等值查询 (=)</td>
-          <td>⭐（一般用 B-Tree 替代）</td>
-      </tr>
-      <tr>
-          <td><strong>GIN</strong></td>
-          <td>JSONB、全文检索、数组 @&gt;</td>
-          <td>⭐⭐⭐⭐</td>
-      </tr>
-      <tr>
-          <td><strong>GiST</strong></td>
-          <td>地理位置、全文检索、模糊匹配</td>
-          <td>⭐⭐⭐</td>
-      </tr>
-      <tr>
-          <td><strong>BRIN</strong></td>
-          <td>大型按时间顺序的表（亿级数据）</td>
-          <td>⭐⭐⭐⭐⭐ 大库神器</td>
-      </tr>
-      <tr>
-          <td><strong>SP-GiST</strong></td>
-          <td>T-Tree、QuadTree 等特殊场景</td>
-          <td>⭐</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>适用场景</th>
+					<th>是否常用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>B-Tree</strong>（默认）</td>
+					<td>查询、排序、范围查询（=、&gt;、&lt;、BETWEEN、LIKE &lsquo;abc%&rsquo;）</td>
+					<td>⭐⭐⭐⭐⭐ 最常用</td>
+			</tr>
+			<tr>
+					<td><strong>Hash</strong></td>
+					<td>等值查询 (=)</td>
+					<td>⭐（一般用 B-Tree 替代）</td>
+			</tr>
+			<tr>
+					<td><strong>GIN</strong></td>
+					<td>JSONB、全文检索、数组 @&gt;</td>
+					<td>⭐⭐⭐⭐</td>
+			</tr>
+			<tr>
+					<td><strong>GiST</strong></td>
+					<td>地理位置、全文检索、模糊匹配</td>
+					<td>⭐⭐⭐</td>
+			</tr>
+			<tr>
+					<td><strong>BRIN</strong></td>
+					<td>大型按时间顺序的表（亿级数据）</td>
+					<td>⭐⭐⭐⭐⭐ 大库神器</td>
+			</tr>
+			<tr>
+					<td><strong>SP-GiST</strong></td>
+					<td>T-Tree、QuadTree 等特殊场景</td>
+					<td>⭐</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-b-tree-索引最常用"
@@ -2288,7 +2273,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_user_status_created</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>✅ 合适查询：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 day&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 day&#39;</span><span class="w">
 </span></span></span></code></pre></div><p>❌ 不合适查询（不会走索引）：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">        </span><span class="c1">-- status 没用到，索引失效
 </span></span></span></code></pre></div><p>多列索引必须按顺序使用。</p>
@@ -2303,7 +2288,7 @@
 </div>
 <p>索引包含查询需要的所有字段 -&gt; 不需要访问表 -&gt; 提升性能 10 倍。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_users_email_only</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">email</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;a@b.com&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;a@b.com&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="7-唯一索引unique-index"
     >
@@ -2357,10 +2342,10 @@
 <p>大 JSON 表，超强索引。</p>
 <p><strong>JSONB 包含查询</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_json_tags</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">tags</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="o">@&gt;</span><span class="w"> </span><span class="s1">&#39;[&#34;python&#34;]&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="o">@&gt;</span><span class="w"> </span><span class="s1">&#39;[&#34;python&#34;]&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p><strong>JSONB 键查询</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_json_data</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">data</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;city&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Beijing&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">data</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;city&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Beijing&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="11-trigram模糊搜索索引"
     >
@@ -2430,7 +2415,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYZE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>重点关注：</p>
 <ul>
 <li>Index Scan（走索引）</li>

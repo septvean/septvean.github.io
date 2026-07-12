@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是 一份深入但非常易懂的《Nginx 反向代理详解》，包含概念、机制、核心指令、生产级配置、调优思路、最佳实践、常见坑点，一看就能直接应用到你的项目（FastAPI / Umi / React / PostgreSQL / Redis 等）。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nginx 反向代理详解",
-      "url" : "https://documents.v2ep.com/operations/nginx/reverse-proxy-core/",
+      "url": "https://documents.v2ep.com/operations/nginx/reverse-proxy-core/",
       "headline": "Nginx 反向代理详解",
       "description": "下面是 一份深入但非常易懂的《Nginx 反向代理详解》，包含概念、机制、核心指令、生产级配置、调优思路、最佳实践、常见坑点，一看就能直接应用到你的项目（FastAPI \/ Umi \/ React \/ PostgreSQL \/ Redis 等）。\n1. 什么是反向代理（Reverse Proxy） 正向代理（客户端 -\u003e 代理 -\u003e 服务器） 反向代理（客户端 -\u003e Nginx -\u003e 后端应用） 反向代理隐藏后端服务，统一入口，使系统具有：\n统一出口（统一域名） 负载均衡 缓存能力 安全防护 SSL offload（证书终止） 降低跨域复杂性 提升性能 2. Nginx 如何工作（反向代理请求流） 下面是最核心的关键：",
-      "wordCount" : "375",
+      "wordCount": "375",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nginx/reverse-proxy-core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2279,11 +2264,11 @@
 </span></span></code></pre></div><p><strong>trailing slash 大坑（必须掌握）</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="s">/api/</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">proxy_pass</span> <span class="s">http://backend/</span><span class="p">;</span>   <span class="c1"># 去掉前缀 /api/
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">location</span> <span class="s">/api/</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">proxy_pass</span> <span class="s">http://backend</span><span class="p">;</span>    <span class="c1"># 保留前缀 /api/
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>这是反向代理最容易踩的坑。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-32-proxy_set_header必须设置"
@@ -2300,30 +2285,30 @@
 </span></span><span class="line"><span class="cl"><span class="k">proxy_set_header</span>   <span class="s">X-Forwarded-Proto</span>  <span class="nv">$scheme</span><span class="p">;</span>
 </span></span></code></pre></div><p>作用：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Header</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Host</td>
-          <td>保持原始域名（如 api.xxx.com）</td>
-      </tr>
-      <tr>
-          <td>X-Real-IP</td>
-          <td>客户端真实 IP</td>
-      </tr>
-      <tr>
-          <td>X-Forwarded-For</td>
-          <td>多级代理 IP 链条</td>
-      </tr>
-      <tr>
-          <td>X-Forwarded-Proto</td>
-          <td>HTTP/HTTPS</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Header</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Host</td>
+					<td>保持原始域名（如 api.xxx.com）</td>
+			</tr>
+			<tr>
+					<td>X-Real-IP</td>
+					<td>客户端真实 IP</td>
+			</tr>
+			<tr>
+					<td>X-Forwarded-For</td>
+					<td>多级代理 IP 链条</td>
+			</tr>
+			<tr>
+					<td>X-Forwarded-Proto</td>
+					<td>HTTP/HTTPS</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-33-proxy_http_version--connection"
@@ -2429,11 +2414,11 @@
 </span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">api.example.com</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1"># SSL
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">ssl_certificate</span> <span class="s">/etc/nginx/ssl/example.pem</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate</span> <span class="s">/etc/nginx/ssl/example.pem</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">ssl_certificate_key</span> <span class="s">/etc/nginx/ssl/example.key</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1"># proxy settings
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span></span></span><span class="line"><span class="cl">    <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kn">proxy_set_header</span> <span class="s">Host</span>               <span class="nv">$host</span><span class="p">;</span>

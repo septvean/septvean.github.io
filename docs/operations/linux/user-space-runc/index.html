@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="这是一个容器领域里“最底层、最核心、但又最容易被忽略”的组件。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "runc",
-      "url" : "https://documents.v2ep.com/operations/linux/user-space-runc/",
+      "url": "https://documents.v2ep.com/operations/linux/user-space-runc/",
       "headline": "runc",
       "description": "这是一个容器领域里“最底层、最核心、但又最容易被忽略”的组件。\n内容：定位 -\u003e 架构 -\u003e 生命周期 -\u003e 内核机制 -\u003e 与 Docker \/ containerd 的关系 -\u003e 为什么必须理解 runc。\n一句话定位（先记住） runc 是一个“把 Linux 内核能力真正用起来”的程序：\n它负责把 namespaces、cgroups、capabilities、seccomp 等配置，转化为一个真正运行中的 Linux 进程。\n📌 runc 本身不是守护进程 📌 runc 启动完容器就退出 📌 容器 = 被 runc 创建并配置的普通 Linux 进程 一、runc 在容器体系中的位置 容器完整技术栈（自上而下）",
-      "wordCount" : "391",
+      "wordCount": "391",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/user-space-runc/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2366,38 +2351,38 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Namespace</th>
-          <th>隔离什么</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>pid</td>
-          <td>进程</td>
-      </tr>
-      <tr>
-          <td>net</td>
-          <td>网络</td>
-      </tr>
-      <tr>
-          <td>mnt</td>
-          <td>文件系统</td>
-      </tr>
-      <tr>
-          <td>uts</td>
-          <td>hostname</td>
-      </tr>
-      <tr>
-          <td>ipc</td>
-          <td>共享内存</td>
-      </tr>
-      <tr>
-          <td>user</td>
-          <td>UID/GID</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Namespace</th>
+					<th>隔离什么</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>pid</td>
+					<td>进程</td>
+			</tr>
+			<tr>
+					<td>net</td>
+					<td>网络</td>
+			</tr>
+			<tr>
+					<td>mnt</td>
+					<td>文件系统</td>
+			</tr>
+			<tr>
+					<td>uts</td>
+					<td>hostname</td>
+			</tr>
+			<tr>
+					<td>ipc</td>
+					<td>共享内存</td>
+			</tr>
+			<tr>
+					<td>user</td>
+					<td>UID/GID</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>runc 调用 clone(CLONE_NEW)</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2410,30 +2395,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>资源</th>
-          <th>控制</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU</td>
-          <td>quota / shares</td>
-      </tr>
-      <tr>
-          <td>Memory</td>
-          <td>limit / swap</td>
-      </tr>
-      <tr>
-          <td>IO</td>
-          <td>blkio</td>
-      </tr>
-      <tr>
-          <td>PIDs</td>
-          <td>最大进程数</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>资源</th>
+					<th>控制</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CPU</td>
+					<td>quota / shares</td>
+			</tr>
+			<tr>
+					<td>Memory</td>
+					<td>limit / swap</td>
+			</tr>
+			<tr>
+					<td>IO</td>
+					<td>blkio</td>
+			</tr>
+			<tr>
+					<td>PIDs</td>
+					<td>最大进程数</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>直接写 /sys/fs/cgroup</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2497,40 +2482,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比项</th>
-          <th>runc / container</th>
-          <th>虚拟机</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>内核</td>
-          <td>宿主机</td>
-          <td>独立</td>
-      </tr>
-      <tr>
-          <td>启动</td>
-          <td>ms 级</td>
-          <td>秒级</td>
-      </tr>
-      <tr>
-          <td>隔离</td>
-          <td>进程级</td>
-          <td>硬件级</td>
-      </tr>
-      <tr>
-          <td>安全</td>
-          <td>依赖内核</td>
-          <td>强</td>
-      </tr>
-      <tr>
-          <td>资源开销</td>
-          <td>极低</td>
-          <td>高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比项</th>
+					<th>runc / container</th>
+					<th>虚拟机</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>内核</td>
+					<td>宿主机</td>
+					<td>独立</td>
+			</tr>
+			<tr>
+					<td>启动</td>
+					<td>ms 级</td>
+					<td>秒级</td>
+			</tr>
+			<tr>
+					<td>隔离</td>
+					<td>进程级</td>
+					<td>硬件级</td>
+			</tr>
+			<tr>
+					<td>安全</td>
+					<td>依赖内核</td>
+					<td>强</td>
+			</tr>
+			<tr>
+					<td>资源开销</td>
+					<td>极低</td>
+					<td>高</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八为什么容器逃逸几乎都是-runc-相关"

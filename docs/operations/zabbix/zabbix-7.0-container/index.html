@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Zabbix 部署步骤和升级步骤基本相同, 升级操作跳过数据库操作即可.
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "使用 Docker 部署 Zabbix 6.0",
-      "url" : "https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/",
+      "url": "https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/",
       "headline": "使用 Docker 部署 Zabbix 6.0",
       "description": "Zabbix 部署步骤和升级步骤基本相同, 升级操作跳过数据库操作即可.\n数据库配置 PostgreSQL 创建 Zabbix 用户和数据库 (首次部署时执行这一步):\n\/* 创建 zabbix 用户和数据库 *\/ CREATE USER zabbix WITH PASSWORD \u0027Qa6oT7BKzx\u0027; CREATE DATABASE zabbix OWNER=zabbix ENCODING=UTF8 TEMPLATE=template0; https:\/\/www.zabbix.com\/documentation\/6.0\/en\/manual\/appendix\/install\/db_scripts https:\/\/www.postgresql.org\/docs\/14\/multibyte.html MySQL 8.0 创建 Zabbix 用户和数据库 (首次部署时执行这一步):\n\/* 创建 zabbix 数据库 *\/ \/* 如果不使用 utf8 字符集, 可能会报以下错误: *\/ \/* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes *\/ DROP DATABASE IF EXISTS zabbix; CREATE DATABASE zabbix CHARACTER SET utf8 COLLATE utf8_bin; \/* 创建 zabbix 用户, 设置权限 *\/ DROP USER IF EXISTS \u0027zabbix\u0027@\u0027localhost\u0027; CREATE USER \u0027zabbix\u0027@\u0027localhost\u0027 IDENTIFIED BY \u0027zabbix\u0027; GRANT ALL PRIVILEGES ON zabbix.* TO \u0027zabbix\u0027@\u0027localhost\u0027; DROP USER IF EXISTS \u0027zabbix\u0027@\u0027127.0.0.1\u0027; CREATE USER \u0027zabbix\u0027@\u0027127.0.0.1\u0027 IDENTIFIED BY \u0027zabbix\u0027; GRANT ALL PRIVILEGES ON zabbix.* TO \u0027zabbix\u0027@\u0027127.0.0.1\u0027; DROP USER IF EXISTS \u0027zabbix\u0027@\u0027%\u0027; CREATE USER \u0027zabbix\u0027@\u0027%\u0027 IDENTIFIED BY \u0027Qa6oT7BKzx\u0027; GRANT ALL PRIVILEGES ON zabbix.* TO \u0027zabbix\u0027@\u0027%\u0027; GRANT PROCESS ON *.* TO \u0027zabbix\u0027@\u0027localhost\u0027; GRANT PROCESS ON *.* TO \u0027zabbix\u0027@\u0027127.0.0.1\u0027; GRANT PROCESS ON *.* TO \u0027zabbix\u0027@\u0027%\u0027; \/* 刷新权限 *\/ FLUSH PRIVILEGES; 创建 Zabbix Server 容器 使用 PostgreSQL 数据库:",
-      "wordCount" : "960",
+      "wordCount": "960",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/zabbix/zabbix-7.0-container/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2195,8 +2180,8 @@
 </div>
 <p>PostgreSQL 创建 Zabbix 用户和数据库 (首次部署时执行这一步):</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="cm">/* 创建 zabbix 用户和数据库 */</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="s1">&#39;Qa6oT7BKzx&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="k">OWNER</span><span class="o">=</span><span class="n">zabbix</span><span class="w"> </span><span class="k">ENCODING</span><span class="o">=</span><span class="n">UTF8</span><span class="w"> </span><span class="k">TEMPLATE</span><span class="o">=</span><span class="n">template0</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="s1">&#39;Qa6oT7BKzx&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="k">OWNER</span><span class="o">=</span><span class="n">zabbix</span><span class="w"> </span><span class="k">ENCODING</span><span class="o">=</span><span class="n">UTF8</span><span class="w"> </span><span class="k">TEMPLATE</span><span class="o">=</span><span class="n">template0</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li><a
   class="gdoc-markdown__link"
@@ -2209,30 +2194,30 @@
 </ul>
 <p>MySQL 8.0 创建 Zabbix 用户和数据库 (首次部署时执行这一步):</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="cm">/* 创建 zabbix 数据库 */</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* 如果不使用 utf8 字符集, 可能会报以下错误: */</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes */</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">zabbix</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf8_bin</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cm">/* 如果不使用 utf8 字符集, 可能会报以下错误: */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cm">/* ERROR 1071 (42000) at line 348: Specified key was too long; max key length is 3072 bytes */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">DROP</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">zabbix</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">zabbix</span><span class="w"> </span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf8_bin</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* 创建 zabbix 用户, 设置权限 */</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cm">/* 创建 zabbix 用户, 设置权限 */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;Qa6oT7BKzx&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">&#39;Qa6oT7BKzx&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zabbix</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;zabbix&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cm">/* 刷新权限 */</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cm">/* 刷新权限 */</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="创建-zabbix-server-容器"
@@ -2249,20 +2234,20 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建容器</span>
 </span></span><span class="line"><span class="cl">podman create <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">5432</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_USER</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_DB</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTPOLLERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTTRAPPERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTDISCOVERERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_CACHESIZE</span><span class="o">=</span>1024M <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 10051:10051 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_server <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-server-pgsql:6.0.21-ol
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">5432</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">POSTGRES_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">POSTGRES_DB</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_STARTPOLLERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_STARTTRAPPERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_STARTDISCOVERERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_CACHESIZE</span><span class="o">=</span>1024M <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --publish 10051:10051 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --name zabbix_server <span class="se">\
+</span></span></span><span class="line"><span class="cl">    zabbix/zabbix-server-pgsql:6.0.21-ol
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 拷贝数据库文件 (首次部署时执行这一步)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># podman cp zabbix_server:/usr/share/doc/zabbix-server-postgresql .</span>
@@ -2281,20 +2266,20 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建容器</span>
 </span></span><span class="line"><span class="cl">podman create <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">3306</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_USER</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTPOLLERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTTRAPPERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_STARTDISCOVERERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_CACHESIZE</span><span class="o">=</span>1024M <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 10051:10051 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_server <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-server-mysql:6.0.21-ol
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">3306</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">MYSQL_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">MYSQL_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_STARTPOLLERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_STARTTRAPPERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_STARTDISCOVERERS</span><span class="o">=</span><span class="m">8</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_CACHESIZE</span><span class="o">=</span>1024M <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --publish 10051:10051 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --name zabbix_server <span class="se">\
+</span></span></span><span class="line"><span class="cl">    zabbix/zabbix-server-mysql:6.0.21-ol
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 拷贝数据库文件 (首次部署时执行这一步)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># podman cp zabbix_server:/usr/share/doc/zabbix-server-mysql .</span>
@@ -2322,41 +2307,41 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建容器(PostgreSQL)</span>
 </span></span><span class="line"><span class="cl">podman run <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_HOST</span><span class="o">=</span>10.25.193.187 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_PORT</span><span class="o">=</span><span class="m">10051</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">5432</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_USER</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">POSTGRES_DB</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">PHP_TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_MEMORYLIMIT</span><span class="o">=</span>512M <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_POSTMAXSIZE</span><span class="o">=</span>64M <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 8050:8080 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --detach <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_web_60 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-web-nginx-pgsql:6.0.21-ol
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_SERVER_HOST</span><span class="o">=</span>10.25.193.187 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_SERVER_PORT</span><span class="o">=</span><span class="m">10051</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">5432</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">POSTGRES_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">POSTGRES_DB</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">PHP_TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_MEMORYLIMIT</span><span class="o">=</span>512M <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_POSTMAXSIZE</span><span class="o">=</span>64M <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --publish 8050:8080 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --detach <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --name zabbix_web_60 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    zabbix/zabbix-web-nginx-pgsql:6.0.21-ol
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 创建容器(MySQL)</span>
 </span></span><span class="line"><span class="cl">podman run <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_HOST</span><span class="o">=</span>10.25.193.187 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_SERVER_PORT</span><span class="o">=</span><span class="m">10051</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">3306</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_USER</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>zabbix <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">PHP_TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_MEMORYLIMIT</span><span class="o">=</span>512M <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --env <span class="nv">ZBX_POSTMAXSIZE</span><span class="o">=</span>64M <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --publish 8050:8080 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --detach <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --privileged <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name zabbix_web_60 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    zabbix/zabbix-web-nginx-mysql:6.0.21-ol
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_SERVER_HOST</span><span class="o">=</span>10.25.193.187 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_SERVER_PORT</span><span class="o">=</span><span class="m">10051</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_HOST</span><span class="o">=</span>10.25.246.200 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">DB_SERVER_PORT</span><span class="o">=</span><span class="m">3306</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">MYSQL_USER</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">MYSQL_PASSWORD</span><span class="o">=</span>Qa6oT7BKzx <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>zabbix <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">PHP_TZ</span><span class="o">=</span>Asia/Shanghai <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_MEMORYLIMIT</span><span class="o">=</span>512M <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --env <span class="nv">ZBX_POSTMAXSIZE</span><span class="o">=</span>64M <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --publish 8050:8080 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --detach <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --privileged <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --name zabbix_web_60 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    zabbix/zabbix-web-nginx-mysql:6.0.21-ol
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Nginx 移除 IPv6 绑定</span>
 </span></span><span class="line"><span class="cl">podman <span class="nb">exec</span> -it --user root zabbix_web_60 sed -i <span class="s1">&#39;/listen \[::\]:8080*/d&#39;</span> /etc/zabbix/nginx.conf

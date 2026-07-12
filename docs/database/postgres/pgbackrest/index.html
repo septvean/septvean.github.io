@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="官方文档：
@@ -68,18 +68,18 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "pgBackRest 基础教程",
-      "url" : "https://documents.v2ep.com/database/postgres/pgbackrest/",
+      "url": "https://documents.v2ep.com/database/postgres/pgbackrest/",
       "headline": "pgBackRest 基础教程",
       "description": "官方文档：\npgBackRest: https:\/\/pgbackrest.org\/ GitHub: https:\/\/github.com\/pgbackrest\/pgbackrest.git 下面是一份 最完整、最清晰、最实战化的 pgBackRest 知识体系，一次性把核心概念、架构、配置、备份策略、恢复流程、最佳实践全部讲清楚，适合生产环境直接使用。\npgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 最强 的备份与恢复工具之一，替代 pg_basebackup、技术成熟、企业大量使用，支持全量\/差量\/增量备份、高效压缩、WAL 归档、PITR 恢复、对象存储等功能。\n其核心目标：\n可靠（Reliable） 高性能（Performance） 易管理（Manageable） 一、pgBackRest 核心特性 1. 全量 \/ 差量 \/ 增量备份 full：全量备份，完整数据目录 diff：差量备份，基于上次 full 备份后的所有变化 incr：增量备份，基于最近一次 full 或 diff 备份后的变化 2. 支持本地、远程、对象存储 Local FS Remote Host（ssh） S3 \/ MinIO \/ aliyun OSS \/ Google \/ Azure 3. WAL 存档与完整性检查 自动 push\/pull WAL（替代 archive_command） 保障可恢复性（WAL 完整性检查） 4. 支持 压缩、多线程、并行传输 节省存储 高速备份还原 5. 支持 PITR（Point In Time Recovery） 精确恢复到任意时刻 6. 强大的配置体系 支持多个 stanza 同时管理多个 PostgreSQL 实例 二、pgBackRest 架构与术语 stanza pgBackRest 的“备份集”、逻辑单位，类似：",
-      "wordCount" : "1088",
+      "wordCount": "1088",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/pgbackrest/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2679,50 +2664,50 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>pgBackRest</th>
-          <th>pg_basebackup</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>差量备份</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>增量备份</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>自动 WAL 归档</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>并行备份</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>多 repo</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>S3 / 远程</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>主从模式</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>pgBackRest</th>
+					<th>pg_basebackup</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>差量备份</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>增量备份</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>自动 WAL 归档</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>并行备份</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>多 repo</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>S3 / 远程</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>主从模式</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>pgBackRest 是 pg_basebackup 的 超集，强太多。</p>
 <hr>
@@ -2746,60 +2731,60 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
 </ul>
 <p>相比传统 pg_basebackup：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>pg_basebackup</th>
-          <th>pgBackRest</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>全量备份</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>增量备份</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>差异备份</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>并行备份</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>验证校验和</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>自动管理 WAL</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>加密备份</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>S3 / MinIO 备份</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>自动清理旧备份</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>pg_basebackup</th>
+					<th>pgBackRest</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>全量备份</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>增量备份</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>差异备份</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>并行备份</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>验证校验和</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>自动管理 WAL</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>加密备份</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>S3 / MinIO 备份</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>自动清理旧备份</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>pgBackRest = <strong>PostgreSQL 备份界的天花板</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3009,10 +2994,10 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
 </div>
 <p>例如恢复到 2025-01-01 10:20:00：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">sudo -u postgres pgbackrest --stanza<span class="o">=</span>main <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --type<span class="o">=</span><span class="nb">time</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --target<span class="o">=</span><span class="s2">&#34;2025-01-01 10:20:00&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --target-action<span class="o">=</span>promote <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    restore
+</span></span></span><span class="line"><span class="cl">    --type<span class="o">=</span><span class="nb">time</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --target<span class="o">=</span><span class="s2">&#34;2025-01-01 10:20:00&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --target-action<span class="o">=</span>promote <span class="se">\
+</span></span></span><span class="line"><span class="cl">    restore
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-云对象存储s3--minio"
     >
@@ -3057,46 +3042,46 @@ pgBackRest — PostgreSQL 企业级备份恢复工具 pgBackRest 是 PostgreSQL 
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>创建全量备份</td>
-          <td>pgbackrest &ndash;stanza=main &ndash;type=full backup</td>
-      </tr>
-      <tr>
-          <td>增量备份</td>
-          <td>pgbackrest &ndash;type=incr backup</td>
-      </tr>
-      <tr>
-          <td>差异备份</td>
-          <td>pgbackrest &ndash;type=diff backup</td>
-      </tr>
-      <tr>
-          <td>查看备份</td>
-          <td>pgbackrest info</td>
-      </tr>
-      <tr>
-          <td>恢复</td>
-          <td>pgbackrest restore</td>
-      </tr>
-      <tr>
-          <td>WAL 推送</td>
-          <td>pgbackrest archive-push</td>
-      </tr>
-      <tr>
-          <td>WAL 获取</td>
-          <td>pgbackrest archive-get</td>
-      </tr>
-      <tr>
-          <td>校验配置</td>
-          <td>pgbackrest check</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>创建全量备份</td>
+					<td>pgbackrest &ndash;stanza=main &ndash;type=full backup</td>
+			</tr>
+			<tr>
+					<td>增量备份</td>
+					<td>pgbackrest &ndash;type=incr backup</td>
+			</tr>
+			<tr>
+					<td>差异备份</td>
+					<td>pgbackrest &ndash;type=diff backup</td>
+			</tr>
+			<tr>
+					<td>查看备份</td>
+					<td>pgbackrest info</td>
+			</tr>
+			<tr>
+					<td>恢复</td>
+					<td>pgbackrest restore</td>
+			</tr>
+			<tr>
+					<td>WAL 推送</td>
+					<td>pgbackrest archive-push</td>
+			</tr>
+			<tr>
+					<td>WAL 获取</td>
+					<td>pgbackrest archive-get</td>
+			</tr>
+			<tr>
+					<td>校验配置</td>
+					<td>pgbackrest check</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-什么时候你必须使用-pgbackrest"

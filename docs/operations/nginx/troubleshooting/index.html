@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 生产级《Nginx 故障排查指南》，从日志、命令、进程、upstream、反代、SSL、前端静态文件、性能、连接、超时等全链路排查。 这是企业真正使用的排查方式，一步步按这个查，快速定位 99% 的 Nginx 故障。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nginx 故障排查",
-      "url" : "https://documents.v2ep.com/operations/nginx/troubleshooting/",
+      "url": "https://documents.v2ep.com/operations/nginx/troubleshooting/",
       "headline": "Nginx 故障排查",
       "description": "下面是一份 生产级《Nginx 故障排查指南》，从日志、命令、进程、upstream、反代、SSL、前端静态文件、性能、连接、超时等全链路排查。 这是企业真正使用的排查方式，一步步按这个查，快速定位 99% 的 Nginx 故障。\n🚨 Nginx 故障排查总纲（黄金 7 步） 检查配置语法是否有错 检查 Nginx 是否启动、端口是否监听 查看 error.log（最关键） 检查 upstream 服务是否可访问 检查访问路径是否匹配正确的 location 确定反向代理是否走了正确的 target \u0026 header 检查系统层网络\/防火墙\/SElinux 无论你的 Nginx 是反向代理、静态资源、HTTPS、HTTP\/2、前端项目，都可以依照这套流程排查。\n🧱 1. 检查 Nginx 配置是否正确 nginx -t 错误示例：",
-      "wordCount" : "487",
+      "wordCount": "487",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nginx/troubleshooting/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2253,42 +2238,42 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/nginx/logs/default/nginx/error.log
 </span></span></code></pre></div><p><strong>常见错误：</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>日志信息</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>connect() failed (111: Connection refused)</td>
-          <td>upstream 服务没开或端口不对</td>
-      </tr>
-      <tr>
-          <td>upstream timed out</td>
-          <td>后端太慢、网络不通</td>
-      </tr>
-      <tr>
-          <td>no live upstreams</td>
-          <td>upstream 全挂了</td>
-      </tr>
-      <tr>
-          <td>open() “/xxx” failed (2: No such file…)</td>
-          <td>root/alias 路径拼错</td>
-      </tr>
-      <tr>
-          <td>SSL_do_handshake() failed</td>
-          <td>证书或协议问题</td>
-      </tr>
-      <tr>
-          <td>client intended to send too large body</td>
-          <td>上传大小超过 client_max_body_size</td>
-      </tr>
-      <tr>
-          <td>directory index of “/xxx” is forbidden</td>
-          <td>缺少 index 或权限不足</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>日志信息</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>connect() failed (111: Connection refused)</td>
+					<td>upstream 服务没开或端口不对</td>
+			</tr>
+			<tr>
+					<td>upstream timed out</td>
+					<td>后端太慢、网络不通</td>
+			</tr>
+			<tr>
+					<td>no live upstreams</td>
+					<td>upstream 全挂了</td>
+			</tr>
+			<tr>
+					<td>open() “/xxx” failed (2: No such file…)</td>
+					<td>root/alias 路径拼错</td>
+			</tr>
+			<tr>
+					<td>SSL_do_handshake() failed</td>
+					<td>证书或协议问题</td>
+			</tr>
+			<tr>
+					<td>client intended to send too large body</td>
+					<td>上传大小超过 client_max_body_size</td>
+			</tr>
+			<tr>
+					<td>directory index of “/xxx” is forbidden</td>
+					<td>缺少 index 或权限不足</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>大部分 BUG 看 error.log 就能 30 秒定位。</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2366,26 +2351,26 @@
 </span></span><span class="line"><span class="cl"><span class="k">ssl_certificate_key</span> <span class="s">/etc/nginx/ssl/example.key</span><span class="p">;</span>
 </span></span></code></pre></div><p>常见错误：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>错误</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SSL: error:0B080074:x509…</td>
-          <td>key 与 cert 不匹配</td>
-      </tr>
-      <tr>
-          <td>PEM lib</td>
-          <td>格式错误</td>
-      </tr>
-      <tr>
-          <td>no certificate found</td>
-          <td>路径错</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>错误</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SSL: error:0B080074:x509…</td>
+					<td>key 与 cert 不匹配</td>
+			</tr>
+			<tr>
+					<td>PEM lib</td>
+					<td>格式错误</td>
+			</tr>
+			<tr>
+					<td>no certificate found</td>
+					<td>路径错</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>检查证书权限</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">chmod <span class="m">600</span> *.key

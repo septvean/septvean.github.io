@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="官方文档：
@@ -65,18 +65,18 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL EXPLAIN",
-      "url" : "https://documents.v2ep.com/database/mysql/explain/",
+      "url": "https://documents.v2ep.com/database/mysql/explain/",
       "headline": "MySQL EXPLAIN",
       "description": "官方文档：\nhttps:\/\/dev.mysql.com\/doc\/refman\/8.0\/en\/explain.html https:\/\/dev.mysql.com\/doc\/refman\/8.4\/en\/explain.html https:\/\/www.mysql.net.cn\/doc\/refman\/8.0\/en\/explain.html 其它文档：\nMySQL EXPLAIN 详解 MySQL EXPLAIN 应用详解 一文看懂 MySQL 中 EXPLAIN 关键字的作用 MySQL EXPLAIN 是一个用于分析 SQL 查询执行计划的工具，它模拟优化器执行查询，不会实际运行，而是返回关于表访问顺序、索引使用、扫描行数等性能相关的信息，帮助识别和优化性能瓶颈。\nEXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或表结构的性能瓶颈。 查看优化器选择的执行路径是否符合预期。 EXPLAIN 输出的主要字段 (示例) id: 查询的序列号。 select_type: 查询类型（SIMPLE, PRIMARY, SUBQUERY, UNION 等）。 table: 表名或别名。 type: 访问类型（从好到坏：system, const, eq_ref, ref, range, index, ALL）。 possible_keys: 可能用到的索引。 key: 实际使用的索引。 key_len: 使用的索引长度。 ref: 与索引比较的列或常量。 rows: 估算的扫描行数。 Extra: 额外信息（如 Using index, Using filesort, Using temporary 等）。 使用示例 EXPLAIN SELECT * FROM users WHERE status = \u0027active\u0027 AND created_at \u003e \u00272025-01-01\u0027; 一句话定位 EXPLAIN 是 MySQL 执行计划分析工具，用来判断 SQL 有没有走索引、怎么走、代价多大、慢在哪里。",
-      "wordCount" : "579",
+      "wordCount": "579",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/explain/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2311,70 +2296,70 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 </div>
 <p>常见字段（按重要程度）：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>字段</th>
-          <th>重要性</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>id</td>
-          <td>⭐⭐⭐</td>
-          <td>查询层级 / 执行顺序</td>
-      </tr>
-      <tr>
-          <td>select_type</td>
-          <td>⭐⭐⭐</td>
-          <td>查询类型</td>
-      </tr>
-      <tr>
-          <td>table</td>
-          <td>⭐⭐</td>
-          <td>访问的表</td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>访问方式（最重要）</td>
-      </tr>
-      <tr>
-          <td>possible_keys</td>
-          <td>⭐⭐</td>
-          <td>可能使用的索引</td>
-      </tr>
-      <tr>
-          <td>key</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>实际使用的索引</td>
-      </tr>
-      <tr>
-          <td>key_len</td>
-          <td>⭐⭐</td>
-          <td>索引使用长度</td>
-      </tr>
-      <tr>
-          <td>ref</td>
-          <td>⭐⭐</td>
-          <td>索引比较方式</td>
-      </tr>
-      <tr>
-          <td>rows</td>
-          <td>⭐⭐⭐</td>
-          <td>预计扫描行数</td>
-      </tr>
-      <tr>
-          <td>filtered</td>
-          <td>⭐⭐</td>
-          <td>条件过滤比例</td>
-      </tr>
-      <tr>
-          <td>Extra</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>额外信息（非常关键）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>字段</th>
+					<th>重要性</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>id</td>
+					<td>⭐⭐⭐</td>
+					<td>查询层级 / 执行顺序</td>
+			</tr>
+			<tr>
+					<td>select_type</td>
+					<td>⭐⭐⭐</td>
+					<td>查询类型</td>
+			</tr>
+			<tr>
+					<td>table</td>
+					<td>⭐⭐</td>
+					<td>访问的表</td>
+			</tr>
+			<tr>
+					<td>type</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>访问方式（最重要）</td>
+			</tr>
+			<tr>
+					<td>possible_keys</td>
+					<td>⭐⭐</td>
+					<td>可能使用的索引</td>
+			</tr>
+			<tr>
+					<td>key</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>实际使用的索引</td>
+			</tr>
+			<tr>
+					<td>key_len</td>
+					<td>⭐⭐</td>
+					<td>索引使用长度</td>
+			</tr>
+			<tr>
+					<td>ref</td>
+					<td>⭐⭐</td>
+					<td>索引比较方式</td>
+			</tr>
+			<tr>
+					<td>rows</td>
+					<td>⭐⭐⭐</td>
+					<td>预计扫描行数</td>
+			</tr>
+			<tr>
+					<td>filtered</td>
+					<td>⭐⭐</td>
+					<td>条件过滤比例</td>
+			</tr>
+			<tr>
+					<td>Extra</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>额外信息（非常关键）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四id执行顺序非常容易考"
@@ -2393,9 +2378,9 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 </ul>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">B</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>执行顺序：</p>
 <ol>
 <li>子查询 B（id=2）</li>
@@ -2411,38 +2396,38 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SIMPLE</td>
-          <td>简单查询（无子查询）</td>
-      </tr>
-      <tr>
-          <td>PRIMARY</td>
-          <td>主查询</td>
-      </tr>
-      <tr>
-          <td>SUBQUERY</td>
-          <td>子查询</td>
-      </tr>
-      <tr>
-          <td>DERIVED</td>
-          <td>派生表（FROM 子查询）</td>
-      </tr>
-      <tr>
-          <td>UNION</td>
-          <td>UNION 中的第二个查询</td>
-      </tr>
-      <tr>
-          <td>UNION RESULT</td>
-          <td>UNION 合并结果</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SIMPLE</td>
+					<td>简单查询（无子查询）</td>
+			</tr>
+			<tr>
+					<td>PRIMARY</td>
+					<td>主查询</td>
+			</tr>
+			<tr>
+					<td>SUBQUERY</td>
+					<td>子查询</td>
+			</tr>
+			<tr>
+					<td>DERIVED</td>
+					<td>派生表（FROM 子查询）</td>
+			</tr>
+			<tr>
+					<td>UNION</td>
+					<td>UNION 中的第二个查询</td>
+			</tr>
+			<tr>
+					<td>UNION RESULT</td>
+					<td>UNION 合并结果</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>⚠️ <strong>DERIVED 常是性能风险点</strong>（会生成临时表）</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2456,42 +2441,42 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 </div>
 <p>从好到坏排序：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>type</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>system</td>
-          <td>系统表</td>
-      </tr>
-      <tr>
-          <td>const</td>
-          <td>主键 / 唯一索引等值</td>
-      </tr>
-      <tr>
-          <td>eq_ref</td>
-          <td>唯一索引 JOIN</td>
-      </tr>
-      <tr>
-          <td>ref</td>
-          <td>非唯一索引</td>
-      </tr>
-      <tr>
-          <td>range</td>
-          <td>范围扫描</td>
-      </tr>
-      <tr>
-          <td>index</td>
-          <td>全索引扫描</td>
-      </tr>
-      <tr>
-          <td>ALL</td>
-          <td>全表扫描 ❌</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>type</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>system</td>
+					<td>系统表</td>
+			</tr>
+			<tr>
+					<td>const</td>
+					<td>主键 / 唯一索引等值</td>
+			</tr>
+			<tr>
+					<td>eq_ref</td>
+					<td>唯一索引 JOIN</td>
+			</tr>
+			<tr>
+					<td>ref</td>
+					<td>非唯一索引</td>
+			</tr>
+			<tr>
+					<td>range</td>
+					<td>范围扫描</td>
+			</tr>
+			<tr>
+					<td>index</td>
+					<td>全索引扫描</td>
+			</tr>
+			<tr>
+					<td>ALL</td>
+					<td>全表扫描 ❌</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>记忆口诀：</p>
 <p><strong>const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL</strong></p>
@@ -2551,26 +2536,26 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 </div>
 <p>常见值：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>ref 值</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>const</td>
-          <td>常量匹配</td>
-      </tr>
-      <tr>
-          <td>table.col</td>
-          <td>表字段比较</td>
-      </tr>
-      <tr>
-          <td>func</td>
-          <td>函数计算（通常不好）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>ref 值</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>const</td>
+					<td>常量匹配</td>
+			</tr>
+			<tr>
+					<td>table.col</td>
+					<td>表字段比较</td>
+			</tr>
+			<tr>
+					<td>func</td>
+					<td>函数计算（通常不好）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十rows扫描行数越小越好"
@@ -2624,26 +2609,26 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Extra</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Using index</td>
-          <td>覆盖索引（非常好）</td>
-      </tr>
-      <tr>
-          <td>Using where</td>
-          <td>使用了条件过滤</td>
-      </tr>
-      <tr>
-          <td>Using index condition</td>
-          <td>ICP 下推</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Extra</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Using index</td>
+					<td>覆盖索引（非常好）</td>
+			</tr>
+			<tr>
+					<td>Using where</td>
+					<td>使用了条件过滤</td>
+			</tr>
+			<tr>
+					<td>Using index condition</td>
+					<td>ICP 下推</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-危险的-extra必须优化"
@@ -2655,30 +2640,30 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Extra</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Using filesort</td>
-          <td>额外排序（慢）</td>
-      </tr>
-      <tr>
-          <td>Using temporary</td>
-          <td>使用临时表</td>
-      </tr>
-      <tr>
-          <td>Range checked for each record</td>
-          <td>每行重新计算索引</td>
-      </tr>
-      <tr>
-          <td>Using join buffer</td>
-          <td>Join 未走索引</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Extra</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Using filesort</td>
+					<td>额外排序（慢）</td>
+			</tr>
+			<tr>
+					<td>Using temporary</td>
+					<td>使用临时表</td>
+			</tr>
+			<tr>
+					<td>Range checked for each record</td>
+					<td>每行重新计算索引</td>
+			</tr>
+			<tr>
+					<td>Using join buffer</td>
+					<td>Join 未走索引</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十三explain-analyzemysql-8-强烈推荐"
@@ -2717,8 +2702,8 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 <li>被驱动表 type 至少 ref</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="n">o</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>EXPLAIN 应该看到：</p>
 <ul>
 <li>u.id 使用 PRIMARY</li>
@@ -2761,7 +2746,7 @@ EXPLAIN 的作用 显示 MySQL 如何处理 SQL 语句。 分析查询语句或�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="n">create_time</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;2024-01-01&#39;</span><span class="w">
 </span></span></span></code></pre></div><p>解决：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">create_time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">AND</span><span class="w"> </span><span class="n">create_time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">&#39;2024-01-02&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">AND</span><span class="w"> </span><span class="n">create_time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">&#39;2024-01-02&#39;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-order-by-filesort"
     >

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 企业级 Jenkins 集群（Master &#43; Agent &#43; 高可用 &#43; Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Jenkins 集群（Master + Agent）",
-      "url" : "https://documents.v2ep.com/operations/jenkins/cluster/",
+      "url": "https://documents.v2ep.com/operations/jenkins/cluster/",
       "headline": "Jenkins 集群（Master + Agent）",
       "description": "下面是一份 企业级 Jenkins 集群（Master \u002b Agent \u002b 高可用 \u002b Kubernetes 动态节点）完整指南（收藏版），包含原理、架构图、部署方式、最佳实践、踩坑点，非常全面。\n1. Jenkins 集群是什么？ Jenkins 集群 = Controller（Master） \u002b 多个 Agents\n目的：\n分布式执行构建任务 解耦 UI \/ 调度 和 构建 支持大型并发 CI\/CD 隔离构建环境（Java\/Python\/Node\/Docker\/K8S） Jenkins 自身的 Master 不负责 Heavy Workload，只做“调度 \u002b 管理 UI”。\n所有构建都应该下放到 Agents。\n2. Jenkins 集群架构图（通用版） ┌─────────────────────────┐ Jenkins Master UI \/ 任务调度 \/ 流水线 └───────────┬─────────────┘ │ ┌───────────────┼───────────────┐ │ │ │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ Agent #1 │ │ Agent #2 │ │ Agent #3 │ │ Linux │ │ Docker │ │ Windows │ └──────────┘ └──────────┘ └──────────┘ 3. Jenkins Agent 类型（四种主流） 类型 描述 优点 使用场景 SSH Agent Master SSH 到机器 简单稳定 传统部署 JNLP Agent 由 Agent 主动连 网络穿透强 内网\/混合网络 Docker Agent（推荐） 每次构建生成独立容器 隔离\/干净\/一致 现代项目 Kubernetes 动态 Agent（生产强推） 动态创建 Pod 弹性扩容 企业级 DevOps 4. 部署 Jenkins 集群（最佳实践架构） ⭐ 推荐方式：",
-      "wordCount" : "508",
+      "wordCount": "508",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/cluster/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2239,40 +2224,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>描述</th>
-          <th>优点</th>
-          <th>使用场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>SSH Agent</strong></td>
-          <td>Master SSH 到机器</td>
-          <td>简单稳定</td>
-          <td>传统部署</td>
-      </tr>
-      <tr>
-          <td><strong>JNLP Agent</strong></td>
-          <td>由 Agent 主动连</td>
-          <td>网络穿透强</td>
-          <td>内网/混合网络</td>
-      </tr>
-      <tr>
-          <td><strong>Docker Agent（推荐）</strong></td>
-          <td>每次构建生成独立容器</td>
-          <td>隔离/干净/一致</td>
-          <td>现代项目</td>
-      </tr>
-      <tr>
-          <td><strong>Kubernetes 动态 Agent（生产强推）</strong></td>
-          <td>动态创建 Pod</td>
-          <td>弹性扩容</td>
-          <td>企业级 DevOps</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>描述</th>
+					<th>优点</th>
+					<th>使用场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>SSH Agent</strong></td>
+					<td>Master SSH 到机器</td>
+					<td>简单稳定</td>
+					<td>传统部署</td>
+			</tr>
+			<tr>
+					<td><strong>JNLP Agent</strong></td>
+					<td>由 Agent 主动连</td>
+					<td>网络穿透强</td>
+					<td>内网/混合网络</td>
+			</tr>
+			<tr>
+					<td><strong>Docker Agent（推荐）</strong></td>
+					<td>每次构建生成独立容器</td>
+					<td>隔离/干净/一致</td>
+					<td>现代项目</td>
+			</tr>
+			<tr>
+					<td><strong>Kubernetes 动态 Agent（生产强推）</strong></td>
+					<td>动态创建 Pod</td>
+					<td>弹性扩容</td>
+					<td>企业级 DevOps</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="4-部署-jenkins-集群最佳实践架构"
@@ -2348,8 +2333,8 @@
 </ul>
 <p>Agent 机器启动：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">java -jar agent.jar <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -jnlpUrl http://master:8080/computer/node1/jenkins-agent.jnlp <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -secret 1234567890abcdef
+</span></span></span><span class="line"><span class="cl">    -jnlpUrl http://master:8080/computer/node1/jenkins-agent.jnlp <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -secret 1234567890abcdef
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-方案-cdocker-agent构建更干净"
     >
@@ -2444,11 +2429,11 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">jenkins</span><span class="p">:</span><span class="w"> </span><span class="l">agent</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">jnlp</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">jenkins/inbound-agent:latest</span><span class="w">
@@ -2504,26 +2489,26 @@
 </div>
 <p>Master 的 JENKINS_HOME 必须持久化：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>存储方式</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Linux 本地安装</td>
-          <td>/var/jenkins_home + SSD</td>
-      </tr>
-      <tr>
-          <td>Docker</td>
-          <td>volume</td>
-      </tr>
-      <tr>
-          <td>Kubernetes</td>
-          <td>PVC （推荐使用 50~200GB）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>存储方式</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Linux 本地安装</td>
+					<td>/var/jenkins_home + SSD</td>
+			</tr>
+			<tr>
+					<td>Docker</td>
+					<td>volume</td>
+			</tr>
+			<tr>
+					<td>Kubernetes</td>
+					<td>PVC （推荐使用 50~200GB）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="6-jenkins-集群高可用ha"

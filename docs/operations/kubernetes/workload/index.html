@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" Kubernetes 中常见的 6 大 Workload Pod ReplicaSet Deployment StatefulSet DaemonSet Job / CronJob 1. Pod（最小调度单元） 是什么 Kubernetes 最核心的运行单元；不是控制器，只是容器的封装。" />
@@ -56,18 +56,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes Workload",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/workload/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/workload/",
       "headline": "Kubernetes Workload",
       "description": " Kubernetes 中常见的 6 大 Workload Pod ReplicaSet Deployment StatefulSet DaemonSet Job \/ CronJob 1. Pod（最小调度单元） 是什么 Kubernetes 最核心的运行单元；不是控制器，只是容器的封装。",
-      "wordCount" : "286",
+      "wordCount": "286",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/workload/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -87,8 +87,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -107,12 +107,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -263,21 +263,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2355,26 +2340,26 @@
 </div>
 <p>为<strong>有状态应用</strong>设计，提供：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>稳定的网络身份</strong></td>
-          <td>pod-0、pod-1、pod-2</td>
-      </tr>
-      <tr>
-          <td><strong>稳定的存储</strong></td>
-          <td>PVC 与 Pod 一一绑定</td>
-      </tr>
-      <tr>
-          <td><strong>有序部署/扩缩容/删除</strong></td>
-          <td>Pod 有顺序（0 -&gt; 1 -&gt; 2）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>稳定的网络身份</strong></td>
+					<td>pod-0、pod-1、pod-2</td>
+			</tr>
+			<tr>
+					<td><strong>稳定的存储</strong></td>
+					<td>PVC 与 Pod 一一绑定</td>
+			</tr>
+			<tr>
+					<td><strong>有序部署/扩缩容/删除</strong></td>
+					<td>Pod 有顺序（0 -&gt; 1 -&gt; 2）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-适用场景-3"
@@ -2536,74 +2521,74 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Workload</th>
-          <th>是否有状态</th>
-          <th>是否自愈</th>
-          <th>是否自动扩缩容</th>
-          <th>是否顺序启动</th>
-          <th>适用场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Pod</td>
-          <td>❌ 无</td>
-          <td>❌ 无</td>
-          <td>❌ 无</td>
-          <td>❌ 无</td>
-          <td>调试、临时运行</td>
-      </tr>
-      <tr>
-          <td>ReplicaSet</td>
-          <td>❌ 无</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>底层控制器</td>
-      </tr>
-      <tr>
-          <td>Deployment</td>
-          <td>❌ 无</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>Web/API/微服务</td>
-      </tr>
-      <tr>
-          <td>StatefulSet</td>
-          <td>✅ 有状态</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅ 有序</td>
-          <td>DB、MQ、分布式存储</td>
-      </tr>
-      <tr>
-          <td>DaemonSet</td>
-          <td>节点级</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>日志/监控/系统守护进程</td>
-      </tr>
-      <tr>
-          <td>Job</td>
-          <td>一次性</td>
-          <td>✅ 重试</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>批处理任务</td>
-      </tr>
-      <tr>
-          <td>CronJob</td>
-          <td>定时任务</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>定时任务</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Workload</th>
+					<th>是否有状态</th>
+					<th>是否自愈</th>
+					<th>是否自动扩缩容</th>
+					<th>是否顺序启动</th>
+					<th>适用场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Pod</td>
+					<td>❌ 无</td>
+					<td>❌ 无</td>
+					<td>❌ 无</td>
+					<td>❌ 无</td>
+					<td>调试、临时运行</td>
+			</tr>
+			<tr>
+					<td>ReplicaSet</td>
+					<td>❌ 无</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>底层控制器</td>
+			</tr>
+			<tr>
+					<td>Deployment</td>
+					<td>❌ 无</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>Web/API/微服务</td>
+			</tr>
+			<tr>
+					<td>StatefulSet</td>
+					<td>✅ 有状态</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅ 有序</td>
+					<td>DB、MQ、分布式存储</td>
+			</tr>
+			<tr>
+					<td>DaemonSet</td>
+					<td>节点级</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>日志/监控/系统守护进程</td>
+			</tr>
+			<tr>
+					<td>Job</td>
+					<td>一次性</td>
+					<td>✅ 重试</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>批处理任务</td>
+			</tr>
+			<tr>
+					<td>CronJob</td>
+					<td>定时任务</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>定时任务</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-常见误区"

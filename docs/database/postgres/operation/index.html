@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是 “PostgreSQL 运维（Production 运维最佳实践 &#43; 指标体系 &#43; 故障排查）最全指南”，专为生产环境设计（适合大量查询、表分区、TimescaleDB、Zabbix 监控、FastAPI 项目等）。
@@ -62,18 +62,18 @@ PostgreSQL 运行机制与文件结构 日常关键运维任务 常见参数优�
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 运维",
-      "url" : "https://documents.v2ep.com/database/postgres/operation/",
+      "url": "https://documents.v2ep.com/database/postgres/operation/",
       "headline": "PostgreSQL 运维",
       "description": "下面是 “PostgreSQL 运维（Production 运维最佳实践 \u002b 指标体系 \u002b 故障排查）最全指南”，专为生产环境设计（适合大量查询、表分区、TimescaleDB、Zabbix 监控、FastAPI 项目等）。\n分为 9 大部分：\nPostgreSQL 运行机制与文件结构 日常关键运维任务 常见参数优化 性能监控指标 日志分析与慢查询 高可用与复制 存储与表膨胀管理（VACUUM） 性能排查思路 运维最佳实践总表 1. PostgreSQL 运行机制（必须掌握） 1.1 多进程结构 使用 “1 连接 = 1 进程” 模型：",
-      "wordCount" : "427",
+      "wordCount": "427",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/operation/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@ PostgreSQL 运行机制与文件结构 日常关键运维任务 常见参数优�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@ PostgreSQL 运行机制与文件结构 日常关键运维任务 常见参数优�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@ PostgreSQL 运行机制与文件结构 日常关键运维任务 常见参数优�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2251,46 +2236,46 @@ PostgreSQL 运行机制与文件结构 日常关键运维任务 常见参数优�
 </div>
 <p>日常任务列表</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>任务</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>监控连接数</td>
-          <td>防止爆满</td>
-      </tr>
-      <tr>
-          <td>监控 autovacuum</td>
-          <td>最重要</td>
-      </tr>
-      <tr>
-          <td>检查膨胀（bloat）</td>
-          <td>大表膨胀严重会性能下降</td>
-      </tr>
-      <tr>
-          <td>分析慢查询</td>
-          <td>explain / auto_explain</td>
-      </tr>
-      <tr>
-          <td>阶段性 ANALYZE</td>
-          <td>保证优化器准确</td>
-      </tr>
-      <tr>
-          <td>备份</td>
-          <td>pg_dump / pg_basebackup</td>
-      </tr>
-      <tr>
-          <td>主从复制监控</td>
-          <td>延迟、断链</td>
-      </tr>
-      <tr>
-          <td>磁盘空间检查</td>
-          <td>pg_wal 可能爆炸</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>任务</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>监控连接数</td>
+					<td>防止爆满</td>
+			</tr>
+			<tr>
+					<td>监控 autovacuum</td>
+					<td>最重要</td>
+			</tr>
+			<tr>
+					<td>检查膨胀（bloat）</td>
+					<td>大表膨胀严重会性能下降</td>
+			</tr>
+			<tr>
+					<td>分析慢查询</td>
+					<td>explain / auto_explain</td>
+			</tr>
+			<tr>
+					<td>阶段性 ANALYZE</td>
+					<td>保证优化器准确</td>
+			</tr>
+			<tr>
+					<td>备份</td>
+					<td>pg_dump / pg_basebackup</td>
+			</tr>
+			<tr>
+					<td>主从复制监控</td>
+					<td>延迟、断链</td>
+			</tr>
+			<tr>
+					<td>磁盘空间检查</td>
+					<td>pg_wal 可能爆炸</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-postgresql-性能核心参数调优实战配置"
@@ -2552,26 +2537,26 @@ PostgreSQL 运行机制与文件结构 日常关键运维任务 常见参数优�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>VACUUM</td>
-          <td>清理死行</td>
-      </tr>
-      <tr>
-          <td>VACUUM FULL</td>
-          <td>表重写（会锁表）</td>
-      </tr>
-      <tr>
-          <td>AUTOVACUUM</td>
-          <td>自动清理</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>VACUUM</td>
+					<td>清理死行</td>
+			</tr>
+			<tr>
+					<td>VACUUM FULL</td>
+					<td>表重写（会锁表）</td>
+			</tr>
+			<tr>
+					<td>AUTOVACUUM</td>
+					<td>自动清理</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>不要在生产环境手动执行 VACUUM FULL（会阻塞写入）</strong></p>
 <p>除非磁盘空间不够。</p>

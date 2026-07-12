@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 查看虚拟机信息 1. 查看所有虚拟机 virsh list --all 输出示例：
@@ -59,18 +59,18 @@ Id Name State --------------------------- 1 vm1 running - vm2 shut off 2. 查看
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "KVM 虚拟机操作命令",
-      "url" : "https://documents.v2ep.com/operations/kvm/kvm-command/",
+      "url": "https://documents.v2ep.com/operations/kvm/kvm-command/",
       "headline": "KVM 虚拟机操作命令",
       "description": " 查看虚拟机信息 1. 查看所有虚拟机 virsh list --all 输出示例：\nId Name State --------------------------- 1 vm1 running - vm2 shut off 2. 查看虚拟机详细信息 virsh dominfo VM_NAME virsh dominfo vm2 # Id: - # Name: vm2 # UUID: 3adbc6d0-a826-4eb3-baae-afa5ac661230 # OS Type: hvm # State: shut off # CPU(s): 2 # Max memory: 2097152 KiB # Used memory: 2097152 KiB # Persistent: yes # Autostart: disable # Managed save: no # Security model: none # Security DOI: 0 3. 查看虚拟机 XML 配置 virsh dumpxml VM_NAME 4. 查看虚拟机网络信息 virsh domiflist VM_NAME virsh domiflist vm2 # Interface Type Source Model MAC # ----------------------------------------------------------- # - bridge br0 virtio 52:54:00:0c:b8:dd 5. 查看虚拟机磁盘信息 virsh domblklist VM_NAME virsh domblklist vm2 # Target Source # ------------------------------------------------------- # vda \/data\/kvm\/images\/vm2.qcow2 # sda \/data\/isos\/AlmaLinux-9.7-x86_64-minimal.iso 创建虚拟机 1. 使用 virt-install 创建 virt-install \\ --name vm1 \\ --memory 4096 \\ --vcpus 2 \\ --disk path=\/data\/kvm\/images\/vm1.qcow2,size=40 \\ --os-variant almalinux9 \\ --network bridge=br0 \\ --graphics vnc \\ --cdrom \/data\/isos\/AlmaLinux-9.7-x86_64-minimal.iso 参数说明",
-      "wordCount" : "395",
+      "wordCount": "395",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kvm/kvm-command/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@ Id Name State --------------------------- 1 vm1 running - vm2 shut off 2. 查看
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@ Id Name State --------------------------- 1 vm1 running - vm2 shut off 2. 查看
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@ Id Name State --------------------------- 1 vm1 running - vm2 shut off 2. 查看
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2286,56 +2271,56 @@ Id Name State --------------------------- 1 vm1 running - vm2 shut off 2. 查看
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">virt-install <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --name vm1 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --memory <span class="m">4096</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --vcpus <span class="m">2</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --disk <span class="nv">path</span><span class="o">=</span>/data/kvm/images/vm1.qcow2,size<span class="o">=</span><span class="m">40</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --os-variant almalinux9 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --network <span class="nv">bridge</span><span class="o">=</span>br0 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --graphics vnc <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --cdrom /data/isos/AlmaLinux-9.7-x86_64-minimal.iso
+</span></span></span><span class="line"><span class="cl">  --name vm1 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --memory <span class="m">4096</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --vcpus <span class="m">2</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --disk <span class="nv">path</span><span class="o">=</span>/data/kvm/images/vm1.qcow2,size<span class="o">=</span><span class="m">40</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --os-variant almalinux9 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --network <span class="nv">bridge</span><span class="o">=</span>br0 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --graphics vnc <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --cdrom /data/isos/AlmaLinux-9.7-x86_64-minimal.iso
 </span></span></code></pre></div><p>参数说明</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>–name</td>
-          <td>虚拟机名称</td>
-      </tr>
-      <tr>
-          <td>–memory</td>
-          <td>内存大小 MB</td>
-      </tr>
-      <tr>
-          <td>–vcpus</td>
-          <td>CPU 数量</td>
-      </tr>
-      <tr>
-          <td>–disk</td>
-          <td>磁盘路径和大小</td>
-      </tr>
-      <tr>
-          <td>–os-variant</td>
-          <td>OS 类型，优化性能</td>
-      </tr>
-      <tr>
-          <td>–network</td>
-          <td>网络类型（bridge/NAT）</td>
-      </tr>
-      <tr>
-          <td>–graphics</td>
-          <td>VNC / Spice 等</td>
-      </tr>
-      <tr>
-          <td>–cdrom</td>
-          <td>ISO 镜像路径</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>–name</td>
+					<td>虚拟机名称</td>
+			</tr>
+			<tr>
+					<td>–memory</td>
+					<td>内存大小 MB</td>
+			</tr>
+			<tr>
+					<td>–vcpus</td>
+					<td>CPU 数量</td>
+			</tr>
+			<tr>
+					<td>–disk</td>
+					<td>磁盘路径和大小</td>
+			</tr>
+			<tr>
+					<td>–os-variant</td>
+					<td>OS 类型，优化性能</td>
+			</tr>
+			<tr>
+					<td>–network</td>
+					<td>网络类型（bridge/NAT）</td>
+			</tr>
+			<tr>
+					<td>–graphics</td>
+					<td>VNC / Spice 等</td>
+			</tr>
+			<tr>
+					<td>–cdrom</td>
+					<td>ISO 镜像路径</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-使用-xml-创建高级"
@@ -2627,62 +2612,62 @@ Id Name State --------------------------- 1 vm1 running - vm2 shut off 2. 查看
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>列出虚拟机</td>
-          <td>virsh list &ndash;all</td>
-      </tr>
-      <tr>
-          <td>查看虚拟机信息</td>
-          <td>virsh dominfo <vm></td>
-      </tr>
-      <tr>
-          <td>启动虚拟机</td>
-          <td>virsh start <vm></td>
-      </tr>
-      <tr>
-          <td>停止虚拟机</td>
-          <td>virsh shutdown <vm></td>
-      </tr>
-      <tr>
-          <td>强制关机</td>
-          <td>virsh destroy <vm></td>
-      </tr>
-      <tr>
-          <td>重启虚拟机</td>
-          <td>virsh reboot <vm></td>
-      </tr>
-      <tr>
-          <td>创建虚拟机</td>
-          <td>virt-install &hellip;</td>
-      </tr>
-      <tr>
-          <td>删除虚拟机</td>
-          <td>virsh undefine <vm> &ndash;remove-all-storage</td>
-      </tr>
-      <tr>
-          <td>查看磁盘</td>
-          <td>virsh domblklist <vm></td>
-      </tr>
-      <tr>
-          <td>创建磁盘</td>
-          <td>qemu-img create -f qcow2 /path/to/disk.qcow2 20G</td>
-      </tr>
-      <tr>
-          <td>网络列表</td>
-          <td>virsh net-list &ndash;all</td>
-      </tr>
-      <tr>
-          <td>网络启动</td>
-          <td>virsh net-start default</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>列出虚拟机</td>
+					<td>virsh list &ndash;all</td>
+			</tr>
+			<tr>
+					<td>查看虚拟机信息</td>
+					<td>virsh dominfo <vm></td>
+			</tr>
+			<tr>
+					<td>启动虚拟机</td>
+					<td>virsh start <vm></td>
+			</tr>
+			<tr>
+					<td>停止虚拟机</td>
+					<td>virsh shutdown <vm></td>
+			</tr>
+			<tr>
+					<td>强制关机</td>
+					<td>virsh destroy <vm></td>
+			</tr>
+			<tr>
+					<td>重启虚拟机</td>
+					<td>virsh reboot <vm></td>
+			</tr>
+			<tr>
+					<td>创建虚拟机</td>
+					<td>virt-install &hellip;</td>
+			</tr>
+			<tr>
+					<td>删除虚拟机</td>
+					<td>virsh undefine <vm> &ndash;remove-all-storage</td>
+			</tr>
+			<tr>
+					<td>查看磁盘</td>
+					<td>virsh domblklist <vm></td>
+			</tr>
+			<tr>
+					<td>创建磁盘</td>
+					<td>qemu-img create -f qcow2 /path/to/disk.qcow2 20G</td>
+			</tr>
+			<tr>
+					<td>网络列表</td>
+					<td>virsh net-list &ndash;all</td>
+			</tr>
+			<tr>
+					<td>网络启动</td>
+					<td>virsh net-start default</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

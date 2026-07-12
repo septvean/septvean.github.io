@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="官方文档：Kubernetes 组件
@@ -65,18 +65,18 @@ Kubernetes 核心组件功能介绍
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes 核心组件",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/core-components/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/core-components/",
       "headline": "Kubernetes 核心组件",
       "description": "官方文档：Kubernetes 组件\nKubernetes 核心组件功能介绍\n控制平面组件（Control Plane） 节点组件（Node Components） 网络组件（CNI \/ DNS） 扩展组件（附常见） ✅ 1. 控制平面组件（Control Plane Components） 主要职责\n对外接口：提供统一的API访问入口（API Server）。 管理集群状态：接收用户操作（通过API Server），监控集群变化，确保实际状态符合期望状态（Controller Manager）。 资源调度：将 Pod（工作负载）智能地分配到合适的 Worker Node 上（Scheduler）。 数据存储：存储所有集群配置和状态数据（etcd）。 🟦 1. kube-apiserver（API 服务器） 👉 整个 Kubernetes 的中心，中枢神经，所有组件交互都经过它。",
-      "wordCount" : "410",
+      "wordCount": "410",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/core-components/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ Kubernetes 核心组件功能介绍
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ Kubernetes 核心组件功能介绍
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ Kubernetes 核心组件功能介绍
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2338,28 +2323,28 @@ Kubernetes 核心组件功能介绍
 <p>👉 负责 <strong>Service 负载均衡实现（clusterIP / nodePort）</strong></p>
 <p>模式</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>描述</th>
-          <th>优点</th>
-          <th>缺点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>iptables</td>
-          <td>利用 NAT 表实现转发</td>
-          <td>性能稳定</td>
-          <td>规则多时变慢</td>
-      </tr>
-      <tr>
-          <td>IPVS</td>
-          <td>Linux IP Virtual Server</td>
-          <td>性能更高</td>
-          <td>需要内核模块</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>描述</th>
+					<th>优点</th>
+					<th>缺点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>iptables</td>
+					<td>利用 NAT 表实现转发</td>
+					<td>性能稳定</td>
+					<td>规则多时变慢</td>
+			</tr>
+			<tr>
+					<td>IPVS</td>
+					<td>Linux IP Virtual Server</td>
+					<td>性能更高</td>
+					<td>需要内核模块</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>功能</p>
 <ul>
@@ -2440,40 +2425,40 @@ Kubernetes 核心组件功能介绍
 <p>👉 提供 <strong>Pod 网络、网络策略、安全、路由、BGP、eBPF</strong> 等能力。</p>
 <p>常见模式</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>技术</th>
-          <th>优点</th>
-          <th>缺点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>eBPF（推荐）</td>
-          <td>完全取代 kube-proxy</td>
-          <td>高性能</td>
-          <td>要求内核≥ 5.3</td>
-      </tr>
-      <tr>
-          <td>IPIP</td>
-          <td>简单易用</td>
-          <td>封包开销大</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>VXLAN</td>
-          <td>overlay 网络</td>
-          <td>较通用</td>
-          <td>效率略低</td>
-      </tr>
-      <tr>
-          <td>BGP</td>
-          <td>节点直连</td>
-          <td>性能最佳</td>
-          <td>配置复杂</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>技术</th>
+					<th>优点</th>
+					<th>缺点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>eBPF（推荐）</td>
+					<td>完全取代 kube-proxy</td>
+					<td>高性能</td>
+					<td>要求内核≥ 5.3</td>
+			</tr>
+			<tr>
+					<td>IPIP</td>
+					<td>简单易用</td>
+					<td>封包开销大</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>VXLAN</td>
+					<td>overlay 网络</td>
+					<td>较通用</td>
+					<td>效率略低</td>
+			</tr>
+			<tr>
+					<td>BGP</td>
+					<td>节点直连</td>
+					<td>性能最佳</td>
+					<td>配置复杂</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>功能</p>
 <ul>
@@ -2518,46 +2503,46 @@ Kubernetes 核心组件功能介绍
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>职责</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>kube-apiserver</td>
-          <td>整个系统的入口 &amp; 状态变更中心</td>
-      </tr>
-      <tr>
-          <td>etcd</td>
-          <td>保存所有状态</td>
-      </tr>
-      <tr>
-          <td>kube-controller-manager</td>
-          <td>“确保状态达成”的自动化大脑</td>
-      </tr>
-      <tr>
-          <td>kube-scheduler</td>
-          <td>决定 Pod 运行在哪</td>
-      </tr>
-      <tr>
-          <td>kubelet</td>
-          <td>管理节点上的 Pod</td>
-      </tr>
-      <tr>
-          <td>kube-proxy</td>
-          <td>Service 转发（或被 eBPF 替代）</td>
-      </tr>
-      <tr>
-          <td>CoreDNS</td>
-          <td>DNS 解析</td>
-      </tr>
-      <tr>
-          <td>Calico</td>
-          <td>Pod 网络/路由/NetworkPolicy、eBPF 网络</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>职责</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>kube-apiserver</td>
+					<td>整个系统的入口 &amp; 状态变更中心</td>
+			</tr>
+			<tr>
+					<td>etcd</td>
+					<td>保存所有状态</td>
+			</tr>
+			<tr>
+					<td>kube-controller-manager</td>
+					<td>“确保状态达成”的自动化大脑</td>
+			</tr>
+			<tr>
+					<td>kube-scheduler</td>
+					<td>决定 Pod 运行在哪</td>
+			</tr>
+			<tr>
+					<td>kubelet</td>
+					<td>管理节点上的 Pod</td>
+			</tr>
+			<tr>
+					<td>kube-proxy</td>
+					<td>Service 转发（或被 eBPF 替代）</td>
+			</tr>
+			<tr>
+					<td>CoreDNS</td>
+					<td>DNS 解析</td>
+			</tr>
+			<tr>
+					<td>Calico</td>
+					<td>Pod 网络/路由/NetworkPolicy、eBPF 网络</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

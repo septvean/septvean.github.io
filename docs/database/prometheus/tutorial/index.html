@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "Prometheus 基础教程",
-      "url" : "https://documents.v2ep.com/database/prometheus/tutorial/",
+      "url": "https://documents.v2ep.com/database/prometheus/tutorial/",
       "headline": "Prometheus 基础教程",
       "description": "内容：\n核心概念 架构 安装部署 Exporter PromQL 告警 Grafana 最佳实践 1. Prometheus 是什么？ Prometheus 是一个开源监控系统，“拉（Pull）模式”的时间序列数据库，用于采集、存储、查询、可视化指标。\n优势：\n安装简单、部署易 无需客户端 SDK，只要暴露 \/metrics 即可 强大的查询语言 PromQL 与 Grafana 深度集成 云原生监控事实标准（Kubernetes 默认监控方案） 2. Prometheus 工作原理 Prometheus 通过 HTTP 定期抓取目标服务的 \/metrics 数据，存入本地 TSDB（时间序列数据库）。",
-      "wordCount" : "378",
+      "wordCount": "378",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/prometheus/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2226,34 +2211,34 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Exporter --&gt; Prometheus Server --&gt; TSDB --&gt; PromQL --&gt; Grafana
 </span></span></code></pre></div><p>核心组件：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Prometheus Server</strong></td>
-          <td>抓取数据、存储、查询、告警</td>
-      </tr>
-      <tr>
-          <td><strong>Exporter</strong></td>
-          <td>暴露被监控的指标</td>
-      </tr>
-      <tr>
-          <td><strong>Alertmanager</strong></td>
-          <td>管理告警通知</td>
-      </tr>
-      <tr>
-          <td><strong>Pushgateway</strong></td>
-          <td>临时作业推送指标</td>
-      </tr>
-      <tr>
-          <td><strong>Grafana</strong></td>
-          <td>可视化工具</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Prometheus Server</strong></td>
+					<td>抓取数据、存储、查询、告警</td>
+			</tr>
+			<tr>
+					<td><strong>Exporter</strong></td>
+					<td>暴露被监控的指标</td>
+			</tr>
+			<tr>
+					<td><strong>Alertmanager</strong></td>
+					<td>管理告警通知</td>
+			</tr>
+			<tr>
+					<td><strong>Pushgateway</strong></td>
+					<td>临时作业推送指标</td>
+			</tr>
+			<tr>
+					<td><strong>Grafana</strong></td>
+					<td>可视化工具</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-prometheus-中的指标metrics"
@@ -2270,30 +2255,30 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http_requests_total{method=&#34;GET&#34;, handler=&#34;/&#34;} 1024 1710000000
 </span></span></code></pre></div><p>有四种指标类型：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Counter</strong></td>
-          <td>单调递增计数器（如接口请求数）</td>
-      </tr>
-      <tr>
-          <td><strong>Gauge</strong></td>
-          <td>可增可减指标（如内存、CPU）</td>
-      </tr>
-      <tr>
-          <td><strong>Histogram</strong></td>
-          <td>直方图（统计分布，常用于延迟）</td>
-      </tr>
-      <tr>
-          <td><strong>Summary</strong></td>
-          <td>百分位计算（通常不建议多用）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Counter</strong></td>
+					<td>单调递增计数器（如接口请求数）</td>
+			</tr>
+			<tr>
+					<td><strong>Gauge</strong></td>
+					<td>可增可减指标（如内存、CPU）</td>
+			</tr>
+			<tr>
+					<td><strong>Histogram</strong></td>
+					<td>直方图（统计分布，常用于延迟）</td>
+			</tr>
+			<tr>
+					<td><strong>Summary</strong></td>
+					<td>百分位计算（通常不建议多用）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="4-prometheus-安装最简单方式"
@@ -2327,7 +2312,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">global</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">scrape_interval</span><span class="p">:</span><span class="w"> </span><span class="l">15s</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">scrape_configs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">scrape_configs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;prometheus&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;localhost:9090&#39;</span><span class="p">]</span><span class="w">
@@ -2349,35 +2334,35 @@
 <p>Prometheus 不直接监控系统，而是通过 Exporter 实现。</p>
 <p>常用 Exporter：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Exporter</th>
-          <th>监控内容</th>
-          <th>端口</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>node_exporter</td>
-          <td>服务器 CPU/内存/磁盘</td>
-          <td>9100</td>
-      </tr>
-      <tr>
-          <td>mysqld_exporter</td>
-          <td>MySQL 指标</td>
-          <td>9104</td>
-      </tr>
-      <tr>
-          <td>blackbox_exporter</td>
-          <td>网络/HTTP 探活</td>
-          <td>9115</td>
-      </tr>
-      <tr>
-          <td>redis_exporter</td>
-          <td>Redis 指标</td>
-          <td>9121</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Exporter</th>
+					<th>监控内容</th>
+					<th>端口</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>node_exporter</td>
+					<td>服务器 CPU/内存/磁盘</td>
+					<td>9100</td>
+			</tr>
+			<tr>
+					<td>mysqld_exporter</td>
+					<td>MySQL 指标</td>
+					<td>9104</td>
+			</tr>
+			<tr>
+					<td>blackbox_exporter</td>
+					<td>网络/HTTP 探活</td>
+					<td>9115</td>
+			</tr>
+			<tr>
+					<td>redis_exporter</td>
+					<td>Redis 指标</td>
+					<td>9121</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>安装 node_exporter（示例）</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">wget https://github.com/prometheus/node_exporter/releases/latest/download/node_exporter-*.linux-amd64.tar.gz
@@ -2461,42 +2446,42 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>函数</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>rate()</td>
-          <td>counter 速率</td>
-      </tr>
-      <tr>
-          <td>irate()</td>
-          <td>更灵敏</td>
-      </tr>
-      <tr>
-          <td>sum()</td>
-          <td>求和</td>
-      </tr>
-      <tr>
-          <td>avg()</td>
-          <td>平均</td>
-      </tr>
-      <tr>
-          <td>max()</td>
-          <td>最大</td>
-      </tr>
-      <tr>
-          <td>min()</td>
-          <td>最小</td>
-      </tr>
-      <tr>
-          <td>increase()</td>
-          <td>增量</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>函数</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>rate()</td>
+					<td>counter 速率</td>
+			</tr>
+			<tr>
+					<td>irate()</td>
+					<td>更灵敏</td>
+			</tr>
+			<tr>
+					<td>sum()</td>
+					<td>求和</td>
+			</tr>
+			<tr>
+					<td>avg()</td>
+					<td>平均</td>
+			</tr>
+			<tr>
+					<td>max()</td>
+					<td>最大</td>
+			</tr>
+			<tr>
+					<td>min()</td>
+					<td>最小</td>
+			</tr>
+			<tr>
+					<td>increase()</td>
+					<td>增量</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="8-告警alerting"
@@ -2518,7 +2503,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">groups</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">node_alerts</span><span class="w">
+</span></span></span><span class="line"><span class="cl">- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">node_alerts</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">rules</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l">HighCPU</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>- <span class="l">(avg by (instance) (rate(node_cpu_seconds_total{mode=&#34;idle&#34;}[5m])) * 100) &gt; 90</span><span class="w">
@@ -2541,7 +2526,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">route</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">receiver</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;default&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">receivers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">receivers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;default&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">email_configs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;me@example.com&#34;</span><span class="w">
@@ -2568,26 +2553,26 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">URL: http://prometheus:9090
 </span></span></code></pre></div><p>官方仪表盘（可以直接导入）：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>Dashboard ID</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Linux 节点（Node Exporter）</td>
-          <td>1860</td>
-      </tr>
-      <tr>
-          <td>Kubernetes 监控</td>
-          <td>6417, 8588</td>
-      </tr>
-      <tr>
-          <td>Prometheus 自身监控</td>
-          <td>3662</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>Dashboard ID</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Linux 节点（Node Exporter）</td>
+					<td>1860</td>
+			</tr>
+			<tr>
+					<td>Kubernetes 监控</td>
+					<td>6417, 8588</td>
+			</tr>
+			<tr>
+					<td>Prometheus 自身监控</td>
+					<td>3662</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="10-基础最佳实践入门即遵守"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、swap 是什么（不要再被“虚拟内存”带偏） 1️⃣ swap 的真实定义 swap = 内核用于回收匿名页（anonymous pages）的后备存储
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "swap",
-      "url" : "https://documents.v2ep.com/operations/linux/swap/",
+      "url": "https://documents.v2ep.com/operations/linux/swap/",
       "headline": "swap",
       "description": " 一、swap 是什么（不要再被“虚拟内存”带偏） 1️⃣ swap 的真实定义 swap = 内核用于回收匿名页（anonymous pages）的后备存储\n它只服务于匿名页：\n进程堆（heap） 栈（stack） malloc\/new 出来的内存 JVM \/ Python \/ Go runtime 内存 ❌ 不直接用于：\n文件页（page cache） 磁盘映射文件（mmap 文件） 2️⃣ swap ≠ 内存扩容 误解 真相 swap 是慢内存 ❌ swap 能当内存用 ❌ swap 会拖慢系统 ❌ (前提是没乱用) 正确理解：",
-      "wordCount" : "663",
+      "wordCount": "663",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/swap/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2227,26 +2212,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>误解</th>
-          <th>真相</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>swap 是慢内存</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>swap 能当内存用</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>swap 会拖慢系统</td>
-          <td>❌ (前提是没乱用)</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>误解</th>
+					<th>真相</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>swap 是慢内存</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>swap 能当内存用</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>swap 会拖慢系统</td>
+					<td>❌ (前提是没乱用)</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>正确理解：</strong></p>
 <blockquote>
@@ -2331,22 +2316,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>技术</th>
-          <th>本质</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>zram</td>
-          <td>内存里压缩 swap</td>
-      </tr>
-      <tr>
-          <td>zswap</td>
-          <td>swap 前压缩层</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>技术</th>
+					<th>本质</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>zram</td>
+					<td>内存里压缩 swap</td>
+			</tr>
+			<tr>
+					<td>zswap</td>
+					<td>swap 前压缩层</td>
+			</tr>
+	</tbody>
 </table> </div>
 <ul>
 <li>✅ 延迟低</li>
@@ -2409,34 +2394,34 @@
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.swappiness</span> <span class="o">=</span> <span class="s">0 ~ 200</span>
 </span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>值</th>
-          <th>行为</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>0</td>
-          <td>几乎不用 swap (不是完全不用)</td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td>仅作为安全阀 (推荐)</td>
-      </tr>
-      <tr>
-          <td>10</td>
-          <td>温和</td>
-      </tr>
-      <tr>
-          <td>60</td>
-          <td>默认</td>
-      </tr>
-      <tr>
-          <td>100+</td>
-          <td>积极 swap</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>值</th>
+					<th>行为</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>0</td>
+					<td>几乎不用 swap (不是完全不用)</td>
+			</tr>
+			<tr>
+					<td>1</td>
+					<td>仅作为安全阀 (推荐)</td>
+			</tr>
+			<tr>
+					<td>10</td>
+					<td>温和</td>
+			</tr>
+			<tr>
+					<td>60</td>
+					<td>默认</td>
+			</tr>
+			<tr>
+					<td>100+</td>
+					<td>积极 swap</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="推荐值"
@@ -2448,30 +2433,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>swappiness</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>数据库</td>
-          <td>1</td>
-      </tr>
-      <tr>
-          <td>容器宿主机</td>
-          <td>1~5</td>
-      </tr>
-      <tr>
-          <td>通用服务器</td>
-          <td>10</td>
-      </tr>
-      <tr>
-          <td>桌面</td>
-          <td>60</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>swappiness</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>数据库</td>
+					<td>1</td>
+			</tr>
+			<tr>
+					<td>容器宿主机</td>
+					<td>1~5</td>
+			</tr>
+			<tr>
+					<td>通用服务器</td>
+					<td>10</td>
+			</tr>
+			<tr>
+					<td>桌面</td>
+					<td>60</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2484,26 +2469,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>值</th>
-          <th>行为</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>0</td>
-          <td>启发式 (默认)</td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td>允许超额</td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>严格限制</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>值</th>
+					<th>行为</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>0</td>
+					<td>启发式 (默认)</td>
+			</tr>
+			<tr>
+					<td>1</td>
+					<td>允许超额</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>严格限制</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>数据库推荐：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="na">vm.overcommit_memory</span> <span class="o">=</span> <span class="s">0</span>
@@ -2617,26 +2602,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>真正原因</th>
-          <th>表现</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>内存不足</td>
-          <td>持续 swap in/out</td>
-      </tr>
-      <tr>
-          <td>swappiness 过高</td>
-          <td>不必要换出</td>
-      </tr>
-      <tr>
-          <td>IO 瓶颈</td>
-          <td>swap 等待</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>真正原因</th>
+					<th>表现</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>内存不足</td>
+					<td>持续 swap in/out</td>
+			</tr>
+			<tr>
+					<td>swappiness 过高</td>
+					<td>不必要换出</td>
+			</tr>
+			<tr>
+					<td>IO 瓶颈</td>
+					<td>swap 等待</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="正确判断是否有问题"
@@ -2839,26 +2824,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>作用</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>防 OOM</td>
-          <td>极其关键</td>
-      </tr>
-      <tr>
-          <td>内存碎片</td>
-          <td>非常明显</td>
-      </tr>
-      <tr>
-          <td>后台任务</td>
-          <td>有 swap 才能活</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>作用</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>防 OOM</td>
+					<td>极其关键</td>
+			</tr>
+			<tr>
+					<td>内存碎片</td>
+					<td>非常明显</td>
+			</tr>
+			<tr>
+					<td>后台任务</td>
+					<td>有 swap 才能活</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>建议</strong></p>
 <ul>
@@ -2877,26 +2862,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>swap 价值</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Web / API</td>
-          <td>明显</td>
-      </tr>
-      <tr>
-          <td>Python / Node</td>
-          <td>明显</td>
-      </tr>
-      <tr>
-          <td>小型数据库</td>
-          <td>有价值</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>swap 价值</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Web / API</td>
+					<td>明显</td>
+			</tr>
+			<tr>
+					<td>Python / Node</td>
+					<td>明显</td>
+			</tr>
+			<tr>
+					<td>小型数据库</td>
+					<td>有价值</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>建议</strong></p>
 <ul>
@@ -2917,26 +2902,26 @@
 <p><strong>这是 swap“有没有意义”的分水岭</strong></p>
 </blockquote>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>通用服务器</td>
-          <td>保留小 swap</td>
-      </tr>
-      <tr>
-          <td>数据库</td>
-          <td>小 swap</td>
-      </tr>
-      <tr>
-          <td>容器宿主机</td>
-          <td>必须有</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>通用服务器</td>
+					<td>保留小 swap</td>
+			</tr>
+			<tr>
+					<td>数据库</td>
+					<td>小 swap</td>
+			</tr>
+			<tr>
+					<td>容器宿主机</td>
+					<td>必须有</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>建议</strong></p>
 <ul>
@@ -2957,26 +2942,26 @@
 <p><strong>swap 不再是“资源”，而是“保险丝”</strong></p>
 </blockquote>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>价值</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>性能</td>
-          <td>基本无</td>
-      </tr>
-      <tr>
-          <td>稳定性</td>
-          <td>有</td>
-      </tr>
-      <tr>
-          <td>防误杀</td>
-          <td>有</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>价值</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>性能</td>
+					<td>基本无</td>
+			</tr>
+			<tr>
+					<td>稳定性</td>
+					<td>有</td>
+			</tr>
+			<tr>
+					<td>防误杀</td>
+					<td>有</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>建议</strong></p>
 <ul>
@@ -2998,26 +2983,26 @@
 <p><strong>绝大多数工作负载已经不需要 swap</strong></p>
 </blockquote>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>裸机数据库</td>
-          <td>可禁</td>
-      </tr>
-      <tr>
-          <td>大内存缓存</td>
-          <td>可禁</td>
-      </tr>
-      <tr>
-          <td>HPC</td>
-          <td>禁</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>裸机数据库</td>
+					<td>可禁</td>
+			</tr>
+			<tr>
+					<td>大内存缓存</td>
+					<td>可禁</td>
+			</tr>
+			<tr>
+					<td>HPC</td>
+					<td>禁</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>❌ <strong>但以下情况例外</strong>：</p>
 <ul>

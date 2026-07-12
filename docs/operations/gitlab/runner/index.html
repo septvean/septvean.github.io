@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 超完整、深入且实战级的 GitLab Runner 教程，覆盖：
@@ -62,18 +62,18 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "GitLab Runner 教程",
-      "url" : "https://documents.v2ep.com/operations/gitlab/runner/",
+      "url": "https://documents.v2ep.com/operations/gitlab/runner/",
       "headline": "GitLab Runner 教程",
       "description": "下面是一份 超完整、深入且实战级的 GitLab Runner 教程，覆盖：\n核心概念 架构原理 安装与注册 常用 Executor（Docker、Shell、Kubernetes）全讲解 配置文件详解（config.toml） Runner 标签与调度 高级功能（Cache、Artifacts、并发、限流、镜像加速） 企业级部署方案（Docker、K8S、生产架构） 最佳实践 常见问题排查 目录\nGitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared \/ Group \/ Project Runner 安装（Linux、Docker、K8S） Runner 注册与配置 Executor 类型详解 config.toml 配置详解 缓存 cache 与 artifacts Runner 高级能力（并发、限流、隔离、安全） 企业级部署（全 Docker、K8S） 最佳实践 常见故障排查 1. GitLab Runner 是什么？ GitLab Runner 是一个 独立于 GitLab 的任务执行器，专门用来执行 .gitlab-ci.yml 中的 job。",
-      "wordCount" : "618",
+      "wordCount": "618",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/gitlab/runner/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2260,26 +2245,26 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Shared Runner（共享 Runner）</td>
-          <td>整个 GitLab 实例都能使用（推荐）</td>
-      </tr>
-      <tr>
-          <td>Group Runner</td>
-          <td>一个 group 中的所有项目共享</td>
-      </tr>
-      <tr>
-          <td>Project Runner</td>
-          <td>只给单个项目使用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Shared Runner（共享 Runner）</td>
+					<td>整个 GitLab 实例都能使用（推荐）</td>
+			</tr>
+			<tr>
+					<td>Group Runner</td>
+					<td>一个 group 中的所有项目共享</td>
+			</tr>
+			<tr>
+					<td>Project Runner</td>
+					<td>只给单个项目使用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>企业强烈建议：<strong>使用 Shared Runner + 标签（tags）区分环境</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2314,9 +2299,9 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d --name gitlab-runner --restart always <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v /srv/gitlab-runner/config:/etc/gitlab-runner <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v /var/run/docker.sock:/var/run/docker.sock <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gitlab/gitlab-runner:latest
+</span></span></span><span class="line"><span class="cl">    -v /srv/gitlab-runner/config:/etc/gitlab-runner <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -v /var/run/docker.sock:/var/run/docker.sock <span class="se">\
+</span></span></span><span class="line"><span class="cl">    gitlab/gitlab-runner:latest
 </span></span></code></pre></div><p>优点：维护成本最低，扩容简单。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="43-kubernetes-方式安装企业级"
@@ -2351,12 +2336,12 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">GitLab URL -&gt; Runner Token -&gt; 描述 -&gt; 标签(tags) -&gt; executor -&gt; 保存
 </span></span></code></pre></div><p>示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">gitlab-runner register <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --url <span class="s2">&#34;https://gitlab.example.com/&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --registration-token <span class="s2">&#34;PROJECT_TOKEN&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --executor <span class="s2">&#34;docker&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --description <span class="s2">&#34;docker-runner-1&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --tag-list <span class="s2">&#34;docker,prod,build&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --docker-image <span class="s2">&#34;alpine:latest&#34;</span>
+</span></span></span><span class="line"><span class="cl">    --url <span class="s2">&#34;https://gitlab.example.com/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --registration-token <span class="s2">&#34;PROJECT_TOKEN&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --executor <span class="s2">&#34;docker&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --description <span class="s2">&#34;docker-runner-1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --tag-list <span class="s2">&#34;docker,prod,build&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --docker-image <span class="s2">&#34;alpine:latest&#34;</span>
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="6-executor-类型详解"
     >
@@ -2369,45 +2354,45 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
 <p>Runner 执行 job 的方式叫 <strong>Executor</strong>。</p>
 <p>GitLab 支持：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Executor</th>
-          <th>应用场景</th>
-          <th>是否推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>shell</td>
-          <td>本机执行，无隔离</td>
-          <td>❌ 不安全</td>
-      </tr>
-      <tr>
-          <td>docker</td>
-          <td>单机最常用，隔离良好，速度快</td>
-          <td>✅ 推荐</td>
-      </tr>
-      <tr>
-          <td>docker+machine</td>
-          <td>自动扩容 Runner</td>
-          <td>✅ 大规模推荐</td>
-      </tr>
-      <tr>
-          <td>kubernetes</td>
-          <td>Pod 级隔离，最佳弹性</td>
-          <td>⭐ 企业级推荐</td>
-      </tr>
-      <tr>
-          <td>ssh</td>
-          <td>连到远程机器执行</td>
-          <td>较少使用</td>
-      </tr>
-      <tr>
-          <td>virtualbox</td>
-          <td>专业构建机</td>
-          <td>较少使用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Executor</th>
+					<th>应用场景</th>
+					<th>是否推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>shell</td>
+					<td>本机执行，无隔离</td>
+					<td>❌ 不安全</td>
+			</tr>
+			<tr>
+					<td>docker</td>
+					<td>单机最常用，隔离良好，速度快</td>
+					<td>✅ 推荐</td>
+			</tr>
+			<tr>
+					<td>docker+machine</td>
+					<td>自动扩容 Runner</td>
+					<td>✅ 大规模推荐</td>
+			</tr>
+			<tr>
+					<td>kubernetes</td>
+					<td>Pod 级隔离，最佳弹性</td>
+					<td>⭐ 企业级推荐</td>
+			</tr>
+			<tr>
+					<td>ssh</td>
+					<td>连到远程机器执行</td>
+					<td>较少使用</td>
+			</tr>
+			<tr>
+					<td>virtualbox</td>
+					<td>专业构建机</td>
+					<td>较少使用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="61-shell-executor不推荐"
@@ -2650,7 +2635,7 @@ GitLab Runner 是什么？ Runner 的工作原理 Runner 分类：Shared / Group
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">docker:dind</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">variables</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">variables</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">DOCKER_DRIVER</span><span class="p">:</span><span class="w"> </span><span class="l">overlay2</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="103-kubernetes-动态扩缩容-runner"

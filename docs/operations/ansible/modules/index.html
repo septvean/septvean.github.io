@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 1. 基础命令执行类（不推荐大量使用） command 执行命令（不经 shell 解析）
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Ansible Modules 常用模块",
-      "url" : "https://documents.v2ep.com/operations/ansible/modules/",
+      "url": "https://documents.v2ep.com/operations/ansible/modules/",
       "headline": "Ansible Modules 常用模块",
       "description": " 1. 基础命令执行类（不推荐大量使用） command 执行命令（不经 shell 解析）\n- name: List directory command: ls -l \/etc shell 执行 shell 命令（允许重定向、管道）\n- name: Use pipe shell: \u0022ps aux | grep nginx\u0022 ⚠️ 最佳实践：能用专用模块就不要用 shell\/command",
-      "wordCount" : "605",
+      "wordCount": "605",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/ansible/modules/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2900,7 +2885,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">- <span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l">cat /etc/hostname</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l">out</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">debug</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl">- <span class="nt">debug</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ out.stdout }}&#34;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="when-条件"
@@ -2989,66 +2974,66 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>需求</th>
-          <th>推荐模块</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>创建目录</td>
-          <td>file</td>
-      </tr>
-      <tr>
-          <td>上传配置文件</td>
-          <td>template / copy</td>
-      </tr>
-      <tr>
-          <td>修改配置文件一行</td>
-          <td>lineinfile</td>
-      </tr>
-      <tr>
-          <td>插入多行</td>
-          <td>blockinfile</td>
-      </tr>
-      <tr>
-          <td>重启服务</td>
-          <td>service</td>
-      </tr>
-      <tr>
-          <td>安装软件</td>
-          <td>package / apt / yum</td>
-      </tr>
-      <tr>
-          <td>管理用户</td>
-          <td>user</td>
-      </tr>
-      <tr>
-          <td>管理 Docker</td>
-          <td>docker_* 系列</td>
-      </tr>
-      <tr>
-          <td>管理 K8S</td>
-          <td>K8S</td>
-      </tr>
-      <tr>
-          <td>下载 URL 文件</td>
-          <td>get_url</td>
-      </tr>
-      <tr>
-          <td>使用 rsync 同步</td>
-          <td>synchronize</td>
-      </tr>
-      <tr>
-          <td>管理系统参数</td>
-          <td>sysctl</td>
-      </tr>
-      <tr>
-          <td>管理定时任务</td>
-          <td>cron</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>需求</th>
+					<th>推荐模块</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>创建目录</td>
+					<td>file</td>
+			</tr>
+			<tr>
+					<td>上传配置文件</td>
+					<td>template / copy</td>
+			</tr>
+			<tr>
+					<td>修改配置文件一行</td>
+					<td>lineinfile</td>
+			</tr>
+			<tr>
+					<td>插入多行</td>
+					<td>blockinfile</td>
+			</tr>
+			<tr>
+					<td>重启服务</td>
+					<td>service</td>
+			</tr>
+			<tr>
+					<td>安装软件</td>
+					<td>package / apt / yum</td>
+			</tr>
+			<tr>
+					<td>管理用户</td>
+					<td>user</td>
+			</tr>
+			<tr>
+					<td>管理 Docker</td>
+					<td>docker_* 系列</td>
+			</tr>
+			<tr>
+					<td>管理 K8S</td>
+					<td>K8S</td>
+			</tr>
+			<tr>
+					<td>下载 URL 文件</td>
+					<td>get_url</td>
+			</tr>
+			<tr>
+					<td>使用 rsync 同步</td>
+					<td>synchronize</td>
+			</tr>
+			<tr>
+					<td>管理系统参数</td>
+					<td>sysctl</td>
+			</tr>
+			<tr>
+					<td>管理定时任务</td>
+					<td>cron</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

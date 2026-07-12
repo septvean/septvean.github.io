@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：基础、原理、架构、排错、与 Nginx/HAProxy 对比、LVS 内核机制、Keepalived 相关等。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "LVS FAQ",
-      "url" : "https://documents.v2ep.com/operations/lvs/faq/",
+      "url": "https://documents.v2ep.com/operations/lvs/faq/",
       "headline": "LVS FAQ",
       "description": "内容：基础、原理、架构、排错、与 Nginx\/HAProxy 对比、LVS 内核机制、Keepalived 相关等。\n一、基础概念类 1. 什么是 LVS？它的作用是什么？ LVS（Linux Virtual Server）是内核级四层负载均衡框架。\n作用：\n提供高并发、高性能、低延迟的负载均衡 支持 TCP\/UDP 四层协议 通常配合 Keepalived 做主备 HA 优点：\n内核转发 -\u003e 性能极高 架构简单，稳定可靠 适合大规模业务 2. LVS 的三种工作模式是什么？区别是什么？ ① LVS-NAT（修改源\/目标地址） 请求和响应都经过 Director（瓶颈） RS 默认路由指向 Director 支持任意 OS ② LVS-DR（直接路由） \u003c- 生产最常用 Director 只收请求 RS 直接回包给客户端 RS 必须与 Director 在同一二层网络 需要关闭 ARP 抢答 ③ LVS-TUN（IP 隧道） 用 IPIP 隧道转发请求 RS 可跨机房 RS 回包不经过 Director 3. LVS 优点和缺点分别是什么？ 优点：",
-      "wordCount" : "519",
+      "wordCount": "519",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/lvs/faq/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2573,26 +2558,26 @@
 </ul>
 <p>结论：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>选择</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>四层极高性能</td>
-          <td>LVS</td>
-      </tr>
-      <tr>
-          <td>四层和七层混合复杂转发</td>
-          <td>HAProxy</td>
-      </tr>
-      <tr>
-          <td>七层能力强，需要 URL/Cookie/SSL</td>
-          <td>Nginx</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>选择</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>四层极高性能</td>
+					<td>LVS</td>
+			</tr>
+			<tr>
+					<td>四层和七层混合复杂转发</td>
+					<td>HAProxy</td>
+			</tr>
+			<tr>
+					<td>七层能力强，需要 URL/Cookie/SSL</td>
+					<td>Nginx</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="16-为什么公司通常使用lvs--nginx"

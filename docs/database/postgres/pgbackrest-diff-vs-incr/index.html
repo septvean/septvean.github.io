@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 总结（最简单版） 差量备份（diff）：基于 最近的一次 full 备份 做变化对比 增量备份（incr）：基于 最近的一次 backup（full/diff/incr 都算） 做变化对比 图示理解（最直观） 假设做了一个全量备份：
@@ -68,18 +68,18 @@ F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "pgBackRest 差量备份 和 增量备份 有什么区别？",
-      "url" : "https://documents.v2ep.com/database/postgres/pgbackrest-diff-vs-incr/",
+      "url": "https://documents.v2ep.com/database/postgres/pgbackrest-diff-vs-incr/",
       "headline": "pgBackRest 差量备份 和 增量备份 有什么区别？",
       "description": " 总结（最简单版） 差量备份（diff）：基于 最近的一次 full 备份 做变化对比 增量备份（incr）：基于 最近的一次 backup（full\/diff\/incr 都算） 做变化对比 图示理解（最直观） 假设做了一个全量备份：\nF1（Full） 📌 差量备份（Diff）\nF1 ---- D1 (Diff，相对于 F1) ---- D2 (Diff，相对于 F1) ---- D3 (Diff，相对于 F1) 每次差量备份都要和 最近一次 full 比较，所以 diff 会不断变大。\n📌 增量备份（Incr）\nF1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3 (Incremental 相对于 I2) 每一次 incr 都是相对于 前一次备份，空间最小。",
-      "wordCount" : "168",
+      "wordCount": "168",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/pgbackrest-diff-vs-incr/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2230,45 +2215,45 @@ F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>diff（差量）</th>
-          <th>incr（增量）</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>对比基准</td>
-          <td>最近 full</td>
-          <td>最近任何备份</td>
-      </tr>
-      <tr>
-          <td>周期内大小</td>
-          <td>越来越大</td>
-          <td>通常很小</td>
-      </tr>
-      <tr>
-          <td>恢复链长度</td>
-          <td>Full + 1 个 diff</td>
-          <td>Full + 多个 incr</td>
-      </tr>
-      <tr>
-          <td>恢复速度</td>
-          <td>更快（链短）</td>
-          <td>更慢（链长）</td>
-      </tr>
-      <tr>
-          <td>存储空间</td>
-          <td>更多</td>
-          <td>更少</td>
-      </tr>
-      <tr>
-          <td>适用场景</td>
-          <td>恢复优先</td>
-          <td>空间优先</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>diff（差量）</th>
+					<th>incr（增量）</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>对比基准</td>
+					<td>最近 full</td>
+					<td>最近任何备份</td>
+			</tr>
+			<tr>
+					<td>周期内大小</td>
+					<td>越来越大</td>
+					<td>通常很小</td>
+			</tr>
+			<tr>
+					<td>恢复链长度</td>
+					<td>Full + 1 个 diff</td>
+					<td>Full + 多个 incr</td>
+			</tr>
+			<tr>
+					<td>恢复速度</td>
+					<td>更快（链短）</td>
+					<td>更慢（链长）</td>
+			</tr>
+			<tr>
+					<td>存储空间</td>
+					<td>更多</td>
+					<td>更少</td>
+			</tr>
+			<tr>
+					<td>适用场景</td>
+					<td>恢复优先</td>
+					<td>空间优先</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="生产建议最常用策略"

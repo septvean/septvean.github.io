@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、pg_trgm 是什么？ pg_trgm 是 PostgreSQL 的一个 扩展模块，用于：
@@ -77,18 +77,18 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL pg_trgm",
-      "url" : "https://documents.v2ep.com/database/postgres/pg_trgm/",
+      "url": "https://documents.v2ep.com/database/postgres/pg_trgm/",
       "headline": "PostgreSQL pg_trgm",
       "description": " 一、pg_trgm 是什么？ pg_trgm 是 PostgreSQL 的一个 扩展模块，用于：\n基于“字符相似度”进行高效的模糊匹配\n核心能力：\nLIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（按相似度） 📌 它是 PostgreSQL 里处理模糊字符串查询的王牌\n二、什么是 Trigram（三元组）？ Trigram = 连续的 3 个字符\n例如：\n\u0022融资计划\u0022 会被拆成：\n\u0022 融\u0022, \u0022 融资\u0022, \u0022融资计\u0022, \u0022资计划\u0022, \u0022计划 \u0022 pg_trgm 通过比较 trigram 集合的“交集比例”来判断相似度",
-      "wordCount" : "1059",
+      "wordCount": "1059",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/pg_trgm/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -108,8 +108,8 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -128,12 +128,12 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -284,21 +284,6 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2278,8 +2263,8 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_title_trgm</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>📌 <strong>90% 场景推荐 GIN</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-查询会命中索引"
@@ -2291,12 +2276,12 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>或：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-典型执行计划"
     >
@@ -2331,9 +2316,9 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">title</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">similarity</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资计划&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">score</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">DESC</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">DESC</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-相似度操作符-"
     >
@@ -2348,7 +2333,7 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">similarity</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资计划&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">.</span><span class="n">similarity_threshold</span><span class="w">
 </span></span></span></code></pre></div><p>默认阈值：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SHOW</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">.</span><span class="n">similarity_threshold</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 0.3
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 0.3
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-示例模糊推荐"
     >
@@ -2359,9 +2344,9 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">title</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s1">&#39;融资计划&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">similarity</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资计划&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s1">&#39;融资计划&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">similarity</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资计划&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-调整相似度阈值会影响索引命中"
     >
@@ -2382,30 +2367,30 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>特点</th>
-          <th>是否推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>GIN</td>
-          <td>查询快、索引大</td>
-          <td>✅ 推荐</td>
-      </tr>
-      <tr>
-          <td>GiST</td>
-          <td>索引小、支持排序</td>
-          <td>⚠️ 少用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>特点</th>
+					<th>是否推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>GIN</td>
+					<td>查询快、索引大</td>
+					<td>✅ 推荐</td>
+			</tr>
+			<tr>
+					<td>GiST</td>
+					<td>索引小、支持排序</td>
+					<td>⚠️ 少用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>GiST 示例（支持 &lt;-&gt; 排序）</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_title_trgm_gist</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">USING</span><span class="w"> </span><span class="n">gist</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gist_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">USING</span><span class="w"> </span><span class="n">gist</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gist_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七pg_trgm-支持哪些操作会用索引"
     >
@@ -2417,13 +2402,13 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
 </div>
 <p>✅ <strong>会走索引：</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%xxx%&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%xxx%&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">title</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s1">&#39;xxx&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">title</span><span class="w"> </span><span class="o">&lt;-&gt;</span><span class="w"> </span><span class="s1">&#39;xxx&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ILIKE</span><span class="w"> </span><span class="s1">&#39;%xxx%&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">title</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="s1">&#39;xxx&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">title</span><span class="w"> </span><span class="o">&lt;-&gt;</span><span class="w"> </span><span class="s1">&#39;xxx&#39;</span><span class="w">
 </span></span></span></code></pre></div><p>❌ <strong>不会走索引：</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">LOWER</span><span class="p">(</span><span class="n">title</span><span class="p">)</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%xxx%&#39;</span><span class="w">   </span><span class="c1">-- ❌
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">title</span><span class="p">::</span><span class="nb">text</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%xxx%&#39;</span><span class="w">   </span><span class="c1">-- ❌
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w">      </span><span class="c1">-- ❌
+</span></span></span><span class="line"><span class="cl"><span class="n">title</span><span class="p">::</span><span class="nb">text</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%xxx%&#39;</span><span class="w">   </span><span class="c1">-- ❌
+</span></span></span><span class="line"><span class="cl"><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w">      </span><span class="c1">-- ❌
 </span></span></span></code></pre></div><p>📌 <strong>字段上不能包函数</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八中文-like-查询的最佳实践非常重要"
@@ -2444,9 +2429,9 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ANALYZE</span><span class="w"> </span><span class="n">telegraph</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="w"> </span><span class="n">telegraph</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>否则 planner 会严重低估匹配行数。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-至少-3个-中文字符-"
@@ -2482,7 +2467,7 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="s2">&#34;C&#34;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="s2">&#34;C&#34;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>然后重建索引。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="九pg_trgm-vs-全文索引tsvector"
@@ -2494,35 +2479,35 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对比</th>
-          <th>pg_trgm</th>
-          <th>全文索引</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>LIKE &lsquo;%xxx%&rsquo;</td>
-          <td>✅ 强</td>
-          <td>❌ 弱</td>
-      </tr>
-      <tr>
-          <td>中文</td>
-          <td>✅ 不分词</td>
-          <td>❌ 需分词</td>
-      </tr>
-      <tr>
-          <td>语义搜索</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>模糊推荐</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对比</th>
+					<th>pg_trgm</th>
+					<th>全文索引</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>LIKE &lsquo;%xxx%&rsquo;</td>
+					<td>✅ 强</td>
+					<td>❌ 弱</td>
+			</tr>
+			<tr>
+					<td>中文</td>
+					<td>✅ 不分词</td>
+					<td>❌ 需分词</td>
+			</tr>
+			<tr>
+					<td>语义搜索</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>模糊推荐</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>标题 / URL / 编号 / 短文本 -&gt; pg_trgm</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2570,10 +2555,10 @@ LIKE ‘%xxx%’ ILIKE ‘%xxx%’ 相似度搜索（模糊推荐） 排序（�
 </div>
 <p>结合之前的 telegraph 表，推荐最终形态：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_telegraph_title_trgm</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_telegraph_title_trgm</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>查询：</p>
 <pre tabindex="0"><code class="language-sq;" data-lang="sq;">SELECT id
 FROM telegraph
@@ -2707,8 +2692,8 @@ WHERE title LIKE &#39;%融资额%&#39;;
 <p>你可以强制验证：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">enable_seqscan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">off</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYZE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYZE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>👉 很可能会看到 GIN Index Scan</p>
 <p>但 ❌ <strong>不代表线上该这么做</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2744,26 +2729,26 @@ WHERE title LIKE &#39;%融资额%&#39;;
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>搜索长度</th>
-          <th>推荐方案</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1 字</td>
-          <td>Seq Scan（正常）</td>
-      </tr>
-      <tr>
-          <td>2 字</td>
-          <td>允许慢，或提示用户</td>
-      </tr>
-      <tr>
-          <td>≥3 字</td>
-          <td>pg_trgm</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>搜索长度</th>
+					<th>推荐方案</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1 字</td>
+					<td>Seq Scan（正常）</td>
+			</tr>
+			<tr>
+					<td>2 字</td>
+					<td>允许慢，或提示用户</td>
+			</tr>
+			<tr>
+					<td>≥3 字</td>
+					<td>pg_trgm</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="-2-后端主动限制非常常见"
@@ -2787,9 +2772,9 @@ WHERE title LIKE &#39;%融资额%&#39;;
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">STATISTICS</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ANALYZE</span><span class="w"> </span><span class="n">telegraph</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="w"> </span><span class="n">telegraph</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>⚠️ 只能“缓解”，不能从根本解决</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-4-c-collation略有帮助"
@@ -2801,7 +2786,7 @@ WHERE title LIKE &#39;%融资额%&#39;;
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">telegraph</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="s2">&#34;C&#34;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="s2">&#34;C&#34;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>但 <strong>不能改变 trigram 的物理限制</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="七如果你必须支持-12-个字怎么办"
@@ -2814,34 +2799,34 @@ WHERE title LIKE &#39;%融资额%&#39;;
 </div>
 <p>方案对比（说实话）</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方案</th>
-          <th>现实评价</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>pg_trgm</td>
-          <td>❌ 不适合</td>
-      </tr>
-      <tr>
-          <td>BTree</td>
-          <td>❌ 不支持 LIKE &lsquo;%x%&rsquo;</td>
-      </tr>
-      <tr>
-          <td>全文索引</td>
-          <td>❌ 中文需分词</td>
-      </tr>
-      <tr>
-          <td>ES / OpenSearch</td>
-          <td>✅ 正解</td>
-      </tr>
-      <tr>
-          <td>前缀匹配（LIKE &lsquo;融资%&rsquo;）</td>
-          <td>⚠️ 可用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方案</th>
+					<th>现实评价</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>pg_trgm</td>
+					<td>❌ 不适合</td>
+			</tr>
+			<tr>
+					<td>BTree</td>
+					<td>❌ 不支持 LIKE &lsquo;%x%&rsquo;</td>
+			</tr>
+			<tr>
+					<td>全文索引</td>
+					<td>❌ 中文需分词</td>
+			</tr>
+			<tr>
+					<td>ES / OpenSearch</td>
+					<td>✅ 正解</td>
+			</tr>
+			<tr>
+					<td>前缀匹配（LIKE &lsquo;融资%&rsquo;）</td>
+					<td>⚠️ 可用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 结论：<strong>数据库不是万能搜索引擎</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2871,15 +2856,15 @@ WHERE title LIKE &#39;%融资额%&#39;;
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYSE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Seq Scan on telegraph  (cost=0.00..4187.25 rows=222 width=8) (actual time=0.045..16.284 rows=255 loops=1)
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- Seq Scan on telegraph  (cost=0.00..4187.25 rows=222 width=8) (actual time=0.045..16.284 rows=255 loops=1)
 </span></span></span><span class="line"><span class="cl"><span class="c1">--   Filter: (title ~~ &#39;%融资%&#39;::text)
 </span></span></span><span class="line"><span class="cl"><span class="c1">--   Rows Removed by Filter: 45928
 </span></span></span><span class="line"><span class="cl"><span class="c1">-- Planning Time: 0.425 ms
 </span></span></span><span class="line"><span class="cl"><span class="c1">-- Execution Time: 16.327 ms
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYSE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资额%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Bitmap Heap Scan on telegraph  (cost=6.87..11.31 rows=4 width=8) (actual time=0.029..0.033 rows=2 loops=1)
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYSE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资额%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- Bitmap Heap Scan on telegraph  (cost=6.87..11.31 rows=4 width=8) (actual time=0.029..0.033 rows=2 loops=1)
 </span></span></span><span class="line"><span class="cl"><span class="c1">--   Recheck Cond: (title ~~ &#39;%融资额%&#39;::text)
 </span></span></span><span class="line"><span class="cl"><span class="c1">--   Heap Blocks: exact=2
 </span></span></span><span class="line"><span class="cl"><span class="c1">--   -&gt;  Bitmap Index Scan on idx_telegraph_title_trgm  (cost=0.00..6.87 rows=4 width=0) (actual time=0.016..0.017 rows=2 loops=1)
@@ -2922,7 +2907,7 @@ WHERE title LIKE &#39;%融资额%&#39;;
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYSE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>执行计划</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Seq Scan on telegraph
 </span></span><span class="line"><span class="cl">  cost=0.00..4187.25
@@ -2956,7 +2941,7 @@ WHERE title LIKE &#39;%融资额%&#39;;
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYSE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资额%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">telegraph</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%融资额%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>执行计划</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Bitmap Heap Scan
 </span></span><span class="line"><span class="cl">  -&gt; Bitmap Index Scan on idx_telegraph_title_trgm
@@ -2986,30 +2971,30 @@ WHERE title LIKE &#39;%融资额%&#39;;
 </div>
 <p>📌 <strong>中文 pg_trgm LIKE 的经验定律</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>LIKE 内容</th>
-          <th>是否稳定走索引</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1 个字</td>
-          <td>❌ 不走</td>
-          <td>trigram 不成立</td>
-      </tr>
-      <tr>
-          <td>2 个字</td>
-          <td>❌/⚠️</td>
-          <td>trigram 太少</td>
-      </tr>
-      <tr>
-          <td>≥ 3 个字</td>
-          <td>✅ 稳定</td>
-          <td>选择性足够</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>LIKE 内容</th>
+					<th>是否稳定走索引</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1 个字</td>
+					<td>❌ 不走</td>
+					<td>trigram 不成立</td>
+			</tr>
+			<tr>
+					<td>2 个字</td>
+					<td>❌/⚠️</td>
+					<td>trigram 太少</td>
+			</tr>
+			<tr>
+					<td>≥ 3 个字</td>
+					<td>✅ 稳定</td>
+					<td>选择性足够</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>这两条 SQL</p>
 <p>➡️ <strong>是这个定律的完美实证</strong></p>
@@ -3081,10 +3066,10 @@ WHERE title LIKE &#39;%融资额%&#39;;
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- &gt;= 3 字
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%关键词%&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%关键词%&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- &lt; 3 字
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">允许慢</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="err">提示用户</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- &lt; 3 字
+</span></span></span><span class="line"><span class="cl"><span class="err">允许慢</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="err">提示用户</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="3-接受一个事实"
     >

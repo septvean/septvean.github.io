@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、PostgreSQL 字符类型 PostgreSQL 支持几种字符类型：
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "字符串存储类型选择",
-      "url" : "https://documents.v2ep.com/database/design/string-text/",
+      "url": "https://documents.v2ep.com/database/design/string-text/",
       "headline": "字符串存储类型选择",
       "description": " 一、PostgreSQL 字符类型 PostgreSQL 支持几种字符类型：\n类型 说明 特点 适用场景 优缺点 char(n) 固定长度 n 字符 不够会补空格 适合固定长度字段，如性别、状态码 优点：占用固定长度，检索快；缺点：空间浪费，操作需 TRIM varchar(n) 可变长度，长度上限 n 实际存储长度 \u002b 1~4 字节 常规短文本，如用户名、邮箱 优点：节省空间，长度可控；缺点：长度受限，超长报错 text 可变长度，无上限 任意长度文本 长文本字段，如文章内容、日志 优点：无限制；缺点：部分函数可能不能使用索引（B-Tree 默认可，LIKE ‘%xxx%’ 无索引） 实践建议：\n标题、用户名、状态字段 -\u003e varchar(n) 内容、描述、日志 -\u003e text 避免用 char(n)，除非业务明确固定长度（比如状态码、国别码） 二、MySQL 字符类型 MySQL 常用字符类型：",
-      "wordCount" : "379",
+      "wordCount": "379",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/design/string-text/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2191,38 +2176,38 @@
 </div>
 <p>PostgreSQL 支持几种字符类型：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-          <th>特点</th>
-          <th>适用场景</th>
-          <th>优缺点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>char(n)</td>
-          <td>固定长度 n 字符</td>
-          <td>不够会补空格</td>
-          <td>适合固定长度字段，如性别、状态码</td>
-          <td>优点：占用固定长度，检索快；缺点：空间浪费，操作需 TRIM</td>
-      </tr>
-      <tr>
-          <td>varchar(n)</td>
-          <td>可变长度，长度上限 n</td>
-          <td>实际存储长度 + 1~4 字节</td>
-          <td>常规短文本，如用户名、邮箱</td>
-          <td>优点：节省空间，长度可控；缺点：长度受限，超长报错</td>
-      </tr>
-      <tr>
-          <td>text</td>
-          <td>可变长度，无上限</td>
-          <td>任意长度文本</td>
-          <td>长文本字段，如文章内容、日志</td>
-          <td>优点：无限制；缺点：部分函数可能不能使用索引（B-Tree 默认可，LIKE &lsquo;%xxx%&rsquo; 无索引）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+					<th>特点</th>
+					<th>适用场景</th>
+					<th>优缺点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>char(n)</td>
+					<td>固定长度 n 字符</td>
+					<td>不够会补空格</td>
+					<td>适合固定长度字段，如性别、状态码</td>
+					<td>优点：占用固定长度，检索快；缺点：空间浪费，操作需 TRIM</td>
+			</tr>
+			<tr>
+					<td>varchar(n)</td>
+					<td>可变长度，长度上限 n</td>
+					<td>实际存储长度 + 1~4 字节</td>
+					<td>常规短文本，如用户名、邮箱</td>
+					<td>优点：节省空间，长度可控；缺点：长度受限，超长报错</td>
+			</tr>
+			<tr>
+					<td>text</td>
+					<td>可变长度，无上限</td>
+					<td>任意长度文本</td>
+					<td>长文本字段，如文章内容、日志</td>
+					<td>优点：无限制；缺点：部分函数可能不能使用索引（B-Tree 默认可，LIKE &lsquo;%xxx%&rsquo; 无索引）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>实践建议：</p>
 <ul>
@@ -2241,38 +2226,38 @@
 </div>
 <p>MySQL 常用字符类型：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-          <th>特点</th>
-          <th>适用场景</th>
-          <th>优缺点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CHAR(n)</td>
-          <td>固定长度 n 字节</td>
-          <td>不够补空格</td>
-          <td>性别、状态码</td>
-          <td>优点：检索快；缺点：空间浪费</td>
-      </tr>
-      <tr>
-          <td>VARCHAR(n)</td>
-          <td>可变长度 n 字节</td>
-          <td>实际长度 + 1~2 字节</td>
-          <td>常规短文本</td>
-          <td>优点：节省空间，支持索引，兼容性好；缺点：超长报错</td>
-      </tr>
-      <tr>
-          <td>TEXT / TINYTEXT / MEDIUMTEXT / LONGTEXT</td>
-          <td>大文本</td>
-          <td>LOB 存储</td>
-          <td>内容、日志</td>
-          <td>优点：可存储大文本；缺点：索引有限制，写入稍慢</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+					<th>特点</th>
+					<th>适用场景</th>
+					<th>优缺点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CHAR(n)</td>
+					<td>固定长度 n 字节</td>
+					<td>不够补空格</td>
+					<td>性别、状态码</td>
+					<td>优点：检索快；缺点：空间浪费</td>
+			</tr>
+			<tr>
+					<td>VARCHAR(n)</td>
+					<td>可变长度 n 字节</td>
+					<td>实际长度 + 1~2 字节</td>
+					<td>常规短文本</td>
+					<td>优点：节省空间，支持索引，兼容性好；缺点：超长报错</td>
+			</tr>
+			<tr>
+					<td>TEXT / TINYTEXT / MEDIUMTEXT / LONGTEXT</td>
+					<td>大文本</td>
+					<td>LOB 存储</td>
+					<td>内容、日志</td>
+					<td>优点：可存储大文本；缺点：索引有限制，写入稍慢</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>实践建议：</p>
 <ul>
@@ -2290,46 +2275,46 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>PostgreSQL</th>
-          <th>MySQL</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>可变长度短文本</td>
-          <td>varchar(n)</td>
-          <td>VARCHAR(n)</td>
-          <td>二者类似</td>
-      </tr>
-      <tr>
-          <td>无长度限制长文本</td>
-          <td>text</td>
-          <td>TEXT / MEDIUMTEXT</td>
-          <td>PostgreSQL 更统一，MySQL 有多种 TEXT 类型，需根据大小选择</td>
-      </tr>
-      <tr>
-          <td>索引支持</td>
-          <td>varchar 与 text 默认支持 B-Tree，但 text LIKE &lsquo;%xxx%&rsquo; 不走索引</td>
-          <td>VARCHAR 可建索引，TEXT 默认只能索引前 255 字节</td>
-          <td>短文本建 varchar，长文本建 text/mediumtext</td>
-      </tr>
-      <tr>
-          <td>空间消耗</td>
-          <td>char(n) 补空格，varchar(n) 与 text 按长度存</td>
-          <td>同 PostgreSQL</td>
-          <td>尽量少用 char，varchar 可控</td>
-      </tr>
-      <tr>
-          <td>查询性能</td>
-          <td>varchar + 索引性能高，text 查询大文本慢</td>
-          <td>同 PostgreSQL</td>
-          <td>长文本尽量避免频繁 LIKE &lsquo;%xxx%&rsquo;</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>PostgreSQL</th>
+					<th>MySQL</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>可变长度短文本</td>
+					<td>varchar(n)</td>
+					<td>VARCHAR(n)</td>
+					<td>二者类似</td>
+			</tr>
+			<tr>
+					<td>无长度限制长文本</td>
+					<td>text</td>
+					<td>TEXT / MEDIUMTEXT</td>
+					<td>PostgreSQL 更统一，MySQL 有多种 TEXT 类型，需根据大小选择</td>
+			</tr>
+			<tr>
+					<td>索引支持</td>
+					<td>varchar 与 text 默认支持 B-Tree，但 text LIKE &lsquo;%xxx%&rsquo; 不走索引</td>
+					<td>VARCHAR 可建索引，TEXT 默认只能索引前 255 字节</td>
+					<td>短文本建 varchar，长文本建 text/mediumtext</td>
+			</tr>
+			<tr>
+					<td>空间消耗</td>
+					<td>char(n) 补空格，varchar(n) 与 text 按长度存</td>
+					<td>同 PostgreSQL</td>
+					<td>尽量少用 char，varchar 可控</td>
+			</tr>
+			<tr>
+					<td>查询性能</td>
+					<td>varchar + 索引性能高，text 查询大文本慢</td>
+					<td>同 PostgreSQL</td>
+					<td>长文本尽量避免频繁 LIKE &lsquo;%xxx%&rsquo;</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四实战最佳实践"
@@ -2442,14 +2427,14 @@
 <li>推荐使用 <strong>pg_trgm</strong> 扩展 + <strong>GIN 或 GiST 索引</strong></li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 安装扩展
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 创建 trigram GIN 索引
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_title_trgm</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 创建 trigram GIN 索引
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_title_trgm</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>查询：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%关键词%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%关键词%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>性能会比全表扫描快很多（百万级数据也可接受）。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="二mysql"
@@ -2489,12 +2474,12 @@
 <li>推荐使用 <strong>FULLTEXT 索引</strong>（MySQL 5.6+ 支持 InnoDB）</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- VARCHAR 类型示例
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">FULLTEXT</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">ft_title</span><span class="p">(</span><span class="n">title</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">FULLTEXT</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">ft_title</span><span class="p">(</span><span class="n">title</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 查询
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">MATCH</span><span class="p">(</span><span class="n">title</span><span class="p">)</span><span class="w"> </span><span class="n">AGAINST</span><span class="p">(</span><span class="s1">&#39;关键词&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 查询
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">MATCH</span><span class="p">(</span><span class="n">title</span><span class="p">)</span><span class="w"> </span><span class="n">AGAINST</span><span class="p">(</span><span class="s1">&#39;关键词&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>FULLTEXT 支持自然语言搜索，性能优于 LIKE &lsquo;%xxx%&rsquo;。</p>
 <p>如果需要严格 LIKE 模糊匹配，也可以考虑将关键字拆分到另一个列存储或者使用 ElasticSearch。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2507,40 +2492,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>PostgreSQL</th>
-          <th>MySQL</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>存储类型</td>
-          <td>text 或 varchar(n)</td>
-          <td>VARCHAR(n) 或 TEXT</td>
-      </tr>
-      <tr>
-          <td>模糊搜索优化</td>
-          <td>pg_trgm + GIN/GiST</td>
-          <td>FULLTEXT 索引</td>
-      </tr>
-      <tr>
-          <td>LIKE &lsquo;%xxx%&rsquo;</td>
-          <td>不走 B-Tree，需 trigram</td>
-          <td>不走 B-Tree，需 FULLTEXT</td>
-      </tr>
-      <tr>
-          <td>数据量</td>
-          <td>支持百万以上</td>
-          <td>支持百万以上</td>
-      </tr>
-      <tr>
-          <td>适合场景</td>
-          <td>灵活、复杂查询</td>
-          <td>常规搜索、简单匹配</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>PostgreSQL</th>
+					<th>MySQL</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>存储类型</td>
+					<td>text 或 varchar(n)</td>
+					<td>VARCHAR(n) 或 TEXT</td>
+			</tr>
+			<tr>
+					<td>模糊搜索优化</td>
+					<td>pg_trgm + GIN/GiST</td>
+					<td>FULLTEXT 索引</td>
+			</tr>
+			<tr>
+					<td>LIKE &lsquo;%xxx%&rsquo;</td>
+					<td>不走 B-Tree，需 trigram</td>
+					<td>不走 B-Tree，需 FULLTEXT</td>
+			</tr>
+			<tr>
+					<td>数据量</td>
+					<td>支持百万以上</td>
+					<td>支持百万以上</td>
+			</tr>
+			<tr>
+					<td>适合场景</td>
+					<td>灵活、复杂查询</td>
+					<td>常规搜索、简单匹配</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="推荐实践"

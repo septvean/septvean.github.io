@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 🧩 1. Pod 是什么？ Pod 是 Kubernetes 中 最小的可调度单位 Unit of Deployment。
@@ -65,18 +65,18 @@ Pod 的核心特点：
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes Pod",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/pod/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/pod/",
       "headline": "Kubernetes Pod",
       "description": " 🧩 1. Pod 是什么？ Pod 是 Kubernetes 中 最小的可调度单位 Unit of Deployment。\nPod 的核心特点：\n封装一个或多个容器 共享网络命名空间（IP\/Port 都共享） 共享 Volume（数据卷） 与 Node 绑定（不会跨节点漂移） 由上层控制器管理（不可直接作为高可用模型） Pod 本质是 K8S 为容器提供的“运行沙箱（sandbox）”。\n🧩 2. 为什么需要 Pod？ 容器本身是轻量级进程，但实际业务通常需要：",
-      "wordCount" : "471",
+      "wordCount": "471",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/pod/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ Pod 的核心特点：
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ Pod 的核心特点：
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ Pod 的核心特点：
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2230,38 +2215,38 @@ Pod 的核心特点：
 </div>
 <p>Kubernetes Pod 生命周期有清晰且可观测的状态：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>阶段（Phase）</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Pending</td>
-          <td>等调度/拉镜像</td>
-      </tr>
-      <tr>
-          <td>Running</td>
-          <td>所有容器运行（至少一个 running）</td>
-      </tr>
-      <tr>
-          <td>Succeeded</td>
-          <td>任务完成（Job 场景）</td>
-      </tr>
-      <tr>
-          <td>Failed</td>
-          <td>至少一个容器退出且不会自动重启</td>
-      </tr>
-      <tr>
-          <td>Unknown</td>
-          <td>节点不可达</td>
-      </tr>
-      <tr>
-          <td>CrashLoopBackOff</td>
-          <td>容器不停重启（最常见故障）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>阶段（Phase）</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Pending</td>
+					<td>等调度/拉镜像</td>
+			</tr>
+			<tr>
+					<td>Running</td>
+					<td>所有容器运行（至少一个 running）</td>
+			</tr>
+			<tr>
+					<td>Succeeded</td>
+					<td>任务完成（Job 场景）</td>
+			</tr>
+			<tr>
+					<td>Failed</td>
+					<td>至少一个容器退出且不会自动重启</td>
+			</tr>
+			<tr>
+					<td>Unknown</td>
+					<td>节点不可达</td>
+			</tr>
+			<tr>
+					<td>CrashLoopBackOff</td>
+					<td>容器不停重启（最常见故障）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-4-pod-组成结构spec"
@@ -2419,40 +2404,40 @@ Pod 的核心特点：
 </div>
 <p>Pod 支持多种 Volume：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Volume 类型</th>
-          <th>特点</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>emptyDir</td>
-          <td>Pod 删除就消失</td>
-          <td>缓存/临时文件</td>
-      </tr>
-      <tr>
-          <td>hostPath</td>
-          <td>挂载宿主机目录</td>
-          <td>调试/日志</td>
-      </tr>
-      <tr>
-          <td>configMap / secret</td>
-          <td>配置注入</td>
-          <td>配置文件/敏感数据</td>
-      </tr>
-      <tr>
-          <td>PVC / CSI</td>
-          <td>由存储插件管理</td>
-          <td>数据库/持久化数据</td>
-      </tr>
-      <tr>
-          <td>downwardAPI</td>
-          <td>注入 Pod 元数据</td>
-          <td>Pod IP/Labels</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Volume 类型</th>
+					<th>特点</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>emptyDir</td>
+					<td>Pod 删除就消失</td>
+					<td>缓存/临时文件</td>
+			</tr>
+			<tr>
+					<td>hostPath</td>
+					<td>挂载宿主机目录</td>
+					<td>调试/日志</td>
+			</tr>
+			<tr>
+					<td>configMap / secret</td>
+					<td>配置注入</td>
+					<td>配置文件/敏感数据</td>
+			</tr>
+			<tr>
+					<td>PVC / CSI</td>
+					<td>由存储插件管理</td>
+					<td>数据库/持久化数据</td>
+			</tr>
+			<tr>
+					<td>downwardAPI</td>
+					<td>注入 Pod 元数据</td>
+					<td>Pod IP/Labels</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>Pod 级别 Volume = 在 Pod 内所有容器之间共享。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2699,10 +2684,10 @@ Pod 的核心特点：
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">example-pod</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">initContainers</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">init-db</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">busybox</span><span class="w">

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 真正生产可用、体系化的 PostgreSQL 故障排查指南。
@@ -71,18 +71,18 @@ psql / 应用连接失败 “connection refused” “too many connections” �
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 故障排查",
-      "url" : "https://documents.v2ep.com/database/postgres/troubleshooting/",
+      "url": "https://documents.v2ep.com/database/postgres/troubleshooting/",
       "headline": "PostgreSQL 故障排查",
       "description": "下面是一份 真正生产可用、体系化的 PostgreSQL 故障排查指南。\n覆盖 连接问题、性能问题、锁等待、死锁、WAL、磁盘、内存、复制、表膨胀、数据损坏、配置问题 等全部常见故障。\n分为下面 10 大类故障：\n数据库无法连接 CPU、内存、磁盘暴涨 查询突然变慢 锁等待 \/ 死锁问题 Autovacuum \/ 表膨胀问题 WAL \/ checkpoint 写入变慢或卡死 磁盘空间不足 \/ WAL 堆积 复制集群问题（主从延迟、复制中断） 配置错误导致启动失败 数据损坏 \/ 索引损坏 每一类都包含：\n症状 排查步骤 解决方案 1. 数据库无法连接 常见表现\npsql \/ 应用连接失败 “connection refused” “too many connections” “could not connect to server” 排查步骤",
-      "wordCount" : "523",
+      "wordCount": "523",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/troubleshooting/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ psql / 应用连接失败 “connection refused” “too many connections” �
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2258,7 +2243,7 @@ psql / 应用连接失败 “connection refused” “too many connections” �
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SHOW</span><span class="w"> </span><span class="n">max_connections</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SHOW</span><span class="w"> </span><span class="n">max_connections</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-是否被防火墙阻拦"
     >
@@ -2281,8 +2266,8 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 </div>
 <p>定位最耗资源的 SQL</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">usename</span><span class="p">,</span><span class="w"> </span><span class="k">state</span><span class="p">,</span><span class="w"> </span><span class="n">query_start</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">query_start</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">query_start</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>查看 CPU 等待 IO（IO wait 高则查询变慢）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">iostat -x <span class="m">1</span>
 </span></span></code></pre></div><p>查 PostgreSQL 自己的统计</p>
@@ -2377,15 +2362,15 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 </span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">blocked</span><span class="p">.</span><span class="n">query</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">blocked_query</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">blocking</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">blocking_pid</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">blocking</span><span class="p">.</span><span class="n">query</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">blocking_query</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="n">blocked</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_locks</span><span class="w"> </span><span class="n">blocked_l</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">blocked</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocked_l</span><span class="p">.</span><span class="n">pid</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_locks</span><span class="w"> </span><span class="n">blocking_l</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="n">blocked</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_locks</span><span class="w"> </span><span class="n">blocked_l</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">blocked</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocked_l</span><span class="p">.</span><span class="n">pid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_locks</span><span class="w"> </span><span class="n">blocking_l</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">blocking_l</span><span class="p">.</span><span class="n">locktype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocked_l</span><span class="p">.</span><span class="n">locktype</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_l</span><span class="p">.</span><span class="k">DATABASE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocked_l</span><span class="p">.</span><span class="k">DATABASE</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">   </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_l</span><span class="p">.</span><span class="n">relation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocked_l</span><span class="p">.</span><span class="n">relation</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="n">blocking</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="n">blocking</span><span class="w"> 
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">blocking</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocking_l</span><span class="p">.</span><span class="n">pid</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">blocked_l</span><span class="p">.</span><span class="k">granted</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">blocked_l</span><span class="p">.</span><span class="k">granted</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-强制杀掉阻塞进程"
     >
@@ -2407,7 +2392,7 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 </div>
 <p>开启：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">log_lock_waits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">on</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">log_min_duration_statement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="n">ms</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">log_min_duration_statement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="n">ms</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="5-autovacuum--table-bloat-表膨胀"
     >
@@ -2421,7 +2406,7 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pgstattuple</span><span class="p">(</span><span class="s1">&#39;your_table&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>Autovacuum 是否落后</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">relname</span><span class="p">,</span><span class="w"> </span><span class="n">last_vacuum</span><span class="p">,</span><span class="w"> </span><span class="n">last_autovacuum</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_user_tables</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_user_tables</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>自动清理不工作常见原因</p>
 <ul>
 <li>表太大 -&gt; autovacuum 跑不完</li>
@@ -2467,8 +2452,8 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">du -sh <span class="nv">$PGDATA</span>
 </span></span></code></pre></div><p>查看最大的表</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">relname</span><span class="p">,</span><span class="w"> </span><span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="n">relid</span><span class="p">))</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_statio_user_tables</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="n">relid</span><span class="p">)</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_catalog</span><span class="p">.</span><span class="n">pg_statio_user_tables</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="n">relid</span><span class="p">)</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>WAL 堆积常见原因</p>
 <ul>
 <li>流复制断开 -&gt; WAL 无法清除</li>
@@ -2500,26 +2485,26 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 </ul>
 <p>常见复制问题</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>错误</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>“requested WAL segment has been removed”</td>
-          <td>主库清理 WAL 前从库没读到</td>
-      </tr>
-      <tr>
-          <td>“replication terminated by primary server”</td>
-          <td>网络断</td>
-      </tr>
-      <tr>
-          <td>“FATAL: could not receive data from WAL stream”</td>
-          <td>网络抖动</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>错误</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>“requested WAL segment has been removed”</td>
+					<td>主库清理 WAL 前从库没读到</td>
+			</tr>
+			<tr>
+					<td>“replication terminated by primary server”</td>
+					<td>网络断</td>
+			</tr>
+			<tr>
+					<td>“FATAL: could not receive data from WAL stream”</td>
+					<td>网络抖动</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>解决方案</p>
 <ul>
@@ -2540,30 +2525,30 @@ psql / 应用连接失败 “connection refused” “too many connections” �
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">journalctl -u postgresql
 </span></span></code></pre></div><p>常见原因：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>错误</th>
-          <th>原因</th>
-          <th>解决</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>FATAL: lock file already exists</td>
-          <td>上次异常退出</td>
-          <td>删除 postmaster.pid</td>
-      </tr>
-      <tr>
-          <td>FATAL: could not create shared memory</td>
-          <td>参数过大</td>
-          <td>调整 shared_buffers</td>
-      </tr>
-      <tr>
-          <td>fatal: corrupt xlog</td>
-          <td>WAL 损坏</td>
-          <td>pg_resetwal（危险）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>错误</th>
+					<th>原因</th>
+					<th>解决</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>FATAL: lock file already exists</td>
+					<td>上次异常退出</td>
+					<td>删除 postmaster.pid</td>
+			</tr>
+			<tr>
+					<td>FATAL: could not create shared memory</td>
+					<td>参数过大</td>
+					<td>调整 shared_buffers</td>
+			</tr>
+			<tr>
+					<td>fatal: corrupt xlog</td>
+					<td>WAL 损坏</td>
+					<td>pg_resetwal（危险）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="10-数据损坏--索引损坏"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面给你一份 超实用 &#43; 清晰分层的《Python cryptography 库 教程》，涵盖常用功能、最佳实践、常见错误处理、生产环境建议。内容基于最新版（cryptography ≥ 42&#43;）风格，保证你马上能用。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "cryptography 基础教程",
-      "url" : "https://documents.v2ep.com/backend/python/cryptography/tutorial/",
+      "url": "https://documents.v2ep.com/backend/python/cryptography/tutorial/",
       "headline": "cryptography 基础教程",
       "description": "下面给你一份 超实用 \u002b 清晰分层的《Python cryptography 库 教程》，涵盖常用功能、最佳实践、常见错误处理、生产环境建议。内容基于最新版（cryptography ≥ 42\u002b）风格，保证你马上能用。\n🧩 Python cryptography 库教程 适合：后端开发者 \/ 安全开发 \/ Token \/ 加密存储 \/ HTTPS \/ JWT \/ 非对称加密\n目录\n📦 安装 🔐 高层（Fernet）对称加密 🗝 低层（Hazmat）AES-GCM 🔑 非对称 RSA（生成密钥 \/ 加解密 \/ 签名） 🔑 非对称 ECC（更快、更安全） 🧾 哈希（SHA256、HMAC） 🎫 JWT 自建签名系统（不依赖第三方库） 📁 文件加密 🛡 证书、TLS 工具（X509） 🧨 错误处理 🏭 生产环境最佳实践 1. 安装 pip install cryptography 2. 🔐 Fernet（最简单可靠的对称加密） Fernet 封装了 AES \u002b HMAC，几乎是“拿来就用”的安全方案。",
-      "wordCount" : "493",
+      "wordCount": "493",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/cryptography/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2477,30 +2462,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>错误</th>
-          <th>原因</th>
-          <th>解决</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>InvalidTag</td>
-          <td>AES-GCM 解密失败（密钥/nonce/AAD 错误）</td>
-          <td>保证 nonce 不重复 / 验证 AAD</td>
-      </tr>
-      <tr>
-          <td>UnsupportedAlgorithm</td>
-          <td>使用过时算法</td>
-          <td>使用 SHA256+ / AES-GCM</td>
-      </tr>
-      <tr>
-          <td>ValueError: Encryption/decryption failed</td>
-          <td>RSA 填充不匹配</td>
-          <td>使用 OAEP，避免 PKCS1v1.5</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>错误</th>
+					<th>原因</th>
+					<th>解决</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>InvalidTag</td>
+					<td>AES-GCM 解密失败（密钥/nonce/AAD 错误）</td>
+					<td>保证 nonce 不重复 / 验证 AAD</td>
+			</tr>
+			<tr>
+					<td>UnsupportedAlgorithm</td>
+					<td>使用过时算法</td>
+					<td>使用 SHA256+ / AES-GCM</td>
+			</tr>
+			<tr>
+					<td>ValueError: Encryption/decryption failed</td>
+					<td>RSA 填充不匹配</td>
+					<td>使用 OAEP，避免 PKCS1v1.5</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="11--生产环境最佳实践"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="以下是一份 最系统、最实用、最现代的《Python Pydantic 全面指南》，覆盖 Pydantic v1 与 v2（最新版），从入门到进阶、到 FastAPI 实战的最核心内容。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "Pydantic 基础教程",
-      "url" : "https://documents.v2ep.com/backend/python/pydantic/tutorial/",
+      "url": "https://documents.v2ep.com/backend/python/pydantic/tutorial/",
       "headline": "Pydantic 基础教程",
       "description": "以下是一份 最系统、最实用、最现代的《Python Pydantic 全面指南》，覆盖 Pydantic v1 与 v2（最新版），从入门到进阶、到 FastAPI 实战的最核心内容。\n内容重点：\n概念 \u002b 基础 \u002b 验证 Pydantic Model \u002b Field 解析 \/ 序列化 自定义验证器 FastAPI 场景 项目最佳实践 🚀 1. 什么是 Pydantic？ Pydantic 是 Python 的 数据模型与数据验证库，主要功能：\n自动类型转换（type coercion） 自动校验数据格式 优雅的错误信息 JSON 友好 超快（Rust 加速，自 v2） 特别适合：\n接口输入\/输出（FastAPI 默认用它） 配置文件加载（env \/ json \/ yaml） DTO（业务传输对象） 数据清洗与转换 📌 2. 最基础示例（Pydantic v2 风格） from pydantic import BaseModel, Field class User(BaseModel): id: int name: str active: bool = True u = User(id=\u00221\u0022, name=\u0022Tom\u0022) # 自动把 \u00221\u0022 转成 int print(u) 输出：",
-      "wordCount" : "526",
+      "wordCount": "526",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/pydantic/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2263,34 +2248,34 @@
 </span></span><span class="line"><span class="cl">    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 </span></span></code></pre></div><p>常用参数：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>default / 默认值</td>
-          <td>字段的默认值</td>
-      </tr>
-      <tr>
-          <td>gt / ge / lt / le</td>
-          <td>数值范围</td>
-      </tr>
-      <tr>
-          <td>min_length / max_length</td>
-          <td>字符串长度</td>
-      </tr>
-      <tr>
-          <td>regex</td>
-          <td>正则匹配</td>
-      </tr>
-      <tr>
-          <td>description</td>
-          <td>文档描述（FastAPI 自动生成）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>default / 默认值</td>
+					<td>字段的默认值</td>
+			</tr>
+			<tr>
+					<td>gt / ge / lt / le</td>
+					<td>数值范围</td>
+			</tr>
+			<tr>
+					<td>min_length / max_length</td>
+					<td>字符串长度</td>
+			</tr>
+			<tr>
+					<td>regex</td>
+					<td>正则匹配</td>
+			</tr>
+			<tr>
+					<td>description</td>
+					<td>文档描述（FastAPI 自动生成）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-4-自动类型转换pydantic-强项"
@@ -2531,40 +2516,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>v1</th>
-          <th>v2</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>验证</td>
-          <td>Python 实现</td>
-          <td>Rust 超高速</td>
-      </tr>
-      <tr>
-          <td>语法</td>
-          <td>@validator</td>
-          <td>@field_validator</td>
-      </tr>
-      <tr>
-          <td>方法</td>
-          <td>.dict() .json()</td>
-          <td>model_dump() model_dump_json()</td>
-      </tr>
-      <tr>
-          <td>自定义校验</td>
-          <td>已废弃</td>
-          <td>更统一、更强</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>较慢</td>
-          <td>8~30 倍提升</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>v1</th>
+					<th>v2</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>验证</td>
+					<td>Python 实现</td>
+					<td>Rust 超高速</td>
+			</tr>
+			<tr>
+					<td>语法</td>
+					<td>@validator</td>
+					<td>@field_validator</td>
+			</tr>
+			<tr>
+					<td>方法</td>
+					<td>.dict() .json()</td>
+					<td>model_dump() model_dump_json()</td>
+			</tr>
+			<tr>
+					<td>自定义校验</td>
+					<td>已废弃</td>
+					<td>更统一、更强</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>较慢</td>
+					<td>8~30 倍提升</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>建议全面使用 v2。</p>
 <div class="flex align-center gdoc-page__anchorwrap">

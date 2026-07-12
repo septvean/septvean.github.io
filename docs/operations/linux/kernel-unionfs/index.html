@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Linux UnionFS（联合文件系统）详解。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux UnionFS",
-      "url" : "https://documents.v2ep.com/operations/linux/kernel-unionfs/",
+      "url": "https://documents.v2ep.com/operations/linux/kernel-unionfs/",
       "headline": "Linux UnionFS",
       "description": "Linux UnionFS（联合文件系统）详解。\n内容：概念 -\u003e 内核实现 -\u003e 主流实现 -\u003e 行为细节 -\u003e 与容器的关系 -\u003e 性能与陷阱 -\u003e 最佳实践\n一、UnionFS 是什么（一句话） UnionFS 是一种“把多个目录（分支）叠加成一个统一视图”的文件系统机制。\n上层：可写层（upper） 下层：只读层（lower） 对用户呈现：一个完整目录树 📌 UnionFS ≠ OverlayFS（OverlayFS 是内核实现之一）\n二、为什么需要 UnionFS（设计动机） 1️⃣ 镜像分层（容器） 应用层（可写） --------- 基础镜像层（只读） --------- OS 层（只读） 节省空间 快速创建 层复用 2️⃣ 系统快照 \/ Live CD Live 系统：只读 \u002b 内存写层 回滚 \/ 快照 3️⃣ 只读根文件系统 \u002b 可写覆盖 嵌入式系统 安全系统 三、UnionFS 的核心概念 1️⃣ Branch（分支） 每一层目录叫一个 branch",
-      "wordCount" : "381",
+      "wordCount": "381",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/kernel-unionfs/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2399,8 +2384,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount -t overlay overlay <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -o <span class="nv">lowerdir</span><span class="o">=</span>lower,upperdir<span class="o">=</span>upper,workdir<span class="o">=</span>work <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    merged
+</span></span></span><span class="line"><span class="cl">    -o <span class="nv">lowerdir</span><span class="o">=</span>lower,upperdir<span class="o">=</span>upper,workdir<span class="o">=</span>work <span class="se">\
+</span></span></span><span class="line"><span class="cl">    merged
 </span></span></code></pre></div><p>📌 workdir 用于原子操作（必须）</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-文件访问逻辑读写流程"
@@ -2696,46 +2681,46 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>OverlayFS</th>
-          <th>bind mount</th>
-          <th>tmpfs</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>分层</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>可写</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>中</td>
-          <td>高</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>数据安全</td>
-          <td>低</td>
-          <td>高</td>
-          <td>低</td>
-      </tr>
-      <tr>
-          <td>适合数据库</td>
-          <td>❌</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>OverlayFS</th>
+					<th>bind mount</th>
+					<th>tmpfs</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>分层</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>可写</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>中</td>
+					<td>高</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>数据安全</td>
+					<td>低</td>
+					<td>高</td>
+					<td>低</td>
+			</tr>
+			<tr>
+					<td>适合数据库</td>
+					<td>❌</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十二总结记住"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 超全、结构清晰、可直接收藏的 Jenkins 全套知识体系，包括概念、安装、Pipeline、流水线最佳实践、运维、集群、故障排查等，让你一次性吃透 Jenkins。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Jenkins 基础教程",
-      "url" : "https://documents.v2ep.com/operations/jenkins/tutorial/",
+      "url": "https://documents.v2ep.com/operations/jenkins/tutorial/",
       "headline": "Jenkins 基础教程",
       "description": "下面是一份 超全、结构清晰、可直接收藏的 Jenkins 全套知识体系，包括概念、安装、Pipeline、流水线最佳实践、运维、集群、故障排查等，让你一次性吃透 Jenkins。\n1. Jenkins 是什么？ Jenkins 是最常用的 CI\/CD 持续集成与持续交付平台\n特点：\n免费、开源 插件生态超丰富 支持 Pipeline as Code（Jenkinsfile） 支持分布式构建（Master \u002b Agent） 2. Jenkins 基础概念 概念 说明 Master（Controller） 负责 UI、管理任务、调度构建 Agent（Worker） 实际执行构建 Job \/ Project 构建任务，Freestyle\/ Pipeline Pipeline 用 Groovy DSL 写的流水线 Stage 流水线的大步骤 Step 每一步执行的命令 Node 指定构建在哪个 agent 上跑 Label 给 agent 打标签，让 pipeline 选择 3. Jenkins 安装方式 ✅ 方式一：使用 Docker（推荐） docker run -d \\ -p 8080:8080 \\ -p 50000:50000 \\ -v jenkins_home:\/var\/jenkins_home \\ jenkins\/jenkins:lts 方式二：Linux 安装（Ubuntu） apt update apt install openjdk-17-jdk -y wget -q -O - https:\/\/pkg.jenkins.io\/debian\/jenkins.io.key | sudo apt-key add - echo deb http:\/\/pkg.jenkins.io\/debian binary\/ \u003e \/etc\/apt\/sources.list.d\/jenkins.list apt update apt install jenkins systemctl enable --now jenkins 方式三：Kubernetes（企业级） 使用 Helm：",
-      "wordCount" : "504",
+      "wordCount": "504",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2211,46 +2196,46 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>概念</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Master（Controller</strong>）</td>
-          <td>负责 UI、管理任务、调度构建</td>
-      </tr>
-      <tr>
-          <td><strong>Agent（Worker）</strong></td>
-          <td>实际执行构建</td>
-      </tr>
-      <tr>
-          <td><strong>Job / Project</strong></td>
-          <td>构建任务，Freestyle/ Pipeline</td>
-      </tr>
-      <tr>
-          <td><strong>Pipeline</strong></td>
-          <td>用 Groovy DSL 写的流水线</td>
-      </tr>
-      <tr>
-          <td><strong>Stage</strong></td>
-          <td>流水线的大步骤</td>
-      </tr>
-      <tr>
-          <td><strong>Step</strong></td>
-          <td>每一步执行的命令</td>
-      </tr>
-      <tr>
-          <td><strong>Node</strong></td>
-          <td>指定构建在哪个 agent 上跑</td>
-      </tr>
-      <tr>
-          <td><strong>Label</strong></td>
-          <td>给 agent 打标签，让 pipeline 选择</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>概念</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Master（Controller</strong>）</td>
+					<td>负责 UI、管理任务、调度构建</td>
+			</tr>
+			<tr>
+					<td><strong>Agent（Worker）</strong></td>
+					<td>实际执行构建</td>
+			</tr>
+			<tr>
+					<td><strong>Job / Project</strong></td>
+					<td>构建任务，Freestyle/ Pipeline</td>
+			</tr>
+			<tr>
+					<td><strong>Pipeline</strong></td>
+					<td>用 Groovy DSL 写的流水线</td>
+			</tr>
+			<tr>
+					<td><strong>Stage</strong></td>
+					<td>流水线的大步骤</td>
+			</tr>
+			<tr>
+					<td><strong>Step</strong></td>
+					<td>每一步执行的命令</td>
+			</tr>
+			<tr>
+					<td><strong>Node</strong></td>
+					<td>指定构建在哪个 agent 上跑</td>
+			</tr>
+			<tr>
+					<td><strong>Label</strong></td>
+					<td>给 agent 打标签，让 pipeline 选择</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-jenkins-安装方式"
@@ -2271,10 +2256,10 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p 8080:8080 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p 50000:50000 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v jenkins_home:/var/jenkins_home <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    jenkins/jenkins:lts
+</span></span></span><span class="line"><span class="cl">    -p 8080:8080 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -p 50000:50000 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -v jenkins_home:/var/jenkins_home <span class="se">\
+</span></span></span><span class="line"><span class="cl">    jenkins/jenkins:lts
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="方式二linux-安装ubuntu"
     >
@@ -2313,46 +2298,46 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>插件</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Pipeline</strong></td>
-          <td>Jenkinsfile 流水线基础</td>
-      </tr>
-      <tr>
-          <td><strong>Git / GitHub</strong></td>
-          <td>Git SCM 支持</td>
-      </tr>
-      <tr>
-          <td><strong>Credentials Binding</strong></td>
-          <td>凭证绑定</td>
-      </tr>
-      <tr>
-          <td><strong>Blue Ocean</strong></td>
-          <td>更直观的 UI</td>
-      </tr>
-      <tr>
-          <td><strong>Docker Pipeline</strong></td>
-          <td>使用 Docker</td>
-      </tr>
-      <tr>
-          <td><strong>Kubernetes Plugin</strong></td>
-          <td>动态 Agent</td>
-      </tr>
-      <tr>
-          <td><strong>Email-ext</strong></td>
-          <td>邮件通知</td>
-      </tr>
-      <tr>
-          <td><strong>AnsiColor</strong></td>
-          <td>控制台彩色输出</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>插件</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Pipeline</strong></td>
+					<td>Jenkinsfile 流水线基础</td>
+			</tr>
+			<tr>
+					<td><strong>Git / GitHub</strong></td>
+					<td>Git SCM 支持</td>
+			</tr>
+			<tr>
+					<td><strong>Credentials Binding</strong></td>
+					<td>凭证绑定</td>
+			</tr>
+			<tr>
+					<td><strong>Blue Ocean</strong></td>
+					<td>更直观的 UI</td>
+			</tr>
+			<tr>
+					<td><strong>Docker Pipeline</strong></td>
+					<td>使用 Docker</td>
+			</tr>
+			<tr>
+					<td><strong>Kubernetes Plugin</strong></td>
+					<td>动态 Agent</td>
+			</tr>
+			<tr>
+					<td><strong>Email-ext</strong></td>
+					<td>邮件通知</td>
+			</tr>
+			<tr>
+					<td><strong>AnsiColor</strong></td>
+					<td>控制台彩色输出</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="5-jenkins-pipeline-教程从零到精通"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面给你一份 PostgreSQL 字符类型（Character Types）最完整、最清晰、最实用的总结，包含：
@@ -71,18 +71,18 @@ PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 �
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 字符类型",
-      "url" : "https://documents.v2ep.com/database/postgres/character-types/",
+      "url": "https://documents.v2ep.com/database/postgres/character-types/",
       "headline": "PostgreSQL 字符类型",
       "description": "下面给你一份 PostgreSQL 字符类型（Character Types）最完整、最清晰、最实用的总结，包含：\nPostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 最佳实践总结（重点） 内容简明但专业，适合实际后端开发使用（FastAPI \u002b PostgreSQL）。\n✅ PostgreSQL 字符类型总览 PostgreSQL 提供主要 5 类字符相关类型：\n类型 描述 char(n) 固定长度字符串 varchar(n) 可变长度，有长度限制 varchar \/ text 可变长度，无长度限制 text 超大文本 citext 不区分大小写的 text\/varchar（扩展） 另外还有：\n类型 描述 bytea 二进制数据 json \/ jsonb JSON 文本类型 下面我们逐个讲解。\n1. char(n) —— 固定长度字符串 ✅ 场景",
-      "wordCount" : "323",
+      "wordCount": "323",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/character-types/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 �
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 �
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 �
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2209,53 +2194,53 @@ PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 �
 </div>
 <p>PostgreSQL 提供主要 5 类字符相关类型：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>char(n)</td>
-          <td>固定长度字符串</td>
-      </tr>
-      <tr>
-          <td>varchar(n)</td>
-          <td>可变长度，有长度限制</td>
-      </tr>
-      <tr>
-          <td>varchar / text</td>
-          <td>可变长度，无长度限制</td>
-      </tr>
-      <tr>
-          <td>text</td>
-          <td>超大文本</td>
-      </tr>
-      <tr>
-          <td>citext</td>
-          <td>不区分大小写的 text/varchar（扩展）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>char(n)</td>
+					<td>固定长度字符串</td>
+			</tr>
+			<tr>
+					<td>varchar(n)</td>
+					<td>可变长度，有长度限制</td>
+			</tr>
+			<tr>
+					<td>varchar / text</td>
+					<td>可变长度，无长度限制</td>
+			</tr>
+			<tr>
+					<td>text</td>
+					<td>超大文本</td>
+			</tr>
+			<tr>
+					<td>citext</td>
+					<td>不区分大小写的 text/varchar（扩展）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>另外还有：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>bytea</td>
-          <td>二进制数据</td>
-      </tr>
-      <tr>
-          <td>json / jsonb</td>
-          <td>JSON 文本类型</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>bytea</td>
+					<td>二进制数据</td>
+			</tr>
+			<tr>
+					<td>json / jsonb</td>
+					<td>JSON 文本类型</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>下面我们逐个讲解。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2427,46 +2412,46 @@ PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 �
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>查询性能</th>
-          <th>存储效率</th>
-          <th>使用复杂度</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>char(n)</td>
-          <td>❌ 慢 &amp; 补空格</td>
-          <td>不一定省空间</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>varchar(n)</td>
-          <td>✅ 快</td>
-          <td>✅ 高</td>
-          <td>中</td>
-      </tr>
-      <tr>
-          <td>varchar</td>
-          <td>✅ 快</td>
-          <td>✅ 高</td>
-          <td>低</td>
-      </tr>
-      <tr>
-          <td>text</td>
-          <td>✅ 快</td>
-          <td>✅ 高</td>
-          <td>最低（最佳）</td>
-      </tr>
-      <tr>
-          <td>citext</td>
-          <td>✅ 中高</td>
-          <td>✅ 高</td>
-          <td>中</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>查询性能</th>
+					<th>存储效率</th>
+					<th>使用复杂度</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>char(n)</td>
+					<td>❌ 慢 &amp; 补空格</td>
+					<td>不一定省空间</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>varchar(n)</td>
+					<td>✅ 快</td>
+					<td>✅ 高</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>varchar</td>
+					<td>✅ 快</td>
+					<td>✅ 高</td>
+					<td>低</td>
+			</tr>
+			<tr>
+					<td>text</td>
+					<td>✅ 快</td>
+					<td>✅ 高</td>
+					<td>最低（最佳）</td>
+			</tr>
+			<tr>
+					<td>citext</td>
+					<td>✅ 中高</td>
+					<td>✅ 高</td>
+					<td>中</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>Postgres 中 varchar = text 性能和存储无差别，不像 MySQL。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2480,38 +2465,38 @@ PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 �
 </div>
 <p>🔥 最推荐</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>数据类型</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>长文本（文章、内容）</td>
-          <td>text</td>
-      </tr>
-      <tr>
-          <td>字符串（无固定长度）</td>
-          <td>text</td>
-      </tr>
-      <tr>
-          <td>email / username</td>
-          <td>citext</td>
-      </tr>
-      <tr>
-          <td>手机号、身份证、代码</td>
-          <td>varchar(n)</td>
-      </tr>
-      <tr>
-          <td>固定长度标识</td>
-          <td>char(n)（极少用）</td>
-      </tr>
-      <tr>
-          <td>JSON 数据</td>
-          <td>jsonb</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>数据类型</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>长文本（文章、内容）</td>
+					<td>text</td>
+			</tr>
+			<tr>
+					<td>字符串（无固定长度）</td>
+					<td>text</td>
+			</tr>
+			<tr>
+					<td>email / username</td>
+					<td>citext</td>
+			</tr>
+			<tr>
+					<td>手机号、身份证、代码</td>
+					<td>varchar(n)</td>
+			</tr>
+			<tr>
+					<td>固定长度标识</td>
+					<td>char(n)（极少用）</td>
+			</tr>
+			<tr>
+					<td>JSON 数据</td>
+					<td>jsonb</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-简你问我答title-和-content-用什么类型"

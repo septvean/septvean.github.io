@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 1. LIKE 是什么（核心概念） LIKE 用于模糊查询字符串：
@@ -65,18 +65,18 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL Like",
-      "url" : "https://documents.v2ep.com/database/mysql/like/",
+      "url": "https://documents.v2ep.com/database/mysql/like/",
       "headline": "MySQL Like",
       "description": " 1. LIKE 是什么（核心概念） LIKE 用于模糊查询字符串：\n%：0~∞个任意字符 _：1个任意字符 常见示例：\ncol LIKE \u0027abc%\u0027 -- 右匹配 col LIKE \u0027%abc%\u0027 -- 全模糊 col LIKE \u0027ab_c\u0027 -- 单字符通配 2. LIKE 的底层原理（必须理解） MySQL 对 LIKE 有明确优化规则：\n模式 是否使用索引 底层行为 ‘xxx%’ ✅ 可使用 B\u002bTree 索引 范围扫描（range） ‘%xxx’ ❌ 索引失效 全表扫描 ‘%xxx%’ ❌ 索引失效 全表扫描 ‘x%y%z%’ 部分可能使用前缀，但整体退化 大概率不走索引 LIKE BINARY ‘xxx%’ 使用索引但区分大小写 range col LIKE ‘xxx%’ AND col \u003e= … 可强制走索引 range 结论：",
-      "wordCount" : "383",
+      "wordCount": "383",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/like/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2199,8 +2184,8 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 </ul>
 <p>常见示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">col</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;abc%&#39;</span><span class="w">     </span><span class="c1">-- 右匹配
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">col</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%abc%&#39;</span><span class="w">    </span><span class="c1">-- 全模糊
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">col</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;ab_c&#39;</span><span class="w">     </span><span class="c1">-- 单字符通配
+</span></span></span><span class="line"><span class="cl"><span class="n">col</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%abc%&#39;</span><span class="w">    </span><span class="c1">-- 全模糊
+</span></span></span><span class="line"><span class="cl"><span class="n">col</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;ab_c&#39;</span><span class="w">     </span><span class="c1">-- 单字符通配
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="2-like-的底层原理必须理解"
     >
@@ -2212,45 +2197,45 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 </div>
 <p>MySQL 对 LIKE 有明确优化规则：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>是否使用索引</th>
-          <th>底层行为</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&lsquo;xxx%&rsquo;</td>
-          <td>✅ 可使用 B+Tree 索引</td>
-          <td>范围扫描（range）</td>
-      </tr>
-      <tr>
-          <td>&lsquo;%xxx&rsquo;</td>
-          <td>❌ 索引失效</td>
-          <td>全表扫描</td>
-      </tr>
-      <tr>
-          <td>&lsquo;%xxx%&rsquo;</td>
-          <td>❌ 索引失效</td>
-          <td>全表扫描</td>
-      </tr>
-      <tr>
-          <td>&lsquo;x%y%z%&rsquo;</td>
-          <td>部分可能使用前缀，但整体退化</td>
-          <td>大概率不走索引</td>
-      </tr>
-      <tr>
-          <td>LIKE BINARY &lsquo;xxx%&rsquo;</td>
-          <td>使用索引但区分大小写</td>
-          <td>range</td>
-      </tr>
-      <tr>
-          <td>col LIKE &lsquo;xxx%&rsquo; AND col &gt;= …</td>
-          <td>可强制走索引</td>
-          <td>range</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>是否使用索引</th>
+					<th>底层行为</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&lsquo;xxx%&rsquo;</td>
+					<td>✅ 可使用 B+Tree 索引</td>
+					<td>范围扫描（range）</td>
+			</tr>
+			<tr>
+					<td>&lsquo;%xxx&rsquo;</td>
+					<td>❌ 索引失效</td>
+					<td>全表扫描</td>
+			</tr>
+			<tr>
+					<td>&lsquo;%xxx%&rsquo;</td>
+					<td>❌ 索引失效</td>
+					<td>全表扫描</td>
+			</tr>
+			<tr>
+					<td>&lsquo;x%y%z%&rsquo;</td>
+					<td>部分可能使用前缀，但整体退化</td>
+					<td>大概率不走索引</td>
+			</tr>
+			<tr>
+					<td>LIKE BINARY &lsquo;xxx%&rsquo;</td>
+					<td>使用索引但区分大小写</td>
+					<td>range</td>
+			</tr>
+			<tr>
+					<td>col LIKE &lsquo;xxx%&rsquo; AND col &gt;= …</td>
+					<td>可强制走索引</td>
+					<td>range</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>结论：</p>
 <ul>
@@ -2280,44 +2265,44 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%abc%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>结果一般是：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>type</th>
-          <th>key</th>
-          <th>rows</th>
-          <th>Extra</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>ALL</td>
-          <td>NULL</td>
-          <td>1e6</td>
-          <td>Using where</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>type</th>
+					<th>key</th>
+					<th>rows</th>
+					<th>Extra</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>ALL</td>
+					<td>NULL</td>
+					<td>1e6</td>
+					<td>Using where</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>表示 <strong>全表扫描 ALL（最慢）</strong>。</p>
 <p>如果使用右匹配：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;abc%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>结果：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>type</th>
-          <th>key</th>
-          <th>rows</th>
-          <th>Extra</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>range</td>
-          <td>idx_name</td>
-          <td>100</td>
-          <td>Using index condition</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>type</th>
+					<th>key</th>
+					<th>rows</th>
+					<th>Extra</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>range</td>
+					<td>idx_name</td>
+					<td>100</td>
+					<td>Using index condition</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>性能差距可达 <strong>1000 倍</strong>。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2351,7 +2336,7 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 </div>
 <p>如果你能确定是右匹配，但 MySQL 因统计信息错误没走索引，可使用：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">FORCE</span><span class="w"> </span><span class="k">INDEX</span><span class="p">(</span><span class="n">idx_name</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;abc%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;abc%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="53-场景-3like--范围条件强化索引使用"
     >
@@ -2456,7 +2441,7 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">article</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="n">FULLTEXT</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>搜索：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">article</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">MATCH</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w"> </span><span class="n">AGAINST</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">MATCH</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w"> </span><span class="n">AGAINST</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>缺点：对中文效果差。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="73-使用-ngram-分词中文模糊搜索"
@@ -2494,12 +2479,12 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 <p>为了支持后缀匹配 %xxx，可以存一个反转字符串。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">name_reverse</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">name_reverse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">name_reverse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_reverse</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">name_reverse</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_reverse</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">name_reverse</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>查询 %abc：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">name_reverse</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">name_reverse</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="n">REVERSE</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;%&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>可以走索引（企业大量使用的技巧）。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-8-mysql-like-的性能对比"
@@ -2512,40 +2497,40 @@ col LIKE &#39;abc%&#39; -- 右匹配 col LIKE &#39;%abc%&#39; -- 全模糊 col L
 </div>
 <p>以 1000w 行表测试：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>条件</th>
-          <th>是否走索引</th>
-          <th>耗时</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>name LIKE &lsquo;abc%&rsquo;</td>
-          <td>✅</td>
-          <td>3ms</td>
-      </tr>
-      <tr>
-          <td>name LIKE &lsquo;%abc&rsquo;</td>
-          <td>❌</td>
-          <td>2s</td>
-      </tr>
-      <tr>
-          <td>name LIKE &lsquo;%abc%&rsquo;</td>
-          <td>❌</td>
-          <td>3s</td>
-      </tr>
-      <tr>
-          <td>MATCH AGAINST（全文）</td>
-          <td>✅</td>
-          <td>15ms</td>
-      </tr>
-      <tr>
-          <td>ElasticSearch</td>
-          <td>✅</td>
-          <td>1~5ms</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>条件</th>
+					<th>是否走索引</th>
+					<th>耗时</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>name LIKE &lsquo;abc%&rsquo;</td>
+					<td>✅</td>
+					<td>3ms</td>
+			</tr>
+			<tr>
+					<td>name LIKE &lsquo;%abc&rsquo;</td>
+					<td>❌</td>
+					<td>2s</td>
+			</tr>
+			<tr>
+					<td>name LIKE &lsquo;%abc%&rsquo;</td>
+					<td>❌</td>
+					<td>3s</td>
+			</tr>
+			<tr>
+					<td>MATCH AGAINST（全文）</td>
+					<td>✅</td>
+					<td>15ms</td>
+			</tr>
+			<tr>
+					<td>ElasticSearch</td>
+					<td>✅</td>
+					<td>1~5ms</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>差距是几十到几百倍。</p>
 <div class="flex align-center gdoc-page__anchorwrap">

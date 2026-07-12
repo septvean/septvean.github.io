@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="分为以下部分：
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 性能优化",
-      "url" : "https://documents.v2ep.com/database/postgres/performance/",
+      "url": "https://documents.v2ep.com/database/postgres/performance/",
       "headline": "PostgreSQL 性能优化",
       "description": "分为以下部分：\n系统层优化（OS 层） 数据库配置优化（postgresql.conf） 表结构设计优化 索引优化 SQL \/ 查询优化 Vacuum \/ 膨胀（表膨胀）优化 WAL \/ checkpoint 优化 连接池优化 缓存与内存优化 监控指标与定位性能瓶颈 1. 🖥️ 系统层优化（OS 层） 1.1 文件系统推荐 文件系统 推荐理由 XFS（第一推荐） 大文件写入快、延迟稳定、并发好 EXT4 次优选择，较稳定 1.2 IO 调度 NVMe：",
-      "wordCount" : "580",
+      "wordCount": "580",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/performance/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2209,22 +2194,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>文件系统</th>
-          <th>推荐理由</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>XFS（第一推荐）</td>
-          <td>大文件写入快、延迟稳定、并发好</td>
-      </tr>
-      <tr>
-          <td>EXT4</td>
-          <td>次优选择，较稳定</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>文件系统</th>
+					<th>推荐理由</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>XFS（第一推荐）</td>
+					<td>大文件写入快、延迟稳定、并发好</td>
+			</tr>
+			<tr>
+					<td>EXT4</td>
+					<td>次优选择，较稳定</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="12-io-调度"
@@ -2356,30 +2341,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>类型</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>文本搜索</td>
-          <td>text（不要 varchar(n)）</td>
-      </tr>
-      <tr>
-          <td>状态字段</td>
-          <td>smallint</td>
-      </tr>
-      <tr>
-          <td>金额</td>
-          <td>numeric(18,2)（银行） or bigint（分单位）</td>
-      </tr>
-      <tr>
-          <td>时间</td>
-          <td>timestamp with time zone（强烈推荐）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>类型</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>文本搜索</td>
+					<td>text（不要 varchar(n)）</td>
+			</tr>
+			<tr>
+					<td>状态字段</td>
+					<td>smallint</td>
+			</tr>
+			<tr>
+					<td>金额</td>
+					<td>numeric(18,2)（银行） or bigint（分单位）</td>
+			</tr>
+			<tr>
+					<td>时间</td>
+					<td>timestamp with time zone（强烈推荐）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>varchar(n)</strong> 的长度限制无意义，PostgreSQL 不节省空间，还增加校验开销。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2410,7 +2395,7 @@
 <p>常见错误</p>
 <p>创建：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">index</span><span class="w"> </span><span class="p">(</span><span class="n">col1</span><span class="p">,</span><span class="w"> </span><span class="n">col2</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">index</span><span class="w"> </span><span class="p">(</span><span class="n">col1</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">index</span><span class="w"> </span><span class="p">(</span><span class="n">col1</span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></div><p>第二个永远用不到。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="42-索引选型"
@@ -2422,30 +2407,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>B-tree</td>
-          <td>大部分查询</td>
-      </tr>
-      <tr>
-          <td>GIN</td>
-          <td>JSONB、全文检索</td>
-      </tr>
-      <tr>
-          <td>GiST</td>
-          <td>地理、范围</td>
-      </tr>
-      <tr>
-          <td>BRIN</td>
-          <td>时间序列、日志、Append-only 表（性能极高）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>B-tree</td>
+					<td>大部分查询</td>
+			</tr>
+			<tr>
+					<td>GIN</td>
+					<td>JSONB、全文检索</td>
+			</tr>
+			<tr>
+					<td>GiST</td>
+					<td>地理、范围</td>
+			</tr>
+			<tr>
+					<td>BRIN</td>
+					<td>时间序列、日志、Append-only 表（性能极高）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="43-常用索引-sql"
@@ -2496,7 +2481,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_title_trgm</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">article</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_title_trgm</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">article</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">gin</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="5--sql--查询优化核心"
     >
@@ -2667,26 +2652,26 @@
 <p>PostgreSQL 的连接是重资源结构，<strong>不能无限开新连接</strong>。</p>
 <p>建议：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>推荐方案</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Web 服务</td>
-          <td>PgBouncer（transaction pooling）</td>
-      </tr>
-      <tr>
-          <td>大并发读写</td>
-          <td>PgBouncer + Patroni</td>
-      </tr>
-      <tr>
-          <td>后端批处理</td>
-          <td>使用 Python asyncpg 或 pgbouncer pooling</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐方案</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Web 服务</td>
+					<td>PgBouncer（transaction pooling）</td>
+			</tr>
+			<tr>
+					<td>大并发读写</td>
+					<td>PgBouncer + Patroni</td>
+			</tr>
+			<tr>
+					<td>后端批处理</td>
+					<td>使用 Python asyncpg 或 pgbouncer pooling</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="9--缓存与内存优化"
@@ -2729,45 +2714,45 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类别</th>
-          <th>指标</th>
-          <th>意义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>连接</td>
-          <td>active、idle、idle in transaction</td>
-          <td>是否连接泄漏</td>
-      </tr>
-      <tr>
-          <td>锁</td>
-          <td>lock wait、deadlock</td>
-          <td>是否阻塞</td>
-      </tr>
-      <tr>
-          <td>I/O</td>
-          <td>read/write latency</td>
-          <td>慢查询原因</td>
-      </tr>
-      <tr>
-          <td>WAL</td>
-          <td>write rate</td>
-          <td>写瓶颈</td>
-      </tr>
-      <tr>
-          <td>Autovacuum</td>
-          <td>freeze age</td>
-          <td>膨胀风险</td>
-      </tr>
-      <tr>
-          <td>缓存</td>
-          <td>hit ratio</td>
-          <td>&lt; 98% 需优化</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类别</th>
+					<th>指标</th>
+					<th>意义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>连接</td>
+					<td>active、idle、idle in transaction</td>
+					<td>是否连接泄漏</td>
+			</tr>
+			<tr>
+					<td>锁</td>
+					<td>lock wait、deadlock</td>
+					<td>是否阻塞</td>
+			</tr>
+			<tr>
+					<td>I/O</td>
+					<td>read/write latency</td>
+					<td>慢查询原因</td>
+			</tr>
+			<tr>
+					<td>WAL</td>
+					<td>write rate</td>
+					<td>写瓶颈</td>
+			</tr>
+			<tr>
+					<td>Autovacuum</td>
+					<td>freeze age</td>
+					<td>膨胀风险</td>
+			</tr>
+			<tr>
+					<td>缓存</td>
+					<td>hit ratio</td>
+					<td>&lt; 98% 需优化</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="102-查阻塞锁"
@@ -2779,7 +2764,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_locks</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">wait_event</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">wait_event</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="103-查慢-sql"
     >
@@ -2803,50 +2788,50 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>分层</th>
-          <th>优化点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>OS 层</td>
-          <td>swap=1、XFS、NVMe、IO 调度</td>
-      </tr>
-      <tr>
-          <td>PostgreSQL 层</td>
-          <td>shared_buffers、work_mem、WAL 参数</td>
-      </tr>
-      <tr>
-          <td>表结构</td>
-          <td>PK 连续、正确字段类型</td>
-      </tr>
-      <tr>
-          <td>索引</td>
-          <td>合理选择、避免过度索引</td>
-      </tr>
-      <tr>
-          <td>SQL</td>
-          <td>避免函数、避免 SELECT *、EXPLAIN 优化</td>
-      </tr>
-      <tr>
-          <td>Vacuum</td>
-          <td>预防膨胀</td>
-      </tr>
-      <tr>
-          <td>连接池</td>
-          <td>PgBouncer 必须用</td>
-      </tr>
-      <tr>
-          <td>高可用</td>
-          <td>Patroni / 流复制</td>
-      </tr>
-      <tr>
-          <td>监控</td>
-          <td>锁、IO、WAL、缓存命中率</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>分层</th>
+					<th>优化点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>OS 层</td>
+					<td>swap=1、XFS、NVMe、IO 调度</td>
+			</tr>
+			<tr>
+					<td>PostgreSQL 层</td>
+					<td>shared_buffers、work_mem、WAL 参数</td>
+			</tr>
+			<tr>
+					<td>表结构</td>
+					<td>PK 连续、正确字段类型</td>
+			</tr>
+			<tr>
+					<td>索引</td>
+					<td>合理选择、避免过度索引</td>
+			</tr>
+			<tr>
+					<td>SQL</td>
+					<td>避免函数、避免 SELECT *、EXPLAIN 优化</td>
+			</tr>
+			<tr>
+					<td>Vacuum</td>
+					<td>预防膨胀</td>
+			</tr>
+			<tr>
+					<td>连接池</td>
+					<td>PgBouncer 必须用</td>
+			</tr>
+			<tr>
+					<td>高可用</td>
+					<td>Patroni / 流复制</td>
+			</tr>
+			<tr>
+					<td>监控</td>
+					<td>锁、IO、WAL、缓存命中率</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

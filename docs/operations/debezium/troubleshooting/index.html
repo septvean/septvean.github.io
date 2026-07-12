@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：现象 -&gt; 原因 -&gt; 排查 -&gt; 解决
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Debezium 故障排查",
-      "url" : "https://documents.v2ep.com/operations/debezium/troubleshooting/",
+      "url": "https://documents.v2ep.com/operations/debezium/troubleshooting/",
       "headline": "Debezium 故障排查",
       "description": "内容：现象 -\u003e 原因 -\u003e 排查 -\u003e 解决\n重点覆盖 PostgreSQL \u002b Kafka \u002b Debezium 的真实故障。\n一、定位总图 数据库写入 ↓ WAL \/ binlog ↓ ←① DB 问题？ Debezium Connector ↓ ←② Connector 问题？ Kafka Topic ↓ ←③ Kafka 问题？ Consumer ←④ 下游慢？ 第一原则：\n👉 不要一上来就重启 Debezium\n二、Debezium 常见故障总览 现象 最可能原因 数据不再同步 Slot \/ binlog 中断 延迟越来越大 下游慢 \/ Kafka backlog PG 磁盘爆满 Slot 堆积 WAL Connector FAILED schema \/ 权限 \/ DDL 重启后数据重复 at-least-once 正常现象 Snapshot 卡住 大表 \/ 锁 \/ IO 三、PostgreSQL 相关故障（最致命） 1️⃣ WAL 无限增长（高危） 现象 PG 磁盘暴涨 pg_wal 目录巨大 DB 变慢甚至只读 原因 Debezium 停止 Replication Slot 没消费 PG 不敢删除 WAL 排查 SELECT slot_name, active, pg_size_pretty(pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)) AS lag FROM pg_replication_slots; 解决 ⚠️ 会丢 CDC 数据，谨慎",
-      "wordCount" : "392",
+      "wordCount": "392",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/debezium/troubleshooting/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2219,38 +2204,38 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>现象</th>
-          <th>最可能原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>数据不再同步</td>
-          <td>Slot / binlog 中断</td>
-      </tr>
-      <tr>
-          <td>延迟越来越大</td>
-          <td>下游慢 / Kafka backlog</td>
-      </tr>
-      <tr>
-          <td>PG 磁盘爆满</td>
-          <td>Slot 堆积 WAL</td>
-      </tr>
-      <tr>
-          <td>Connector FAILED</td>
-          <td>schema / 权限 / DDL</td>
-      </tr>
-      <tr>
-          <td>重启后数据重复</td>
-          <td>at-least-once 正常现象</td>
-      </tr>
-      <tr>
-          <td>Snapshot 卡住</td>
-          <td>大表 / 锁 / IO</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>现象</th>
+					<th>最可能原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>数据不再同步</td>
+					<td>Slot / binlog 中断</td>
+			</tr>
+			<tr>
+					<td>延迟越来越大</td>
+					<td>下游慢 / Kafka backlog</td>
+			</tr>
+			<tr>
+					<td>PG 磁盘爆满</td>
+					<td>Slot 堆积 WAL</td>
+			</tr>
+			<tr>
+					<td>Connector FAILED</td>
+					<td>schema / 权限 / DDL</td>
+			</tr>
+			<tr>
+					<td>重启后数据重复</td>
+					<td>at-least-once 正常现象</td>
+			</tr>
+			<tr>
+					<td>Snapshot 卡住</td>
+					<td>大表 / 锁 / IO</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三postgresql-相关故障最致命"
@@ -2311,7 +2296,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">slot_name</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">active</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_wal_lsn_diff</span><span class="p">(</span><span class="n">pg_current_wal_lsn</span><span class="p">(),</span><span class="w"> </span><span class="n">restart_lsn</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">lag</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_replication_slots</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_replication_slots</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="解决"
     >
@@ -2373,7 +2358,7 @@
 </span></span><span class="line"><span class="cl">max_replication_slots &gt;= 1
 </span></span><span class="line"><span class="cl">max_wal_senders &gt;= 1
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 用户权限
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">debezium</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">REPLICATION</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">debezium</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">REPLICATION</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-表-updatedelete-不生效"
     >
@@ -2674,26 +2659,26 @@
 </ul>
 <p>Kafka Connect 内部 Topic</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Topic</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>connect-offsets</td>
-          <td>读到哪</td>
-      </tr>
-      <tr>
-          <td>connect-status</td>
-          <td>状态</td>
-      </tr>
-      <tr>
-          <td>connect-configs</td>
-          <td>配置</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Topic</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>connect-offsets</td>
+					<td>读到哪</td>
+			</tr>
+			<tr>
+					<td>connect-status</td>
+					<td>状态</td>
+			</tr>
+			<tr>
+					<td>connect-configs</td>
+					<td>配置</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="九故障排查-sop记住这个"

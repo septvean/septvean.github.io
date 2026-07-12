@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="一句话理解 Bash：
@@ -65,18 +65,18 @@ Bash 是一个 “命令解析 &#43; 展开 &#43; 进程调度” 的语言型�
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "Bash 核心概念",
-      "url" : "https://documents.v2ep.com/backend/bash/core/",
+      "url": "https://documents.v2ep.com/backend/bash/core/",
       "headline": "Bash 核心概念",
       "description": "一句话理解 Bash：\nBash 是一个 “命令解析 \u002b 展开 \u002b 进程调度” 的语言型壳层（Shell）\n一、Bash 在系统中的真实位置（认知基石） 用户 ↓ Bash（解析 \/ 展开 \/ 调度） ↓ Kernel（fork \/ exec \/ IO \/ signal） ↓ 程序 Bash 不执行命令 Bash 决定“如何执行” Bash 的核心价值在于： 展开规则 组合命令 控制进程 写 Bash，本质是在写 进程编排逻辑\n二、命令执行完整生命周期（最重要） 1. 读取输入 2. 词法分割（tokenize） 3. 展开（Expansion） 4. 重定向（Redirection） 5. fork 6. exec ⚠️ 90% Bash Bug 出现在第 3 步：展开",
-      "wordCount" : "371",
+      "wordCount": "371",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/bash/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ Bash 是一个 “命令解析 &#43; 展开 &#43; 进程调度” 的语言型�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ Bash 是一个 “命令解析 &#43; 展开 &#43; 进程调度” 的语言型�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ Bash 是一个 “命令解析 &#43; 展开 &#43; 进程调度” 的语言型�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2531,26 +2516,26 @@ Bash 是一个 “命令解析 &#43; 展开 &#43; 进程调度” 的语言型�
 </div>
 <p>文件描述符</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>FD</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>0</td>
-          <td>stdin</td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td>stdout</td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>stderr</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>FD</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>0</td>
+					<td>stdin</td>
+			</tr>
+			<tr>
+					<td>1</td>
+					<td>stdout</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>stderr</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>高频写法</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">command</span> &gt; out.log 2&gt;<span class="p">&amp;</span><span class="m">1</span>
@@ -2596,26 +2581,26 @@ Bash 是一个 “命令解析 &#43; 展开 &#43; 进程调度” 的语言型�
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="nb">set</span> -euo pipefail
 </span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>选项</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>-e</td>
-          <td>错即退</td>
-      </tr>
-      <tr>
-          <td>-u</td>
-          <td>未定义变量报错</td>
-      </tr>
-      <tr>
-          <td>pipefail</td>
-          <td>管道失败即失败</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>选项</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>-e</td>
+					<td>错即退</td>
+			</tr>
+			<tr>
+					<td>-u</td>
+					<td>未定义变量报错</td>
+			</tr>
+			<tr>
+					<td>pipefail</td>
+					<td>管道失败即失败</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十四进阶路径建议"

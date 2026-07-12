@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="net.core.default_qdisc 是 Linux 内核网络子系统中的一个 全局默认队列调度器（Queue Discipline, qdisc） 参数，用来决定：
@@ -74,18 +74,18 @@ qdisc 是什么？（快速回顾） qdisc 位于 内核 -&gt; 网络栈 -&gt; �
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "sysctl -- net.core.default_qdisc",
-      "url" : "https://documents.v2ep.com/operations/linux/sysctl-net.core.default_qdisc/",
+      "url": "https://documents.v2ep.com/operations/linux/sysctl-net.core.default_qdisc/",
       "headline": "sysctl -- net.core.default_qdisc",
       "description": "net.core.default_qdisc 是 Linux 内核网络子系统中的一个 全局默认队列调度器（Queue Discipline, qdisc） 参数，用来决定：\n当网络接口没有显式配置 qdisc 时，内核默认使用哪一种队列调度算法来发送数据包。\n一句话专业定义 net.core.default_qdisc 决定了网卡发送队列的默认调度策略，直接影响网络延迟、吞吐量和公平性。\nqdisc 是什么？（快速回顾） qdisc 位于 内核 -\u003e 网络栈 -\u003e 网卡驱动之前\n作用：\n数据包排队 拥塞控制 公平调度 限速 \/ 整形 简化路径：\n应用 ↓ TCP\/IP 协议栈 ↓ qdisc（队列调度） ↓ 网卡驱动 ↓ 物理网卡 default_qdisc 的常见取值 1️⃣ pfifo_fast（传统默认） net.core.default_qdisc = pfifo_fast 特点",
-      "wordCount" : "225",
+      "wordCount": "225",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/sysctl-net.core.default_qdisc/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ qdisc 是什么？（快速回顾） qdisc 位于 内核 -&gt; 网络栈 -&gt; �
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ qdisc 是什么？（快速回顾） qdisc 位于 内核 -&gt; 网络栈 -&gt; �
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ qdisc 是什么？（快速回顾） qdisc 位于 内核 -&gt; 网络栈 -&gt; �
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2414,22 +2399,22 @@ qdisc 是什么？（快速回顾） qdisc 位于 内核 -&gt; 网络栈 -&gt; �
 </div>
 <p><code>default_qdisc</code> <strong>不等于</strong> TCP 拥塞控制，但二者强相关：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>qdisc</td>
-          <td>决定 <strong>怎么排队发包</strong></td>
-      </tr>
-      <tr>
-          <td>TCP 拥塞控制（如 bbr/cubic）</td>
-          <td>决定 <strong>发多少包</strong></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>qdisc</td>
+					<td>决定 <strong>怎么排队发包</strong></td>
+			</tr>
+			<tr>
+					<td>TCP 拥塞控制（如 bbr/cubic）</td>
+					<td>决定 <strong>发多少包</strong></td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="推荐组合现代-linux"

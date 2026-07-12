@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="覆盖：核心概念、锁类型、加锁方式、锁等待、死锁、诊断、优化、实战案例。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL 锁",
-      "url" : "https://documents.v2ep.com/database/mysql/locks/",
+      "url": "https://documents.v2ep.com/database/mysql/locks/",
       "headline": "MySQL 锁",
       "description": "覆盖：核心概念、锁类型、加锁方式、锁等待、死锁、诊断、优化、实战案例。\n🧱 1. 锁的核心概念（必须先理解） MySQL 主流存储引擎是 InnoDB，锁机制围绕事务、行级锁、MVCC 等展开。理解锁的目的：\n为什么需要锁？ 保证事务隔离 防止并发冲突 保证数据一致性 提高并发性能（行锁比表锁更 granular） MySQL 中“锁 \u002b MVCC \u002b 事务隔离级别”三者配合 锁：阻塞写，部分情况下阻塞读 MVCC：让读尽量不加锁 事务隔离级别：控制读写冲突何时需要锁 掌握这三者的关系，是理解 MySQL 并发行为的基础。",
-      "wordCount" : "426",
+      "wordCount": "426",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/locks/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2241,42 +2226,42 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>全局锁（Global Lock）</strong></td>
-          <td>FLUSH TABLES WITH READ LOCK（FTWRL）；逻辑备份常用；影响全库</td>
-      </tr>
-      <tr>
-          <td><strong>表级锁（Table Lock）</strong></td>
-          <td>MySQL 层面的表锁；DDL 使用</td>
-      </tr>
-      <tr>
-          <td><strong>元数据锁（MDL）</strong></td>
-          <td>保证 DDL 与 DML 不冲突</td>
-      </tr>
-      <tr>
-          <td><strong>行级锁（Row Lock）</strong></td>
-          <td>InnoDB 的核心锁；精细锁粒度</td>
-      </tr>
-      <tr>
-          <td><strong>间隙锁（Gap Lock）</strong></td>
-          <td>阻止幻读；锁不存在的记录范围</td>
-      </tr>
-      <tr>
-          <td><strong>临键锁（Next-Key Lock）</strong></td>
-          <td>行锁 + 间隙锁；RR 隔离级别默认</td>
-      </tr>
-      <tr>
-          <td><strong>插入意向锁（Insert Intention Lock）</strong></td>
-          <td>插入前的范围锁，用于协调 Insert 并发</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>全局锁（Global Lock）</strong></td>
+					<td>FLUSH TABLES WITH READ LOCK（FTWRL）；逻辑备份常用；影响全库</td>
+			</tr>
+			<tr>
+					<td><strong>表级锁（Table Lock）</strong></td>
+					<td>MySQL 层面的表锁；DDL 使用</td>
+			</tr>
+			<tr>
+					<td><strong>元数据锁（MDL）</strong></td>
+					<td>保证 DDL 与 DML 不冲突</td>
+			</tr>
+			<tr>
+					<td><strong>行级锁（Row Lock）</strong></td>
+					<td>InnoDB 的核心锁；精细锁粒度</td>
+			</tr>
+			<tr>
+					<td><strong>间隙锁（Gap Lock）</strong></td>
+					<td>阻止幻读；锁不存在的记录范围</td>
+			</tr>
+			<tr>
+					<td><strong>临键锁（Next-Key Lock）</strong></td>
+					<td>行锁 + 间隙锁；RR 隔离级别默认</td>
+			</tr>
+			<tr>
+					<td><strong>插入意向锁（Insert Intention Lock）</strong></td>
+					<td>插入前的范围锁，用于协调 Insert 并发</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="22-从锁的属性区分"
@@ -2288,40 +2273,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>属性</th>
-          <th>类型</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>读锁</strong></td>
-          <td>S 锁（Shared Lock）</td>
-          <td>可共享读</td>
-      </tr>
-      <tr>
-          <td><strong>写锁</strong></td>
-          <td>X 锁（Exclusive Lock）</td>
-          <td>独占写</td>
-      </tr>
-      <tr>
-          <td><strong>意向锁</strong></td>
-          <td>IS, IX</td>
-          <td>用于加速判断是否能在行级加锁</td>
-      </tr>
-      <tr>
-          <td><strong>AUTO-INC 锁</strong></td>
-          <td>自增字段上的轻量锁</td>
-          <td>INSERT 时序保证</td>
-      </tr>
-      <tr>
-          <td><strong>隐式锁</strong></td>
-          <td>insert 时自动产生，不需要显式锁结构</td>
-          <td>MVCC + undo 支持</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>属性</th>
+					<th>类型</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>读锁</strong></td>
+					<td>S 锁（Shared Lock）</td>
+					<td>可共享读</td>
+			</tr>
+			<tr>
+					<td><strong>写锁</strong></td>
+					<td>X 锁（Exclusive Lock）</td>
+					<td>独占写</td>
+			</tr>
+			<tr>
+					<td><strong>意向锁</strong></td>
+					<td>IS, IX</td>
+					<td>用于加速判断是否能在行级加锁</td>
+			</tr>
+			<tr>
+					<td><strong>AUTO-INC 锁</strong></td>
+					<td>自增字段上的轻量锁</td>
+					<td>INSERT 时序保证</td>
+			</tr>
+			<tr>
+					<td><strong>隐式锁</strong></td>
+					<td>insert 时自动产生，不需要显式锁结构</td>
+					<td>MVCC + undo 支持</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-3-innodb-行锁innodb-的核心锁"
@@ -2342,30 +2327,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>锁类型</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Record Lock（记录锁）</td>
-          <td>锁单行记录</td>
-      </tr>
-      <tr>
-          <td>Gap Lock（间隙锁）</td>
-          <td>锁一个范围但不含目标记录</td>
-      </tr>
-      <tr>
-          <td>Next-Key Lock（临键锁）</td>
-          <td>记录锁 + Gap；用于防止幻读</td>
-      </tr>
-      <tr>
-          <td>Insert Intention Lock</td>
-          <td>INSERT 时对 gap 加的锁</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>锁类型</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Record Lock（记录锁）</td>
+					<td>锁单行记录</td>
+			</tr>
+			<tr>
+					<td>Gap Lock（间隙锁）</td>
+					<td>锁一个范围但不含目标记录</td>
+			</tr>
+			<tr>
+					<td>Next-Key Lock（临键锁）</td>
+					<td>记录锁 + Gap；用于防止幻读</td>
+			</tr>
+			<tr>
+					<td>Insert Intention Lock</td>
+					<td>INSERT 时对 gap 加的锁</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="加锁行为由三个因素决定"
@@ -2466,8 +2451,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">innodb_locks</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">innodb_lock_waits</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">innodb_trx</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">innodb_lock_waits</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">innodb_trx</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="52-查看等待链"
     >
@@ -2571,30 +2556,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>innodb_lock_wait_timeout</td>
-          <td>锁等待时长</td>
-      </tr>
-      <tr>
-          <td>innodb_deadlock_detect</td>
-          <td>死锁检测开关</td>
-      </tr>
-      <tr>
-          <td>innodb_print_all_deadlocks</td>
-          <td>打印所有死锁</td>
-      </tr>
-      <tr>
-          <td>transaction_isolation</td>
-          <td>建议使用 RC 提升并发</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>innodb_lock_wait_timeout</td>
+					<td>锁等待时长</td>
+			</tr>
+			<tr>
+					<td>innodb_deadlock_detect</td>
+					<td>死锁检测开关</td>
+			</tr>
+			<tr>
+					<td>innodb_print_all_deadlocks</td>
+					<td>打印所有死锁</td>
+			</tr>
+			<tr>
+					<td>transaction_isolation</td>
+					<td>建议使用 RC 提升并发</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-8-最重要的实战案例全覆盖"

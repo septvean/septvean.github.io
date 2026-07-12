@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：快照机制、冷/热备份、S3/HDFS/NFS、全量/增量、恢复策略。
@@ -71,18 +71,18 @@ Snapshot：将索引数据和元数据导出到 可持久化存储（如 NFS、S
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "ElasticSearch 数据备份",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/backup/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/backup/",
       "headline": "ElasticSearch 数据备份",
       "description": "内容：快照机制、冷\/热备份、S3\/HDFS\/NFS、全量\/增量、恢复策略。\n一、Elasticsearch 数据备份概念 Elasticsearch 备份不是直接复制数据目录，而是使用 Snapshot（快照）机制。\nSnapshot：将索引数据和元数据导出到 可持久化存储（如 NFS、S3、HDFS） Restore：从 Snapshot 恢复索引 特点：\n可跨集群恢复 支持全量和增量 对集群在线操作影响小 冷备热备可结合 二、Snapshot 原理 Elasticsearch 分片级快照\n每个 shard 的 segment 文件被检查点记录 使用 增量方式：已有 segment 不会重复备份 Snapshot 只读操作\n不影响集群写入和搜索 只占用少量 CPU 和 IO 元数据快照",
-      "wordCount" : "295",
+      "wordCount": "295",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/backup/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ Snapshot：将索引数据和元数据导出到 可持久化存储（如 NFS、S
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ Snapshot：将索引数据和元数据导出到 可持久化存储（如 NFS、S
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ Snapshot：将索引数据和元数据导出到 可持久化存储（如 NFS、S
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2253,35 +2238,35 @@ Snapshot：将索引数据和元数据导出到 可持久化存储（如 NFS、S
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>NFS / 本地共享目录</td>
-          <td>文件系统</td>
-          <td>小型集群，局域网</td>
-      </tr>
-      <tr>
-          <td>AWS S3 / MinIO / OSS</td>
-          <td>对象存储</td>
-          <td>公有云 / 跨地域</td>
-      </tr>
-      <tr>
-          <td>HDFS</td>
-          <td>Hadoop 集群</td>
-          <td>大数据生态</td>
-      </tr>
-      <tr>
-          <td>GCS / Azure Blob</td>
-          <td>云平台</td>
-          <td>云原生备份</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>NFS / 本地共享目录</td>
+					<td>文件系统</td>
+					<td>小型集群，局域网</td>
+			</tr>
+			<tr>
+					<td>AWS S3 / MinIO / OSS</td>
+					<td>对象存储</td>
+					<td>公有云 / 跨地域</td>
+			</tr>
+			<tr>
+					<td>HDFS</td>
+					<td>Hadoop 集群</td>
+					<td>大数据生态</td>
+			</tr>
+			<tr>
+					<td>GCS / Azure Blob</td>
+					<td>云平台</td>
+					<td>云原生备份</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四snapshot-操作"

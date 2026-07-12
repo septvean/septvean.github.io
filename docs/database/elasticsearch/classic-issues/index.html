@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Elasticsearch 的核心问题是「索引设计 &#43; 写放大 &#43; 集群稳定性」
@@ -68,18 +68,18 @@ ES 是 Near Real Time（NRT） 默认 refresh_interval = 1s 表现
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "ElasticSearch 经典问题",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/classic-issues/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/classic-issues/",
       "headline": "ElasticSearch 经典问题",
       "description": "Elasticsearch 的核心问题是「索引设计 \u002b 写放大 \u002b 集群稳定性」\n一、Elasticsearch 开发侧常见问题（非常高频） 1️⃣ 写入一致性问题（准实时 ≠ 实时） 问题\n写入 ES 后立刻查询，查不到数据 与数据库结果不一致 原因\nES 是 Near Real Time（NRT） 默认 refresh_interval = 1s 表现\n写入成功 -\u003e 马上查询 -\u003e 结果为空 解决",
-      "wordCount" : "329",
+      "wordCount": "329",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/classic-issues/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ ES 是 Near Real Time（NRT） 默认 refresh_interval = 1s 表现
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ ES 是 Near Real Time（NRT） 默认 refresh_interval = 1s 表现
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ ES 是 Near Real Time（NRT） 默认 refresh_interval = 1s 表现
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2275,26 +2260,26 @@ ES 是 Near Real Time（NRT） 默认 refresh_interval = 1s 表现
 </ul>
 <p>经验值</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>指标</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单分片大小</td>
-          <td>10GB ~ 50GB</td>
-      </tr>
-      <tr>
-          <td>分片数</td>
-          <td>≤ 节点数 × 2~3</td>
-      </tr>
-      <tr>
-          <td>索引数</td>
-          <td>避免百万级</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>指标</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单分片大小</td>
+					<td>10GB ~ 50GB</td>
+			</tr>
+			<tr>
+					<td>分片数</td>
+					<td>≤ 节点数 × 2~3</td>
+			</tr>
+			<tr>
+					<td>索引数</td>
+					<td>避免百万级</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-深度分页问题from--size"
@@ -2534,50 +2519,50 @@ ES 是 Near Real Time（NRT） 默认 refresh_interval = 1s 表现
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>Redis</th>
-          <th>Elasticsearch</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>核心问题</td>
-          <td>缓存一致性</td>
-          <td>索引设计</td>
-      </tr>
-      <tr>
-          <td>数据一致性</td>
-          <td>弱</td>
-          <td>弱（NRT）</td>
-      </tr>
-      <tr>
-          <td>容量问题</td>
-          <td>内存爆</td>
-          <td>磁盘 + heap</td>
-      </tr>
-      <tr>
-          <td>扩容风险</td>
-          <td>rehash</td>
-          <td>shard 规划</td>
-      </tr>
-      <tr>
-          <td>高并发</td>
-          <td>单线程</td>
-          <td>多 shard</td>
-      </tr>
-      <tr>
-          <td>常见 OOM</td>
-          <td>大 key</td>
-          <td>聚合 / fielddata</td>
-      </tr>
-      <tr>
-          <td>运维复杂度</td>
-          <td>中</td>
-          <td>高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>Redis</th>
+					<th>Elasticsearch</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>核心问题</td>
+					<td>缓存一致性</td>
+					<td>索引设计</td>
+			</tr>
+			<tr>
+					<td>数据一致性</td>
+					<td>弱</td>
+					<td>弱（NRT）</td>
+			</tr>
+			<tr>
+					<td>容量问题</td>
+					<td>内存爆</td>
+					<td>磁盘 + heap</td>
+			</tr>
+			<tr>
+					<td>扩容风险</td>
+					<td>rehash</td>
+					<td>shard 规划</td>
+			</tr>
+			<tr>
+					<td>高并发</td>
+					<td>单线程</td>
+					<td>多 shard</td>
+			</tr>
+			<tr>
+					<td>常见 OOM</td>
+					<td>大 key</td>
+					<td>聚合 / fielddata</td>
+			</tr>
+			<tr>
+					<td>运维复杂度</td>
+					<td>中</td>
+					<td>高</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四总结"

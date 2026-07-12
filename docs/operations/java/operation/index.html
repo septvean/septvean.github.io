@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：部署、监控、日志、排错、性能、JVM、容器化、CI/CD、运维工具等。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Java 运维",
-      "url" : "https://documents.v2ep.com/operations/java/operation/",
+      "url": "https://documents.v2ep.com/operations/java/operation/",
       "headline": "Java 运维",
       "description": "内容：部署、监控、日志、排错、性能、JVM、容器化、CI\/CD、运维工具等。\n1. 生产环境部署策略 ✅ 推荐部署方式\n优先顺序（从强到弱）：\n容器化 \u002b Kubernetes（最佳） systemd 方式部署 JAR Supervisor 直接 nohup 后台跑（不推荐生产） 示例：systemd 运行 Java 程序\n[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=\/opt\/myapp ExecStart=\/usr\/bin\/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=\u0022 -Xms1024m -Xmx1024m -XX:\u002bUseG1GC -XX:MaxGCPauseMillis=200 -XX:\u002bHeapDumpOnOutOfMemoryError -XX:HeapDumpPath=\/opt\/logs\/heapdump.hprof -XX:\u002bPrintGCDetails -XX:\u002bPrintGCDateStamps -Xloggc:\/opt\/logs\/gc.log \u0022 内存大小规则 容器环境：",
-      "wordCount" : "300",
+      "wordCount": "300",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/java/operation/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2277,38 +2262,38 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>工具</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>jps</td>
-          <td>查看 Java 进程</td>
-      </tr>
-      <tr>
-          <td>jstat</td>
-          <td>GC、类加载统计</td>
-      </tr>
-      <tr>
-          <td>jstack</td>
-          <td>线程栈、死锁分析</td>
-      </tr>
-      <tr>
-          <td>jmap</td>
-          <td>dump 内存、heap 查看</td>
-      </tr>
-      <tr>
-          <td>jcmd</td>
-          <td>万能工具，可以替代大部分命令</td>
-      </tr>
-      <tr>
-          <td>prometheus+jmx-exporter</td>
-          <td>最强 Java 监控</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>工具</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>jps</td>
+					<td>查看 Java 进程</td>
+			</tr>
+			<tr>
+					<td>jstat</td>
+					<td>GC、类加载统计</td>
+			</tr>
+			<tr>
+					<td>jstack</td>
+					<td>线程栈、死锁分析</td>
+			</tr>
+			<tr>
+					<td>jmap</td>
+					<td>dump 内存、heap 查看</td>
+			</tr>
+			<tr>
+					<td>jcmd</td>
+					<td>万能工具，可以替代大部分命令</td>
+			</tr>
+			<tr>
+					<td>prometheus+jmx-exporter</td>
+					<td>最强 Java 监控</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>示例：查看 GC：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">jstat -gc &lt;pid&gt; 1s <span class="m">10</span>
@@ -2444,12 +2429,12 @@
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="s">eclipse-temurin:17-jre</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> myapp.jar .<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">COPY</span> myapp.jar .<span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&#34;-Xms512m -Xmx512m -XX:+UseG1GC&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">ENV</span> <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&#34;-Xms512m -Xmx512m -XX:+UseG1GC&#34;</span><span class="err">
 </span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;sh&#34;</span><span class="p">,</span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="s2">&#34;java $JAVA_OPTS -jar myapp.jar&#34;</span><span class="p">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;sh&#34;</span><span class="p">,</span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="s2">&#34;java $JAVA_OPTS -jar myapp.jar&#34;</span><span class="p">]</span><span class="err">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="kubernetes-部署最佳实践"
     >
@@ -2483,34 +2468,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>工具</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>jvisualvm</td>
-          <td>本地监控</td>
-      </tr>
-      <tr>
-          <td>arthas</td>
-          <td>阿里开源神器，定位线上问题最强</td>
-      </tr>
-      <tr>
-          <td>MAT</td>
-          <td>分析 heap dump</td>
-      </tr>
-      <tr>
-          <td>jmc (Java Mission Control)</td>
-          <td>事件驱动监控（JDK17+）</td>
-      </tr>
-      <tr>
-          <td>Btrace</td>
-          <td>热修改、注入跟踪</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>工具</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>jvisualvm</td>
+					<td>本地监控</td>
+			</tr>
+			<tr>
+					<td>arthas</td>
+					<td>阿里开源神器，定位线上问题最强</td>
+			</tr>
+			<tr>
+					<td>MAT</td>
+					<td>分析 heap dump</td>
+			</tr>
+			<tr>
+					<td>jmc (Java Mission Control)</td>
+					<td>事件驱动监控（JDK17+）</td>
+			</tr>
+			<tr>
+					<td>Btrace</td>
+					<td>热修改、注入跟踪</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>Arthas 启动：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">java -jar arthas-boot.jar

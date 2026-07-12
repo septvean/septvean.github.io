@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：基础、原理、生产、消费、存储、分区、副本、事务、调优、运维、故障等。
@@ -92,18 +92,18 @@ Topic 多分区并行读写，吞吐线性提升。
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kafka FAQ",
-      "url" : "https://documents.v2ep.com/operations/kafka/faq/",
+      "url": "https://documents.v2ep.com/operations/kafka/faq/",
       "headline": "Kafka FAQ",
       "description": "内容：基础、原理、生产、消费、存储、分区、副本、事务、调优、运维、故障等。\n1. Kafka 为什么这么快？底层原理是什么？ Kafka 快的原因主要有 5 点：\n顺序写磁盘（Sequential Write）\nKafka 的 log segment 是追加写，磁盘顺序写比随机写快几个数量级。\n零拷贝（Zero Copy）\n使用 sendfile()，数据直接从 Page Cache -\u003e NIC，减少用户态\/内核态拷贝。\nPage Cache 强依赖\nKafka 不自己缓存数据，直接利用 Linux PageCache，提高读写性能。\n批量处理（Batch \u0026 Compression）\nProducer 批量写（batch.size \u002b linger.ms），Broker 端消息压缩。\n分区并行（Partition Parallel）\nTopic 多分区并行读写，吞吐线性提升。\n2. Kafka 的 Topic、Partition、Replica 各是什么？为什么要设计成这样？ Topic：消息的逻辑分类。 Partition：存储和并行度的最小单位。分区越多，吞吐越高。 Replica：副本，用于容灾与高可用。 设计分区是因为：",
-      "wordCount" : "427",
+      "wordCount": "427",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kafka/faq/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -123,8 +123,8 @@ Topic 多分区并行读写，吞吐线性提升。
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -143,12 +143,12 @@ Topic 多分区并行读写，吞吐线性提升。
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -299,21 +299,6 @@ Topic 多分区并行读写，吞吐线性提升。
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2606,40 +2591,40 @@ Topic 多分区并行读写，吞吐线性提升。
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>Kafka</th>
-          <th>RabbitMQ</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>模型</td>
-          <td>日志系统</td>
-          <td>消息队列</td>
-      </tr>
-      <tr>
-          <td>吞吐</td>
-          <td>高（百万级）</td>
-          <td>中低</td>
-      </tr>
-      <tr>
-          <td>顺序性</td>
-          <td>分区内有序</td>
-          <td>队列内有序</td>
-      </tr>
-      <tr>
-          <td>延迟</td>
-          <td>稍高</td>
-          <td>低</td>
-      </tr>
-      <tr>
-          <td>使用场景</td>
-          <td>大数据、日志、链路跟踪</td>
-          <td>业务消息、任务队列</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>Kafka</th>
+					<th>RabbitMQ</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>模型</td>
+					<td>日志系统</td>
+					<td>消息队列</td>
+			</tr>
+			<tr>
+					<td>吞吐</td>
+					<td>高（百万级）</td>
+					<td>中低</td>
+			</tr>
+			<tr>
+					<td>顺序性</td>
+					<td>分区内有序</td>
+					<td>队列内有序</td>
+			</tr>
+			<tr>
+					<td>延迟</td>
+					<td>稍高</td>
+					<td>低</td>
+			</tr>
+			<tr>
+					<td>使用场景</td>
+					<td>大数据、日志、链路跟踪</td>
+					<td>业务消息、任务队列</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>Kafka 是分布式日志系统，RabbitMQ 是用于业务解耦的 MQ。</strong></p>
 

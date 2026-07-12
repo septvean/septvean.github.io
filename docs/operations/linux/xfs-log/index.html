@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="XFS 的 logbufs 和 logbsize 用于配置内存中日志缓冲区数量和大小，优化高性能存储写入，主要通过挂载参数（logbufs=8,logbsize=256k）调节。增加这些值可减少元数据同步瓶颈，推荐在吞吐量大、日志高负荷的环境中使用。
@@ -74,18 +74,18 @@ findmnt findmnt / " />
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "XFS log",
-      "url" : "https://documents.v2ep.com/operations/linux/xfs-log/",
+      "url": "https://documents.v2ep.com/operations/linux/xfs-log/",
       "headline": "XFS log",
       "description": "XFS 的 logbufs 和 logbsize 用于配置内存中日志缓冲区数量和大小，优化高性能存储写入，主要通过挂载参数（logbufs=8,logbsize=256k）调节。增加这些值可减少元数据同步瓶颈，推荐在吞吐量大、日志高负荷的环境中使用。\n核心配置指南：\nlogbufs (缓冲区数量): 默认值通常为 2 或 8（取决于内核版本）。建议设置范围为 2 到 8，高并发写入场景可适当增加。 logbsize (缓冲区大小): 默认大小通常为 32KB。为了提升性能，特别是在高吞吐环境中，通常将其增加到 256KB。 适用场景: 数据库、存储大文件、并发写高负载的系统。\n示例挂载参数：\nmount -o logbufs=8,logbsize=256k \/dev\/sdb1 \/mnt\/xfs 调整这些参数可以有效减少 I\/O 等待，提高文件系统性能。\n查看挂载参数信息：\nfindmnt findmnt \/ ",
-      "wordCount" : "36",
+      "wordCount": "36",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/xfs-log/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ findmnt findmnt / " />
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ findmnt findmnt / " />
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ findmnt findmnt / " />
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

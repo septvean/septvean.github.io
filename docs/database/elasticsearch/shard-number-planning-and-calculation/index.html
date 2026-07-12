@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="🎯 核心结论（先记住）
@@ -80,18 +80,18 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "ElasticSearch 分片数规划与计算",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/",
       "headline": "ElasticSearch 分片数规划与计算",
       "description": "🎯 核心结论（先记住）\nElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：\n单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）\n一、为什么分片数不能改？ 分片路由算法：\nshard = hash(_routing) % primary_shards 决定数据存入哪个主分片 改分片数 = 全量重建索引 ES 没有 “在线拆分主分片” 的能力（只能 shrink 减少） 👉 所以：分片数 = 建索引前必须想清楚的事情\n通过对路由值进行哈希计算并取模，保证数据均匀分布在主分片中。这也是为何索引创建后主分片数量不能直接更改的原因。\n详细解释：\nshard：计算出的目标主分片（Primary Shard）的索引号。 hash(_routing)：对 _routing 值计算哈希值（通常默认为文档的 _id）。这是将文档哈希为一个确定的数字。 %：取模运算符，即整除后的余数。 primary_shards：当前索引的主分片总数量。 工作流程与关键点：\n确定位置：当写入或查询文档时，ES 会根据 _routing 计算出对应的 shard 编号。 数据均匀化：利用哈希函数的随机性，确保文档均匀地分布在所有主分片上。 不可修改性：因为分片数是公式的除数，如果后续修改了主分片数量（如 primary_shards 从 3 变为 4），原有的 hash(_routing) 结果取模后的数值就会改变，导致之前的文档“消失”（因为查找时计算出了错误的分片位置）。 举例：如果有 3 个主分片（P0, P1, P2），_routing 为 id1，假设 hash(“id1”) 的结果为 (10)，则 10 % 3 = 1。该文档将存储在 P1 上。",
-      "wordCount" : "341",
+      "wordCount": "341",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -111,8 +111,8 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -131,12 +131,12 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -287,21 +287,6 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2244,30 +2229,30 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
 </div>
 <p>在规划前，你至少要知道这 4 个数：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>D</td>
-          <td>每天数据量（GB/day）</td>
-      </tr>
-      <tr>
-          <td>T</td>
-          <td>索引保留周期（天）</td>
-      </tr>
-      <tr>
-          <td>R</td>
-          <td>副本数（replica）</td>
-      </tr>
-      <tr>
-          <td>S</td>
-          <td>单 shard 目标大小（GB）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>D</td>
+					<td>每天数据量（GB/day）</td>
+			</tr>
+			<tr>
+					<td>T</td>
+					<td>索引保留周期（天）</td>
+			</tr>
+			<tr>
+					<td>R</td>
+					<td>副本数（replica）</td>
+			</tr>
+			<tr>
+					<td>S</td>
+					<td>单 shard 目标大小（GB）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三最重要的公式必背"
@@ -2386,30 +2371,30 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>shard 大小</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>高频写入日志</td>
-          <td>20–30 GB</td>
-      </tr>
-      <tr>
-          <td>普通日志</td>
-          <td>30–40 GB</td>
-      </tr>
-      <tr>
-          <td>搜索型业务</td>
-          <td>30–50 GB</td>
-      </tr>
-      <tr>
-          <td>冷数据</td>
-          <td>50–100 GB</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>shard 大小</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>高频写入日志</td>
+					<td>20–30 GB</td>
+			</tr>
+			<tr>
+					<td>普通日志</td>
+					<td>30–40 GB</td>
+			</tr>
+			<tr>
+					<td>搜索型业务</td>
+					<td>30–50 GB</td>
+			</tr>
+			<tr>
+					<td>冷数据</td>
+					<td>50–100 GB</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七集群维度的约束非常重要"
@@ -2445,26 +2430,26 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>shard 太多</th>
-          <th>shard 太大</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>集群状态臃肿</td>
-          <td>查询慢</td>
-      </tr>
-      <tr>
-          <td>内存浪费</td>
-          <td>merge 压力大</td>
-      </tr>
-      <tr>
-          <td>GC 频繁</td>
-          <td>恢复慢</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>shard 太多</th>
+					<th>shard 太大</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>集群状态臃肿</td>
+					<td>查询慢</td>
+			</tr>
+			<tr>
+					<td>内存浪费</td>
+					<td>merge 压力大</td>
+			</tr>
+			<tr>
+					<td>GC 频繁</td>
+					<td>恢复慢</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 宁可稍微大一点，也不要太多</p>
 <div class="flex align-center gdoc-page__anchorwrap">

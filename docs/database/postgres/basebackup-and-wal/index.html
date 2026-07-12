@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 物理备份 &#43; WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 物理备份 + WAL 详细的 增量备份 方案",
-      "url" : "https://documents.v2ep.com/database/postgres/basebackup-and-wal/",
+      "url": "https://documents.v2ep.com/database/postgres/basebackup-and-wal/",
       "headline": "PostgreSQL 物理备份 + WAL 详细的 增量备份 方案",
       "description": "下面是一份 物理备份 \u002b WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。\n原理 -\u003e 目录结构 -\u003e 配置 -\u003e 备份流程 -\u003e 增量恢复流程 -\u003e 自动化脚本 -\u003e 最佳实践\n🔥 核心思想（仅 3 点）\n物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 \u002b 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。\n1. 文件结构（推荐标准） \/pgdata\/ # PG 数据目录 \/base_backup\/ # 物理备份（每日） 2025-02-01\/ 2025-02-02\/ ... \/wal_archive\/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... \/backup_scripts\/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：",
-      "wordCount" : "380",
+      "wordCount": "380",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/basebackup-and-wal/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2248,9 +2233,9 @@
 </div>
 <p>每天一次即可。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">pg_basebackup <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -U backup <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -D /base_backup/2025-02-10 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -Fp -Xs -P
+</span></span></span><span class="line"><span class="cl">    -U backup <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -D /base_backup/2025-02-10 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -Fp -Xs -P
 </span></span></code></pre></div><p>解释：</p>
 <ul>
 <li>-Fp -&gt; 目录格式</li>
@@ -2289,30 +2274,30 @@
 </div>
 <p>例如：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>时间</th>
-          <th>事件</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>02-10 00:00</td>
-          <td>pg_basebackup（全量）</td>
-      </tr>
-      <tr>
-          <td>02-10 01:00</td>
-          <td>WAL 文件增量</td>
-      </tr>
-      <tr>
-          <td>02-10 02:00</td>
-          <td>WAL 文件增量</td>
-      </tr>
-      <tr>
-          <td>02-10 03:00</td>
-          <td>WAL 文件增量</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>时间</th>
+					<th>事件</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>02-10 00:00</td>
+					<td>pg_basebackup（全量）</td>
+			</tr>
+			<tr>
+					<td>02-10 01:00</td>
+					<td>WAL 文件增量</td>
+			</tr>
+			<tr>
+					<td>02-10 02:00</td>
+					<td>WAL 文件增量</td>
+			</tr>
+			<tr>
+					<td>02-10 03:00</td>
+					<td>WAL 文件增量</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>你要恢复 03:05 的数据 -&gt;</strong></p>
 <p>用 00:00 的物理备份 + 01~03 点 WAL = 自动恢复到 03:05。</p>
@@ -2409,7 +2394,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +%F<span class="k">)</span>
+</span></span></span><span class="line"><span class="cl"><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +%F<span class="k">)</span>
 </span></span><span class="line"><span class="cl"><span class="nv">DIR</span><span class="o">=</span><span class="s2">&#34;/base_backup/</span><span class="nv">$DATE</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl">mkdir -p <span class="nv">$DIR</span>
 </span></span><span class="line"><span class="cl">

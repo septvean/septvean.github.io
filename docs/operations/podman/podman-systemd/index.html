@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="优化以下 systemd 配置，使其支持 systemctl enable podman@gitlab-ce，即 podman@ 后面的参数支持 - 符号
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Podman systemd 脚本优化",
-      "url" : "https://documents.v2ep.com/operations/podman/podman-systemd/",
+      "url": "https://documents.v2ep.com/operations/podman/podman-systemd/",
       "headline": "Podman systemd 脚本优化",
       "description": "优化以下 systemd 配置，使其支持 systemctl enable podman@gitlab-ce，即 podman@ 后面的参数支持 - 符号\n[Unit] Description=%I container After=network-online.target Wants=network-online.target [Service] User=root Restart=always ExecStart=\/usr\/bin\/podman start -a %I ExecStop=\/usr\/bin\/podman stop -t 10 %I LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 [Install] WantedBy=multi-user.target 这个问题的关键点不在 Podman，而在 systemd 对“实例名转义”的机制。\n现在用的是 错误的占位符，导致带 - 的实例名行为不符合预期。\n下面先给结论版修复，再解释为什么这样改是正确的。\n一、直接给「可用且规范」的优化版本（✅ 支持 podman@gitlab-ce） ✅ 核心改动点 把 %I 改为 %i 顺带补齐 Podman 官方推荐的 systemd 选项 ✅ 修复并优化后的 unit 文件 [Unit] Description=Podman container %i After=network-online.target Wants=network-online.target [Service] Type=simple User=root Restart=always RestartSec=5 # 使用 %i（未转义实例名，支持 -） ExecStart=\/usr\/bin\/podman start -a %i ExecStop=\/usr\/bin\/podman stop -t 10 %i # 资源与稳定性 LimitCORE=infinity LimitMEMLOCK=infinity LimitNOFILE=infinity LimitNPROC=infinity TasksMax=infinity OOMScoreAdjust=-999 # systemd \/ cgroup \/ podman 协作必备 KillMode=none Delegate=yes TimeoutStartSec=0 TimeoutStopSec=30 [Install] WantedBy=multi-user.target 现在可以直接启用：",
-      "wordCount" : "483",
+      "wordCount": "483",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/podman/podman-systemd/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2296,25 +2281,25 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>占位符</th>
-          <th>含义</th>
-          <th>是否转义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>%i</code></td>
-          <td>原始实例名</td>
-          <td>❌ 不转义</td>
-      </tr>
-      <tr>
-          <td><code>%I</code></td>
-          <td>转义后的实例名</td>
-          <td>✅ 会转义</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>占位符</th>
+					<th>含义</th>
+					<th>是否转义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>%i</code></td>
+					<td>原始实例名</td>
+					<td>❌ 不转义</td>
+			</tr>
+			<tr>
+					<td><code>%I</code></td>
+					<td>转义后的实例名</td>
+					<td>✅ 会转义</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="systemd-的转义规则重点"
@@ -2665,35 +2650,35 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>Rootless</th>
-          <th>Root</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>安全性</td>
-          <td>✅ 极高</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>systemd 类型</td>
-          <td>user unit</td>
-          <td>system unit</td>
-      </tr>
-      <tr>
-          <td>端口 &lt;1024</td>
-          <td>❌（需 rootlesskit）</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>推荐场景</td>
-          <td>服务 / CI / GitLab</td>
-          <td>基础设施</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>Rootless</th>
+					<th>Root</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>安全性</td>
+					<td>✅ 极高</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>systemd 类型</td>
+					<td>user unit</td>
+					<td>system unit</td>
+			</tr>
+			<tr>
+					<td>端口 &lt;1024</td>
+					<td>❌（需 rootlesskit）</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>推荐场景</td>
+					<td>服务 / CI / GitLab</td>
+					<td>基础设施</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">

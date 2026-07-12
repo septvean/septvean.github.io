@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面给你一套 最系统、最清晰、最可实战操作的 PostgreSQL JOIN 详细教程。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL Join",
-      "url" : "https://documents.v2ep.com/database/postgres/join/",
+      "url": "https://documents.v2ep.com/database/postgres/join/",
       "headline": "PostgreSQL Join",
       "description": "下面给你一套 最系统、最清晰、最可实战操作的 PostgreSQL JOIN 详细教程。\n涵盖 7 种 JOIN、维恩图解释、语法、示例、最佳实践、性能优化，适合你当前的后端开发（FastAPI \u002b PostgreSQL）场景。\n📘 PostgreSQL JOIN 详细教程（完整版）\n⭐ 目录 JOIN 的作用 JOIN 的分类与对照 每一种 JOIN 的语法 \u002b 维恩图 \u002b 示例 JOIN 的筛选规则（WHERE 与 ON 的区别） 多表 JOIN JOIN 性能优化 JOIN 常见错误与解决 JOIN 最佳实践总结 1. JOIN 是什么？有什么作用？ JOIN 用于：",
-      "wordCount" : "676",
+      "wordCount": "676",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/join/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2232,50 +2217,50 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>JOIN 类型</th>
-          <th>说明</th>
-          <th>是否保留不匹配记录</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>INNER JOIN</td>
-          <td>交集</td>
-          <td>❌ 不保留</td>
-      </tr>
-      <tr>
-          <td>LEFT JOIN</td>
-          <td>A 全部 + A∩B</td>
-          <td>✅ A</td>
-      </tr>
-      <tr>
-          <td>RIGHT JOIN</td>
-          <td>B 全部 + A∩B</td>
-          <td>✅ B</td>
-      </tr>
-      <tr>
-          <td>FULL JOIN</td>
-          <td>A ∪ B</td>
-          <td>✅ A &amp; B</td>
-      </tr>
-      <tr>
-          <td>CROSS JOIN</td>
-          <td>笛卡尔积</td>
-          <td>全保留</td>
-      </tr>
-      <tr>
-          <td>SELF JOIN</td>
-          <td>自己 JOIN 自己</td>
-          <td>按语法决定</td>
-      </tr>
-      <tr>
-          <td>ANTI JOIN（NOT IN）</td>
-          <td>A - B</td>
-          <td>✅ A</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>JOIN 类型</th>
+					<th>说明</th>
+					<th>是否保留不匹配记录</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>INNER JOIN</td>
+					<td>交集</td>
+					<td>❌ 不保留</td>
+			</tr>
+			<tr>
+					<td>LEFT JOIN</td>
+					<td>A 全部 + A∩B</td>
+					<td>✅ A</td>
+			</tr>
+			<tr>
+					<td>RIGHT JOIN</td>
+					<td>B 全部 + A∩B</td>
+					<td>✅ B</td>
+			</tr>
+			<tr>
+					<td>FULL JOIN</td>
+					<td>A ∪ B</td>
+					<td>✅ A &amp; B</td>
+			</tr>
+			<tr>
+					<td>CROSS JOIN</td>
+					<td>笛卡尔积</td>
+					<td>全保留</td>
+			</tr>
+			<tr>
+					<td>SELF JOIN</td>
+					<td>自己 JOIN 自己</td>
+					<td>按语法决定</td>
+			</tr>
+			<tr>
+					<td>ANTI JOIN（NOT IN）</td>
+					<td>A - B</td>
+					<td>✅ A</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-各种-join-详细解释含维恩图与示例"
@@ -2295,19 +2280,19 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;name&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;b&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;b&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;id&#34;</span><span class="w"> </span><span class="n">int4</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s2">&#34;name&#34;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;a&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Jack&#39;</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;a&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;a&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Jack&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;a&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;b&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;b&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Rose&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;b&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="s2">&#34;public&#34;</span><span class="p">.</span><span class="s2">&#34;b&#34;</span><span class="w"> </span><span class="p">(</span><span class="s2">&#34;id&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;name&#34;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Rose&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="31-inner-join交集"
     >
@@ -2320,26 +2305,26 @@
 <p>🎯 两边都存在的记录才会返回。</p>
 <p>语法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>示例结果：只返回两表都有的 id。</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="32-left-join左表全部--右表匹配的部分"
@@ -2352,35 +2337,35 @@
 </div>
 <p>语法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li>没匹配到 B 时，B 的字段为 null。</li>
 <li>常用场景：主数据在 A，附属数据在 B。</li>
 </ul>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1</td>
-          <td>Jack</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Jack</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="33-right-join右表全部--左表匹配"
@@ -2393,31 +2378,31 @@
 </div>
 <p>语法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-      <tr>
-          <td></td>
-          <td></td>
-          <td>3</td>
-          <td>Rose</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+			<tr>
+					<td></td>
+					<td></td>
+					<td>3</td>
+					<td>Rose</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="34-full-join并集a--b"
@@ -2436,38 +2421,38 @@
 </ul>
 <p>语法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FULL</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FULL</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>常用于：合并两套数据源。</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1</td>
-          <td>Jack</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-      <tr>
-          <td></td>
-          <td></td>
-          <td>3</td>
-          <td>Rose</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Jack</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+			<tr>
+					<td></td>
+					<td></td>
+					<td>3</td>
+					<td>Rose</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="35-cross-join笛卡尔积"
@@ -2481,45 +2466,45 @@
 <p>A 的每一行 × B 的每一行</p>
 <p>语法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>示例：</p>
 <p>A 3 行 × B 4 行 = 12 行结果。</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1</td>
-          <td>Jack</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td>Jack</td>
-          <td>3</td>
-          <td>Rose</td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>3</td>
-          <td>Rose</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Jack</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+			<tr>
+					<td>1</td>
+					<td>Jack</td>
+					<td>3</td>
+					<td>Rose</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>3</td>
+					<td>Rose</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="36-self-join自连接"
@@ -2532,25 +2517,25 @@
 </div>
 <p>语法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">a1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">a2</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">a1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">a2</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>id</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1</td>
-          <td>2</td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>1</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>id</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>2</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>1</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>常用于：</p>
 <ul>
@@ -2578,22 +2563,22 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1</td>
-          <td>Jack</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Jack</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="方法-2not-exists性能最佳"
@@ -2605,23 +2590,23 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1</td>
-          <td>Jack</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Jack</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="4-on-vs-where-的区别必懂"
@@ -2634,55 +2619,55 @@
 </div>
 <p>❌ 错误用法（WHERE 会影响 JOIN 行为）：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>⚠️ 这会把不匹配的行过滤掉 -&gt; 实际变成 INNER JOIN！</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 正确用法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">A</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Tom&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>id</th>
-          <th>name</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1</td>
-          <td>Jack</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>Tom</td>
-          <td>2</td>
-          <td>Tom</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>id</th>
+					<th>name</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Jack</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>Tom</td>
+					<td>2</td>
+					<td>Tom</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>要点：</p>
 <ul>
@@ -2699,10 +2684,10 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">u</span><span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="n">p</span><span class="w">     </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">product_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="n">t</span><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">tag_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">u</span><span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="n">p</span><span class="w">     </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">product_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="n">t</span><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">tag_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>设计原则：</p>
 <ul>
 <li>JOIN 顺序无所谓（优化器会处理）</li>
@@ -2730,7 +2715,7 @@
 <p>例：A.id JOIN B.id</p>
 <p>A.id、B.id 都应有 index。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_a_id</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_b_id</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">B</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_b_id</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">B</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="62-尽量避免"
     >
@@ -2755,7 +2740,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYZE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="p">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="p">...</span><span class="w">
 </span></span></span></code></pre></div><p>查看是否出现：</p>
 <ul>
 <li>Seq Scan（慢）</li>
@@ -2817,46 +2802,46 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>使用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>两表都必须有记录</td>
-          <td>INNER JOIN</td>
-      </tr>
-      <tr>
-          <td>主表为 A</td>
-          <td>LEFT JOIN</td>
-      </tr>
-      <tr>
-          <td>主表为 B</td>
-          <td>RIGHT JOIN</td>
-      </tr>
-      <tr>
-          <td>合并两个数据源（需要并集）</td>
-          <td>FULL JOIN</td>
-      </tr>
-      <tr>
-          <td>子集/差集（A - B）</td>
-          <td>NOT EXISTS</td>
-      </tr>
-      <tr>
-          <td>多级分类、父子树</td>
-          <td>SELF JOIN</td>
-      </tr>
-      <tr>
-          <td>生成组合</td>
-          <td>CROSS JOIN</td>
-      </tr>
-      <tr>
-          <td>去重后查询</td>
-          <td>DISTINCT ON</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>使用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>两表都必须有记录</td>
+					<td>INNER JOIN</td>
+			</tr>
+			<tr>
+					<td>主表为 A</td>
+					<td>LEFT JOIN</td>
+			</tr>
+			<tr>
+					<td>主表为 B</td>
+					<td>RIGHT JOIN</td>
+			</tr>
+			<tr>
+					<td>合并两个数据源（需要并集）</td>
+					<td>FULL JOIN</td>
+			</tr>
+			<tr>
+					<td>子集/差集（A - B）</td>
+					<td>NOT EXISTS</td>
+			</tr>
+			<tr>
+					<td>多级分类、父子树</td>
+					<td>SELF JOIN</td>
+			</tr>
+			<tr>
+					<td>生成组合</td>
+					<td>CROSS JOIN</td>
+			</tr>
+			<tr>
+					<td>去重后查询</td>
+					<td>DISTINCT ON</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

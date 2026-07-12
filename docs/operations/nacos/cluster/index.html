@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一套 生产级、可直接落地的 Nacos 集群方案，从架构 -&gt; 安装 -&gt; 配置 -&gt; MySQL -&gt; Nginx -&gt; 健康检查 -&gt; 性能优化 -&gt; 故障排查，一站式完整整理。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nacos 集群",
-      "url" : "https://documents.v2ep.com/operations/nacos/cluster/",
+      "url": "https://documents.v2ep.com/operations/nacos/cluster/",
       "headline": "Nacos 集群",
       "description": "下面是一套 生产级、可直接落地的 Nacos 集群方案，从架构 -\u003e 安装 -\u003e 配置 -\u003e MySQL -\u003e Nginx -\u003e 健康检查 -\u003e 性能优化 -\u003e 故障排查，一站式完整整理。\n1. Nacos 集群架构 生产环境推荐 3 节点或 5 节点。架构如下：\n\u002b-----------------------\u002b | Client | \u002b----------\u002b------------\u002b | v \u002b---------\u002b----------\u002b | Nginx\/LB | \u002b----\u002b----\u002b----\u002b-----\u002b | | | \u002b----------\u002b | \u002b-----------\u002b | | | v v v \u002b--------------\u002b \u002b--------------\u002b \u002b--------------\u002b | Nacos Node1 | | Nacos Node2 | | Nacos Node3 | \u002b-------\u002b------\u002b \u002b-------\u002b------\u002b \u002b-------\u002b------\u002b | | | \u002b----------------\u002b-----------------\u002b | v \u002b---------------\u002b | MySQL | \u002b---------------\u002b 2. 环境准备 项目 推荐 操作系统 CentOS 7\u002b \/ Ubuntu 20\u002b JDK 17（最低 8） Nacos 2.2.x \/ 2.3.x MySQL 5.7 \/ 8.0（推荐） 节点数 3 个 服务端口 8848 HTTP \/ 9848 RPC \/ 7848 节点间通信 3. MySQL 初始化（所有节点共享） 3.1 创建数据库 CREATE DATABASE nacos CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci; 3.2 导入初始化结构 在 nacos 解压目录中：",
-      "wordCount" : "358",
+      "wordCount": "358",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nacos/cluster/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2223,38 +2208,38 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>操作系统</td>
-          <td>CentOS 7+ / Ubuntu 20+</td>
-      </tr>
-      <tr>
-          <td>JDK</td>
-          <td>17（最低 8）</td>
-      </tr>
-      <tr>
-          <td>Nacos</td>
-          <td>2.2.x / 2.3.x</td>
-      </tr>
-      <tr>
-          <td>MySQL</td>
-          <td>5.7 / 8.0（推荐）</td>
-      </tr>
-      <tr>
-          <td>节点数</td>
-          <td>3 个</td>
-      </tr>
-      <tr>
-          <td>服务端口</td>
-          <td>8848 HTTP / 9848 RPC / 7848 节点间通信</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>操作系统</td>
+					<td>CentOS 7+ / Ubuntu 20+</td>
+			</tr>
+			<tr>
+					<td>JDK</td>
+					<td>17（最低 8）</td>
+			</tr>
+			<tr>
+					<td>Nacos</td>
+					<td>2.2.x / 2.3.x</td>
+			</tr>
+			<tr>
+					<td>MySQL</td>
+					<td>5.7 / 8.0（推荐）</td>
+			</tr>
+			<tr>
+					<td>节点数</td>
+					<td>3 个</td>
+			</tr>
+			<tr>
+					<td>服务端口</td>
+					<td>8848 HTTP / 9848 RPC / 7848 节点间通信</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-mysql-初始化所有节点共享"
@@ -2415,26 +2400,26 @@
 </div>
 <p>Nacos 有两个关键端口：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>端口</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>8848</strong></td>
-          <td>HTTP API &amp; Console</td>
-      </tr>
-      <tr>
-          <td><strong>9848</strong></td>
-          <td>gRPC 客户端注册通信</td>
-      </tr>
-      <tr>
-          <td><strong>7848</strong></td>
-          <td>集群内部节点通信</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>端口</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>8848</strong></td>
+					<td>HTTP API &amp; Console</td>
+			</tr>
+			<tr>
+					<td><strong>9848</strong></td>
+					<td>gRPC 客户端注册通信</td>
+			</tr>
+			<tr>
+					<td><strong>7848</strong></td>
+					<td>集群内部节点通信</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>要确保：</p>
 <ul>

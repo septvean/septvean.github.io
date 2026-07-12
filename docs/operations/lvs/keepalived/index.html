@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：核心概念、工作机制、VRRP、LVS 配置、生产级示例、故障排查、最佳实践。
@@ -65,18 +65,18 @@ VRRP（VIP 漂移，实现高可用） LVS（管理 ipvsadm 的负载均衡规�
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Keepalived 基础教程",
-      "url" : "https://documents.v2ep.com/operations/lvs/keepalived/",
+      "url": "https://documents.v2ep.com/operations/lvs/keepalived/",
       "headline": "Keepalived 基础教程",
       "description": "内容：核心概念、工作机制、VRRP、LVS 配置、生产级示例、故障排查、最佳实践。\n一、Keepalived 是什么？ Keepalived 是一个提供 高可用（HA）\u002b 健康检查 \u002b LVS 管理 的服务，核心能力包括：\nVRRP（虚拟路由冗余协议） -\u003e 用于主备切换 \/ VIP 漂移 LVS Real Server 健康检查 -\u003e 自动从 ipvsadm 中移除不健康的 RS 自动生成\/维护 LVS 规则 跨多实例、多虚拟服务的 HA 管理 Keepalived 主要两个核心组件：\nVRRP（VIP 漂移，实现高可用） LVS（管理 ipvsadm 的负载均衡规则） 二、Keepalived 的运行模型 Keepalived = VRRP \u002b LVS，二者独立且可以同时使用。",
-      "wordCount" : "471",
+      "wordCount": "471",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/lvs/keepalived/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ VRRP（VIP 漂移，实现高可用） LVS（管理 ipvsadm 的负载均衡规�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ VRRP（VIP 漂移，实现高可用） LVS（管理 ipvsadm 的负载均衡规�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ VRRP（VIP 漂移，实现高可用） LVS（管理 ipvsadm 的负载均衡规�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2234,38 +2219,38 @@ VRRP（VIP 漂移，实现高可用） LVS（管理 ipvsadm 的负载均衡规�
 <p><strong>让多个节点共享一个 VIP，只有 MASTER 对外提供服务，BACKUP 随时接管。</strong></p>
 <p>VRRP 参数说明</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>state</td>
-          <td>MASTER / BACKUP</td>
-      </tr>
-      <tr>
-          <td>interface</td>
-          <td>绑定网卡</td>
-      </tr>
-      <tr>
-          <td>virtual_router_id</td>
-          <td>VRRP 组 ID（必须唯一）</td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>优先级（越大越先抢 VIP）</td>
-      </tr>
-      <tr>
-          <td>advert_int</td>
-          <td>心跳间隔（默认 1s）</td>
-      </tr>
-      <tr>
-          <td>virtual_ipaddress</td>
-          <td>VIP 列表</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>state</td>
+					<td>MASTER / BACKUP</td>
+			</tr>
+			<tr>
+					<td>interface</td>
+					<td>绑定网卡</td>
+			</tr>
+			<tr>
+					<td>virtual_router_id</td>
+					<td>VRRP 组 ID（必须唯一）</td>
+			</tr>
+			<tr>
+					<td>priority</td>
+					<td>优先级（越大越先抢 VIP）</td>
+			</tr>
+			<tr>
+					<td>advert_int</td>
+					<td>心跳间隔（默认 1s）</td>
+			</tr>
+			<tr>
+					<td>virtual_ipaddress</td>
+					<td>VIP 列表</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>主备切换流程</p>
 <ol>

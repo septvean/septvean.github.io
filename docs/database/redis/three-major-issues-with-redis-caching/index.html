@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：概念、原因、解决方案、实战建议。
@@ -68,18 +68,18 @@ Redis 缓存三大问题：
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "Redis 缓存三大问题",
-      "url" : "https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/",
+      "url": "https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/",
       "headline": "Redis 缓存三大问题",
       "description": "内容：概念、原因、解决方案、实战建议。\nRedis 缓存三大问题：\n缓存穿透、缓存击穿、缓存雪崩\n一、缓存穿透（Cache Penetration） ✅ 是什么？ 请求的数据在缓存和数据库中都不存在，每次请求都会直接打到数据库。\n🔥 典型场景 请求 不存在的 ID 被恶意攻击（大量随机 key） 接口未做参数校验 GET user:99999999 -\u003e Redis 没有 -\u003e MySQL 也没有 -\u003e 每次都查 DB ❌ 危害 DB 被持续打爆 缓存形同虚设 ✅ 解决方案（必考） 1️⃣ 缓存空值（最常用） key 不存在 -\u003e 缓存一个空对象\/null TTL 设置短一点（如 30~60s） ✅ 优点：简单有效 ⚠️ 注意：必须设置过期时间 2️⃣ Bloom Filter（布隆过滤器） 请求前先判断 key 是否可能存在 不存在 -\u003e 直接拒绝，不查缓存\/DB 📌 适合：",
-      "wordCount" : "514",
+      "wordCount": "514",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/redis/three-major-issues-with-redis-caching/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ Redis 缓存三大问题：
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ Redis 缓存三大问题：
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ Redis 缓存三大问题：
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2550,34 +2535,34 @@ Redis 缓存三大问题：
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>问题</th>
-          <th>核心原因</th>
-          <th>影响范围</th>
-          <th>解决重点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>缓存穿透</td>
-          <td>数据不存在</td>
-          <td>持续</td>
-          <td>空值缓存 / Bloom</td>
-      </tr>
-      <tr>
-          <td>缓存击穿</td>
-          <td>热点 key 过期</td>
-          <td>瞬时</td>
-          <td>锁 / 逻辑过期</td>
-      </tr>
-      <tr>
-          <td>缓存雪崩</td>
-          <td>大量 key 同时失效</td>
-          <td>全局</td>
-          <td>随机 TTL / 高可用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>核心原因</th>
+					<th>影响范围</th>
+					<th>解决重点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>缓存穿透</td>
+					<td>数据不存在</td>
+					<td>持续</td>
+					<td>空值缓存 / Bloom</td>
+			</tr>
+			<tr>
+					<td>缓存击穿</td>
+					<td>热点 key 过期</td>
+					<td>瞬时</td>
+					<td>锁 / 逻辑过期</td>
+			</tr>
+			<tr>
+					<td>缓存雪崩</td>
+					<td>大量 key 同时失效</td>
+					<td>全局</td>
+					<td>随机 TTL / 高可用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-其它"
@@ -2637,30 +2622,30 @@ Redis 缓存三大问题：
 <p>下面按 穿透 / 击穿 / 雪崩，逐一给出可落地的结论。</p>
 <p>总览（先记住）：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>问题</th>
-          <th>定期任务能否解决</th>
-          <th>结论</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>缓存穿透</td>
-          <td>❌ 不能</td>
-          <td>数据本就不存在</td>
-      </tr>
-      <tr>
-          <td>缓存击穿</td>
-          <td>⚠️ 部分缓解</td>
-          <td>热点 key 仍有风险</td>
-      </tr>
-      <tr>
-          <td>缓存雪崩</td>
-          <td>⚠️ 只能缓解一类</td>
-          <td>无法应对 Redis 不可用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>定期任务能否解决</th>
+					<th>结论</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>缓存穿透</td>
+					<td>❌ 不能</td>
+					<td>数据本就不存在</td>
+			</tr>
+			<tr>
+					<td>缓存击穿</td>
+					<td>⚠️ 部分缓解</td>
+					<td>热点 key 仍有风险</td>
+			</tr>
+			<tr>
+					<td>缓存雪崩</td>
+					<td>⚠️ 只能缓解一类</td>
+					<td>无法应对 Redis 不可用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="一缓存穿透---完全解决不了"

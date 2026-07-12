@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、Prometheus 解决的核心问题是什么？ 一句话定义：
@@ -65,18 +65,18 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "Prometheus 核心概念",
-      "url" : "https://documents.v2ep.com/database/prometheus/core/",
+      "url": "https://documents.v2ep.com/database/prometheus/core/",
       "headline": "Prometheus 核心概念",
       "description": " 一、Prometheus 解决的核心问题是什么？ 一句话定义：\nPrometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云原生与大规模系统 的监控与告警系统。\n它解决的是三个问题：\n如何持续采集系统状态（Metrics） 如何高效存储和查询时间序列数据 如何用规则表达“异常”并触发告警 二、Prometheus 的设计哲学（非常重要） 2.1 以 Metrics 为中心，而非 Logs Prometheus 只关心 可聚合、可计算的数值指标：",
-      "wordCount" : "377",
+      "wordCount": "377",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/prometheus/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2417,35 +2402,35 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
 </div>
 <p>Prometheus 有 4 种类型（语义约束）：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>特性</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Counter</td>
-          <td>只增不减</td>
-          <td>请求数、错误数</td>
-      </tr>
-      <tr>
-          <td>Gauge</td>
-          <td>可增可减</td>
-          <td>CPU、内存</td>
-      </tr>
-      <tr>
-          <td>Histogram</td>
-          <td>bucket 统计</td>
-          <td>延迟、大小</td>
-      </tr>
-      <tr>
-          <td>Summary</td>
-          <td>客户端分位数</td>
-          <td>单实例延迟</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>特性</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Counter</td>
+					<td>只增不减</td>
+					<td>请求数、错误数</td>
+			</tr>
+			<tr>
+					<td>Gauge</td>
+					<td>可增可减</td>
+					<td>CPU、内存</td>
+			</tr>
+			<tr>
+					<td>Histogram</td>
+					<td>bucket 统计</td>
+					<td>延迟、大小</td>
+			</tr>
+			<tr>
+					<td>Summary</td>
+					<td>客户端分位数</td>
+					<td>单实例延迟</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="51-counter-的哲学"
@@ -2472,35 +2457,35 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>Histogram</th>
-          <th>Summary</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>分位数</td>
-          <td>服务端计算</td>
-          <td>客户端计算</td>
-      </tr>
-      <tr>
-          <td>跨实例聚合</td>
-          <td>✔</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>label 控制</td>
-          <td>好</td>
-          <td>差</td>
-      </tr>
-      <tr>
-          <td>推荐度</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>⭐</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>Histogram</th>
+					<th>Summary</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>分位数</td>
+					<td>服务端计算</td>
+					<td>客户端计算</td>
+			</tr>
+			<tr>
+					<td>跨实例聚合</td>
+					<td>✔</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>label 控制</td>
+					<td>好</td>
+					<td>差</td>
+			</tr>
+			<tr>
+					<td>推荐度</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>⭐</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>生产统一用 Histogram</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2583,30 +2568,30 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Instant Vector</td>
-          <td>某一时刻的 series</td>
-      </tr>
-      <tr>
-          <td>Range Vector</td>
-          <td>一段时间内的 samples</td>
-      </tr>
-      <tr>
-          <td>Scalar</td>
-          <td>单一数值</td>
-      </tr>
-      <tr>
-          <td>String</td>
-          <td>标签文本</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Instant Vector</td>
+					<td>某一时刻的 series</td>
+			</tr>
+			<tr>
+					<td>Range Vector</td>
+					<td>一段时间内的 samples</td>
+			</tr>
+			<tr>
+					<td>Scalar</td>
+					<td>单一数值</td>
+			</tr>
+			<tr>
+					<td>String</td>
+					<td>标签文本</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="72-为什么要-rate"
@@ -2647,30 +2632,30 @@ Prometheus 是一个以 时间序列 为核心、采用 Pull 模式、面向 云
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项</th>
-          <th>告警</th>
-          <th>图表</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>是否实时</td>
-          <td>是</td>
-          <td>否</td>
-      </tr>
-      <tr>
-          <td>是否容错</td>
-          <td>低</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>是否允许抖动</td>
-          <td>否</td>
-          <td>是</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>告警</th>
+					<th>图表</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>是否实时</td>
+					<td>是</td>
+					<td>否</td>
+			</tr>
+			<tr>
+					<td>是否容错</td>
+					<td>低</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>是否允许抖动</td>
+					<td>否</td>
+					<td>是</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="九prometheus-高可用的理论"

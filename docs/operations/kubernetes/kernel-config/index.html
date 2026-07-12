@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一套 生产级 Kubernetes（K8S）宿主机内核配置总表，适用于 AlmaLinux 9 / RHEL 9 / Rocky 9 / CentOS Stream 9，同时说明 为什么要配、哪些是必须、哪些是场景可选，避免“玄学调参”。
@@ -65,18 +65,18 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes 内核配置",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/kernel-config/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/kernel-config/",
       "headline": "Kubernetes 内核配置",
       "description": "下面是一套 生产级 Kubernetes（K8S）宿主机内核配置总表，适用于 AlmaLinux 9 \/ RHEL 9 \/ Rocky 9 \/ CentOS Stream 9，同时说明 为什么要配、哪些是必须、哪些是场景可选，避免“玄学调参”。\n按 Kubernetes 依赖关系 -\u003e 内核子系统 -\u003e 场景分类 来讲。\n一、Kubernetes 对 Linux 内核的核心要求（先给结论） Kubernetes 本质依赖：\ncgroups：资源隔离（CPU \/ 内存 \/ IO） namespaces：进程 \/ 网络 \/ 挂载隔离 netfilter \/ conntrack：Service \/ NAT \/ Pod 网络 overlayfs：容器镜像 sysctl：网络、内存、进程数量控制 👉 所以 K8S 内核配置 重点在：网络 \u002b 内存 \u002b cgroups \u002b 文件句柄",
-      "wordCount" : "420",
+      "wordCount": "420",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/kernel-config/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

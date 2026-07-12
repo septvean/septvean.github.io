@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="这是一个非常核心、非常“生产级”的问题。
@@ -80,18 +80,18 @@ CPU 打满 -&gt; Host 卡死 内存吃光 -&gt; OOM -&gt; 全部服务崩 I/O �
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "KVM 防止“单个虚拟机拖死整台宿主机”",
-      "url" : "https://documents.v2ep.com/operations/kvm/prevents-a-single-virtual-machine-from-dragging-down-the-entire-host/",
+      "url": "https://documents.v2ep.com/operations/kvm/prevents-a-single-virtual-machine-from-dragging-down-the-entire-host/",
       "headline": "KVM 防止“单个虚拟机拖死整台宿主机”",
       "description": "这是一个非常核心、非常“生产级”的问题。\n一句话先给结论：\nKVM 防止“单个虚拟机拖死整台宿主机”的手段，本质是： 用 Linux 内核的「资源隔离 \u002b 调度 \u002b 强制上限」去约束 QEMU 进程。\n下面从 设计思想 -\u003e 核心机制 -\u003e 实战配置 -\u003e 典型事故 -\u003e 面试总结 五个层次，把这个问题讲透。\n一、问题本质（先想清楚） 在宿主机眼里，每个虚拟机 = 一个（或多个）QEMU 进程\n如果不限制：\nCPU 打满 -\u003e Host 卡死 内存吃光 -\u003e OOM -\u003e 全部服务崩 I\/O 狂刷 -\u003e 全盘抖 网络风暴 -\u003e 宿主机丢包 所以目标是：\n让 VM“最多把自己玩死”，但永远拖不垮宿主机\n二、KVM 防护的总体设计思想 QEMU 进程 ├── CPU：cgroup \u002b 调度器 ├── 内存：hard limit \u002b OOM 控制 ├── I\/O：blkio \/ io controller ├── 网络：qdisc \/ virtio-net └── 故障：自动隔离 \/ kill KVM 不自己造轮子，而是全面复用 Linux 内核能力",
-      "wordCount" : "346",
+      "wordCount": "346",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kvm/prevents-a-single-virtual-machine-from-dragging-down-the-entire-host/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -111,8 +111,8 @@ CPU 打满 -&gt; Host 卡死 内存吃光 -&gt; OOM -&gt; 全部服务崩 I/O �
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -131,12 +131,12 @@ CPU 打满 -&gt; Host 卡死 内存吃光 -&gt; OOM -&gt; 全部服务崩 I/O �
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -287,21 +287,6 @@ CPU 打满 -&gt; Host 卡死 内存吃光 -&gt; OOM -&gt; 全部服务崩 I/O �
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2281,26 +2266,26 @@ CPU 打满 -&gt; Host 卡死 内存吃光 -&gt; OOM -&gt; 全部服务崩 I/O �
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>机制</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>vCPU 上限</td>
-          <td>限制最大并发</td>
-      </tr>
-      <tr>
-          <td>CPU pinning</td>
-          <td>防止抢占</td>
-      </tr>
-      <tr>
-          <td>CPU share / quota</td>
-          <td>限速</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>机制</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>vCPU 上限</td>
+					<td>限制最大并发</td>
+			</tr>
+			<tr>
+					<td>CPU pinning</td>
+					<td>防止抢占</td>
+			</tr>
+			<tr>
+					<td>CPU share / quota</td>
+					<td>限速</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">

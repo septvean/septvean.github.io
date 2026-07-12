@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面这份是 真正的「一调就翻车」内核参数黑名单。
@@ -80,18 +80,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 内核 \"一调就翻车\" 危险参数清单",
-      "url" : "https://documents.v2ep.com/operations/linux/sysctl-danger-list/",
+      "url": "https://documents.v2ep.com/operations/linux/sysctl-danger-list/",
       "headline": "Linux 内核 \"一调就翻车\" 危险参数清单",
       "description": "下面这份是 真正的「一调就翻车」内核参数黑名单。\n特点只有一个：不是性能参数，而是“语义 \/ 安全 \/ 正确性”参数，\n👉 调错不是“变慢”，而是：断网、丢数据、进程被杀、系统不稳定。\n按 风险等级 \u002b 翻车方式 \u002b 正确认知 给你一份可直接纳入运维规范的清单。\n结论先行\n👉 这些参数 不适合“动态算”\n👉 不适合“网上抄一套”\n👉 改之前必须知道“你在改变什么系统行为”\n一、内存 \/ OOM \/ 进程相关（最高翻车率）🔥🔥🔥 1. vm.overcommit_memory（翻车王） vm.overcommit_memory = 2 ❌ 常见翻车 PostgreSQL \/ Redis 启动失败 Java \/ Python malloc failed K8S Pod 随机启动不了 ❗本质 这是“内存分配策略”，不是性能参数",
-      "wordCount" : "344",
+      "wordCount": "344",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/sysctl-danger-list/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -111,8 +111,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -131,12 +131,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -287,21 +287,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2254,26 +2239,26 @@
 </div>
 <p><strong>这是“内存分配策略”，不是性能参数</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>值</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>0</td>
-          <td>启发式（默认，最安全）</td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td>允许过度分配</td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td>严格限制（生产最容易翻）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>值</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>0</td>
+					<td>启发式（默认，最安全）</td>
+			</tr>
+			<tr>
+					<td>1</td>
+					<td>允许过度分配</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>严格限制（生产最容易翻）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-正确建议"
@@ -2685,26 +2670,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>值</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>数据库</td>
-          <td>1</td>
-      </tr>
-      <tr>
-          <td>通用服务器</td>
-          <td>10~30</td>
-      </tr>
-      <tr>
-          <td>禁 swap</td>
-          <td>swapoff</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>值</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>数据库</td>
+					<td>1</td>
+			</tr>
+			<tr>
+					<td>通用服务器</td>
+					<td>10~30</td>
+			</tr>
+			<tr>
+					<td>禁 swap</td>
+					<td>swapoff</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">

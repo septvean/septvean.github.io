@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Jenkins 打包其他 Docker 镜像的常见方法包括：直接安装 Docker 引擎（Docker-in-Docker 或 DooD）、使用 Docker 命令行工具连接宿主机 Docker（DooD变种）、或通过 Jenkins Slave 节点预装 Docker。 最常见且推荐的方式是让 Jenkins Slave（构建节点）安装 Docker，并配置权限，或者使用 Docker-in-Docker (DinD) 容器化运行构建。
@@ -59,18 +59,18 @@ Jenkins 构建 Docker 镜像的几种方法 1. 在 Jenkins Slave 节点上安装
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "使用 Docker 部署的 Jenkins 如何打包其他 Docker 镜像",
-      "url" : "https://documents.v2ep.com/operations/jenkins/build-docker/",
+      "url": "https://documents.v2ep.com/operations/jenkins/build-docker/",
       "headline": "使用 Docker 部署的 Jenkins 如何打包其他 Docker 镜像",
       "description": "Jenkins 打包其他 Docker 镜像的常见方法包括：直接安装 Docker 引擎（Docker-in-Docker 或 DooD）、使用 Docker 命令行工具连接宿主机 Docker（DooD变种）、或通过 Jenkins Slave 节点预装 Docker。 最常见且推荐的方式是让 Jenkins Slave（构建节点）安装 Docker，并配置权限，或者使用 Docker-in-Docker (DinD) 容器化运行构建。\nJenkins 构建 Docker 镜像的几种方法 1. 在 Jenkins Slave 节点上安装 Docker 引擎 (推荐方式) 在运行 Jenkins Agent（从节点）的机器上安装 Docker 守护进程 (dockerd)。",
-      "wordCount" : "167",
+      "wordCount": "167",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/build-docker/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@ Jenkins 构建 Docker 镜像的几种方法 1. 在 Jenkins Slave 节点上安装
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@ Jenkins 构建 Docker 镜像的几种方法 1. 在 Jenkins Slave 节点上安装
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@ Jenkins 构建 Docker 镜像的几种方法 1. 在 Jenkins Slave 节点上安装
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2245,7 +2230,7 @@ Jenkins 构建 Docker 镜像的几种方法 1. 在 Jenkins Slave 节点上安装
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">pipeline</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">agent</span> <span class="o">{</span> <span class="n">label</span> <span class="s1">&#39;docker-node&#39;</span> <span class="o">}</span> <span class="c1">// 标签指向安装了Docker的Slave节点
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">stages</span> <span class="o">{</span>
+</span></span></span><span class="line"><span class="cl">    <span class="n">stages</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Build Image&#39;</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">steps</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">                <span class="n">script</span> <span class="o">{</span>

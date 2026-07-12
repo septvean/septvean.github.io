@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="涵盖原理、架构、安装、最佳实践、常用场景、运维与性能优化。
@@ -71,18 +71,18 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "TimescaleDB 基础教程",
-      "url" : "https://documents.v2ep.com/database/postgres/timescaledb/",
+      "url": "https://documents.v2ep.com/database/postgres/timescaledb/",
       "headline": "TimescaleDB 基础教程",
       "description": "涵盖原理、架构、安装、最佳实践、常用场景、运维与性能优化。\nTimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQL 全功能的基础上，强化了时序数据的写入、查询、压缩、分区和生命周期管理能力。\n它非常适合：\n监控数据（Prometheus、Zabbix） IoT 设备数据 日志、指标、金融行情 工业时间序列数据 1. TimescaleDB 的核心思想 TimescaleDB 的底层逻辑只有两件事：\n① 将表变成 hypertable（超表） 超表自动进行分区（chunks）：\n时间维度自动分片 空间维度可选（如 device_id、tenant_id） ② 通过扩展增强 PostgreSQL 高速写入优化 压缩 chunk 连续聚合（Continuous Aggregates） 数据自动清理、保留策略 时间序列函数（time_bucket、histogram 等） ⚠️ 本质仍然是 PostgreSQL，所以你所有 PostgreSQL 功能都能用（SQL、索引、备份、事务等）。",
-      "wordCount" : "854",
+      "wordCount": "854",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/timescaledb/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2298,7 +2283,7 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">device_id</span><span class="w"> </span><span class="nb">int</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">value</span><span class="w"> </span><span class="n">double</span><span class="w"> </span><span class="k">precision</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">tags</span><span class="w"> </span><span class="n">jsonb</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-转为-hypertable"
     >
@@ -2321,30 +2306,30 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>chunk 时间间隔（推荐）</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Prometheus 指标</td>
-          <td>1 天</td>
-      </tr>
-      <tr>
-          <td>IoT 设备</td>
-          <td>1~7 天</td>
-      </tr>
-      <tr>
-          <td>交易行情/高频数据</td>
-          <td>1 小时</td>
-      </tr>
-      <tr>
-          <td>日志</td>
-          <td>1 天或 1 周</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>chunk 时间间隔（推荐）</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Prometheus 指标</td>
+					<td>1 天</td>
+			</tr>
+			<tr>
+					<td>IoT 设备</td>
+					<td>1~7 天</td>
+			</tr>
+			<tr>
+					<td>交易行情/高频数据</td>
+					<td>1 小时</td>
+			</tr>
+			<tr>
+					<td>日志</td>
+					<td>1 天或 1 周</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>设置 chunk 大小约为 <strong>256MB ~ 1GB 最佳。</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2358,8 +2343,8 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </div>
 <p>TimescaleDB 提供 列式压缩：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="p">(</span><span class="n">timescaledb</span><span class="p">.</span><span class="n">compress</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">compress_chunk</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">show_chunks</span><span class="p">(</span><span class="s1">&#39;metrics&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">compress_chunk</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">show_chunks</span><span class="p">(</span><span class="s1">&#39;metrics&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>自动压缩策略：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">add_compression_policy</span><span class="p">(</span><span class="s1">&#39;metrics&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;7 days&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>💡 常用：保留最近 7 天未压缩数据用于快速查询，老数据全部压缩。</p>
@@ -2381,19 +2366,19 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </ul>
 <p>示例：每 1 分钟求平均值</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">MATERIALIZED</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">metrics_1m</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">timescaledb</span><span class="p">.</span><span class="n">continuous</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">timescaledb</span><span class="p">.</span><span class="n">continuous</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">time_bucket</span><span class="p">(</span><span class="s1">&#39;1 min&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">bucket</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">device_id</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">avg</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_value</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">bucket</span><span class="p">,</span><span class="w"> </span><span class="n">device_id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">bucket</span><span class="p">,</span><span class="w"> </span><span class="n">device_id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>自动刷新策略：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">add_continuous_aggregate_policy</span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s1">&#39;metrics_1m&#39;</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">start_offset</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;1 day&#39;</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">end_offset</span><span class="w">   </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;1 min&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="8-数据生命周期管理retention"
     >
@@ -2422,42 +2407,42 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </div>
 <p>常用函数：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>函数</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>time_bucket()</td>
-          <td>分组聚合，代替 date_trunc</td>
-      </tr>
-      <tr>
-          <td>time_bucket_gapfill()</td>
-          <td>自动补齐时间空洞</td>
-      </tr>
-      <tr>
-          <td>histogram()</td>
-          <td>统计分布</td>
-      </tr>
-      <tr>
-          <td>approx_percentile()</td>
-          <td>高速百分位计算</td>
-      </tr>
-      <tr>
-          <td>first() / last()</td>
-          <td>高速查首尾值</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>函数</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>time_bucket()</td>
+					<td>分组聚合，代替 date_trunc</td>
+			</tr>
+			<tr>
+					<td>time_bucket_gapfill()</td>
+					<td>自动补齐时间空洞</td>
+			</tr>
+			<tr>
+					<td>histogram()</td>
+					<td>统计分布</td>
+			</tr>
+			<tr>
+					<td>approx_percentile()</td>
+					<td>高速百分位计算</td>
+			</tr>
+			<tr>
+					<td>first() / last()</td>
+					<td>高速查首尾值</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>示例：补齐缺失分钟</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">time_bucket_gapfill</span><span class="p">(</span><span class="s1">&#39;1 min&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">),</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">avg</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="10-性能优化最佳实践生产必做"
     >
@@ -2502,7 +2487,7 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </div>
 <p>通常只需要：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="p">(</span><span class="n">time</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="p">(</span><span class="n">device_id</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="p">(</span><span class="n">device_id</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-设置合适的-chunk-大小"
     >
@@ -2571,52 +2556,52 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>TimescaleDB</th>
-          <th>InfluxDB</th>
-          <th>Prometheus</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>底层</td>
-          <td>PostgreSQL</td>
-          <td>专有引擎</td>
-          <td>专有引擎</td>
-      </tr>
-      <tr>
-          <td>SQL</td>
-          <td>✅ 完整 SQL</td>
-          <td>❌ Flux/SQL 变种</td>
-          <td>❌ PromQL</td>
-      </tr>
-      <tr>
-          <td>Join 查询</td>
-          <td>✅</td>
-          <td>不支持</td>
-          <td>不支持</td>
-      </tr>
-      <tr>
-          <td>持久化</td>
-          <td>强</td>
-          <td>弱</td>
-          <td>弱</td>
-      </tr>
-      <tr>
-          <td>集群</td>
-          <td>PostgreSQL 自带方案</td>
-          <td>有商业版</td>
-          <td>无</td>
-      </tr>
-      <tr>
-          <td>压缩</td>
-          <td>强（10~30x）</td>
-          <td>中</td>
-          <td>弱</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>TimescaleDB</th>
+					<th>InfluxDB</th>
+					<th>Prometheus</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>底层</td>
+					<td>PostgreSQL</td>
+					<td>专有引擎</td>
+					<td>专有引擎</td>
+			</tr>
+			<tr>
+					<td>SQL</td>
+					<td>✅ 完整 SQL</td>
+					<td>❌ Flux/SQL 变种</td>
+					<td>❌ PromQL</td>
+			</tr>
+			<tr>
+					<td>Join 查询</td>
+					<td>✅</td>
+					<td>不支持</td>
+					<td>不支持</td>
+			</tr>
+			<tr>
+					<td>持久化</td>
+					<td>强</td>
+					<td>弱</td>
+					<td>弱</td>
+			</tr>
+			<tr>
+					<td>集群</td>
+					<td>PostgreSQL 自带方案</td>
+					<td>有商业版</td>
+					<td>无</td>
+			</tr>
+			<tr>
+					<td>压缩</td>
+					<td>强（10~30x）</td>
+					<td>中</td>
+					<td>弱</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>总结：<strong>PostgreSQL 兼容性 + 时序性能 = TimescaleDB 最大优势。</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2645,34 +2630,34 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
 </div>
 <p>TimescaleDB 的 scaling 方案：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>是否可行</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>水平扩展（多节点）</td>
-          <td>✅（TimescaleDB multi-node）</td>
-      </tr>
-      <tr>
-          <td>一主多从</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>分表分区</td>
-          <td>自动</td>
-      </tr>
-      <tr>
-          <td>自动压缩</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>自动冷热分层</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>是否可行</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>水平扩展（多节点）</td>
+					<td>✅（TimescaleDB multi-node）</td>
+			</tr>
+			<tr>
+					<td>一主多从</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>分表分区</td>
+					<td>自动</td>
+			</tr>
+			<tr>
+					<td>自动压缩</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>自动冷热分层</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="postgresql--timescaledbtimescaledb-查看版本并升级"
@@ -2870,10 +2855,10 @@ TimescaleDB 是基于 PostgreSQL 的 时序数据库扩展，在保留 PostgreSQ
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">pg_upgrade <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -b /old/bin <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -B /new/bin <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -d /old/data <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -D /new/data
+</span></span></span><span class="line"><span class="cl">    -b /old/bin <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -B /new/bin <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -d /old/data <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -D /new/data
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="方法二逻辑备份"
     >

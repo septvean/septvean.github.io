@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份把“容器如何使用硬件资源”从内核路径一次性讲透的总结。
@@ -74,18 +74,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "容器如何使用硬件资源",
-      "url" : "https://documents.v2ep.com/operations/linux/how-containers-use-hardware-resources/",
+      "url": "https://documents.v2ep.com/operations/linux/how-containers-use-hardware-resources/",
       "headline": "容器如何使用硬件资源",
       "description": "下面是一份把“容器如何使用硬件资源”从内核路径一次性讲透的总结。\n不是 “容器怎么用 CPU\/内存” 的表面答案，而是 “请求是如何从容器 -\u003e 内核 -\u003e 硬件”。\n按 总体模型 -\u003e CPU -\u003e 内存 -\u003e 存储 -\u003e 网络 -\u003e 资源隔离与限制的协同 来讲。\n一、总览：容器访问硬件的真实模型 容器不是虚拟硬件，而是：一组受限的 Linux 进程。\n本质公式\n容器 = Namespace（看不见别人） \u002b cgroups（用不多、用不超） \u002b Linux 内核（真正访问硬件） 📌 没有 Hypervisor，没有虚拟 CPU，没有虚拟内存控制器\n二、CPU：容器如何“使用”CPU 1️⃣ 调度本质 容器进程 = 普通 Linux 进程",
-      "wordCount" : "371",
+      "wordCount": "371",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/how-containers-use-hardware-resources/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2564,30 +2549,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>组件</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Namespace</td>
-          <td>“看不见别人”</td>
-      </tr>
-      <tr>
-          <td>cgroups</td>
-          <td>“用不多、不超用”</td>
-      </tr>
-      <tr>
-          <td>Scheduler</td>
-          <td>实际分配</td>
-      </tr>
-      <tr>
-          <td>VFS / Net</td>
-          <td>抽象硬件</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Namespace</td>
+					<td>“看不见别人”</td>
+			</tr>
+			<tr>
+					<td>cgroups</td>
+					<td>“用不多、不超用”</td>
+			</tr>
+			<tr>
+					<td>Scheduler</td>
+					<td>实际分配</td>
+			</tr>
+			<tr>
+					<td>VFS / Net</td>
+					<td>抽象硬件</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七容器-vs-虚拟机关键对比"
@@ -2599,40 +2584,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>容器</th>
-          <th>虚拟机</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU</td>
-          <td>时间片限制</td>
-          <td>vCPU</td>
-      </tr>
-      <tr>
-          <td>内存</td>
-          <td>共享物理内存</td>
-          <td>虚拟内存</td>
-      </tr>
-      <tr>
-          <td>内核</td>
-          <td>共用</td>
-          <td>独立</td>
-      </tr>
-      <tr>
-          <td>IO</td>
-          <td>共用 block 层</td>
-          <td>虚拟磁盘</td>
-      </tr>
-      <tr>
-          <td>安全边界</td>
-          <td>进程级</td>
-          <td>硬件级</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>容器</th>
+					<th>虚拟机</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CPU</td>
+					<td>时间片限制</td>
+					<td>vCPU</td>
+			</tr>
+			<tr>
+					<td>内存</td>
+					<td>共享物理内存</td>
+					<td>虚拟内存</td>
+			</tr>
+			<tr>
+					<td>内核</td>
+					<td>共用</td>
+					<td>独立</td>
+			</tr>
+			<tr>
+					<td>IO</td>
+					<td>共用 block 层</td>
+					<td>虚拟磁盘</td>
+			</tr>
+			<tr>
+					<td>安全边界</td>
+					<td>进程级</td>
+					<td>硬件级</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>容器是“调度隔离”，VM 是“硬件隔离”</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">

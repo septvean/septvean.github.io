@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、Kafka 本质是什么？ Kafka 本质是一个分布式、持久化、可订阅的日志系统（Distributed Commit Log）
@@ -74,18 +74,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kafka 核心概念",
-      "url" : "https://documents.v2ep.com/operations/kafka/core/",
+      "url": "https://documents.v2ep.com/operations/kafka/core/",
       "headline": "Kafka 核心概念",
       "description": " 一、Kafka 本质是什么？ Kafka 本质是一个分布式、持久化、可订阅的日志系统（Distributed Commit Log）\n它不是传统 MQ，而是：\n写多读多 顺序追加 长时间存储 消费者自己维护进度 📌 这一句话是 Kafka 的“灵魂定义”\n二、Kafka 为什么要设计成“日志系统”？ 传统 MQ（RabbitMQ）的问题：\n消息被消费即删除 Broker 负责消息状态 扩展性差 Kafka 的选择：\n消息永久写入日志 消费进度由 Consumer 自己维护 Broker 无状态化（相对） 👉 带来：\n高吞吐 可回放 多消费组 易扩展 三、Kafka 的核心组件 1️⃣ Broker Kafka 的服务节点，负责存储和转发数据。",
-      "wordCount" : "396",
+      "wordCount": "396",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kafka/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2516,26 +2501,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>语义</th>
-          <th>实现方式</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>At most once</td>
-          <td>先提交 offset</td>
-      </tr>
-      <tr>
-          <td>At least once</td>
-          <td>处理完再提交</td>
-      </tr>
-      <tr>
-          <td>Exactly once</td>
-          <td>幂等 + 事务</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>语义</th>
+					<th>实现方式</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>At most once</td>
+					<td>先提交 offset</td>
+			</tr>
+			<tr>
+					<td>At least once</td>
+					<td>处理完再提交</td>
+			</tr>
+			<tr>
+					<td>Exactly once</td>
+					<td>幂等 + 事务</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 Kafka 默认是 At least once</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2584,40 +2569,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>Kafka</th>
-          <th>传统 MQ</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>模型</td>
-          <td>日志</td>
-          <td>队列</td>
-      </tr>
-      <tr>
-          <td>数据删除</td>
-          <td>不删</td>
-          <td>消费即删</td>
-      </tr>
-      <tr>
-          <td>吞吐</td>
-          <td>极高</td>
-          <td>中低</td>
-      </tr>
-      <tr>
-          <td>回放</td>
-          <td>支持</td>
-          <td>不支持</td>
-      </tr>
-      <tr>
-          <td>多订阅</td>
-          <td>原生</td>
-          <td>复杂</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>Kafka</th>
+					<th>传统 MQ</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>模型</td>
+					<td>日志</td>
+					<td>队列</td>
+			</tr>
+			<tr>
+					<td>数据删除</td>
+					<td>不删</td>
+					<td>消费即删</td>
+			</tr>
+			<tr>
+					<td>吞吐</td>
+					<td>极高</td>
+					<td>中低</td>
+			</tr>
+			<tr>
+					<td>回放</td>
+					<td>支持</td>
+					<td>不支持</td>
+			</tr>
+			<tr>
+					<td>多订阅</td>
+					<td>原生</td>
+					<td>复杂</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十五总结"

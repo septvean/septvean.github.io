@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是从硬件 -&gt; 内核 -&gt; 虚拟化 -&gt; 容器化的一体化认知框架，不是零散知识点，而是一条完整技术演进链。
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "硬件 内核 虚拟化 容器化",
-      "url" : "https://documents.v2ep.com/operations/linux/hardware-kernel-virtualization-containers/",
+      "url": "https://documents.v2ep.com/operations/linux/hardware-kernel-virtualization-containers/",
       "headline": "硬件 内核 虚拟化 容器化",
       "description": "下面是从硬件 -\u003e 内核 -\u003e 虚拟化 -\u003e 容器化的一体化认知框架，不是零散知识点，而是一条完整技术演进链。\n用 NUMA \/ Namespace \/ cgroups \/ overlay2 \/ systemd 串起来。\n一、总体一张图（先建立“世界观”） ┌───────────────────────────────┐ │ 硬 件 (Hardware) │ │ CPU \/ 内存 \/ 磁盘 \/ 网卡 \/ NUMA │ └──────────────┬────────────────┘ ↓ ┌───────────────────────────────┐ │ Linux 内核 (Kernel) │ │ 调度 \/ 内存 \/ 网络 \/ IO \/ 中断 │ └──────────────┬────────────────┘ ↓ ┌───────────────────────────────┐ │ 虚拟化 (Virtualization) │ │ KVM \/ QEMU \/ vCPU \/ vNUMA │ └──────────────┬────────────────┘ ↓ ┌───────────────────────────────┐ │ 容器化 (Containers) │ │ Namespace \u002b cgroups \u002b FS │ └───────────────────────────────┘ 核心：",
-      "wordCount" : "403",
+      "wordCount": "403",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/hardware-kernel-virtualization-containers/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2328,30 +2313,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>子系统</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Scheduler</td>
-          <td>CPU 调度</td>
-      </tr>
-      <tr>
-          <td>Memory</td>
-          <td>内存管理</td>
-      </tr>
-      <tr>
-          <td>VFS</td>
-          <td>文件系统</td>
-      </tr>
-      <tr>
-          <td>Networking</td>
-          <td>网络栈</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>子系统</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Scheduler</td>
+					<td>CPU 调度</td>
+			</tr>
+			<tr>
+					<td>Memory</td>
+					<td>内存管理</td>
+			</tr>
+			<tr>
+					<td>VFS</td>
+					<td>文件系统</td>
+			</tr>
+			<tr>
+					<td>Networking</td>
+					<td>网络栈</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-内核做了什么"
@@ -2431,26 +2416,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项</th>
-          <th>成本</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU</td>
-          <td>低</td>
-      </tr>
-      <tr>
-          <td>内存</td>
-          <td>中</td>
-      </tr>
-      <tr>
-          <td>IO</td>
-          <td>高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>成本</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CPU</td>
+					<td>低</td>
+			</tr>
+			<tr>
+					<td>内存</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>IO</td>
+					<td>高</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="五容器化不造机器只分世界"
@@ -2486,26 +2471,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>技术</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Namespace</td>
-          <td>隔离</td>
-      </tr>
-      <tr>
-          <td>cgroups</td>
-          <td>限制</td>
-      </tr>
-      <tr>
-          <td>RootFS</td>
-          <td>文件视图</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>技术</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Namespace</td>
+					<td>隔离</td>
+			</tr>
+			<tr>
+					<td>cgroups</td>
+					<td>限制</td>
+			</tr>
+			<tr>
+					<td>RootFS</td>
+					<td>文件视图</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-namespace你看到了什么"
@@ -2561,40 +2546,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>虚拟机</th>
-          <th>容器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>内核</td>
-          <td>独立</td>
-          <td>共享</td>
-      </tr>
-      <tr>
-          <td>启动</td>
-          <td>慢</td>
-          <td>极快</td>
-      </tr>
-      <tr>
-          <td>隔离</td>
-          <td>强</td>
-          <td>中</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>有损</td>
-          <td>近乎裸机</td>
-      </tr>
-      <tr>
-          <td>安全</td>
-          <td>更强</td>
-          <td>依赖内核</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>虚拟机</th>
+					<th>容器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>内核</td>
+					<td>独立</td>
+					<td>共享</td>
+			</tr>
+			<tr>
+					<td>启动</td>
+					<td>慢</td>
+					<td>极快</td>
+			</tr>
+			<tr>
+					<td>隔离</td>
+					<td>强</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>有损</td>
+					<td>近乎裸机</td>
+			</tr>
+			<tr>
+					<td>安全</td>
+					<td>更强</td>
+					<td>依赖内核</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七numa贯穿硬件虚拟化容器的暗线"

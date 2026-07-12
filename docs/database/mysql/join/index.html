@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 1. 什么是 JOIN（核心概念） JOIN 用于将两个或多个表按关系字段关联起来，返回符合条件的记录。
@@ -71,18 +71,18 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL Join",
-      "url" : "https://documents.v2ep.com/database/mysql/join/",
+      "url": "https://documents.v2ep.com/database/mysql/join/",
       "headline": "MySQL Join",
       "description": " 1. 什么是 JOIN（核心概念） JOIN 用于将两个或多个表按关系字段关联起来，返回符合条件的记录。\nSQL 标准支持的 JOIN 类型很多，但在 MySQL InnoDB 中实际使用频率最高的是：\nINNER JOIN（内连接） LEFT JOIN（左外连接） RIGHT JOIN（右外连接） CROSS JOIN（笛卡尔积） SELF JOIN（自连接） 从本质上讲：\nJOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）\n关键理解：\n选择驱动表非常重要 驱动表越小越好 被驱动表必须有索引 2. JOIN 的执行方式（MySQL 重要底层原理） MySQL（InnoDB）JOIN 本质上是 Nested Loop Join（嵌套循环）：",
-      "wordCount" : "504",
+      "wordCount": "504",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/join/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2229,30 +2214,30 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 </span></span><span class="line"><span class="cl">    用 row 的关联字段去被驱动表查找对应记录
 </span></span></code></pre></div><p>查找方式依赖：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方式</th>
-          <th>原因</th>
-          <th>性能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Index Lookup</td>
-          <td>被驱动表有索引</td>
-          <td>🚀 快（最理想）</td>
-      </tr>
-      <tr>
-          <td>Block Nested Loop（BNL）</td>
-          <td>被驱动表没索引</td>
-          <td>🐌 非常慢</td>
-      </tr>
-      <tr>
-          <td>Hash JOIN（MySQL 8.0.18+）</td>
-          <td>大 JOIN，被优化器选择</td>
-          <td>🚀🚀（大表适用）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方式</th>
+					<th>原因</th>
+					<th>性能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Index Lookup</td>
+					<td>被驱动表有索引</td>
+					<td>🚀 快（最理想）</td>
+			</tr>
+			<tr>
+					<td>Block Nested Loop（BNL）</td>
+					<td>被驱动表没索引</td>
+					<td>🐌 非常慢</td>
+			</tr>
+			<tr>
+					<td>Hash JOIN（MySQL 8.0.18+）</td>
+					<td>大 JOIN，被优化器选择</td>
+					<td>🚀🚀（大表适用）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>InnoDB 默认使用 Index Nested Loop（最常见、最需优化的模式）。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2275,8 +2260,8 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 </div>
 <p>只返回两个表都匹配的记录。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">u</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">u</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>结果：交集。</p>
 <p>应用场景：</p>
 <ul>
@@ -2293,8 +2278,8 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 </div>
 <p>返回左表全部 + 右表能匹配的部分，不匹配为 NULL。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">u</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">u</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>应用场景：</p>
 <ul>
 <li>查用户是否下过订单（无订单也要显示）</li>
@@ -2332,8 +2317,8 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 </div>
 <p>表内关联。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">name</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">employee</span><span class="w"> </span><span class="n">e</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">employee</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">manager_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">employee</span><span class="w"> </span><span class="n">e</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">employee</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">manager_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="4-join-的执行计划非常关键"
     >
@@ -2347,30 +2332,30 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="p">...</span><span class="w">
 </span></span></span></code></pre></div><p>关键关注字段：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>字段</th>
-          <th>意义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>type</td>
-          <td>访问类型：ALL、index、range、ref、eq_ref</td>
-      </tr>
-      <tr>
-          <td>key</td>
-          <td>是否用到索引</td>
-      </tr>
-      <tr>
-          <td>rows</td>
-          <td>预估扫描行数</td>
-      </tr>
-      <tr>
-          <td>Extra</td>
-          <td>是否使用临时表、文件排序</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>字段</th>
+					<th>意义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>type</td>
+					<td>访问类型：ALL、index、range、ref、eq_ref</td>
+			</tr>
+			<tr>
+					<td>key</td>
+					<td>是否用到索引</td>
+			</tr>
+			<tr>
+					<td>rows</td>
+					<td>预估扫描行数</td>
+			</tr>
+			<tr>
+					<td>Extra</td>
+					<td>是否使用临时表、文件排序</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>JOIN 最关键指标：</p>
 <ul>
@@ -2394,22 +2379,22 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 </ol>
 <p>正确理解驱动表：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>语句</th>
-          <th>实际驱动表</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>FROM a JOIN b</td>
-          <td>优化器决定（不是 a 也不是 b）</td>
-      </tr>
-      <tr>
-          <td>STRAIGHT_JOIN</td>
-          <td>强制左表为驱动表</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>语句</th>
+					<th>实际驱动表</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>FROM a JOIN b</td>
+					<td>优化器决定（不是 a 也不是 b）</td>
+			</tr>
+			<tr>
+					<td>STRAIGHT_JOIN</td>
+					<td>强制左表为驱动表</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="6-join-场景最佳实践非常实战"
@@ -2430,8 +2415,8 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">small</span><span class="w"> </span><span class="n">s</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">big</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">sid</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">small</span><span class="w"> </span><span class="n">s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">big</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">sid</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="62-场景-2join-字段必须加索引最重要的-join-优化规则"
     >
@@ -2623,10 +2608,10 @@ JOIN = 驱动表扫描行 × 被驱动表查找行（Nested Loop Join）
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">name</span><span class="w">
 </span></span></span></code></pre></div><p>改成 UNION ALL 拆分：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="err">…</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="err">…</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">name</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="err">…</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">name</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="9-join-调优-checklist最终落地版"
     >

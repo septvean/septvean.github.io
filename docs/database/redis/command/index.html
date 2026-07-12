@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、键（Key）操作 功能 命令 说明 查看所有 key KEYS pattern 生产环境禁止使用，会阻塞 模糊匹配扫描 SCAN cursor [MATCH pattern] [COUNT n] 安全替代 KEYS 查看 key 类型 TYPE key 字符串、list、hash 等 查看 key 存在 EXISTS key 返回存在数量 删除 key DEL key1 key2&hellip; 支持多 key 过期时间 EXPIRE key 60 设置 TTL 查看 TTL TTL key 剩余秒数 持久化 key PERSIST key 移除过期时间 二、字符串 String 操作 命令 设置值 SET key value 设置值 &#43; 过期 SETEX key 60 value 获取值 GET key 批量操作 MSET k1 v1 k2 v2 / MGET k1 k2 追加字符串 APPEND key value 数值自增 INCR key、INCRBY key n 数值自减 DECR key、DECRBY key n 字符串长度 STRLEN key 截取片段 GETRANGE key start end ✅ 使用场景：缓存、计数器、分布式锁（SET NX EX）" />
@@ -56,18 +56,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "Redis 常用命令",
-      "url" : "https://documents.v2ep.com/database/redis/command/",
+      "url": "https://documents.v2ep.com/database/redis/command/",
       "headline": "Redis 常用命令",
       "description": " 一、键（Key）操作 功能 命令 说明 查看所有 key KEYS pattern 生产环境禁止使用，会阻塞 模糊匹配扫描 SCAN cursor [MATCH pattern] [COUNT n] 安全替代 KEYS 查看 key 类型 TYPE key 字符串、list、hash 等 查看 key 存在 EXISTS key 返回存在数量 删除 key DEL key1 key2… 支持多 key 过期时间 EXPIRE key 60 设置 TTL 查看 TTL TTL key 剩余秒数 持久化 key PERSIST key 移除过期时间 二、字符串 String 操作 命令 设置值 SET key value 设置值 \u002b 过期 SETEX key 60 value 获取值 GET key 批量操作 MSET k1 v1 k2 v2 \/ MGET k1 k2 追加字符串 APPEND key value 数值自增 INCR key、INCRBY key n 数值自减 DECR key、DECRBY key n 字符串长度 STRLEN key 截取片段 GETRANGE key start end ✅ 使用场景：缓存、计数器、分布式锁（SET NX EX）",
-      "wordCount" : "641",
+      "wordCount": "641",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/redis/command/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -87,8 +87,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -107,12 +107,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -263,21 +263,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2184,55 +2169,55 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>命令</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>查看所有 key</td>
-          <td>KEYS pattern</td>
-          <td>生产环境禁止使用，会阻塞</td>
-      </tr>
-      <tr>
-          <td>模糊匹配扫描</td>
-          <td>SCAN cursor [MATCH pattern] [COUNT n]</td>
-          <td>安全替代 KEYS</td>
-      </tr>
-      <tr>
-          <td>查看 key 类型</td>
-          <td>TYPE key</td>
-          <td>字符串、list、hash 等</td>
-      </tr>
-      <tr>
-          <td>查看 key 存在</td>
-          <td>EXISTS key</td>
-          <td>返回存在数量</td>
-      </tr>
-      <tr>
-          <td>删除 key</td>
-          <td>DEL key1 key2&hellip;</td>
-          <td>支持多 key</td>
-      </tr>
-      <tr>
-          <td>过期时间</td>
-          <td>EXPIRE key 60</td>
-          <td>设置 TTL</td>
-      </tr>
-      <tr>
-          <td>查看 TTL</td>
-          <td>TTL key</td>
-          <td>剩余秒数</td>
-      </tr>
-      <tr>
-          <td>持久化 key</td>
-          <td>PERSIST key</td>
-          <td>移除过期时间</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>命令</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>查看所有 key</td>
+					<td>KEYS pattern</td>
+					<td>生产环境禁止使用，会阻塞</td>
+			</tr>
+			<tr>
+					<td>模糊匹配扫描</td>
+					<td>SCAN cursor [MATCH pattern] [COUNT n]</td>
+					<td>安全替代 KEYS</td>
+			</tr>
+			<tr>
+					<td>查看 key 类型</td>
+					<td>TYPE key</td>
+					<td>字符串、list、hash 等</td>
+			</tr>
+			<tr>
+					<td>查看 key 存在</td>
+					<td>EXISTS key</td>
+					<td>返回存在数量</td>
+			</tr>
+			<tr>
+					<td>删除 key</td>
+					<td>DEL key1 key2&hellip;</td>
+					<td>支持多 key</td>
+			</tr>
+			<tr>
+					<td>过期时间</td>
+					<td>EXPIRE key 60</td>
+					<td>设置 TTL</td>
+			</tr>
+			<tr>
+					<td>查看 TTL</td>
+					<td>TTL key</td>
+					<td>剩余秒数</td>
+			</tr>
+			<tr>
+					<td>持久化 key</td>
+					<td>PERSIST key</td>
+					<td>移除过期时间</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="二字符串-string"
@@ -2244,50 +2229,50 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>设置值</td>
-          <td>SET key value</td>
-      </tr>
-      <tr>
-          <td>设置值 + 过期</td>
-          <td>SETEX key 60 value</td>
-      </tr>
-      <tr>
-          <td>获取值</td>
-          <td>GET key</td>
-      </tr>
-      <tr>
-          <td>批量操作</td>
-          <td>MSET k1 v1 k2 v2 / MGET k1 k2</td>
-      </tr>
-      <tr>
-          <td>追加字符串</td>
-          <td>APPEND key value</td>
-      </tr>
-      <tr>
-          <td>数值自增</td>
-          <td>INCR key、INCRBY key n</td>
-      </tr>
-      <tr>
-          <td>数值自减</td>
-          <td>DECR key、DECRBY key n</td>
-      </tr>
-      <tr>
-          <td>字符串长度</td>
-          <td>STRLEN key</td>
-      </tr>
-      <tr>
-          <td>截取片段</td>
-          <td>GETRANGE key start end</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>设置值</td>
+					<td>SET key value</td>
+			</tr>
+			<tr>
+					<td>设置值 + 过期</td>
+					<td>SETEX key 60 value</td>
+			</tr>
+			<tr>
+					<td>获取值</td>
+					<td>GET key</td>
+			</tr>
+			<tr>
+					<td>批量操作</td>
+					<td>MSET k1 v1 k2 v2 / MGET k1 k2</td>
+			</tr>
+			<tr>
+					<td>追加字符串</td>
+					<td>APPEND key value</td>
+			</tr>
+			<tr>
+					<td>数值自增</td>
+					<td>INCR key、INCRBY key n</td>
+			</tr>
+			<tr>
+					<td>数值自减</td>
+					<td>DECR key、DECRBY key n</td>
+			</tr>
+			<tr>
+					<td>字符串长度</td>
+					<td>STRLEN key</td>
+			</tr>
+			<tr>
+					<td>截取片段</td>
+					<td>GETRANGE key start end</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：缓存、计数器、分布式锁（SET NX EX）</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2301,54 +2286,54 @@
 </div>
 <p>键 = key，字段 = field</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>设置字段</td>
-          <td>HSET key field value</td>
-      </tr>
-      <tr>
-          <td>获取字段</td>
-          <td>HGET key field</td>
-      </tr>
-      <tr>
-          <td>同时设置多个字段</td>
-          <td>HMSET key f1 v1 f2 v2</td>
-      </tr>
-      <tr>
-          <td>获取多个字段</td>
-          <td>HMGET key f1 f2</td>
-      </tr>
-      <tr>
-          <td>查看所有字段与值</td>
-          <td>HGETALL key</td>
-      </tr>
-      <tr>
-          <td>字段是否存在</td>
-          <td>HEXISTS key field</td>
-      </tr>
-      <tr>
-          <td>删除字段</td>
-          <td>HDEL key field1 field2</td>
-      </tr>
-      <tr>
-          <td>查看所有字段</td>
-          <td>HKEYS key</td>
-      </tr>
-      <tr>
-          <td>查看所有值</td>
-          <td>HVALS key</td>
-      </tr>
-      <tr>
-          <td>数值自增</td>
-          <td>HINCRBY key field n</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>设置字段</td>
+					<td>HSET key field value</td>
+			</tr>
+			<tr>
+					<td>获取字段</td>
+					<td>HGET key field</td>
+			</tr>
+			<tr>
+					<td>同时设置多个字段</td>
+					<td>HMSET key f1 v1 f2 v2</td>
+			</tr>
+			<tr>
+					<td>获取多个字段</td>
+					<td>HMGET key f1 f2</td>
+			</tr>
+			<tr>
+					<td>查看所有字段与值</td>
+					<td>HGETALL key</td>
+			</tr>
+			<tr>
+					<td>字段是否存在</td>
+					<td>HEXISTS key field</td>
+			</tr>
+			<tr>
+					<td>删除字段</td>
+					<td>HDEL key field1 field2</td>
+			</tr>
+			<tr>
+					<td>查看所有字段</td>
+					<td>HKEYS key</td>
+			</tr>
+			<tr>
+					<td>查看所有值</td>
+					<td>HVALS key</td>
+			</tr>
+			<tr>
+					<td>数值自增</td>
+					<td>HINCRBY key field n</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：用户信息（id -&gt; JSON），购物车等。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2361,50 +2346,50 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>左插入</td>
-          <td>LPUSH key v1 v2</td>
-      </tr>
-      <tr>
-          <td>右插入</td>
-          <td>RPUSH key v1 v2</td>
-      </tr>
-      <tr>
-          <td>左弹出</td>
-          <td>LPOP key</td>
-      </tr>
-      <tr>
-          <td>右弹出</td>
-          <td>RPOP key</td>
-      </tr>
-      <tr>
-          <td>获取区间</td>
-          <td>LRANGE key 0 -1</td>
-      </tr>
-      <tr>
-          <td>列表长度</td>
-          <td>LLEN key</td>
-      </tr>
-      <tr>
-          <td>按下标取值</td>
-          <td>LINDEX key index</td>
-      </tr>
-      <tr>
-          <td>修改某一项</td>
-          <td>LSET key index value</td>
-      </tr>
-      <tr>
-          <td>阻塞弹出</td>
-          <td>BLPOP key timeout（常用于队列）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>左插入</td>
+					<td>LPUSH key v1 v2</td>
+			</tr>
+			<tr>
+					<td>右插入</td>
+					<td>RPUSH key v1 v2</td>
+			</tr>
+			<tr>
+					<td>左弹出</td>
+					<td>LPOP key</td>
+			</tr>
+			<tr>
+					<td>右弹出</td>
+					<td>RPOP key</td>
+			</tr>
+			<tr>
+					<td>获取区间</td>
+					<td>LRANGE key 0 -1</td>
+			</tr>
+			<tr>
+					<td>列表长度</td>
+					<td>LLEN key</td>
+			</tr>
+			<tr>
+					<td>按下标取值</td>
+					<td>LINDEX key index</td>
+			</tr>
+			<tr>
+					<td>修改某一项</td>
+					<td>LSET key index value</td>
+			</tr>
+			<tr>
+					<td>阻塞弹出</td>
+					<td>BLPOP key timeout（常用于队列）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：消息队列、不严格顺序的排队系统。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2417,54 +2402,54 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>添加元素</td>
-          <td>SADD key member1 member2</td>
-      </tr>
-      <tr>
-          <td>移除元素</td>
-          <td>SREM key m1 m2</td>
-      </tr>
-      <tr>
-          <td>是否存在</td>
-          <td>SISMEMBER key member</td>
-      </tr>
-      <tr>
-          <td>获取所有元素</td>
-          <td>SMEMBERS key</td>
-      </tr>
-      <tr>
-          <td>集合大小</td>
-          <td>SCARD key</td>
-      </tr>
-      <tr>
-          <td>随机弹出</td>
-          <td>SPOP key [count]</td>
-      </tr>
-      <tr>
-          <td>随机获取</td>
-          <td>SRANDMEMBER key [count]</td>
-      </tr>
-      <tr>
-          <td>交集</td>
-          <td>SINTER key1 key2</td>
-      </tr>
-      <tr>
-          <td>并集</td>
-          <td>SUNION key1 key2</td>
-      </tr>
-      <tr>
-          <td>差集</td>
-          <td>SDIFF key1 key2</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>添加元素</td>
+					<td>SADD key member1 member2</td>
+			</tr>
+			<tr>
+					<td>移除元素</td>
+					<td>SREM key m1 m2</td>
+			</tr>
+			<tr>
+					<td>是否存在</td>
+					<td>SISMEMBER key member</td>
+			</tr>
+			<tr>
+					<td>获取所有元素</td>
+					<td>SMEMBERS key</td>
+			</tr>
+			<tr>
+					<td>集合大小</td>
+					<td>SCARD key</td>
+			</tr>
+			<tr>
+					<td>随机弹出</td>
+					<td>SPOP key [count]</td>
+			</tr>
+			<tr>
+					<td>随机获取</td>
+					<td>SRANDMEMBER key [count]</td>
+			</tr>
+			<tr>
+					<td>交集</td>
+					<td>SINTER key1 key2</td>
+			</tr>
+			<tr>
+					<td>并集</td>
+					<td>SUNION key1 key2</td>
+			</tr>
+			<tr>
+					<td>差集</td>
+					<td>SDIFF key1 key2</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：点赞、标签系统、好友列表。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2477,50 +2462,50 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>添加成员</td>
-          <td>ZADD key score member</td>
-      </tr>
-      <tr>
-          <td>删除成员</td>
-          <td>ZREM key member</td>
-      </tr>
-      <tr>
-          <td>获取分数</td>
-          <td>ZSCORE key member</td>
-      </tr>
-      <tr>
-          <td>获取排名（从小到大）</td>
-          <td>ZRANK key member</td>
-      </tr>
-      <tr>
-          <td>获取倒序排名</td>
-          <td>ZREVRANK key member</td>
-      </tr>
-      <tr>
-          <td>增加分数</td>
-          <td>ZINCRBY key increment member</td>
-      </tr>
-      <tr>
-          <td>区间查询</td>
-          <td>ZRANGE key start stop [WITHSCORES]</td>
-      </tr>
-      <tr>
-          <td>倒序区间查询</td>
-          <td>ZREVRANGE key 0 10 WITHSCORES</td>
-      </tr>
-      <tr>
-          <td>按分数区间查</td>
-          <td>ZRANGEBYSCORE key min max</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>添加成员</td>
+					<td>ZADD key score member</td>
+			</tr>
+			<tr>
+					<td>删除成员</td>
+					<td>ZREM key member</td>
+			</tr>
+			<tr>
+					<td>获取分数</td>
+					<td>ZSCORE key member</td>
+			</tr>
+			<tr>
+					<td>获取排名（从小到大）</td>
+					<td>ZRANK key member</td>
+			</tr>
+			<tr>
+					<td>获取倒序排名</td>
+					<td>ZREVRANK key member</td>
+			</tr>
+			<tr>
+					<td>增加分数</td>
+					<td>ZINCRBY key increment member</td>
+			</tr>
+			<tr>
+					<td>区间查询</td>
+					<td>ZRANGE key start stop [WITHSCORES]</td>
+			</tr>
+			<tr>
+					<td>倒序区间查询</td>
+					<td>ZREVRANGE key 0 10 WITHSCORES</td>
+			</tr>
+			<tr>
+					<td>按分数区间查</td>
+					<td>ZRANGEBYSCORE key min max</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：排行榜、延时队列（score = 时间戳）。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2533,26 +2518,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>设置某一位</td>
-          <td>SETBIT key offset value</td>
-      </tr>
-      <tr>
-          <td>获取某一位</td>
-          <td>GETBIT key offset</td>
-      </tr>
-      <tr>
-          <td>统计 1 的个数</td>
-          <td>BITCOUNT key</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>设置某一位</td>
+					<td>SETBIT key offset value</td>
+			</tr>
+			<tr>
+					<td>获取某一位</td>
+					<td>GETBIT key offset</td>
+			</tr>
+			<tr>
+					<td>统计 1 的个数</td>
+					<td>BITCOUNT key</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：签到系统、在线状态。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2565,26 +2550,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>添加</td>
-          <td>PFADD key value</td>
-      </tr>
-      <tr>
-          <td>统计</td>
-          <td>PFCOUNT key</td>
-      </tr>
-      <tr>
-          <td>合并</td>
-          <td>PFMERGE dest key1 key2</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>添加</td>
+					<td>PFADD key value</td>
+			</tr>
+			<tr>
+					<td>统计</td>
+					<td>PFCOUNT key</td>
+			</tr>
+			<tr>
+					<td>合并</td>
+					<td>PFMERGE dest key1 key2</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：UV 统计、唯一用户量。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2597,34 +2582,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>开始</td>
-          <td>MULTI</td>
-      </tr>
-      <tr>
-          <td>提交</td>
-          <td>EXEC</td>
-      </tr>
-      <tr>
-          <td>取消</td>
-          <td>DISCARD</td>
-      </tr>
-      <tr>
-          <td>监控 key</td>
-          <td>WATCH key</td>
-      </tr>
-      <tr>
-          <td>取消监控</td>
-          <td>UNWATCH</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>开始</td>
+					<td>MULTI</td>
+			</tr>
+			<tr>
+					<td>提交</td>
+					<td>EXEC</td>
+			</tr>
+			<tr>
+					<td>取消</td>
+					<td>DISCARD</td>
+			</tr>
+			<tr>
+					<td>监控 key</td>
+					<td>WATCH key</td>
+			</tr>
+			<tr>
+					<td>取消监控</td>
+					<td>UNWATCH</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：乐观锁、原子操作。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2637,22 +2622,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>执行脚本</td>
-          <td>EVAL &ldquo;lua_script&rdquo; numkeys key1 value1 &hellip;</td>
-      </tr>
-      <tr>
-          <td>执行缓存脚本</td>
-          <td>EVALSHA sha1 &hellip;</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>执行脚本</td>
+					<td>EVAL &ldquo;lua_script&rdquo; numkeys key1 value1 &hellip;</td>
+			</tr>
+			<tr>
+					<td>执行缓存脚本</td>
+					<td>EVALSHA sha1 &hellip;</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ 使用场景：分布式锁、限流、复杂原子操作。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2665,42 +2650,42 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>目的</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>查看 Redis 信息</td>
-          <td>INFO</td>
-      </tr>
-      <tr>
-          <td>查看 key 大小排序</td>
-          <td>MEMORY USAGE key</td>
-      </tr>
-      <tr>
-          <td>查看命令执行统计</td>
-          <td>INFO commandstats</td>
-      </tr>
-      <tr>
-          <td>查看慢查询</td>
-          <td>SLOWLOG get 10</td>
-      </tr>
-      <tr>
-          <td>清空当前 DB</td>
-          <td>FLUSHDB</td>
-      </tr>
-      <tr>
-          <td>清空所有 DB</td>
-          <td>FLUSHALL</td>
-      </tr>
-      <tr>
-          <td>查看所有 DB 使用情况</td>
-          <td>INFO keyspace</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>目的</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>查看 Redis 信息</td>
+					<td>INFO</td>
+			</tr>
+			<tr>
+					<td>查看 key 大小排序</td>
+					<td>MEMORY USAGE key</td>
+			</tr>
+			<tr>
+					<td>查看命令执行统计</td>
+					<td>INFO commandstats</td>
+			</tr>
+			<tr>
+					<td>查看慢查询</td>
+					<td>SLOWLOG get 10</td>
+			</tr>
+			<tr>
+					<td>清空当前 DB</td>
+					<td>FLUSHDB</td>
+			</tr>
+			<tr>
+					<td>清空所有 DB</td>
+					<td>FLUSHALL</td>
+			</tr>
+			<tr>
+					<td>查看所有 DB 使用情况</td>
+					<td>INFO keyspace</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十二redis-持久化-aof--rdb"
@@ -2712,26 +2697,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>触发 RDB 保存</td>
-          <td>SAVE（阻塞） / BGSAVE（后台）</td>
-      </tr>
-      <tr>
-          <td>重写 AOF</td>
-          <td>BGREWRITEAOF</td>
-      </tr>
-      <tr>
-          <td>查看持久化状态</td>
-          <td>INFO persistence</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>触发 RDB 保存</td>
+					<td>SAVE（阻塞） / BGSAVE（后台）</td>
+			</tr>
+			<tr>
+					<td>重写 AOF</td>
+					<td>BGREWRITEAOF</td>
+			</tr>
+			<tr>
+					<td>查看持久化状态</td>
+					<td>INFO persistence</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十三redis-主从replication"
@@ -2743,30 +2728,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>查看复制信息</td>
-          <td>INFO replication</td>
-      </tr>
-      <tr>
-          <td>设置主库</td>
-          <td>SLAVEOF host port</td>
-      </tr>
-      <tr>
-          <td>取消主从</td>
-          <td>SLAVEOF NO ONE</td>
-      </tr>
-      <tr>
-          <td>获取同步偏移量</td>
-          <td>WAIT numslaves timeout</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>查看复制信息</td>
+					<td>INFO replication</td>
+			</tr>
+			<tr>
+					<td>设置主库</td>
+					<td>SLAVEOF host port</td>
+			</tr>
+			<tr>
+					<td>取消主从</td>
+					<td>SLAVEOF NO ONE</td>
+			</tr>
+			<tr>
+					<td>获取同步偏移量</td>
+					<td>WAIT numslaves timeout</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十四redis-集群重点"
@@ -2787,34 +2772,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>查看集群状态</td>
-          <td>CLUSTER INFO</td>
-      </tr>
-      <tr>
-          <td>查看节点</td>
-          <td>CLUSTER NODES</td>
-      </tr>
-      <tr>
-          <td>手动创建集群</td>
-          <td>redis-cli &ndash;cluster create &hellip;</td>
-      </tr>
-      <tr>
-          <td>检查集群</td>
-          <td>redis-cli &ndash;cluster check host:port</td>
-      </tr>
-      <tr>
-          <td>修复集群</td>
-          <td>redis-cli &ndash;cluster fix host:port</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>查看集群状态</td>
+					<td>CLUSTER INFO</td>
+			</tr>
+			<tr>
+					<td>查看节点</td>
+					<td>CLUSTER NODES</td>
+			</tr>
+			<tr>
+					<td>手动创建集群</td>
+					<td>redis-cli &ndash;cluster create &hellip;</td>
+			</tr>
+			<tr>
+					<td>检查集群</td>
+					<td>redis-cli &ndash;cluster check host:port</td>
+			</tr>
+			<tr>
+					<td>修复集群</td>
+					<td>redis-cli &ndash;cluster fix host:port</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-槽位操作"
@@ -2826,30 +2811,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>动作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>查看槽位分配</td>
-          <td>CLUSTER SLOTS</td>
-      </tr>
-      <tr>
-          <td>将槽从 A 迁移到 B</td>
-          <td>CLUSTER SETSLOT slot MIGRATING node-id</td>
-      </tr>
-      <tr>
-          <td>接收槽迁移</td>
-          <td>CLUSTER SETSLOT slot IMPORTING node-id</td>
-      </tr>
-      <tr>
-          <td>槽绑定主节点</td>
-          <td>CLUSTER SETSLOT slot NODE node-id</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>动作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>查看槽位分配</td>
+					<td>CLUSTER SLOTS</td>
+			</tr>
+			<tr>
+					<td>将槽从 A 迁移到 B</td>
+					<td>CLUSTER SETSLOT slot MIGRATING node-id</td>
+			</tr>
+			<tr>
+					<td>接收槽迁移</td>
+					<td>CLUSTER SETSLOT slot IMPORTING node-id</td>
+			</tr>
+			<tr>
+					<td>槽绑定主节点</td>
+					<td>CLUSTER SETSLOT slot NODE node-id</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-节点管理"
@@ -2861,34 +2846,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>加入节点</td>
-          <td>CLUSTER MEET ip port</td>
-      </tr>
-      <tr>
-          <td>移除节点</td>
-          <td>CLUSTER FORGET node-id</td>
-      </tr>
-      <tr>
-          <td>删除 fail 标记</td>
-          <td>CLUSTER RESET</td>
-      </tr>
-      <tr>
-          <td>手动 failover</td>
-          <td>CLUSTER FAILOVER</td>
-      </tr>
-      <tr>
-          <td>模拟节点失败</td>
-          <td>CLUSTER DEBUG</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>加入节点</td>
+					<td>CLUSTER MEET ip port</td>
+			</tr>
+			<tr>
+					<td>移除节点</td>
+					<td>CLUSTER FORGET node-id</td>
+			</tr>
+			<tr>
+					<td>删除 fail 标记</td>
+					<td>CLUSTER RESET</td>
+			</tr>
+			<tr>
+					<td>手动 failover</td>
+					<td>CLUSTER FAILOVER</td>
+			</tr>
+			<tr>
+					<td>模拟节点失败</td>
+					<td>CLUSTER DEBUG</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="4-带-hash-标签的-key"
@@ -2913,22 +2898,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>原子上锁</td>
-          <td>SET lock_key uuid NX EX 10</td>
-      </tr>
-      <tr>
-          <td>Lua 解锁</td>
-          <td>EVAL &ldquo;if redis.call(&lsquo;get&rsquo;,KEYS[1])==ARGV[1] then return redis.call(&lsquo;del&rsquo;,KEYS[1]) else return 0 end&rdquo; 1 lock_key uuid</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>原子上锁</td>
+					<td>SET lock_key uuid NX EX 10</td>
+			</tr>
+			<tr>
+					<td>Lua 解锁</td>
+					<td>EVAL &ldquo;if redis.call(&lsquo;get&rsquo;,KEYS[1])==ARGV[1] then return redis.call(&lsquo;del&rsquo;,KEYS[1]) else return 0 end&rdquo; 1 lock_key uuid</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十六redis-专业级调试技巧"
@@ -2940,30 +2925,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>命令</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>测试某命令耗时</td>
-          <td>DEBUG SLEEP 1</td>
-      </tr>
-      <tr>
-          <td>模拟 key 过期</td>
-          <td>EXPIRE key 1</td>
-      </tr>
-      <tr>
-          <td>查看内存占用（精确）</td>
-          <td>MEMORY USAGE key</td>
-      </tr>
-      <tr>
-          <td>分析大 key</td>
-          <td>&ndash;bigkeys（redis-cli 工具）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>命令</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>测试某命令耗时</td>
+					<td>DEBUG SLEEP 1</td>
+			</tr>
+			<tr>
+					<td>模拟 key 过期</td>
+					<td>EXPIRE key 1</td>
+			</tr>
+			<tr>
+					<td>查看内存占用（精确）</td>
+					<td>MEMORY USAGE key</td>
+			</tr>
+			<tr>
+					<td>分析大 key</td>
+					<td>&ndash;bigkeys（redis-cli 工具）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="总结开发--运维必会的核心命令"

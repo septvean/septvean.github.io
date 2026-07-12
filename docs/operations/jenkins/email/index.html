@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 邮箱信息 SMTP Server：smtp.qq.com SMTP Port：587 Use TLS：true User Name：taxkiz@qq.com Password：xxxxxxxxxxxxxxxx Default Content Type：HTML (text/html) 配置流程 配置 Jenkins Location 配置 E-mail Notification 配置 Extended E-mail Notification 配置 Jenkinsfile 配置 Jenkins Location Jenkins -&gt; Manage Jenkins -&gt; System Configuration -&gt; Jenkins Location" />
@@ -56,18 +56,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Jenkins 发送邮件配置",
-      "url" : "https://documents.v2ep.com/operations/jenkins/email/",
+      "url": "https://documents.v2ep.com/operations/jenkins/email/",
       "headline": "Jenkins 发送邮件配置",
       "description": " 邮箱信息 SMTP Server：smtp.qq.com SMTP Port：587 Use TLS：true User Name：taxkiz@qq.com Password：xxxxxxxxxxxxxxxx Default Content Type：HTML (text\/html) 配置流程 配置 Jenkins Location 配置 E-mail Notification 配置 Extended E-mail Notification 配置 Jenkinsfile 配置 Jenkins Location Jenkins -\u003e Manage Jenkins -\u003e System Configuration -\u003e Jenkins Location",
-      "wordCount" : "187",
+      "wordCount": "187",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/email/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -87,8 +87,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -107,12 +107,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -263,21 +263,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2297,7 +2282,7 @@
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl">    <span class="n">post</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">        <span class="c1">// 构建成功
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">success</span> <span class="o">{</span>
+</span></span></span><span class="line"><span class="cl">        <span class="n">success</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">echo</span> <span class="s1">&#39;🎉 构建成功！&#39;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">emailext</span><span class="o">(</span>
 </span></span><span class="line"><span class="cl">                <span class="nl">subject:</span> <span class="s2">&#34;Jenkins build succeeded: ${env.JOB_NAME} [${env.BRANCH_NAME}] #${env.BUILD_NUMBER}&#34;</span><span class="o">,</span>
@@ -2319,7 +2304,7 @@
 </span></span><span class="line"><span class="cl">        <span class="o">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        <span class="c1">// 构建失败
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">failure</span> <span class="o">{</span>
+</span></span></span><span class="line"><span class="cl">        <span class="n">failure</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">echo</span> <span class="s1">&#39;🚨 构建失败！&#39;</span>
 </span></span><span class="line"><span class="cl">            <span class="n">emailext</span><span class="o">(</span>
 </span></span><span class="line"><span class="cl">                <span class="nl">subject:</span> <span class="s2">&#34;Jenkins build failed: ${env.JOB_NAME} [${env.BRANCH_NAME}] #${env.BUILD_NUMBER}&#34;</span><span class="o">,</span>

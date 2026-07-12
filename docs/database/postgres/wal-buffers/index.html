@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="参考文档：PostgreSQL 配置参数 wal_buffers = -1详细讲解
@@ -74,18 +74,18 @@ PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（�
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "wal_buffers",
-      "url" : "https://documents.v2ep.com/database/postgres/wal-buffers/",
+      "url": "https://documents.v2ep.com/database/postgres/wal-buffers/",
       "headline": "wal_buffers",
       "description": "参考文档：PostgreSQL 配置参数 wal_buffers = -1详细讲解\nPostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（自动），这会根据 shared_buffers 的 1\/32 自动调节（上限通常 16MB），适用于大多数工作负载。仅在极高并发写入、大型事务场景下，手动设为 16MB-64MB 的固定值可能带来轻微性能提升。\n具体分析与建议：\n默认值 (-1, 自动) 最佳： 自动管理会根据 shared_buffers 的大小自动分配 WAL 缓冲区大小。对于大多数应用，这能平衡性能与内存占用，不需要额外维护。\n手动固定值适用场景：\n高并发写操作： 许多客户端同时提交事务的繁忙服务器，适当增大该值（如 16MB-64MB）可能提升写入性能。 大事务： 处理大量 WAL 数据时，较大的缓冲区可减少 I\/O 压力。 注意事项：\n该参数只能在服务器启动时设置。 即使设得非常大，性能增益也不会无限制增加，通常 16MB 到 64MB 足够了。 设置为 -1 通常能获得合理的结果。 总结： 默认使用自动配置 (-1)；如果服务器观察到大量的 WAL 等待或处于极高负载下，再考虑将其手动设为 16MB-64MB 的固定值。",
-      "wordCount" : "54",
+      "wordCount": "54",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/wal-buffers/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

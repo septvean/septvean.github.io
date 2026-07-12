@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 超完整、可实践、结构清晰的 GitLab 教程，涵盖从 核心概念、安装部署、用户与权限、CI/CD、Runner、项目管理、Hook、运维、备份恢复、安全加固、最佳实践 等内容。
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "GitLab 基础教程",
-      "url" : "https://documents.v2ep.com/operations/gitlab/tutorial/",
+      "url": "https://documents.v2ep.com/operations/gitlab/tutorial/",
       "headline": "GitLab 基础教程",
       "description": "下面是一份 超完整、可实践、结构清晰的 GitLab 教程，涵盖从 核心概念、安装部署、用户与权限、CI\/CD、Runner、项目管理、Hook、运维、备份恢复、安全加固、最佳实践 等内容。\n目录 GitLab 是什么？核心功能概述 GitLab 架构与核心组件 GitLab 安装部署（单机、Docker、K8S、HA） 基础使用教程（用户、项目、组、权限） GitLab CI\/CD 完整教程 GitLab Runner 使用教程 GitLab 常用功能（Issue、MR、Webhook、API） GitLab 运维与管理（备份、恢复、升级） GitLab 性能调优 GitLab 安全加固 GitLab 最佳实践（企业级） 1. GitLab 是什么？ GitLab = 代码托管 \u002b CI\/CD \u002b DevOps 平台",
-      "wordCount" : "533",
+      "wordCount": "533",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/gitlab/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2304,13 +2289,13 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">docker run -d <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --hostname gitlab.example.com <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p 443:443 -p 80:80 -p 22:22 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name gitlab <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v /srv/gitlab/config:/etc/gitlab <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v /srv/gitlab/logs:/var/log/gitlab <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -v /srv/gitlab/data:/var/opt/gitlab <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gitlab/gitlab-ee:latest
+</span></span></span><span class="line"><span class="cl">    --hostname gitlab.example.com <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -p 443:443 -p 80:80 -p 22:22 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --name gitlab <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -v /srv/gitlab/config:/etc/gitlab <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -v /srv/gitlab/logs:/var/log/gitlab <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -v /srv/gitlab/data:/var/opt/gitlab <span class="se">\
+</span></span></span><span class="line"><span class="cl">    gitlab/gitlab-ee:latest
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="33-kubernetes-部署生产级"
     >
@@ -2356,58 +2341,58 @@
 </ul>
 <p>核心区别：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>角色</th>
-          <th>查看</th>
-          <th>推送</th>
-          <th>创建 MR</th>
-          <th>管理项目</th>
-          <th>管理组</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Guest</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>Reporter</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>❌</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>Developer</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>Maintainer</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>Owner</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>角色</th>
+					<th>查看</th>
+					<th>推送</th>
+					<th>创建 MR</th>
+					<th>管理项目</th>
+					<th>管理组</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Guest</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>Reporter</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>❌</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>Developer</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>Maintainer</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>Owner</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="42-组group"
@@ -2484,17 +2469,17 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">deploy</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">build-job</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">build-job</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">build</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">echo &#34;Build...&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">test-job</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">test-job</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">echo &#34;Run Test&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">deploy-job</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">deploy-job</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">deploy</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">script</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">echo &#34;Deploy&#34;</span><span class="w">
@@ -2629,7 +2614,7 @@
 </div>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --header <span class="s2">&#34;PRIVATE-TOKEN: &lt;your_access_token&gt;&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  https://gitlab.example.com/api/v4/projects
+</span></span></span><span class="line"><span class="cl">  https://gitlab.example.com/api/v4/projects
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="8-gitlab-运维管理"
     >
@@ -2693,34 +2678,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>人数</th>
-          <th>CPU</th>
-          <th>内存</th>
-          <th>存储</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&lt;100</td>
-          <td>4C</td>
-          <td>8G</td>
-          <td>SSD</td>
-      </tr>
-      <tr>
-          <td>100 ~ 1000</td>
-          <td>8C</td>
-          <td>16G</td>
-          <td>SSD</td>
-      </tr>
-      <tr>
-          <td>企业级</td>
-          <td>16C+</td>
-          <td>32G+</td>
-          <td>SSD RAID</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>人数</th>
+					<th>CPU</th>
+					<th>内存</th>
+					<th>存储</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&lt;100</td>
+					<td>4C</td>
+					<td>8G</td>
+					<td>SSD</td>
+			</tr>
+			<tr>
+					<td>100 ~ 1000</td>
+					<td>8C</td>
+					<td>16G</td>
+					<td>SSD</td>
+			</tr>
+			<tr>
+					<td>企业级</td>
+					<td>16C+</td>
+					<td>32G+</td>
+					<td>SSD RAID</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="92-调优方向"

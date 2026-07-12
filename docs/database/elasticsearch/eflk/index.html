@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 🚀 什么是 EFLK？ EFLK = ElasticSearch &#43; Filebeat &#43; Logstash &#43; Kibana
@@ -74,18 +74,18 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "EFLK 日志收集系统",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/eflk/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/eflk/",
       "headline": "EFLK 日志收集系统",
       "description": " 🚀 什么是 EFLK？ EFLK = ElasticSearch \u002b Filebeat \u002b Logstash \u002b Kibana\n它是经典 ELK（ElasticSearch \u002b Logstash \u002b Kibana）的改进版，\nE 表示 ElasticSearch，F 表示 Filebeat，L 表示 Logstash，K 表示 Kibana。\n通常 EFLK 与 ELFK（ElasticSearch \u002b Filebeat \u002b Kafka \u002b Logstash \u002b Kibana）都是日志系统常用缩写。\n核心思想：\nFilebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的作用） Logstash：负责数据清洗、解析、标准化 ElasticSearch：存储和搜索日志数据 Kibana：可视化、查询、告警 相比最原始 ELK：\n性能更高（Filebeat 比 Logstash 轻几十倍） 资源消耗更低（Filebeat 占用内存 CPU 极小） 架构更清晰（采集 - 传输 -\u003e 清洗 -\u003e 存储） 🔥 一张图看懂 EFLK 体系 \u002b------------------\u002b | Filebeat | \u003c- 采集日志 | (轻量级 Agent) | \u002b------------------\u002b | v \u002b------------------\u002b | Logstash | \u003c- 解析、清洗、转换结构化 | filter \u002b codec | \u002b------------------\u002b | v \u002b---------------------------\u002b | ElasticSearch | \u003c- 存储 \u002b 检索 \u002b 聚合 \u002b---------------------------\u002b | v \u002b---------------------------\u002b | Kibana | \u003c- 分析 \u002b 可视化 \u002b 告警 \u002b---------------------------\u002b 如果你的业务量更大，可以扩展为：",
-      "wordCount" : "568",
+      "wordCount": "568",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/eflk/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2375,7 +2360,7 @@ Filebeat：轻量级高效日志采集器（替代 Logstash 在边缘节点的�
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/var/log/nginx/*.log</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">output.logstash</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">output.logstash</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;logstash01:5044&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;logstash02:5044&#34;</span><span class="p">]</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-logstash-pipeline解析-nginx"

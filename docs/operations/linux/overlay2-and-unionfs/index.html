@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="先给结论👇
@@ -65,18 +65,18 @@ UnionFS：一类“把多层目录合并成一个视图”的文件系统思想 
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "overlay2 和 UnionFS 的联系",
-      "url" : "https://documents.v2ep.com/operations/linux/overlay2-and-unionfs/",
+      "url": "https://documents.v2ep.com/operations/linux/overlay2-and-unionfs/",
       "headline": "overlay2 和 UnionFS 的联系",
       "description": "先给结论👇\nUnionFS 是“思想 \/ 技术类别”，overlay2 是“Linux 上的具体实现”。\n一、概念层级关系（最重要） UnionFS（联合文件系统） ├─ AUFS （早期 Docker 用，已淘汰） ├─ OverlayFS │ └─ overlay2 ← Docker 默认 ├─ btrfs └─ zfs 结论：\nUnionFS：一类“把多层目录合并成一个视图”的文件系统思想 overlay2：基于 Linux OverlayFS 的 Docker 存储驱动实现 二、UnionFS 是什么（抽象层） UnionFS 解决什么问题？ 多个目录 -\u003e 看成一个目录",
-      "wordCount" : "149",
+      "wordCount": "149",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/overlay2-and-unionfs/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ UnionFS：一类“把多层目录合并成一个视图”的文件系统思想 
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ UnionFS：一类“把多层目录合并成一个视图”的文件系统思想 
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ UnionFS：一类“把多层目录合并成一个视图”的文件系统思想 
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2292,40 +2277,40 @@ UnionFS：一类“把多层目录合并成一个视图”的文件系统思想 
 </div>
 <p>对比 UnionFS 其他实现：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方案</th>
-          <th>状态</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>AUFS</td>
-          <td>淘汰</td>
-          <td>不进主线内核</td>
-      </tr>
-      <tr>
-          <td>devicemapper</td>
-          <td>弃用</td>
-          <td>复杂、性能差</td>
-      </tr>
-      <tr>
-          <td>btrfs</td>
-          <td>小众</td>
-          <td>运维成本高</td>
-      </tr>
-      <tr>
-          <td>zfs</td>
-          <td>特殊</td>
-          <td>依赖强</td>
-      </tr>
-      <tr>
-          <td><strong>overlay2</strong></td>
-          <td>✅ 默认</td>
-          <td><strong>内核原生、快、简单、稳</strong></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方案</th>
+					<th>状态</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>AUFS</td>
+					<td>淘汰</td>
+					<td>不进主线内核</td>
+			</tr>
+			<tr>
+					<td>devicemapper</td>
+					<td>弃用</td>
+					<td>复杂、性能差</td>
+			</tr>
+			<tr>
+					<td>btrfs</td>
+					<td>小众</td>
+					<td>运维成本高</td>
+			</tr>
+			<tr>
+					<td>zfs</td>
+					<td>特殊</td>
+					<td>依赖强</td>
+			</tr>
+			<tr>
+					<td><strong>overlay2</strong></td>
+					<td>✅ 默认</td>
+					<td><strong>内核原生、快、简单、稳</strong></td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>overlay2 是“工程最优解”</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2338,30 +2323,30 @@ UnionFS：一类“把多层目录合并成一个视图”的文件系统思想 
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>UnionFS</th>
-          <th>overlay2</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>抽象概念</td>
-          <td>具体实现</td>
-      </tr>
-      <tr>
-          <td>一类文件系统</td>
-          <td>Docker 存储驱动</td>
-      </tr>
-      <tr>
-          <td>定义“怎么叠”</td>
-          <td>真正“怎么干”</td>
-      </tr>
-      <tr>
-          <td>可多种实现</td>
-          <td>只是一种实现</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>UnionFS</th>
+					<th>overlay2</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>抽象概念</td>
+					<td>具体实现</td>
+			</tr>
+			<tr>
+					<td>一类文件系统</td>
+					<td>Docker 存储驱动</td>
+			</tr>
+			<tr>
+					<td>定义“怎么叠”</td>
+					<td>真正“怎么干”</td>
+			</tr>
+			<tr>
+					<td>可多种实现</td>
+					<td>只是一种实现</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六总结"

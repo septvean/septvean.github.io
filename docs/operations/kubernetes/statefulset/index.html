@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="StatefulSet 是 Kubernetes 中用于 有状态应用（Stateful Application） 的 Workload 类型，解决以下问题：
@@ -71,18 +71,18 @@ Pod 的身份保持（Identity） &#43; 稳定一致的存储（Stable Storage�
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes StatefulSet",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/statefulset/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/statefulset/",
       "headline": "Kubernetes StatefulSet",
       "description": "StatefulSet 是 Kubernetes 中用于 有状态应用（Stateful Application） 的 Workload 类型，解决以下问题：\nPod 的身份保持（Identity） \u002b 稳定一致的存储（Stable Storage） \u002b 顺序化部署、更新、删除（Ordered Operation）\n典型业务场景包括：\n数据库集群（MySQL、PostgreSQL、MongoDB） 分布式协调服务（ZooKeeper、Etcd） 存储系统（Ceph、HDFS） 需要固定主机名访问的服务（Kafka、RabbitMQ） 🧩 1. 为什么需要 StatefulSet？（核心价值） Deployment 设计用于无状态应用：\n❌ Pod 名称随机 ❌ 存储不固定 ❌ Pod 会被替换，无法稳定绑定数据 ❌ 无法保证先启动\/先关闭顺序 StatefulSet 则提供：\n| 特性 | Deployment | StatefulSet | | Pod 名称稳定 | ❌ | ✅ | | Pod DNS 稳定 | ❌ | ✅ | | Pod 顺序部署 | ❌ | ✅ | | Pod 顺序更新 | ❌ | ✅ | | 固定持久卷 | ❌ | ✅（PVC 自动创建） | | 适合数据库 | ❌ | ✅ |",
-      "wordCount" : "630",
+      "wordCount": "630",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/statefulset/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ Pod 的身份保持（Identity） &#43; 稳定一致的存储（Stable Storage�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ Pod 的身份保持（Identity） &#43; 稳定一致的存储（Stable Storage�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ Pod 的身份保持（Identity） &#43; 稳定一致的存储（Stable Storage�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2264,7 +2249,7 @@ Pod 的身份保持（Identity） &#43; 稳定一致的存储（Stable Storage�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">serviceName</span><span class="p">:</span><span class="w"> </span><span class="l">mysql</span><span class="w">
 </span></span></span></code></pre></div><p>Pod 会有稳定的 DNS：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="l">mysql-0.mysql.default.svc.cluster.local</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">mysql-1.mysql.default.svc.cluster.local</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="l">mysql-1.mysql.default.svc.cluster.local</span><span class="w">
 </span></span></span></code></pre></div><p>每个实例都有可直连的域名（数据库非常依赖）。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="23-稳定持久化卷stable-storage"
@@ -2319,10 +2304,10 @@ Pod 的身份保持（Identity） &#43; 稳定一致的存储（Stable Storage�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">StatefulSet</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">StatefulSet</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">serviceName</span><span class="p">:</span><span class="w"> </span><span class="l">mysql</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -2378,10 +2363,10 @@ Pod 的身份保持（Identity） &#43; 稳定一致的存储（Stable Storage�
 </span></span></span></code></pre></div><p>要求绑定一个：</p>
 <p><strong>Headless Service：</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">clusterIP</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">mysql</span><span class="w">

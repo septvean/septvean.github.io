@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="MySQL 在执行 UPDATE / DELETE 时，如何防止别的事务对同一批数据进行 INSERT / UPDATE / DELETE 的干扰。
@@ -65,18 +65,18 @@ UPDATE / DELETE 在执行时：
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL 在 UPDATE / DELETE 时防止其它操作",
-      "url" : "https://documents.v2ep.com/database/mysql/update-delete-lock/",
+      "url": "https://documents.v2ep.com/database/mysql/update-delete-lock/",
       "headline": "MySQL 在 UPDATE / DELETE 时防止其它操作",
       "description": "MySQL 在执行 UPDATE \/ DELETE 时，如何防止别的事务对同一批数据进行 INSERT \/ UPDATE \/ DELETE 的干扰。\n总结 要防止其它操作影响你正在 UPDATE\/DELETE 的数据，核心是：用正确的 InnoDB 锁（记录锁、间隙锁、Next-Key Lock），并确保走索引。\nUPDATE \/ DELETE 在执行时：\n自动对目标行加 排他锁（X 锁） -\u003e 防止其他事务 UPDATE\/DELETE 自动加 Next-Key Lock（记录锁 \u002b 间隙锁） -\u003e 防止其他事务在范围内 INSERT 如果语句不能走索引 -\u003e 会锁全表（非常危险！） 📌 MySQL 在 UPDATE \/ DELETE 时的实际行为（重点） ① UPDATE \/ DELETE 会自动加 X 锁（Record Lock） 例如：",
-      "wordCount" : "404",
+      "wordCount": "404",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/update-delete-lock/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ UPDATE / DELETE 在执行时：
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ UPDATE / DELETE 在执行时：
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ UPDATE / DELETE 在执行时：
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2292,45 +2277,45 @@ UPDATE / DELETE 在执行时：
 </div>
 <p>UPDATE、DELETE 自动保护机制：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>操作</th>
-          <th>是否阻止别人 INSERT</th>
-          <th>是否阻止别人 UPDATE</th>
-          <th>是否阻止别人 DELETE</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单点 UPDATE</td>
-          <td>❌（单点无间隙）</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>X Lock</td>
-      </tr>
-      <tr>
-          <td>范围 UPDATE</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>Next-Key Lock</td>
-      </tr>
-      <tr>
-          <td>单点 DELETE</td>
-          <td>❌</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>X Lock</td>
-      </tr>
-      <tr>
-          <td>范围 DELETE</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>Next-Key Lock</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>操作</th>
+					<th>是否阻止别人 INSERT</th>
+					<th>是否阻止别人 UPDATE</th>
+					<th>是否阻止别人 DELETE</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单点 UPDATE</td>
+					<td>❌（单点无间隙）</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>X Lock</td>
+			</tr>
+			<tr>
+					<td>范围 UPDATE</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>Next-Key Lock</td>
+			</tr>
+			<tr>
+					<td>单点 DELETE</td>
+					<td>❌</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>X Lock</td>
+			</tr>
+			<tr>
+					<td>范围 DELETE</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>Next-Key Lock</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-如何手动加强隔离业务常用"
@@ -2354,7 +2339,7 @@ UPDATE / DELETE 在执行时：
 <p>先锁行，再更新</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>优点：</p>
 <ul>
 <li>强制锁定目标记录</li>
@@ -2373,12 +2358,12 @@ UPDATE / DELETE 在执行时：
 <p>把所有操作变成一个原子过程：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">START</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="o">/</span><span class="k">DELETE</span><span class="w"> </span><span class="p">...;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="o">/</span><span class="k">DELETE</span><span class="w"> </span><span class="p">...;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 其它检查、业务逻辑
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 其它检查、业务逻辑
 </span></span></span><span class="line"><span class="cl"><span class="c1">-- 计算新值
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="方案-3使用最精确的索引非常重要"
     >
@@ -2435,14 +2420,14 @@ UPDATE / DELETE 在执行时：
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">START</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;done&#39;</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;done&#39;</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>这时：</p>
 <ul>
 <li>其它事务不能 UPDATE 同一行</li>
@@ -2461,15 +2446,15 @@ UPDATE / DELETE 在执行时：
 <p>比如你希望范围内数据完全由你独占：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">START</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">200</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">200</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>这会锁定：</p>
 <ul>
 <li>所有匹配行的记录锁</li>
@@ -2488,30 +2473,30 @@ UPDATE / DELETE 在执行时：
 </div>
 <p>要防止别人对你正在 UPDATE/DELETE 的数据进行读写：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>需求</th>
-          <th>使用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>防止别人 UPDATE/DELETE 同一行</td>
-          <td>自动加的 X 锁</td>
-      </tr>
-      <tr>
-          <td>防止别人 INSERT 冲突数据</td>
-          <td>使用范围查询 -&gt; Next-Key Lock</td>
-      </tr>
-      <tr>
-          <td>防止别人并发修改同一批数据</td>
-          <td>SELECT … FOR UPDATE</td>
-      </tr>
-      <tr>
-          <td>防止写入冲突且确保强一致</td>
-          <td>使用事务包裹</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>需求</th>
+					<th>使用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>防止别人 UPDATE/DELETE 同一行</td>
+					<td>自动加的 X 锁</td>
+			</tr>
+			<tr>
+					<td>防止别人 INSERT 冲突数据</td>
+					<td>使用范围查询 -&gt; Next-Key Lock</td>
+			</tr>
+			<tr>
+					<td>防止别人并发修改同一批数据</td>
+					<td>SELECT … FOR UPDATE</td>
+			</tr>
+			<tr>
+					<td>防止写入冲突且确保强一致</td>
+					<td>使用事务包裹</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

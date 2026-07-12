@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="双核 CPU 运行了 PostgreSQL 和 Redis，现在需要运行多个 Python 程序，内核是否有必要配置 kernel.numa_balancing = 0，如果配置了，是否有必要使用 numactl 启动 Python 程序？
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "多应用场景 NUMA 实践",
-      "url" : "https://documents.v2ep.com/operations/linux/numa-practice/",
+      "url": "https://documents.v2ep.com/operations/linux/numa-practice/",
       "headline": "多应用场景 NUMA 实践",
       "description": "双核 CPU 运行了 PostgreSQL 和 Redis，现在需要运行多个 Python 程序，内核是否有必要配置 kernel.numa_balancing = 0，如果配置了，是否有必要使用 numactl 启动 Python 程序？\n这是一个非常好的、而且问到点子上的问题，因为它把 CPU 拓扑、NUMA、内核策略、应用启动方式 全部串在了一起。\n先给结论，再解释为什么，最后给可执行建议。\n一、先给结论（直接可用） ✅ 你的场景结论 双核 CPU \u002b PostgreSQL \u002b Redis \u002b 多个 Python 程序：\n是否需要关闭 kernel.numa_balancing？\n大概率：不需要 甚至可以说：关了反而更容易出问题 如果关了 kernel.numa_balancing，是否有必要用 numactl 启动 Python？",
-      "wordCount" : "322",
+      "wordCount": "322",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/numa-practice/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2252,26 +2237,26 @@
 <p>你说的是 <strong>双核 CPU</strong>，而不是 <strong>双路 CPU</strong>。</p>
 <p>这是关键区别：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>硬件</th>
-          <th>NUMA 是否存在</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>双核（1 颗 CPU，2 core）</td>
-          <td>❌ 基本不存在</td>
-      </tr>
-      <tr>
-          <td>双路（2 颗物理 CPU）</td>
-          <td>✅ 明确 NUMA</td>
-      </tr>
-      <tr>
-          <td>单路 + 多 chiplet（部分 AMD）</td>
-          <td>⚠️ 可能存在</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>硬件</th>
+					<th>NUMA 是否存在</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>双核（1 颗 CPU，2 core）</td>
+					<td>❌ 基本不存在</td>
+			</tr>
+			<tr>
+					<td>双路（2 颗物理 CPU）</td>
+					<td>✅ 明确 NUMA</td>
+			</tr>
+			<tr>
+					<td>单路 + 多 chiplet（部分 AMD）</td>
+					<td>⚠️ 可能存在</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>判断方法（一句话）</strong>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">numactl --hardware
@@ -2317,30 +2302,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>实际情况</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>NUMA node 数</td>
-          <td>基本为 1</td>
-      </tr>
-      <tr>
-          <td>内存访问差异</td>
-          <td>几乎没有</td>
-      </tr>
-      <tr>
-          <td>自动平衡收益</td>
-          <td>接近 0</td>
-      </tr>
-      <tr>
-          <td>自动平衡成本</td>
-          <td><strong>仍然存在</strong>（页迁移、扫描）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>实际情况</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>NUMA node 数</td>
+					<td>基本为 1</td>
+			</tr>
+			<tr>
+					<td>内存访问差异</td>
+					<td>几乎没有</td>
+			</tr>
+			<tr>
+					<td>自动平衡收益</td>
+					<td>接近 0</td>
+			</tr>
+			<tr>
+					<td>自动平衡成本</td>
+					<td><strong>仍然存在</strong>（页迁移、扫描）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>所以：</p>
 <blockquote>

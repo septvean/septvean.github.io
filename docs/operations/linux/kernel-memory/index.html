@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 内存管理（Memory）",
-      "url" : "https://documents.v2ep.com/operations/linux/kernel-memory/",
+      "url": "https://documents.v2ep.com/operations/linux/kernel-memory/",
       "headline": "Linux 内存管理（Memory）",
       "description": "下面是一份 「内核级视角」Linux 内存管理（Memory）核心子系统详解。\n不是 free\/top 用法，而是从硬件 -\u003e 内核数据结构 -\u003e 页分配 -\u003e 虚拟内存 -\u003e NUMA -\u003e OOM -\u003e 容器的完整认知体系。\n适用 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu \/ 云 \/ 容器 \/ 数据库 \/ 虚拟化。\n一、Linux 内存管理的总体目标 在“有限物理内存 \u002b 大量进程 \u002b IO 并发”的条件下，实现：\n隔离（每进程独立地址空间） 高效（尽量命中缓存） 可回收（随时 reclaim） 可控制（cgroup \/ NUMA） 二、从硬件开始：物理内存模型 1️⃣ RAM \u002b Cache \u002b Swap CPU ├─ L1\/L2\/L3 Cache ├─ MMU \/ TLB └─ RAM └─ Swap（磁盘） 📌 Linux 的内存管理 强依赖 MMU",
-      "wordCount" : "412",
+      "wordCount": "412",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/kernel-memory/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2493,22 +2478,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>触发</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>kswapd</td>
-          <td>后台</td>
-      </tr>
-      <tr>
-          <td>direct</td>
-          <td>分配失败</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>触发</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>kswapd</td>
+					<td>后台</td>
+			</tr>
+			<tr>
+					<td>direct</td>
+					<td>分配失败</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>direct reclaim 会卡业务</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">

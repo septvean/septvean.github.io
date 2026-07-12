@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 统计字符长度 (Character Length) 使用 LENGTH() 函数：
@@ -68,18 +68,18 @@ SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 统计字段最大长度的方法",
-      "url" : "https://documents.v2ep.com/database/postgres/column-length/",
+      "url": "https://documents.v2ep.com/database/postgres/column-length/",
       "headline": "PostgreSQL 统计字段最大长度的方法",
       "description": " 统计字符长度 (Character Length) 使用 LENGTH() 函数：\nSELECT MAX(LENGTH(your_column)) AS max_char_length FROM your_table; 此方法计算字符数，对多字节字符（如中文）按一个字符计算。\n统计字节长度 (Byte Length) 使用 OCTET_LENGTH() 函数（或 LENGTH(column_name, ‘bytes’) 在较新版本中）：\nSELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方法返回占用的字节数，更精确地反映存储大小。\n获取实际物理存储大小（包括TOAST开销） 使用 PG_COLUMN_SIZE() 函数：",
-      "wordCount" : "61",
+      "wordCount": "61",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/column-length/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2232,11 +2217,11 @@ SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 假设表 articles 有一个 varchar 类型的 title 列
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="k">LENGTH</span><span class="p">(</span><span class="n">title</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_chars</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="k">OCTET_LENGTH</span><span class="p">(</span><span class="n">title</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_bytes</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">PG_COLUMN_SIZE</span><span class="p">(</span><span class="n">title</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_physical_bytes</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">articles</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div>
   </article>

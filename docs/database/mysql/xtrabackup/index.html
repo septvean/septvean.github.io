@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="覆盖：核心原理、备份类型、使用方法、恢复流程、性能优化、与 mysqldump/mydumper 对比、生产最佳实践。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "XtraBackup 基础教程",
-      "url" : "https://documents.v2ep.com/database/mysql/xtrabackup/",
+      "url": "https://documents.v2ep.com/database/mysql/xtrabackup/",
       "headline": "XtraBackup 基础教程",
       "description": "覆盖：核心原理、备份类型、使用方法、恢复流程、性能优化、与 mysqldump\/mydumper 对比、生产最佳实践。\n🧱 1. XtraBackup 是什么？ XtraBackup（Percona XtraBackup） 是 MySQL \/ MariaDB 最专业的 物理热备工具，支持 InnoDB 的 无锁备份（hot backup），企业生产最常用。\n特点：\n物理备份（拷贝数据文件，而不是导出 SQL） 不阻塞读写（hot backup） 支持 全备、增量备份、差异备份 备份速度极快（文件级别） 支持 redo \u002b undo 恢复一致性 可用于 MySQL、Percona Server、MariaDB 🔥 XtraBackup 可认为是 MySQL 物理备份的工业标准。\n🧱 2. 适用场景（企业常用） 在线备份，不中断业务 数据库超过 50GB、100GB、甚至数 TB MHA \/ MGR \/ PXC 集群节点复制 做从库、延迟库 自动备份脚本 灾难恢复（DR） 如果你是运维 \/ DBA，在企业里基本离不开它。",
-      "wordCount" : "608",
+      "wordCount": "608",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/xtrabackup/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2285,40 +2270,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-          <th>是否锁表</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>完全备份（Full Backup）</td>
-          <td>拷贝全部数据文件</td>
-          <td>不锁 InnoDB</td>
-      </tr>
-      <tr>
-          <td>增量备份（Incremental）</td>
-          <td>仅备份比上次备份更新的页面</td>
-          <td>不锁 InnoDB</td>
-      </tr>
-      <tr>
-          <td>差异备份（Differential）</td>
-          <td>基于最近一次完全备份的差异</td>
-          <td>不锁 InnoDB</td>
-      </tr>
-      <tr>
-          <td>流备份（Stream Backup）</td>
-          <td>备份并通过管道输出（如 .xbstream）</td>
-          <td>不锁</td>
-      </tr>
-      <tr>
-          <td>备份压缩</td>
-          <td>使用 qpress/zstd</td>
-          <td>不锁</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+					<th>是否锁表</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>完全备份（Full Backup）</td>
+					<td>拷贝全部数据文件</td>
+					<td>不锁 InnoDB</td>
+			</tr>
+			<tr>
+					<td>增量备份（Incremental）</td>
+					<td>仅备份比上次备份更新的页面</td>
+					<td>不锁 InnoDB</td>
+			</tr>
+			<tr>
+					<td>差异备份（Differential）</td>
+					<td>基于最近一次完全备份的差异</td>
+					<td>不锁 InnoDB</td>
+			</tr>
+			<tr>
+					<td>流备份（Stream Backup）</td>
+					<td>备份并通过管道输出（如 .xbstream）</td>
+					<td>不锁</td>
+			</tr>
+			<tr>
+					<td>备份压缩</td>
+					<td>使用 qpress/zstd</td>
+					<td>不锁</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-5-基础使用最常用命令"
@@ -2339,7 +2324,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">xtrabackup --backup <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>--target-dir<span class="o">=</span>/data/backup/full_2025_01_01
+</span></span></span><span class="line"><span class="cl">--target-dir<span class="o">=</span>/data/backup/full_2025_01_01
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="52-增量备份"
     >
@@ -2350,8 +2335,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">xtrabackup --backup <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --target-dir<span class="o">=</span>/backup/inc1 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --incremental-basedir<span class="o">=</span>/backup/full_2025_01_01
+</span></span></span><span class="line"><span class="cl">  --target-dir<span class="o">=</span>/backup/inc1 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --incremental-basedir<span class="o">=</span>/backup/full_2025_01_01
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="53-合并增量prepare"
     >
@@ -2363,11 +2348,11 @@
 </div>
 <p>必须执行 prepare 才能恢复。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">xtrabackup --prepare <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --target-dir<span class="o">=</span>/backup/full_2025_01_01
+</span></span></span><span class="line"><span class="cl">  --target-dir<span class="o">=</span>/backup/full_2025_01_01
 </span></span></code></pre></div><p>反复 prepare 合并增量：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">xtrabackup --prepare <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --target-dir<span class="o">=</span>/backup/full_2025_01_01 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --incremental-dir<span class="o">=</span>/backup/inc1
+</span></span></span><span class="line"><span class="cl">  --target-dir<span class="o">=</span>/backup/full_2025_01_01 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --incremental-dir<span class="o">=</span>/backup/inc1
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="54-恢复restore"
     >
@@ -2512,42 +2497,42 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>工具</th>
-          <th>类型</th>
-          <th>速度</th>
-          <th>一致性</th>
-          <th>锁表</th>
-          <th>恢复速度</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>XtraBackup</td>
-          <td>物理</td>
-          <td>极快</td>
-          <td>高</td>
-          <td>无锁（InnoDB）</td>
-          <td>极快</td>
-      </tr>
-      <tr>
-          <td>mysqldump</td>
-          <td>逻辑</td>
-          <td>慢</td>
-          <td>需加锁</td>
-          <td>锁表</td>
-          <td>慢</td>
-      </tr>
-      <tr>
-          <td>mydumper</td>
-          <td>逻辑多线程</td>
-          <td>中等~快</td>
-          <td>可快照</td>
-          <td>无锁</td>
-          <td>中等</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>工具</th>
+					<th>类型</th>
+					<th>速度</th>
+					<th>一致性</th>
+					<th>锁表</th>
+					<th>恢复速度</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>XtraBackup</td>
+					<td>物理</td>
+					<td>极快</td>
+					<td>高</td>
+					<td>无锁（InnoDB）</td>
+					<td>极快</td>
+			</tr>
+			<tr>
+					<td>mysqldump</td>
+					<td>逻辑</td>
+					<td>慢</td>
+					<td>需加锁</td>
+					<td>锁表</td>
+					<td>慢</td>
+			</tr>
+			<tr>
+					<td>mydumper</td>
+					<td>逻辑多线程</td>
+					<td>中等~快</td>
+					<td>可快照</td>
+					<td>无锁</td>
+					<td>中等</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>结论：</p>
 <ul>
@@ -2575,22 +2560,22 @@
 </div>
 <p>XtraBackup 与 MySQL版本强相关：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>MySQL 版本</th>
-          <th>XtraBackup 版本</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL 8.x</td>
-          <td>Percona XtraBackup 8.x</td>
-      </tr>
-      <tr>
-          <td>MySQL 5.7</td>
-          <td>XtraBackup 2.4</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>MySQL 版本</th>
+					<th>XtraBackup 版本</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL 8.x</td>
+					<td>Percona XtraBackup 8.x</td>
+			</tr>
+			<tr>
+					<td>MySQL 5.7</td>
+					<td>XtraBackup 2.4</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>不能混用。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2819,8 +2804,8 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 增量备份</span>
 </span></span><span class="line"><span class="cl">mkdir -p /data/mysql/8.0/backup/incremental
 </span></span><span class="line"><span class="cl">xtrabackup --backup --user<span class="o">=</span>root --password<span class="o">=</span><span class="s1">&#39;KdX3V7nC!9#Q&#39;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --incremental-basedir<span class="o">=</span>/data/mysql/8.0/backup/full/20260101 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --target-dir<span class="o">=</span>/data/mysql/8.0/backup/incremental/20260101_001
+</span></span></span><span class="line"><span class="cl">    --incremental-basedir<span class="o">=</span>/data/mysql/8.0/backup/full/20260101 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --target-dir<span class="o">=</span>/data/mysql/8.0/backup/incremental/20260101_001
 </span></span></code></pre></div>
   </article>
 

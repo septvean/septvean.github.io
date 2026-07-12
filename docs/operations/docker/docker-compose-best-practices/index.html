@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、总体设计原则（先记住这 6 条） 1️⃣ 一个 Compose = 一个应用 不要把无关服务塞进一个 compose 生命周期统一：起 -&gt; 用 -&gt; 停 -&gt; 删 ✅ 正确：
@@ -59,18 +59,18 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Docker Compose 最佳实践",
-      "url" : "https://documents.v2ep.com/operations/docker/docker-compose-best-practices/",
+      "url": "https://documents.v2ep.com/operations/docker/docker-compose-best-practices/",
       "headline": "Docker Compose 最佳实践",
       "description": " 一、总体设计原则（先记住这 6 条） 1️⃣ 一个 Compose = 一个应用 不要把无关服务塞进一个 compose 生命周期统一：起 -\u003e 用 -\u003e 停 -\u003e 删 ✅ 正确：\nerp\/ ├─ api\/ ├─ web\/ └─ docker-compose.yml ❌ 错误：",
-      "wordCount" : "395",
+      "wordCount": "395",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/docker/docker-compose-best-practices/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2468,7 +2453,7 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l">5s</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">api</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">api</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">db</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l">service_healthy</span><span class="w">
@@ -2483,7 +2468,7 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
 </div>
 <p>推荐写法（本地 / CI）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">mem_limit</span><span class="p">:</span><span class="w"> </span><span class="l">512m</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="m">1.0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="m">1.0</span><span class="w">
 </span></span></span></code></pre></div><p>📌 防止：</p>
 <ul>
 <li>本地机器被拖死</li>
@@ -2641,34 +2626,34 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Compose</th>
-          <th>Kubernetes</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>service</td>
-          <td>Deployment</td>
-      </tr>
-      <tr>
-          <td>volume</td>
-          <td>PVC</td>
-      </tr>
-      <tr>
-          <td>network</td>
-          <td>Service</td>
-      </tr>
-      <tr>
-          <td>env</td>
-          <td>ConfigMap</td>
-      </tr>
-      <tr>
-          <td>secret</td>
-          <td>Secret</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Compose</th>
+					<th>Kubernetes</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>service</td>
+					<td>Deployment</td>
+			</tr>
+			<tr>
+					<td>volume</td>
+					<td>PVC</td>
+			</tr>
+			<tr>
+					<td>network</td>
+					<td>Service</td>
+			</tr>
+			<tr>
+					<td>env</td>
+					<td>ConfigMap</td>
+			</tr>
+			<tr>
+					<td>secret</td>
+					<td>Secret</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 Compose 写得好，迁移成本极低。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2682,7 +2667,7 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">erp</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">api</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">erp-api:${APP_VERSION}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l">.</span><span class="w">
@@ -2708,7 +2693,7 @@ erp/ ├─ api/ ├─ web/ └─ docker-compose.yml ❌ 错误：" />
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l">5s</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">volumes</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pgdata</span><span class="p">:</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十六总结"

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容涵盖：事务基础、隔离级别、锁、常见问题、最佳实践、性能建议、异常处理。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 事务",
-      "url" : "https://documents.v2ep.com/database/postgres/transaction/",
+      "url": "https://documents.v2ep.com/database/postgres/transaction/",
       "headline": "PostgreSQL 事务",
       "description": "内容涵盖：事务基础、隔离级别、锁、常见问题、最佳实践、性能建议、异常处理。\n1. 什么是事务（Transaction）？ 事务（Transaction）是数据库中的 原子操作单元，具有：\n原子性（Atomicity） 一致性（Consistency） 隔离性（Isolation） 持久性（Durability） 简称 ACID。\n事务确保一组 SQL 要么全部成功，要么全部失败，不会出现部分成功的情况。\n2. PostgreSQL 如何开启 \/ 提交 \/ 回滚事务？ 自动事务模式（默认） 每条 SQL 都是一个独立事务：",
-      "wordCount" : "413",
+      "wordCount": "413",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/transaction/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2236,10 +2221,10 @@
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMIT</span><span class="p">;</span><span class="w">   </span><span class="c1">-- 成功
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">   </span><span class="c1">-- 成功
 </span></span></span></code></pre></div><p>失败回滚：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ROLLBACK</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>等价命令：</p>
@@ -2257,35 +2242,35 @@
 </div>
 <p>PostgreSQL 支持 4 种隔离级别：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>隔离级别</th>
-          <th>说明</th>
-          <th>PostgreSQL 默认</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>READ UNCOMMITTED</td>
-          <td>允许读未提交（脏读）。PostgreSQL 实际等同于 READ COMMITTED，不支持真正的脏读</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>READ COMMITTED</td>
-          <td>每条语句看到提交后的最新数据</td>
-          <td>✅ 默认</td>
-      </tr>
-      <tr>
-          <td>REPEATABLE READ</td>
-          <td>整个事务期间看到一致的快照</td>
-          <td>✅ 不可重复读不存在</td>
-      </tr>
-      <tr>
-          <td>SERIALIZABLE</td>
-          <td>完全串行化</td>
-          <td>✅ 最强</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>隔离级别</th>
+					<th>说明</th>
+					<th>PostgreSQL 默认</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>READ UNCOMMITTED</td>
+					<td>允许读未提交（脏读）。PostgreSQL 实际等同于 READ COMMITTED，不支持真正的脏读</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>READ COMMITTED</td>
+					<td>每条语句看到提交后的最新数据</td>
+					<td>✅ 默认</td>
+			</tr>
+			<tr>
+					<td>REPEATABLE READ</td>
+					<td>整个事务期间看到一致的快照</td>
+					<td>✅ 不可重复读不存在</td>
+			</tr>
+			<tr>
+					<td>SERIALIZABLE</td>
+					<td>完全串行化</td>
+					<td>✅ 最强</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>设置隔离级别：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="w"> </span><span class="k">ISOLATION</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="k">REPEATABLE</span><span class="w"> </span><span class="k">READ</span><span class="p">;</span><span class="w">
@@ -2318,34 +2303,34 @@
 </div>
 <p>常见锁：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>锁类型</th>
-          <th>触发场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Row Share</td>
-          <td>SELECT FOR SHARE</td>
-      </tr>
-      <tr>
-          <td>Row Exclusive</td>
-          <td>INSERT、UPDATE、DELETE</td>
-      </tr>
-      <tr>
-          <td>Share</td>
-          <td>CREATE INDEX</td>
-      </tr>
-      <tr>
-          <td>Exclusive</td>
-          <td>DROP TABLE</td>
-      </tr>
-      <tr>
-          <td>Access Exclusive</td>
-          <td>ALTER TABLE、VACUUM FULL</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>锁类型</th>
+					<th>触发场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Row Share</td>
+					<td>SELECT FOR SHARE</td>
+			</tr>
+			<tr>
+					<td>Row Exclusive</td>
+					<td>INSERT、UPDATE、DELETE</td>
+			</tr>
+			<tr>
+					<td>Share</td>
+					<td>CREATE INDEX</td>
+			</tr>
+			<tr>
+					<td>Exclusive</td>
+					<td>DROP TABLE</td>
+			</tr>
+			<tr>
+					<td>Access Exclusive</td>
+					<td>ALTER TABLE、VACUUM FULL</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>行级锁（最常用）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
@@ -2450,13 +2435,13 @@
 <p>用于捕获局部异常，而不回滚整个事务。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">SAVEPOINT</span><span class="w"> </span><span class="n">sp1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">SAVEPOINT</span><span class="w"> </span><span class="n">sp1</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(...);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(...);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ROLLBACK</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">sp1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ROLLBACK</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">sp1</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="8-postgresql-高级事务语法"
     >
@@ -2488,35 +2473,35 @@
 </div>
 <p>PostgreSQL 细化了读写锁：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>语法</th>
-          <th>锁级别</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>FOR UPDATE</td>
-          <td>强写锁</td>
-          <td>准备修改该行</td>
-      </tr>
-      <tr>
-          <td>FOR NO KEY UPDATE</td>
-          <td>不修改主键时使用</td>
-          <td>更轻量</td>
-      </tr>
-      <tr>
-          <td>FOR SHARE</td>
-          <td>共享锁</td>
-          <td>不影响别人读</td>
-      </tr>
-      <tr>
-          <td>FOR KEY SHARE</td>
-          <td>最弱</td>
-          <td>外键检查</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>语法</th>
+					<th>锁级别</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>FOR UPDATE</td>
+					<td>强写锁</td>
+					<td>准备修改该行</td>
+			</tr>
+			<tr>
+					<td>FOR NO KEY UPDATE</td>
+					<td>不修改主键时使用</td>
+					<td>更轻量</td>
+			</tr>
+			<tr>
+					<td>FOR SHARE</td>
+					<td>共享锁</td>
+					<td>不影响别人读</td>
+			</tr>
+			<tr>
+					<td>FOR KEY SHARE</td>
+					<td>最弱</td>
+					<td>外键检查</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="9-postgresql-事务在-python-sqlalchemy-中使用"
@@ -2642,9 +2627,9 @@
 </ul>
 <p>例如：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">jobs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">SKIP</span><span class="w"> </span><span class="n">LOCKED</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">SKIP</span><span class="w"> </span><span class="n">LOCKED</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-总结"
     >

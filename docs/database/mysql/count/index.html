@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="MySQL 统计表的行数有多少条，有几种方式？每天统计一次推荐用什么方式？
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL COUNT",
-      "url" : "https://documents.v2ep.com/database/mysql/count/",
+      "url": "https://documents.v2ep.com/database/mysql/count/",
       "headline": "MySQL COUNT",
       "description": "MySQL 统计表的行数有多少条，有几种方式？每天统计一次推荐用什么方式？\n一、为什么统计行数不简单？ InnoDB 不维护真实行数（只是近似值，COUNT(*) 会全表扫描） MyISAM 维护了行数（COUNT(*) 很快） 行数统计对大表可能非常慢，需要根据使用场景选择方案 二、统计行数的几种方式 1️⃣ COUNT(*) （最常用，但可能慢） SELECT COUNT(*) FROM user; 特点：\n精确值 全表扫描（大表慢） InnoDB 会做行锁，可能影响并发 2️⃣ COUNT(主键列) \/ COUNT(列) SELECT COUNT(id) FROM user; 特点：",
-      "wordCount" : "209",
+      "wordCount": "209",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/count/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2246,8 +2231,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">table_rows</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="k">table_name</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>特点：</p>
 <ul>
@@ -2274,10 +2259,10 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">table_count</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">table_name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">row_count</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 每次增删同步更新
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">table_count</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">row_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">row_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">table_name</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 每次增删同步更新
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">table_count</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">row_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">row_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">table_name</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>优点：</p>
 <ul>
 <li>统计实时</li>
@@ -2378,40 +2363,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>推荐方式</th>
-          <th>精确</th>
-          <th>性能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>小表 / 不频繁</td>
-          <td>COUNT(*)</td>
-          <td>✅</td>
-          <td>可以接受</td>
-      </tr>
-      <tr>
-          <td>大表 / 日统计</td>
-          <td>table_rows / 累计表</td>
-          <td>❌/✅</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>OLAP / 日报</td>
-          <td>累计表 + 增量</td>
-          <td>✅</td>
-          <td>高</td>
-      </tr>
-      <tr>
-          <td>近似分析</td>
-          <td>HyperLogLog</td>
-          <td>❌</td>
-          <td>高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐方式</th>
+					<th>精确</th>
+					<th>性能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>小表 / 不频繁</td>
+					<td>COUNT(*)</td>
+					<td>✅</td>
+					<td>可以接受</td>
+			</tr>
+			<tr>
+					<td>大表 / 日统计</td>
+					<td>table_rows / 累计表</td>
+					<td>❌/✅</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>OLAP / 日报</td>
+					<td>累计表 + 增量</td>
+					<td>✅</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>近似分析</td>
+					<td>HyperLogLog</td>
+					<td>❌</td>
+					<td>高</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

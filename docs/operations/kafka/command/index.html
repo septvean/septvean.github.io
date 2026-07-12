@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="所有命令均为 Kafka 2.x/3.x 通用（含 KRaft &amp; Zookeeper 模式差异说明）。
@@ -62,18 +62,18 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kafka 常用命令",
-      "url" : "https://documents.v2ep.com/operations/kafka/command/",
+      "url": "https://documents.v2ep.com/operations/kafka/command/",
       "headline": "Kafka 常用命令",
       "description": "所有命令均为 Kafka 2.x\/3.x 通用（含 KRaft \u0026 Zookeeper 模式差异说明）。\n🚀 Kafka 常用命令大全（含集群） 目录：\nKafka 基础命令（生产者\/消费者） Topic 相关命令（创建\/查询\/修改\/删除） 分区与副本命令（扩分区\/迁移分区） 消费者组命令（偏移量管理） 集群管理命令（Broker \/ Controller \/ 集群状态） KRaft 模式命令（无 ZK） ZooKeeper 模式命令（管理 ISR、Controller、Broker） Reassign Partition（集群扩容迁移分区） Kafka 诊断\/检查命令（Dump 日志\/检查 Consistency） Kafka 工具总结（运维必备） 1. Kafka 基础命令 1.1 启动 Producer（命令行） kafka-console-producer.sh \\ --broker-list localhost:9092 \\ --topic test 1.2 启动 Consumer（命令行） kafka-console-consumer.sh \\ --bootstrap-server localhost:9092 \\ --topic test \\ --from-beginning 2. Topic 相关命令 2.1 创建 Topic kafka-topics.sh \\ --create \\ --topic test \\ --partitions 3 \\ --replication-factor 3 \\ --bootstrap-server localhost:9092 2.2 查看 Topic 列表 kafka-topics.sh \\ --list \\ --bootstrap-server localhost:9092 2.3 查看 Topic 详细信息 kafka-topics.sh \\ --describe \\ --topic test \\ --bootstrap-server localhost:9092 输出包含：",
-      "wordCount" : "432",
+      "wordCount": "432",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kafka/command/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2222,8 +2207,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-console-producer.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --broker-list localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span>
+</span></span></span><span class="line"><span class="cl">    --broker-list localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span>
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="12-启动-consumer命令行"
     >
@@ -2234,9 +2219,9 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-console-consumer.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --from-beginning
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --from-beginning
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="2-topic-相关命令"
     >
@@ -2256,11 +2241,11 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-topics.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --create <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --partitions <span class="m">3</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --replication-factor <span class="m">3</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092
+</span></span></span><span class="line"><span class="cl">    --create <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --partitions <span class="m">3</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --replication-factor <span class="m">3</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="22-查看-topic-列表"
     >
@@ -2271,8 +2256,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-topics.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --list <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092
+</span></span></span><span class="line"><span class="cl">    --list <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="23-查看-topic-详细信息"
     >
@@ -2283,9 +2268,9 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-topics.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --describe <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092
+</span></span></span><span class="line"><span class="cl">    --describe <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092
 </span></span></code></pre></div><p>输出包含：</p>
 <ul>
 <li>Leader</li>
@@ -2303,9 +2288,9 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-topics.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --delete <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092
+</span></span></span><span class="line"><span class="cl">    --delete <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="3-分区--副本相关命令"
     >
@@ -2325,10 +2310,10 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-topics.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --alter <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --partitions <span class="m">6</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092
+</span></span></span><span class="line"><span class="cl">    --alter <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --partitions <span class="m">6</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="32-修改副本分布reassign-partition"
     >
@@ -2340,20 +2325,20 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
 </div>
 <p>生成分配计划：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-reassign-partitions.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --generate <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topics-to-move-json-file topics.json <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --broker-list <span class="s2">&#34;1,2,3&#34;</span>
+</span></span></span><span class="line"><span class="cl">    --generate <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topics-to-move-json-file topics.json <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --broker-list <span class="s2">&#34;1,2,3&#34;</span>
 </span></span></code></pre></div><p>执行迁移：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-reassign-partitions.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --execute <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --reassignment-json-file plan.json
+</span></span></span><span class="line"><span class="cl">    --execute <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --reassignment-json-file plan.json
 </span></span></code></pre></div><p>检查迁移：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-reassign-partitions.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --verify <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --reassignment-json-file plan.json
+</span></span></span><span class="line"><span class="cl">    --verify <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --reassignment-json-file plan.json
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="4-消费者组命令必会"
     >
@@ -2373,8 +2358,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-consumer-groups.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --list
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --list
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="42-查看某个消费组状态--lag"
     >
@@ -2385,9 +2370,9 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-consumer-groups.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --describe <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --group my-group
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --describe <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --group my-group
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="43-重置-offset最常用"
     >
@@ -2399,9 +2384,9 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
 </div>
 <p><strong>方式1：从最早</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-consumer-groups.sh --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --group my-group <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --reset-offsets --to-earliest --execute
+</span></span></span><span class="line"><span class="cl">    --group my-group <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --reset-offsets --to-earliest --execute
 </span></span></code></pre></div><p><strong>方式2：从最新</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">--to-latest
 </span></span></code></pre></div><p><strong>方式3：按具体 offset</strong></p>
@@ -2427,8 +2412,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-metadata-quorum.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server broker1:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    describe --status
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server broker1:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    describe --status
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="52-查看-controller-idkraft"
     >
@@ -2439,8 +2424,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-metadata-quorum.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server broker:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    describe --cluster-metadata
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server broker:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    describe --cluster-metadata
 </span></span></code></pre></div><p>ZooKeeper 模式：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">zookeeper-shell.sh zk01:2181
 </span></span><span class="line"><span class="cl">ls /brokers/ids
@@ -2474,8 +2459,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-metadata-quorum.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    describe --status
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    describe --status
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="63-查看元数据topicpartition-集群信息"
     >
@@ -2486,8 +2471,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-metadata-quorum.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    describe --topic <span class="nb">test</span>
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    describe --topic <span class="nb">test</span>
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="7-zookeeper-模式命令仍大量使用"
     >
@@ -2555,10 +2540,10 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>第二步：生成迁移计划：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-reassign-partitions.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --generate <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --broker-list <span class="s2">&#34;1,2,3&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topics-to-move-json-file topics.json <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --bootstrap-server localhost:9092
+</span></span></span><span class="line"><span class="cl">    --generate <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --broker-list <span class="s2">&#34;1,2,3&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topics-to-move-json-file topics.json <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --bootstrap-server localhost:9092
 </span></span></code></pre></div><p>第三步：执行迁移</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">--execute
 </span></span></code></pre></div><p>第四步：验证</p>
@@ -2582,8 +2567,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-dump-log.sh <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --deep-iteration <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --files /kafka-logs/test-0/00000000000000000000.log
+</span></span></span><span class="line"><span class="cl">    --deep-iteration <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --files /kafka-logs/test-0/00000000000000000000.log
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="92-检查副本同步延迟"
     >
@@ -2594,8 +2579,8 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kafka-run-class.sh kafka.tools.GetOffsetShell <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --broker-list localhost:9092 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --topic <span class="nb">test</span>
+</span></span></span><span class="line"><span class="cl">    --broker-list localhost:9092 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --topic <span class="nb">test</span>
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="93-查分区-leader-分布"
     >
@@ -2616,66 +2601,66 @@ Kafka 基础命令（生产者/消费者） Topic 相关命令（创建/查询/�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>工具</th>
-          <th>功能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>kafka-console-producer.sh</td>
-          <td>命令行生产者</td>
-      </tr>
-      <tr>
-          <td>kafka-console-consumer.sh</td>
-          <td>命令行消费者</td>
-      </tr>
-      <tr>
-          <td>kafka-topics.sh</td>
-          <td>管理 Topic</td>
-      </tr>
-      <tr>
-          <td>kafka-configs.sh</td>
-          <td>配置变更</td>
-      </tr>
-      <tr>
-          <td>kafka-consumer-groups.sh</td>
-          <td>消费组管理</td>
-      </tr>
-      <tr>
-          <td>kafka-reassign-partitions.sh</td>
-          <td>分区迁移</td>
-      </tr>
-      <tr>
-          <td>kafka-dump-log.sh</td>
-          <td>dump 日志段</td>
-      </tr>
-      <tr>
-          <td>kafka-delete-records.sh</td>
-          <td>删除指定 offset 以前的消息</td>
-      </tr>
-      <tr>
-          <td>kafka-metadata-quorum.sh</td>
-          <td>KRaft 元数据管理</td>
-      </tr>
-      <tr>
-          <td>kafka-storage.sh</td>
-          <td>KRaft 格式化工具</td>
-      </tr>
-      <tr>
-          <td>kafka-acls.sh</td>
-          <td>ACL 权限管理</td>
-      </tr>
-      <tr>
-          <td>kafka-get-offsets.sh</td>
-          <td>获取 offset（新版本）</td>
-      </tr>
-      <tr>
-          <td>mirror-maker.sh</td>
-          <td>集群跨 Region 同步</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>工具</th>
+					<th>功能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>kafka-console-producer.sh</td>
+					<td>命令行生产者</td>
+			</tr>
+			<tr>
+					<td>kafka-console-consumer.sh</td>
+					<td>命令行消费者</td>
+			</tr>
+			<tr>
+					<td>kafka-topics.sh</td>
+					<td>管理 Topic</td>
+			</tr>
+			<tr>
+					<td>kafka-configs.sh</td>
+					<td>配置变更</td>
+			</tr>
+			<tr>
+					<td>kafka-consumer-groups.sh</td>
+					<td>消费组管理</td>
+			</tr>
+			<tr>
+					<td>kafka-reassign-partitions.sh</td>
+					<td>分区迁移</td>
+			</tr>
+			<tr>
+					<td>kafka-dump-log.sh</td>
+					<td>dump 日志段</td>
+			</tr>
+			<tr>
+					<td>kafka-delete-records.sh</td>
+					<td>删除指定 offset 以前的消息</td>
+			</tr>
+			<tr>
+					<td>kafka-metadata-quorum.sh</td>
+					<td>KRaft 元数据管理</td>
+			</tr>
+			<tr>
+					<td>kafka-storage.sh</td>
+					<td>KRaft 格式化工具</td>
+			</tr>
+			<tr>
+					<td>kafka-acls.sh</td>
+					<td>ACL 权限管理</td>
+			</tr>
+			<tr>
+					<td>kafka-get-offsets.sh</td>
+					<td>获取 offset（新版本）</td>
+			</tr>
+			<tr>
+					<td>mirror-maker.sh</td>
+					<td>集群跨 Region 同步</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

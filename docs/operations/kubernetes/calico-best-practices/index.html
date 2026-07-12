@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes &#43; Calico 最佳实践》，基于 Kubernetes ≥1.33 &#43; Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。
@@ -86,18 +86,18 @@ Routing：无 BGP（除非裸金属）
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Kubernetes Calico 最佳实践",
-      "url" : "https://documents.v2ep.com/operations/kubernetes/calico-best-practices/",
+      "url": "https://documents.v2ep.com/operations/kubernetes/calico-best-practices/",
       "headline": "Kubernetes Calico 最佳实践",
       "description": "下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes \u002b Calico 最佳实践》，基于 Kubernetes ≥1.33 \u002b Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。\n这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。\n🚀 Kubernetes \u002b Calico 最佳实践（K8S 1.33 \/ Calico 3.27\u002b）\n1. CNI 网络模型选型（最关键） Calico 支持多种网络模式，但要选正确：\n🔥 最佳选型（强烈推荐）\nDataplane：eBPF（替代 iptables）\nOverlay：VXLAN \u002b eBPF NAT\nIPAM：Calico IPAM\nRouting：无 BGP（除非裸金属）\n理由：\n模式 性能 可观测性 兼容性 推荐 VXLAN \u002b eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属\/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8S 1.33 完美支持",
-      "wordCount" : "486",
+      "wordCount": "486",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/calico-best-practices/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -117,8 +117,8 @@ Routing：无 BGP（除非裸金属）
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -137,12 +137,12 @@ Routing：无 BGP（除非裸金属）
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -293,21 +293,6 @@ Routing：无 BGP（除非裸金属）
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2224,45 +2209,45 @@ Routing：无 BGP（除非裸金属）
 <p><strong>Routing：无 BGP（除非裸金属）</strong></p>
 <p>理由：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>性能</th>
-          <th>可观测性</th>
-          <th>兼容性</th>
-          <th>推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>VXLAN + eBPF</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>全云厂商支持</td>
-          <td>✓✓✓✓✓</td>
-      </tr>
-      <tr>
-          <td>BGP 无封装</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>仅裸金属/自建 IDC</td>
-          <td>✓✓✓✓</td>
-      </tr>
-      <tr>
-          <td>IPIP</td>
-          <td>⭐⭐⭐</td>
-          <td>⭐⭐</td>
-          <td>旧机器</td>
-          <td>不推荐</td>
-      </tr>
-      <tr>
-          <td>纯 iptables</td>
-          <td>⭐</td>
-          <td>⭐⭐</td>
-          <td>兼容最广</td>
-          <td>不推荐</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>性能</th>
+					<th>可观测性</th>
+					<th>兼容性</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>VXLAN + eBPF</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>全云厂商支持</td>
+					<td>✓✓✓✓✓</td>
+			</tr>
+			<tr>
+					<td>BGP 无封装</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>仅裸金属/自建 IDC</td>
+					<td>✓✓✓✓</td>
+			</tr>
+			<tr>
+					<td>IPIP</td>
+					<td>⭐⭐⭐</td>
+					<td>⭐⭐</td>
+					<td>旧机器</td>
+					<td>不推荐</td>
+			</tr>
+			<tr>
+					<td>纯 iptables</td>
+					<td>⭐</td>
+					<td>⭐⭐</td>
+					<td>兼容最广</td>
+					<td>不推荐</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>eBPF 对 K8S 1.33 完美支持</strong></p>
 <p>能替代 kube-proxy，并大幅提升性能。</p>
@@ -2297,8 +2282,8 @@ Routing：无 BGP（除非裸金属）
 </div>
 <p>修改 ConfigMap：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">operator.tigera.io/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Installation</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Installation</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">calicoNetwork</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">linuxDataplane</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;BPF&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">mtu</span><span class="p">:</span><span class="w"> </span><span class="m">1450</span><span class="w">
@@ -2336,10 +2321,10 @@ Routing：无 BGP（除非裸金属）
 <li>job/ci -&gt; 10.30.0.0/16</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">projectcalico.org/v3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">IPPool</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">IPPool</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">frontend-pool</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="m">10.10.0.0</span><span class="l">/16</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ipipMode</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">vxlanMode</span><span class="p">:</span><span class="w"> </span><span class="l">Always</span><span class="w">
@@ -2470,10 +2455,10 @@ net.netfilter.nf_conntrack_buckets=655360
 </div>
 <p>在 Namespace 使用：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">projectcalico.org/v3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">GlobalNetworkPolicy</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">GlobalNetworkPolicy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">default-deny</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span><span class="l">all()</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">types</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">Ingress</span><span class="w">
@@ -2489,11 +2474,11 @@ net.netfilter.nf_conntrack_buckets=655360
 </div>
 <p>示例：只允许 frontend -&gt; backend</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">projectcalico.org/v3</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">NetworkPolicy</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">NetworkPolicy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">allow-frontend</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">backend</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ingress</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">from</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">namespaceSelector</span><span class="p">:</span><span class="w">
@@ -2638,50 +2623,50 @@ net.netfilter.nf_conntrack_buckets=655360
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>分类</th>
-          <th>推荐配置</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Dataplane</td>
-          <td>eBPF</td>
-      </tr>
-      <tr>
-          <td>Overlay</td>
-          <td>VXLAN</td>
-      </tr>
-      <tr>
-          <td>节点路由</td>
-          <td>无 BGP（云） / BGP（裸金属）</td>
-      </tr>
-      <tr>
-          <td>kube-proxy</td>
-          <td>关闭</td>
-      </tr>
-      <tr>
-          <td>MTU</td>
-          <td>1450</td>
-      </tr>
-      <tr>
-          <td>IPAM</td>
-          <td>Calico IPAM，多 IP pool</td>
-      </tr>
-      <tr>
-          <td>策略</td>
-          <td>Zero Trust（default deny + allow）</td>
-      </tr>
-      <tr>
-          <td>加密</td>
-          <td>WireGuard</td>
-      </tr>
-      <tr>
-          <td>监控</td>
-          <td>felix、ippool、vxlan、conntrack</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>分类</th>
+					<th>推荐配置</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Dataplane</td>
+					<td>eBPF</td>
+			</tr>
+			<tr>
+					<td>Overlay</td>
+					<td>VXLAN</td>
+			</tr>
+			<tr>
+					<td>节点路由</td>
+					<td>无 BGP（云） / BGP（裸金属）</td>
+			</tr>
+			<tr>
+					<td>kube-proxy</td>
+					<td>关闭</td>
+			</tr>
+			<tr>
+					<td>MTU</td>
+					<td>1450</td>
+			</tr>
+			<tr>
+					<td>IPAM</td>
+					<td>Calico IPAM，多 IP pool</td>
+			</tr>
+			<tr>
+					<td>策略</td>
+					<td>Zero Trust（default deny + allow）</td>
+			</tr>
+			<tr>
+					<td>加密</td>
+					<td>WireGuard</td>
+			</tr>
+			<tr>
+					<td>监控</td>
+					<td>felix、ippool、vxlan、conntrack</td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

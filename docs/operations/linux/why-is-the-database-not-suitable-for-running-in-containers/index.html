@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="这是一个非常“值钱”的问题。
@@ -77,18 +77,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "数据库为什么不适合跑在容器",
-      "url" : "https://documents.v2ep.com/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/",
+      "url": "https://documents.v2ep.com/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/",
       "headline": "数据库为什么不适合跑在容器",
       "description": "这是一个非常“值钱”的问题。\n不是“能不能”，而是 “为什么在工程上不适合”。\n用 硬件 \/ NUMA \/ cgroups \/ Linux 内核 \/ 容器模型 梳理。\n一、先给结论（避免误解） 数据库不是“不能”跑在容器里，而是：在大多数生产场景下，容器的抽象层与数据库的性能模型是“反向的”。\n换句话说：\n数据库追求确定性 容器追求弹性与共享 两者天生冲突。\n二、数据库真正依赖的是什么？ 数据库（MySQL \/ PostgreSQL \/ Oracle \/ Redis）真正吃的不是“CPU 核数”，而是：\n内存确定性 IO 延迟稳定性 NUMA 本地性 fsync 语义可靠 调度可预期 三、核心冲突点一：内存（致命） 1️⃣ 数据库的内存模型 以 MySQL \/ PostgreSQL 为例：",
-      "wordCount" : "284",
+      "wordCount": "284",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/why-is-the-database-not-suitable-for-running-in-containers/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -108,8 +108,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -128,12 +128,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -284,21 +284,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2269,26 +2254,26 @@
 </span></span><span class="line"><span class="cl">memory.high
 </span></span></code></pre></div><p><strong>问题来了：</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>行为</th>
-          <th>后果</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>memory.high</td>
-          <td>频繁回收</td>
-      </tr>
-      <tr>
-          <td>memory.max</td>
-          <td>直接 OOM kill</td>
-      </tr>
-      <tr>
-          <td>swap</td>
-          <td>延迟爆炸</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>行为</th>
+					<th>后果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>memory.high</td>
+					<td>频繁回收</td>
+			</tr>
+			<tr>
+					<td>memory.max</td>
+					<td>直接 OOM kill</td>
+			</tr>
+			<tr>
+					<td>swap</td>
+					<td>延迟爆炸</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>数据库最怕：</p>
 <ul>
@@ -2489,30 +2474,30 @@
 </div>
 <p>因为：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>看起来没问题</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>测试环境</td>
-          <td>压力不够</td>
-      </tr>
-      <tr>
-          <td>小规模</td>
-          <td>NUMA 未显现</td>
-      </tr>
-      <tr>
-          <td>SSD</td>
-          <td>掩盖 IO 问题</td>
-      </tr>
-      <tr>
-          <td>单节点</td>
-          <td>没有争抢</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>看起来没问题</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>测试环境</td>
+					<td>压力不够</td>
+			</tr>
+			<tr>
+					<td>小规模</td>
+					<td>NUMA 未显现</td>
+			</tr>
+			<tr>
+					<td>SSD</td>
+					<td>掩盖 IO 问题</td>
+			</tr>
+			<tr>
+					<td>单节点</td>
+					<td>没有争抢</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 一上生产就暴雷</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2526,30 +2511,30 @@
 </div>
 <p>因为：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>Redis</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>内存模型</td>
-          <td>简单</td>
-      </tr>
-      <tr>
-          <td>IO</td>
-          <td>少</td>
-      </tr>
-      <tr>
-          <td>NUMA 敏感</td>
-          <td>低</td>
-      </tr>
-      <tr>
-          <td>恢复</td>
-          <td>快</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>Redis</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>内存模型</td>
+					<td>简单</td>
+			</tr>
+			<tr>
+					<td>IO</td>
+					<td>少</td>
+			</tr>
+			<tr>
+					<td>NUMA 敏感</td>
+					<td>低</td>
+			</tr>
+			<tr>
+					<td>恢复</td>
+					<td>快</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>不是所有“数据库”一样</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2581,34 +2566,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>核心 OLTP</td>
-          <td>裸机</td>
-      </tr>
-      <tr>
-          <td>金融 / 交易</td>
-          <td>裸机</td>
-      </tr>
-      <tr>
-          <td>云数据库</td>
-          <td>VM</td>
-      </tr>
-      <tr>
-          <td>辅助库 / 测试</td>
-          <td>容器</td>
-      </tr>
-      <tr>
-          <td>Redis / Kafka</td>
-          <td>视规模</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>核心 OLTP</td>
+					<td>裸机</td>
+			</tr>
+			<tr>
+					<td>金融 / 交易</td>
+					<td>裸机</td>
+			</tr>
+			<tr>
+					<td>云数据库</td>
+					<td>VM</td>
+			</tr>
+			<tr>
+					<td>辅助库 / 测试</td>
+					<td>容器</td>
+			</tr>
+			<tr>
+					<td>Redis / Kafka</td>
+					<td>视规模</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十二总结"

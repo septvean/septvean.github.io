@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 超清晰、实用、成体系的 Nacos 全套知识，包括：核心概念、架构、配置中心、注册中心、集群部署、最佳实践、运维与故障排查。
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nacos 基础教程",
-      "url" : "https://documents.v2ep.com/operations/nacos/tutorial/",
+      "url": "https://documents.v2ep.com/operations/nacos/tutorial/",
       "headline": "Nacos 基础教程",
       "description": "下面是一份 超清晰、实用、成体系的 Nacos 全套知识，包括：核心概念、架构、配置中心、注册中心、集群部署、最佳实践、运维与故障排查。\n1. Nacos 是什么？ Nacos = 服务注册中心 \u002b 配置中心\n阿里开源，天然适配 Spring Cloud Alibaba、Dubbo、微服务架构。\n功能三件套\n服务发现（注册中心）：替代 Eureka、Consul、Zookeeper。 配置管理（配置中心）：替代 Apollo、Spring Cloud Config。 动态 DNS 服务管理（不常用） 2. 为什么使用 Nacos？（优点） 相较于 Eureka\n支持 AP \/ CP 切换 配置中心内置（Eureka 没有） 权限、命名空间、分组更完善 相较于 Consul、Zookeeper",
-      "wordCount" : "351",
+      "wordCount": "351",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nacos/tutorial/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2284,22 +2269,22 @@
 </div>
 <p>Nacos 支持 两种模型：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>特点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>AP 模式</strong>（默认）</td>
-          <td>更高可用，适合注册中心</td>
-      </tr>
-      <tr>
-          <td><strong>CP 模式</strong></td>
-          <td>数据一致性强，适合配置中心</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>特点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>AP 模式</strong>（默认）</td>
+					<td>更高可用，适合注册中心</td>
+			</tr>
+			<tr>
+					<td><strong>CP 模式</strong></td>
+					<td>数据一致性强，适合配置中心</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>通过配置可切：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">spring.cloud.nacos.discovery.ephemeral</span><span class="o">=</span><span class="s">false</span>
@@ -2313,25 +2298,25 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>心跳</th>
-          <th>适用场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>临时实例（ephemeral=true</strong>）</td>
-          <td>心跳丢失自动下线</td>
-          <td>微服务、Pod</td>
-      </tr>
-      <tr>
-          <td><strong>永久实例（ephemeral=false）</strong></td>
-          <td>无心跳</td>
-          <td>容器外固定服务</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>心跳</th>
+					<th>适用场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>临时实例（ephemeral=true</strong>）</td>
+					<td>心跳丢失自动下线</td>
+					<td>微服务、Pod</td>
+			</tr>
+			<tr>
+					<td><strong>永久实例（ephemeral=false）</strong></td>
+					<td>无心跳</td>
+					<td>容器外固定服务</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="44-权重元数据分组命名空间"
@@ -2389,7 +2374,7 @@
 <p>修改配置后，Nacos 会自动 <strong>push 给所有客户端</strong>。</p>
 <p>客户端无需重启，Spring Boot 自动刷新：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RefreshScope</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nd">@ConfigurationProperties</span><span class="p">(</span><span class="n">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;app&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nd">@ConfigurationProperties</span><span class="p">(</span><span class="n">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;app&#34;</span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="53-配置格式"
     >
@@ -2552,30 +2537,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>规模</th>
-          <th>CPU</th>
-          <th>内存</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单机</td>
-          <td>2C</td>
-          <td>4G</td>
-      </tr>
-      <tr>
-          <td>小型集群（3节点）</td>
-          <td>4C each</td>
-          <td>8G each</td>
-      </tr>
-      <tr>
-          <td>中大型</td>
-          <td>8C+</td>
-          <td>16G~32G</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>规模</th>
+					<th>CPU</th>
+					<th>内存</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单机</td>
+					<td>2C</td>
+					<td>4G</td>
+			</tr>
+			<tr>
+					<td>小型集群（3节点）</td>
+					<td>4C each</td>
+					<td>8G each</td>
+			</tr>
+			<tr>
+					<td>中大型</td>
+					<td>8C+</td>
+					<td>16G~32G</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="74-性能优化"
@@ -2661,7 +2646,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -X GET <span class="s2">&#34;127.0.0.1:8848/nacos/v1/ns/instance/list?serviceName=test-service&#34;</span>
 </span></span></code></pre></div><p>发布配置</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl -X POST <span class="s2">&#34;127.0.0.1:8848/nacos/v1/cs/configs&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -d <span class="s2">&#34;dataId=test.yaml&amp;group=DEFAULT_GROUP&amp;content=hello&#34;</span>
+</span></span></span><span class="line"><span class="cl">  -d <span class="s2">&#34;dataId=test.yaml&amp;group=DEFAULT_GROUP&amp;content=hello&#34;</span>
 </span></span></code></pre></div>
   </article>
 

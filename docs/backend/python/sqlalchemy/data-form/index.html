@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面给你一个高价值可长期复用的总结：
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "数据形态",
-      "url" : "https://documents.v2ep.com/backend/python/sqlalchemy/data-form/",
+      "url": "https://documents.v2ep.com/backend/python/sqlalchemy/data-form/",
       "headline": "数据形态",
       "description": "下面给你一个高价值可长期复用的总结：\n常用的数据查询场景 -\u003e SQL 查询形态 -\u003e 查询结果的数据结构 -\u003e Python 中的对应数据格式。\n这是一个完全贴近你在 FastAPI \u002b SQLAlchemy \u002b PostgreSQL 项目中使用的“实战速查表”，可以直接用在你的业务逻辑、ORM 查询、数据转换工具函数中。\n✅ 一、单值查询（Single Value） 场景 查询总数 查询最大值\/最小值\/平均值 查询某个字段是否存在 获取某个 ID 是否存在 SQL 示例 SELECT COUNT(*) FROM users; SELECT MAX(age) FROM users; SELECT EXISTS(SELECT 1 FROM users WHERE id=1); PostgreSQL 返回形态 类型 示例 单个数值（int\/bigint\/numeric） 123 布尔值 true\/false 单个字符串 ‘hello’ Python 对应格式 Python 类型 示例 int 123 float 12.34 str “hello” bool True\/False SQLAlchemy 查询 count = session.execute(stmt).scalar_one() ✅ 二、单行查询（Single Row） 场景 查询单个用户 查询详情页数据 查询最新一条记录 SQL 示例 SELECT id, name, age FROM users WHERE id = 1; PostgreSQL 返回形态 类似：",
-      "wordCount" : "467",
+      "wordCount": "467",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/sqlalchemy/data-form/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2228,8 +2213,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="k">EXISTS</span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">EXISTS</span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="postgresql-返回形态"
     >
@@ -2240,26 +2225,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单个数值（int/bigint/numeric）</td>
-          <td>123</td>
-      </tr>
-      <tr>
-          <td>布尔值</td>
-          <td>true/false</td>
-      </tr>
-      <tr>
-          <td>单个字符串</td>
-          <td>&lsquo;hello&rsquo;</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单个数值（int/bigint/numeric）</td>
+					<td>123</td>
+			</tr>
+			<tr>
+					<td>布尔值</td>
+					<td>true/false</td>
+			</tr>
+			<tr>
+					<td>单个字符串</td>
+					<td>&lsquo;hello&rsquo;</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="python-对应格式"
@@ -2271,30 +2256,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Python 类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>int</td>
-          <td>123</td>
-      </tr>
-      <tr>
-          <td>float</td>
-          <td>12.34</td>
-      </tr>
-      <tr>
-          <td>str</td>
-          <td>&ldquo;hello&rdquo;</td>
-      </tr>
-      <tr>
-          <td>bool</td>
-          <td>True/False</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Python 类型</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>int</td>
+					<td>123</td>
+			</tr>
+			<tr>
+					<td>float</td>
+					<td>12.34</td>
+			</tr>
+			<tr>
+					<td>str</td>
+					<td>&ldquo;hello&rdquo;</td>
+			</tr>
+			<tr>
+					<td>bool</td>
+					<td>True/False</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="sqlalchemy-查询"
@@ -2360,26 +2345,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Python 类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>tuple</td>
-          <td>(1, &ldquo;Alice&rdquo;, 20)</td>
-      </tr>
-      <tr>
-          <td>ORM 对象</td>
-          <td>User(id=1, name=&ldquo;Alice&rdquo;)</td>
-      </tr>
-      <tr>
-          <td>dict（转换后）</td>
-          <td>{&lsquo;id&rsquo;:1, &rsquo;name&rsquo;:&lsquo;Alice&rsquo;, &lsquo;age&rsquo;:20}</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Python 类型</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>tuple</td>
+					<td>(1, &ldquo;Alice&rdquo;, 20)</td>
+			</tr>
+			<tr>
+					<td>ORM 对象</td>
+					<td>User(id=1, name=&ldquo;Alice&rdquo;)</td>
+			</tr>
+			<tr>
+					<td>dict（转换后）</td>
+					<td>{&lsquo;id&rsquo;:1, &rsquo;name&rsquo;:&lsquo;Alice&rsquo;, &lsquo;age&rsquo;:20}</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="sqlalchemy-查询-1"
@@ -2445,22 +2430,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Python 类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>list[str]</code></td>
-          <td><code>[&quot;000001&quot;, &quot;000002&quot;]</code></td>
-      </tr>
-      <tr>
-          <td><code>list[int]</code></td>
-          <td><code>[1, 2, 3]</code></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Python 类型</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>list[str]</code></td>
+					<td><code>[&quot;000001&quot;, &quot;000002&quot;]</code></td>
+			</tr>
+			<tr>
+					<td><code>list[int]</code></td>
+					<td><code>[1, 2, 3]</code></td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="sqlalchemy-查询-2"
@@ -2528,26 +2513,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Python 格式</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>list[tuple]</code></td>
-          <td><code>[(&quot;000001&quot;,&quot;平安银行&quot;,10.5)]</code></td>
-      </tr>
-      <tr>
-          <td><code>list[ORM 对象]</code></td>
-          <td><code>[Ashare(...), Ashare(...)]</code></td>
-      </tr>
-      <tr>
-          <td><code>list[dict]</code>（你项目常用）</td>
-          <td><code>[{&quot;code&quot;:&quot;000001&quot;, &quot;name&quot;:&quot;平安银行&quot;}]</code></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Python 格式</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>list[tuple]</code></td>
+					<td><code>[(&quot;000001&quot;,&quot;平安银行&quot;,10.5)]</code></td>
+			</tr>
+			<tr>
+					<td><code>list[ORM 对象]</code></td>
+					<td><code>[Ashare(...), Ashare(...)]</code></td>
+			</tr>
+			<tr>
+					<td><code>list[dict]</code>（你项目常用）</td>
+					<td><code>[{&quot;code&quot;:&quot;000001&quot;, &quot;name&quot;:&quot;平安银行&quot;}]</code></td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="sqlalchemy-查询-3"
@@ -2597,8 +2582,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">plate</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">ashare</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">plate</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">ashare</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">plate</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="postgresql-返回形态-4"
     >
@@ -2654,7 +2639,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">json_build_object</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">ashare</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">ashare</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="postgresql-返回形态-5"
     >
@@ -2675,22 +2660,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Python 类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>dict</code></td>
-          <td><code>{&quot;code&quot;: &quot;000001&quot;, &quot;name&quot;: &quot;平安银行&quot;}</code></td>
-      </tr>
-      <tr>
-          <td><code>list[dict]</code></td>
-          <td><code>[{}, {}]</code></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Python 类型</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>dict</code></td>
+					<td><code>{&quot;code&quot;: &quot;000001&quot;, &quot;name&quot;: &quot;平安银行&quot;}</code></td>
+			</tr>
+			<tr>
+					<td><code>list[dict]</code></td>
+					<td><code>[{}, {}]</code></td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-七数组查询array"
@@ -2779,10 +2764,10 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="n">s</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="n">s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="nb">date</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="python-对应格式-5"
     >
@@ -2827,8 +2812,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="k">role</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">u</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">roles</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">role_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">u</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">roles</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="n">role_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="python-对应格式-6"
     >
@@ -2839,22 +2824,22 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>格式</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>tuple</td>
-          <td><code>(1, &quot;张三&quot;, &quot;admin&quot;)</code></td>
-      </tr>
-      <tr>
-          <td>dict（转换后）</td>
-          <td><code>{&quot;id&quot;:1,&quot;name&quot;:&quot;张三&quot;,&quot;role&quot;:&quot;admin&quot;}</code></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>格式</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>tuple</td>
+					<td><code>(1, &quot;张三&quot;, &quot;admin&quot;)</code></td>
+			</tr>
+			<tr>
+					<td>dict（转换后）</td>
+					<td><code>{&quot;id&quot;:1,&quot;name&quot;:&quot;张三&quot;,&quot;role&quot;:&quot;admin&quot;}</code></td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="-十分页查询pagination"
@@ -2895,60 +2880,60 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>SQL 结果</th>
-          <th>Python 形式</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>单值</td>
-          <td><code>5</code></td>
-          <td>int/str/float/bool</td>
-      </tr>
-      <tr>
-          <td>单行</td>
-          <td><code>(1, &quot;A&quot;)</code></td>
-          <td><code>tuple</code> / <code>dict</code> / ORM</td>
-      </tr>
-      <tr>
-          <td>单列</td>
-          <td><code>['a','b']</code></td>
-          <td><code>list[str]</code></td>
-      </tr>
-      <tr>
-          <td>多行多列</td>
-          <td><code>[(...),(...)]</code></td>
-          <td><code>list[tuple]</code> / <code>list[dict]</code> / ORM</td>
-      </tr>
-      <tr>
-          <td>聚合统计</td>
-          <td><code>[(key, val)]</code></td>
-          <td><code>list[tuple]</code> / <code>dict</code></td>
-      </tr>
-      <tr>
-          <td>JSON</td>
-          <td><code>{&quot;a&quot;:1}</code></td>
-          <td><code>dict</code></td>
-      </tr>
-      <tr>
-          <td>数组</td>
-          <td><code>{1,2,3}</code></td>
-          <td><code>list</code></td>
-      </tr>
-      <tr>
-          <td>JOIN</td>
-          <td><code>[(...)]</code></td>
-          <td><code>list[tuple]</code> / <code>list[dict]</code></td>
-      </tr>
-      <tr>
-          <td>分页</td>
-          <td><code>[(...)]</code></td>
-          <td><code>list[...]</code></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>SQL 结果</th>
+					<th>Python 形式</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>单值</td>
+					<td><code>5</code></td>
+					<td>int/str/float/bool</td>
+			</tr>
+			<tr>
+					<td>单行</td>
+					<td><code>(1, &quot;A&quot;)</code></td>
+					<td><code>tuple</code> / <code>dict</code> / ORM</td>
+			</tr>
+			<tr>
+					<td>单列</td>
+					<td><code>['a','b']</code></td>
+					<td><code>list[str]</code></td>
+			</tr>
+			<tr>
+					<td>多行多列</td>
+					<td><code>[(...),(...)]</code></td>
+					<td><code>list[tuple]</code> / <code>list[dict]</code> / ORM</td>
+			</tr>
+			<tr>
+					<td>聚合统计</td>
+					<td><code>[(key, val)]</code></td>
+					<td><code>list[tuple]</code> / <code>dict</code></td>
+			</tr>
+			<tr>
+					<td>JSON</td>
+					<td><code>{&quot;a&quot;:1}</code></td>
+					<td><code>dict</code></td>
+			</tr>
+			<tr>
+					<td>数组</td>
+					<td><code>{1,2,3}</code></td>
+					<td><code>list</code></td>
+			</tr>
+			<tr>
+					<td>JOIN</td>
+					<td><code>[(...)]</code></td>
+					<td><code>list[tuple]</code> / <code>list[dict]</code></td>
+			</tr>
+			<tr>
+					<td>分页</td>
+					<td><code>[(...)]</code></td>
+					<td><code>list[...]</code></td>
+			</tr>
+	</tbody>
 </table> </div>
 
   </article>

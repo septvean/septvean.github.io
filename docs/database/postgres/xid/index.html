@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="PostgreSQL 的 XID 问题指的是 XID 溢出问题（XID Wraparound Problem），它发生在 32 位事务 ID (XID) 计数器耗尽时。当最旧活跃事务与最新事务的年龄差超过 21 亿（约占 32 位空间的一半）时，PostgreSQL 会进入事务回卷保护状态，停止接受新的写入事务，导致服务中断，通常需要通过执行 VACUUM 来修复。
@@ -65,18 +65,18 @@ XID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL XID 问题",
-      "url" : "https://documents.v2ep.com/database/postgres/xid/",
+      "url": "https://documents.v2ep.com/database/postgres/xid/",
       "headline": "PostgreSQL XID 问题",
       "description": "PostgreSQL 的 XID 问题指的是 XID 溢出问题（XID Wraparound Problem），它发生在 32 位事务 ID (XID) 计数器耗尽时。当最旧活跃事务与最新事务的年龄差超过 21 亿（约占 32 位空间的一半）时，PostgreSQL 会进入事务回卷保护状态，停止接受新的写入事务，导致服务中断，通常需要通过执行 VACUUM 来修复。\n什么是 XID 问题 32 位事务 ID (XID)：PostgreSQL 使用 32 位的 XID 来跟踪事务，其最大值约为 42.9 亿。\nXID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时，就会发生 XID 溢出。这可能导致新事务的 ID 比旧事务的 ID 小，引起逻辑混乱和数据不可用。\n事务回卷保护：为了防止 XID 溢出导致数据损坏，当系统检测到最旧活跃事务和最新事务之间的年龄差达到一个临界值时（通常是 21 亿），它会进入保护状态，阻止新的写入事务，从而避免 XID 溢出。",
-      "wordCount" : "182",
+      "wordCount": "182",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/xid/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ XID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ XID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ XID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 

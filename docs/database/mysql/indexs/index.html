@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 🧱 1. 索引的核心概念（必须理解） 索引是数据库里用于 加速查找 的数据结构，本质类似“目录”。
@@ -68,18 +68,18 @@ B&#43;Tree（Mysql 的核心索引结构） 特征：" />
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "MySQL 索引",
-      "url" : "https://documents.v2ep.com/database/mysql/indexs/",
+      "url": "https://documents.v2ep.com/database/mysql/indexs/",
       "headline": "MySQL 索引",
       "description": " 🧱 1. 索引的核心概念（必须理解） 索引是数据库里用于 加速查找 的数据结构，本质类似“目录”。\nInnoDB 使用 B\u002bTree 作为索引结构（核心关键点）。\n索引的目标是：\n更快查找（减少 IO） 提升排序性能 加速 JOIN 减少锁范围（行锁不退化为表锁） 🧱 2. InnoDB 索引结构（底层原理） InnoDB 存储引擎中索引的本质是：\nB\u002bTree（Mysql 的核心索引结构） 特征：",
-      "wordCount" : "388",
+      "wordCount": "388",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/indexs/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@ B&#43;Tree（Mysql 的核心索引结构） 特征：" />
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@ B&#43;Tree（Mysql 的核心索引结构） 特征：" />
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@ B&#43;Tree（Mysql 的核心索引结构） 特征：" />
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2459,8 +2444,8 @@ B&#43;Tree（Mysql 的核心索引结构） 特征：" />
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INDEX</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="w">           </span><span class="c1">-- 不能用
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="w">   </span><span class="c1">-- 能用
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="w">           </span><span class="c1">-- 不能用
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="w">   </span><span class="c1">-- 能用
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-56-对索引字段使用函数表达式"
     >
@@ -2609,7 +2594,7 @@ B&#43;Tree（Mysql 的核心索引结构） 特征：" />
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">YEAR</span><span class="p">(</span><span class="n">create_time</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2024</span><span class="w">
 </span></span></span></code></pre></div><p>优化：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">create_time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">AND</span><span class="w">   </span><span class="n">create_time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">&#39;2025-01-01&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">AND</span><span class="w">   </span><span class="n">create_time</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">&#39;2025-01-01&#39;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-案例-3索引覆盖减少回表"
     >

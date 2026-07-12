@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="服务器：
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "GitLab Runner 部署",
-      "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/",
+      "url": "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/",
       "headline": "GitLab Runner 部署",
       "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner GitLab Runner 核心认知（先搞清楚） GitLab \/ Runner \/ CI 的关系 .gitlab-ci.yml ↓ GitLab（调度） ↓ GitLab Runner（执行） ↓ Executor（shell \/ docker \/ k8s） ⚠️ Runner ≠ GitLab",
-      "wordCount" : "1053",
+      "wordCount": "1053",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-runner/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2226,40 +2211,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Executor</th>
-          <th>场景</th>
-          <th>是否推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>shell</td>
-          <td>简单</td>
-          <td>❌ (污染宿主机)</td>
-      </tr>
-      <tr>
-          <td>docker</td>
-          <td>最常用</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>docker+machine</td>
-          <td>已淘汰</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>kubernetes</td>
-          <td>大规模</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>ssh</td>
-          <td>少见</td>
-          <td>❌</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Executor</th>
+					<th>场景</th>
+					<th>是否推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>shell</td>
+					<td>简单</td>
+					<td>❌ (污染宿主机)</td>
+			</tr>
+			<tr>
+					<td>docker</td>
+					<td>最常用</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>docker+machine</td>
+					<td>已淘汰</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>kubernetes</td>
+					<td>大规模</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>ssh</td>
+					<td>少见</td>
+					<td>❌</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>本文使用 <code>shell executor</code> + <code>docker executor</code></strong></p>
 <p>宿主机是 AlmaLinux 9，使用 podman 代替 docker，使用 docker executor 部署，运行 docker 命令会报错</p>
@@ -2364,7 +2349,7 @@
 <p>文件：/data/gitlab-runner/compose/docker-compose.yaml</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">gitlab-runner</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-runner:v18.7.2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab-runner</span><span class="w">
@@ -2458,16 +2443,16 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># shell executor</span>
 </span></span><span class="line"><span class="cl">rm -f /etc/gitlab-runner/config.toml
 </span></span><span class="line"><span class="cl">gitlab-runner <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gitlab-runner register <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --url http://192.168.101.201:7000 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --token glrt-UJAwY5U5B2arIh-riT6A9W86MQp0OjEKdToxCw.01.12125weuh
+</span></span></span><span class="line"><span class="cl">    gitlab-runner register <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --url http://192.168.101.201:7000 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --token glrt-UJAwY5U5B2arIh-riT6A9W86MQp0OjEKdToxCw.01.12125weuh
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># docker executor</span>
 </span></span><span class="line"><span class="cl">rm -f /data/gitlab-runner/config/config.toml
 </span></span><span class="line"><span class="cl">podman <span class="nb">exec</span> -it gitlab-runner <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    gitlab-runner register <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --url http://192.168.101.201:7000 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --token glrt-YhHnYasZjvAxCclbzb9f7286MQp0OjEKdToxCw.01.121l1z4dk
+</span></span></span><span class="line"><span class="cl">    gitlab-runner register <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --url http://192.168.101.201:7000 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --token glrt-YhHnYasZjvAxCclbzb9f7286MQp0OjEKdToxCw.01.121l1z4dk
 </span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="注册过程"
     >
@@ -2762,7 +2747,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">stages</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">test-job</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">test-job</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">tags</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">linux</span><span class="w">

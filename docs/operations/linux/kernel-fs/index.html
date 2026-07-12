@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="先讲 VFS，再讲 FS。
@@ -74,18 +74,18 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 文件系统（FS）",
-      "url" : "https://documents.v2ep.com/operations/linux/kernel-fs/",
+      "url": "https://documents.v2ep.com/operations/linux/kernel-fs/",
       "headline": "Linux 文件系统（FS）",
       "description": "先讲 VFS，再讲 FS。\n下面是一份 「内核级视角」Linux 文件系统子系统（VFS, Virtual File System）详解。\n不是 ls \/ mount 的用法，而是从内核抽象层 -\u003e 数据结构 -\u003e 路径解析 -\u003e IO 调用 -\u003e 容器\/UnionFS 的完整认知体系。\n适用 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu \/ 云 \/ 容器 \/ 数据库 \/ 虚拟化。\n一、VFS 是什么（先立核心认知） VFS = Linux 的“文件系统抽象层”\n它解决的问题：\next4 \/ xfs \/ nfs \/ proc \/ overlayfs 不同文件系统 -\u003e 统一接口 用户程序 ↓ 系统调用（open\/read\/write） ↓ VFS（抽象） ↓ 具体文件系统实现 📌 没有 VFS，就没有“一切皆文件”",
-      "wordCount" : "863",
+      "wordCount": "863",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/kernel-fs/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2245,30 +2230,30 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
 </div>
 <p><strong>理解 VFS，只要吃透这 4 个结构</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>结构</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>super_block</td>
-          <td>文件系统</td>
-      </tr>
-      <tr>
-          <td>inode</td>
-          <td>文件元数据</td>
-      </tr>
-      <tr>
-          <td>dentry</td>
-          <td>目录项（名字）</td>
-      </tr>
-      <tr>
-          <td>file</td>
-          <td>打开的文件</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>结构</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>super_block</td>
+					<td>文件系统</td>
+			</tr>
+			<tr>
+					<td>inode</td>
+					<td>文件元数据</td>
+			</tr>
+			<tr>
+					<td>dentry</td>
+					<td>目录项（名字）</td>
+			</tr>
+			<tr>
+					<td>file</td>
+					<td>打开的文件</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="1-super_block文件系统实例"
@@ -2433,34 +2418,34 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>示例</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>本地 FS</td>
-          <td>ext4, xfs</td>
-      </tr>
-      <tr>
-          <td>网络 FS</td>
-          <td>nfs, cifs</td>
-      </tr>
-      <tr>
-          <td>虚拟 FS</td>
-          <td>proc, sysfs</td>
-      </tr>
-      <tr>
-          <td>Union FS</td>
-          <td>overlayfs</td>
-      </tr>
-      <tr>
-          <td>特殊</td>
-          <td>tmpfs</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>本地 FS</td>
+					<td>ext4, xfs</td>
+			</tr>
+			<tr>
+					<td>网络 FS</td>
+					<td>nfs, cifs</td>
+			</tr>
+			<tr>
+					<td>虚拟 FS</td>
+					<td>proc, sysfs</td>
+			</tr>
+			<tr>
+					<td>Union FS</td>
+					<td>overlayfs</td>
+			</tr>
+			<tr>
+					<td>特殊</td>
+					<td>tmpfs</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八mount-机制vfs-核心"
@@ -2558,22 +2543,22 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>锁</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>flock</td>
-          <td>建议锁</td>
-      </tr>
-      <tr>
-          <td>fcntl</td>
-          <td>POSIX 锁</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>锁</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>flock</td>
+					<td>建议锁</td>
+			</tr>
+			<tr>
+					<td>fcntl</td>
+					<td>POSIX 锁</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>跨 FS / NFS 行为不同</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2623,30 +2608,30 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>点</th>
-          <th>影响</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>fsync</td>
-          <td>性能关键</td>
-      </tr>
-      <tr>
-          <td>inode cache</td>
-          <td>元数据</td>
-      </tr>
-      <tr>
-          <td>page cache</td>
-          <td>buffer pool</td>
-      </tr>
-      <tr>
-          <td>Direct IO</td>
-          <td>绕过 cache</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>点</th>
+					<th>影响</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>fsync</td>
+					<td>性能关键</td>
+			</tr>
+			<tr>
+					<td>inode cache</td>
+					<td>元数据</td>
+			</tr>
+			<tr>
+					<td>page cache</td>
+					<td>buffer pool</td>
+			</tr>
+			<tr>
+					<td>Direct IO</td>
+					<td>绕过 cache</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 DB 强烈依赖 VFS 行为</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2969,26 +2954,26 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>模式</th>
-          <th>特点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>writeback</td>
-          <td>快但不安全</td>
-      </tr>
-      <tr>
-          <td>ordered（默认）</td>
-          <td>数据先写</td>
-      </tr>
-      <tr>
-          <td>journal</td>
-          <td>数据 + 元数据</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>模式</th>
+					<th>特点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>writeback</td>
+					<td>快但不安全</td>
+			</tr>
+			<tr>
+					<td>ordered（默认）</td>
+					<td>数据先写</td>
+			</tr>
+			<tr>
+					<td>journal</td>
+					<td>数据 + 元数据</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 XFS 永远是 ordered 类似行为</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3013,45 +2998,45 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>ext4</th>
-          <th>XFS</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>设计目标</td>
-          <td>通用</td>
-          <td>大文件 / 并发</td>
-      </tr>
-      <tr>
-          <td>inode</td>
-          <td>固定数量</td>
-          <td>动态</td>
-      </tr>
-      <tr>
-          <td>日志</td>
-          <td>JBD2</td>
-          <td>内建</td>
-      </tr>
-      <tr>
-          <td>扩容</td>
-          <td>支持</td>
-          <td>更强</td>
-      </tr>
-      <tr>
-          <td>fsck</td>
-          <td>慢</td>
-          <td>几乎不用</td>
-      </tr>
-      <tr>
-          <td>并发</td>
-          <td>中</td>
-          <td>高</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>ext4</th>
+					<th>XFS</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>设计目标</td>
+					<td>通用</td>
+					<td>大文件 / 并发</td>
+			</tr>
+			<tr>
+					<td>inode</td>
+					<td>固定数量</td>
+					<td>动态</td>
+			</tr>
+			<tr>
+					<td>日志</td>
+					<td>JBD2</td>
+					<td>内建</td>
+			</tr>
+			<tr>
+					<td>扩容</td>
+					<td>支持</td>
+					<td>更强</td>
+			</tr>
+			<tr>
+					<td>fsck</td>
+					<td>慢</td>
+					<td>几乎不用</td>
+			</tr>
+			<tr>
+					<td>并发</td>
+					<td>中</td>
+					<td>高</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 <strong>数据库 / 大盘：XFS</strong></p>
 <p>📌 <strong>系统盘 / 通用：ext4</strong></p>
@@ -3189,34 +3174,34 @@ ext4 / xfs / nfs / proc / overlayfs 不同文件系统 -&gt; 统一接口 用户
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>系统盘</td>
-          <td>ext4</td>
-      </tr>
-      <tr>
-          <td>数据盘</td>
-          <td>XFS</td>
-      </tr>
-      <tr>
-          <td>容器数据</td>
-          <td>直挂 volume</td>
-      </tr>
-      <tr>
-          <td>临时数据</td>
-          <td>tmpfs</td>
-      </tr>
-      <tr>
-          <td>日志</td>
-          <td>XFS + noatime</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>系统盘</td>
+					<td>ext4</td>
+			</tr>
+			<tr>
+					<td>数据盘</td>
+					<td>XFS</td>
+			</tr>
+			<tr>
+					<td>容器数据</td>
+					<td>直挂 volume</td>
+			</tr>
+			<tr>
+					<td>临时数据</td>
+					<td>tmpfs</td>
+			</tr>
+			<tr>
+					<td>日志</td>
+					<td>XFS + noatime</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十七总结"

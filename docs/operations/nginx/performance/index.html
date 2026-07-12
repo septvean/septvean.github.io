@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 真正可落地的《Nginx 性能调优指南（CPU/内存自适应版）》，内容涵盖 CPU、自适应 worker、内存、自适应 buffer、连接数、网络栈、文件缓存、反向代理优化、SSL/HTTP2 优化。
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nginx 性能调优指南",
-      "url" : "https://documents.v2ep.com/operations/nginx/performance/",
+      "url": "https://documents.v2ep.com/operations/nginx/performance/",
       "headline": "Nginx 性能调优指南",
       "description": "下面是一份 真正可落地的《Nginx 性能调优指南（CPU\/内存自适应版）》，内容涵盖 CPU、自适应 worker、内存、自适应 buffer、连接数、网络栈、文件缓存、反向代理优化、SSL\/HTTP2 优化。\n内容非常实战，适合生产环境（2C2G ~ 64C256G 都能用）。\n1. 核心理念（必须先理解） Nginx 的性能主要依赖四个部分：\n部分 影响因素 worker 数量 CPU 核心数 worker_connections 文件描述符限制、系统 ulimit buffer 大小 内存大小 upstream keepalive 数量 并发请求数 网络优化 TCP 参数、epoll、队列 所以所有调优必须围绕 CPU × 连接数 × 内存。\n2. CPU 自适应配置 worker 数量（auto）",
-      "wordCount" : "376",
+      "wordCount": "376",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nginx/performance/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2200,34 +2185,34 @@ CPU、自适应 worker、内存、自适应 buffer、连接数、网络栈、文
 </div>
 <p>Nginx 的性能主要依赖四个部分：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>部分</th>
-          <th>影响因素</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>worker 数量</td>
-          <td>CPU 核心数</td>
-      </tr>
-      <tr>
-          <td>worker_connections</td>
-          <td>文件描述符限制、系统 ulimit</td>
-      </tr>
-      <tr>
-          <td>buffer 大小</td>
-          <td>内存大小</td>
-      </tr>
-      <tr>
-          <td>upstream keepalive 数量</td>
-          <td>并发请求数</td>
-      </tr>
-      <tr>
-          <td>网络优化</td>
-          <td>TCP 参数、epoll、队列</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>部分</th>
+					<th>影响因素</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>worker 数量</td>
+					<td>CPU 核心数</td>
+			</tr>
+			<tr>
+					<td>worker_connections</td>
+					<td>文件描述符限制、系统 ulimit</td>
+			</tr>
+			<tr>
+					<td>buffer 大小</td>
+					<td>内存大小</td>
+			</tr>
+			<tr>
+					<td>upstream keepalive 数量</td>
+					<td>并发请求数</td>
+			</tr>
+			<tr>
+					<td>网络优化</td>
+					<td>TCP 参数、epoll、队列</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>所以所有调优必须围绕 CPU × 连接数 × 内存。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2262,40 +2247,40 @@ CPU、自适应 worker、内存、自适应 buffer、连接数、网络栈、文
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p><strong>不同 CPU 建议</strong></p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>CPU</th>
-          <th>worker_processes</th>
-          <th>worker_connections</th>
-          <th>Max 并发估算</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1 核</td>
-          <td>auto(1)</td>
-          <td>20480</td>
-          <td>~20K</td>
-      </tr>
-      <tr>
-          <td>2 核</td>
-          <td>auto(2)</td>
-          <td>32768</td>
-          <td>~60K</td>
-      </tr>
-      <tr>
-          <td>4 核</td>
-          <td>auto(4)</td>
-          <td>65535</td>
-          <td>~200K</td>
-      </tr>
-      <tr>
-          <td>8 核+</td>
-          <td>auto</td>
-          <td>65535</td>
-          <td>~500K</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>CPU</th>
+					<th>worker_processes</th>
+					<th>worker_connections</th>
+					<th>Max 并发估算</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1 核</td>
+					<td>auto(1)</td>
+					<td>20480</td>
+					<td>~20K</td>
+			</tr>
+			<tr>
+					<td>2 核</td>
+					<td>auto(2)</td>
+					<td>32768</td>
+					<td>~60K</td>
+			</tr>
+			<tr>
+					<td>4 核</td>
+					<td>auto(4)</td>
+					<td>65535</td>
+					<td>~200K</td>
+			</tr>
+			<tr>
+					<td>8 核+</td>
+					<td>auto</td>
+					<td>65535</td>
+					<td>~500K</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="4-内存自-адапtive-buffer重点"
@@ -2317,34 +2302,34 @@ CPU、自适应 worker、内存、自适应 buffer、连接数、网络栈、文
 </span></span><span class="line"><span class="cl"><span class="k">proxy_buffer_size</span>             <span class="mi">16k</span><span class="p">;</span>
 </span></span></code></pre></div><p>内存动态分级（表格）</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>内存</th>
-          <th>client_body_buffer</th>
-          <th>proxy_buffers</th>
-          <th>large_client_header</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1 - 2G</td>
-          <td>256k–512k</td>
-          <td>8*16k</td>
-          <td>4 16k</td>
-      </tr>
-      <tr>
-          <td>4 - 8G</td>
-          <td>512k–1M</td>
-          <td>8*32k</td>
-          <td>4 32k</td>
-      </tr>
-      <tr>
-          <td>16G+</td>
-          <td>2M–4M</td>
-          <td>16*32k</td>
-          <td>8 64k</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>内存</th>
+					<th>client_body_buffer</th>
+					<th>proxy_buffers</th>
+					<th>large_client_header</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1 - 2G</td>
+					<td>256k–512k</td>
+					<td>8*16k</td>
+					<td>4 16k</td>
+			</tr>
+			<tr>
+					<td>4 - 8G</td>
+					<td>512k–1M</td>
+					<td>8*32k</td>
+					<td>4 32k</td>
+			</tr>
+			<tr>
+					<td>16G+</td>
+					<td>2M–4M</td>
+					<td>16*32k</td>
+					<td>8 64k</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="5-proxy反向代理优化"
@@ -2386,26 +2371,26 @@ CPU、自适应 worker、内存、自适应 buffer、连接数、网络栈、文
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>keepalive 的建议值：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>CPU</th>
-          <th>keepalive</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>1–2 核</td>
-          <td>32–64</td>
-      </tr>
-      <tr>
-          <td>4–8 核</td>
-          <td>128</td>
-      </tr>
-      <tr>
-          <td>16 核以上</td>
-          <td>256</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>CPU</th>
+					<th>keepalive</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1–2 核</td>
+					<td>32–64</td>
+			</tr>
+			<tr>
+					<td>4–8 核</td>
+					<td>128</td>
+			</tr>
+			<tr>
+					<td>16 核以上</td>
+					<td>256</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="7-gzip-优化必须开启"
@@ -2479,7 +2464,7 @@ net.ipv4.tcp_wmem = 4096 65536 16777216
 </div>
 <p>👉 自动检测 CPU 和内存，并生成 nginx.conf 参数。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nv">CPU</span><span class="o">=</span><span class="k">$(</span>nproc<span class="k">)</span>
 </span></span><span class="line"><span class="cl"><span class="nv">MEM_MB</span><span class="o">=</span><span class="k">$(</span>grep MemTotal /proc/meminfo <span class="p">|</span> awk <span class="s1">&#39;{print int($2/1024)}&#39;</span><span class="k">)</span>
 </span></span><span class="line"><span class="cl">

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：设计思想 -&gt; 数据模型 -&gt; 核心对象 -&gt; 工作流 -&gt; 分支原理 -&gt; 合并原理
@@ -65,18 +65,18 @@ SVN：存“文件 &#43; 差异” Git：存“内容快照 &#43; 指针” 👉
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Git 核心概念",
-      "url" : "https://documents.v2ep.com/operations/git/core/",
+      "url": "https://documents.v2ep.com/operations/git/core/",
       "headline": "Git 核心概念",
       "description": "内容：设计思想 -\u003e 数据模型 -\u003e 核心对象 -\u003e 工作流 -\u003e 分支原理 -\u003e 合并原理\n一、Git 的设计哲学（最核心） 1️⃣ Git 不是“文件差异系统” Git 是一个：内容寻址（Content-addressable）的对象数据库\nSVN：存“文件 \u002b 差异” Git：存“内容快照 \u002b 指针” 👉 这就是 Git 快、分支便宜、合并强的根本原因。\n2️⃣ 分布式是“完整仓库复制” 每个 Git 仓库都包含：",
-      "wordCount" : "367",
+      "wordCount": "367",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/git/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ SVN：存“文件 &#43; 差异” Git：存“内容快照 &#43; 指针” 👉
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ SVN：存“文件 &#43; 差异” Git：存“内容快照 &#43; 指针” 👉
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ SVN：存“文件 &#43; 差异” Git：存“内容快照 &#43; 指针” 👉
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2235,30 +2220,30 @@ SVN：存“文件 &#43; 差异” Git：存“内容快照 &#43; 指针” 👉
 </div>
 <p>Git 仓库本质是一个对象数据库，只有 4 种对象：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>对象</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>blob</td>
-          <td>文件内容</td>
-      </tr>
-      <tr>
-          <td>tree</td>
-          <td>目录结构</td>
-      </tr>
-      <tr>
-          <td>commit</td>
-          <td>一次提交</td>
-      </tr>
-      <tr>
-          <td>tag</td>
-          <td>标签（指向 commit）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>对象</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>blob</td>
+					<td>文件内容</td>
+			</tr>
+			<tr>
+					<td>tree</td>
+					<td>目录结构</td>
+			</tr>
+			<tr>
+					<td>commit</td>
+					<td>一次提交</td>
+			</tr>
+			<tr>
+					<td>tag</td>
+					<td>标签（指向 commit）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="1-blob文件内容"
@@ -2364,26 +2349,26 @@ SVN：存“文件 &#43; 差异” Git：存“内容快照 &#43; 指针” 👉
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Working Tree -&gt; Index -&gt; Repository
 </span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>区域</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Working Tree</td>
-          <td>实际文件</td>
-      </tr>
-      <tr>
-          <td>Index（Stage）</td>
-          <td>准备提交的快照</td>
-      </tr>
-      <tr>
-          <td>Repository</td>
-          <td>已提交历史</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>区域</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Working Tree</td>
+					<td>实际文件</td>
+			</tr>
+			<tr>
+					<td>Index（Stage）</td>
+					<td>准备提交的快照</td>
+			</tr>
+			<tr>
+					<td>Repository</td>
+					<td>已提交历史</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>关键理解：</p>
 <ul>
@@ -2575,34 +2560,34 @@ SVN：存“文件 &#43; 差异” Git：存“内容快照 &#43; 指针” 👉
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Git</th>
-          <th>文件系统</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>blob</td>
-          <td>文件内容</td>
-      </tr>
-      <tr>
-          <td>tree</td>
-          <td>目录</td>
-      </tr>
-      <tr>
-          <td>commit</td>
-          <td>快照</td>
-      </tr>
-      <tr>
-          <td>branch</td>
-          <td>指针</td>
-      </tr>
-      <tr>
-          <td>HEAD</td>
-          <td>当前指针</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Git</th>
+					<th>文件系统</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>blob</td>
+					<td>文件内容</td>
+			</tr>
+			<tr>
+					<td>tree</td>
+					<td>目录</td>
+			</tr>
+			<tr>
+					<td>commit</td>
+					<td>快照</td>
+			</tr>
+			<tr>
+					<td>branch</td>
+					<td>指针</td>
+			</tr>
+			<tr>
+					<td>HEAD</td>
+					<td>当前指针</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十三为什么-git-不怕误操作"

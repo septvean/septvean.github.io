@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面是一份 「Linux 内核核心子系统：网络子系统（Networking）」的系统级、内核级完整梳理。
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 网络子系统（Networking）",
-      "url" : "https://documents.v2ep.com/operations/linux/kernel-networking/",
+      "url": "https://documents.v2ep.com/operations/linux/kernel-networking/",
       "headline": "Linux 网络子系统（Networking）",
       "description": "下面是一份 「Linux 内核核心子系统：网络子系统（Networking）」的系统级、内核级完整梳理。\n定位是：内核原理 -\u003e 数据路径 -\u003e 性能 -\u003e 容器 \/ 虚拟化 \/ 云 \/ 调优。\n适用于 RHEL \/ AlmaLinux \/ Debian \/ Ubuntu。\n一、Linux 网络子系统在内核中的位置 用户态应用 ↓ Socket API（glibc） ↓ 系统调用（send \/ recv） ↓ Socket Layer ↓ TCP \/ UDP \/ ICMP \/ IP ↓ Netfilter \/ Routing ↓ qdisc \/ TC ↓ NIC Driver ↓ 网卡 \/ DMA 📌 Linux 网络 = 一条“分层 \u002b 旁路 \u002b 钩子”的复杂流水线",
-      "wordCount" : "810",
+      "wordCount": "810",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/kernel-networking/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2263,30 +2248,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>协议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SOCK_STREAM</td>
-          <td>TCP</td>
-      </tr>
-      <tr>
-          <td>SOCK_DGRAM</td>
-          <td>UDP</td>
-      </tr>
-      <tr>
-          <td>SOCK_RAW</td>
-          <td>原始包</td>
-      </tr>
-      <tr>
-          <td>SOCK_PACKET</td>
-          <td>已废弃</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>协议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SOCK_STREAM</td>
+					<td>TCP</td>
+			</tr>
+			<tr>
+					<td>SOCK_DGRAM</td>
+					<td>UDP</td>
+			</tr>
+			<tr>
+					<td>SOCK_RAW</td>
+					<td>原始包</td>
+			</tr>
+			<tr>
+					<td>SOCK_PACKET</td>
+					<td>已废弃</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-系统调用路径"
@@ -2685,42 +2670,42 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>层</th>
-          <th>常见瓶颈</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Socket</td>
-          <td>buffer 太小</td>
-      </tr>
-      <tr>
-          <td>TCP</td>
-          <td>拥塞控制</td>
-      </tr>
-      <tr>
-          <td>IP</td>
-          <td>路由</td>
-      </tr>
-      <tr>
-          <td>Netfilter</td>
-          <td>conntrack</td>
-      </tr>
-      <tr>
-          <td>qdisc</td>
-          <td>队列</td>
-      </tr>
-      <tr>
-          <td>Driver</td>
-          <td>ring buffer</td>
-      </tr>
-      <tr>
-          <td>NIC</td>
-          <td>offload</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>层</th>
+					<th>常见瓶颈</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Socket</td>
+					<td>buffer 太小</td>
+			</tr>
+			<tr>
+					<td>TCP</td>
+					<td>拥塞控制</td>
+			</tr>
+			<tr>
+					<td>IP</td>
+					<td>路由</td>
+			</tr>
+			<tr>
+					<td>Netfilter</td>
+					<td>conntrack</td>
+			</tr>
+			<tr>
+					<td>qdisc</td>
+					<td>队列</td>
+			</tr>
+			<tr>
+					<td>Driver</td>
+					<td>ring buffer</td>
+			</tr>
+			<tr>
+					<td>NIC</td>
+					<td>offload</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十五生产级调优要点速览"
@@ -2840,30 +2825,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>AF</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>AF_INET</td>
-          <td>IPv4</td>
-      </tr>
-      <tr>
-          <td>AF_INET6</td>
-          <td>IPv6</td>
-      </tr>
-      <tr>
-          <td>AF_UNIX</td>
-          <td>本地进程通信</td>
-      </tr>
-      <tr>
-          <td>AF_PACKET</td>
-          <td>二层抓包</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>AF</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>AF_INET</td>
+					<td>IPv4</td>
+			</tr>
+			<tr>
+					<td>AF_INET6</td>
+					<td>IPv6</td>
+			</tr>
+			<tr>
+					<td>AF_UNIX</td>
+					<td>本地进程通信</td>
+			</tr>
+			<tr>
+					<td>AF_PACKET</td>
+					<td>二层抓包</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-socket-类型"
@@ -2875,26 +2860,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SOCK_STREAM</td>
-          <td>TCP</td>
-      </tr>
-      <tr>
-          <td>SOCK_DGRAM</td>
-          <td>UDP</td>
-      </tr>
-      <tr>
-          <td>SOCK_RAW</td>
-          <td>原始包</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SOCK_STREAM</td>
+					<td>TCP</td>
+			</tr>
+			<tr>
+					<td>SOCK_DGRAM</td>
+					<td>UDP</td>
+			</tr>
+			<tr>
+					<td>SOCK_RAW</td>
+					<td>原始包</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三协议栈tcpip-stack"
@@ -3026,38 +3011,38 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>场景</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>eth0</td>
-          <td>物理</td>
-      </tr>
-      <tr>
-          <td>ens33</td>
-          <td>可预测命名</td>
-      </tr>
-      <tr>
-          <td>lo</td>
-          <td>本地</td>
-      </tr>
-      <tr>
-          <td>br0</td>
-          <td>桥</td>
-      </tr>
-      <tr>
-          <td>veth</td>
-          <td>容器</td>
-      </tr>
-      <tr>
-          <td>tun/tap</td>
-          <td>VPN</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>eth0</td>
+					<td>物理</td>
+			</tr>
+			<tr>
+					<td>ens33</td>
+					<td>可预测命名</td>
+			</tr>
+			<tr>
+					<td>lo</td>
+					<td>本地</td>
+			</tr>
+			<tr>
+					<td>br0</td>
+					<td>桥</td>
+			</tr>
+			<tr>
+					<td>veth</td>
+					<td>容器</td>
+			</tr>
+			<tr>
+					<td>tun/tap</td>
+					<td>VPN</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-队列与中断"
@@ -3107,30 +3092,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>表</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>raw</td>
-          <td>连接追踪</td>
-      </tr>
-      <tr>
-          <td>mangle</td>
-          <td>修改</td>
-      </tr>
-      <tr>
-          <td>nat</td>
-          <td>地址转换</td>
-      </tr>
-      <tr>
-          <td>filter</td>
-          <td>防火墙</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>表</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>raw</td>
+					<td>连接追踪</td>
+			</tr>
+			<tr>
+					<td>mangle</td>
+					<td>修改</td>
+			</tr>
+			<tr>
+					<td>nat</td>
+					<td>地址转换</td>
+			</tr>
+			<tr>
+					<td>filter</td>
+					<td>防火墙</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-nftables-vs-iptables"
@@ -3142,30 +3127,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th></th>
-          <th>iptables</th>
-          <th>nftables</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>时代</td>
-          <td>老</td>
-          <td>新</td>
-      </tr>
-      <tr>
-          <td>性能</td>
-          <td>一般</td>
-          <td>更高</td>
-      </tr>
-      <tr>
-          <td>推荐</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th></th>
+					<th>iptables</th>
+					<th>nftables</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>时代</td>
+					<td>老</td>
+					<td>新</td>
+			</tr>
+			<tr>
+					<td>性能</td>
+					<td>一般</td>
+					<td>更高</td>
+			</tr>
+			<tr>
+					<td>推荐</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七连接追踪conntrack"
@@ -3268,34 +3253,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>工具</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>ss</td>
-          <td>连接</td>
-      </tr>
-      <tr>
-          <td>tcpdump</td>
-          <td>抓包</td>
-      </tr>
-      <tr>
-          <td>iperf</td>
-          <td>吞吐</td>
-      </tr>
-      <tr>
-          <td>ethtool</td>
-          <td>网卡</td>
-      </tr>
-      <tr>
-          <td>nstat</td>
-          <td>TCP</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>工具</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>ss</td>
+					<td>连接</td>
+			</tr>
+			<tr>
+					<td>tcpdump</td>
+					<td>抓包</td>
+			</tr>
+			<tr>
+					<td>iperf</td>
+					<td>吞吐</td>
+			</tr>
+			<tr>
+					<td>ethtool</td>
+					<td>网卡</td>
+			</tr>
+			<tr>
+					<td>nstat</td>
+					<td>TCP</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="排查思路非常重要"
@@ -3323,30 +3308,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>RHEL / AlmaLinux</th>
-          <th>Debian / Ubuntu</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>网络管理</td>
-          <td>NetworkManager</td>
-          <td>netplan</td>
-      </tr>
-      <tr>
-          <td>防火墙</td>
-          <td>nftables / firewalld</td>
-          <td>nftables</td>
-      </tr>
-      <tr>
-          <td>DNS</td>
-          <td>systemd-resolved</td>
-          <td>resolved</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>RHEL / AlmaLinux</th>
+					<th>Debian / Ubuntu</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>网络管理</td>
+					<td>NetworkManager</td>
+					<td>netplan</td>
+			</tr>
+			<tr>
+					<td>防火墙</td>
+					<td>nftables / firewalld</td>
+					<td>nftables</td>
+			</tr>
+			<tr>
+					<td>DNS</td>
+					<td>systemd-resolved</td>
+					<td>resolved</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十四一句话总结"

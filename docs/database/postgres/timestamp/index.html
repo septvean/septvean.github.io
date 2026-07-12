@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="在 PostgreSQL 中，TIMESTAMP 和 TIMESTAMPTZ 的区别是一个非常容易踩坑、但又非常重要的问题。
@@ -74,18 +74,18 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PosygreSQL TIMESTAMP 和 TIMESTAMPTZ",
-      "url" : "https://documents.v2ep.com/database/postgres/timestamp/",
+      "url": "https://documents.v2ep.com/database/postgres/timestamp/",
       "headline": "PosygreSQL TIMESTAMP 和 TIMESTAMPTZ",
       "description": "在 PostgreSQL 中，TIMESTAMP 和 TIMESTAMPTZ 的区别是一个非常容易踩坑、但又非常重要的问题。\n一句话结论（先记住）\nPostgreSQL 只有 TIMESTAMPTZ 真正“懂时区”，TIMESTAMP 只是“带日期的字符串”。\n一、类型定义对比（本质区别） 类型 全名 是否存时区 本质 TIMESTAMP timestamp without time zone ❌ 不存 纯日期 \u002b 时间 TIMESTAMPTZ timestamp with time zone ✅ 逻辑上有 存 UTC 时间点 ⚠️ 关键点：\nTIMESTAMPTZ 并不会存“\u002b08:00”这样的时区字符串\n它会：\n输入时 -\u003e 转成 UTC 存储 查询时 -\u003e 按会话时区转回来显示 二、存储与显示机制（核心差异） 1️⃣ TIMESTAMP（不关心时区） CREATE TABLE t1 ( ts TIMESTAMP ); SET TIME ZONE \u0027Asia\/Shanghai\u0027; INSERT INTO t1 VALUES (\u00272025-01-01 12:00:00\u0027); SET TIME ZONE \u0027UTC\u0027; SELECT ts FROM t1; 结果仍然是：",
-      "wordCount" : "1656",
+      "wordCount": "1656",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/timestamp/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2205,28 +2190,28 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>全名</th>
-          <th>是否存时区</th>
-          <th>本质</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>TIMESTAMP</td>
-          <td>timestamp without time zone</td>
-          <td>❌ 不存</td>
-          <td>纯日期 + 时间</td>
-      </tr>
-      <tr>
-          <td>TIMESTAMPTZ</td>
-          <td>timestamp with time zone</td>
-          <td>✅ 逻辑上有</td>
-          <td>存 UTC 时间点</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>全名</th>
+					<th>是否存时区</th>
+					<th>本质</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>TIMESTAMP</td>
+					<td>timestamp without time zone</td>
+					<td>❌ 不存</td>
+					<td>纯日期 + 时间</td>
+			</tr>
+			<tr>
+					<td>TIMESTAMPTZ</td>
+					<td>timestamp with time zone</td>
+					<td>✅ 逻辑上有</td>
+					<td>存 UTC 时间点</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>⚠️ 关键点：</p>
 <ul>
@@ -2261,13 +2246,13 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">ts</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01 12:00:00&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01 12:00:00&#39;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t1</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>结果仍然是：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">2025-01-01 12:00:00
 </span></span></code></pre></div><p>👉 <strong>原样存、原样取，不做任何转换</strong></p>
@@ -2282,13 +2267,13 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">ts</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01 12:00:00&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01 12:00:00&#39;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t2</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t2</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>结果是：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">2025-01-01 04:00:00+00
 </span></span></code></pre></div><p>👉 <strong>插入时假定是上海时间 -&gt; 转成 UTC -&gt; 存储</strong></p>
@@ -2302,10 +2287,10 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">   </span><span class="c1">-- 2025-01-01 12:00:00+08
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">   </span><span class="c1">-- 2025-01-01 04:00:00+00
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">   </span><span class="c1">-- 2025-01-01 12:00:00+08
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">   </span><span class="c1">-- 2025-01-01 04:00:00+00
 </span></span></span></code></pre></div><ul>
 <li><strong>同一瞬间</strong></li>
 <li><strong>不同显示</strong></li>
@@ -2321,40 +2306,40 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>TIMESTAMP</th>
-          <th>TIMESTAMPTZ</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>是否时区感知</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>存储内容</td>
-          <td>字面时间</td>
-          <td>UTC 时间点</td>
-      </tr>
-      <tr>
-          <td>自动转换</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>跨时区安全</td>
-          <td>❌</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>推荐程度</td>
-          <td>⚠️ 谨慎</td>
-          <td>✅ 强烈推荐</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>TIMESTAMP</th>
+					<th>TIMESTAMPTZ</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>是否时区感知</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>存储内容</td>
+					<td>字面时间</td>
+					<td>UTC 时间点</td>
+			</tr>
+			<tr>
+					<td>自动转换</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>跨时区安全</td>
+					<td>❌</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>推荐程度</td>
+					<td>⚠️ 谨慎</td>
+					<td>✅ 强烈推荐</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="五典型使用场景怎么选"
@@ -2466,35 +2451,35 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>数据库</th>
-          <th>类型</th>
-          <th>行为</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL</td>
-          <td>TIMESTAMP</td>
-          <td>会自动转时区</td>
-      </tr>
-      <tr>
-          <td>MySQL</td>
-          <td>DATETIME</td>
-          <td>不转</td>
-      </tr>
-      <tr>
-          <td>PostgreSQL</td>
-          <td>TIMESTAMP</td>
-          <td>不转</td>
-      </tr>
-      <tr>
-          <td>PostgreSQL</td>
-          <td>TIMESTAMPTZ</td>
-          <td>自动转（推荐）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>数据库</th>
+					<th>类型</th>
+					<th>行为</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL</td>
+					<td>TIMESTAMP</td>
+					<td>会自动转时区</td>
+			</tr>
+			<tr>
+					<td>MySQL</td>
+					<td>DATETIME</td>
+					<td>不转</td>
+			</tr>
+			<tr>
+					<td>PostgreSQL</td>
+					<td>TIMESTAMP</td>
+					<td>不转</td>
+			</tr>
+			<tr>
+					<td>PostgreSQL</td>
+					<td>TIMESTAMPTZ</td>
+					<td>自动转（推荐）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>PostgreSQL 把“是否带时区”区分得更清晰</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2516,7 +2501,7 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">created_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">updated_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">updated_at</span><span class="w"> </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-会话时区统一"
     >
@@ -2688,10 +2673,10 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>👉 <strong>同一条日志，不同视角</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="3-跨系统对齐毫无压力"
@@ -2703,34 +2688,34 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>系统</th>
-          <th>时间</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Nginx</td>
-          <td>UTC</td>
-      </tr>
-      <tr>
-          <td>Kubernetes</td>
-          <td>UTC</td>
-      </tr>
-      <tr>
-          <td>PostgreSQL</td>
-          <td>UTC</td>
-      </tr>
-      <tr>
-          <td>Prometheus</td>
-          <td>UTC</td>
-      </tr>
-      <tr>
-          <td>OpenTelemetry</td>
-          <td>UTC</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>系统</th>
+					<th>时间</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Nginx</td>
+					<td>UTC</td>
+			</tr>
+			<tr>
+					<td>Kubernetes</td>
+					<td>UTC</td>
+			</tr>
+			<tr>
+					<td>PostgreSQL</td>
+					<td>UTC</td>
+			</tr>
+			<tr>
+					<td>Prometheus</td>
+					<td>UTC</td>
+			</tr>
+			<tr>
+					<td>OpenTelemetry</td>
+					<td>UTC</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>天然对齐</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2752,10 +2737,10 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s1">&#39;2025-01-01 00:00:00+00&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">AND</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">AND</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="s1">&#39;2025-01-01 01:00:00+00&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li>✅ 不受服务器时区影响</li>
@@ -2771,8 +2756,8 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;hour&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">),</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li>TIMESTAMPTZ：按真实时间轴</li>
 <li>TIMESTAMP：按“机器心情”</li>
@@ -2926,44 +2911,44 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w">          </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ts</span><span class="w">          </span><span class="n">TIMESTAMPTZ</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">        </span><span class="c1">-- 真实发生时间（UTC）
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="k">level</span><span class="w">       </span><span class="nb">SMALLINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">           </span><span class="c1">-- 日志级别（枚举化）
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">service</span><span class="w">     </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">               </span><span class="c1">-- 服务名
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="k">host</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                        </span><span class="c1">-- 主机 / Pod
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">trace_id</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                        </span><span class="c1">-- 链路追踪
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">message</span><span class="w">     </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">               </span><span class="c1">-- 日志正文
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">extra</span><span class="w">       </span><span class="n">JSONB</span><span class="p">,</span><span class="w">                       </span><span class="c1">-- 扩展字段
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">level</span><span class="w">       </span><span class="nb">SMALLINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">           </span><span class="c1">-- 日志级别（枚举化）
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">service</span><span class="w">     </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">               </span><span class="c1">-- 服务名
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">host</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                        </span><span class="c1">-- 主机 / Pod
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">trace_id</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                        </span><span class="c1">-- 链路追踪
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">message</span><span class="w">     </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">               </span><span class="c1">-- 日志正文
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">extra</span><span class="w">       </span><span class="n">JSONB</span><span class="p">,</span><span class="w">                       </span><span class="c1">-- 扩展字段
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>为什么这样设计？</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>字段</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>BIGINT id</td>
-          <td>顺序写，减少索引分裂</td>
-      </tr>
-      <tr>
-          <td>TIMESTAMPTZ ts</td>
-          <td>时间轴唯一</td>
-      </tr>
-      <tr>
-          <td>SMALLINT level</td>
-          <td>比 TEXT 快、可排序</td>
-      </tr>
-      <tr>
-          <td>JSONB extra</td>
-          <td>灵活但可控</td>
-      </tr>
-      <tr>
-          <td>主键包含 ts</td>
-          <td>分区键必须在主键中</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>字段</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>BIGINT id</td>
+					<td>顺序写，减少索引分裂</td>
+			</tr>
+			<tr>
+					<td>TIMESTAMPTZ ts</td>
+					<td>时间轴唯一</td>
+			</tr>
+			<tr>
+					<td>SMALLINT level</td>
+					<td>比 TEXT 快、可排序</td>
+			</tr>
+			<tr>
+					<td>JSONB extra</td>
+					<td>灵活但可控</td>
+			</tr>
+			<tr>
+					<td>主键包含 ts</td>
+					<td>分区键必须在主键中</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="三日志级别别用-text非常重要"
@@ -2986,11 +2971,11 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">level</span><span class="w"> </span><span class="nb">TEXT</span><span class="w">  </span><span class="c1">-- INFO / ERROR / DEBUG
 </span></span></span></code></pre></div><p>✅ 正确</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 应用层枚举
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="mi">0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEBUG</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INFO</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WARN</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ERROR</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FATAL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="mi">0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEBUG</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INFO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="mi">2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WARN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="mi">3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ERROR</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="mi">4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FATAL</span><span class="w">
 </span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">level</span><span class="w"> </span><span class="nb">SMALLINT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li>更快</li>
@@ -3017,39 +3002,39 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </div>
 <p>分区粒度怎么选？</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>写入量</th>
-          <th>推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&lt; 1000/s</td>
-          <td>按天</td>
-      </tr>
-      <tr>
-          <td>1000~1万/s</td>
-          <td>按天</td>
-      </tr>
-      <tr>
-          <td>1万~10万/s</td>
-          <td>按小时</td>
-      </tr>
-      <tr>
-          <td>&gt;10万/s</td>
-          <td>小时 + 分库</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>写入量</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&lt; 1000/s</td>
+					<td>按天</td>
+			</tr>
+			<tr>
+					<td>1000~1万/s</td>
+					<td>按天</td>
+			</tr>
+			<tr>
+					<td>1万~10万/s</td>
+					<td>按小时</td>
+			</tr>
+			<tr>
+					<td>&gt;10万/s</td>
+					<td>小时 + 分库</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>示例：按天分区</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">...</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">logs_2025_01_01</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">PARTITION</span><span class="w"> </span><span class="k">OF</span><span class="w"> </span><span class="n">logs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FOR</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-02&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">logs_2025_01_01</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">PARTITION</span><span class="w"> </span><span class="k">OF</span><span class="w"> </span><span class="n">logs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-02&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>优点</p>
 <ul>
 <li>INSERT 命中单一分区</li>
@@ -3077,13 +3062,13 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 时间范围查询
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 服务 + 时间
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 服务 + 时间
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 错误日志
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="k">level</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 错误日志
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="k">level</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="-不要轻易做的事"
     >
@@ -3094,26 +3079,26 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>行为</th>
-          <th>原因</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>全字段 BTree</td>
-          <td>写入慢</td>
-      </tr>
-      <tr>
-          <td>message LIKE 索引</td>
-          <td>爆炸</td>
-      </tr>
-      <tr>
-          <td>GIN(JSONB) 全索引</td>
-          <td>写入极慢</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>行为</th>
+					<th>原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>全字段 BTree</td>
+					<td>写入慢</td>
+			</tr>
+			<tr>
+					<td>message LIKE 索引</td>
+					<td>爆炸</td>
+			</tr>
+			<tr>
+					<td>GIN(JSONB) 全索引</td>
+					<td>写入极慢</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="六全文搜索正确姿势"
@@ -3144,10 +3129,10 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">logs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">message_tsv</span><span class="w"> </span><span class="n">tsvector</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">))</span><span class="w"> </span><span class="n">STORED</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">message_tsv</span><span class="w"> </span><span class="n">tsvector</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">))</span><span class="w"> </span><span class="n">STORED</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message_tsv</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message_tsv</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>查询：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">message_tsv</span><span class="w"> </span><span class="o">@@</span><span class="w"> </span><span class="n">to_tsquery</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
@@ -3169,9 +3154,9 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(...)</span><span class="w"> </span><span class="k">VALUES</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(...),</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(...),</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">(...);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">(...),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">(...),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">(...);</span><span class="w">
 </span></span></span></code></pre></div><p>✅ 比单条快 <strong>10~100 倍</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="2-关闭同步日志场景可接受"
@@ -3194,7 +3179,7 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">COPY</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="w"> </span><span class="k">level</span><span class="p">,</span><span class="w"> </span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="k">STDIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">STDIN</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="4-wal-压缩"
     >
@@ -3313,7 +3298,7 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">message</span><span class="w">   </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">extra</span><span class="w">     </span><span class="n">JSONB</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">RANGE</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="三索引设计的黄金顺序"
     >
@@ -3352,26 +3337,26 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>为什么用 BRIN？</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>原因</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>极小</td>
-          <td>MB 级</td>
-      </tr>
-      <tr>
-          <td>写入快</td>
-          <td>几乎无维护成本</td>
-      </tr>
-      <tr>
-          <td>时间有序</td>
-          <td>日志天然顺序写</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>原因</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>极小</td>
+					<td>MB 级</td>
+			</tr>
+			<tr>
+					<td>写入快</td>
+					<td>几乎无维护成本</td>
+			</tr>
+			<tr>
+					<td>时间有序</td>
+					<td>日志天然顺序写</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>✅ <strong>分区 + BRIN = 亿级日志标配</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3465,12 +3450,12 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">logs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">message_tsv</span><span class="w"> </span><span class="n">tsvector</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">message_tsv</span><span class="w"> </span><span class="n">tsvector</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w"> </span><span class="n">STORED</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w"> </span><span class="n">STORED</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message_tsv</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message_tsv</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>查询：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">message_tsv</span><span class="w"> </span><span class="o">@@</span><span class="w"> </span><span class="n">to_tsquery</span><span class="p">(</span><span class="s1">&#39;timeout&#39;</span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></div><ul>
@@ -3487,7 +3472,7 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="n">gin_trgm_ops</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>⚠️ 只建议：</p>
 <ul>
 <li>小分区</li>
@@ -3516,7 +3501,7 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </div>
 <p>关键点：索引要建在父表上</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_logs_service_ts</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>PostgreSQL 会：</p>
 <ul>
 <li>自动在 <strong>新分区</strong> 上创建索引</li>
@@ -3533,15 +3518,15 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </div>
 <p><strong>每个分区最终只保留 3~5 个索引</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 时间
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 业务维度
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">BTREE</span><span class="w"> </span><span class="p">(</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">BTREE</span><span class="w"> </span><span class="p">(</span><span class="k">level</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 业务维度
+</span></span></span><span class="line"><span class="cl"><span class="n">BTREE</span><span class="w"> </span><span class="p">(</span><span class="n">service</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">BTREE</span><span class="w"> </span><span class="p">(</span><span class="k">level</span><span class="p">,</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 可选
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message_tsv</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">BTREE</span><span class="w"> </span><span class="p">(</span><span class="n">trace_id</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 可选
+</span></span></span><span class="line"><span class="cl"><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">message_tsv</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">BTREE</span><span class="w"> </span><span class="p">(</span><span class="n">trace_id</span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="十explain-中你应该看到什么"
     >
@@ -3743,13 +3728,13 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">device_id</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">cpu</span><span class="w">       </span><span class="n">DOUBLE</span><span class="w"> </span><span class="k">PRECISION</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">mem</span><span class="w">       </span><span class="n">DOUBLE</span><span class="w"> </span><span class="k">PRECISION</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">create_hypertable</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">create_hypertable</span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;metrics&#39;</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;ts&#39;</span><span class="p">,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">chunk_time_interval</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;1 day&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="六写入姿势必须统一"
     >
@@ -3761,10 +3746,10 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </div>
 <p><strong>推荐写法（UTC）</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="w"> </span><span class="n">device_id</span><span class="p">,</span><span class="w"> </span><span class="n">cpu</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="s1">&#39;node-1&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">82</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="w"> </span><span class="s1">&#39;node-1&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">82</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>或：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="w"> </span><span class="n">device_id</span><span class="p">,</span><span class="w"> </span><span class="n">cpu</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01T08:00:00Z&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;node-1&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">82</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01T08:00:00Z&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;node-1&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">82</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="-错误写法"
     >
@@ -3775,7 +3760,7 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01 08:00:00&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2025-01-01 08:00:00&#39;</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li>没时区</li>
 <li>会按 session timezone 猜</li>
@@ -3792,10 +3777,10 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;Asia/Shanghai&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">TIME</span><span class="w"> </span><span class="k">ZONE</span><span class="w"> </span><span class="s1">&#39;UTC&#39;</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>👉 同一条数据，不同时区视角。</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="八timescaledb-官方隐含规则行业共识"
@@ -3807,30 +3792,30 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>官方默认</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>时间列</td>
-          <td>TIMESTAMPTZ</td>
-      </tr>
-      <tr>
-          <td>存储</td>
-          <td>UTC</td>
-      </tr>
-      <tr>
-          <td>chunk</td>
-          <td>UTC 对齐</td>
-      </tr>
-      <tr>
-          <td>time_bucket</td>
-          <td>UTC 计算</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>官方默认</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>时间列</td>
+					<td>TIMESTAMPTZ</td>
+			</tr>
+			<tr>
+					<td>存储</td>
+					<td>UTC</td>
+			</tr>
+			<tr>
+					<td>chunk</td>
+					<td>UTC 对齐</td>
+			</tr>
+			<tr>
+					<td>time_bucket</td>
+					<td>UTC 计算</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>你可以不用，但你踩的坑，官方不会兜底</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3843,30 +3828,30 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>时间类型</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>日志</td>
-          <td>TIMESTAMPTZ</td>
-      </tr>
-      <tr>
-          <td>监控</td>
-          <td>TIMESTAMPTZ</td>
-      </tr>
-      <tr>
-          <td>事件</td>
-          <td>TIMESTAMPTZ</td>
-      </tr>
-      <tr>
-          <td>聚合</td>
-          <td>TIMESTAMPTZ</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>时间类型</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>日志</td>
+					<td>TIMESTAMPTZ</td>
+			</tr>
+			<tr>
+					<td>监控</td>
+					<td>TIMESTAMPTZ</td>
+			</tr>
+			<tr>
+					<td>事件</td>
+					<td>TIMESTAMPTZ</td>
+			</tr>
+			<tr>
+					<td>聚合</td>
+					<td>TIMESTAMPTZ</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>永远不要混用</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3909,11 +3894,11 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </ul>
 <p>示例代码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 插入一个永不过期的时间
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">expire_at</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;infinity&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">expire_at</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;infinity&#39;</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 查询所有未过期的用户
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">expire_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">请谨慎使用此类代码。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 查询所有未过期的用户
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">expire_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="err">请谨慎使用此类代码。</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-使用-null"
     >
@@ -3932,10 +3917,10 @@ TIMESTAMPTZ 并不会存“&#43;08:00”这样的时区字符串
 </ul>
 <p>示例代码：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 插入一个永不过期的时间
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">expire_at</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="k">NULL</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">expire_at</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="k">NULL</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- 查询所有未过期的用户（需显式检查 NULL）
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">expire_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">expire_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1">-- 查询所有未过期的用户（需显式检查 NULL）
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">expire_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">expire_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">now</span><span class="p">();</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li>⚠️ <strong>请谨慎使用此类代码。</strong></li>
 </ul>

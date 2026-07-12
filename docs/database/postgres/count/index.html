@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：用法 -&gt; 行为差异 -&gt; 性能 -&gt; 最佳实践
@@ -62,18 +62,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL COUNT",
-      "url" : "https://documents.v2ep.com/database/postgres/count/",
+      "url": "https://documents.v2ep.com/database/postgres/count/",
       "headline": "PostgreSQL COUNT",
       "description": "内容：用法 -\u003e 行为差异 -\u003e 性能 -\u003e 最佳实践\n一、SELECT COUNT() 一共有几种常见用法？ 在 PostgreSQL \/ MySQL（以及 SQL 标准）中，常见 4 种：\n写法 是否统计 NULL 是否统计行 是否等价 COUNT(*) ✅ 包含 ✅ ⭐ 推荐 COUNT(1) ✅ 包含 ✅ ≈ COUNT(col) ❌ 排除 NULL ⚠️ ❌ COUNT(DISTINCT col) ❌ 排除 NULL ❌ ❌ 二、每种 COUNT 的详细解释（重点） 1️⃣ COUNT(*) —— 最佳实践 SELECT COUNT(*) FROM orders; 行为",
-      "wordCount" : "532",
+      "wordCount": "532",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/count/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2192,40 +2177,40 @@
 </div>
 <p>在 PostgreSQL / MySQL（以及 SQL 标准）中，常见 4 种：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>写法</th>
-          <th>是否统计 NULL</th>
-          <th>是否统计行</th>
-          <th>是否等价</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>COUNT(*)</td>
-          <td>✅ 包含</td>
-          <td>✅</td>
-          <td>⭐ 推荐</td>
-      </tr>
-      <tr>
-          <td>COUNT(1)</td>
-          <td>✅ 包含</td>
-          <td>✅</td>
-          <td>≈</td>
-      </tr>
-      <tr>
-          <td>COUNT(col)</td>
-          <td>❌ 排除 NULL</td>
-          <td>⚠️</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>COUNT(DISTINCT col)</td>
-          <td>❌ 排除 NULL</td>
-          <td>❌</td>
-          <td>❌</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>写法</th>
+					<th>是否统计 NULL</th>
+					<th>是否统计行</th>
+					<th>是否等价</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>COUNT(*)</td>
+					<td>✅ 包含</td>
+					<td>✅</td>
+					<td>⭐ 推荐</td>
+			</tr>
+			<tr>
+					<td>COUNT(1)</td>
+					<td>✅ 包含</td>
+					<td>✅</td>
+					<td>≈</td>
+			</tr>
+			<tr>
+					<td>COUNT(col)</td>
+					<td>❌ 排除 NULL</td>
+					<td>⚠️</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>COUNT(DISTINCT col)</td>
+					<td>❌ 排除 NULL</td>
+					<td>❌</td>
+					<td>❌</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="二每种-count-的详细解释重点"
@@ -2276,35 +2261,35 @@
 </ul>
 <p>和 COUNT(*) 的区别？</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>COUNT(*)</th>
-          <th>COUNT(1)</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SQL 标准</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>语义清晰</td>
-          <td>✅</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>优化程度</td>
-          <td>✅</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>推荐度</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>⭐⭐</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>COUNT(*)</th>
+					<th>COUNT(1)</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SQL 标准</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>语义清晰</td>
+					<td>✅</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>优化程度</td>
+					<td>✅</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>推荐度</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>⭐⭐</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>📌 在 PostgreSQL 中性能几乎相同，但没有任何优势</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2361,35 +2346,35 @@
 </div>
 <p>PostgreSQL 中的真实情况</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>写法</th>
-          <th>性能</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>COUNT(*)</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>最优</td>
-      </tr>
-      <tr>
-          <td>COUNT(1)</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>无优势</td>
-      </tr>
-      <tr>
-          <td>COUNT(col)</td>
-          <td>⭐⭐⭐</td>
-          <td>需判断 NULL</td>
-      </tr>
-      <tr>
-          <td>COUNT(DISTINCT col)</td>
-          <td>⭐</td>
-          <td>排序 / Hash</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>写法</th>
+					<th>性能</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>COUNT(*)</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>最优</td>
+			</tr>
+			<tr>
+					<td>COUNT(1)</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>无优势</td>
+			</tr>
+			<tr>
+					<td>COUNT(col)</td>
+					<td>⭐⭐⭐</td>
+					<td>需判断 NULL</td>
+			</tr>
+			<tr>
+					<td>COUNT(DISTINCT col)</td>
+					<td>⭐</td>
+					<td>排序 / Hash</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四count--where-的典型用法"
@@ -2401,8 +2386,8 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>📌 索引 + COUNT(*) 非常高效</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="五count--join-的正确姿势重点"
@@ -2415,19 +2400,19 @@
 </div>
 <p>❌ 错误写法（重复行）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">order_id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">order_id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>一条订单多条 item，会被放大</p>
 <p>✅ 正确写法（统计主表）</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">JOIN</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">order_id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">order_id</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>或者：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="n">o</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">order_items</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">order_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六count-在大表中的优化技巧"
     >
@@ -2449,8 +2434,8 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="p">;</span><span class="w">  </span><span class="c1">-- 上亿行，慢
 </span></span></span></code></pre></div><p>替代方案</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">reltuples</span><span class="p">::</span><span class="nb">bigint</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_class</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">relname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;logs&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_class</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">relname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;logs&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>📌 估算值，毫秒级</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-timescaledb--分区表"
@@ -2462,7 +2447,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">logs</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 day&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 day&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>👉 只扫描相关分区</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="七count-vs-exists业务场景"
@@ -2478,7 +2463,7 @@
 </span></span></span></code></pre></div><p>✅ 正确写法</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;a@b.com&#39;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
 </span></span></span></code></pre></div><p>🚀 EXISTS 会提前返回</p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八count-在-orm-中的最佳实践sqlalchemy"
@@ -2546,52 +2531,52 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方法</th>
-          <th>示例 SQL</th>
-          <th>是否精确</th>
-          <th>适用场景</th>
-          <th>优缺点</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>COUNT(*)</td>
-          <td>SELECT COUNT(*) FROM table_name;</td>
-          <td>✅ 精确</td>
-          <td>小表、偶尔统计</td>
-          <td>简单直观，但全表扫描，数据量大时慢</td>
-      </tr>
-      <tr>
-          <td>COUNT(1) / COUNT(pk)</td>
-          <td>SELECT COUNT(id) FROM table_name;</td>
-          <td>✅ 精确</td>
-          <td>小表、偶尔统计</td>
-          <td>效果和 COUNT(*) 类似，性能几乎一样</td>
-      </tr>
-      <tr>
-          <td>pg_class.reltuples</td>
-          <td>SELECT reltuples::BIGINT AS approx_count FROM pg_class WHERE relname=&lsquo;table_name&rsquo;;</td>
-          <td>❌ 估算</td>
-          <td>大表、快速</td>
-          <td>很快，不访问表，只读取统计信息；不精确，可能与真实值差距较大</td>
-      </tr>
-      <tr>
-          <td>ANALYZE + pg_stat_all_tables</td>
-          <td>ANALYZE table_name; SELECT n_live_tup FROM pg_stat_all_tables WHERE relname=&lsquo;table_name&rsquo;;</td>
-          <td>❌ 估算</td>
-          <td>大表、快速</td>
-          <td>需要先执行 ANALYZE，返回的 n_live_tup 基于统计信息；比 pg_class.reltuples 更接近真实值</td>
-      </tr>
-      <tr>
-          <td>自建物化计数表</td>
-          <td>通过触发器维护：INSERT/DELETE 时更新计数表</td>
-          <td>✅ 实时</td>
-          <td>高频统计</td>
-          <td>数据量极大或高并发场景最稳妥，但需要维护额外表</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方法</th>
+					<th>示例 SQL</th>
+					<th>是否精确</th>
+					<th>适用场景</th>
+					<th>优缺点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>COUNT(*)</td>
+					<td>SELECT COUNT(*) FROM table_name;</td>
+					<td>✅ 精确</td>
+					<td>小表、偶尔统计</td>
+					<td>简单直观，但全表扫描，数据量大时慢</td>
+			</tr>
+			<tr>
+					<td>COUNT(1) / COUNT(pk)</td>
+					<td>SELECT COUNT(id) FROM table_name;</td>
+					<td>✅ 精确</td>
+					<td>小表、偶尔统计</td>
+					<td>效果和 COUNT(*) 类似，性能几乎一样</td>
+			</tr>
+			<tr>
+					<td>pg_class.reltuples</td>
+					<td>SELECT reltuples::BIGINT AS approx_count FROM pg_class WHERE relname=&lsquo;table_name&rsquo;;</td>
+					<td>❌ 估算</td>
+					<td>大表、快速</td>
+					<td>很快，不访问表，只读取统计信息；不精确，可能与真实值差距较大</td>
+			</tr>
+			<tr>
+					<td>ANALYZE + pg_stat_all_tables</td>
+					<td>ANALYZE table_name; SELECT n_live_tup FROM pg_stat_all_tables WHERE relname=&lsquo;table_name&rsquo;;</td>
+					<td>❌ 估算</td>
+					<td>大表、快速</td>
+					<td>需要先执行 ANALYZE，返回的 n_live_tup 基于统计信息；比 pg_class.reltuples 更接近真实值</td>
+			</tr>
+			<tr>
+					<td>自建物化计数表</td>
+					<td>通过触发器维护：INSERT/DELETE 时更新计数表</td>
+					<td>✅ 实时</td>
+					<td>高频统计</td>
+					<td>数据量极大或高并发场景最稳妥，但需要维护额外表</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="二每天统计一次推荐用哪种方式"
@@ -2610,8 +2595,8 @@
 <li>推荐使用统计信息查询：</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 方法 1：pg_stat_all_tables
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">ANALYZE</span><span class="w"> </span><span class="k">table_name</span><span class="p">;</span><span class="w">  </span><span class="c1">-- 可放在 cron 执行
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">SELECT</span><span class="w"> </span><span class="n">n_live_tup</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_all_tables</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">relname</span><span class="o">=</span><span class="s1">&#39;table_name&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="w"> </span><span class="k">table_name</span><span class="p">;</span><span class="w">  </span><span class="c1">-- 可放在 cron 执行
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">n_live_tup</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_all_tables</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">relname</span><span class="o">=</span><span class="s1">&#39;table_name&#39;</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><ul>
 <li>
 <p>快速，消耗低</p>

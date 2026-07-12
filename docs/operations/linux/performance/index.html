@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面这份内容，我会刻意避开你已经整理过的 sysctl 参数，只补充那些：
@@ -71,18 +71,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "性能优化",
-      "url" : "https://documents.v2ep.com/operations/linux/performance/",
+      "url": "https://documents.v2ep.com/operations/linux/performance/",
       "headline": "性能优化",
       "description": "下面这份内容，我会刻意避开你已经整理过的 sysctl 参数，只补充那些：\n你现在这套配置没有覆盖 在生产环境中经常被忽略，但非常关键 必须按场景区分，否则会出问题 并且我会按你一贯偏好的方式来写： 结论先行 \u002b 场景化 \u002b 可落地，不做中英文混搭。\n一、一个重要前提（先说清楚） 系统性能 ≠ 只靠 sysctl\n真正稳定高性能的 Linux，至少包含 5 个层面：\n内核参数（sysctl） 资源限制（limits \/ cgroup） systemd 行为 调度与中断（CPU \/ NUMA \/ IRQ） 文件系统与 I\/O 你前面已经把 第 1 层 做得非常完整了，下面重点补 2–5 层。\n二、资源限制（limits）——你现在几乎没动，但非常关键 1️⃣ 文件描述符（必须） 全局（systemd） ## \/etc\/systemd\/system.conf DefaultLimitNOFILE=1048576 用户级 ## \/etc\/security\/limits.conf * soft nofile 1048576 * hard nofile 1048576 适用场景 服务 必须 Nginx ✅ MySQL \/ PostgreSQL ✅ Redis ✅ Kafka ✅ Prometheus ✅ 2️⃣ 进程数限制（防 fork 风暴） ## \/etc\/security\/limits.conf * soft nproc 65535 * hard nproc 65535 适合：",
-      "wordCount" : "1058",
+      "wordCount": "1058",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/performance/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2271,34 +2256,34 @@ DefaultLimitNOFILE=1048576
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>服务</th>
-          <th>必须</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Nginx</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>MySQL / PostgreSQL</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>Redis</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>Kafka</td>
-          <td>✅</td>
-      </tr>
-      <tr>
-          <td>Prometheus</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>服务</th>
+					<th>必须</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Nginx</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>MySQL / PostgreSQL</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>Redis</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>Kafka</td>
+					<td>✅</td>
+			</tr>
+			<tr>
+					<td>Prometheus</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2352,26 +2337,26 @@ DefaultLimitNOFILE=1048576
 </span></span><span class="line"><span class="cl"><span class="na">OOMScoreAdjust</span><span class="o">=</span><span class="s">-900</span>
 </span></span><span class="line"><span class="cl"><span class="na">MemoryAccounting</span><span class="o">=</span><span class="s">true</span>
 </span></span></code></pre></div><div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>服务</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL / PostgreSQL</td>
-          <td>必须</td>
-      </tr>
-      <tr>
-          <td>Redis</td>
-          <td>必须</td>
-      </tr>
-      <tr>
-          <td>Elasticsearch</td>
-          <td>必须</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>服务</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL / PostgreSQL</td>
+					<td>必须</td>
+			</tr>
+			<tr>
+					<td>Redis</td>
+					<td>必须</td>
+			</tr>
+			<tr>
+					<td>Elasticsearch</td>
+					<td>必须</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2428,34 +2413,34 @@ RuntimeMaxUse=200M
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>irqbalance</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL / PostgreSQL</td>
-          <td>❌ 关闭</td>
-      </tr>
-      <tr>
-          <td>Redis</td>
-          <td>❌ 关闭</td>
-      </tr>
-      <tr>
-          <td>Kafka</td>
-          <td>❌ 关闭</td>
-      </tr>
-      <tr>
-          <td>容器节点</td>
-          <td>✅ 保留</td>
-      </tr>
-      <tr>
-          <td>Web</td>
-          <td>✅</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>irqbalance</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL / PostgreSQL</td>
+					<td>❌ 关闭</td>
+			</tr>
+			<tr>
+					<td>Redis</td>
+					<td>❌ 关闭</td>
+			</tr>
+			<tr>
+					<td>Kafka</td>
+					<td>❌ 关闭</td>
+			</tr>
+			<tr>
+					<td>容器节点</td>
+					<td>✅ 保留</td>
+			</tr>
+			<tr>
+					<td>Web</td>
+					<td>✅</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="同时要做的事"
@@ -2817,26 +2802,26 @@ vm.zone_reclaim_mode = 0
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>governor</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>数据库 / Kafka</td>
-          <td>performance</td>
-      </tr>
-      <tr>
-          <td>Web / Docker</td>
-          <td>performance</td>
-      </tr>
-      <tr>
-          <td>省电 / 笔记本</td>
-          <td>powersave</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>governor</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>数据库 / Kafka</td>
+					<td>performance</td>
+			</tr>
+			<tr>
+					<td>Web / Docker</td>
+					<td>performance</td>
+			</tr>
+			<tr>
+					<td>省电 / 笔记本</td>
+					<td>powersave</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="设置方式永久"
@@ -2890,26 +2875,26 @@ vm.zone_reclaim_mode = 0
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>通用服务器</td>
-          <td>irqbalance 开</td>
-      </tr>
-      <tr>
-          <td>数据库 / Kafka</td>
-          <td>irqbalance 关 + 手动绑核</td>
-      </tr>
-      <tr>
-          <td>网卡转发</td>
-          <td>手动绑核</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>通用服务器</td>
+					<td>irqbalance 开</td>
+			</tr>
+			<tr>
+					<td>数据库 / Kafka</td>
+					<td>irqbalance 关 + 手动绑核</td>
+			</tr>
+			<tr>
+					<td>网卡转发</td>
+					<td>手动绑核</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2935,26 +2920,26 @@ vm.zone_reclaim_mode = 0
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>kernel.numa_balancing</td>
-          <td>关闭</td>
-      </tr>
-      <tr>
-          <td>numactl</td>
-          <td>明确绑定</td>
-      </tr>
-      <tr>
-          <td>BIOS</td>
-          <td>NUMA 开</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>kernel.numa_balancing</td>
+					<td>关闭</td>
+			</tr>
+			<tr>
+					<td>numactl</td>
+					<td>明确绑定</td>
+			</tr>
+			<tr>
+					<td>BIOS</td>
+					<td>NUMA 开</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="示例postgresql"
@@ -3070,22 +3055,22 @@ vm.zone_reclaim_mode = 0
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>设备</th>
-          <th>推荐</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>SSD / NVMe</td>
-          <td>none</td>
-      </tr>
-      <tr>
-          <td>HDD</td>
-          <td>mq-deadline</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>设备</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SSD / NVMe</td>
+					<td>none</td>
+			</tr>
+			<tr>
+					<td>HDD</td>
+					<td>mq-deadline</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> none &gt; /sys/block/nvme0n1/queue/scheduler
 </span></span></code></pre></div><hr>
@@ -3200,46 +3185,46 @@ vm.zone_reclaim_mode = 0
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>角色</th>
-          <th>关键优化</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL / PostgreSQL</td>
-          <td>THP off、NUMA bind、irq 手动</td>
-      </tr>
-      <tr>
-          <td>Redis</td>
-          <td>THP off、vm.overcommit</td>
-      </tr>
-      <tr>
-          <td>Kafka</td>
-          <td>fd、network buffer、page cache</td>
-      </tr>
-      <tr>
-          <td>Docker / K8S</td>
-          <td>conntrack、cgroup、IP forward</td>
-      </tr>
-      <tr>
-          <td>LVS</td>
-          <td>RPS、ARP、irq</td>
-      </tr>
-      <tr>
-          <td>Nginx</td>
-          <td>somaxconn、accept_mutex</td>
-      </tr>
-      <tr>
-          <td>Prometheus</td>
-          <td>mmap、fd、I/O</td>
-      </tr>
-      <tr>
-          <td>GitLab / Jenkins</td>
-          <td>fd、inotify、OOM</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>角色</th>
+					<th>关键优化</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL / PostgreSQL</td>
+					<td>THP off、NUMA bind、irq 手动</td>
+			</tr>
+			<tr>
+					<td>Redis</td>
+					<td>THP off、vm.overcommit</td>
+			</tr>
+			<tr>
+					<td>Kafka</td>
+					<td>fd、network buffer、page cache</td>
+			</tr>
+			<tr>
+					<td>Docker / K8S</td>
+					<td>conntrack、cgroup、IP forward</td>
+			</tr>
+			<tr>
+					<td>LVS</td>
+					<td>RPS、ARP、irq</td>
+			</tr>
+			<tr>
+					<td>Nginx</td>
+					<td>somaxconn、accept_mutex</td>
+			</tr>
+			<tr>
+					<td>Prometheus</td>
+					<td>mmap、fd、I/O</td>
+			</tr>
+			<tr>
+					<td>GitLab / Jenkins</td>
+					<td>fd、inotify、OOM</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3476,34 +3461,34 @@ RuntimeMaxUse=200M
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>节点角色</th>
-          <th>irqbalance</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>MySQL / PostgreSQL</td>
-          <td>禁用</td>
-      </tr>
-      <tr>
-          <td>Redis</td>
-          <td>禁用</td>
-      </tr>
-      <tr>
-          <td>Kafka</td>
-          <td>禁用</td>
-      </tr>
-      <tr>
-          <td>容器节点</td>
-          <td>启用</td>
-      </tr>
-      <tr>
-          <td>Web / API</td>
-          <td>启用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>节点角色</th>
+					<th>irqbalance</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>MySQL / PostgreSQL</td>
+					<td>禁用</td>
+			</tr>
+			<tr>
+					<td>Redis</td>
+					<td>禁用</td>
+			</tr>
+			<tr>
+					<td>Kafka</td>
+					<td>禁用</td>
+			</tr>
+			<tr>
+					<td>容器节点</td>
+					<td>启用</td>
+			</tr>
+			<tr>
+					<td>Web / API</td>
+					<td>启用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>原因：</p>
 <ul>
@@ -3600,26 +3585,26 @@ vm.zone_reclaim_mode = 0
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>磁盘类型</th>
-          <th>调度器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>NVMe</td>
-          <td>none</td>
-      </tr>
-      <tr>
-          <td>SSD</td>
-          <td>mq-deadline</td>
-      </tr>
-      <tr>
-          <td>HDD</td>
-          <td>bfq</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>磁盘类型</th>
+					<th>调度器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>NVMe</td>
+					<td>none</td>
+			</tr>
+			<tr>
+					<td>SSD</td>
+					<td>mq-deadline</td>
+			</tr>
+			<tr>
+					<td>HDD</td>
+					<td>bfq</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">

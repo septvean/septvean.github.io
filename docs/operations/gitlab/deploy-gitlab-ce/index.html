@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="服务器：
@@ -65,18 +65,18 @@
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "GitLab CE 部署",
-      "url" : "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/",
+      "url": "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/",
       "headline": "GitLab CE 部署",
       "description": "服务器：\n192.168.101.201：GitLab CE 192.168.101.202：GitLab Runner 192.168.101.203：GitLab Runner 下面是一套 可直接用于生产 \/ 内网的 podman-compose 部署 GitLab CE（社区版）完整方案，包含：\n目录规划 podman-compose.yaml 核心配置项说明 首次启动 \u0026 登录 常见问题 生产环境注意事项 内容偏 运维级，不是只跑起来那种。\n一、部署前准备（必须） 1️⃣ 服务器最低配置（真实可用） 项目 建议 CPU ≥ 2 Core（推荐 4 Core） 内存 ≥ 4G（最低），推荐 8G 磁盘 ≥ 50G（代码 \u002b CI \u002b 日志） OS Linux（AlmaLinux \/ Ubuntu \/ Debian） ⚠️ 内存小于 4G 非常容易 OOM",
-      "wordCount" : "910",
+      "wordCount": "910",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/gitlab/deploy-gitlab-ce/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2218,30 +2203,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>项目</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU</td>
-          <td>≥ 2 Core（推荐 4 Core）</td>
-      </tr>
-      <tr>
-          <td>内存</td>
-          <td><strong>≥ 4G（最低）</strong>，推荐 8G</td>
-      </tr>
-      <tr>
-          <td>磁盘</td>
-          <td>≥ 50G（代码 + CI + 日志）</td>
-      </tr>
-      <tr>
-          <td>OS</td>
-          <td>Linux（AlmaLinux / Ubuntu / Debian）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>CPU</td>
+					<td>≥ 2 Core（推荐 4 Core）</td>
+			</tr>
+			<tr>
+					<td>内存</td>
+					<td><strong>≥ 4G（最低）</strong>，推荐 8G</td>
+			</tr>
+			<tr>
+					<td>磁盘</td>
+					<td>≥ 50G（代码 + CI + 日志）</td>
+			</tr>
+			<tr>
+					<td>OS</td>
+					<td>Linux（AlmaLinux / Ubuntu / Debian）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>⚠️ <strong>内存小于 4G 非常容易 OOM</strong></p>
 <hr>
@@ -2296,7 +2281,7 @@
 <p>文件：/data/gitlab-ce/compose/docker-compose.yaml</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">services</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">gitlab</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab/gitlab-ce:18.7.1-ce.0</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">gitlab-ce</span><span class="w">
@@ -2488,26 +2473,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>目录</th>
-          <th>内容</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>/etc/gitlab</td>
-          <td>gitlab.rb 配置</td>
-      </tr>
-      <tr>
-          <td>/var/log/gitlab</td>
-          <td>日志</td>
-      </tr>
-      <tr>
-          <td>/var/lib/gitlab</td>
-          <td>Git 仓库 / DB / CI</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>目录</th>
+					<th>内容</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>/etc/gitlab</td>
+					<td>gitlab.rb 配置</td>
+			</tr>
+			<tr>
+					<td>/var/log/gitlab</td>
+					<td>日志</td>
+			</tr>
+			<tr>
+					<td>/var/lib/gitlab</td>
+					<td>Git 仓库 / DB / CI</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p><strong>备份的核心就是 <code>/var/lib/gitlab</code></strong></p>
 <hr>

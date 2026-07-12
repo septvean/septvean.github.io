@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="原文：Linux挂载磁盘mount参数优化
@@ -65,18 +65,18 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Linux 磁盘挂载与性能优化",
-      "url" : "https://documents.v2ep.com/operations/linux/mount/",
+      "url": "https://documents.v2ep.com/operations/linux/mount/",
       "headline": "Linux 磁盘挂载与性能优化",
       "description": "原文：Linux挂载磁盘mount参数优化\n一、Linux 文件属性时间戳理解 Linux 文件有三种重要时间戳：\n时间类型 描述 修改条件 Access Time (atime) 文件最后访问时间 读取文件时改变 Modify Time (mtime) 文件内容最后修改时间 修改文件内容时改变 Change Time (ctime) 文件属性最后修改时间 修改文件权限或内容时改变 示例操作 创建文件并查看时间戳：\necho \u0022Hello\u0022 \u003e hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：",
-      "wordCount" : "382",
+      "wordCount": "382",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/mount/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2198,30 +2183,30 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
 </div>
 <p>Linux 文件有三种重要时间戳：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>时间类型</th>
-          <th>描述</th>
-          <th>修改条件</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Access Time (atime)</td>
-          <td>文件最后访问时间</td>
-          <td>读取文件时改变</td>
-      </tr>
-      <tr>
-          <td>Modify Time (mtime)</td>
-          <td>文件内容最后修改时间</td>
-          <td>修改文件内容时改变</td>
-      </tr>
-      <tr>
-          <td>Change Time (ctime)</td>
-          <td>文件属性最后修改时间</td>
-          <td>修改文件权限或内容时改变</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>时间类型</th>
+					<th>描述</th>
+					<th>修改条件</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Access Time (atime)</td>
+					<td>文件最后访问时间</td>
+					<td>读取文件时改变</td>
+			</tr>
+			<tr>
+					<td>Modify Time (mtime)</td>
+					<td>文件内容最后修改时间</td>
+					<td>修改文件内容时改变</td>
+			</tr>
+			<tr>
+					<td>Change Time (ctime)</td>
+					<td>文件属性最后修改时间</td>
+					<td>修改文件权限或内容时改变</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="示例操作"
@@ -2305,55 +2290,55 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>作用</th>
-          <th>建议</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>noatime</code></td>
-          <td>禁止记录文件访问时间</td>
-          <td>高频读写场景必用，提升 I/O 20%-30%</td>
-      </tr>
-      <tr>
-          <td><code>nodiratime</code></td>
-          <td>禁止目录访问时间记录</td>
-          <td>配合 <code>noatime</code></td>
-      </tr>
-      <tr>
-          <td><code>nobarrier</code></td>
-          <td>禁止写屏障，依赖存储设备自保护</td>
-          <td>数据安全有保证时可用</td>
-      </tr>
-      <tr>
-          <td><code>allocsize</code></td>
-          <td>I/O 预分配大小（延迟分配）</td>
-          <td><code>256m</code> 常用优化值</td>
-      </tr>
-      <tr>
-          <td><code>logbufs</code></td>
-          <td>内存日志缓冲区数量</td>
-          <td>默认 8，可调整</td>
-      </tr>
-      <tr>
-          <td><code>logbsize</code></td>
-          <td>内存日志缓冲区大小</td>
-          <td>默认 256k</td>
-      </tr>
-      <tr>
-          <td><code>discard</code></td>
-          <td>文件删除触发 TRIM/Discard</td>
-          <td>SSD/Flash 推荐</td>
-      </tr>
-      <tr>
-          <td><code>attr2</code></td>
-          <td>XFS 扩展属性优化</td>
-          <td>默认启用</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>作用</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>noatime</code></td>
+					<td>禁止记录文件访问时间</td>
+					<td>高频读写场景必用，提升 I/O 20%-30%</td>
+			</tr>
+			<tr>
+					<td><code>nodiratime</code></td>
+					<td>禁止目录访问时间记录</td>
+					<td>配合 <code>noatime</code></td>
+			</tr>
+			<tr>
+					<td><code>nobarrier</code></td>
+					<td>禁止写屏障，依赖存储设备自保护</td>
+					<td>数据安全有保证时可用</td>
+			</tr>
+			<tr>
+					<td><code>allocsize</code></td>
+					<td>I/O 预分配大小（延迟分配）</td>
+					<td><code>256m</code> 常用优化值</td>
+			</tr>
+			<tr>
+					<td><code>logbufs</code></td>
+					<td>内存日志缓冲区数量</td>
+					<td>默认 8，可调整</td>
+			</tr>
+			<tr>
+					<td><code>logbsize</code></td>
+					<td>内存日志缓冲区大小</td>
+					<td>默认 256k</td>
+			</tr>
+			<tr>
+					<td><code>discard</code></td>
+					<td>文件删除触发 TRIM/Discard</td>
+					<td>SSD/Flash 推荐</td>
+			</tr>
+			<tr>
+					<td><code>attr2</code></td>
+					<td>XFS 扩展属性优化</td>
+					<td>默认启用</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="3-挂载示例"
@@ -2391,50 +2376,50 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>参数</th>
-          <th>描述</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>allocsize</code></td>
-          <td>延迟分配大小</td>
-      </tr>
-      <tr>
-          <td><code>attr2</code></td>
-          <td>扩展属性优化</td>
-      </tr>
-      <tr>
-          <td><code>barrier</code></td>
-          <td>写屏障</td>
-      </tr>
-      <tr>
-          <td><code>inode64</code></td>
-          <td>支持大 inode 编号</td>
-      </tr>
-      <tr>
-          <td><code>logbufs</code></td>
-          <td>日志缓冲区数量</td>
-      </tr>
-      <tr>
-          <td><code>logbsize</code></td>
-          <td>日志缓冲区大小</td>
-      </tr>
-      <tr>
-          <td><code>discard</code></td>
-          <td>自动触发 TRIM/Discard</td>
-      </tr>
-      <tr>
-          <td><code>noatime</code>/<code>nodiratime</code></td>
-          <td>不更新访问时间</td>
-      </tr>
-      <tr>
-          <td><code>osyncisosync</code></td>
-          <td>提供真正的 O_SYNC 写</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>allocsize</code></td>
+					<td>延迟分配大小</td>
+			</tr>
+			<tr>
+					<td><code>attr2</code></td>
+					<td>扩展属性优化</td>
+			</tr>
+			<tr>
+					<td><code>barrier</code></td>
+					<td>写屏障</td>
+			</tr>
+			<tr>
+					<td><code>inode64</code></td>
+					<td>支持大 inode 编号</td>
+			</tr>
+			<tr>
+					<td><code>logbufs</code></td>
+					<td>日志缓冲区数量</td>
+			</tr>
+			<tr>
+					<td><code>logbsize</code></td>
+					<td>日志缓冲区大小</td>
+			</tr>
+			<tr>
+					<td><code>discard</code></td>
+					<td>自动触发 TRIM/Discard</td>
+			</tr>
+			<tr>
+					<td><code>noatime</code>/<code>nodiratime</code></td>
+					<td>不更新访问时间</td>
+			</tr>
+			<tr>
+					<td><code>osyncisosync</code></td>
+					<td>提供真正的 O_SYNC 写</td>
+			</tr>
+	</tbody>
 </table> </div>
 <blockquote>
 <p>其他高级参数如 <code>dmapi</code>, <code>quota</code>, <code>sunit/swidth</code> 可根据实际需求配置</p>
@@ -2483,30 +2468,30 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>工具</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>iostat</code></td>
-          <td>汇总磁盘 I/O，tps、吞吐量、延迟</td>
-      </tr>
-      <tr>
-          <td><code>iotop</code></td>
-          <td>查看进程 I/O 实时占用</td>
-      </tr>
-      <tr>
-          <td><code>sar</code></td>
-          <td>历史性能统计</td>
-      </tr>
-      <tr>
-          <td><code>blktrace</code>/<code>perf</code></td>
-          <td>详细跟踪 I/O</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>工具</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>iostat</code></td>
+					<td>汇总磁盘 I/O，tps、吞吐量、延迟</td>
+			</tr>
+			<tr>
+					<td><code>iotop</code></td>
+					<td>查看进程 I/O 实时占用</td>
+			</tr>
+			<tr>
+					<td><code>sar</code></td>
+					<td>历史性能统计</td>
+			</tr>
+			<tr>
+					<td><code>blktrace</code>/<code>perf</code></td>
+					<td>详细跟踪 I/O</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="iostat-参数说明"
@@ -2641,30 +2626,30 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>磁盘类型</th>
-          <th>推荐调度器</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>HDD</td>
-          <td>deadline</td>
-      </tr>
-      <tr>
-          <td>SSD</td>
-          <td>noop</td>
-      </tr>
-      <tr>
-          <td>桌面</td>
-          <td>cfq</td>
-      </tr>
-      <tr>
-          <td>大文件顺序读写</td>
-          <td>as</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>磁盘类型</th>
+					<th>推荐调度器</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>HDD</td>
+					<td>deadline</td>
+			</tr>
+			<tr>
+					<td>SSD</td>
+					<td>noop</td>
+			</tr>
+			<tr>
+					<td>桌面</td>
+					<td>cfq</td>
+			</tr>
+			<tr>
+					<td>大文件顺序读写</td>
+					<td>as</td>
+			</tr>
+	</tbody>
 </table> </div>
 <hr>
 <p>✅ <strong>总结</strong></p>

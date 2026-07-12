@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="滚动 / 蓝绿 / 金丝雀 / 灰度 在 Kubernetes &amp; Nginx 中的详细落地操作指南。
@@ -59,18 +59,18 @@
       "@type": "TechArticle",
       "articleSection": "Management",
       "name": "发布系统：发布策略",
-      "url" : "https://documents.v2ep.com/management/operations/release-system-strategy/",
+      "url": "https://documents.v2ep.com/management/operations/release-system-strategy/",
       "headline": "发布系统：发布策略",
       "description": "滚动 \/ 蓝绿 \/ 金丝雀 \/ 灰度 在 Kubernetes \u0026 Nginx 中的详细落地操作指南。\n一、滚动发布（Rolling Update） ✅ Kubernetes 中的滚动发布（最标准） 1️⃣ Deployment 配置 apiVersion: apps\/v1 kind: Deployment metadata: name: app spec: replicas: 5 strategy: type: RollingUpdate rollingUpdate: maxUnavailable: 1 maxSurge: 1 template: spec: terminationGracePeriodSeconds: 30 containers: - name: app image: app:v2 readinessProbe: httpGet: path: \/health port: 8080 2️⃣ 执行发布 kubectl set image deployment\/app app=app:v2 kubectl rollout status deployment\/app 3️⃣ 回滚 kubectl rollout undo deployment\/app 📌 关键点",
-      "wordCount" : "1010",
+      "wordCount": "1010",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/management/operations/release-system-strategy/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -90,8 +90,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -110,12 +110,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -266,21 +266,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2206,10 +2191,10 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">app</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">RollingUpdate</span><span class="w">
@@ -2296,12 +2281,12 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 蓝</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">demo</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l">blue</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 绿</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c"># 绿</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">labels</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">demo</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l">green</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
@@ -2326,7 +2311,7 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">kubectl patch svc demo <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  -p <span class="s1">&#39;{&#34;spec&#34;:{&#34;selector&#34;:{&#34;app&#34;:&#34;demo&#34;,&#34;version&#34;:&#34;green&#34;}}}&#39;</span>
+</span></span></span><span class="line"><span class="cl">  -p <span class="s1">&#39;{&#34;spec&#34;:{&#34;selector&#34;:{&#34;app&#34;:&#34;demo&#34;,&#34;version&#34;:&#34;green&#34;}}}&#39;</span>
 </span></span></code></pre></div><p>👉 <strong>秒级切换，秒级回滚</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="-nginx-中的蓝绿发布"
@@ -2406,9 +2391,9 @@
     </a>
 </div>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Ingress</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">app-stable</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">spec</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">rules</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l">app.example.com</span><span class="w">
 </span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
@@ -2462,7 +2447,7 @@
 </span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="n">10.0.0.1</span> <span class="s">weight=95</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="n">10.0.0.2</span> <span class="s">weight=95</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="n">10.0.0.3</span> <span class="s">weight=5</span><span class="p">;</span>   <span class="c1"># 新版本
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>📌 优点</p>
 <ul>
 <li>简单</li>
@@ -2586,40 +2571,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方式</th>
-          <th>K8S 实现</th>
-          <th>Nginx 实现</th>
-          <th>回滚</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>滚动</td>
-          <td>Deployment</td>
-          <td>❌</td>
-          <td>中</td>
-      </tr>
-      <tr>
-          <td>蓝绿</td>
-          <td>Service 切 selector</td>
-          <td>upstream 切换</td>
-          <td>秒级</td>
-      </tr>
-      <tr>
-          <td>金丝雀</td>
-          <td>Ingress 权重</td>
-          <td>upstream weight</td>
-          <td>快</td>
-      </tr>
-      <tr>
-          <td>灰度</td>
-          <td>Ingress 规则</td>
-          <td>map/split_clients</td>
-          <td>极快</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方式</th>
+					<th>K8S 实现</th>
+					<th>Nginx 实现</th>
+					<th>回滚</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>滚动</td>
+					<td>Deployment</td>
+					<td>❌</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>蓝绿</td>
+					<td>Service 切 selector</td>
+					<td>upstream 切换</td>
+					<td>秒级</td>
+			</tr>
+			<tr>
+					<td>金丝雀</td>
+					<td>Ingress 权重</td>
+					<td>upstream weight</td>
+					<td>快</td>
+			</tr>
+			<tr>
+					<td>灰度</td>
+					<td>Ingress 规则</td>
+					<td>map/split_clients</td>
+					<td>极快</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="六生产级发布组合强烈推荐"
@@ -2716,45 +2701,45 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>方式</th>
-          <th>稳定性</th>
-          <th>推荐级别</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>用户 ID / 客户 ID Hash</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>强烈推荐</td>
-      </tr>
-      <tr>
-          <td>Cookie 固化</td>
-          <td>⭐⭐⭐⭐⭐</td>
-          <td>强烈推荐</td>
-      </tr>
-      <tr>
-          <td>Header 标识</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>推荐</td>
-      </tr>
-      <tr>
-          <td>JWT Claim</td>
-          <td>⭐⭐⭐⭐</td>
-          <td>推荐</td>
-      </tr>
-      <tr>
-          <td>IP Hash</td>
-          <td>⭐⭐⭐</td>
-          <td>兜底</td>
-      </tr>
-      <tr>
-          <td>权重随机</td>
-          <td>⭐⭐</td>
-          <td>不推荐用于灰度</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>方式</th>
+					<th>稳定性</th>
+					<th>推荐级别</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>用户 ID / 客户 ID Hash</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>强烈推荐</td>
+			</tr>
+			<tr>
+					<td>Cookie 固化</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>强烈推荐</td>
+			</tr>
+			<tr>
+					<td>Header 标识</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>推荐</td>
+			</tr>
+			<tr>
+					<td>JWT Claim</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>推荐</td>
+			</tr>
+			<tr>
+					<td>IP Hash</td>
+					<td>⭐⭐⭐</td>
+					<td>兜底</td>
+			</tr>
+			<tr>
+					<td>权重随机</td>
+					<td>⭐⭐</td>
+					<td>不推荐用于灰度</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="三蓝绿--金丝雀--灰度的指定客户命中本质方案"
@@ -3070,38 +3055,38 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>能力</th>
-          <th>运维能不能单独完成</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>滚动发布</td>
-          <td>✅ 可以</td>
-      </tr>
-      <tr>
-          <td>蓝绿（整体切流）</td>
-          <td>✅ 可以</td>
-      </tr>
-      <tr>
-          <td>金丝雀（按比例）</td>
-          <td>⚠️ 勉强可以</td>
-      </tr>
-      <tr>
-          <td>灰度（指定用户 / 客户）</td>
-          <td>❌ 不行</td>
-      </tr>
-      <tr>
-          <td>保证用户命中一致</td>
-          <td>❌ 不行</td>
-      </tr>
-      <tr>
-          <td>精准客户回滚</td>
-          <td>❌ 不行</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>能力</th>
+					<th>运维能不能单独完成</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>滚动发布</td>
+					<td>✅ 可以</td>
+			</tr>
+			<tr>
+					<td>蓝绿（整体切流）</td>
+					<td>✅ 可以</td>
+			</tr>
+			<tr>
+					<td>金丝雀（按比例）</td>
+					<td>⚠️ 勉强可以</td>
+			</tr>
+			<tr>
+					<td>灰度（指定用户 / 客户）</td>
+					<td>❌ 不行</td>
+			</tr>
+			<tr>
+					<td>保证用户命中一致</td>
+					<td>❌ 不行</td>
+			</tr>
+			<tr>
+					<td>精准客户回滚</td>
+					<td>❌ 不行</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>一旦涉及“人 / 用户 / 客户 / 终端”，运维就不够了。</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3249,26 +3234,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>是否需要配合</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>整体切换</td>
-          <td>不需要</td>
-      </tr>
-      <tr>
-          <td>指定客户</td>
-          <td>需要</td>
-      </tr>
-      <tr>
-          <td>数据兼容</td>
-          <td>需要后端</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>是否需要配合</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>整体切换</td>
+					<td>不需要</td>
+			</tr>
+			<tr>
+					<td>指定客户</td>
+					<td>需要</td>
+			</tr>
+			<tr>
+					<td>数据兼容</td>
+					<td>需要后端</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>运维能切流，但业务要兜底</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -3281,26 +3266,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>是否需要配合</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>比例发布</td>
-          <td>运维可做</td>
-      </tr>
-      <tr>
-          <td>用户一致性</td>
-          <td>需要后端</td>
-      </tr>
-      <tr>
-          <td>指定客户</td>
-          <td>必须前后端</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>是否需要配合</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>比例发布</td>
+					<td>运维可做</td>
+			</tr>
+			<tr>
+					<td>用户一致性</td>
+					<td>需要后端</td>
+			</tr>
+			<tr>
+					<td>指定客户</td>
+					<td>必须前后端</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h4 id="-灰度发布-1"
@@ -3312,26 +3297,26 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>是否需要配合</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>灰度规则</td>
-          <td>后端决定</td>
-      </tr>
-      <tr>
-          <td>灰度标识</td>
-          <td>前端透传</td>
-      </tr>
-      <tr>
-          <td>强制回滚</td>
-          <td>后端控制</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>是否需要配合</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>灰度规则</td>
+					<td>后端决定</td>
+			</tr>
+			<tr>
+					<td>灰度标识</td>
+					<td>前端透传</td>
+			</tr>
+			<tr>
+					<td>强制回滚</td>
+					<td>后端控制</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 <strong>灰度 = 运维 + 后端 + 前端</strong></p>
 <div class="flex align-center gdoc-page__anchorwrap">

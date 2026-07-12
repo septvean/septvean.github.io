@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="内容：从架构 -&gt; 存储 -&gt; 事务 -&gt; 查询 -&gt; 索引 -&gt; 并发 -&gt; 运维
@@ -68,18 +68,18 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 核心概念",
-      "url" : "https://documents.v2ep.com/database/postgres/core/",
+      "url": "https://documents.v2ep.com/database/postgres/core/",
       "headline": "PostgreSQL 核心概念",
       "description": "内容：从架构 -\u003e 存储 -\u003e 事务 -\u003e 查询 -\u003e 索引 -\u003e 并发 -\u003e 运维\n一、PostgreSQL 是什么（定位） PostgreSQL 是一个：\n关系型数据库（RDBMS） 强一致性（ACID） 多进程架构 MVCC（多版本并发控制） 可扩展（Extension） OLTP 为主，OLAP 可辅 👉 核心设计哲学：\n“正确性 \u003e 性能 \u003e 便利性”\n二、整体架构（非常核心） 1️⃣ 客户端 \/ 服务端模型 Client ↓ Postmaster（监听进程） ↓ fork Backend Process（每个连接一个进程） 特点",
-      "wordCount" : "399",
+      "wordCount": "399",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/postgres/core/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -99,8 +99,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -119,12 +119,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -275,21 +275,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2247,46 +2232,46 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>进程</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>postmaster</td>
-          <td>主进程</td>
-      </tr>
-      <tr>
-          <td>backend</td>
-          <td>处理客户端请求</td>
-      </tr>
-      <tr>
-          <td>checkpointer</td>
-          <td>定期刷脏页</td>
-      </tr>
-      <tr>
-          <td>bgwriter</td>
-          <td>后台写</td>
-      </tr>
-      <tr>
-          <td>walwriter</td>
-          <td>WAL 写入</td>
-      </tr>
-      <tr>
-          <td>autovacuum</td>
-          <td>回收垃圾</td>
-      </tr>
-      <tr>
-          <td>archiver</td>
-          <td>WAL 归档</td>
-      </tr>
-      <tr>
-          <td>logical replication</td>
-          <td>逻辑复制</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>进程</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>postmaster</td>
+					<td>主进程</td>
+			</tr>
+			<tr>
+					<td>backend</td>
+					<td>处理客户端请求</td>
+			</tr>
+			<tr>
+					<td>checkpointer</td>
+					<td>定期刷脏页</td>
+			</tr>
+			<tr>
+					<td>bgwriter</td>
+					<td>后台写</td>
+			</tr>
+			<tr>
+					<td>walwriter</td>
+					<td>WAL 写入</td>
+			</tr>
+			<tr>
+					<td>autovacuum</td>
+					<td>回收垃圾</td>
+			</tr>
+			<tr>
+					<td>archiver</td>
+					<td>WAL 归档</td>
+			</tr>
+			<tr>
+					<td>logical replication</td>
+					<td>逻辑复制</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="三存储模型非常重要"
@@ -2421,30 +2406,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>特性</th>
-          <th>PostgreSQL 实现</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Atomicity</td>
-          <td>WAL</td>
-      </tr>
-      <tr>
-          <td>Consistency</td>
-          <td>约束 + 事务</td>
-      </tr>
-      <tr>
-          <td>Isolation</td>
-          <td>MVCC</td>
-      </tr>
-      <tr>
-          <td>Durability</td>
-          <td>WAL + fsync</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>PostgreSQL 实现</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Atomicity</td>
+					<td>WAL</td>
+			</tr>
+			<tr>
+					<td>Consistency</td>
+					<td>约束 + 事务</td>
+			</tr>
+			<tr>
+					<td>Isolation</td>
+					<td>MVCC</td>
+			</tr>
+			<tr>
+					<td>Durability</td>
+					<td>WAL + fsync</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-隔离级别"
@@ -2457,26 +2442,26 @@
 </div>
 <p>PostgreSQL 支持：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>隔离级别</th>
-          <th>实现</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>READ COMMITTED</td>
-          <td>默认</td>
-      </tr>
-      <tr>
-          <td>REPEATABLE READ</td>
-          <td>快照</td>
-      </tr>
-      <tr>
-          <td>SERIALIZABLE</td>
-          <td>SSI</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>隔离级别</th>
+					<th>实现</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>READ COMMITTED</td>
+					<td>默认</td>
+			</tr>
+			<tr>
+					<td>REPEATABLE READ</td>
+					<td>快照</td>
+			</tr>
+			<tr>
+					<td>SERIALIZABLE</td>
+					<td>SSI</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>⚠️ PostgreSQL 没有真正的 READ UNCOMMITTED</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2551,34 +2536,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>索引</th>
-          <th>适用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>B-Tree</td>
-          <td>=, &lt;, &gt;, BETWEEN</td>
-      </tr>
-      <tr>
-          <td>GIN</td>
-          <td>array / json / trgm</td>
-      </tr>
-      <tr>
-          <td>GiST</td>
-          <td>空间 / 模糊</td>
-      </tr>
-      <tr>
-          <td>BRIN</td>
-          <td>超大表，顺序数据</td>
-      </tr>
-      <tr>
-          <td>Hash</td>
-          <td>等值（很少用）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>索引</th>
+					<th>适用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>B-Tree</td>
+					<td>=, &lt;, &gt;, BETWEEN</td>
+			</tr>
+			<tr>
+					<td>GIN</td>
+					<td>array / json / trgm</td>
+			</tr>
+			<tr>
+					<td>GiST</td>
+					<td>空间 / 模糊</td>
+			</tr>
+			<tr>
+					<td>BRIN</td>
+					<td>超大表，顺序数据</td>
+			</tr>
+			<tr>
+					<td>Hash</td>
+					<td>等值（很少用）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-postgresql-索引特点"
@@ -2662,30 +2647,30 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>说明</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>表级锁</td>
-          <td>DDL</td>
-      </tr>
-      <tr>
-          <td>行级锁</td>
-          <td>UPDATE</td>
-      </tr>
-      <tr>
-          <td>Advisory Lock</td>
-          <td>应用锁</td>
-      </tr>
-      <tr>
-          <td>Predicate Lock</td>
-          <td>SERIALIZABLE</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>表级锁</td>
+					<td>DDL</td>
+			</tr>
+			<tr>
+					<td>行级锁</td>
+					<td>UPDATE</td>
+			</tr>
+			<tr>
+					<td>Advisory Lock</td>
+					<td>应用锁</td>
+			</tr>
+			<tr>
+					<td>Predicate Lock</td>
+					<td>SERIALIZABLE</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="2-postgresql-锁特点"
@@ -2749,22 +2734,22 @@
 </div>
 <p>TIMESTAMP vs TIMESTAMPTZ</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>含义</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>TIMESTAMP</td>
-          <td>无时区</td>
-      </tr>
-      <tr>
-          <td>TIMESTAMPTZ</td>
-          <td>绝对时间</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>TIMESTAMP</td>
+					<td>无时区</td>
+			</tr>
+			<tr>
+					<td>TIMESTAMPTZ</td>
+					<td>绝对时间</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>👉 日志 / 事件 / 审计：必须 TIMESTAMPTZ</p>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2778,34 +2763,34 @@
 </div>
 <p>常见扩展</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>扩展</th>
-          <th>作用</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>pg_trgm</td>
-          <td>模糊搜索</td>
-      </tr>
-      <tr>
-          <td>uuid-ossp</td>
-          <td>UUID</td>
-      </tr>
-      <tr>
-          <td>hstore</td>
-          <td>KV</td>
-      </tr>
-      <tr>
-          <td>PostGIS</td>
-          <td>GIS</td>
-      </tr>
-      <tr>
-          <td>TimescaleDB</td>
-          <td>时序</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>扩展</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>pg_trgm</td>
+					<td>模糊搜索</td>
+			</tr>
+			<tr>
+					<td>uuid-ossp</td>
+					<td>UUID</td>
+			</tr>
+			<tr>
+					<td>hstore</td>
+					<td>KV</td>
+			</tr>
+			<tr>
+					<td>PostGIS</td>
+					<td>GIS</td>
+			</tr>
+			<tr>
+					<td>TimescaleDB</td>
+					<td>时序</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十三postgresql-vs-mysql核心差异"
@@ -2817,40 +2802,40 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>PostgreSQL</th>
-          <th>MySQL</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>架构</td>
-          <td>多进程</td>
-          <td>多线程</td>
-      </tr>
-      <tr>
-          <td>MVCC</td>
-          <td>更完整</td>
-          <td>InnoDB</td>
-      </tr>
-      <tr>
-          <td>SQL 标准</td>
-          <td>高</td>
-          <td>一般</td>
-      </tr>
-      <tr>
-          <td>扩展</td>
-          <td>极强</td>
-          <td>较弱</td>
-      </tr>
-      <tr>
-          <td>OLAP</td>
-          <td>更适合</td>
-          <td>偏 OLTP</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>PostgreSQL</th>
+					<th>MySQL</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>架构</td>
+					<td>多进程</td>
+					<td>多线程</td>
+			</tr>
+			<tr>
+					<td>MVCC</td>
+					<td>更完整</td>
+					<td>InnoDB</td>
+			</tr>
+			<tr>
+					<td>SQL 标准</td>
+					<td>高</td>
+					<td>一般</td>
+			</tr>
+			<tr>
+					<td>扩展</td>
+					<td>极强</td>
+					<td>较弱</td>
+			</tr>
+			<tr>
+					<td>OLAP</td>
+					<td>更适合</td>
+					<td>偏 OLTP</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="十四总结"

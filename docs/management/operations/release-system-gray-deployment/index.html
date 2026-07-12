@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content=" 一、什么是灰度发布？ 灰度发布：
@@ -74,18 +74,18 @@
       "@type": "TechArticle",
       "articleSection": "Management",
       "name": "发布系统：灰度发布（Gray Deployment）",
-      "url" : "https://documents.v2ep.com/management/operations/release-system-gray-deployment/",
+      "url": "https://documents.v2ep.com/management/operations/release-system-gray-deployment/",
       "headline": "发布系统：灰度发布（Gray Deployment）",
       "description": " 一、什么是灰度发布？ 灰度发布：\n新版本不一次性全量上线，而是按规则逐步放量，让不同用户在一段时间内同时使用不同版本，在真实流量下验证稳定性。\n一句话：\n同一时间，多版本共存，逐步扩大影响面\n二、灰度发布 vs 金丝雀发布（先厘清概念） 很多人把两者混用，但在工程语义上：\n灰度发布：总称 \/ 思想 \/ 策略 金丝雀发布：最典型的一种灰度发布实现 关系：\n灰度发布 ├─ 金丝雀发布 ├─ 分批灰度 ├─ 白名单发布 ├─ 功能开关灰度 三、灰度发布的核心目标 风险可控 可观察 可暂停 可回滚 支持真实用户验证 四、灰度发布的整体形态 用户请求 │ ┌──▼──────────────┐ │ 流量控制层 | \u003c- 灰度规则 │ (LB \/ Gateway) │ └──┬──────────────┘ │ ┌──┴──────────┐ ┌──────────────┐ │ 稳定版本 v1 │ │ 灰度版本 v2 │ │ 80%流量 | │ 20%流量 │ └─────────────┘ └──────────────┘ 五、灰度发布的常见方式（重点） 1️⃣ 按流量比例灰度 1% -\u003e 5% -\u003e 10% -\u003e 50% -\u003e 100% 最常见 2️⃣ 按用户维度灰度 userId hash 手机号尾号 企业 \/ 账号级别 优点：",
-      "wordCount" : "233",
+      "wordCount": "233",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/management/operations/release-system-gray-deployment/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -105,8 +105,8 @@
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -281,21 +281,6 @@
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2419,34 +2404,34 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>层级</th>
-          <th>灰度方式</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>DNS</td>
-          <td>不推荐（不可控）</td>
-      </tr>
-      <tr>
-          <td>LB / Ingress</td>
-          <td>常用</td>
-      </tr>
-      <tr>
-          <td>API Gateway</td>
-          <td>推荐</td>
-      </tr>
-      <tr>
-          <td>Service Mesh</td>
-          <td>高级</td>
-      </tr>
-      <tr>
-          <td>应用内部</td>
-          <td>Feature Toggle</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>层级</th>
+					<th>灰度方式</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>DNS</td>
+					<td>不推荐（不可控）</td>
+			</tr>
+			<tr>
+					<td>LB / Ingress</td>
+					<td>常用</td>
+			</tr>
+			<tr>
+					<td>API Gateway</td>
+					<td>推荐</td>
+			</tr>
+			<tr>
+					<td>Service Mesh</td>
+					<td>高级</td>
+			</tr>
+			<tr>
+					<td>应用内部</td>
+					<td>Feature Toggle</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="八灰度发布-vs-滚动--蓝绿--金丝雀"
@@ -2458,45 +2443,45 @@
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>维度</th>
-          <th>灰度</th>
-          <th>金丝雀</th>
-          <th>蓝绿</th>
-          <th>滚动</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>是否多版本共存</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>是否真实用户</td>
-          <td>✅</td>
-          <td>✅</td>
-          <td>❌</td>
-          <td>❌</td>
-      </tr>
-      <tr>
-          <td>风险控制</td>
-          <td>高</td>
-          <td>极高</td>
-          <td>高</td>
-          <td>中</td>
-      </tr>
-      <tr>
-          <td>实现复杂度</td>
-          <td>中~高</td>
-          <td>高</td>
-          <td>中</td>
-          <td>低</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>灰度</th>
+					<th>金丝雀</th>
+					<th>蓝绿</th>
+					<th>滚动</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>是否多版本共存</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>是否真实用户</td>
+					<td>✅</td>
+					<td>✅</td>
+					<td>❌</td>
+					<td>❌</td>
+			</tr>
+			<tr>
+					<td>风险控制</td>
+					<td>高</td>
+					<td>极高</td>
+					<td>高</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>实现复杂度</td>
+					<td>中~高</td>
+					<td>高</td>
+					<td>中</td>
+					<td>低</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="九灰度发布的常见坑非常真实"

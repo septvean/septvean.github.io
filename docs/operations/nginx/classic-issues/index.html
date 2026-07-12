@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="Redis 的问题核心是“缓存一致性与失效”
@@ -62,18 +62,18 @@ Nginx 的问题核心是“流量、连接、代理与边界失控”
       "@type": "TechArticle",
       "articleSection": "Operations",
       "name": "Nginx 经典问题",
-      "url" : "https://documents.v2ep.com/operations/nginx/classic-issues/",
+      "url": "https://documents.v2ep.com/operations/nginx/classic-issues/",
       "headline": "Nginx 经典问题",
       "description": "Redis 的问题核心是“缓存一致性与失效”\nNginx 的问题核心是“流量、连接、代理与边界失控”\n一、Nginx 的「三大经典问题模型」（类比 Redis） ① 连接耗尽 \/ FD 耗尽（Nginx 版“雪崩”） 表现 大量 502 \/ 504 error.log 出现： worker_connections are not enough too many open files 新请求无法建立连接 根因 worker_connections 太小 ulimit -n 太小 后端连接未复用（keepalive 未开） TIME_WAIT 堆积 大量慢连接（慢 POST、慢客户端） 本质 连接资源被瞬间耗尽，整个入口失效",
-      "wordCount" : "310",
+      "wordCount": "310",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/nginx/classic-issues/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -93,8 +93,8 @@ Nginx 的问题核心是“流量、连接、代理与边界失控”
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@ Nginx 的问题核心是“流量、连接、代理与边界失控”
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -269,21 +269,6 @@ Nginx 的问题核心是“流量、连接、代理与边界失控”
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2759,30 +2744,30 @@ Nginx 的问题核心是“流量、连接、代理与边界失控”
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>Redis 问题</th>
-          <th>Nginx 对应问题</th>
-          <th>本质</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>缓存穿透</td>
-          <td>无效请求穿透</td>
-          <td>边界缺失</td>
-      </tr>
-      <tr>
-          <td>缓存击穿</td>
-          <td>热点流量打爆后端</td>
-          <td>缺乏缓冲</td>
-      </tr>
-      <tr>
-          <td>缓存雪崩</td>
-          <td>连接 / FD 耗尽</td>
-          <td>资源枯竭</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>Redis 问题</th>
+					<th>Nginx 对应问题</th>
+					<th>本质</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>缓存穿透</td>
+					<td>无效请求穿透</td>
+					<td>边界缺失</td>
+			</tr>
+			<tr>
+					<td>缓存击穿</td>
+					<td>热点流量打爆后端</td>
+					<td>缺乏缓冲</td>
+			</tr>
+			<tr>
+					<td>缓存雪崩</td>
+					<td>连接 / FD 耗尽</td>
+					<td>资源枯竭</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="四其它"

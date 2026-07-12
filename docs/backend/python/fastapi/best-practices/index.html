@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="下面给你一份 真正可落地的 Python FastAPI 最佳实践大全，结合你现有的技术栈（PostgreSQL、SQLAlchemy ORM、JWT、Casbin、UMI、AntD、Python≥3.12），全部内容可直接用于企业级项目。
@@ -65,18 +65,18 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
       "@type": "TechArticle",
       "articleSection": "Backend",
       "name": "最佳实践",
-      "url" : "https://documents.v2ep.com/backend/python/fastapi/best-practices/",
+      "url": "https://documents.v2ep.com/backend/python/fastapi/best-practices/",
       "headline": "最佳实践",
       "description": "下面给你一份 真正可落地的 Python FastAPI 最佳实践大全，结合你现有的技术栈（PostgreSQL、SQLAlchemy ORM、JWT、Casbin、UMI、AntD、Python≥3.12），全部内容可直接用于企业级项目。\n整理成 结构化的 30 条黄金准则，涵盖：项目结构、配置管理、数据库、权限、依赖注入、路由、响应格式、错误处理、工具函数、性能优化、部署经验等。\n1. 项目结构最佳实践（目录） ✅ 分层清晰：API、Service、Repository、Schema、Core、DB\napp\/ ├── api\/ # 路由层：输入输出、权限校验 │ ├── auth.py │ ├── users.py │ └── roles.py ├── services\/ # 业务层：逻辑处理 │ └── users.py ├── repositories\/ # 数据层：DB CRUD │ └── users.py ├── schemas\/ # Pydantic 模型 │ └── user.py ├── db\/ │ ├── session.py # engine, async_sessionmaker │ ├── base.py │ └── models\/ ├── core\/ │ ├── config.py # 统一配置 │ ├── security.py # JWT \u002b bcrypt │ ├── casbin.py # 权限 │ └── middleware.py # 日志、CORS、异常 ├── utils\/ │ ├── json.py # ORM 2 JSON │ └── pagination.py ├── main.py └── __init__.py 2. 使用 pydantic-settings 管理配置 pip install pydantic-settings # core\/config.py from pydantic_settings import BaseSettings class Settings(BaseSettings): env: str = \u0022dev\u0022 db_url: str jwt_secret: str class Config: env_file = \u0022.env\u0022 settings = Settings() 保持开发\/生产隔离。",
-      "wordCount" : "546",
+      "wordCount": "546",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/backend/python/fastapi/best-practices/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -96,8 +96,8 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -272,21 +272,6 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2545,35 +2530,35 @@ app/ ├── api/ # 路由层：输入输出、权限校验 │ ├── auth
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>功能</th>
-          <th>Method</th>
-          <th>Path</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>获取列表</td>
-          <td>GET</td>
-          <td>/users</td>
-      </tr>
-      <tr>
-          <td>创建</td>
-          <td>POST</td>
-          <td>/users</td>
-      </tr>
-      <tr>
-          <td>获取详情</td>
-          <td>GET</td>
-          <td>/users/{id}</td>
-      </tr>
-      <tr>
-          <td>删除</td>
-          <td>DELETE</td>
-          <td>/users/{id}</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>功能</th>
+					<th>Method</th>
+					<th>Path</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>获取列表</td>
+					<td>GET</td>
+					<td>/users</td>
+			</tr>
+			<tr>
+					<td>创建</td>
+					<td>POST</td>
+					<td>/users</td>
+			</tr>
+			<tr>
+					<td>获取详情</td>
+					<td>GET</td>
+					<td>/users/{id}</td>
+			</tr>
+			<tr>
+					<td>删除</td>
+					<td>DELETE</td>
+					<td>/users/{id}</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="24-严格的响应模型"

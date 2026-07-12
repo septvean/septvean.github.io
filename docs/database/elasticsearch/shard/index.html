@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.164.0">
 
 
   <meta name="description" content="ES 的性能、稳定性、扩展性，90% 取决于分片规划。
@@ -71,18 +71,18 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "ElasticSearch 分片",
-      "url" : "https://documents.v2ep.com/database/elasticsearch/shard/",
+      "url": "https://documents.v2ep.com/database/elasticsearch/shard/",
       "headline": "ElasticSearch 分片",
       "description": "ES 的性能、稳定性、扩展性，90% 取决于分片规划。\n1. 什么是分片（Shard） ElasticSearch 一个索引由多个分片组成：\n类型 功能 Primary Shard（主分片） 实际写入数据 Replica Shard（副本） 容灾 \u002b 提高查询性能 每个分片本质上是一个 Lucene Index（底层最小单元）。\nES 只做 “分布式调度”，真实存储由 Lucene 完成。\n2. 为什么分片非常关键？ 错误的分片数量会导致：\n性能崩溃（太多 shard -\u003e JVM 内存暴涨） 查询变慢（Broadcast 查询） 集群重启慢、恢复慢 数据迁移慢 写入吞吐下降 集群频繁不稳定（yellow、red） 分片反模式是 ES 最常见的集群故障源头。",
-      "wordCount" : "404",
+      "wordCount": "404",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/shard/"
       },
-      "copyrightHolder" : "☘️ Septvean\u0027s Documents",
-      "copyrightYear" : "0001",
+      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
@@ -102,8 +102,8 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
 
 
     
-  <script src="/js/colortheme-9a38f5f8.bundle.min.js"></script>
-<script src="/js/main-9ea6fcb1.bundle.min.js"></script>
+  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
+<script src="/js/main-1b467c45.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
 
 <link
   rel="preload"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-188aff9e.min.css"
+  href="/main-ce430795.min.css"
   media="all"
 />
 
@@ -278,21 +278,6 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
           <aside class="gdoc-nav">
             <nav>
   
-  <script defer src="/js/search-4ff4fe1f.bundle.min.js"></script><div class="gdoc-search flex align-center">
-    <svg class="gdoc-icon gdoc_search"><use xlink:href="#gdoc_search"></use></svg>
-    <input
-      type="text"
-      id="gdoc-search-input"
-      class="gdoc-search__input"
-      placeholder="Search..."
-      aria-label="Search"
-      maxlength="64"
-      data-site-base-url="https://documents.v2ep.com/"
-      data-site-lang="en"
-    />
-    <ul id="gdoc-search-results" class="gdoc-search__list"></ul>
-  </div>
-
 
 
 
@@ -2201,22 +2186,22 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
 </div>
 <p>ElasticSearch 一个索引由多个分片组成：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>类型</th>
-          <th>功能</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Primary Shard（主分片）</td>
-          <td>实际写入数据</td>
-      </tr>
-      <tr>
-          <td>Replica Shard（副本）</td>
-          <td>容灾 + 提高查询性能</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>功能</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Primary Shard（主分片）</td>
+					<td>实际写入数据</td>
+			</tr>
+			<tr>
+					<td>Replica Shard（副本）</td>
+					<td>容灾 + 提高查询性能</td>
+			</tr>
+	</tbody>
 </table> </div>
 <p>每个分片本质上是一个 <strong>Lucene Index</strong>（底层最小单元）。</p>
 <p>ES 只做 “分布式调度”，真实存储由 Lucene 完成。</p>
@@ -2274,30 +2259,30 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>数据量（索引）</th>
-          <th>推荐 primary shard</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&lt; 50GB</td>
-          <td>1 shard（最佳）</td>
-      </tr>
-      <tr>
-          <td>50–200GB</td>
-          <td>2–4 shards</td>
-      </tr>
-      <tr>
-          <td>200–500GB</td>
-          <td>4–10 shards</td>
-      </tr>
-      <tr>
-          <td>&gt;500GB</td>
-          <td>10+ shards（按 40GB/shard 或 ILM 滚动）</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>数据量（索引）</th>
+					<th>推荐 primary shard</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>&lt; 50GB</td>
+					<td>1 shard（最佳）</td>
+			</tr>
+			<tr>
+					<td>50–200GB</td>
+					<td>2–4 shards</td>
+			</tr>
+			<tr>
+					<td>200–500GB</td>
+					<td>4–10 shards</td>
+			</tr>
+			<tr>
+					<td>&gt;500GB</td>
+					<td>10+ shards（按 40GB/shard 或 ILM 滚动）</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="5-分片数量的真实影响"
@@ -2372,26 +2357,26 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
 <p>副本 = 高可用 + 查询读负载能力</p>
 <p>建议：</p>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>场景</th>
-          <th>副本</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>写入密集（日志）</td>
-          <td>0（写入高峰时），正常时 1</td>
-      </tr>
-      <tr>
-          <td>普通业务</td>
-          <td>1</td>
-      </tr>
-      <tr>
-          <td>高读取量（搜索类）</td>
-          <td>2–3</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>副本</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>写入密集（日志）</td>
+					<td>0（写入高峰时），正常时 1</td>
+			</tr>
+			<tr>
+					<td>普通业务</td>
+					<td>1</td>
+			</tr>
+			<tr>
+					<td>高读取量（搜索类）</td>
+					<td>2–3</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="7-分片分配与节点规划"
@@ -2502,42 +2487,42 @@ ES 只做 “分布式调度”，真实存储由 Lucene 完成。
     </a>
 </div>
 <div class="table-wrap"> <table>
-  <thead>
-      <tr>
-          <th>❌ 反模式</th>
-          <th>危害</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>给每个用户建一个 index</td>
-          <td>field explosion + shard explosion</td>
-      </tr>
-      <tr>
-          <td>给每个用户建一个 shard</td>
-          <td>直接爆炸</td>
-      </tr>
-      <tr>
-          <td>1TB 数据用 1 shard</td>
-          <td>迁移灾难</td>
-      </tr>
-      <tr>
-          <td>一个索引 2000 shards</td>
-          <td>查询、内存全部崩溃</td>
-      </tr>
-      <tr>
-          <td>频繁 split、shrink shard</td>
-          <td>会导致中断和性能下降</td>
-      </tr>
-      <tr>
-          <td>log/behavior 不按日期切分</td>
-          <td>巨无霸 shard</td>
-      </tr>
-      <tr>
-          <td>ES 当 OLTP 用</td>
-          <td>大量写入 + 分片频繁更新灾难</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>❌ 反模式</th>
+					<th>危害</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>给每个用户建一个 index</td>
+					<td>field explosion + shard explosion</td>
+			</tr>
+			<tr>
+					<td>给每个用户建一个 shard</td>
+					<td>直接爆炸</td>
+			</tr>
+			<tr>
+					<td>1TB 数据用 1 shard</td>
+					<td>迁移灾难</td>
+			</tr>
+			<tr>
+					<td>一个索引 2000 shards</td>
+					<td>查询、内存全部崩溃</td>
+			</tr>
+			<tr>
+					<td>频繁 split、shrink shard</td>
+					<td>会导致中断和性能下降</td>
+			</tr>
+			<tr>
+					<td>log/behavior 不按日期切分</td>
+					<td>巨无霸 shard</td>
+			</tr>
+			<tr>
+					<td>ES 当 OLTP 用</td>
+					<td>大量写入 + 分片频繁更新灾难</td>
+			</tr>
+	</tbody>
 </table> </div>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="11-如何为你的业务决定分片数模板"
