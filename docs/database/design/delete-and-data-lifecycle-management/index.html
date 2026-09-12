@@ -19,7 +19,7 @@
 核心思想不是“不删”，而是：
 业务删除 ≠ 物理删除 删除只是生命周期中的一个状态 物理删除是最后一步、可控的后台行为 二、生命周期模型（推荐） ✅ 4 个状态足够覆盖 95% 业务 ACTIVE -&gt; SOFT_DELETED -&gt; ARCHIVED -&gt; PURGED 状态 含义 ACTIVE 正常可用 SOFT_DELETED 业务不可见（回收站） ARCHIVED 归档（只读、冷数据） PURGED 物理删除 三、推荐表结构（生产级） CREATE TABLE orders ( id BIGSERIAL PRIMARY KEY, -- 业务字段 user_id BIGINT NOT NULL, amount NUMERIC(10,2) NOT NULL, -- 生命周期字段 status SMALLINT NOT NULL DEFAULT 1, -- 1=active, 2=soft_deleted, 3=archived deleted_at TIMESTAMPTZ, deleted_by TEXT, archived_at TIMESTAMPTZ, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now() ); 👉 不要只用 is_deleted，一定要有时间和状态" />
 
-    <title>软删除 &#43; 生命周期 | ☘️ Septvean&#39;s Documents</title>
+    <title>软删除 &#43; 生命周期 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -42,7 +42,7 @@
     property="og:title"
     content="软删除 + 生命周期"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="以下是一套 “软删除 &#43; 生命周期（Data Lifecycle Management）”的完整工程级方案。
 这是大厂 / 金融 / 核心系统里非常成熟的一种设计方式。
 内容：设计目标 -&gt; 表结构 -&gt; 状态流转 -&gt; 查询与索引 -&gt; 归档与清理 -&gt; 常见坑
@@ -81,14 +81,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/design/delete-and-data-lifecycle-management/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -213,7 +213,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1984,6 +1984,21 @@
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2006,22 +2021,15 @@
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -4203,6 +4211,21 @@
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -4224,12 +4247,6 @@
         
 
         
-        
-      
-    
-
-  
-
         
       
     

@@ -24,7 +24,7 @@ Routing：无 BGP（除非裸金属）
 理由：
 模式 性能 可观测性 兼容性 推荐 VXLAN &#43; eBPF ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 全云厂商支持 ✓✓✓✓✓ BGP 无封装 ⭐⭐⭐⭐⭐ ⭐⭐⭐⭐⭐ 仅裸金属/自建 IDC ✓✓✓✓ IPIP ⭐⭐⭐ ⭐⭐ 旧机器 不推荐 纯 iptables ⭐ ⭐⭐ 兼容最广 不推荐 eBPF 对 K8S 1.33 完美支持" />
 
-    <title>Kubernetes Calico 最佳实践 | ☘️ Septvean&#39;s Documents</title>
+    <title>Kubernetes Calico 最佳实践 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -47,7 +47,7 @@ Routing：无 BGP（除非裸金属）
     property="og:title"
     content="Kubernetes Calico 最佳实践"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="下面是一份 最实用、工程级、能直接用在生产环境的《Kubernetes &#43; Calico 最佳实践》，基于 Kubernetes ≥1.33 &#43; Calico ≥3.27（含 eBPF 模式），包含网络设计、性能、安全、IPAM、Policy、Troubleshooting、监控、生产参数等内容。
 这是企业级版本，不讲废话，只给可复制到生产环境的最佳实践。
 🚀 Kubernetes &#43; Calico 最佳实践（K8S 1.33 / Calico 3.27&#43;）
@@ -96,14 +96,14 @@ Routing：无 BGP（除非裸金属）
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/calico-best-practices/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -117,8 +117,8 @@ Routing：无 BGP（除非裸金属）
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -137,12 +137,12 @@ Routing：无 BGP（除非裸金属）
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -228,7 +228,7 @@ Routing：无 BGP（除非裸金属）
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1999,6 +1999,21 @@ Routing：无 BGP（除非裸金属）
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2021,22 +2036,15 @@ Routing：无 BGP（除非裸金属）
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -3865,6 +3873,21 @@ net.netfilter.nf_conntrack_buckets=655360
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -3886,12 +3909,6 @@ net.netfilter.nf_conntrack_buckets=655360
         
 
         
-        
-      
-    
-
-  
-
         
       
     

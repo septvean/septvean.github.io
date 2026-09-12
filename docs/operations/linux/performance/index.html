@@ -19,7 +19,7 @@
 内核参数（sysctl） 资源限制（limits / cgroup） systemd 行为 调度与中断（CPU / NUMA / IRQ） 文件系统与 I/O 你前面已经把 第 1 层 做得非常完整了，下面重点补 2–5 层。
 二、资源限制（limits）——你现在几乎没动，但非常关键 1️⃣ 文件描述符（必须） 全局（systemd） ## /etc/systemd/system.conf DefaultLimitNOFILE=1048576 用户级 ## /etc/security/limits.conf * soft nofile 1048576 * hard nofile 1048576 适用场景 服务 必须 Nginx ✅ MySQL / PostgreSQL ✅ Redis ✅ Kafka ✅ Prometheus ✅ 2️⃣ 进程数限制（防 fork 风暴） ## /etc/security/limits.conf * soft nproc 65535 * hard nproc 65535 适合：" />
 
-    <title>性能优化 | ☘️ Septvean&#39;s Documents</title>
+    <title>性能优化 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -42,7 +42,7 @@
     property="og:title"
     content="性能优化"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="下面这份内容，我会刻意避开你已经整理过的 sysctl 参数，只补充那些：
 你现在这套配置没有覆盖 在生产环境中经常被忽略，但非常关键 必须按场景区分，否则会出问题 并且我会按你一贯偏好的方式来写： 结论先行 &#43; 场景化 &#43; 可落地，不做中英文混搭。
 一、一个重要前提（先说清楚） 系统性能 ≠ 只靠 sysctl
@@ -81,14 +81,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/performance/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -102,8 +102,8 @@
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -122,12 +122,12 @@
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -213,7 +213,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1984,6 +1984,21 @@
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2006,22 +2021,15 @@
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -5002,6 +5010,21 @@ vm.zone_reclaim_mode = 0
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -5023,12 +5046,6 @@ vm.zone_reclaim_mode = 0
         
 
         
-        
-      
-    
-
-  
-
         
       
     

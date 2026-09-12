@@ -22,7 +22,7 @@ shard = hash(_routing) % primary_shards 决定数据存入哪个主分片 改分
 shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_routing)：对 _routing 值计算哈希值（通常默认为文档的 _id）。这是将文档哈希为一个确定的数字。 %：取模运算符，即整除后的余数。 primary_shards：当前索引的主分片总数量。 工作流程与关键点：
 确定位置：当写入或查询文档时，ES 会根据 _routing 计算出对应的 shard 编号。 数据均匀化：利用哈希函数的随机性，确保文档均匀地分布在所有主分片上。 不可修改性：因为分片数是公式的除数，如果后续修改了主分片数量（如 primary_shards 从 3 变为 4），原有的 hash(_routing) 结果取模后的数值就会改变，导致之前的文档“消失”（因为查找时计算出了错误的分片位置）。 举例：如果有 3 个主分片（P0, P1, P2），_routing 为 id1，假设 hash(&ldquo;id1&rdquo;) 的结果为 (10)，则 10 % 3 = 1。该文档将存储在 P1 上。" />
 
-    <title>ElasticSearch 分片数规划与计算 | ☘️ Septvean&#39;s Documents</title>
+    <title>ElasticSearch 分片数规划与计算 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -45,7 +45,7 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
     property="og:title"
     content="ElasticSearch 分片数规划与计算"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="🎯 核心结论（先记住）
 ElasticSearch 分片数一旦创建就不能修改，所以分片规划的核心目标是：
 单个 Primary Shard 的最终大小控制在 20–50GB 之间（日志类更偏 20–30GB）
@@ -90,14 +90,14 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/elasticsearch/shard-number-planning-and-calculation/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -111,8 +111,8 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -131,12 +131,12 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -222,7 +222,7 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1993,6 +1993,21 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2015,22 +2030,15 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -3718,6 +3726,21 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -3739,12 +3762,6 @@ shard：计算出的目标主分片（Primary Shard）的索引号。 hash(_rout
         
 
         
-        
-      
-    
-
-  
-
         
       
     

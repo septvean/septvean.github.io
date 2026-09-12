@@ -16,7 +16,7 @@
 🧱 1. 锁的核心概念（必须先理解） MySQL 主流存储引擎是 InnoDB，锁机制围绕事务、行级锁、MVCC 等展开。理解锁的目的：
 为什么需要锁？ 保证事务隔离 防止并发冲突 保证数据一致性 提高并发性能（行锁比表锁更 granular） MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合 锁：阻塞写，部分情况下阻塞读 MVCC：让读尽量不加锁 事务隔离级别：控制读写冲突何时需要锁 掌握这三者的关系，是理解 MySQL 并发行为的基础。" />
 
-    <title>MySQL 锁 | ☘️ Septvean&#39;s Documents</title>
+    <title>MySQL 锁 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,7 +39,7 @@
     property="og:title"
     content="MySQL 锁"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="覆盖：核心概念、锁类型、加锁方式、锁等待、死锁、诊断、优化、实战案例。
 🧱 1. 锁的核心概念（必须先理解） MySQL 主流存储引擎是 InnoDB，锁机制围绕事务、行级锁、MVCC 等展开。理解锁的目的：
 为什么需要锁？ 保证事务隔离 防止并发冲突 保证数据一致性 提高并发性能（行锁比表锁更 granular） MySQL 中“锁 &#43; MVCC &#43; 事务隔离级别”三者配合 锁：阻塞写，部分情况下阻塞读 MVCC：让读尽量不加锁 事务隔离级别：控制读写冲突何时需要锁 掌握这三者的关系，是理解 MySQL 并发行为的基础。" />
@@ -72,14 +72,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/mysql/locks/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -204,7 +204,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1975,6 +1975,21 @@
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -1997,22 +2012,15 @@
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -3850,6 +3858,21 @@
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -3871,12 +3894,6 @@
         
 
         
-        
-      
-    
-
-  
-
         
       
     

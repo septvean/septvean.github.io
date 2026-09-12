@@ -17,7 +17,7 @@
 一、Kubernetes 对 Linux 内核的核心要求（先给结论） Kubernetes 本质依赖：
 cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂载隔离 netfilter / conntrack：Service / NAT / Pod 网络 overlayfs：容器镜像 sysctl：网络、内存、进程数量控制 👉 所以 K8S 内核配置 重点在：网络 &#43; 内存 &#43; cgroups &#43; 文件句柄" />
 
-    <title>Kubernetes 内核配置 | ☘️ Septvean&#39;s Documents</title>
+    <title>Kubernetes 内核配置 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -40,7 +40,7 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
     property="og:title"
     content="Kubernetes 内核配置"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="下面是一套 生产级 Kubernetes（K8S）宿主机内核配置总表，适用于 AlmaLinux 9 / RHEL 9 / Rocky 9 / CentOS Stream 9，同时说明 为什么要配、哪些是必须、哪些是场景可选，避免“玄学调参”。
 按 Kubernetes 依赖关系 -&gt; 内核子系统 -&gt; 场景分类 来讲。
 一、Kubernetes 对 Linux 内核的核心要求（先给结论） Kubernetes 本质依赖：
@@ -75,14 +75,14 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/kubernetes/kernel-config/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -96,8 +96,8 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -207,7 +207,7 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1978,6 +1978,21 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2000,22 +2015,15 @@ cgroups：资源隔离（CPU / 内存 / IO） namespaces：进程 / 网络 / 挂
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -3802,6 +3810,21 @@ K8S 调度和 QoS 依赖 <strong>内存可预期性</strong>，swap 会破坏 OO
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -3823,12 +3846,6 @@ K8S 调度和 QoS 依赖 <strong>内存可预期性</strong>，swap 会破坏 OO
         
 
         
-        
-      
-    
-
-  
-
         
       
     

@@ -16,7 +16,7 @@
 主要文档：WAR file 查看 Java 要求：Java Support Policy
 这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd /data/septvean/bash/java bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s /sbin/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv /data/jenkins/{app,builder,data,log} # 设置代理 # export http_proxy=http://192.168.101.200:1080; export https_proxy=http://192.168.101.200:1080; # 下载 War 包 cd /data/jenkins/app wget -c -O jenkins-2.528.3.war https://get.jenkins.io/war-stable/2.528.3/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch /data/jenkins/log/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8200, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8200 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # JVM 参数根据实际情况配置 # # Environment=&#34;JAVA_OPTS=&#39;-server -Xms256m -Xmx512m&#39;&#34; # # 启动参数 # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=/jenkins tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xms256m -Xmx512m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/app # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: /system.slice/jenkins.service # └─3822 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http://192.168.101.201:8200/" />
 
-    <title>Jenkins 部署 | ☘️ Septvean&#39;s Documents</title>
+    <title>Jenkins 部署 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -39,7 +39,7 @@
     property="og:title"
     content="Jenkins 部署"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content=" 基础环境 系统：AlmaLinux 9 Java：21.0.9 Jenkins：2.528.3 Jenkins 官方安装文档：Installing Jenkins
 主要文档：WAR file 查看 Java 要求：Java Support Policy
 这里部署 Jenkins LTS（版本号：2.528.3），使用 Java 21（版本号：21.0.9） 部署 JDK 查看最新版本号：Java Downloads cd /data/septvean/bash/java bash -x deploy-jdk-21.sh 21.0.9 /usr/local/jdk/21.0.9/bin/java -version # java version &#34;21.0.9&#34; 2025-10-21 LTS # Java(TM) SE Runtime Environment (build 21.0.9&#43;7-LTS-338) # Java HotSpot(TM) 64-Bit Server VM (build 21.0.9&#43;7-LTS-338, mixed mode, sharing) 部署 Jenkins 查看最新版本号：Jenkins Downloads # 安装依赖包 dnf install -y git git-core dejavu-sans-fonts fontconfig freetype xorg-x11-server-Xvfb # 创建用户 useradd -r -s /sbin/nologin jenkins # 创建目录 # app: Jenkins War包 目录 # builder: 编译工具 目录 # data: Jenkins HOME 目录 # log: Jenkins 日志 mkdir -pv /data/jenkins/{app,builder,data,log} # 设置代理 # export http_proxy=http://192.168.101.200:1080; export https_proxy=http://192.168.101.200:1080; # 下载 War 包 cd /data/jenkins/app wget -c -O jenkins-2.528.3.war https://get.jenkins.io/war-stable/2.528.3/jenkins.war ln -svf jenkins-2.528.3.war jenkins.war # 创建日志文件 touch /data/jenkins/log/{error.log,run.log} # 设置权限 chown -R jenkins:jenkins /data/jenkins # 设置环境变量 # export JENKINS_HOME=&#39;/data/jenkins/data&#39; # 启动 (端口 8200, 前缀 /jenkins) 用于测试 # /usr/local/jdk/21.0.9/bin/java \ # -jar jenkins.war \ # --httpPort=8200 \ # --prefix=/jenkins # 其它参数 # java -jar jenkins.war --help # 创建 service # # JVM 参数根据实际情况配置 # # Environment=&#34;JAVA_OPTS=&#39;-server -Xms256m -Xmx512m&#39;&#34; # # 启动参数 # # httpListenAddress 设置为 0.0.0.0 # httpPort 设置为 8200 # # 或者 httpListenAddress 设置为 127.0.0.1, 使用 Nginx 反向代理 # # ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=127.0.0.1 --httpPort=8200 --prefix=/jenkins tee /etc/systemd/system/jenkins.service &lt;&lt;&#39;EOF&#39; [Unit] Description=Jenkins Server After=network.target [Service] Type=simple User=jenkins Group=jenkins # 环境变量 Environment=&#34;JENKINS_HOME=/data/jenkins/data&#34; Environment=&#34;JAVA_OPTS=&#39;-server -Xms256m -Xmx512m&#39;&#34; # 工作目录 WorkingDirectory=/data/jenkins/app # 启动命令 ExecStart=/usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # 日志输出到文件 StandardOutput=append:/data/jenkins/log/run.log StandardError=append:/data/jenkins/log/error.log # 自动重启策略 Restart=always RestartSec=5s [Install] WantedBy=multi-user.target EOF # 创建服务 systemctl daemon-reload systemctl start jenkins systemctl status jenkins # ● jenkins.service - Jenkins Server # Loaded: loaded (/etc/systemd/system/jenkins.service; disabled; preset: disabled) # Active: active (running) since Sat 2026-01-03 21:59:00 CST; 4s ago # Main PID: 3822 (java) # Tasks: 32 (limit: 209715) # Memory: 254.4M (peak: 254.4M) # CPU: 7.262s # CGroup: /system.slice/jenkins.service # └─3822 /usr/local/jdk/21.0.9/bin/java -jar jenkins.war --httpListenAddress=0.0.0.0 --httpPort=8200 # Jan 03 21:59:00 node-201.server.com systemd[1]: Started Jenkins Server. # 查看 Jenkins 日志 journalctl -u jenkins -f # 设置为开机启动 systemctl enable jenkins 访问：http://192.168.101.201:8200/" />
@@ -72,14 +72,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/deploy/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -93,8 +93,8 @@
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -113,12 +113,12 @@
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -204,7 +204,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1975,6 +1975,21 @@
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -1997,22 +2012,15 @@
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -4049,6 +4057,21 @@
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -4070,12 +4093,6 @@
         
 
         
-        
-      
-    
-
-  
-
         
       
     

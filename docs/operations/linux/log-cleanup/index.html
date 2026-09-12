@@ -17,7 +17,7 @@
 一、设计原则（先说清楚） ✅ 只清理日志，不破坏目录结构 ✅ truncate 优先于 rm（系统服务更安全） ✅ journalctl 用官方 vacuum ✅ 可扩展其它日志 ✅ 适合每周执行一次 二、日志清理脚本（推荐版本） 📄 /usr/sbin/log-cleanup.sh
 #!/bin/bash set -euo pipefail # ------------------------ # 基本变量 # ------------------------ LOG_DATE=&#34;$(date &#39;&#43;%F %T&#39;)&#34; LOG_FILE=&#34;/var/log/log-cleanup.log&#34; echo &#34;[$LOG_DATE] log cleanup start&#34; &gt;&gt;&#34;$LOG_FILE&#34; # ------------------------ # 1. 清理 dnf 日志 # ------------------------ rm -fv /var/log/dnf.* &gt;&gt;&#34;$LOG_FILE&#34; 2&gt;&amp;1 || true # ------------------------ # 2. truncate 系统日志（不删除文件） # ------------------------ : &gt;/var/log/cron : &gt;/var/log/messages # 可选扩展 : &gt;/var/log/secure || true : &gt;/var/log/maillog || true : &gt;/var/log/spooler || true # ------------------------ # 3. systemd journal 清理（保留 1 周） # ------------------------ journalctl --vacuum-time=1w &gt;&gt;&#34;$LOG_FILE&#34; 2&gt;&amp;1 # ------------------------ # 4. 扩展：清理过期 .gz / .old 日志（保留 7 天） # ------------------------ find /var/log -type f \ \( -name &#34;*.gz&#34; -o -name &#34;*.old&#34; -o -name &#34;*.log.*&#34; \) \ -mtime &#43;7 -print -delete &gt;&gt;&#34;$LOG_FILE&#34; 2&gt;&amp;1 # ------------------------ # 结束 # ------------------------ echo &#34;[$(date &#39;&#43;%F %T&#39;)] log cleanup done&#34; &gt;&gt;&#34;$LOG_FILE&#34; 三、脚本说明（关键点） 1️⃣ 为什么用 : &gt; file : &gt;/var/log/messages 不删除 inode systemd / rsyslog 不会崩 这是 生产环境标准做法 2️⃣ 为什么 dnf 用 rm rm -fv /var/log/dnf.* dnf 不依赖长期日志 删除比 truncate 更干净 3️⃣ journalctl 正确姿势 journalctl --vacuum-time=1w 官方支持 不要手动 rm /var/log/journal 4️⃣ 扩展日志清理规则（安全） *.gz *.old *.log.1 *.log.2 只清理 轮转后的历史日志" />
 
-    <title>日志清理 | ☘️ Septvean&#39;s Documents</title>
+    <title>日志清理 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -40,7 +40,7 @@
     property="og:title"
     content="日志清理"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="本文所有的脚本保存在 /data/septvean/bash/log-cleanup 目录
 执行 deploy.sh 脚本部署脚本。
 一、设计原则（先说清楚） ✅ 只清理日志，不破坏目录结构 ✅ truncate 优先于 rm（系统服务更安全） ✅ journalctl 用官方 vacuum ✅ 可扩展其它日志 ✅ 适合每周执行一次 二、日志清理脚本（推荐版本） 📄 /usr/sbin/log-cleanup.sh
@@ -75,14 +75,14 @@
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/linux/log-cleanup/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -96,8 +96,8 @@
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -207,7 +207,7 @@
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1978,6 +1978,21 @@
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2000,22 +2015,15 @@
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -3635,6 +3643,21 @@
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -3656,12 +3679,6 @@
         
 
         
-        
-      
-    
-
-  
-
         
       
     

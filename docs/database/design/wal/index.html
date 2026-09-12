@@ -20,7 +20,7 @@
 避免每次修改都直接刷磁盘 顺序写日志比随机写数据快很多 支持复制
 WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 事务修改 -&gt; 写 WAL 日志 日志刷盘（fsync） -&gt; 事务提交 脏页延迟刷盘 -&gt; 数据页异步写入磁盘 崩溃恢复： Redo 日志：回放 WAL，保证修改持久 Undo 日志：回滚未提交事务（部分数据库通过 MVCC 或 redo/undo 实现） WAL 的典型写入顺序 事务开始 | v 修改 -&gt; 写 WAL | v fsync WAL（保证持久） | v 事务提交 | v 异步写入数据页 三、WAL 的数据结构 以 PostgreSQL 为例：" />
 
-    <title>WAL | ☘️ Septvean&#39;s Documents</title>
+    <title>WAL | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -43,7 +43,7 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
     property="og:title"
     content="WAL"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content=" 一、WAL 的概念 WAL = Write-Ahead Logging（预写日志）
 核心思想：先记录日志，再修改数据
 所有对数据库的修改，先写入 WAL 日志文件 只有日志写入成功，事务才算提交 数据页可以延迟刷盘，保证崩溃恢复时可回滚或重做 WAL 的目的 事务持久性（Durability）
@@ -84,14 +84,14 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/database/design/wal/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -105,8 +105,8 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -125,12 +125,12 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -216,7 +216,7 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1987,6 +1987,21 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2009,22 +2024,15 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -3638,6 +3646,21 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -3659,12 +3682,6 @@ WAL 可用于流复制（PostgreSQL）或 binlog（MySQL） 二、WAL 的原理 
         
 
         
-        
-      
-    
-
-  
-
         
       
     

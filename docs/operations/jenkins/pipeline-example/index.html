@@ -17,7 +17,7 @@
 🛠️ 完整 Jenkinsfile 示例 可以将这段代码保存在项目根目录下的 Jenkinsfile 中，或者直接在 Jenkins 任务的配置页面中输入。
 pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表示任意可用的 agent // 也可以指定标签，如 label &#39;docker-node&#39; agent any // 2. 环境变量定义 // 这里定义的变量可以在整个 Pipeline 中使用 environment { // 从 Jenkins 凭证管理中获取 Docker 仓库密码 // &#39;docker-hub&#39; 是你在 Jenkins 中创建的凭证 ID DOCKER_CREDENTIALS = credentials(&#39;docker-hub&#39;) // 定义应用名称 APP_NAME = &#39;my-awesome-app&#39; // 获取构建编号，用于打 Docker 镜像标签 IMAGE_TAG = &#39;{BUILD_NUMBER}&#39; } // 3. 参数化构建 // 允许在点击“立即构建”时手动输入参数 parameters { string(name: &#39;VERSION&#39;, defaultValue: &#39;1.0&#39;, description: &#39;请输入构建的版本号&#39;) booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: false, description: &#39;是否开启调试模式？&#39;) } // 4. 主要执行阶段 stages { // 阶段 1：检出代码 stage(&#39;检出代码&#39;) { steps { script { echo &#39;开始拉取代码...&#39; // 删除工作空间旧文件（相当于 clean） cleanWs() } // 使用 Git 插件拉取代码 // 替换为你自己的仓库地址 git branch: &#39;main&#39;, url: &#39;https://github.com/yourname/your-repo.git&#39;, credentialsId: &#39;github-token&#39; // 如果是私有仓库需要凭证 } } // 阶段 2：依赖安装与构建 stage(&#39;构建项目&#39;) { steps { script { echo &#39;开始构建项目，版本: {params.VERSION}&#39; // 示例：如果是 Node.js 项目 // sh &#39;npm install&#39; // sh &#39;npm run build&#39; // 示例：如果是 Maven 项目 // sh &#39;mvn clean package -DskipTests&#39; // 这里我们模拟一个构建过程 sh &#39;echo &#34;模拟编译过程...&#34;&#39; sh &#39;sleep 5&#39; // 模拟耗时操作 } } } // 阶段 3：运行测试 stage(&#39;运行测试&#39;) { steps { script { echo &#39;运行单元测试...&#39; // 这里可以集成 JUnit 测试报告 // sh &#39;mvn test&#39; sh &#39;echo &#34;测试通过！&#34;&#39; // 归档测试报告（如果有的话） // junit &#39;**/target/surefire-reports/*.xml&#39; } } } // 阶段 4：代码质量检查 (SonarQube 示例) stage(&#39;代码质量检查&#39;) { steps { script { echo &#39;正在扫描代码质量...&#39; // 需要安装 SonarQube Scanner 插件 // withSonarQubeEnv(&#39;MySonarServer&#39;) { // sh &#39;mvn sonar:sonar&#39; // } } } } // 阶段 5：制作 Docker 镜像 stage(&#39;打包 Docker 镜像&#39;) { when { // 仅在 master 分支执行 branch &#39;main&#39; } steps { script { echo &#39;正在构建 Docker 镜像...&#39; // 使用 Docker 插件 docker.build(&#39;{env.APP_NAME}:{env.IMAGE_TAG}&#39;) } } } // 阶段 6：部署 stage(&#39;部署到服务器&#39;) { when { expression { // 只有构建参数 DEBUG_BUILD 为 false 时才部署 return !params.DEBUG_BUILD } } steps { script { echo &#39;开始部署应用...&#39; // 这里可以使用 SSH 插件发送脚本到远程服务器 // sshPublisher(publishers: [ // sshPublisherDesc( // configName: &#39;prod-server&#39;, // transfers: [sshTransfer(cleanRemote: false, excludes: &#39;&#39;, execCommand: &#39;docker-compose up -d&#39;, ...)] // ) // ]) // 模拟部署 sh &#39;echo &#34;应用已部署到生产环境！&#34;&#39; } } } } // 5. 无论构建成功还是失败，都会执行的清理或通知步骤 post { // 构建成功 success { steps { echo &#39;🎉 构建成功！&#39; // 发送企业微信或钉钉通知 // slackSend channel: &#39;#jenkins&#39;, message: &#34;构建成功: {env.BUILD_URL}&#34; } } // 构建失败 failure { steps { echo &#39;🚨 构建失败！请检查日志。&#39; // 发送邮件通知负责人 emailext( subject: &#39;构建失败: {currentBuild.fullDisplayName}&#39;, body: &#34;请登录 Jenkins 查看详细日志: ${env.BUILD_URL}&#34;, to: &#39;dev-team@example.com&#39; ) } } // 始终执行（归档制品） always { steps { script { // 归档构建产物（如 jar 包、zip 文件） // 这样可以在 Jenkins 界面下载 archiveArtifacts artifacts: &#39;target/*.jar&#39;, fingerprint: true } } } // 清理工作空间 cleanup { cleanWs() } } } 🧩 关键组件解析 为了让你更好地修改这个模板，这里解释几个核心点：" />
 
-    <title>Jenkins Pipeline 完整示例 | ☘️ Septvean&#39;s Documents</title>
+    <title>Jenkins Pipeline 完整示例 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -40,7 +40,7 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
     property="og:title"
     content="Jenkins Pipeline 完整示例"
   />
-  <meta property="og:site_name" content="☘️ Septvean's Documents" />
+  <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="一个“完整”的 Jenkins Pipeline 示例通常包含：代码拉取、环境准备、构建/测试、制品归档、通知这几个阶段。
 下面是一个通用的 Declarative Pipeline 示例，适用于大多数基于 Maven (Java) 或 Node.js 的 Web 项目。代码中包含了详细的注释，方便理解每一部分的作用。
 🛠️ 完整 Jenkinsfile 示例 可以将这段代码保存在项目根目录下的 Jenkinsfile 中，或者直接在 Jenkins 任务的配置页面中输入。
@@ -75,14 +75,14 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
           "@type": "WebPage",
           "@id": "https://documents.v2ep.com/operations/jenkins/pipeline-example/"
       },
-      "copyrightHolder": "☘️ Septvean\u0027s Documents",
+      "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
       "dateCreated": "0001-01-01T00:00:00.00Z",
       "datePublished": "0001-01-01T00:00:00.00Z",
       "dateModified": "0001-01-01T00:00:00.00Z",
       "publisher":{
           "@type":"Organization",
-          "name": "☘️ Septvean's Documents",
+          "name": "Septvean's Documents",
           "url": "https://documents.v2ep.com/",
           "logo": {
               "@type": "ImageObject",
@@ -96,8 +96,8 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
 
 
     
-  <script src="/js/colortheme-6c1bf822.bundle.min.js"></script>
-<script src="/js/main-1b467c45.bundle.min.js"></script>
+  <script src="/js/colortheme-58dc8372.bundle.min.js"></script>
+<script src="/js/main-588b5d2c.bundle.min.js"></script>
 
 <link
   rel="preload"
@@ -116,12 +116,12 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
 
 <link
   rel="preload"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   as="style"
 />
 <link
   rel="stylesheet"
-  href="/main-ce430795.min.css"
+  href="/main-8a20294e.min.css"
   media="all"
 />
 
@@ -207,7 +207,7 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
           alt=""
         />
         <div>
-          <div class="gdoc-brand__title">☘️ Septvean&#39;s Documents</div>
+          <div class="gdoc-brand__title">Septvean&#39;s Documents</div>
           
         </div>
       </a>
@@ -1978,6 +1978,21 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
           </li>
         
       
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
         
           
           
@@ -2000,22 +2015,15 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
               
                 <span class="flex">
                   <a
-                    href="/operations/download/"
+                    href="/download/"
                     class="gdoc-nav__entry"
                   >
-                    常见开源项目下载链接
+                    Download
                   </a>
                 </span>
               
               
             </label>
-
-            
-          </li>
-        
-      
-    
-  </ul>
 
             
           </li>
@@ -3633,6 +3641,21 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
         
       
     
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
       
       
 
@@ -3654,12 +3677,6 @@ pipeline { // 1. Agent 配置：指定在哪个节点运行 // &#39;any&#39; 表
         
 
         
-        
-      
-    
-
-  
-
         
       
     
