@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.164.0">
+<meta name="generator" content="Hugo 0.166.0">
 
 
   <meta name="description" content=" 命令 docker build --no-cache --rm --tag spring-boot-initial:dev-3014127 . 错误信息 time=&#34;2026-01-04T16:15:35&#43;08:00&#34; level=error msg=&#34;Failed to set rlimits: setting new rlimits: operation not permitted&#34; time=&#34;2026-01-04T16:15:35&#43;08:00&#34; level=error msg=&#34;Failed to set rlimits: setting new rlimits: operation not permitted&#34; STEP 1/5: FROM custom/jdk:21.0.9-0 STEP 2/5: RUN mkdir -p /app error running container: did not get container start message from parent: EOF Error: building at STEP &#34;RUN mkdir -p /app&#34;: setup network: pasta failed with exit code 1: Failed to set current limit for open files: Operation not permitted 解决方法 这错误日志非常有价值，它进一步确认了问题的核心，并且指出了具体的“受害者”：Pasta。" />

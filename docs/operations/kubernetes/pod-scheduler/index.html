@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.164.0">
+<meta name="generator" content="Hugo 0.166.0">
 
 
   <meta name="description" content=" 🧩 一张图看懂调度流程（ASCII 版） ┌───────────────────────────────┐ API Server 接收 Pod (Pod 处于 Pending 状态) └───────────────┬───────────────┘ │ Scheduler Watch 到新 Pod │ ▼ ┌───────────────────────────────┐ ① 预选阶段 (Filter / Predicate) └───────────────┬───────────────┘ │ ┌─────────────────────────┴──────────────────────┐ ▼ ▼ ┌──────────────────────────┐ ┌───────────────────────────┐ 过滤掉不满足条件的节点 - 资源不足（CPU/Mem） 故障、不可调度节点剔除 - 不符合 NodeSelector - Node notReady - 不符合 NodeAffinity - Taint 不可容忍 - 端口冲突 / 设备不可用 └──────────────────────────┘ └───────────────────────────┘ │ ▼ ┌───────────────────────────────┐ ② 评分阶段（Score） └───────────────┬───────────────┘ │ 对每个可调度节点评分： - Least Loaded（负载最小） - Selector Spread（分散度） - Affinity 优先级 - Node 资源利用率等 │ ▼ ┌───────────────────────────────┐ ③ 选出得分最高的节点 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ ④ 调度绑定（Bind） Scheduler -&gt; API Server {pod: nodeName} └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Kubelet Watch 到 Pod -&gt; 拉镜像、创建容器 └───────────────┬───────────────┘ │ ▼ ┌───────────────────────────────┐ Pod 进入 Running 状态 └───────────────────────────────┘ 🔵 Pod 调度 4 大阶段（1.33 版本） 1. 预选阶段（Filter stage / Predicate） Scheduler 会把不满足要求的节点排除：" />
