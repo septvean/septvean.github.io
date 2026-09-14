@@ -14,7 +14,7 @@
 
   <meta name="description" content="数据类型决定一列能够保存什么数据，同时影响：
 数据准确性 存储空间 查询性能 索引效率 Python 类型映射 数据库约束能力 PostgreSQL 的类型系统非常丰富，除了常见的数字、文本、时间，还原生支持 jsonb、数组、UUID、IP 地址、范围和全文检索等类型。PostgreSQL 18 数据类型文档
-一、常用类型速查 数据内容 推荐类型 示例 普通整数 integer 数量、状态值 大整数 bigint 成交量、主键 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：" />
+一、常用类型速查 数据内容 推荐类型 示例 小整数 smallint 小数字 普通整数 integer 数量、状态值 大整数 bigint 主键、成家量 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 枚举 ENUM 固定的一组数据 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：" />
 
     <title>PostgreSQL 数据类型 | Septvean&#39;s Documents</title>
 
@@ -42,7 +42,7 @@
   <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="数据类型决定一列能够保存什么数据，同时影响：
 数据准确性 存储空间 查询性能 索引效率 Python 类型映射 数据库约束能力 PostgreSQL 的类型系统非常丰富，除了常见的数字、文本、时间，还原生支持 jsonb、数组、UUID、IP 地址、范围和全文检索等类型。PostgreSQL 18 数据类型文档
-一、常用类型速查 数据内容 推荐类型 示例 普通整数 integer 数量、状态值 大整数 bigint 成交量、主键 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：" />
+一、常用类型速查 数据内容 推荐类型 示例 小整数 smallint 小数字 普通整数 integer 数量、状态值 大整数 bigint 主键、成家量 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 枚举 ENUM 固定的一组数据 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/database/postgres/02-data-types/" />
 
@@ -53,7 +53,7 @@
 <meta name="twitter:title" content="PostgreSQL 数据类型" />
   <meta name="twitter:description" content="数据类型决定一列能够保存什么数据，同时影响：
 数据准确性 存储空间 查询性能 索引效率 Python 类型映射 数据库约束能力 PostgreSQL 的类型系统非常丰富，除了常见的数字、文本、时间，还原生支持 jsonb、数组、UUID、IP 地址、范围和全文检索等类型。PostgreSQL 18 数据类型文档
-一、常用类型速查 数据内容 推荐类型 示例 普通整数 integer 数量、状态值 大整数 bigint 成交量、主键 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：" />
+一、常用类型速查 数据内容 推荐类型 示例 小整数 smallint 小数字 普通整数 integer 数量、状态值 大整数 bigint 主键、成家量 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 枚举 ENUM 固定的一组数据 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：" />
 
 
   <script type="application/ld+json">
@@ -64,8 +64,8 @@
       "name": "PostgreSQL 数据类型",
       "url": "https://documents.v2ep.com/database/postgres/02-data-types/",
       "headline": "PostgreSQL 数据类型",
-      "description": "数据类型决定一列能够保存什么数据，同时影响：\n数据准确性 存储空间 查询性能 索引效率 Python 类型映射 数据库约束能力 PostgreSQL 的类型系统非常丰富，除了常见的数字、文本、时间，还原生支持 jsonb、数组、UUID、IP 地址、范围和全文检索等类型。PostgreSQL 18 数据类型文档\n一、常用类型速查 数据内容 推荐类型 示例 普通整数 integer 数量、状态值 大整数 bigint 成交量、主键 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：",
-      "wordCount": "1021",
+      "description": "数据类型决定一列能够保存什么数据，同时影响：\n数据准确性 存储空间 查询性能 索引效率 Python 类型映射 数据库约束能力 PostgreSQL 的类型系统非常丰富，除了常见的数字、文本、时间，还原生支持 jsonb、数组、UUID、IP 地址、范围和全文检索等类型。PostgreSQL 18 数据类型文档\n一、常用类型速查 数据内容 推荐类型 示例 小整数 smallint 小数字 普通整数 integer 数量、状态值 大整数 bigint 主键、成家量 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 枚举 ENUM 固定的一组数据 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：",
+      "wordCount": "1027",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2197,17 +2197,22 @@
 	</thead>
 	<tbody>
 			<tr>
-					<td>普通整数</td>
+					<td><strong>小整数</strong></td>
+					<td><code>smallint</code></td>
+					<td>小数字</td>
+			</tr>
+			<tr>
+					<td><strong>普通整数</strong></td>
 					<td><code>integer</code></td>
 					<td>数量、状态值</td>
 			</tr>
 			<tr>
-					<td>大整数</td>
+					<td><strong>大整数</strong></td>
 					<td><code>bigint</code></td>
-					<td>成交量、主键</td>
+					<td>主键、成家量</td>
 			</tr>
 			<tr>
-					<td>精确小数</td>
+					<td><strong>精确小数</strong></td>
 					<td><code>numeric(p, s)</code></td>
 					<td>股价、金额、比例</td>
 			</tr>
@@ -2217,27 +2222,27 @@
 					<td>指标、测量结果</td>
 			</tr>
 			<tr>
-					<td>普通字符串</td>
+					<td><strong>普通字符串</strong></td>
 					<td><code>text</code></td>
 					<td>公司名称、描述</td>
 			</tr>
 			<tr>
-					<td>限制长度的字符串</td>
+					<td><strong>限制长度的字符串</strong></td>
 					<td><code>varchar(n)</code></td>
 					<td>股票代码</td>
 			</tr>
 			<tr>
-					<td>布尔值</td>
+					<td><strong>布尔值</strong></td>
 					<td><code>boolean</code></td>
 					<td>是否ST、是否启用</td>
 			</tr>
 			<tr>
-					<td>日期</td>
+					<td><strong>日期</strong></td>
 					<td><code>date</code></td>
 					<td>交易日期</td>
 			</tr>
 			<tr>
-					<td>时间点</td>
+					<td><strong>时间点</strong></td>
 					<td><code>timestamptz</code></td>
 					<td>行情时间、创建时间</td>
 			</tr>
@@ -2247,7 +2252,7 @@
 					<td>5分钟、30天</td>
 			</tr>
 			<tr>
-					<td>JSON 数据</td>
+					<td><strong>JSON 数据</strong></td>
 					<td><code>jsonb</code></td>
 					<td>接口原始数据、扩展属性</td>
 			</tr>
@@ -2265,6 +2270,11 @@
 					<td>IP 地址</td>
 					<td><code>inet</code></td>
 					<td>客户端IP</td>
+			</tr>
+			<tr>
+					<td><strong>枚举</strong></td>
+					<td><code>ENUM</code></td>
+					<td>固定的一组数据</td>
 			</tr>
 			<tr>
 					<td>一组同类型值</td>
