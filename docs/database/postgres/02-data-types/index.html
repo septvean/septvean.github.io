@@ -65,7 +65,7 @@
       "url": "https://documents.v2ep.com/database/postgres/02-data-types/",
       "headline": "PostgreSQL 数据类型",
       "description": "数据类型决定一列能够保存什么数据，同时影响：\n数据准确性 存储空间 查询性能 索引效率 Python 类型映射 数据库约束能力 PostgreSQL 的类型系统非常丰富，除了常见的数字、文本、时间，还原生支持 jsonb、数组、UUID、IP 地址、范围和全文检索等类型。PostgreSQL 18 数据类型文档\n一、常用类型速查 数据内容 推荐类型 示例 普通整数 integer 数量、状态值 大整数 bigint 成交量、主键 精确小数 numeric(p, s) 股价、金额、比例 科学计算小数 double precision 指标、测量结果 普通字符串 text 公司名称、描述 限制长度的字符串 varchar(n) 股票代码 布尔值 boolean 是否ST、是否启用 日期 date 交易日期 时间点 timestamptz 行情时间、创建时间 时间长度 interval 5分钟、30天 JSON 数据 jsonb 接口原始数据、扩展属性 唯一标识 uuid 订单ID、分布式主键 二进制数据 bytea 文件内容、哈希值 IP 地址 inet 客户端IP 一组同类型值 数组 标签、权限集合 二、整数类型 PostgreSQL 提供三种整数：",
-      "wordCount": "1027",
+      "wordCount": "1021",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2176,7 +2176,7 @@
 </ul>
 <p>PostgreSQL 的类型系统非常丰富，除了常见的数字、文本、时间，还原生支持 <code>jsonb</code>、数组、UUID、IP 地址、范围和全文检索等类型。<a
   class="gdoc-markdown__link"
-  href="https://www.postgresql.org/docs/18/datatype.html"
+  href="http://www.postgres.cn/docs/18/datatype.html"
 >PostgreSQL 18 数据类型文档</a></p>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="一常用类型速查"
@@ -2325,9 +2325,6 @@
 <li>可能超过21亿时使用 <code>bigint</code></li>
 <li>不必为了节省少量空间滥用 <code>smallint</code></li>
 </ul>
-<p>股票成交量建议使用：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">volume</span><span class="w"> </span><span class="nb">bigint</span><span class="w">
-</span></span></span></code></pre></div><p>因为长期累计量或高频数据可能超过 <code>integer</code> 上限。</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
     <h3 id="自增主键"
@@ -2412,7 +2409,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">12.35
 </span></span></code></pre></div><p>PostgreSQL 官方建议在货币金额等要求精确的场景中使用 <code>numeric</code>。<a
   class="gdoc-markdown__link"
-  href="https://www.postgresql.org/docs/18/datatype-numeric.html"
+  href="http://www.postgres.cn/docs/18/datatype-numeric.html"
 >数值类型文档</a></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2699,7 +2696,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>详见 <a
   class="gdoc-markdown__link"
-  href="https://www.postgresql.org/docs/18/datatype-datetime.html"
+  href="http://www.postgres.cn/docs/18/datatype-datetime.html"
 >PostgreSQL 日期与时间类型</a>。</p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2746,7 +2743,7 @@
 </ul>
 <p><a
   class="gdoc-markdown__link"
-  href="https://www.postgresql.org/docs/18/datatype-uuid.html"
+  href="http://www.postgres.cn/docs/18/datatype-uuid.html"
 >PostgreSQL UUID 类型</a></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
@@ -2817,7 +2814,7 @@
 </ul>
 <p><a
   class="gdoc-markdown__link"
-  href="https://www.postgresql.org/docs/18/datatype-json.html"
+  href="http://www.postgres.cn/docs/18/datatype-json.html"
 >PostgreSQL JSON 类型</a></p>
 <hr>
 <div class="flex align-center gdoc-page__anchorwrap">
