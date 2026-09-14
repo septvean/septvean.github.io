@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="内容：
+锁的种类（行锁 / 表锁 / 事务锁 / 元数据锁） 锁是如何产生的 业务中常见的锁问题 如何排查 如何避免阻塞 最佳实践 PostgreSQL 17 版本适用 非常适合 OLTP、高并发、业务系统开发与运维。
+1. PostgreSQL 锁的分类总览（核心知识） PostgreSQL 锁分四大类：
+类型 示例 说明 行级锁 Row-Level Locks SELECT … FOR UPDATE 最常用于业务，影响单行 表级锁 Table-Level Locks LOCK TABLE … DDL、并发写入时出现 事务锁 Transaction Locks 对象版本检查 MVCC 实现 元数据锁 Catalog Locks 修改表结构时 不阻塞普通查询 行锁不会阻塞读（PostgreSQL 最大优势之一）。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 锁 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 锁"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="内容：
+锁的种类（行锁 / 表锁 / 事务锁 / 元数据锁） 锁是如何产生的 业务中常见的锁问题 如何排查 如何避免阻塞 最佳实践 PostgreSQL 17 版本适用 非常适合 OLTP、高并发、业务系统开发与运维。
+1. PostgreSQL 锁的分类总览（核心知识） PostgreSQL 锁分四大类：
+类型 示例 说明 行级锁 Row-Level Locks SELECT … FOR UPDATE 最常用于业务，影响单行 表级锁 Table-Level Locks LOCK TABLE … DDL、并发写入时出现 事务锁 Transaction Locks 对象版本检查 MVCC 实现 元数据锁 Catalog Locks 修改表结构时 不阻塞普通查询 行锁不会阻塞读（PostgreSQL 最大优势之一）。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/locks/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 锁" />
+  <meta name="twitter:description" content="内容：
+锁的种类（行锁 / 表锁 / 事务锁 / 元数据锁） 锁是如何产生的 业务中常见的锁问题 如何排查 如何避免阻塞 最佳实践 PostgreSQL 17 版本适用 非常适合 OLTP、高并发、业务系统开发与运维。
+1. PostgreSQL 锁的分类总览（核心知识） PostgreSQL 锁分四大类：
+类型 示例 说明 行级锁 Row-Level Locks SELECT … FOR UPDATE 最常用于业务，影响单行 表级锁 Table-Level Locks LOCK TABLE … DDL、并发写入时出现 事务锁 Transaction Locks 对象版本检查 MVCC 实现 元数据锁 Catalog Locks 修改表结构时 不阻塞普通查询 行锁不会阻塞读（PostgreSQL 最大优势之一）。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 锁",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/locks/",
+      "headline": "PostgreSQL 锁",
+      "description": "内容：\n锁的种类（行锁 \/ 表锁 \/ 事务锁 \/ 元数据锁） 锁是如何产生的 业务中常见的锁问题 如何排查 如何避免阻塞 最佳实践 PostgreSQL 17 版本适用 非常适合 OLTP、高并发、业务系统开发与运维。\n1. PostgreSQL 锁的分类总览（核心知识） PostgreSQL 锁分四大类：\n类型 示例 说明 行级锁 Row-Level Locks SELECT … FOR UPDATE 最常用于业务，影响单行 表级锁 Table-Level Locks LOCK TABLE … DDL、并发写入时出现 事务锁 Transaction Locks 对象版本检查 MVCC 实现 元数据锁 Catalog Locks 修改表结构时 不阻塞普通查询 行锁不会阻塞读（PostgreSQL 最大优势之一）。",
+      "wordCount": "504",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/locks/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/locks/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 锁</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,408 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 锁</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>内容：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>锁的种类（行锁 / 表锁 / 事务锁 / 元数据锁）</li>
+<li>锁是如何产生的</li>
+<li>业务中常见的锁问题</li>
+<li>如何排查</li>
+<li>如何避免阻塞</li>
+<li>最佳实践</li>
+<li>PostgreSQL 17 版本适用</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>非常适合 OLTP、高并发、业务系统开发与运维。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="1-postgresql-锁的分类总览核心知识"
+    >
+        1. PostgreSQL 锁的分类总览（核心知识）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#1-postgresql-锁的分类总览核心知识" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. PostgreSQL 锁的分类总览（核心知识）" aria-label="Anchor to: 1. PostgreSQL 锁的分类总览（核心知识）" href="#1-postgresql-%e9%94%81%e7%9a%84%e5%88%86%e7%b1%bb%e6%80%bb%e8%a7%88%e6%a0%b8%e5%bf%83%e7%9f%a5%e8%af%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 锁分四大类：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>示例</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>行级锁 Row-Level Locks</td>
+					<td>SELECT … FOR UPDATE</td>
+					<td>最常用于业务，影响单行</td>
+			</tr>
+			<tr>
+					<td>表级锁 Table-Level Locks</td>
+					<td>LOCK TABLE …</td>
+					<td>DDL、并发写入时出现</td>
+			</tr>
+			<tr>
+					<td>事务锁 Transaction Locks</td>
+					<td>对象版本检查</td>
+					<td>MVCC 实现</td>
+			</tr>
+			<tr>
+					<td>元数据锁 Catalog Locks</td>
+					<td>修改表结构时</td>
+					<td>不阻塞普通查询</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>行锁不会阻塞读（PostgreSQL 最大优势之一）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="2-postgresql-行级锁业务中使用最多"
+    >
+        2. PostgreSQL 行级锁（业务中使用最多）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#2-postgresql-行级锁业务中使用最多" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. PostgreSQL 行级锁（业务中使用最多）" aria-label="Anchor to: 2. PostgreSQL 行级锁（业务中使用最多）" href="#2-postgresql-%e8%a1%8c%e7%ba%a7%e9%94%81%e4%b8%9a%e5%8a%a1%e4%b8%ad%e4%bd%bf%e7%94%a8%e6%9c%80%e5%a4%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL MVCC + 行锁 = 高并发强一致性。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="21-for-update"
+    >
+        2.1 FOR UPDATE
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#21-for-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.1 FOR UPDATE" aria-label="Anchor to: 2.1 FOR UPDATE" href="#21-for-update">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>锁定行以便更新（常用于扣库存、修改金额）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>其他事务：</p>
+<ul>
+<li>❌ 不能更新此行</li>
+<li>❌ 不能删除此行</li>
+<li>✅ 可以读（但读到旧版本）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="22-for-no-key-update"
+    >
+        2.2 FOR NO KEY UPDATE
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#22-for-no-key-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.2 FOR NO KEY UPDATE" aria-label="Anchor to: 2.2 FOR NO KEY UPDATE" href="#22-for-no-key-update">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>比 FOR UPDATE 的冲突范围更小。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="23-for-share"
+    >
+        2.3 FOR SHARE
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#23-for-share" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.3 FOR SHARE" aria-label="Anchor to: 2.3 FOR SHARE" href="#23-for-share">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>共享锁，只允许读取，用于强一致查询。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="k">SHARE</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="24-for-key-share"
+    >
+        2.4 FOR KEY SHARE
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#24-for-key-share" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.4 FOR KEY SHARE" aria-label="Anchor to: 2.4 FOR KEY SHARE" href="#24-for-key-share">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>保护外键约束（防止父表被删）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="25-skip-locked高并发队列神器"
+    >
+        2.5 SKIP LOCKED（高并发队列神器）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#25-skip-locked高并发队列神器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.5 SKIP LOCKED（高并发队列神器）" aria-label="Anchor to: 2.5 SKIP LOCKED（高并发队列神器）" href="#25-skip-locked%e9%ab%98%e5%b9%b6%e5%8f%91%e9%98%9f%e5%88%97%e7%a5%9e%e5%99%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">jobs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">SKIP</span><span class="w"> </span><span class="n">LOCKED</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>特点：</p>
+<ul>
+<li>不等待锁</li>
+<li>忽略被锁的行</li>
+<li>超适合 <strong>任务队列消费者</strong>、<strong>订单处理</strong>、<strong>抢单系统</strong></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="3-表级锁ddl-或批量修改触发"
+    >
+        3. 表级锁（DDL 或批量修改触发）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#3-表级锁ddl-或批量修改触发" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 表级锁（DDL 或批量修改触发）" aria-label="Anchor to: 3. 表级锁（DDL 或批量修改触发）" href="#3-%e8%a1%a8%e7%ba%a7%e9%94%81ddl-%e6%88%96%e6%89%b9%e9%87%8f%e4%bf%ae%e6%94%b9%e8%a7%a6%e5%8f%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>最常出现导致阻塞的锁类型。</p>
+<p><strong>表锁等级（由强到弱）</strong></p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>锁模式</th>
+					<th>常用语句</th>
+					<th>影响</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>ACCESS EXCLUSIVE</td>
+					<td>ALTER TABLE、DROP</td>
+					<td>阻塞所有读写</td>
+			</tr>
+			<tr>
+					<td>EXCLUSIVE</td>
+					<td>罕见</td>
+					<td>阻塞写</td>
+			</tr>
+			<tr>
+					<td>SHARE ROW EXCLUSIVE</td>
+					<td>CREATE INDEX CONCURRENTLY</td>
+					<td>阻塞写，允许读</td>
+			</tr>
+			<tr>
+					<td>ROW SHARE / ROW EXCLUSIVE</td>
+					<td>普通 UPDATE/DELETE</td>
+					<td>允许并发读</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>例：ALTER TABLE 会阻塞所有操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="nb">INT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>执行时：</p>
+<ul>
+<li>所有写阻塞</li>
+<li>所有读阻塞</li>
+<li>事务积压风险（Deadlock Storm）</li>
+</ul>
+<p>解决方法：使用 LOCK TIMEOUT</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">lock_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;5s&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="nb">INT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="4-死锁-deadlock业务最常见问题"
+    >
+        4. 死锁 Deadlock（业务最常见问题）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#4-死锁-deadlock业务最常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 死锁 Deadlock（业务最常见问题）" aria-label="Anchor to: 4. 死锁 Deadlock（业务最常见问题）" href="#4-%e6%ad%bb%e9%94%81-deadlock%e4%b8%9a%e5%8a%a1%e6%9c%80%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 自动检测死锁，并回滚其中一个事务。</p>
+<p><strong>死锁典型示例：</strong></p>
+<p>事务 A：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>事务 B：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>A 接着：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>B 接着：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>👉 互锁，PostgreSQL 会自动中止其中一个</p>
+<p>业务最佳实践避免死锁：</p>
+<ol>
+<li><strong>按统一顺序访问行</strong>（非常重要）</li>
+<li>事务尽量短</li>
+<li>避免在事务中执行慢查询或外部请求</li>
+<li>加锁顺序统一：比如 always lock smaller ID first</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="5-如何查看当前锁情况运维最常用"
+    >
+        5. 如何查看当前锁情况（运维最常用）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#5-如何查看当前锁情况运维最常用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 如何查看当前锁情况（运维最常用）" aria-label="Anchor to: 5. 如何查看当前锁情况（运维最常用）" href="#5-%e5%a6%82%e4%bd%95%e6%9f%a5%e7%9c%8b%e5%bd%93%e5%89%8d%e9%94%81%e6%83%85%e5%86%b5%e8%bf%90%e7%bb%b4%e6%9c%80%e5%b8%b8%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>查看锁：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_locks</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>查看锁 + 对应 SQL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">a</span><span class="p">.</span><span class="n">pid</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">a</span><span class="p">.</span><span class="k">state</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">a</span><span class="p">.</span><span class="n">query</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">l</span><span class="p">.</span><span class="n">locktype</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">l</span><span class="p">.</span><span class="k">mode</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">l</span><span class="p">.</span><span class="k">granted</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_locks</span><span class="w"> </span><span class="n">l</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">pid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">pid</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="6-查出阻塞链生产级排查大招"
+    >
+        6. 查出阻塞链（生产级排查大招）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#6-查出阻塞链生产级排查大招" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 查出阻塞链（生产级排查大招）" aria-label="Anchor to: 6. 查出阻塞链（生产级排查大招）" href="#6-%e6%9f%a5%e5%87%ba%e9%98%bb%e5%a1%9e%e9%93%be%e7%94%9f%e4%ba%a7%e7%ba%a7%e6%8e%92%e6%9f%a5%e5%a4%a7%e6%8b%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">pid</span><span class="w">     </span><span class="k">AS</span><span class="w"> </span><span class="n">blocked_pid</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">blocked_activity</span><span class="p">.</span><span class="n">query</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">blocked_query</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">pid</span><span class="w">     </span><span class="k">AS</span><span class="w"> </span><span class="n">blocking_pid</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">blocking_activity</span><span class="p">.</span><span class="n">query</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">blocking_query</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_locks</span><span class="w"> </span><span class="n">blocked_locks</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="n">blocked_activity</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">blocked_activity</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">pid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_locks</span><span class="w"> </span><span class="n">blocking_locks</span><span class="w"> </span><span class="k">ON</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">locktype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">locktype</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="k">DATABASE</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="k">DATABASE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">relation</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">relation</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">page</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">page</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">tuple</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">tuple</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">virtualxid</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">virtualxid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">transactionid</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">transactionid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">classid</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">classid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">objid</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">objid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">objsubid</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="n">objsubid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">JOIN</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="n">blocking_activity</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">blocking_activity</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocking_locks</span><span class="p">.</span><span class="n">pid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">blocked_locks</span><span class="p">.</span><span class="k">granted</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="7-强制取消阻塞的会话"
+    >
+        7. 强制取消阻塞的会话
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#7-强制取消阻塞的会话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 强制取消阻塞的会话" aria-label="Anchor to: 7. 强制取消阻塞的会话" href="#7-%e5%bc%ba%e5%88%b6%e5%8f%96%e6%b6%88%e9%98%bb%e5%a1%9e%e7%9a%84%e4%bc%9a%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_terminate_backend</span><span class="p">(</span><span class="mi">12345</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="8-典型业务锁场景总结"
+    >
+        8. 典型业务锁场景总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#8-典型业务锁场景总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 典型业务锁场景总结" aria-label="Anchor to: 8. 典型业务锁场景总结" href="#8-%e5%85%b8%e5%9e%8b%e4%b8%9a%e5%8a%a1%e9%94%81%e5%9c%ba%e6%99%af%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐用法</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>抢订单、抢红包</td>
+					<td>FOR UPDATE SKIP LOCKED</td>
+					<td>并发高时最稳</td>
+			</tr>
+			<tr>
+					<td>扣库存</td>
+					<td>FOR UPDATE</td>
+					<td>强一致</td>
+			</tr>
+			<tr>
+					<td>消费队列</td>
+					<td>FOR UPDATE SKIP LOCKED</td>
+					<td>常用</td>
+			</tr>
+			<tr>
+					<td>获取某行最新状态</td>
+					<td>FOR SHARE</td>
+					<td>阻止被别人更新</td>
+			</tr>
+			<tr>
+					<td>审核流程</td>
+					<td>FOR NO KEY UPDATE</td>
+					<td>不需要锁主键</td>
+			</tr>
+			<tr>
+					<td>外键保护</td>
+					<td>FOR KEY SHARE</td>
+					<td>提高并发</td>
+			</tr>
+			<tr>
+					<td>并发插入</td>
+					<td>upsert（ON CONFLICT）</td>
+					<td>避免唯一键冲突</td>
+			</tr>
+			<tr>
+					<td>批量更新</td>
+					<td>分批 LIMIT + SKIP LOCKED</td>
+					<td>防止长锁</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="9-优化锁的最佳实践非常关键"
+    >
+        9. 优化锁的最佳实践（非常关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#9-优化锁的最佳实践非常关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 优化锁的最佳实践（非常关键）" aria-label="Anchor to: 9. 优化锁的最佳实践（非常关键）" href="#9-%e4%bc%98%e5%8c%96%e9%94%81%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e9%9d%9e%e5%b8%b8%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-事务越短越好"
+    >
+        1. 事务越短越好
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#1-事务越短越好" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 事务越短越好" aria-label="Anchor to: 1. 事务越短越好" href="#1-%e4%ba%8b%e5%8a%a1%e8%b6%8a%e7%9f%ad%e8%b6%8a%e5%a5%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>不要在事务里做：</p>
+<ul>
+<li>API 请求</li>
+<li>网络请求</li>
+<li>慢查询</li>
+<li>人工等待</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-按固定顺序访问行最有效防死锁"
+    >
+        2. 按固定顺序访问行（最有效防死锁）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#2-按固定顺序访问行最有效防死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 按固定顺序访问行（最有效防死锁）" aria-label="Anchor to: 2. 按固定顺序访问行（最有效防死锁）" href="#2-%e6%8c%89%e5%9b%ba%e5%ae%9a%e9%a1%ba%e5%ba%8f%e8%ae%bf%e9%97%ae%e8%a1%8c%e6%9c%80%e6%9c%89%e6%95%88%e9%98%b2%e6%ad%bb%e9%94%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>例如：</p>
+<p>先锁小 ID，再锁大 ID</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-where-带索引否则锁整表-"
+    >
+        3. WHERE 带索引，否则锁整表 ⚠️
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#3-where-带索引否则锁整表-" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. WHERE 带索引，否则锁整表 ⚠️" aria-label="Anchor to: 3. WHERE 带索引，否则锁整表 ⚠️" href="#3-where-%e5%b8%a6%e7%b4%a2%e5%bc%95%e5%90%a6%e5%88%99%e9%94%81%e6%95%b4%e8%a1%a8-">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;x&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>如果 email 没索引</p>
+<p>👉 锁表扫描期间会堵住所有写操作！</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-读写分离-not-enough"
+    >
+        4. 读写分离 NOT ENOUGH
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#4-读写分离-not-enough" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 读写分离 NOT ENOUGH" aria-label="Anchor to: 4. 读写分离 NOT ENOUGH" href="#4-%e8%af%bb%e5%86%99%e5%88%86%e7%a6%bb-not-enough">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>OLTP 业务仍然可能锁冲突。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-使用-skip-locked-提高队列并发"
+    >
+        5. 使用 SKIP LOCKED 提高队列并发
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/locks/#5-使用-skip-locked-提高队列并发" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 使用 SKIP LOCKED 提高队列并发" aria-label="Anchor to: 5. 使用 SKIP LOCKED 提高队列并发" href="#5-%e4%bd%bf%e7%94%a8-skip-locked-%e6%8f%90%e9%ab%98%e9%98%9f%e5%88%97%e5%b9%b6%e5%8f%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 
   </article>
 
@@ -2744,9 +2981,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3002,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3860,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

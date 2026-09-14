@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="PostgreSQL 的 XID 问题指的是 XID 溢出问题（XID Wraparound Problem），它发生在 32 位事务 ID (XID) 计数器耗尽时。当最旧活跃事务与最新事务的年龄差超过 21 亿（约占 32 位空间的一半）时，PostgreSQL 会进入事务回卷保护状态，停止接受新的写入事务，导致服务中断，通常需要通过执行 VACUUM 来修复。
+什么是 XID 问题 32 位事务 ID (XID)：PostgreSQL 使用 32 位的 XID 来跟踪事务，其最大值约为 42.9 亿。
+XID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时，就会发生 XID 溢出。这可能导致新事务的 ID 比旧事务的 ID 小，引起逻辑混乱和数据不可用。
+事务回卷保护：为了防止 XID 溢出导致数据损坏，当系统检测到最旧活跃事务和最新事务之间的年龄差达到一个临界值时（通常是 21 亿），它会进入保护状态，阻止新的写入事务，从而避免 XID 溢出。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL XID 问题 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL XID 问题"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="PostgreSQL 的 XID 问题指的是 XID 溢出问题（XID Wraparound Problem），它发生在 32 位事务 ID (XID) 计数器耗尽时。当最旧活跃事务与最新事务的年龄差超过 21 亿（约占 32 位空间的一半）时，PostgreSQL 会进入事务回卷保护状态，停止接受新的写入事务，导致服务中断，通常需要通过执行 VACUUM 来修复。
+什么是 XID 问题 32 位事务 ID (XID)：PostgreSQL 使用 32 位的 XID 来跟踪事务，其最大值约为 42.9 亿。
+XID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时，就会发生 XID 溢出。这可能导致新事务的 ID 比旧事务的 ID 小，引起逻辑混乱和数据不可用。
+事务回卷保护：为了防止 XID 溢出导致数据损坏，当系统检测到最旧活跃事务和最新事务之间的年龄差达到一个临界值时（通常是 21 亿），它会进入保护状态，阻止新的写入事务，从而避免 XID 溢出。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/xid/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL XID 问题" />
+  <meta name="twitter:description" content="PostgreSQL 的 XID 问题指的是 XID 溢出问题（XID Wraparound Problem），它发生在 32 位事务 ID (XID) 计数器耗尽时。当最旧活跃事务与最新事务的年龄差超过 21 亿（约占 32 位空间的一半）时，PostgreSQL 会进入事务回卷保护状态，停止接受新的写入事务，导致服务中断，通常需要通过执行 VACUUM 来修复。
+什么是 XID 问题 32 位事务 ID (XID)：PostgreSQL 使用 32 位的 XID 来跟踪事务，其最大值约为 42.9 亿。
+XID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时，就会发生 XID 溢出。这可能导致新事务的 ID 比旧事务的 ID 小，引起逻辑混乱和数据不可用。
+事务回卷保护：为了防止 XID 溢出导致数据损坏，当系统检测到最旧活跃事务和最新事务之间的年龄差达到一个临界值时（通常是 21 亿），它会进入保护状态，阻止新的写入事务，从而避免 XID 溢出。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL XID 问题",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/xid/",
+      "headline": "PostgreSQL XID 问题",
+      "description": "PostgreSQL 的 XID 问题指的是 XID 溢出问题（XID Wraparound Problem），它发生在 32 位事务 ID (XID) 计数器耗尽时。当最旧活跃事务与最新事务的年龄差超过 21 亿（约占 32 位空间的一半）时，PostgreSQL 会进入事务回卷保护状态，停止接受新的写入事务，导致服务中断，通常需要通过执行 VACUUM 来修复。\n什么是 XID 问题 32 位事务 ID (XID)：PostgreSQL 使用 32 位的 XID 来跟踪事务，其最大值约为 42.9 亿。\nXID 溢出：当事务 ID 计数器到达最大值并从头开始重新计数时，就会发生 XID 溢出。这可能导致新事务的 ID 比旧事务的 ID 小，引起逻辑混乱和数据不可用。\n事务回卷保护：为了防止 XID 溢出导致数据损坏，当系统检测到最旧活跃事务和最新事务之间的年龄差达到一个临界值时（通常是 21 亿），它会进入保护状态，阻止新的写入事务，从而避免 XID 溢出。",
+      "wordCount": "182",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/xid/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/xid/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL XID 问题</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,137 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL XID 问题</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>PostgreSQL 的 XID 问题指的是 <strong>XID 溢出问题（XID Wraparound Problem）</strong>，它发生在 32 位事务 ID (XID) 计数器耗尽时。当最旧活跃事务与最新事务的年龄差超过 21 亿（约占 32 位空间的一半）时，PostgreSQL 会进入事务回卷保护状态，停止接受新的写入事务，导致服务中断，通常需要通过执行 VACUUM 来修复。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="什么是-xid-问题"
+    >
+        什么是 XID 问题
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/xid/#什么是-xid-问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 什么是 XID 问题" aria-label="Anchor to: 什么是 XID 问题" href="#%e4%bb%80%e4%b9%88%e6%98%af-xid-%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>
+<p><strong>32 位事务 ID (XID)</strong>：PostgreSQL 使用 32 位的 XID 来跟踪事务，其最大值约为 42.9 亿。</p>
+</li>
+<li>
+<p><strong>XID 溢出</strong>：当事务 ID 计数器到达最大值并从头开始重新计数时，就会发生 XID 溢出。这可能导致新事务的 ID 比旧事务的 ID 小，引起逻辑混乱和数据不可用。</p>
+</li>
+<li>
+<p><strong>事务回卷保护</strong>：为了防止 XID 溢出导致数据损坏，当系统检测到最旧活跃事务和最新事务之间的年龄差达到一个临界值时（通常是 21 亿），它会进入保护状态，阻止新的写入事务，从而避免 XID 溢出。</p>
+</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="如何解决-xid-问题"
+    >
+        如何解决 XID 问题
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/xid/#如何解决-xid-问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 如何解决 XID 问题" aria-label="Anchor to: 如何解决 XID 问题" href="#%e5%a6%82%e4%bd%95%e8%a7%a3%e5%86%b3-xid-%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p><strong>执行 VACUUM</strong>：在系统进入保护状态时，通常需要以单用户模式连接数据库，并执行 VACUUM 命令来清理旧的、已失效的数据和事务。</p>
+</li>
+<li>
+<p><strong>频繁运行 VACUUM</strong>：为了防止 XID 问题再次发生，建议根据数据库的写入量频繁地运行 VACUUM，以避免事务年龄过大。</p>
+</li>
+<li>
+<p><strong>系统维护</strong>：定期检查数据库的事务年龄，并采取预防措施。在某些情况下，可能需要调整 autovacuum 参数或考虑进行数据库分片（Sharding）来减轻这个问题。</p>
+</li>
+</ul>
+<hr>
+<p>PostgreSQL 中的事务ID (XID) 是一个重要的概念，主要涉及其多版本并发控制 (MVCC) 机制和事务ID回卷 (wraparound) 问题。理解并妥善管理XID对于数据库的稳定运行至关重要。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="什么是xid"
+    >
+        什么是XID？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/xid/#什么是xid" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 什么是XID？" aria-label="Anchor to: 什么是XID？" href="#%e4%bb%80%e4%b9%88%e6%98%afxid">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>XID是PostgreSQL分配给每个事务的32位无符号整数标识符。</p>
+<p><strong>MVCC基础</strong>: PostgreSQL利用XID来判断数据的可见性。数据行（元组）的头部会存储创建和（或）删除该行的事务ID，以此来确定哪些事务可以看到哪些行版本。</p>
+<p><strong>有限的范围</strong>: 32位的XID理论上有大约40亿个可能的值（从3开始）。由于是无符号整数，当达到最大值后，它会从头开始循环使用（回卷）。</p>
+<p><strong>主要问题</strong>：事务ID回卷 (XID Wraparound)</p>
+<p>XID回卷本身是一种设计机制，但如果处理不当，会引发严重问题：</p>
+<ul>
+<li>
+<p><strong>数据库关闭/只读</strong>: 如果数据库的自动清理（autovacuum）进程未能及时“冻结”旧的事务ID，导致当前XID接近最大值，PostgreSQL会强制将数据库切换为只读模式，以防止数据丢失和MVCC判断失败。</p>
+</li>
+<li>
+<p><strong>数据损坏</strong>: MVCC依赖于XID的相对顺序来确定可见性。如果XID回卷且旧事务ID未被正确标记为“已提交”（即“冻结”），系统可能会错误地将未来的新事务ID视为已提交的旧ID，导致数据损坏或不可见。</p>
+</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="解决方案和预防措施"
+    >
+        解决方案和预防措施
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/xid/#解决方案和预防措施" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 解决方案和预防措施" aria-label="Anchor to: 解决方案和预防措施" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88%e5%92%8c%e9%a2%84%e9%98%b2%e6%8e%aa%e6%96%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>解决XID问题的核心在于确保及时进行VACUUM操作，尤其是“冻结”（FREEZE）操作。</p>
+<ol>
+<li>
+<p>自动清理 (Autovacuum)</p>
+<p>PostgreSQL的autovacuum守护进程主要负责预防XID回卷问题。它会自动清理“死”元组，并将旧事务标记为“冻结”状态。</p>
+<p>重要参数:</p>
+<ul>
+<li>autovacuum_freeze_max_age: 控制表在被强制执行VACUUM FREEZE之前的最大事务ID年龄（默认通常是2亿事务）。</li>
+<li>vacuum_freeze_min_age 和 vacuum_freeze_table_age: 进一步控制何时触发冻结操作。</li>
+</ul>
+</li>
+<li>
+<p>手动干预</p>
+<p>如果autovacuum跟不上（例如，由于工作负载繁重、配置不当、长时间运行的事务阻塞清理），可能需要手动执行VACUUM命令。</p>
+<p>VACUUM(FREEZE) table_name: 可以针对特定表强制执行冻结操作。</p>
+<p>注意: 手动VACUUM FULL会锁定表，应谨慎使用，标准VACUUM可以与大多数操作并行运行。</p>
+</li>
+<li>
+<p>监控</p>
+<p>积极监控数据库的XID使用情况至关重要。
+使用age()函数可以确定数据库或特定表最旧的未冻结事务ID的“年龄”。
+SELECT datname, age(datfrozenxid) FROM pg_database; 可用于检查数据库级别的XID年龄。
+设置警报阈值，以便在接近危险限制之前采取行动。</p>
+</li>
+<li>
+<p>避免长时间运行的事务</p>
+<p>长时间运行的事务会阻止VACUUM清理该事务启动时尚未提交的旧元组，从而阻碍XID的冻结和回收。应及时识别并终止（如果必要）这些事务。</p>
+</li>
+</ol>
+<p>通过有效的监控和确保适当的VACUUM维护，可以成功管理PostgreSQL XID，避免事务ID回卷带来的风险。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="postgresql-18-uuidv7-能解决-xid-问题吗"
+    >
+        PostgreSQL 18 uuidv7 能解决 XID 问题吗
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/xid/#postgresql-18-uuidv7-能解决-xid-问题吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL 18 uuidv7 能解决 XID 问题吗" aria-label="Anchor to: PostgreSQL 18 uuidv7 能解决 XID 问题吗" href="#postgresql-18-uuidv7-%e8%83%bd%e8%a7%a3%e5%86%b3-xid-%e9%97%ae%e9%a2%98%e5%90%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>不能。</strong></p>
+<p>PostgreSQL 18 中引入的 UUIDv7 支持<strong>无法解决 XID（事务 ID）耗尽（回卷）问题</strong>。</p>
+<p>原因如下：</p>
+<ul>
+<li>
+<p><strong>UUIDv7 的作用</strong>：UUIDv7 是一种新型的全局唯一标识符，其设计目的是通过在 ID 中包含时间戳来解决传统随机 UUID（如 UUIDv4）在用作主键时导致的 B 树索引性能下降问题。它使插入操作更具顺序性，提高了缓存效率和减少了索引碎片。</p>
+</li>
+<li>
+<p><strong>XID 的作用</strong>：XID 是 PostgreSQL 内部用于管理并发和 MVCC（多版本并发控制）的事务标识符。每个事务都会分配一个 XID。XID 是一个 32 位整数（或扩展的 64 位），会周期性地回卷。PostgreSQL 使用特定的机制（如 VACUUM 进程）来管理和清理旧的 XID，防止回卷问题导致停机。</p>
+</li>
+<li>
+<p><strong>两者无关</strong>：UUIDv7 是用户数据层面的主键生成策略，而 XID 是数据库引擎底层的事务管理机制。使用 UUIDv7 作为应用程序的主键，并不会改变 PostgreSQL 引擎管理 XID 的方式，也不会影响 XID 空间的耗尽速度。</p>
+</li>
+</ul>
+<p>XID 回卷是一个独立的、需要通过适当的数据库维护（例如确保 autovacuum 正常运行）来解决的问题。UUIDv7 带来的改进主要集中在性能优化和开发人员体验方面，与 XID 机制没有直接联系。</p>
 
   </article>
 
@@ -2744,9 +2710,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2731,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3589,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

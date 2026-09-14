@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="在 PostgreSQL 中，可以使用 trim() 函数去除字段首尾的空白字符。如果需要去除字符串中所有空白字符，可以使用 replace() 函数将所有空格替换为空字符串。
+去除首尾空白 使用 trim() 函数。
+SELECT trim(column) FROM table; trim(): 默认去除字符串开头和结尾的空白字符（包括空格、制表符、换行符等） column: 要处理的字段名 table: 表名 去除所有空白 使用 replace() 函数。
+SELECT replace(column, &#39; &#39;, &#39;&#39;) FROM table; replace(): 将第一个参数字符串中的所有出现的第二个参数（这里是空格 &rsquo; &lsquo;）替换为第三个参数（这里是空字符串 &lsquo;&rsquo;）。 " />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 去除空白 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 去除空白"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="在 PostgreSQL 中，可以使用 trim() 函数去除字段首尾的空白字符。如果需要去除字符串中所有空白字符，可以使用 replace() 函数将所有空格替换为空字符串。
+去除首尾空白 使用 trim() 函数。
+SELECT trim(column) FROM table; trim(): 默认去除字符串开头和结尾的空白字符（包括空格、制表符、换行符等） column: 要处理的字段名 table: 表名 去除所有空白 使用 replace() 函数。
+SELECT replace(column, &#39; &#39;, &#39;&#39;) FROM table; replace(): 将第一个参数字符串中的所有出现的第二个参数（这里是空格 ’ ‘）替换为第三个参数（这里是空字符串 ‘’）。 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/strip-whitespace/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 去除空白" />
+  <meta name="twitter:description" content="在 PostgreSQL 中，可以使用 trim() 函数去除字段首尾的空白字符。如果需要去除字符串中所有空白字符，可以使用 replace() 函数将所有空格替换为空字符串。
+去除首尾空白 使用 trim() 函数。
+SELECT trim(column) FROM table; trim(): 默认去除字符串开头和结尾的空白字符（包括空格、制表符、换行符等） column: 要处理的字段名 table: 表名 去除所有空白 使用 replace() 函数。
+SELECT replace(column, &#39; &#39;, &#39;&#39;) FROM table; replace(): 将第一个参数字符串中的所有出现的第二个参数（这里是空格 ’ ‘）替换为第三个参数（这里是空字符串 ‘’）。 " />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 去除空白",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/strip-whitespace/",
+      "headline": "PostgreSQL 去除空白",
+      "description": "在 PostgreSQL 中，可以使用 trim() 函数去除字段首尾的空白字符。如果需要去除字符串中所有空白字符，可以使用 replace() 函数将所有空格替换为空字符串。\n去除首尾空白 使用 trim() 函数。\nSELECT trim(column) FROM table; trim(): 默认去除字符串开头和结尾的空白字符（包括空格、制表符、换行符等） column: 要处理的字段名 table: 表名 去除所有空白 使用 replace() 函数。\nSELECT replace(column, \u0027 \u0027, \u0027\u0027) FROM table; replace(): 将第一个参数字符串中的所有出现的第二个参数（这里是空格 ’ ‘）替换为第三个参数（这里是空字符串 ‘’）。 ",
+      "wordCount": "37",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/strip-whitespace/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/strip-whitespace/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 去除空白</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,39 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 去除空白</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
-<ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+    <p>在 PostgreSQL 中，可以使用 <code>trim()</code> 函数去除字段首尾的空白字符。如果需要去除字符串中所有空白字符，可以使用 <code>replace()</code> 函数将所有空格替换为空字符串。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="去除首尾空白"
+    >
+        去除首尾空白
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/strip-whitespace/#去除首尾空白" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 去除首尾空白" aria-label="Anchor to: 去除首尾空白" href="#%e5%8e%bb%e9%99%a4%e9%a6%96%e5%b0%be%e7%a9%ba%e7%99%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用 <code>trim()</code> 函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">trim</span><span class="p">(</span><span class="k">column</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">table</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>trim()</code>: 默认去除字符串开头和结尾的空白字符（包括空格、制表符、换行符等）</li>
+<li><code>column</code>: 要处理的字段名</li>
+<li><code>table</code>: 表名</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="去除所有空白"
+    >
+        去除所有空白
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/strip-whitespace/#去除所有空白" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 去除所有空白" aria-label="Anchor to: 去除所有空白" href="#%e5%8e%bb%e9%99%a4%e6%89%80%e6%9c%89%e7%a9%ba%e7%99%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用 <code>replace()</code> 函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">replace</span><span class="p">(</span><span class="k">column</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">table</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>replace()</code>: 将第一个参数字符串中的所有出现的第二个参数（这里是空格 &rsquo; &lsquo;）替换为第三个参数（这里是空字符串 &lsquo;&rsquo;）。</li>
+</ul>
 
   </article>
 
@@ -2744,9 +2612,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2633,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3491,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

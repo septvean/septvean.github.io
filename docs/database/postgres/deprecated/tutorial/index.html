@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="下面是一份 “PostgreSQL 详细介绍（超完整、实战友好、架构级别）”，覆盖：
+PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） 锁机制 查询执行流程 索引类型 分区与扩展性 并行查询 高可用与集群 实际使用场景 最佳实践 与 MySQL、Oracle 的对比 1. PostgreSQL 是什么？ PostgreSQL（简称 Postgres）是当前 最先进的开源关系型数据库之一，同时也是最像 Oracle 的数据库，被称为：
+最强开源数据库 世界上功能最完整的关系数据库 特点：
+真正的 企业级 数据库 支持 SQL &#43; JSON 混合模型 完整的事务、锁、MVCC 丰富索引类型（远超 MySQL） 可扩展（插件化、扩展、函数） 高水平查询优化器（比 MySQL 强很多） 可作为 OLTP &#43; OLAP 混合场景 选择 PostgreSQL 17 更快，更强，更现代 2. PostgreSQL 体系结构（Architecture） 核心组件：" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 基础教程 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 基础教程"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="下面是一份 “PostgreSQL 详细介绍（超完整、实战友好、架构级别）”，覆盖：
+PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） 锁机制 查询执行流程 索引类型 分区与扩展性 并行查询 高可用与集群 实际使用场景 最佳实践 与 MySQL、Oracle 的对比 1. PostgreSQL 是什么？ PostgreSQL（简称 Postgres）是当前 最先进的开源关系型数据库之一，同时也是最像 Oracle 的数据库，被称为：
+最强开源数据库 世界上功能最完整的关系数据库 特点：
+真正的 企业级 数据库 支持 SQL &#43; JSON 混合模型 完整的事务、锁、MVCC 丰富索引类型（远超 MySQL） 可扩展（插件化、扩展、函数） 高水平查询优化器（比 MySQL 强很多） 可作为 OLTP &#43; OLAP 混合场景 选择 PostgreSQL 17 更快，更强，更现代 2. PostgreSQL 体系结构（Architecture） 核心组件：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/tutorial/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 基础教程" />
+  <meta name="twitter:description" content="下面是一份 “PostgreSQL 详细介绍（超完整、实战友好、架构级别）”，覆盖：
+PostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） 锁机制 查询执行流程 索引类型 分区与扩展性 并行查询 高可用与集群 实际使用场景 最佳实践 与 MySQL、Oracle 的对比 1. PostgreSQL 是什么？ PostgreSQL（简称 Postgres）是当前 最先进的开源关系型数据库之一，同时也是最像 Oracle 的数据库，被称为：
+最强开源数据库 世界上功能最完整的关系数据库 特点：
+真正的 企业级 数据库 支持 SQL &#43; JSON 混合模型 完整的事务、锁、MVCC 丰富索引类型（远超 MySQL） 可扩展（插件化、扩展、函数） 高水平查询优化器（比 MySQL 强很多） 可作为 OLTP &#43; OLAP 混合场景 选择 PostgreSQL 17 更快，更强，更现代 2. PostgreSQL 体系结构（Architecture） 核心组件：" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 基础教程",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/tutorial/",
+      "headline": "PostgreSQL 基础教程",
+      "description": "下面是一份 “PostgreSQL 详细介绍（超完整、实战友好、架构级别）”，覆盖：\nPostgreSQL 是什么 架构与底层原理 存储模型 事务模型（MVCC） 锁机制 查询执行流程 索引类型 分区与扩展性 并行查询 高可用与集群 实际使用场景 最佳实践 与 MySQL、Oracle 的对比 1. PostgreSQL 是什么？ PostgreSQL（简称 Postgres）是当前 最先进的开源关系型数据库之一，同时也是最像 Oracle 的数据库，被称为：\n最强开源数据库 世界上功能最完整的关系数据库 特点：\n真正的 企业级 数据库 支持 SQL \u002b JSON 混合模型 完整的事务、锁、MVCC 丰富索引类型（远超 MySQL） 可扩展（插件化、扩展、函数） 高水平查询优化器（比 MySQL 强很多） 可作为 OLTP \u002b OLAP 混合场景 选择 PostgreSQL 17 更快，更强，更现代 2. PostgreSQL 体系结构（Architecture） 核心组件：",
+      "wordCount": "459",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/tutorial/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/tutorial/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 基础教程</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,571 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 基础教程</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>下面是一份 “PostgreSQL 详细介绍（超完整、实战友好、架构级别）”，覆盖：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>PostgreSQL 是什么</li>
+<li>架构与底层原理</li>
+<li>存储模型</li>
+<li>事务模型（MVCC）</li>
+<li>锁机制</li>
+<li>查询执行流程</li>
+<li>索引类型</li>
+<li>分区与扩展性</li>
+<li>并行查询</li>
+<li>高可用与集群</li>
+<li>实际使用场景</li>
+<li>最佳实践</li>
+<li>与 MySQL、Oracle 的对比</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="1-postgresql-是什么"
+    >
+        1. PostgreSQL 是什么？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#1-postgresql-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. PostgreSQL 是什么？" aria-label="Anchor to: 1. PostgreSQL 是什么？" href="#1-postgresql-%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL（简称 Postgres）是当前 <strong>最先进的开源关系型数据库之一</strong>，同时也是最像 Oracle 的数据库，被称为：</p>
+<ul>
+<li><strong>最强开源数据库</strong></li>
+<li><strong>世界上功能最完整的关系数据库</strong></li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>真正的 <strong>企业级</strong> 数据库</li>
+<li>支持 SQL + JSON 混合模型</li>
+<li>完整的事务、锁、MVCC</li>
+<li>丰富索引类型（远超 MySQL）</li>
+<li>可扩展（插件化、扩展、函数）</li>
+<li>高水平查询优化器（比 MySQL 强很多）</li>
+<li>可作为 <strong>OLTP + OLAP 混合场景</strong> 选择</li>
+<li>PostgreSQL 17 更快，更强，更现代</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="2-postgresql-体系结构architecture"
+    >
+        2. PostgreSQL 体系结构（Architecture）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#2-postgresql-体系结构architecture" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. PostgreSQL 体系结构（Architecture）" aria-label="Anchor to: 2. PostgreSQL 体系结构（Architecture）" href="#2-postgresql-%e4%bd%93%e7%b3%bb%e7%bb%93%e6%9e%84architecture">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>核心组件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Client
+</span></span><span class="line"><span class="cl">  |
+</span></span><span class="line"><span class="cl">  | SQL / Protocol
+</span></span><span class="line"><span class="cl">  |
+</span></span><span class="line"><span class="cl">PostgreSQL Server (postgres)
+</span></span><span class="line"><span class="cl">  |
+</span></span><span class="line"><span class="cl">  +-- Parser（语法解析）
+</span></span><span class="line"><span class="cl">  +-- Planner / Optimizer（优化器）
+</span></span><span class="line"><span class="cl">  +-- Executor（执行器）
+</span></span><span class="line"><span class="cl">  +-- Storage Manager（存储引擎）
+</span></span><span class="line"><span class="cl">  +-- WAL（Write-Ahead Log）
+</span></span><span class="line"><span class="cl">  +-- Background Workers（后台进程）
+</span></span><span class="line"><span class="cl">       - checkpointer
+</span></span><span class="line"><span class="cl">       - writer
+</span></span><span class="line"><span class="cl">       - wal writer
+</span></span><span class="line"><span class="cl">       - autovacuum launcher
+</span></span><span class="line"><span class="cl">       - logical replication worker
+</span></span><span class="line"><span class="cl">       - bgworker 扩展
+</span></span></code></pre></div><p>PostgreSQL 是 <strong>单进程多子进程模型</strong>（不像 MySQL，是单进程多线程）。</p>
+<p>一个客户端连接，对应 <strong>一个独立进程</strong>。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="3-postgresql-存储模型"
+    >
+        3. PostgreSQL 存储模型
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#3-postgresql-存储模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. PostgreSQL 存储模型" aria-label="Anchor to: 3. PostgreSQL 存储模型" href="#3-postgresql-%e5%ad%98%e5%82%a8%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>主要文件：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>意义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>data/base/xxx/yyy</td>
+					<td>表的数据文件（堆表 Heap）</td>
+			</tr>
+			<tr>
+					<td>pg_wal/</td>
+					<td>写前日志（保证持久化）</td>
+			</tr>
+			<tr>
+					<td>pg_xact</td>
+					<td>事务提交信息（Transaction Status）</td>
+			</tr>
+			<tr>
+					<td>pg_multixact</td>
+					<td>多事务锁信息</td>
+			</tr>
+			<tr>
+					<td>pg_statistic</td>
+					<td>统计信息</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p><strong>关键机制：TOAST（The Oversized-Attribute Storage Technique）</strong></p>
+<p>用于存储大文本、大 JSON、大对象，大于 2KB 时自动拆分。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="4-postgresql-的-mvcc多版本并发控制"
+    >
+        4. PostgreSQL 的 MVCC（多版本并发控制）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#4-postgresql-的-mvcc多版本并发控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. PostgreSQL 的 MVCC（多版本并发控制）" aria-label="Anchor to: 4. PostgreSQL 的 MVCC（多版本并发控制）" href="#4-postgresql-%e7%9a%84-mvcc%e5%a4%9a%e7%89%88%e6%9c%ac%e5%b9%b6%e5%8f%91%e6%8e%a7%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 采用 <strong>MVCC + 无锁读（read without lock）</strong> 机制。</p>
+<p>核心思想：</p>
+<ul>
+<li>每行数据包含两个隐藏字段：
+<ul>
+<li>xmin（创建事务 ID）</li>
+<li>xmax（删除事务 ID）</li>
+</ul>
+</li>
+<li>不更新行，而是创建新版本行 -&gt; 多版本</li>
+<li>查询会根据事务快照选择可见版本</li>
+<li>不需要加读锁 -&gt; 并发性能极高</li>
+</ul>
+<p><strong>PostgreSQL MVCC 的优点：</strong></p>
+<ul>
+<li>查询不会阻塞写</li>
+<li>写不会阻塞读（除非冲突行锁）</li>
+<li>高并发下性能稳定</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>会产生大量“死行” -&gt; 依赖 VACUUM 清理</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="5-vacuum-与自动清理"
+    >
+        5. VACUUM 与自动清理
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#5-vacuum-与自动清理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. VACUUM 与自动清理" aria-label="Anchor to: 5. VACUUM 与自动清理" href="#5-vacuum-%e4%b8%8e%e8%87%aa%e5%8a%a8%e6%b8%85%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>VACUUM 用于：</p>
+<ul>
+<li>回收死行空间</li>
+<li>防止事务 ID wraparound</li>
+<li>更新统计信息（ANALYZE）</li>
+</ul>
+<p>PostgreSQL 有 <strong>autovacuum</strong>，无需人工维护。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="6-postgresql-锁机制locking"
+    >
+        6. PostgreSQL 锁机制（Locking）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#6-postgresql-锁机制locking" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. PostgreSQL 锁机制（Locking）" aria-label="Anchor to: 6. PostgreSQL 锁机制（Locking）" href="#6-postgresql-%e9%94%81%e6%9c%ba%e5%88%b6locking">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>锁类型丰富，是企业级数据库核心能力：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>锁类型</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Row lock（行锁）</td>
+					<td>UPDATE、DELETE</td>
+			</tr>
+			<tr>
+					<td>Table lock（表锁）</td>
+					<td>DDL、VACUUM</td>
+			</tr>
+			<tr>
+					<td>Advisory lock（咨询锁）</td>
+					<td>应用层分布式锁</td>
+			</tr>
+			<tr>
+					<td>LWLock</td>
+					<td>内部轻量锁</td>
+			</tr>
+			<tr>
+					<td>SpinLock</td>
+					<td>内部自旋锁</td>
+			</tr>
+			<tr>
+					<td>Predicate Lock</td>
+					<td>Serializable 隔离性</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>PostgreSQL 行锁之间兼容度更高，死锁更少。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="7-postgresql-索引类型非常强"
+    >
+        7. PostgreSQL 索引类型（非常强）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#7-postgresql-索引类型非常强" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. PostgreSQL 索引类型（非常强）" aria-label="Anchor to: 7. PostgreSQL 索引类型（非常强）" href="#7-postgresql-%e7%b4%a2%e5%bc%95%e7%b1%bb%e5%9e%8b%e9%9d%9e%e5%b8%b8%e5%bc%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 的索引比 MySQL 强太多：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>B-tree</td>
+					<td>主键、普通索引</td>
+			</tr>
+			<tr>
+					<td>Hash</td>
+					<td>等值匹配（很少用）</td>
+			</tr>
+			<tr>
+					<td>GIN</td>
+					<td>JSON、数组、全文搜索</td>
+			</tr>
+			<tr>
+					<td>GiST</td>
+					<td>地理位置、模糊匹配</td>
+			</tr>
+			<tr>
+					<td>BRIN</td>
+					<td>海量顺序数据（时序）</td>
+			</tr>
+			<tr>
+					<td>SP-GiST</td>
+					<td>树、图、空间结构</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>尤其 GIN/GiST/BRIN 是 PostgreSQL 独有的优势。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="8-postgresql-查询流程"
+    >
+        8. PostgreSQL 查询流程
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#8-postgresql-查询流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. PostgreSQL 查询流程" aria-label="Anchor to: 8. PostgreSQL 查询流程" href="#8-postgresql-%e6%9f%a5%e8%af%a2%e6%b5%81%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SQL
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Parser（词法语法分析）
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Rewriter（规则重写）
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Planner / Optimizer（生成执行计划）
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Executor（执行器）
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">返回结果
+</span></span></code></pre></div><p>优化器比 MySQL 更强，支持：</p>
+<ul>
+<li>Hash Join</li>
+<li>Merge Join</li>
+<li>Nested Loop Join</li>
+<li>并行查询</li>
+<li>Bitmap Scan</li>
+<li>上百种成本估计策略</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="9-postgresql-分区表partitioning"
+    >
+        9. PostgreSQL 分区表（Partitioning）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#9-postgresql-分区表partitioning" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. PostgreSQL 分区表（Partitioning）" aria-label="Anchor to: 9. PostgreSQL 分区表（Partitioning）" href="#9-postgresql-%e5%88%86%e5%8c%ba%e8%a1%a8partitioning">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>支持三种：</p>
+<ul>
+<li>RANGE（按范围，例如 date）</li>
+<li>LIST（按枚举，例如 province）</li>
+<li>HASH（均匀分布）</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>分区是 “物理表”</li>
+<li>分区裁剪提高查询性能</li>
+<li>适用于 TB 级数据</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="10-扩展能力postgres-最大优势之一"
+    >
+        10. 扩展能力（Postgres 最大优势之一）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#10-扩展能力postgres-最大优势之一" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 扩展能力（Postgres 最大优势之一）" aria-label="Anchor to: 10. 扩展能力（Postgres 最大优势之一）" href="#10-%e6%89%a9%e5%b1%95%e8%83%bd%e5%8a%9bpostgres-%e6%9c%80%e5%a4%a7%e4%bc%98%e5%8a%bf%e4%b9%8b%e4%b8%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 能加载扩展：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">timescaledb</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_trgm</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">btree_gin</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">citext</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">...</span><span class="w">
+</span></span></span></code></pre></div><p>知名扩展：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>扩展</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>TimescaleDB</td>
+					<td>时序数据库引擎</td>
+			</tr>
+			<tr>
+					<td>PostGIS</td>
+					<td>地理空间数据库</td>
+			</tr>
+			<tr>
+					<td>pg_trgm</td>
+					<td>模糊匹配（相似度）</td>
+			</tr>
+			<tr>
+					<td>uuid-ossp</td>
+					<td>UUID</td>
+			</tr>
+			<tr>
+					<td>citext</td>
+					<td>不区分大小写字符串</td>
+			</tr>
+			<tr>
+					<td>tablefunc</td>
+					<td>pivot/crosstab</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>扩展生态极其丰富，是 PostgreSQL 最大杀手级优势。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="11-高可用与集群方案"
+    >
+        11. 高可用与集群方案
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#11-高可用与集群方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 高可用与集群方案" aria-label="Anchor to: 11. 高可用与集群方案" href="#11-%e9%ab%98%e5%8f%af%e7%94%a8%e4%b8%8e%e9%9b%86%e7%be%a4%e6%96%b9%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 自带流复制（Streaming Replication）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Primary &lt;- WAL -&gt; Standby
+</span></span></code></pre></div><p>典型方案：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>方案</th>
+					<th>特点</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Patroni</td>
+					<td>最强、最成熟、企业级</td>
+			</tr>
+			<tr>
+					<td>pgpool-II</td>
+					<td>连接池 + 负载均衡</td>
+			</tr>
+			<tr>
+					<td>repmgr</td>
+					<td>主从管理</td>
+			</tr>
+			<tr>
+					<td>Native Logical Replication</td>
+					<td>分表同步、灵活</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>企业推荐：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Patroni + etcd + HAProxy
+</span></span></code></pre></div><p><strong>高度数据一致性集群</strong>，答案就是 Patroni。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="12-postgresql-应用场景"
+    >
+        12. PostgreSQL 应用场景
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#12-postgresql-应用场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. PostgreSQL 应用场景" aria-label="Anchor to: 12. PostgreSQL 应用场景" href="#12-postgresql-%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="高度事务性系统比-mysql-更稳"
+    >
+        高度事务性系统（比 MySQL 更稳）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#高度事务性系统比-mysql-更稳" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 高度事务性系统（比 MySQL 更稳）" aria-label="Anchor to: 高度事务性系统（比 MySQL 更稳）" href="#%e9%ab%98%e5%ba%a6%e4%ba%8b%e5%8a%a1%e6%80%a7%e7%b3%bb%e7%bb%9f%e6%af%94-mysql-%e6%9b%b4%e7%a8%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>银行</li>
+<li>ERP</li>
+<li>订单系统</li>
+<li>金融核心系统</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="大量-json-与结构化混合查询"
+    >
+        大量 JSON 与结构化混合查询
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#大量-json-与结构化混合查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 大量 JSON 与结构化混合查询" aria-label="Anchor to: 大量 JSON 与结构化混合查询" href="#%e5%a4%a7%e9%87%8f-json-%e4%b8%8e%e7%bb%93%e6%9e%84%e5%8c%96%e6%b7%b7%e5%90%88%e6%9f%a5%e8%af%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>后端 API</li>
+<li>配置管理</li>
+<li>用户自定义字段</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="时序数据timescaledb"
+    >
+        时序数据（TimescaleDB）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#时序数据timescaledb" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 时序数据（TimescaleDB）" aria-label="Anchor to: 时序数据（TimescaleDB）" href="#%e6%97%b6%e5%ba%8f%e6%95%b0%e6%8d%aetimescaledb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>监控（Zabbix）</li>
+<li>传感器数据</li>
+<li>股票行情（你正在做的 up_resaon 类表）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="地理系统"
+    >
+        地理系统
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#地理系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 地理系统" aria-label="Anchor to: 地理系统" href="#%e5%9c%b0%e7%90%86%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>GIS、地图（PostGIS）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="海量数据分析olap-混合"
+    >
+        海量数据分析（OLAP 混合）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#海量数据分析olap-混合" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 海量数据分析（OLAP 混合）" aria-label="Anchor to: 海量数据分析（OLAP 混合）" href="#%e6%b5%b7%e9%87%8f%e6%95%b0%e6%8d%ae%e5%88%86%e6%9e%90olap-%e6%b7%b7%e5%90%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>支持并行查询、向量化扫描。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="13-postgresql-与-mysql-比较"
+    >
+        13. PostgreSQL 与 MySQL 比较
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#13-postgresql-与-mysql-比较" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. PostgreSQL 与 MySQL 比较" aria-label="Anchor to: 13. PostgreSQL 与 MySQL 比较" href="#13-postgresql-%e4%b8%8e-mysql-%e6%af%94%e8%be%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>PostgreSQL</th>
+					<th>MySQL</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>SQL 标准</td>
+					<td>✅ 最高</td>
+					<td>中等</td>
+			</tr>
+			<tr>
+					<td>JSON</td>
+					<td>✅ 强（jsonb）</td>
+					<td>弱</td>
+			</tr>
+			<tr>
+					<td>事务</td>
+					<td>✅ 强（MVCC+锁）</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>扩展能力</td>
+					<td>✅ 超强</td>
+					<td>弱</td>
+			</tr>
+			<tr>
+					<td>索引类型</td>
+					<td>✅ 很多</td>
+					<td>少</td>
+			</tr>
+			<tr>
+					<td>查询优化器</td>
+					<td>✅ 强</td>
+					<td>一般</td>
+			</tr>
+			<tr>
+					<td>ACID 一致性</td>
+					<td>✅ 强</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>聚合&amp;窗口函数</td>
+					<td>✅ 完整</td>
+					<td>部分</td>
+			</tr>
+			<tr>
+					<td>并行查询</td>
+					<td>✅ 强</td>
+					<td>弱</td>
+			</tr>
+			<tr>
+					<td>分区表</td>
+					<td>✅ 成熟</td>
+					<td>一般</td>
+			</tr>
+			<tr>
+					<td>时序数据库</td>
+					<td>✅ TimescaleDB</td>
+					<td>❌ 无</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="14-postgresql-最佳实践总结"
+    >
+        14. PostgreSQL 最佳实践（总结）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/tutorial/#14-postgresql-最佳实践总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. PostgreSQL 最佳实践（总结）" aria-label="Anchor to: 14. PostgreSQL 最佳实践（总结）" href="#14-postgresql-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>默认字符类型用 text</li>
+<li>JSON 用 jsonb</li>
+<li>索引尽量用 BTREE，优化器最熟</li>
+<li>大表用分区（RANGE）</li>
+<li>时序表用 TimescaleDB</li>
+<li>VACUUM 参数调优</li>
+<li>使用连接池（PgBouncer）</li>
+<li>使用 autovacuum，不手动 vacuum full</li>
+<li>主从复制用 Patroni</li>
+</ul>
 
   </article>
 
@@ -2744,9 +3144,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3165,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +4023,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

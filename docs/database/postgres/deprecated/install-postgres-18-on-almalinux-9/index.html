@@ -12,12 +12,13 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="官方文档：Linux downloads (Red Hat family)
+运维环境：
+操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm 验证仓库状态：
+percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。
+安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 dnf -qy module disable postgresql percona-release setup ppg-18 说明：" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>在 AlmaLinux 9 上安装 PostgreSQL 18 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +39,27 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="在 AlmaLinux 9 上安装 PostgreSQL 18"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="官方文档：Linux downloads (Red Hat family)
+运维环境：
+操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm 验证仓库状态：
+percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。
+安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 dnf -qy module disable postgresql percona-release setup ppg-18 说明：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="在 AlmaLinux 9 上安装 PostgreSQL 18" />
+  <meta name="twitter:description" content="官方文档：Linux downloads (Red Hat family)
+运维环境：
+操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm 验证仓库状态：
+percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。
+安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 dnf -qy module disable postgresql percona-release setup ppg-18 说明：" />
 
 
   <script type="application/ld+json">
@@ -64,16 +67,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "在 AlmaLinux 9 上安装 PostgreSQL 18",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/",
+      "headline": "在 AlmaLinux 9 上安装 PostgreSQL 18",
+      "description": "官方文档：Linux downloads (Red Hat family)\n运维环境：\n操作系统：AlmaLinux 9.7 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https:\/\/repo.percona.com\/yum\/percona-release-latest.noarch.rpm 验证仓库状态：\npercona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。\n安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 dnf -qy module disable postgresql percona-release setup ppg-18 说明：",
+      "wordCount": "369",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +160,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +822,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2142,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>在 AlmaLinux 9 上安装 PostgreSQL 18</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,188 +2177,248 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>在 AlmaLinux 9 上安装 PostgreSQL 18</h1>
     
-    <p>PostgreSQL 调优工具：<a
+    <p>官方文档：<a
   class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+  href="https://www.postgresql.org/download/linux/redhat/"
+>Linux downloads (Red Hat family)</a></p>
+<p>运维环境：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>操作系统：AlmaLinux 9.7</li>
+<li>数据库版本：PostgreSQL 18</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
-
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="准备工作"
+    >
+        准备工作
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#准备工作" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 准备工作" aria-label="Anchor to: 准备工作" href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="安装-percona-官方-yum-仓库"
+    >
+        安装 Percona 官方 YUM 仓库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#安装-percona-官方-yum-仓库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 Percona 官方 YUM 仓库" aria-label="Anchor to: 安装 Percona 官方 YUM 仓库" href="#%e5%ae%89%e8%a3%85-percona-%e5%ae%98%e6%96%b9-yum-%e4%bb%93%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dnf install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+</span></span></code></pre></div><p>验证仓库状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">percona-release show
+</span></span></code></pre></div><blockquote>
+<p>⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="安装-percona-postgresql-18"
+    >
+        安装 Percona PostgreSQL 18
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#安装-percona-postgresql-18" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 Percona PostgreSQL 18" aria-label="Anchor to: 安装 Percona PostgreSQL 18" href="#%e5%ae%89%e8%a3%85-percona-postgresql-18">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="启用-postgresql-18-仓库"
+    >
+        启用 PostgreSQL 18 仓库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#启用-postgresql-18-仓库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 启用 PostgreSQL 18 仓库" aria-label="Anchor to: 启用 PostgreSQL 18 仓库" href="#%e5%90%af%e7%94%a8-postgresql-18-%e4%bb%93%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dnf -qy module disable postgresql
+</span></span><span class="line"><span class="cl">percona-release setup ppg-18
+</span></span></code></pre></div><p>说明：</p>
+<ul>
+<li><code>ppg</code> = Percona PostgreSQL</li>
+<li><code>18</code> = PostgreSQL 18（当前稳定大版本）</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="安装-postgresql-18-及常用组件"
+    >
+        安装 PostgreSQL 18 及常用组件
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#安装-postgresql-18-及常用组件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 安装 PostgreSQL 18 及常用组件" aria-label="Anchor to: 安装 PostgreSQL 18 及常用组件" href="#%e5%ae%89%e8%a3%85-postgresql-18-%e5%8f%8a%e5%b8%b8%e7%94%a8%e7%bb%84%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 如果 dnf install 速度很慢, 可以设置代理</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># export http_proxy=http://127.0.0.1:1080;export https_proxy=http://127.0.0.1:1080;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dnf install -y <span class="se">\
+</span></span></span><span class="line"><span class="cl">    --enablerepo<span class="o">=</span>crb perl-IPC-Run <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-postgresql18 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-postgresql18-devel <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-postgresql18-libs <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-postgresql18-server <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-patroni <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-pg_repack18 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-pgbackrest <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-pgbouncer <span class="se">\
+</span></span></span><span class="line"><span class="cl">    percona-pgvector_18
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="组件说明"
+    >
+        组件说明
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#组件说明" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 组件说明" aria-label="Anchor to: 组件说明" href="#%e7%bb%84%e4%bb%b6%e8%af%b4%e6%98%8e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>包名</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>percona-postgresql18</td>
+					<td>PostgreSQL 客户端</td>
+			</tr>
+			<tr>
+					<td>percona-postgresql18-server</td>
+					<td>PostgreSQL 服务端</td>
+			</tr>
+			<tr>
+					<td>percona-postgresql18-libs</td>
+					<td>运行时库</td>
+			</tr>
+			<tr>
+					<td>percona-postgresql18-devel</td>
+					<td>编译扩展用</td>
+			</tr>
+			<tr>
+					<td>percona-pgbackrest</td>
+					<td>生产级备份工具</td>
+			</tr>
+			<tr>
+					<td>percona-pgbouncer</td>
+					<td>连接池</td>
+			</tr>
+	</tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="初始化数据库"
+    >
+        初始化数据库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#初始化数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 初始化数据库" aria-label="Anchor to: 初始化数据库" href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 默认数据目录</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   /var/lib/pgsql/18/data</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改为</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#  /data/pgsql/18/data</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建目录并设置权限</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># /var/lib/pgsql/18 目录必须创建, 否则会报错</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   /usr/pgsql-18/bin/postgresql-18-setup initdb</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   Initializing database ... touch: cannot touch &#39;/var/lib/pgsql/18/initdb.log&#39;: No such file or directory</span>
+</span></span><span class="line"><span class="cl">rm -rf /data/pgsql/18 /var/lib/pgsql/18
+</span></span><span class="line"><span class="cl">mkdir -p /data/pgsql/18/<span class="o">{</span>backup,data<span class="o">}</span> /var/lib/pgsql/18
+</span></span><span class="line"><span class="cl">chown -R postgres:postgres /data/pgsql/18/<span class="o">{</span>backup,data<span class="o">}</span>
+</span></span><span class="line"><span class="cl">chmod <span class="m">700</span> /data/pgsql/18/<span class="o">{</span>backup,data<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># initdb 参数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 不要添加 --pwprompt</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PGSETUP_INITDB_OPTIONS</span><span class="o">=</span><span class="s2">&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">--pgdata=/data/pgsql/18/data
+</span></span></span><span class="line"><span class="cl"><span class="s2">--encoding=UTF8
+</span></span></span><span class="line"><span class="cl"><span class="s2">--locale=C
+</span></span></span><span class="line"><span class="cl"><span class="s2">--auth-host=scram-sha-256
+</span></span></span><span class="line"><span class="cl"><span class="s2">--data-checksums
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 初始化</span>
+</span></span><span class="line"><span class="cl">/usr/pgsql-18/bin/postgresql-18-setup initdb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入数据目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data/pgsql/18/data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 备份配置文件</span>
+</span></span><span class="line"><span class="cl">cp pg_hba.conf pg_hba.conf_default
+</span></span><span class="line"><span class="cl">cp postgresql.conf postgresql.conf_default
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改配置文件</span>
+</span></span><span class="line"><span class="cl">tee pg_hba.conf &gt;/dev/null <span class="s">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">#TYPE   DATABASE    USER    ADDRESS         METHOD
+</span></span></span><span class="line"><span class="cl"><span class="s">local   all         all                     trust
+</span></span></span><span class="line"><span class="cl"><span class="s">host    all         all     127.0.0.1/32    trust
+</span></span></span><span class="line"><span class="cl"><span class="s">host    all         all     all             scram-sha-256
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改监听地址</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s/^#\(listen_addresses =\).*/\1 &#39;*&#39;/g&#34;</span> postgresql.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改 systemd 参数</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s|^Environment=PGDATA=.*|Environment=PGDATA=/data/pgsql/18/data|g&#39;</span> /usr/lib/systemd/system/postgresql-18.service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重载 systemd</span>
+</span></span><span class="line"><span class="cl">systemctl daemon-reload
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动</span>
+</span></span><span class="line"><span class="cl">systemctl start postgresql-18
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看状态</span>
+</span></span><span class="line"><span class="cl">systemctl status postgresql-18
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看端口</span>
+</span></span><span class="line"><span class="cl">ss -netlap <span class="p">|</span> grep postgres
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># psql: symbol lookup error: psql: undefined symbol: PQpipelineStatus</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rpm -qa | grep -E &#39;postgresql.*libs|libpq&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># dnf remove libpq</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改密码</span>
+</span></span><span class="line"><span class="cl">/usr/pgsql-18/bin/psql -d postgres -U postgres -c <span class="s2">&#34;ALTER USER postgres WITH PASSWORD &#39;KdX3V7nC&#39;;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 验证 PostgreSQL 版本</span>
+</span></span><span class="line"><span class="cl">/usr/pgsql-18/bin/psql -d postgres -U postgres -c <span class="s2">&#34;SELECT version();&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置开机自启</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> postgresql-18
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="官方仓库安装方法"
+    >
+        官方仓库安装方法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/install-postgres-18-on-almalinux-9/#官方仓库安装方法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 官方仓库安装方法" aria-label="Anchor to: 官方仓库安装方法" href="#%e5%ae%98%e6%96%b9%e4%bb%93%e5%ba%93%e5%ae%89%e8%a3%85%e6%96%b9%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># 因为 HTTP代理 的问题, 不要用 sudo, 使用 root 用户执行</span>
+</span></span><span class="line"><span class="cl">su - root
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果 dnf install 速度很慢, 可以设置代理</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># export http_proxy=http://127.0.0.1:1080;export https_proxy=http://127.0.0.1:1080;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 添加 PostgreSQL 仓库</span>
+</span></span><span class="line"><span class="cl">dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 禁用所有 PostgreSQL 模块</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/enabled=1/enabled=0/g&#39;</span> /etc/yum.repos.d/pgdg-redhat-all.repo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 关闭所有 PostgreSQL 模块</span>
+</span></span><span class="line"><span class="cl">dnf -qy module disable postgresql
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装 Perl 模块</span>
+</span></span><span class="line"><span class="cl">dnf install -y --enablerepo<span class="o">=</span>crb perl-IPC-Run
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装 PostgreSQL 18 基础包</span>
+</span></span><span class="line"><span class="cl">dnf install -y --enablerepo<span class="o">=</span>pgdg18 postgresql18 postgresql18-devel postgresql18-libs
+</span></span></code></pre></div>
   </article>
 
 
@@ -2744,9 +2823,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2844,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3702,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

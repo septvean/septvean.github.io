@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：
+pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解决整个实例的快速恢复。 基础备份 &#43; WAL 归档：解决时间点恢复，即 PITR。 定期恢复演练：确认备份真的可用。 PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。PostgreSQL 18 备份文档
+一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：
+方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 &#43; WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 事务与锁 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 事务与锁"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：
+pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解决整个实例的快速恢复。 基础备份 &#43; WAL 归档：解决时间点恢复，即 PITR。 定期恢复演练：确认备份真的可用。 PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。PostgreSQL 18 备份文档
+一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：
+方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 &#43; WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 事务与锁" />
+  <meta name="twitter:description" content="PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：
+pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解决整个实例的快速恢复。 基础备份 &#43; WAL 归档：解决时间点恢复，即 PITR。 定期恢复演练：确认备份真的可用。 PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。PostgreSQL 18 备份文档
+一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：
+方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 &#43; WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 事务与锁",
+      "url": "https://documents.v2ep.com/database/postgres/11-backup-and-recovery/",
+      "headline": "PostgreSQL 事务与锁",
+      "description": "PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：\npg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解决整个实例的快速恢复。 基础备份 \u002b WAL 归档：解决时间点恢复，即 PITR。 定期恢复演练：确认备份真的可用。 PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。PostgreSQL 18 备份文档\n一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：\n方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 \u002b WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例\/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。",
+      "wordCount": "910",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/11-backup-and-recovery/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,15 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 事务与锁</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2158,187 +2166,786 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 事务与锁</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li><code>pg_dump</code>：解决单库、单表恢复和跨版本迁移。</li>
+<li><code>pg_basebackup</code>：解决整个实例的快速恢复。</li>
+<li>基础备份 + WAL 归档：解决时间点恢复，即 PITR。</li>
+<li>定期恢复演练：确认备份真的可用。</li>
 </ul>
-<p>Document List:</p>
+<p>PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/backup.html"
+>PostgreSQL 18 备份文档</a></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一先理解-rpo-与-rto"
+    >
+        一、先理解 RPO 与 RTO
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#一先理解-rpo-与-rto" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先理解 RPO 与 RTO" aria-label="Anchor to: 一、先理解 RPO 与 RTO" href="#%e4%b8%80%e5%85%88%e7%90%86%e8%a7%a3-rpo-%e4%b8%8e-rto">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>指标</th>
+					<th>含义</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>RPO</td>
+					<td>最多允许丢失多少数据</td>
+					<td>RPO 5 分钟：灾难时最多丢 5 分钟数据</td>
+			</tr>
+			<tr>
+					<td>RTO</td>
+					<td>最长允许多久恢复服务</td>
+					<td>RTO 30 分钟：必须在 30 分钟内恢复</td>
+			</tr>
+			<tr>
+					<td>保留期</td>
+					<td>能恢复到多早以前</td>
+					<td>保留 30 天：可恢复最近 30 天状态</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>不同备份方式的能力：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>方式</th>
+					<th>工具</th>
+					<th style="text-align: right">备份粒度</th>
+					<th style="text-align: right">PITR</th>
+					<th style="text-align: right">跨大版本</th>
+					<th>适用场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>逻辑备份</td>
+					<td><code>pg_dump</code></td>
+					<td style="text-align: right">库、Schema、表</td>
+					<td style="text-align: right">否</td>
+					<td style="text-align: right">较好</td>
+					<td>日常备份、迁移、单表恢复</td>
+			</tr>
+			<tr>
+					<td>全实例逻辑备份</td>
+					<td><code>pg_dumpall</code></td>
+					<td style="text-align: right">整个实例</td>
+					<td style="text-align: right">否</td>
+					<td style="text-align: right">较好</td>
+					<td>角色、表空间、多个数据库</td>
+			</tr>
+			<tr>
+					<td>物理基础备份</td>
+					<td><code>pg_basebackup</code></td>
+					<td style="text-align: right">整个实例</td>
+					<td style="text-align: right">配合 WAL</td>
+					<td style="text-align: right">否</td>
+					<td>大型生产库快速恢复</td>
+			</tr>
+			<tr>
+					<td>连续归档</td>
+					<td>基础备份 + WAL</td>
+					<td style="text-align: right">整个实例</td>
+					<td style="text-align: right">是</td>
+					<td style="text-align: right">否</td>
+					<td>生产灾备、误操作恢复</td>
+			</tr>
+			<tr>
+					<td>冷备份</td>
+					<td>停库后复制文件</td>
+					<td style="text-align: right">整个实例</td>
+					<td style="text-align: right">否</td>
+					<td style="text-align: right">否</td>
+					<td>简单离线场景</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>这里的“实例/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二逻辑备份pg_dump"
+    >
+        二、逻辑备份：pg_dump
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#二逻辑备份pg_dump" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、逻辑备份：pg_dump" aria-label="Anchor to: 二、逻辑备份：pg_dump" href="#%e4%ba%8c%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bdpg_dump">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-推荐使用自定义格式"
+    >
+        1. 推荐使用自定义格式
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-推荐使用自定义格式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 推荐使用自定义格式" aria-label="Anchor to: 1. 推荐使用自定义格式" href="#1-%e6%8e%a8%e8%8d%90%e4%bd%bf%e7%94%a8%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a0%bc%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -h 127.0.0.1 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -p <span class="m">5432</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_user <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -Fc <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --verbose <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f /srv/pgbackup/ashare_20260914.dump
+</span></span></code></pre></div><p>主要参数：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>参数</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>-d ashare</code></td>
+					<td>备份的数据库</td>
+			</tr>
+			<tr>
+					<td><code>-Fc</code></td>
+					<td>custom 自定义格式</td>
+			</tr>
+			<tr>
+					<td><code>-f</code></td>
+					<td>输出文件</td>
+			</tr>
+			<tr>
+					<td><code>--verbose</code></td>
+					<td>输出详细过程</td>
+			</tr>
+			<tr>
+					<td><code>-h/-p/-U</code></td>
+					<td>主机、端口、用户</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>自定义格式支持压缩、选择性恢复和并行恢复，通常比普通 SQL 文件更实用。</p>
+<p><code>pg_dump</code> 获得的是备份开始时的一致性快照，通常不会阻塞普通查询和写入，但可能与需要排他锁的 <code>ALTER TABLE</code> 等操作发生冲突。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/app-pgdump.html"
+>pg_dump 官方说明</a></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-大库并行备份"
+    >
+        2. 大库并行备份
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-大库并行备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 大库并行备份" aria-label="Anchor to: 2. 大库并行备份" href="#2-%e5%a4%a7%e5%ba%93%e5%b9%b6%e8%a1%8c%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>并行备份只能使用目录格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -h 127.0.0.1 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_user <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -Fd <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --jobs<span class="o">=</span><span class="m">4</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f /srv/pgbackup/ashare_20260914.dir
+</span></span></code></pre></div><p><code>--jobs=4</code> 表示同时使用 4 个工作进程，并会建立 5 个数据库连接，即工作进程数加一个主连接。</p>
+<p>并行度越高不一定越快，还要考虑磁盘吞吐、CPU、网络和生产库负载。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-备份指定-schema"
+    >
+        3. 备份指定 Schema
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-备份指定-schema" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 备份指定 Schema" aria-label="Anchor to: 3. 备份指定 Schema" href="#3-%e5%a4%87%e4%bb%bd%e6%8c%87%e5%ae%9a-schema">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_user <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -Fc <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --schema<span class="o">=</span>market <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f market_schema.dump
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-备份指定表"
+    >
+        4. 备份指定表
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#4-备份指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 备份指定表" aria-label="Anchor to: 4. 备份指定表" href="#4-%e5%a4%87%e4%bb%bd%e6%8c%87%e5%ae%9a%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_user <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -Fc <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --table<span class="o">=</span><span class="s1">&#39;market.daily_quote&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f daily_quote.dump
+</span></span></code></pre></div><p>仅备份结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump -U backup_user -d ashare <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --schema-only <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f ashare_schema.sql
+</span></span></code></pre></div><p>仅备份数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump -U backup_user -d ashare <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data-only <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --table<span class="o">=</span><span class="s1">&#39;market.daily_quote&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -Fc <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f daily_quote_data.dump
+</span></span></code></pre></div><p>单表备份可能不包含它所依赖的扩展、类型、函数、其他表和部分关联对象，因此不能保证直接恢复到一个全空数据库。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-备份角色和表空间"
+    >
+        5. 备份角色和表空间
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#5-备份角色和表空间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 备份角色和表空间" aria-label="Anchor to: 5. 备份角色和表空间" href="#5-%e5%a4%87%e4%bb%bd%e8%a7%92%e8%89%b2%e5%92%8c%e8%a1%a8%e7%a9%ba%e9%97%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><code>pg_dump</code> 只备份一个数据库，不备份角色和表空间等实例级对象。需要额外执行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dumpall <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -h 127.0.0.1 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --globals-only <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f globals_20260914.sql
+</span></span></code></pre></div><p><code>globals</code> 文件通常包含：</p>
+<ul>
+<li>用户与角色</li>
+<li>角色成员关系</li>
+<li>表空间定义</li>
+<li>部分实例级权限</li>
+</ul>
+<p>如果分别使用 <code>pg_dump</code> 备份各数据库，必须同时保存 <code>pg_dumpall --globals-only</code>。需要注意，<code>pg_dumpall</code> 中每个数据库分别一致，但不同数据库之间的快照并不处于完全相同的时间点。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/backup-dump.html"
+>SQL Dump 官方说明</a></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三逻辑恢复pg_restore"
+    >
+        三、逻辑恢复：pg_restore
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#三逻辑恢复pg_restore" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、逻辑恢复：pg_restore" aria-label="Anchor to: 三、逻辑恢复：pg_restore" href="#%e4%b8%89%e9%80%bb%e8%be%91%e6%81%a2%e5%a4%8dpg_restore">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-查看备份内容"
+    >
+        1. 查看备份内容
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-查看备份内容" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 查看备份内容" aria-label="Anchor to: 1. 查看备份内容" href="#1-%e6%9f%a5%e7%9c%8b%e5%a4%87%e4%bb%bd%e5%86%85%e5%ae%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore --list /srv/pgbackup/ashare_20260914.dump
+</span></span></code></pre></div><p>可以先导出目录清单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore --list ashare_20260914.dump &gt; restore.list
+</span></span></code></pre></div><p>编辑 <code>restore.list</code> 后，只恢复选中的对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --dbname<span class="o">=</span>ashare_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --use-list<span class="o">=</span>restore.list <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_20260914.dump
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-恢复到新数据库"
+    >
+        2. 恢复到新数据库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-恢复到新数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 恢复到新数据库" aria-label="Anchor to: 2. 恢复到新数据库" href="#2-%e6%81%a2%e5%a4%8d%e5%88%b0%e6%96%b0%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果需要保留原来的对象所有者，应先创建相关角色。恢复到新实例时，可以先恢复全局对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">psql <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -X <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --set <span class="nv">ON_ERROR_STOP</span><span class="o">=</span>on <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f globals_20260914.sql
+</span></span></code></pre></div><p>创建空数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">createdb <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -T template0 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -O ashare_owner <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_restore
+</span></span></code></pre></div><p>恢复：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --jobs<span class="o">=</span><span class="m">4</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --exit-on-error <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --verbose <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_20260914.dump
+</span></span></code></pre></div><p><code>pg_restore</code> 默认遇到错误后继续执行，只在最后显示错误数量，所以生产恢复建议使用 <code>--exit-on-error</code>。并行恢复只支持 custom 和 directory 格式，且不能与 <code>--single-transaction</code> 同时使用。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/app-pgrestore.html"
+>pg_restore 官方说明</a></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-不保留原所有者和权限"
+    >
+        3. 不保留原所有者和权限
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-不保留原所有者和权限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 不保留原所有者和权限" aria-label="Anchor to: 3. 不保留原所有者和权限" href="#3-%e4%b8%8d%e4%bf%9d%e7%95%99%e5%8e%9f%e6%89%80%e6%9c%89%e8%80%85%e5%92%8c%e6%9d%83%e9%99%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>开发、测试环境经常使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --no-owner <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --no-acl <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --exit-on-error <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_20260914.dump
+</span></span></code></pre></div><p>这会产生两个变化：</p>
+<ul>
+<li>所有对象归执行恢复的用户所有。</li>
+<li>原来的 <code>GRANT</code>、<code>REVOKE</code> 不会恢复。</li>
+</ul>
+<p>不能在生产环境中不加分析地使用，因为所有权变化可能影响权限管理和 <code>SECURITY DEFINER</code> 函数。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-覆盖原数据库"
+    >
+        4. 覆盖原数据库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#4-覆盖原数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 覆盖原数据库" aria-label="Anchor to: 4. 覆盖原数据库" href="#4-%e8%a6%86%e7%9b%96%e5%8e%9f%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --clean <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --if-exists <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --create <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --exit-on-error <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_20260914.dump
+</span></span></code></pre></div><p>注意：</p>
+<ul>
+<li><code>--clean</code> 会删除将要恢复的对象。</li>
+<li><code>--create</code> 会按照备份内记录的数据库名称创建数据库。</li>
+<li>两者组合可能直接删除并重建已有数据库。</li>
+<li>执行前应确认目标主机、端口和数据库，避免误删生产库。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-恢复指定表"
+    >
+        5. 恢复指定表
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#5-恢复指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 恢复指定表" aria-label="Anchor to: 5. 恢复指定表" href="#5-%e6%81%a2%e5%a4%8d%e6%8c%87%e5%ae%9a%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --schema<span class="o">=</span>market <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --table<span class="o">=</span>daily_quote <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_20260914.dump
+</span></span></code></pre></div><p>这不会自动恢复该表依赖的全部对象。如果目标库已经有正确结构，可以只恢复数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --data-only <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --schema<span class="o">=</span>market <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --table<span class="o">=</span>daily_quote <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_20260914.dump
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="6-恢复普通-sql-文件"
+    >
+        6. 恢复普通 SQL 文件
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#6-恢复普通-sql-文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 恢复普通 SQL 文件" aria-label="Anchor to: 6. 恢复普通 SQL 文件" href="#6-%e6%81%a2%e5%a4%8d%e6%99%ae%e9%80%9a-sql-%e6%96%87%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>备份：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump -U backup_user -d ashare &gt; ashare.sql
+</span></span></code></pre></div><p>恢复：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">createdb -U postgres -T template0 ashare_restore
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">psql <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -X <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --set <span class="nv">ON_ERROR_STOP</span><span class="o">=</span>on <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --single-transaction <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f ashare.sql
+</span></span></code></pre></div><p>大型数据库是否使用 <code>--single-transaction</code> 需要权衡：它能保证全部成功或全部回滚，但最后一个小错误也可能回滚数小时的恢复结果。</p>
+<p>恢复完成后更新统计信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四工具版本兼容性"
+    >
+        四、工具版本兼容性
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#四工具版本兼容性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、工具版本兼容性" aria-label="Anchor to: 四、工具版本兼容性" href="#%e5%9b%9b%e5%b7%a5%e5%85%b7%e7%89%88%e6%9c%ac%e5%85%bc%e5%ae%b9%e6%80%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>建议备份端使用与服务器相同大版本的客户端工具：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump --version
+</span></span><span class="line"><span class="cl">psql --version
+</span></span><span class="line"><span class="cl">pg_restore --version
+</span></span></code></pre></div><p>主要规则：</p>
+<ul>
+<li>PostgreSQL 18 的 <code>pg_dump</code> 可以备份 PostgreSQL 18 或较旧服务器。</li>
+<li>PostgreSQL 17 的 <code>pg_dump</code> 不能备份 PostgreSQL 18。</li>
+<li>逻辑备份通常可以恢复到更高大版本。</li>
+<li>不保证能够恢复到更低大版本。</li>
+<li>物理备份只能用于相同 PostgreSQL 大版本及兼容环境。</li>
+</ul>
+<p>跨版本迁移前还要确认所有扩展在目标版本上可用。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/app-pgdump.html"
+>pg_dump 版本兼容说明</a></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五物理备份pg_basebackup"
+    >
+        五、物理备份：pg_basebackup
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#五物理备份pg_basebackup" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、物理备份：pg_basebackup" aria-label="Anchor to: 五、物理备份：pg_basebackup" href="#%e4%ba%94%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bdpg_basebackup">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><code>pg_basebackup</code> 在线复制整个 PostgreSQL 实例，包括所有数据库，但不能只备份某一个数据库或表。</p>
+<p>备份连接用户需要 <code>REPLICATION</code> 权限，并且 <code>pg_hba.conf</code> 必须允许复制连接。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">backup_repl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">LOGIN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">REPLICATION</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>密码建议通过受限权限的 <code>.pgpass</code>、证书或密钥系统管理，不要直接写在命令行中。</p>
+<p>执行完整物理备份：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_basebackup <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -h 10.0.0.10 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -p <span class="m">5432</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_repl <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -D /srv/pgbackup/base/2026-09-14 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --format<span class="o">=</span>plain <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --wal-method<span class="o">=</span>stream <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --progress <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --verbose <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --manifest-checksums<span class="o">=</span>SHA256
+</span></span></code></pre></div><p>说明：</p>
+<ul>
+<li>目标目录必须不存在或为空。</li>
+<li><code>--wal-method=stream</code> 会使用第二个复制连接同步收集备份期间需要的 WAL。</li>
+<li>它只保证基础备份自身完整，不代表未来 WAL 已归档。</li>
+<li>如果存在额外表空间，应使用 <code>--tablespace-mapping</code> 正确映射。</li>
+<li>物理备份不会备份安装在数据目录之外的 PostgreSQL 程序、TimescaleDB 动态库以及外置配置文件。</li>
+</ul>
+<p>详细限制参见 <a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/app-pgbasebackup.html"
+>pg_basebackup 官方文档</a>。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="验证物理备份"
+    >
+        验证物理备份
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#验证物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 验证物理备份" aria-label="Anchor to: 验证物理备份" href="#%e9%aa%8c%e8%af%81%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_verifybackup /srv/pgbackup/base/2026-09-14
+</span></span></code></pre></div><p>它可以检查：</p>
+<ul>
+<li><code>backup_manifest</code></li>
+<li>文件是否缺失或多余</li>
+<li>文件校验和</li>
+<li>普通格式备份所需 WAL 是否可以解析</li>
+</ul>
+<p>但通过 <code>pg_verifybackup</code> 不等于一定能成功启动数据库。官方明确建议继续执行真实恢复测试。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/app-pgverifybackup.html"
+>pg_verifybackup 官方文档</a></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六postgresql-18-增量物理备份"
+    >
+        六、PostgreSQL 18 增量物理备份
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#六postgresql-18-增量物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、PostgreSQL 18 增量物理备份" aria-label="Anchor to: 六、PostgreSQL 18 增量物理备份" href="#%e5%85%adpostgresql-18-%e5%a2%9e%e9%87%8f%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>增量备份需要启用 WAL 摘要：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">wal_level = replica
+summarize_wal = on
+wal_summary_keep_time = &#39;14d&#39;
+</code></pre><p>首先建立完整备份：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_basebackup <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -h 10.0.0.10 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_repl <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -D /srv/pgbackup/full-20260901 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -X stream <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --manifest-checksums<span class="o">=</span>SHA256
+</span></span></code></pre></div><p>随后引用上一次备份的 manifest：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_basebackup <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -h 10.0.0.10 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_repl <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -D /srv/pgbackup/incr-20260908 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -X stream <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --incremental<span class="o">=</span>/srv/pgbackup/full-20260901/backup_manifest
+</span></span></code></pre></div><p>增量备份不能直接作为数据目录启动。恢复前必须把完整备份和增量链合成为一个“合成完整备份”：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_combinebackup <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -o /srv/pgrestore/combined <span class="se">\
+</span></span></span><span class="line"><span class="cl">  /srv/pgbackup/full-20260901 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  /srv/pgbackup/incr-20260908 <span class="se">\
+</span></span></span><span class="line"><span class="cl">  /srv/pgbackup/incr-20260914
+</span></span></code></pre></div><p>然后验证：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_verifybackup /srv/pgrestore/combined
+</span></span></code></pre></div><p>必须按照从最旧到最新的顺序提供备份，并保留增量备份依赖的整个链。PostgreSQL 不会替你管理备份依赖关系。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/continuous-archiving.html"
+>PostgreSQL 18 增量备份说明</a>、<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/app-pgcombinebackup.html"
+>pg_combinebackup 文档</a></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七wal-归档与时间点恢复-pitr"
+    >
+        七、WAL 归档与时间点恢复 PITR
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#七wal-归档与时间点恢复-pitr" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、WAL 归档与时间点恢复 PITR" aria-label="Anchor to: 七、WAL 归档与时间点恢复 PITR" href="#%e4%b8%83wal-%e5%bd%92%e6%a1%a3%e4%b8%8e%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d-pitr">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PITR 的核心是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">某次基础备份 + 从该备份开始连续不断的 WAL = 任意时间点状态
+</span></span></code></pre></div><p>例如，10:00 误执行了：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">market</span><span class="p">.</span><span class="n">daily_quote</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>如果有基础备份和连续 WAL，就可以恢复到 <code>09:59:59</code>。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-开启-wal-归档"
+    >
+        1. 开启 WAL 归档
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-开启-wal-归档" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 开启 WAL 归档" aria-label="Anchor to: 1. 开启 WAL 归档" href="#1-%e5%bc%80%e5%90%af-wal-%e5%bd%92%e6%a1%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">wal_level = replica
+archive_mode = on
+archive_timeout = &#39;60s&#39;
 
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
+archive_command =
+  &#39;test ! -f /srv/wal_archive/%f &amp;&amp; cp %p /srv/wal_archive/%f&#39;
+</code></pre><p>其中：</p>
+<ul>
+<li><code>%p</code>：源 WAL 文件路径。</li>
+<li><code>%f</code>：WAL 文件名。</li>
+<li>归档命令只有真正成功时才能返回 <code>0</code>。</li>
+<li>已存在的不同内容文件不能被覆盖。</li>
+</ul>
+<p>上面的 <code>cp</code> 只适合作为实验示例。生产环境应使用经过验证的备份工具或对象存储方案，支持原子上传、校验、加密、重试和监控。归档失败可能导致 <code>pg_wal</code> 不断增长，最终磁盘耗尽。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/continuous-archiving.html"
+>连续归档官方说明</a></p>
+<p>监控归档状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">archived_count</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">failed_count</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">last_archived_wal</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">last_archived_time</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">last_failed_wal</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">last_failed_time</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_archiver</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-恢复到指定时间"
+    >
+        2. 恢复到指定时间
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-恢复到指定时间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 恢复到指定时间" aria-label="Anchor to: 2. 恢复到指定时间" href="#2-%e6%81%a2%e5%a4%8d%e5%88%b0%e6%8c%87%e5%ae%9a%e6%97%b6%e9%97%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>恢复必须先在隔离实例中进行，不要直接覆盖正在运行的生产数据目录。</p>
+<p>将基础备份恢复到新的数据目录后，在恢复实例配置中设置：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">restore_command = &#39;cp /srv/wal_archive/%f &#34;%p&#34;&#39;
 
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+recovery_target_time = &#39;2026-09-14 09:59:59+08&#39;
+recovery_target_timeline = &#39;latest&#39;
+recovery_target_action = &#39;pause&#39;
+</code></pre><p>在恢复数据目录创建：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">touch /srv/pgrestore/data/recovery.signal
+</span></span></code></pre></div><p>启动该实例后，PostgreSQL 会读取 WAL 并停在目标时间。<code>hot_standby=on</code> 时可以检查：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_is_in_recovery</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_is_wal_replay_paused</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_last_xact_replay_timestamp</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">market</span><span class="p">.</span><span class="n">daily_quote</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>确认时间点正确后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_wal_replay_resume</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><p>PostgreSQL 18 使用 <code>recovery.signal</code>，不再使用旧版本的 <code>recovery.conf</code>。默认的 <code>recovery_target_action</code> 是 <code>pause</code>，适合先验证数据再结束恢复。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/runtime-config-wal.html#RUNTIME-CONFIG-WAL-RECOVERY-TARGET"
+>恢复目标参数</a></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-pitr-不能直接恢复单表"
+    >
+        3. PITR 不能直接恢复单表
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-pitr-不能直接恢复单表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. PITR 不能直接恢复单表" aria-label="Anchor to: 3. PITR 不能直接恢复单表" href="#3-pitr-%e4%b8%8d%e8%83%bd%e7%9b%b4%e6%8e%a5%e6%81%a2%e5%a4%8d%e5%8d%95%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PITR 恢复的是整个实例，不是某一个数据库或表。误删单表时通常这样处理：</p>
+<ol>
+<li>在独立服务器恢复整个实例到误操作之前。</li>
+<li>检查目标表数据。</li>
+<li>从恢复实例导出该表。</li>
+<li>导入生产库的临时表。</li>
+<li>审核后再替换或合并数据。</li>
+</ol>
+<p>同时必须单独备份：</p>
+<ul>
+<li><code>postgresql.conf</code></li>
+<li><code>pg_hba.conf</code></li>
+<li><code>pg_ident.conf</code></li>
+<li>TLS 证书和密钥</li>
+<li>扩展安装包及版本清单</li>
+<li>操作系统服务配置</li>
+</ul>
+<p>这些配置文件的修改不会通过 WAL 恢复。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八timescaledb-备份恢复"
+    >
+        八、TimescaleDB 备份恢复
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#八timescaledb-备份恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、TimescaleDB 备份恢复" aria-label="Anchor to: 八、TimescaleDB 备份恢复" href="#%e5%85%abtimescaledb-%e5%a4%87%e4%bb%bd%e6%81%a2%e5%a4%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你的环境包含 TimescaleDB 时，完整逻辑恢复需要额外步骤。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-备份整个数据库"
+    >
+        1. 备份整个数据库
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-备份整个数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 备份整个数据库" aria-label="Anchor to: 1. 备份整个数据库" href="#1-%e5%a4%87%e4%bb%bd%e6%95%b4%e4%b8%aa%e6%95%b0%e6%8d%ae%e5%ba%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U backup_user <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -Fc <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -f ashare_timescale.dump
+</span></span></code></pre></div><p>压缩 hypertable 不需要事先解压。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-创建目标数据库并加载扩展"
+    >
+        2. 创建目标数据库并加载扩展
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-创建目标数据库并加载扩展" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 创建目标数据库并加载扩展" aria-label="Anchor to: 2. 创建目标数据库并加载扩展" href="#2-%e5%88%9b%e5%bb%ba%e7%9b%ae%e6%a0%87%e6%95%b0%e6%8d%ae%e5%ba%93%e5%b9%b6%e5%8a%a0%e8%bd%bd%e6%89%a9%e5%b1%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">ashare_restore</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>连接目标数据库后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">timescaledb</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">timescaledb_pre_restore</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-恢复"
+    >
+        3. 恢复
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 恢复" aria-label="Anchor to: 3. 恢复" href="#3-%e6%81%a2%e5%a4%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -U postgres <span class="se">\
+</span></span></span><span class="line"><span class="cl">  -d ashare_restore <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --exit-on-error <span class="se">\
+</span></span></span><span class="line"><span class="cl">  --verbose <span class="se">\
+</span></span></span><span class="line"><span class="cl">  ashare_timescale.dump
+</span></span></code></pre></div><p>恢复结束后：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">timescaledb_post_restore</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>重要事项：</p>
+<ul>
+<li>TimescaleDB 官方明确要求完整数据库恢复时不要使用 <code>pg_restore -j</code>，并行恢复可能无法正确恢复 TimescaleDB 内部目录。</li>
+<li>调用 <code>timescaledb_pre_restore()</code> 后，即使恢复失败，也应在处理完问题后调用 <code>timescaledb_post_restore()</code>。</li>
+<li>目标服务器必须提前安装兼容的 TimescaleDB 扩展程序。</li>
+<li>恢复前记录 PostgreSQL 与 TimescaleDB 版本。</li>
+<li>普通 <code>pg_dump -t hypertable</code> 不足以完整表达 hypertable 与 chunk 的关系。单 hypertable 迁移应采用“导出表结构 + CSV 数据 + 重新创建 hypertable”的流程。</li>
+</ul>
+<p>参见 <a
+  class="gdoc-markdown__link"
+  href="https://docs.timescale.com/self-hosted/latest/backup-and-restore/logical-backup/"
+>TimescaleDB 逻辑备份与恢复文档</a>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九股票系统推荐方案"
+    >
+        九、股票系统推荐方案
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#九股票系统推荐方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、股票系统推荐方案" aria-label="Anchor to: 九、股票系统推荐方案" href="#%e4%b9%9d%e8%82%a1%e7%a5%a8%e7%b3%bb%e7%bb%9f%e6%8e%a8%e8%8d%90%e6%96%b9%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>对于 A 股数据系统，可以按数据价值分类：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>数据</th>
+					<th>特点</th>
+					<th>建议</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>market.daily_quote</code></td>
+					<td>通常可从数据源重新下载</td>
+					<td>每日逻辑备份或增量物理备份</td>
+			</tr>
+			<tr>
+					<td>证券基础资料</td>
+					<td>更新不频繁，但恢复依赖较多</td>
+					<td>每日逻辑备份</td>
+			</tr>
+			<tr>
+					<td>复权因子、指标结果</td>
+					<td>一般可以重新计算</td>
+					<td>降低备份频率</td>
+			</tr>
+			<tr>
+					<td>用户、订单、持仓、策略参数</td>
+					<td>不可重新生成</td>
+					<td>基础备份 + 连续 WAL</td>
+			</tr>
+			<tr>
+					<td>角色、权限、表空间</td>
+					<td>实例级元数据</td>
+					<td><code>pg_dumpall --globals-only</code></td>
+			</tr>
+			<tr>
+					<td>PostgreSQL/TimescaleDB 配置</td>
+					<td>WAL 不覆盖</td>
+					<td>独立配置备份</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>一个可落地的生产策略：</p>
+<ul>
+<li>WAL 持续归档到独立存储。</li>
+<li>每周一次完整物理备份。</li>
+<li>每天一次 PostgreSQL 18 增量物理备份。</li>
+<li>每天一次关键数据库 custom 格式逻辑备份。</li>
+<li>角色或权限变更后重新执行 <code>pg_dumpall --globals-only</code>。</li>
+<li>至少保留两条完整可恢复的物理备份链。</li>
+<li>每月在隔离环境执行一次完整恢复和 PITR 演练。</li>
+<li>备份使用异地、加密、不可变存储。</li>
+<li>记录实际恢复时间，确认符合 RTO。</li>
+</ul>
+<p>最后牢记：<strong>备份成功的标准不是生成了文件，而是已经从该文件成功恢复并验证过业务数据。</strong></p>
 
   </article>
 
@@ -2744,9 +3351,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3372,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +4230,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

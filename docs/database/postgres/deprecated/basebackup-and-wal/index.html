@@ -12,12 +12,13 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="下面是一份 物理备份 &#43; WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。
+原理 -&gt; 目录结构 -&gt; 配置 -&gt; 备份流程 -&gt; 增量恢复流程 -&gt; 自动化脚本 -&gt; 最佳实践
+🔥 核心思想（仅 3 点）
+物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 &#43; 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。
+1. 文件结构（推荐标准） /pgdata/ # PG 数据目录 /base_backup/ # 物理备份（每日） 2025-02-01/ 2025-02-02/ ... /wal_archive/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... /backup_scripts/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 物理备份 &#43; WAL 详细的 增量备份 方案 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +39,27 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 物理备份 + WAL 详细的 增量备份 方案"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="下面是一份 物理备份 &#43; WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。
+原理 -&gt; 目录结构 -&gt; 配置 -&gt; 备份流程 -&gt; 增量恢复流程 -&gt; 自动化脚本 -&gt; 最佳实践
+🔥 核心思想（仅 3 点）
+物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 &#43; 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。
+1. 文件结构（推荐标准） /pgdata/ # PG 数据目录 /base_backup/ # 物理备份（每日） 2025-02-01/ 2025-02-02/ ... /wal_archive/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... /backup_scripts/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 物理备份 + WAL 详细的 增量备份 方案" />
+  <meta name="twitter:description" content="下面是一份 物理备份 &#43; WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。
+原理 -&gt; 目录结构 -&gt; 配置 -&gt; 备份流程 -&gt; 增量恢复流程 -&gt; 自动化脚本 -&gt; 最佳实践
+🔥 核心思想（仅 3 点）
+物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 &#43; 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。
+1. 文件结构（推荐标准） /pgdata/ # PG 数据目录 /base_backup/ # 物理备份（每日） 2025-02-01/ 2025-02-02/ ... /wal_archive/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... /backup_scripts/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：" />
 
 
   <script type="application/ld+json">
@@ -64,16 +67,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 物理备份 + WAL 详细的 增量备份 方案",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/",
+      "headline": "PostgreSQL 物理备份 + WAL 详细的 增量备份 方案",
+      "description": "下面是一份 物理备份 \u002b WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。\n原理 -\u003e 目录结构 -\u003e 配置 -\u003e 备份流程 -\u003e 增量恢复流程 -\u003e 自动化脚本 -\u003e 最佳实践\n🔥 核心思想（仅 3 点）\n物理备份（pg_basebackup） = 「基线镜像」 WAL 归档 = 记录所有后续变化（增量日志） 恢复时：基线备份 \u002b 所有 WAL = 任意时间点的数据 增量点完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。\n1. 文件结构（推荐标准） \/pgdata\/ # PG 数据目录 \/base_backup\/ # 物理备份（每日） 2025-02-01\/ 2025-02-02\/ ... \/wal_archive\/ # WAL 增量日志归档（持续产生） 000000010000000000000001 000000010000000000000002 ... \/backup_scripts\/ # 自动化脚本 2. PostgreSQL WAL 归档配置（最关键） 修改 postgresql.conf：",
+      "wordCount": "380",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +160,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +822,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2142,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 物理备份 + WAL 详细的 增量备份 方案</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2177,330 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 物理备份 &#43; WAL 详细的 增量备份 方案</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>下面是一份 物理备份 + WAL 的“完整增量备份方案”，这也是 PostgreSQL 官方推荐、企业级最常用、能实现 真正增量恢复（PITR） 的方案。</p>
+<p>原理 -&gt; 目录结构 -&gt; 配置 -&gt; 备份流程 -&gt; 增量恢复流程 -&gt; 自动化脚本 -&gt; 最佳实践</p>
+<p>🔥 核心思想（仅 3 点）</p>
+<ol>
+<li><strong>物理备份（pg_basebackup）</strong> = 「基线镜像」</li>
+<li><strong>WAL 归档</strong> = 记录所有后续变化（增量日志）</li>
+<li><strong>恢复时</strong>：基线备份 + 所有 WAL = 任意时间点的数据</li>
+</ol>
+<p><strong>增量点</strong>完全来自 WAL，不依赖差异备份（因为 PostgreSQL 不支持块级差异备份）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="1-文件结构推荐标准"
+    >
+        1. 文件结构（推荐标准）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#1-文件结构推荐标准" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 文件结构（推荐标准）" aria-label="Anchor to: 1. 文件结构（推荐标准）" href="#1-%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84%e6%8e%a8%e8%8d%90%e6%a0%87%e5%87%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/pgdata/                      # PG 数据目录
+</span></span><span class="line"><span class="cl">/base_backup/                 # 物理备份（每日）
+</span></span><span class="line"><span class="cl">    2025-02-01/
+</span></span><span class="line"><span class="cl">    2025-02-02/
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/wal_archive/                 # WAL 增量日志归档（持续产生）
+</span></span><span class="line"><span class="cl">    000000010000000000000001
+</span></span><span class="line"><span class="cl">    000000010000000000000002
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/backup_scripts/              # 自动化脚本
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="2-postgresql-wal-归档配置最关键"
+    >
+        2. PostgreSQL WAL 归档配置（最关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#2-postgresql-wal-归档配置最关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. PostgreSQL WAL 归档配置（最关键）" aria-label="Anchor to: 2. PostgreSQL WAL 归档配置（最关键）" href="#2-postgresql-wal-%e5%bd%92%e6%a1%a3%e9%85%8d%e7%bd%ae%e6%9c%80%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>修改 postgresql.conf：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">wal_level = replica                # 必须
+</span></span><span class="line"><span class="cl">archive_mode = on                  # 启用归档
+</span></span><span class="line"><span class="cl">archive_command = &#39;cp %p /wal_archive/%f&#39;   # 复制WAL
+</span></span><span class="line"><span class="cl">max_wal_senders = 10
+</span></span><span class="line"><span class="cl">wal_keep_size = 1024               # 视规模设置（MB）
+</span></span></code></pre></div><p>创建目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mkdir -p /wal_archive
+</span></span><span class="line"><span class="cl">chmod <span class="m">700</span> /wal_archive
+</span></span></code></pre></div><p>验证是否生效：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_switch_wal</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><p>看是否生成 WAL 文件。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="3-物理备份pg_basebackup-基线备份"
+    >
+        3. 物理备份（pg_basebackup）＝ 基线备份
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#3-物理备份pg_basebackup-基线备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 物理备份（pg_basebackup）＝ 基线备份" aria-label="Anchor to: 3. 物理备份（pg_basebackup）＝ 基线备份" href="#3-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bdpg_basebackup-%e5%9f%ba%e7%ba%bf%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>每天一次即可。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">pg_basebackup <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -U backup <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -D /base_backup/2025-02-10 <span class="se">\
+</span></span></span><span class="line"><span class="cl">    -Fp -Xs -P
+</span></span></code></pre></div><p>解释：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>-Fp -&gt; 目录格式</li>
+<li>-Xs -&gt; 同步复制备份时刻的 WAL</li>
+<li>-P -&gt; 显示进度</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>备份后目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/base_backup/2025-02-10/
+</span></span><span class="line"><span class="cl">/wal_archive/               # WAL 持续增加
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="4-物理--wal--如何构成增量备份"
+    >
+        4. 物理 + WAL = 如何构成“增量备份”
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#4-物理--wal--如何构成增量备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 物理 &#43; WAL = 如何构成“增量备份”" aria-label="Anchor to: 4. 物理 &#43; WAL = 如何构成“增量备份”" href="#4-%e7%89%a9%e7%90%86--wal--%e5%a6%82%e4%bd%95%e6%9e%84%e6%88%90%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="物理备份一次"
+    >
+        物理备份：一次
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#物理备份一次" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 物理备份：一次" aria-label="Anchor to: 物理备份：一次" href="#%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e4%b8%80%e6%ac%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="wal-归档持续记录增量变化"
+    >
+        WAL 归档：持续记录增量变化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#wal-归档持续记录增量变化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: WAL 归档：持续记录增量变化" aria-label="Anchor to: WAL 归档：持续记录增量变化" href="#wal-%e5%bd%92%e6%a1%a3%e6%8c%81%e7%bb%ad%e8%ae%b0%e5%bd%95%e5%a2%9e%e9%87%8f%e5%8f%98%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>例如：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>时间</th>
+					<th>事件</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>02-10 00:00</td>
+					<td>pg_basebackup（全量）</td>
+			</tr>
+			<tr>
+					<td>02-10 01:00</td>
+					<td>WAL 文件增量</td>
+			</tr>
+			<tr>
+					<td>02-10 02:00</td>
+					<td>WAL 文件增量</td>
+			</tr>
+			<tr>
+					<td>02-10 03:00</td>
+					<td>WAL 文件增量</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p><strong>你要恢复 03:05 的数据 -&gt;</strong></p>
+<p>用 00:00 的物理备份 + 01~03 点 WAL = 自动恢复到 03:05。</p>
+<p>这就是 <strong>增量备份</strong>。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="5-增量恢复时间点恢复完整流程"
+    >
+        5. 增量恢复（时间点恢复）完整流程
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#5-增量恢复时间点恢复完整流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 增量恢复（时间点恢复）完整流程" aria-label="Anchor to: 5. 增量恢复（时间点恢复）完整流程" href="#5-%e5%a2%9e%e9%87%8f%e6%81%a2%e5%a4%8d%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d%e5%ae%8c%e6%95%b4%e6%b5%81%e7%a8%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这是 WAL 方案的核心价值。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-1停止-postgresql"
+    >
+        ✨ Step 1：停止 PostgreSQL
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-step-1停止-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 1：停止 PostgreSQL" aria-label="Anchor to: ✨ Step 1：停止 PostgreSQL" href="#-step-1%e5%81%9c%e6%ad%a2-postgresql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl stop postgresql
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-2清空原数据库目录"
+    >
+        ✨ Step 2：清空原数据库目录
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-step-2清空原数据库目录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 2：清空原数据库目录" aria-label="Anchor to: ✨ Step 2：清空原数据库目录" href="#-step-2%e6%b8%85%e7%a9%ba%e5%8e%9f%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9b%ae%e5%bd%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">rm -rf /pgdata/*
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-3恢复某次物理备份"
+    >
+        ✨ Step 3：恢复某次物理备份
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-step-3恢复某次物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 3：恢复某次物理备份" aria-label="Anchor to: ✨ Step 3：恢复某次物理备份" href="#-step-3%e6%81%a2%e5%a4%8d%e6%9f%90%e6%ac%a1%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cp -r /base_backup/2025-02-10/* /pgdata/
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-4创建恢复配置postgresql--12"
+    >
+        ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-step-4创建恢复配置postgresql--12" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）" aria-label="Anchor to: ✨ Step 4：创建恢复配置（PostgreSQL ≥ 12）" href="#-step-4%e5%88%9b%e5%bb%ba%e6%81%a2%e5%a4%8d%e9%85%8d%e7%bd%aepostgresql--12">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>创建恢复信号：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">touch /pgdata/recovery.signal
+</span></span></code></pre></div><p>在 postgresql.auto.conf 添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">restore_command = &#39;cp /wal_archive/%f %p&#39;
+</span></span><span class="line"><span class="cl">recovery_target_time = &#39;2025-02-10 03:05:00&#39;
+</span></span></code></pre></div><p>你也可以用：</p>
+<ul>
+<li>recovery_target_lsn</li>
+<li>recovery_target_xid</li>
+<li>recovery_target_name</li>
+<li>recovery_target = &lsquo;immediate&rsquo;（恢复到尽可能近）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-5启动-postgresql"
+    >
+        ✨ Step 5：启动 PostgreSQL
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-step-5启动-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✨ Step 5：启动 PostgreSQL" aria-label="Anchor to: ✨ Step 5：启动 PostgreSQL" href="#-step-5%e5%90%af%e5%8a%a8-postgresql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">systemctl start postgresql
+</span></span></code></pre></div><p>PostgreSQL 自动按顺序 replay 所有 WAL 文件，到达指定时间自动停。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="6-自动化脚本企业必备"
+    >
+        6. 自动化脚本（企业必备）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#6-自动化脚本企业必备" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 自动化脚本（企业必备）" aria-label="Anchor to: 6. 自动化脚本（企业必备）" href="#6-%e8%87%aa%e5%8a%a8%e5%8c%96%e8%84%9a%e6%9c%ac%e4%bc%81%e4%b8%9a%e5%bf%85%e5%a4%87">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="每日基线备份backup_fullsh"
+    >
+        每日基线备份（backup_full.sh）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#每日基线备份backup_fullsh" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 每日基线备份（backup_full.sh）" aria-label="Anchor to: 每日基线备份（backup_full.sh）" href="#%e6%af%8f%e6%97%a5%e5%9f%ba%e7%ba%bf%e5%a4%87%e4%bb%bdbackup_fullsh">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +%F<span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DIR</span><span class="o">=</span><span class="s2">&#34;/base_backup/</span><span class="nv">$DATE</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">mkdir -p <span class="nv">$DIR</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">pg_basebackup -U backup -D <span class="s2">&#34;</span><span class="nv">$DIR</span><span class="s2">&#34;</span> -Fp -Xs -P
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">find /base_backup/ -maxdepth <span class="m">1</span> -mtime +7 -exec rm -rf <span class="o">{}</span> <span class="se">\;</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="每日-wal-清理策略根据保留天数"
+    >
+        每日 WAL 清理策略（根据保留天数）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#每日-wal-清理策略根据保留天数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 每日 WAL 清理策略（根据保留天数）" aria-label="Anchor to: 每日 WAL 清理策略（根据保留天数）" href="#%e6%af%8f%e6%97%a5-wal-%e6%b8%85%e7%90%86%e7%ad%96%e7%95%a5%e6%a0%b9%e6%8d%ae%e4%bf%9d%e7%95%99%e5%a4%a9%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>wal 文件可能很多，通常保留 3~7 天：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">find /wal_archive/ -type f -mtime +7 -delete
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="7-增量备份常见问题"
+    >
+        7. 增量备份常见问题
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#7-增量备份常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 增量备份常见问题" aria-label="Anchor to: 7. 增量备份常见问题" href="#7-%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bd%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-archive_command-报错---wal-丢失最危险"
+    >
+        ❌ archive_command 报错 -&gt; WAL 丢失（最危险）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-archive_command-报错---wal-丢失最危险" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ archive_command 报错 -&gt; WAL 丢失（最危险）" aria-label="Anchor to: ❌ archive_command 报错 -&gt; WAL 丢失（最危险）" href="#-archive_command-%e6%8a%a5%e9%94%99---wal-%e4%b8%a2%e5%a4%b1%e6%9c%80%e5%8d%b1%e9%99%a9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>查看日志：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">journalctl -u postgresql -f
+</span></span></code></pre></div><p>如果 WAL 丢失，则无法恢复到某些时间点。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-物理备份与实际-wal-不匹配"
+    >
+        ❌ 物理备份与实际 WAL 不匹配
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-物理备份与实际-wal-不匹配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 物理备份与实际 WAL 不匹配" aria-label="Anchor to: ❌ 物理备份与实际 WAL 不匹配" href="#-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e4%b8%8e%e5%ae%9e%e9%99%85-wal-%e4%b8%8d%e5%8c%b9%e9%85%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>一定要搭配：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">pg_basebackup -Xs
+</span></span></code></pre></div><p>否则恢复会失败。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-恢复后变只读"
+    >
+        ❌ 恢复后变只读
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-恢复后变只读" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ❌ 恢复后变只读" aria-label="Anchor to: ❌ 恢复后变只读" href="#-%e6%81%a2%e5%a4%8d%e5%90%8e%e5%8f%98%e5%8f%aa%e8%af%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>忘了删除 recovery.signal</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="8-最佳实践最重要的部分"
+    >
+        8. 最佳实践（最重要的部分）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#8-最佳实践最重要的部分" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 最佳实践（最重要的部分）" aria-label="Anchor to: 8. 最佳实践（最重要的部分）" href="#8-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e9%83%a8%e5%88%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>必须开启 WAL 归档（企业默认）</li>
+<li>物理 + WAL 是最可靠、最高可用的备份方案</li>
+<li>每周执行恢复演练</li>
+<li>备份放多地（本地 + 对象存储 S3/OSS）</li>
+<li>单机也必须做 WAL 增量备份（防止误删 / 灾难）</li>
+<li>物理备份 + WAL + 逻辑备份 = 三重保护</li>
+<li>流复制不等于备份
+-（因为误操作会同步到从库）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-总结物理备份--wal--官方顶级增量方案"
+    >
+        🎯 总结：物理备份 + WAL = 官方顶级增量方案
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/basebackup-and-wal/#-总结物理备份--wal--官方顶级增量方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 总结：物理备份 &#43; WAL = 官方顶级增量方案" aria-label="Anchor to: 🎯 总结：物理备份 &#43; WAL = 官方顶级增量方案" href="#-%e6%80%bb%e7%bb%93%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd--wal--%e5%ae%98%e6%96%b9%e9%a1%b6%e7%ba%a7%e5%a2%9e%e9%87%8f%e6%96%b9%e6%a1%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 没有像 MySQL 那样的“差异备份”，</p>
+<p>因为 <strong>增量完全靠 WAL 完成</strong>。</p>
+<p>所以……</p>
+<p><strong>🔥 增量备份 = 物理备份 + WAL</strong></p>
+<ul>
+<li>物理备份 = 基线</li>
+<li>WAL = 所有增量</li>
+<li>PITR = 到任意时间恢复</li>
+<li>企业标准方案</li>
+</ul>
 
   </article>
 
@@ -2744,9 +2906,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2927,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3785,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

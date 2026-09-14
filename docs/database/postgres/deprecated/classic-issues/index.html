@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="PostgreSQL 的问题更多集中在：数据一致性、性能、并发、运维与可用性。
+一、PostgreSQL 在「开发层」常见问题 1️⃣ 慢 SQL / 查询性能差（最常见） 表现
+查询偶发或持续变慢 EXPLAIN 显示 Seq Scan 同样 SQL 在不同时间性能差异大 根因
+缺索引 / 索引设计不合理 统计信息不准（未 ANALYZE） 错误的数据类型（char / varchar / timestamptz） LIKE %xxx% 无法使用 B-Tree JOIN 顺序错误 返回列过多（SELECT *） 对策" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>经典问题 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="经典问题"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="PostgreSQL 的问题更多集中在：数据一致性、性能、并发、运维与可用性。
+一、PostgreSQL 在「开发层」常见问题 1️⃣ 慢 SQL / 查询性能差（最常见） 表现
+查询偶发或持续变慢 EXPLAIN 显示 Seq Scan 同样 SQL 在不同时间性能差异大 根因
+缺索引 / 索引设计不合理 统计信息不准（未 ANALYZE） 错误的数据类型（char / varchar / timestamptz） LIKE %xxx% 无法使用 B-Tree JOIN 顺序错误 返回列过多（SELECT *） 对策" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="经典问题" />
+  <meta name="twitter:description" content="PostgreSQL 的问题更多集中在：数据一致性、性能、并发、运维与可用性。
+一、PostgreSQL 在「开发层」常见问题 1️⃣ 慢 SQL / 查询性能差（最常见） 表现
+查询偶发或持续变慢 EXPLAIN 显示 Seq Scan 同样 SQL 在不同时间性能差异大 根因
+缺索引 / 索引设计不合理 统计信息不准（未 ANALYZE） 错误的数据类型（char / varchar / timestamptz） LIKE %xxx% 无法使用 B-Tree JOIN 顺序错误 返回列过多（SELECT *） 对策" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "经典问题",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/classic-issues/",
+      "headline": "经典问题",
+      "description": "PostgreSQL 的问题更多集中在：数据一致性、性能、并发、运维与可用性。\n一、PostgreSQL 在「开发层」常见问题 1️⃣ 慢 SQL \/ 查询性能差（最常见） 表现\n查询偶发或持续变慢 EXPLAIN 显示 Seq Scan 同样 SQL 在不同时间性能差异大 根因\n缺索引 \/ 索引设计不合理 统计信息不准（未 ANALYZE） 错误的数据类型（char \/ varchar \/ timestamptz） LIKE %xxx% 无法使用 B-Tree JOIN 顺序错误 返回列过多（SELECT *） 对策",
+      "wordCount": "350",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/classic-issues/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>经典问题</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,406 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>经典问题</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>PostgreSQL 的问题更多集中在：数据一致性、性能、并发、运维与可用性。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一postgresql-在开发层常见问题"
+    >
+        一、PostgreSQL 在「开发层」常见问题
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#一postgresql-在开发层常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、PostgreSQL 在「开发层」常见问题" aria-label="Anchor to: 一、PostgreSQL 在「开发层」常见问题" href="#%e4%b8%80postgresql-%e5%9c%a8%e5%bc%80%e5%8f%91%e5%b1%82%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-慢-sql--查询性能差最常见"
+    >
+        1️⃣ 慢 SQL / 查询性能差（最常见）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#1-慢-sql--查询性能差最常见" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 慢 SQL / 查询性能差（最常见）" aria-label="Anchor to: 1️⃣ 慢 SQL / 查询性能差（最常见）" href="#1-%e6%85%a2-sql--%e6%9f%a5%e8%af%a2%e6%80%a7%e8%83%bd%e5%b7%ae%e6%9c%80%e5%b8%b8%e8%a7%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>查询偶发或持续变慢</li>
+<li>EXPLAIN 显示 Seq Scan</li>
+<li>同样 SQL 在不同时间性能差异大</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>根因</p>
+<ul>
+<li>缺索引 / 索引设计不合理</li>
+<li>统计信息不准（未 ANALYZE）</li>
+<li>错误的数据类型（char / varchar / timestamptz）</li>
+<li>LIKE %xxx% 无法使用 B-Tree</li>
+<li>JOIN 顺序错误</li>
+<li>返回列过多（SELECT *）</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>EXPLAIN (ANALYZE, BUFFERS)</li>
+<li>合理使用：</li>
+<li>B-Tree / GIN / BRIN</li>
+<li>pg_trgm</li>
+<li>定期 ANALYZE</li>
+<li>明确字段类型（时间用 TIMESTAMPTZ）</li>
+<li>拆 SQL，而不是堆 SQL</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-锁冲突--死锁"
+    >
+        2️⃣ 锁冲突 / 死锁
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#2-锁冲突--死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 锁冲突 / 死锁" aria-label="Anchor to: 2️⃣ 锁冲突 / 死锁" href="#2-%e9%94%81%e5%86%b2%e7%aa%81--%e6%ad%bb%e9%94%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>UPDATE / DELETE 卡住</li>
+<li>出现 deadlock detected</li>
+<li>高并发写入性能急剧下降</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>长事务</li>
+<li>不合理的 UPDATE 顺序</li>
+<li>SELECT FOR UPDATE 滥用</li>
+<li>外键级联导致隐式锁</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>控制事务粒度（短事务）</li>
+<li>固定访问顺序</li>
+<li>避免长时间 HOLD 事务</li>
+<li>使用：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_locks</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-mvcc-膨胀表越用越慢"
+    >
+        3️⃣ MVCC 膨胀（表越用越慢）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#3-mvcc-膨胀表越用越慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ MVCC 膨胀（表越用越慢）" aria-label="Anchor to: 3️⃣ MVCC 膨胀（表越用越慢）" href="#3-mvcc-%e8%86%a8%e8%83%80%e8%a1%a8%e8%b6%8a%e7%94%a8%e8%b6%8a%e6%85%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>表越来越大</li>
+<li>查询越来越慢</li>
+<li>VACUUM 跑不动</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>UPDATE / DELETE 多</li>
+<li>autovacuum 参数不合理</li>
+<li>长事务阻止 vacuum</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>调整 autovacuum</li>
+<li>定期：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">VACUUM</span><span class="w"> </span><span class="p">(</span><span class="k">ANALYZE</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">VACUUM</span><span class="w"> </span><span class="k">FULL</span><span class="p">;</span><span class="w"> </span><span class="c1">-- 仅低峰
+</span></span></span></code></pre></div><ul>
+<li>监控：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">n_dead_tup
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="4-数据一致性误用逻辑问题"
+    >
+        4️⃣ 数据一致性误用（逻辑问题）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#4-数据一致性误用逻辑问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4️⃣ 数据一致性误用（逻辑问题）" aria-label="Anchor to: 4️⃣ 数据一致性误用（逻辑问题）" href="#4-%e6%95%b0%e6%8d%ae%e4%b8%80%e8%87%b4%e6%80%a7%e8%af%af%e7%94%a8%e9%80%bb%e8%be%91%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>读到“旧数据”</li>
+<li>幻读 / 不可重复读理解错误</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>不理解 PostgreSQL 的隔离级别</li>
+<li>误用 READ COMMITTED</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>理解隔离级别：</li>
+<li>READ COMMITTED</li>
+<li>REPEATABLE READ</li>
+<li>SERIALIZABLE</li>
+<li>金融 / 结算使用更高隔离</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="5-时间字段设计错误"
+    >
+        5️⃣ 时间字段设计错误
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#5-时间字段设计错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5️⃣ 时间字段设计错误" aria-label="Anchor to: 5️⃣ 时间字段设计错误" href="#5-%e6%97%b6%e9%97%b4%e5%ad%97%e6%ae%b5%e8%ae%be%e8%ae%a1%e9%94%99%e8%af%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>不同时区数据混乱</li>
+<li>日志时间不一致</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>使用 TIMESTAMP 而不是 TIMESTAMPTZ</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>日志 / 事件 / 审计：必须 TIMESTAMPTZ</li>
+<li>统一 UTC 存储</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="6-误以为-postgresql--mysql"
+    >
+        6️⃣ 误以为 PostgreSQL = MySQL
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#6-误以为-postgresql--mysql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6️⃣ 误以为 PostgreSQL = MySQL" aria-label="Anchor to: 6️⃣ 误以为 PostgreSQL = MySQL" href="#6-%e8%af%af%e4%bb%a5%e4%b8%ba-postgresql--mysql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>常见误区</p>
+<ul>
+<li>COUNT(*) 很快（错）</li>
+<li>索引越多越好（错）</li>
+<li>CHAR 比 VARCHAR 快（错）</li>
+<li>自动 VACUUM = 万能（错）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二postgresql-在运维层常见问题"
+    >
+        二、PostgreSQL 在「运维层」常见问题
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#二postgresql-在运维层常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、PostgreSQL 在「运维层」常见问题" aria-label="Anchor to: 二、PostgreSQL 在「运维层」常见问题" href="#%e4%ba%8cpostgresql-%e5%9c%a8%e8%bf%90%e7%bb%b4%e5%b1%82%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="7-磁盘-io-成瓶颈"
+    >
+        7️⃣ 磁盘 IO 成瓶颈
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#7-磁盘-io-成瓶颈" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7️⃣ 磁盘 IO 成瓶颈" aria-label="Anchor to: 7️⃣ 磁盘 IO 成瓶颈" href="#7-%e7%a3%81%e7%9b%98-io-%e6%88%90%e7%93%b6%e9%a2%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>查询慢但 CPU 空闲</li>
+<li>iowait 高</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>随机 IO</li>
+<li>WAL 写入压力</li>
+<li>索引过多</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>SSD / NVMe</li>
+<li>调整：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">shared_buffers
+</span></span><span class="line"><span class="cl">effective_cache_size
+</span></span><span class="line"><span class="cl">wal_buffers
+</span></span></code></pre></div><ul>
+<li>WAL 独立磁盘</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="8-wal-爆盘--磁盘写满"
+    >
+        8️⃣ WAL 爆盘 / 磁盘写满
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#8-wal-爆盘--磁盘写满" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8️⃣ WAL 爆盘 / 磁盘写满" aria-label="Anchor to: 8️⃣ WAL 爆盘 / 磁盘写满" href="#8-wal-%e7%88%86%e7%9b%98--%e7%a3%81%e7%9b%98%e5%86%99%e6%bb%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>数据库停止服务</li>
+<li>WAL 目录暴涨</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>没有备库</li>
+<li>复制槽未释放</li>
+<li>备份失败</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>监控：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">pg_replication_slots;
+</span></span></code></pre></div><ul>
+<li>定期清理失效 slot</li>
+<li>pgBackRest / WAL 归档</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="9-备份不可用灾难级"
+    >
+        9️⃣ 备份不可用（灾难级）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#9-备份不可用灾难级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9️⃣ 备份不可用（灾难级）" aria-label="Anchor to: 9️⃣ 备份不可用（灾难级）" href="#9-%e5%a4%87%e4%bb%bd%e4%b8%8d%e5%8f%af%e7%94%a8%e7%81%be%e9%9a%be%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>恢复失败</li>
+<li>backup.info 丢失</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>只做逻辑备份</li>
+<li>未验证恢复</li>
+<li>WAL 不完整</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>物理备份 + WAL</li>
+<li>定期演练恢复</li>
+<li>使用 pgBackRest</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-主从延迟--不一致"
+    >
+        🔟 主从延迟 / 不一致
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#-主从延迟--不一致" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔟 主从延迟 / 不一致" aria-label="Anchor to: 🔟 主从延迟 / 不一致" href="#-%e4%b8%bb%e4%bb%8e%e5%bb%b6%e8%bf%9f--%e4%b8%8d%e4%b8%80%e8%87%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>读从库数据旧</li>
+<li>应用异常</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>同步复制配置错误</li>
+<li>网络延迟</li>
+<li>大事务</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>区分：
+<ul>
+<li>同步复制</li>
+<li>异步复制</li>
+</ul>
+</li>
+<li>监控 replication lag</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="11-oom--内存耗尽"
+    >
+        1️⃣1️⃣ OOM / 内存耗尽
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#11-oom--内存耗尽" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣1️⃣ OOM / 内存耗尽" aria-label="Anchor to: 1️⃣1️⃣ OOM / 内存耗尽" href="#11-oom--%e5%86%85%e5%ad%98%e8%80%97%e5%b0%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>数据库被 OOM Killer 杀掉</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>work_mem 设置过大</li>
+<li>高并发 JOIN / SORT</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>work_mem × 并发数 ≠ 总内存</li>
+<li>使用 LIMIT</li>
+<li>优化 SQL</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="12-表行数统计不准"
+    >
+        1️⃣2️⃣ 表行数统计不准
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#12-表行数统计不准" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣2️⃣ 表行数统计不准" aria-label="Anchor to: 1️⃣2️⃣ 表行数统计不准" href="#12-%e8%a1%a8%e8%a1%8c%e6%95%b0%e7%bb%9f%e8%ae%a1%e4%b8%8d%e5%87%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>COUNT 很慢</li>
+<li>行数显示不准</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>PostgreSQL 不维护精确行数</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>使用：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">pg_stat_all_tables.n_live_tup
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="13-升级--扩展兼容问题"
+    >
+        1️⃣3️⃣ 升级 / 扩展兼容问题
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#13-升级--扩展兼容问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣3️⃣ 升级 / 扩展兼容问题" aria-label="Anchor to: 1️⃣3️⃣ 升级 / 扩展兼容问题" href="#13-%e5%8d%87%e7%ba%a7--%e6%89%a9%e5%b1%95%e5%85%bc%e5%ae%b9%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>表现</p>
+<ul>
+<li>升级后扩展不可用</li>
+<li>TimescaleDB / pg_trgm 报错</li>
+</ul>
+<p>根因</p>
+<ul>
+<li>主版本升级</li>
+<li>扩展未匹配</li>
+</ul>
+<p>对策</p>
+<ul>
+<li>升级前验证：</li>
+<li>扩展支持版本</li>
+<li>使用 pg_upgrade</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三总结"
+    >
+        三、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/classic-issues/#三总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、总结" aria-label="Anchor to: 三、总结" href="#%e4%b8%89%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>系统</th>
+					<th>核心问题</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Redis</td>
+					<td>穿透 / 击穿 / 雪崩</td>
+			</tr>
+			<tr>
+					<td>PostgreSQL</td>
+					<td>慢 SQL / 锁 / 膨胀 / WAL / 备份 / 时间 / 内存</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>PostgreSQL 的“七宗罪”👇</p>
+<p><strong>SQL 慢、锁乱、表膨胀、WAL 爆、备份假、时间错、内存炸</strong></p>
 
   </article>
 
@@ -2744,9 +2979,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3000,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3858,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

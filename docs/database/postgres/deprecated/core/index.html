@@ -12,12 +12,13 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="内容：从架构 -&gt; 存储 -&gt; 事务 -&gt; 查询 -&gt; 索引 -&gt; 并发 -&gt; 运维
+一、PostgreSQL 是什么（定位） PostgreSQL 是一个：
+关系型数据库（RDBMS） 强一致性（ACID） 多进程架构 MVCC（多版本并发控制） 可扩展（Extension） OLTP 为主，OLAP 可辅 👉 核心设计哲学：
+“正确性 &gt; 性能 &gt; 便利性”
+二、整体架构（非常核心） 1️⃣ 客户端 / 服务端模型 Client ↓ Postmaster（监听进程） ↓ fork Backend Process（每个连接一个进程） 特点" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 核心概念 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +39,27 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 核心概念"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="内容：从架构 -&gt; 存储 -&gt; 事务 -&gt; 查询 -&gt; 索引 -&gt; 并发 -&gt; 运维
+一、PostgreSQL 是什么（定位） PostgreSQL 是一个：
+关系型数据库（RDBMS） 强一致性（ACID） 多进程架构 MVCC（多版本并发控制） 可扩展（Extension） OLTP 为主，OLAP 可辅 👉 核心设计哲学：
+“正确性 &gt; 性能 &gt; 便利性”
+二、整体架构（非常核心） 1️⃣ 客户端 / 服务端模型 Client ↓ Postmaster（监听进程） ↓ fork Backend Process（每个连接一个进程） 特点" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/core/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 核心概念" />
+  <meta name="twitter:description" content="内容：从架构 -&gt; 存储 -&gt; 事务 -&gt; 查询 -&gt; 索引 -&gt; 并发 -&gt; 运维
+一、PostgreSQL 是什么（定位） PostgreSQL 是一个：
+关系型数据库（RDBMS） 强一致性（ACID） 多进程架构 MVCC（多版本并发控制） 可扩展（Extension） OLTP 为主，OLAP 可辅 👉 核心设计哲学：
+“正确性 &gt; 性能 &gt; 便利性”
+二、整体架构（非常核心） 1️⃣ 客户端 / 服务端模型 Client ↓ Postmaster（监听进程） ↓ fork Backend Process（每个连接一个进程） 特点" />
 
 
   <script type="application/ld+json">
@@ -64,16 +67,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 核心概念",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/core/",
+      "headline": "PostgreSQL 核心概念",
+      "description": "内容：从架构 -\u003e 存储 -\u003e 事务 -\u003e 查询 -\u003e 索引 -\u003e 并发 -\u003e 运维\n一、PostgreSQL 是什么（定位） PostgreSQL 是一个：\n关系型数据库（RDBMS） 强一致性（ACID） 多进程架构 MVCC（多版本并发控制） 可扩展（Extension） OLTP 为主，OLAP 可辅 👉 核心设计哲学：\n“正确性 \u003e 性能 \u003e 便利性”\n二、整体架构（非常核心） 1️⃣ 客户端 \/ 服务端模型 Client ↓ Postmaster（监听进程） ↓ fork Backend Process（每个连接一个进程） 特点",
+      "wordCount": "399",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/core/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +160,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/core/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +822,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2142,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 核心概念</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2177,684 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 核心概念</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>内容：从架构 -&gt; 存储 -&gt; 事务 -&gt; 查询 -&gt; 索引 -&gt; 并发 -&gt; 运维</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一postgresql-是什么定位"
+    >
+        一、PostgreSQL 是什么（定位）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#一postgresql-是什么定位" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、PostgreSQL 是什么（定位）" aria-label="Anchor to: 一、PostgreSQL 是什么（定位）" href="#%e4%b8%80postgresql-%e6%98%af%e4%bb%80%e4%b9%88%e5%ae%9a%e4%bd%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 是一个：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>关系型数据库（RDBMS）</li>
+<li>强一致性（ACID）</li>
+<li>多进程架构</li>
+<li>MVCC（多版本并发控制）</li>
+<li>可扩展（Extension）</li>
+<li>OLTP 为主，OLAP 可辅</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>👉 核心设计哲学：</p>
+<p>“正确性 &gt; 性能 &gt; 便利性”</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二整体架构非常核心"
+    >
+        二、整体架构（非常核心）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#二整体架构非常核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、整体架构（非常核心）" aria-label="Anchor to: 二、整体架构（非常核心）" href="#%e4%ba%8c%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84%e9%9d%9e%e5%b8%b8%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-客户端--服务端模型"
+    >
+        1️⃣ 客户端 / 服务端模型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-客户端--服务端模型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 客户端 / 服务端模型" aria-label="Anchor to: 1️⃣ 客户端 / 服务端模型" href="#1-%e5%ae%a2%e6%88%b7%e7%ab%af--%e6%9c%8d%e5%8a%a1%e7%ab%af%e6%a8%a1%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Client
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Postmaster（监听进程）
+</span></span><span class="line"><span class="cl">  ↓ fork
+</span></span><span class="line"><span class="cl">Backend Process（每个连接一个进程）
+</span></span></code></pre></div><p>特点</p>
+<ul>
+<li>一个连接 = 一个进程</li>
+<li>无共享内存线程模型（对比 MySQL InnoDB）</li>
+<li>稳定、隔离性强</li>
+<li>连接数不能无限大 -&gt; PgBouncer</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-进程模型重要"
+    >
+        2️⃣ 进程模型（重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-进程模型重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 进程模型（重要）" aria-label="Anchor to: 2️⃣ 进程模型（重要）" href="#2-%e8%bf%9b%e7%a8%8b%e6%a8%a1%e5%9e%8b%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>进程</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>postmaster</td>
+					<td>主进程</td>
+			</tr>
+			<tr>
+					<td>backend</td>
+					<td>处理客户端请求</td>
+			</tr>
+			<tr>
+					<td>checkpointer</td>
+					<td>定期刷脏页</td>
+			</tr>
+			<tr>
+					<td>bgwriter</td>
+					<td>后台写</td>
+			</tr>
+			<tr>
+					<td>walwriter</td>
+					<td>WAL 写入</td>
+			</tr>
+			<tr>
+					<td>autovacuum</td>
+					<td>回收垃圾</td>
+			</tr>
+			<tr>
+					<td>archiver</td>
+					<td>WAL 归档</td>
+			</tr>
+			<tr>
+					<td>logical replication</td>
+					<td>逻辑复制</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三存储模型非常重要"
+    >
+        三、存储模型（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#三存储模型非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、存储模型（非常重要）" aria-label="Anchor to: 三、存储模型（非常重要）" href="#%e4%b8%89%e5%ad%98%e5%82%a8%e6%a8%a1%e5%9e%8b%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-表--文件--page"
+    >
+        1️⃣ 表 = 文件 + Page
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-表--文件--page" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 表 = 文件 &#43; Page" aria-label="Anchor to: 1️⃣ 表 = 文件 &#43; Page" href="#1-%e8%a1%a8--%e6%96%87%e4%bb%b6--page">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>Page（页）</p>
+<ul>
+<li>默认 8KB</li>
+<li>最小 IO 单位</li>
+<li>所有数据都在 Page 里</li>
+</ul>
+<p>Page 结构</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Page Header
+</span></span><span class="line"><span class="cl">Line Pointer
+</span></span><span class="line"><span class="cl">Tuple（行数据）
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-行存储tuple"
+    >
+        2️⃣ 行存储（Tuple）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-行存储tuple" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 行存储（Tuple）" aria-label="Anchor to: 2️⃣ 行存储（Tuple）" href="#2-%e8%a1%8c%e5%ad%98%e5%82%a8tuple">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PostgreSQL 是 行存储</li>
+<li>一行更新 ≠ 原地更新</li>
+</ul>
+<p>👉 UPDATE 本质 = INSERT + DELETE</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-toast大字段存储"
+    >
+        3️⃣ TOAST（大字段存储）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#3-toast大字段存储" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ TOAST（大字段存储）" aria-label="Anchor to: 3️⃣ TOAST（大字段存储）" href="#3-toast%e5%a4%a7%e5%ad%97%e6%ae%b5%e5%ad%98%e5%82%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>当字段很大时：</p>
+<ul>
+<li>TEXT</li>
+<li>JSON</li>
+<li>BYTEA</li>
+</ul>
+<p>会被自动拆分存储到 TOAST 表。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四mvccpostgresql-灵魂"
+    >
+        四、MVCC（PostgreSQL 灵魂）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#四mvccpostgresql-灵魂" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、MVCC（PostgreSQL 灵魂）" aria-label="Anchor to: 四、MVCC（PostgreSQL 灵魂）" href="#%e5%9b%9bmvccpostgresql-%e7%81%b5%e9%ad%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-什么是-mvcc"
+    >
+        1️⃣ 什么是 MVCC？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-什么是-mvcc" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 什么是 MVCC？" aria-label="Anchor to: 1️⃣ 什么是 MVCC？" href="#1-%e4%bb%80%e4%b9%88%e6%98%af-mvcc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>多版本并发控制</p>
+<p>每一行都有：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">xmin：创建该行的事务ID
+</span></span><span class="line"><span class="cl">xmax：删除该行的事务ID
+</span></span></code></pre></div><p>核心思想</p>
+<ul>
+<li>读不阻塞写</li>
+<li>写不阻塞读</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-可见性规则简化"
+    >
+        2️⃣ 可见性规则（简化）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-可见性规则简化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 可见性规则（简化）" aria-label="Anchor to: 2️⃣ 可见性规则（简化）" href="#2-%e5%8f%af%e8%a7%81%e6%80%a7%e8%a7%84%e5%88%99%e7%ae%80%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>一行是否可见取决于：</p>
+<ul>
+<li>当前事务 ID</li>
+<li>行的 xmin / xmax</li>
+<li>当前事务快照（Snapshot）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-长事务--万恶之源"
+    >
+        3️⃣ 长事务 = 万恶之源
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#3-长事务--万恶之源" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 长事务 = 万恶之源" aria-label="Anchor to: 3️⃣ 长事务 = 万恶之源" href="#3-%e9%95%bf%e4%ba%8b%e5%8a%a1--%e4%b8%87%e6%81%b6%e4%b9%8b%e6%ba%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>阻止 VACUUM</li>
+<li>导致表膨胀</li>
+<li>复制延迟</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五事务acid"
+    >
+        五、事务（ACID）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#五事务acid" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、事务（ACID）" aria-label="Anchor to: 五、事务（ACID）" href="#%e4%ba%94%e4%ba%8b%e5%8a%a1acid">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-acid"
+    >
+        1️⃣ ACID
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-acid" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ ACID" aria-label="Anchor to: 1️⃣ ACID" href="#1-acid">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>PostgreSQL 实现</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Atomicity</td>
+					<td>WAL</td>
+			</tr>
+			<tr>
+					<td>Consistency</td>
+					<td>约束 + 事务</td>
+			</tr>
+			<tr>
+					<td>Isolation</td>
+					<td>MVCC</td>
+			</tr>
+			<tr>
+					<td>Durability</td>
+					<td>WAL + fsync</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-隔离级别"
+    >
+        2️⃣ 隔离级别
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-隔离级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 隔离级别" aria-label="Anchor to: 2️⃣ 隔离级别" href="#2-%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 支持：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>隔离级别</th>
+					<th>实现</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>READ COMMITTED</td>
+					<td>默认</td>
+			</tr>
+			<tr>
+					<td>REPEATABLE READ</td>
+					<td>快照</td>
+			</tr>
+			<tr>
+					<td>SERIALIZABLE</td>
+					<td>SSI</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>⚠️ PostgreSQL 没有真正的 READ UNCOMMITTED</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六wal写前日志"
+    >
+        六、WAL（写前日志）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#六wal写前日志" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、WAL（写前日志）" aria-label="Anchor to: 六、WAL（写前日志）" href="#%e5%85%adwal%e5%86%99%e5%89%8d%e6%97%a5%e5%bf%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-wal-是什么"
+    >
+        1️⃣ WAL 是什么？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-wal-是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ WAL 是什么？" aria-label="Anchor to: 1️⃣ WAL 是什么？" href="#1-wal-%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>所有修改，先写日志，再写数据</p>
+<p>顺序</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">WAL -&gt; Memory
+</span></span><span class="line"><span class="cl">WAL -&gt; Disk
+</span></span><span class="line"><span class="cl">Data Page -&gt; Disk（延迟）
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-wal-的作用"
+    >
+        2️⃣ WAL 的作用
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-wal-的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ WAL 的作用" aria-label="Anchor to: 2️⃣ WAL 的作用" href="#2-wal-%e7%9a%84%e4%bd%9c%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>崩溃恢复</li>
+<li>主从复制</li>
+<li>PITR</li>
+<li>逻辑复制</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-checkpoint"
+    >
+        3️⃣ Checkpoint
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#3-checkpoint" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ Checkpoint" aria-label="Anchor to: 3️⃣ Checkpoint" href="#3-checkpoint">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>将脏页刷盘</li>
+<li>控制 WAL 增长</li>
+<li>太频繁 -&gt; IO 抖动</li>
+<li>太少 -&gt; 恢复慢</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七索引执行性能核心"
+    >
+        七、索引（执行性能核心）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#七索引执行性能核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、索引（执行性能核心）" aria-label="Anchor to: 七、索引（执行性能核心）" href="#%e4%b8%83%e7%b4%a2%e5%bc%95%e6%89%a7%e8%a1%8c%e6%80%a7%e8%83%bd%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-常见索引类型"
+    >
+        1️⃣ 常见索引类型
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-常见索引类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 常见索引类型" aria-label="Anchor to: 1️⃣ 常见索引类型" href="#1-%e5%b8%b8%e8%a7%81%e7%b4%a2%e5%bc%95%e7%b1%bb%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>索引</th>
+					<th>适用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>B-Tree</td>
+					<td>=, &lt;, &gt;, BETWEEN</td>
+			</tr>
+			<tr>
+					<td>GIN</td>
+					<td>array / json / trgm</td>
+			</tr>
+			<tr>
+					<td>GiST</td>
+					<td>空间 / 模糊</td>
+			</tr>
+			<tr>
+					<td>BRIN</td>
+					<td>超大表，顺序数据</td>
+			</tr>
+			<tr>
+					<td>Hash</td>
+					<td>等值（很少用）</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-postgresql-索引特点"
+    >
+        2️⃣ PostgreSQL 索引特点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-postgresql-索引特点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ PostgreSQL 索引特点" aria-label="Anchor to: 2️⃣ PostgreSQL 索引特点" href="#2-postgresql-%e7%b4%a2%e5%bc%95%e7%89%b9%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>索引也是表</li>
+<li>索引有 MVCC</li>
+<li>UPDATE 会导致索引膨胀</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-复合索引左前缀原则"
+    >
+        3️⃣ 复合索引左前缀原则
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#3-复合索引左前缀原则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 复合索引左前缀原则" aria-label="Anchor to: 3️⃣ 复合索引左前缀原则" href="#3-%e5%a4%8d%e5%90%88%e7%b4%a2%e5%bc%95%e5%b7%a6%e5%89%8d%e7%bc%80%e5%8e%9f%e5%88%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></div><p>可用：</p>
+<ul>
+<li>a</li>
+<li>a, b</li>
+<li>a, b, c</li>
+</ul>
+<p>不可用：</p>
+<ul>
+<li>b</li>
+<li>c</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八查询执行流程非常重要"
+    >
+        八、查询执行流程（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#八查询执行流程非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、查询执行流程（非常重要）" aria-label="Anchor to: 八、查询执行流程（非常重要）" href="#%e5%85%ab%e6%9f%a5%e8%af%a2%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">SQL
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Parser（语法）
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Rewriter（规则重写）
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Planner（成本估算）
+</span></span><span class="line"><span class="cl"> ↓
+</span></span><span class="line"><span class="cl">Executor（执行）
+</span></span></code></pre></div><p>Planner 决策依据</p>
+<ul>
+<li>统计信息</li>
+<li>表大小</li>
+<li>索引选择性</li>
+<li>I/O 成本</li>
+</ul>
+<p>统计信息来源</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ANALYZE;
+</span></span><span class="line"><span class="cl">pg_statistic;
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九锁机制"
+    >
+        九、锁机制
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#九锁机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、锁机制" aria-label="Anchor to: 九、锁机制" href="#%e4%b9%9d%e9%94%81%e6%9c%ba%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-锁的分类"
+    >
+        1️⃣ 锁的分类
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-锁的分类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 锁的分类" aria-label="Anchor to: 1️⃣ 锁的分类" href="#1-%e9%94%81%e7%9a%84%e5%88%86%e7%b1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>表级锁</td>
+					<td>DDL</td>
+			</tr>
+			<tr>
+					<td>行级锁</td>
+					<td>UPDATE</td>
+			</tr>
+			<tr>
+					<td>Advisory Lock</td>
+					<td>应用锁</td>
+			</tr>
+			<tr>
+					<td>Predicate Lock</td>
+					<td>SERIALIZABLE</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-postgresql-锁特点"
+    >
+        2️⃣ PostgreSQL 锁特点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-postgresql-锁特点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ PostgreSQL 锁特点" aria-label="Anchor to: 2️⃣ PostgreSQL 锁特点" href="#2-postgresql-%e9%94%81%e7%89%b9%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>行锁是 逻辑锁</li>
+<li>锁与 MVCC 并存</li>
+<li>SELECT 默认不加锁</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十vacuum不可缺少"
+    >
+        十、VACUUM（不可缺少）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#十vacuum不可缺少" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、VACUUM（不可缺少）" aria-label="Anchor to: 十、VACUUM（不可缺少）" href="#%e5%8d%81vacuum%e4%b8%8d%e5%8f%af%e7%bc%ba%e5%b0%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-为什么要-vacuum"
+    >
+        1️⃣ 为什么要 VACUUM？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#1-为什么要-vacuum" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 为什么要 VACUUM？" aria-label="Anchor to: 1️⃣ 为什么要 VACUUM？" href="#1-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81-vacuum">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>MVCC 产生垃圾</li>
+<li>回收 dead tuple</li>
+<li>更新统计信息</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-autovacuum"
+    >
+        2️⃣ autovacuum
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#2-autovacuum" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ autovacuum" aria-label="Anchor to: 2️⃣ autovacuum" href="#2-autovacuum">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>自动运行</li>
+<li>不等于万无一失</li>
+<li>高写入场景必须调优</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一时间与时区高频坑"
+    >
+        十一、时间与时区（高频坑）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#十一时间与时区高频坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、时间与时区（高频坑）" aria-label="Anchor to: 十一、时间与时区（高频坑）" href="#%e5%8d%81%e4%b8%80%e6%97%b6%e9%97%b4%e4%b8%8e%e6%97%b6%e5%8c%ba%e9%ab%98%e9%a2%91%e5%9d%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>TIMESTAMP vs TIMESTAMPTZ</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>TIMESTAMP</td>
+					<td>无时区</td>
+			</tr>
+			<tr>
+					<td>TIMESTAMPTZ</td>
+					<td>绝对时间</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>👉 日志 / 事件 / 审计：必须 TIMESTAMPTZ</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十二扩展体系postgresql-核心优势"
+    >
+        十二、扩展体系（PostgreSQL 核心优势）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#十二扩展体系postgresql-核心优势" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、扩展体系（PostgreSQL 核心优势）" aria-label="Anchor to: 十二、扩展体系（PostgreSQL 核心优势）" href="#%e5%8d%81%e4%ba%8c%e6%89%a9%e5%b1%95%e4%bd%93%e7%b3%bbpostgresql-%e6%a0%b8%e5%bf%83%e4%bc%98%e5%8a%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>常见扩展</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>扩展</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>pg_trgm</td>
+					<td>模糊搜索</td>
+			</tr>
+			<tr>
+					<td>uuid-ossp</td>
+					<td>UUID</td>
+			</tr>
+			<tr>
+					<td>hstore</td>
+					<td>KV</td>
+			</tr>
+			<tr>
+					<td>PostGIS</td>
+					<td>GIS</td>
+			</tr>
+			<tr>
+					<td>TimescaleDB</td>
+					<td>时序</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十三postgresql-vs-mysql核心差异"
+    >
+        十三、PostgreSQL vs MySQL（核心差异）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#十三postgresql-vs-mysql核心差异" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、PostgreSQL vs MySQL（核心差异）" aria-label="Anchor to: 十三、PostgreSQL vs MySQL（核心差异）" href="#%e5%8d%81%e4%b8%89postgresql-vs-mysql%e6%a0%b8%e5%bf%83%e5%b7%ae%e5%bc%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>PostgreSQL</th>
+					<th>MySQL</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>架构</td>
+					<td>多进程</td>
+					<td>多线程</td>
+			</tr>
+			<tr>
+					<td>MVCC</td>
+					<td>更完整</td>
+					<td>InnoDB</td>
+			</tr>
+			<tr>
+					<td>SQL 标准</td>
+					<td>高</td>
+					<td>一般</td>
+			</tr>
+			<tr>
+					<td>扩展</td>
+					<td>极强</td>
+					<td>较弱</td>
+			</tr>
+			<tr>
+					<td>OLAP</td>
+					<td>更适合</td>
+					<td>偏 OLTP</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十四总结"
+    >
+        十四、总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/core/#十四总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、总结" aria-label="Anchor to: 十四、总结" href="#%e5%8d%81%e5%9b%9b%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 是一个以 MVCC + WAL 为核心、以正确性为第一优先级、通过 VACUUM 自我修复的关系型数据库。</p>
 
   </article>
 
@@ -2744,9 +3260,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3281,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +4139,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

@@ -12,12 +12,11 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="PostgreSQL 没有 LIKE IN 运算符的直接组合，但你可以通过在 SQL 语句中使用 LIKE 和 IN 运算符的组合来实现类似功能，或者使用 PostgreSQL 提供的正则表达式功能来实现更灵活的模糊匹配。
+实现方法 结合使用 LIKE 和 IN 如果你想在一个列表中查找包含特定模式的字符串，你可以先构建一个包含 LIKE 表达式的列表，然后将这个列表传递给 IN 子句。
+SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;, &#39;%pattern2%&#39;, &#39;%pattern3%&#39;]); LIKE ANY 会检查 column_name 是否匹配 ARRAY 中的任何一个 LIKE 模式 %pattern% 是一个通配符，表示可以匹配任何字符序列 使用正则表达式(Regexp)功能 PostgreSQL 支持强大的正则表达式，可以通过其正则表达式运算符实现更灵活的模式匹配。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL Like | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +37,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL Like"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="PostgreSQL 没有 LIKE IN 运算符的直接组合，但你可以通过在 SQL 语句中使用 LIKE 和 IN 运算符的组合来实现类似功能，或者使用 PostgreSQL 提供的正则表达式功能来实现更灵活的模糊匹配。
+实现方法 结合使用 LIKE 和 IN 如果你想在一个列表中查找包含特定模式的字符串，你可以先构建一个包含 LIKE 表达式的列表，然后将这个列表传递给 IN 子句。
+SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;, &#39;%pattern2%&#39;, &#39;%pattern3%&#39;]); LIKE ANY 会检查 column_name 是否匹配 ARRAY 中的任何一个 LIKE 模式 %pattern% 是一个通配符，表示可以匹配任何字符序列 使用正则表达式(Regexp)功能 PostgreSQL 支持强大的正则表达式，可以通过其正则表达式运算符实现更灵活的模式匹配。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/like/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL Like" />
+  <meta name="twitter:description" content="PostgreSQL 没有 LIKE IN 运算符的直接组合，但你可以通过在 SQL 语句中使用 LIKE 和 IN 运算符的组合来实现类似功能，或者使用 PostgreSQL 提供的正则表达式功能来实现更灵活的模糊匹配。
+实现方法 结合使用 LIKE 和 IN 如果你想在一个列表中查找包含特定模式的字符串，你可以先构建一个包含 LIKE 表达式的列表，然后将这个列表传递给 IN 子句。
+SELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[&#39;%pattern1%&#39;, &#39;%pattern2%&#39;, &#39;%pattern3%&#39;]); LIKE ANY 会检查 column_name 是否匹配 ARRAY 中的任何一个 LIKE 模式 %pattern% 是一个通配符，表示可以匹配任何字符序列 使用正则表达式(Regexp)功能 PostgreSQL 支持强大的正则表达式，可以通过其正则表达式运算符实现更灵活的模式匹配。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +61,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL Like",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/like/",
+      "headline": "PostgreSQL Like",
+      "description": "PostgreSQL 没有 LIKE IN 运算符的直接组合，但你可以通过在 SQL 语句中使用 LIKE 和 IN 运算符的组合来实现类似功能，或者使用 PostgreSQL 提供的正则表达式功能来实现更灵活的模糊匹配。\n实现方法 结合使用 LIKE 和 IN 如果你想在一个列表中查找包含特定模式的字符串，你可以先构建一个包含 LIKE 表达式的列表，然后将这个列表传递给 IN 子句。\nSELECT * FROM TABLE_NAME WHERE column_name LIKE ANY (ARRAY[\u0027%pattern1%\u0027, \u0027%pattern2%\u0027, \u0027%pattern3%\u0027]); LIKE ANY 会检查 column_name 是否匹配 ARRAY 中的任何一个 LIKE 模式 %pattern% 是一个通配符，表示可以匹配任何字符序列 使用正则表达式(Regexp)功能 PostgreSQL 支持强大的正则表达式，可以通过其正则表达式运算符实现更灵活的模式匹配。",
+      "wordCount": "78",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/like/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +154,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/like/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +816,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2136,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL Like</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2171,66 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL Like</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
-<ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+    <p>PostgreSQL 没有 LIKE IN 运算符的直接组合，但你可以通过在 SQL 语句中使用 LIKE 和 IN 运算符的组合来实现类似功能，或者使用 PostgreSQL 提供的正则表达式功能来实现更灵活的模糊匹配。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="实现方法"
+    >
+        实现方法
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/like/#实现方法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 实现方法" aria-label="Anchor to: 实现方法" href="#%e5%ae%9e%e7%8e%b0%e6%96%b9%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="结合使用-like-和-in"
+    >
+        结合使用 LIKE 和 IN
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/like/#结合使用-like-和-in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 结合使用 LIKE 和 IN" aria-label="Anchor to: 结合使用 LIKE 和 IN" href="#%e7%bb%93%e5%90%88%e4%bd%bf%e7%94%a8-like-%e5%92%8c-in">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你想在一个列表中查找包含特定模式的字符串，你可以先构建一个包含 LIKE 表达式的列表，然后将这个列表传递给 IN 子句。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">TABLE_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">column_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="k">ANY</span><span class="w"> </span><span class="p">(</span><span class="nb">ARRAY</span><span class="p">[</span><span class="s1">&#39;%pattern1%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%pattern2%&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;%pattern3%&#39;</span><span class="p">]);</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>LIKE ANY</code> 会检查 <code>column_name</code> 是否匹配 ARRAY 中的任何一个 LIKE 模式</li>
+<li><code>%pattern%</code> 是一个通配符，表示可以匹配任何字符序列</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="使用正则表达式regexp功能"
+    >
+        使用正则表达式(Regexp)功能
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/like/#使用正则表达式regexp功能" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 使用正则表达式(Regexp)功能" aria-label="Anchor to: 使用正则表达式(Regexp)功能" href="#%e4%bd%bf%e7%94%a8%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8fregexp%e5%8a%9f%e8%83%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 支持强大的正则表达式，可以通过其正则表达式运算符实现更灵活的模式匹配。</p>
+<ul>
+<li><code>~</code> 运算符：匹配大小写敏感的正则表达式</li>
+<li><code>~*</code> 运算符：匹配大小写不敏感的正则表达式</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="k">TABLE_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="k">column_name</span><span class="w"> </span><span class="o">~*</span><span class="w"> </span><span class="s1">&#39;pattern1|pattern2|pattern3&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li><code>|</code> 是正则表达式中的“或”操作符，在这里表示匹配 pattern1 或 pattern2 或 pattern3。</li>
+<li>这个正则表达式也可以用来查找包含这些模式的字符串</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="总结"
+    >
+        总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/like/#总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 总结" aria-label="Anchor to: 总结" href="#%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>虽然 PostgreSQL 没有内置 LIKE IN 这种语法糖，但你可以通过 LIKE ANY 子句来组合模糊匹配和列表查找，或者利用其强大的正则表达式功能来实现类似的功能，以满足不同的模糊匹配需求。</p>
 
   </article>
 
@@ -2744,9 +2636,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2657,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3515,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

@@ -12,12 +12,11 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="下面是一份超系统级的 PostgreSQL 内置函数大全（附分类 &#43; 示例），覆盖 PostgreSQL 17 时代常用的所有函数类型，重点突出实际开发中最常使用的部分。
+内容分为：
+🧊 核心函数（必会） 🔧 字符串函数 🕒 日期与时间函数 🔢 数学函数 📦 聚合函数 🪞 窗口函数 🧬 JSON 函数 🧱 数组函数 🏗️ 类型转换函数 📚 系统信息函数 🔐 加密与哈希函数 🧩 网络与 IP 相关函数 🔀 其他特殊函数（正则、范围、几何） 🧊 1. 核心通用函数（最常用 TOP 级） COALESCE(value, &hellip;) 返回第一个非 NULL 值。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 内置函数 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +37,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 内置函数"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="下面是一份超系统级的 PostgreSQL 内置函数大全（附分类 &#43; 示例），覆盖 PostgreSQL 17 时代常用的所有函数类型，重点突出实际开发中最常使用的部分。
+内容分为：
+🧊 核心函数（必会） 🔧 字符串函数 🕒 日期与时间函数 🔢 数学函数 📦 聚合函数 🪞 窗口函数 🧬 JSON 函数 🧱 数组函数 🏗️ 类型转换函数 📚 系统信息函数 🔐 加密与哈希函数 🧩 网络与 IP 相关函数 🔀 其他特殊函数（正则、范围、几何） 🧊 1. 核心通用函数（最常用 TOP 级） COALESCE(value, …) 返回第一个非 NULL 值。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 内置函数" />
+  <meta name="twitter:description" content="下面是一份超系统级的 PostgreSQL 内置函数大全（附分类 &#43; 示例），覆盖 PostgreSQL 17 时代常用的所有函数类型，重点突出实际开发中最常使用的部分。
+内容分为：
+🧊 核心函数（必会） 🔧 字符串函数 🕒 日期与时间函数 🔢 数学函数 📦 聚合函数 🪞 窗口函数 🧬 JSON 函数 🧱 数组函数 🏗️ 类型转换函数 📚 系统信息函数 🔐 加密与哈希函数 🧩 网络与 IP 相关函数 🔀 其他特殊函数（正则、范围、几何） 🧊 1. 核心通用函数（最常用 TOP 级） COALESCE(value, …) 返回第一个非 NULL 值。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +61,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 内置函数",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/",
+      "headline": "PostgreSQL 内置函数",
+      "description": "下面是一份超系统级的 PostgreSQL 内置函数大全（附分类 \u002b 示例），覆盖 PostgreSQL 17 时代常用的所有函数类型，重点突出实际开发中最常使用的部分。\n内容分为：\n🧊 核心函数（必会） 🔧 字符串函数 🕒 日期与时间函数 🔢 数学函数 📦 聚合函数 🪞 窗口函数 🧬 JSON 函数 🧱 数组函数 🏗️ 类型转换函数 📚 系统信息函数 🔐 加密与哈希函数 🧩 网络与 IP 相关函数 🔀 其他特殊函数（正则、范围、几何） 🧊 1. 核心通用函数（最常用 TOP 级） COALESCE(value, …) 返回第一个非 NULL 值。",
+      "wordCount": "456",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +154,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +816,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2136,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 内置函数</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,188 +2171,620 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 内置函数</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
-<ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
-</ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
-
+    <p>下面是一份超系统级的 PostgreSQL 内置函数大全（附分类 + 示例），覆盖 PostgreSQL 17 时代常用的所有函数类型，重点突出实际开发中最常使用的部分。</p>
+<p>内容分为：</p>
+<ol>
+<li>🧊 核心函数（必会）</li>
+<li>🔧 字符串函数</li>
+<li>🕒 日期与时间函数</li>
+<li>🔢 数学函数</li>
+<li>📦 聚合函数</li>
+<li>🪞 窗口函数</li>
+<li>🧬 JSON 函数</li>
+<li>🧱 数组函数</li>
+<li>🏗️ 类型转换函数</li>
+<li>📚 系统信息函数</li>
+<li>🔐 加密与哈希函数</li>
+<li>🧩 网络与 IP 相关函数</li>
+<li>🔀 其他特殊函数（正则、范围、几何）</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-1-核心通用函数最常用-top-级"
+    >
+        🧊 1. 核心通用函数（最常用 TOP 级）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-1-核心通用函数最常用-top-级" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧊 1. 核心通用函数（最常用 TOP 级）" aria-label="Anchor to: 🧊 1. 核心通用函数（最常用 TOP 级）" href="#-1-%e6%a0%b8%e5%bf%83%e9%80%9a%e7%94%a8%e5%87%bd%e6%95%b0%e6%9c%80%e5%b8%b8%e7%94%a8-top-%e7%ba%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="coalescevalue-"
+    >
+        COALESCE(value, &hellip;)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#coalescevalue-" class="gdoc-page__anchor clip flex align-center" title="Anchor to: COALESCE(value, &hellip;)" aria-label="Anchor to: COALESCE(value, &hellip;)" href="#coalescevalue-">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>返回第一个非 NULL 值。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">COALESCE</span><span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">);</span><span class="w">  </span><span class="c1">-- 5
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="nullifa-b"
+    >
+        NULLIF(a, b)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#nullifa-b" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NULLIF(a, b)" aria-label="Anchor to: NULLIF(a, b)" href="#nullifa-b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>相等时返回 NULL。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">NULLIF</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span><span class="w">  </span><span class="c1">-- NULL
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="greatesta-b---leasta-b-"
+    >
+        GREATEST(a, b, &hellip;) / LEAST(a, b, &hellip;)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#greatesta-b---leasta-b-" class="gdoc-page__anchor clip flex align-center" title="Anchor to: GREATEST(a, b, &hellip;) / LEAST(a, b, &hellip;)" aria-label="Anchor to: GREATEST(a, b, &hellip;) / LEAST(a, b, &hellip;)" href="#greatesta-b---leasta-b-">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">GREATEST</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">-- 9
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="roundx-n"
+    >
+        ROUND(x, n)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#roundx-n" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ROUND(x, n)" aria-label="Anchor to: ROUND(x, n)" href="#roundx-n">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>保留小数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">ROUND</span><span class="p">(</span><span class="mi">123</span><span class="p">.</span><span class="mi">456</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="c1">-- 123.46
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="cast--"
+    >
+        CAST / :: <!-- markdownlint-disable-next-line -->
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#cast--" class="gdoc-page__anchor clip flex align-center" title="Anchor to: CAST / :: " aria-label="Anchor to: CAST / :: " href="#cast--">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;123&#39;</span><span class="p">::</span><span class="nb">int</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-2-字符串函数"
+    >
+        🔧 2. 字符串函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-2-字符串函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔧 2. 字符串函数" aria-label="Anchor to: 🔧 2. 字符串函数" href="#-2-%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="lengths"
+    >
+        LENGTH(s)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#lengths" class="gdoc-page__anchor clip flex align-center" title="Anchor to: LENGTH(s)" aria-label="Anchor to: LENGTH(s)" href="#lengths">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>长度：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">LENGTH</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- 5
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="lowers--uppers"
+    >
+        LOWER(s) / UPPER(s)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#lowers--uppers" class="gdoc-page__anchor clip flex align-center" title="Anchor to: LOWER(s) / UPPER(s)" aria-label="Anchor to: LOWER(s) / UPPER(s)" href="#lowers--uppers">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- hello
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="trim--ltrim--rtrim"
+    >
+        TRIM / LTRIM / RTRIM
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#trim--ltrim--rtrim" class="gdoc-page__anchor clip flex align-center" title="Anchor to: TRIM / LTRIM / RTRIM" aria-label="Anchor to: TRIM / LTRIM / RTRIM" href="#trim--ltrim--rtrim">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">TRIM</span><span class="p">(</span><span class="s1">&#39;   ab cd  &#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- &#39;ab cd&#39;
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="substrings-from-len"
+    >
+        SUBSTRING(s, from, len)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#substrings-from-len" class="gdoc-page__anchor clip flex align-center" title="Anchor to: SUBSTRING(s, from, len)" aria-label="Anchor to: SUBSTRING(s, from, len)" href="#substrings-from-len">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">SUBSTRING</span><span class="p">(</span><span class="s1">&#39;abcdef&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">-- &#39;bcd&#39;
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="replaces-from-to"
+    >
+        REPLACE(s, from, to)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#replaces-from-to" class="gdoc-page__anchor clip flex align-center" title="Anchor to: REPLACE(s, from, to)" aria-label="Anchor to: REPLACE(s, from, to)" href="#replaces-from-to">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">REPLACE</span><span class="p">(</span><span class="s1">&#39;abcabc&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- XbcXbc
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="positionsubstr-in-str"
+    >
+        POSITION(substr IN str)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#positionsubstr-in-str" class="gdoc-page__anchor clip flex align-center" title="Anchor to: POSITION(substr IN str)" aria-label="Anchor to: POSITION(substr IN str)" href="#positionsubstr-in-str">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">POSITION</span><span class="p">(</span><span class="s1">&#39;cd&#39;</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="s1">&#39;abcde&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- 3
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="concat--"
+    >
+        CONCAT(&hellip;) / ||
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#concat--" class="gdoc-page__anchor clip flex align-center" title="Anchor to: CONCAT(&hellip;) / ||" aria-label="Anchor to: CONCAT(&hellip;) / ||" href="#concat--">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;a&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">-- ab
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="string_aggcol-sep"
+    >
+        STRING_AGG(col, sep)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#string_aggcol-sep" class="gdoc-page__anchor clip flex align-center" title="Anchor to: STRING_AGG(col, sep)" aria-label="Anchor to: STRING_AGG(col, sep)" href="#string_aggcol-sep">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>（聚合）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">STRING_AGG</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="正则相关"
+    >
+        正则相关
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#正则相关" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 正则相关" aria-label="Anchor to: 正则相关" href="#%e6%ad%a3%e5%88%99%e7%9b%b8%e5%85%b3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">REGEXP_MATCHES</span><span class="p">,</span><span class="w"> </span><span class="n">REGEXP_REPLACE</span><span class="p">,</span><span class="w"> </span><span class="n">REGEXP_SPLIT_TO_ARRAY</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-3-日期与时间函数"
+    >
+        🕒 3. 日期与时间函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-3-日期与时间函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🕒 3. 日期与时间函数" aria-label="Anchor to: 🕒 3. 日期与时间函数" href="#-3-%e6%97%a5%e6%9c%9f%e4%b8%8e%e6%97%b6%e9%97%b4%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="当前时间"
+    >
+        当前时间
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#当前时间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 当前时间" aria-label="Anchor to: 当前时间" href="#%e5%bd%93%e5%89%8d%e6%97%b6%e9%97%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">CURRENT_TIMESTAMP</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="时间加减"
+    >
+        时间加减
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#时间加减" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 时间加减" aria-label="Anchor to: 时间加减" href="#%e6%97%b6%e9%97%b4%e5%8a%a0%e5%87%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;2 days&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="extractfield-from-date"
+    >
+        EXTRACT(field FROM date)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#extractfield-from-date" class="gdoc-page__anchor clip flex align-center" title="Anchor to: EXTRACT(field FROM date)" aria-label="Anchor to: EXTRACT(field FROM date)" href="#extractfield-from-date">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">EXTRACT</span><span class="p">(</span><span class="k">YEAR</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">NOW</span><span class="p">());</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="date_truncfield-timestamp"
+    >
+        DATE_TRUNC(field, timestamp)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#date_truncfield-timestamp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: DATE_TRUNC(field, timestamp)" aria-label="Anchor to: DATE_TRUNC(field, timestamp)" href="#date_truncfield-timestamp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>按年月日时区间截断：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">DATE_TRUNC</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">NOW</span><span class="p">());</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="年龄计算"
+    >
+        年龄计算
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#年龄计算" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 年龄计算" aria-label="Anchor to: 年龄计算" href="#%e5%b9%b4%e9%be%84%e8%ae%a1%e7%ae%97">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">AGE</span><span class="p">(</span><span class="s1">&#39;2025-01-01&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2000-01-01&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- 25 years
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-4-数学函数"
+    >
+        🔢 4. 数学函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-4-数学函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔢 4. 数学函数" aria-label="Anchor to: 🔢 4. 数学函数" href="#-4-%e6%95%b0%e5%ad%a6%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="absxceilxfloorx"
+    >
+        ABS(x)、CEIL(x)、FLOOR(x)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#absxceilxfloorx" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ABS(x)、CEIL(x)、FLOOR(x)" aria-label="Anchor to: ABS(x)、CEIL(x)、FLOOR(x)" href="#absxceilxfloorx">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="powera-bsqrtx"
+    >
+        POWER(a, b)、SQRT(x)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#powera-bsqrtx" class="gdoc-page__anchor clip flex align-center" title="Anchor to: POWER(a, b)、SQRT(x)" aria-label="Anchor to: POWER(a, b)、SQRT(x)" href="#powera-bsqrtx">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="random0-1"
+    >
+        RANDOM()（0-1）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#random0-1" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RANDOM()（0-1）" aria-label="Anchor to: RANDOM()（0-1）" href="#random0-1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">FLOOR</span><span class="p">(</span><span class="n">RANDOM</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-5-聚合函数aggregates"
+    >
+        📦 5. 聚合函数（Aggregates）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-5-聚合函数aggregates" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📦 5. 聚合函数（Aggregates）" aria-label="Anchor to: 📦 5. 聚合函数（Aggregates）" href="#-5-%e8%81%9a%e5%90%88%e5%87%bd%e6%95%b0aggregates">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="count"
+    >
+        COUNT(*)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#count" class="gdoc-page__anchor clip flex align-center" title="Anchor to: COUNT(*)" aria-label="Anchor to: COUNT(*)" href="#count">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="sumcol--avgcol--min--max"
+    >
+        SUM(col) / AVG(col) / MIN / MAX
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#sumcol--avgcol--min--max" class="gdoc-page__anchor clip flex align-center" title="Anchor to: SUM(col) / AVG(col) / MIN / MAX" aria-label="Anchor to: SUM(col) / AVG(col) / MIN / MAX" href="#sumcol--avgcol--min--max">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="json_agg--array_agg"
+    >
+        JSON_AGG / ARRAY_AGG
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#json_agg--array_agg" class="gdoc-page__anchor clip flex align-center" title="Anchor to: JSON_AGG / ARRAY_AGG" aria-label="Anchor to: JSON_AGG / ARRAY_AGG" href="#json_agg--array_agg">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">ARRAY_AGG</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-6-窗口函数window-functions"
+    >
+        🪞 6. 窗口函数（Window Functions）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-6-窗口函数window-functions" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🪞 6. 窗口函数（Window Functions）" aria-label="Anchor to: 🪞 6. 窗口函数（Window Functions）" href="#-6-%e7%aa%97%e5%8f%a3%e5%87%bd%e6%95%b0window-functions">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="row_number-over-"
+    >
+        ROW_NUMBER() OVER (&hellip;)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#row_number-over-" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ROW_NUMBER() OVER (&hellip;)" aria-label="Anchor to: ROW_NUMBER() OVER (&hellip;)" href="#row_number-over-">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="rank--dense_rank"
+    >
+        RANK() / DENSE_RANK()
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#rank--dense_rank" class="gdoc-page__anchor clip flex align-center" title="Anchor to: RANK() / DENSE_RANK()" aria-label="Anchor to: RANK() / DENSE_RANK()" href="#rank--dense_rank">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="lag--lead-前后行取值"
+    >
+        LAG() / LEAD() 前后行取值
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#lag--lead-前后行取值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: LAG() / LEAD() 前后行取值" aria-label="Anchor to: LAG() / LEAD() 前后行取值" href="#lag--lead-%e5%89%8d%e5%90%8e%e8%a1%8c%e5%8f%96%e5%80%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="sum-over"
+    >
+        SUM() OVER
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#sum-over" class="gdoc-page__anchor clip flex align-center" title="Anchor to: SUM() OVER" aria-label="Anchor to: SUM() OVER" href="#sum-over">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>累计求和：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-7-json--jsonb-函数postgresql-超强"
+    >
+        🧬 7. JSON / JSONB 函数（PostgreSQL 超强）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-7-json--jsonb-函数postgresql-超强" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧬 7. JSON / JSONB 函数（PostgreSQL 超强）" aria-label="Anchor to: 🧬 7. JSON / JSONB 函数（PostgreSQL 超强）" href="#-7-json--jsonb-%e5%87%bd%e6%95%b0postgresql-%e8%b6%85%e5%bc%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="获取键值"
+    >
+        获取键值
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#获取键值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 获取键值" aria-label="Anchor to: 获取键值" href="#%e8%8e%b7%e5%8f%96%e9%94%ae%e5%80%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">data</span><span class="o">-&gt;</span><span class="s1">&#39;name&#39;</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users_json</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">data</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;name&#39;</span><span class="p">;</span><span class="w">  </span><span class="c1">-- text
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="合并对象"
+    >
+        合并对象
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#合并对象" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 合并对象" aria-label="Anchor to: 合并对象" href="#%e5%90%88%e5%b9%b6%e5%af%b9%e8%b1%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">jsonb</span><span class="w"> </span><span class="s1">&#39;{&#34;a&#34;:1}&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;{&#34;b&#34;:2}&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="遍历键值"
+    >
+        遍历键值
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#遍历键值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 遍历键值" aria-label="Anchor to: 遍历键值" href="#%e9%81%8d%e5%8e%86%e9%94%ae%e5%80%bc">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">jsonb_each</span><span class="p">(</span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users_json</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="json_agg-聚合行成为-json-数组"
+    >
+        json_agg() 聚合行成为 JSON 数组
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#json_agg-聚合行成为-json-数组" class="gdoc-page__anchor clip flex align-center" title="Anchor to: json_agg() 聚合行成为 JSON 数组" aria-label="Anchor to: json_agg() 聚合行成为 JSON 数组" href="#json_agg-%e8%81%9a%e5%90%88%e8%a1%8c%e6%88%90%e4%b8%ba-json-%e6%95%b0%e7%bb%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">json_agg</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="n">name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">u</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-8-数组函数"
+    >
+        🧱 8. 数组函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-8-数组函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧱 8. 数组函数" aria-label="Anchor to: 🧱 8. 数组函数" href="#-8-%e6%95%b0%e7%bb%84%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="数组长度"
+    >
+        数组长度
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#数组长度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数组长度" aria-label="Anchor to: 数组长度" href="#%e6%95%b0%e7%bb%84%e9%95%bf%e5%ba%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">array_length</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="unnest-展开为多行"
+    >
+        unnest() 展开为多行
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#unnest-展开为多行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: unnest() 展开为多行" aria-label="Anchor to: unnest() 展开为多行" href="#unnest-%e5%b1%95%e5%bc%80%e4%b8%ba%e5%a4%9a%e8%a1%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">unnest</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="数组是否包含"
+    >
+        数组是否包含
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#数组是否包含" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数组是否包含" aria-label="Anchor to: 数组是否包含" href="#%e6%95%b0%e7%bb%84%e6%98%af%e5%90%a6%e5%8c%85%e5%90%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;{1,2,3}&#39;</span><span class="p">::</span><span class="nb">int</span><span class="p">[]</span><span class="w"> </span><span class="o">@&gt;</span><span class="w"> </span><span class="s1">&#39;{2}&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-9-类型转换函数--类型检查"
+    >
+        🏗️ 9. 类型转换函数 / 类型检查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-9-类型转换函数--类型检查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🏗️ 9. 类型转换函数 / 类型检查" aria-label="Anchor to: 🏗️ 9. 类型转换函数 / 类型检查" href="#-9-%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2%e5%87%bd%e6%95%b0--%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="to_charnumber_or_date-format"
+    >
+        TO_CHAR(number_or_date, format)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#to_charnumber_or_date-format" class="gdoc-page__anchor clip flex align-center" title="Anchor to: TO_CHAR(number_or_date, format)" aria-label="Anchor to: TO_CHAR(number_or_date, format)" href="#to_charnumber_or_date-format">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">TO_CHAR</span><span class="p">(</span><span class="n">NOW</span><span class="p">(),</span><span class="s1">&#39;YYYY-MM-DD HH24:MI:SS&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="to_timestampepoch"
+    >
+        TO_TIMESTAMP(epoch)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#to_timestampepoch" class="gdoc-page__anchor clip flex align-center" title="Anchor to: TO_TIMESTAMP(epoch)" aria-label="Anchor to: TO_TIMESTAMP(epoch)" href="#to_timestampepoch">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">TO_TIMESTAMP</span><span class="p">(</span><span class="mi">1700000000</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="pg_typeofx"
+    >
+        pg_typeof(x)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#pg_typeofx" class="gdoc-page__anchor clip flex align-center" title="Anchor to: pg_typeof(x)" aria-label="Anchor to: pg_typeof(x)" href="#pg_typeofx">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_typeof</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span><span class="w"> </span><span class="c1">-- integer
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-10-系统信息函数"
+    >
+        📚 10. 系统信息函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-10-系统信息函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📚 10. 系统信息函数" aria-label="Anchor to: 📚 10. 系统信息函数" href="#-10-%e7%b3%bb%e7%bb%9f%e4%bf%a1%e6%81%af%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>当前用户 / 数据库 / schema</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">CURRENT_USER</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">CURRENT_DATABASE</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">CURRENT_SCHEMA</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><p>查看当前查询</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_backend_pid</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>获取列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_tables</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_indexes</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-11-加密--哈希函数"
+    >
+        🔐 11. 加密 / 哈希函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-11-加密--哈希函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔐 11. 加密 / 哈希函数" aria-label="Anchor to: 🔐 11. 加密 / 哈希函数" href="#-11-%e5%8a%a0%e5%af%86--%e5%93%88%e5%b8%8c%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="md5text"
+    >
+        md5(text)
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#md5text" class="gdoc-page__anchor clip flex align-center" title="Anchor to: md5(text)" aria-label="Anchor to: md5(text)" href="#md5text">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">md5</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="pgcrypto-扩展推荐"
+    >
+        pgcrypto 扩展（推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#pgcrypto-扩展推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: pgcrypto 扩展（推荐）" aria-label="Anchor to: pgcrypto 扩展（推荐）" href="#pgcrypto-%e6%89%a9%e5%b1%95%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>先安装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pgcrypto</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>常用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">crypt</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">gen_salt</span><span class="p">(</span><span class="s1">&#39;bf&#39;</span><span class="p">));</span><span class="w">  </span><span class="c1">-- hash
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">digest</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;sha256&#39;</span><span class="p">);</span><span class="w">             </span><span class="c1">-- binary
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">encode</span><span class="p">(</span><span class="n">digest</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span><span class="s1">&#39;sha256&#39;</span><span class="p">),</span><span class="s1">&#39;hex&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-12-网络--ip-函数"
+    >
+        🌐 12. 网络 / IP 函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-12-网络--ip-函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🌐 12. 网络 / IP 函数" aria-label="Anchor to: 🌐 12. 网络 / IP 函数" href="#-12-%e7%bd%91%e7%bb%9c--ip-%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 原生支持 CIDR / INET 类型。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="判断-ip-是否属于网段"
+    >
+        判断 IP 是否属于网段
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#判断-ip-是否属于网段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 判断 IP 是否属于网段" aria-label="Anchor to: 判断 IP 是否属于网段" href="#%e5%88%a4%e6%96%ad-ip-%e6%98%af%e5%90%a6%e5%b1%9e%e4%ba%8e%e7%bd%91%e6%ae%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;192.168.1.8&#39;</span><span class="p">::</span><span class="n">inet</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s1">&#39;192.168.1.0/24&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>取子网、广播地址</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">broadcast</span><span class="p">(</span><span class="s1">&#39;192.168.1.10/24&#39;</span><span class="p">::</span><span class="n">inet</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">netmask</span><span class="p">(</span><span class="s1">&#39;192.168.1.10/24&#39;</span><span class="p">::</span><span class="n">inet</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-13-其他特殊内置函数"
+    >
+        🔀 13. 其他特殊内置函数
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#-13-其他特殊内置函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔀 13. 其他特殊内置函数" aria-label="Anchor to: 🔀 13. 其他特殊内置函数" href="#-13-%e5%85%b6%e4%bb%96%e7%89%b9%e6%ae%8a%e5%86%85%e7%bd%ae%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="正则"
+    >
+        正则
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#正则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 正则" aria-label="Anchor to: 正则" href="#%e6%ad%a3%e5%88%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;abc123&#39;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s1">&#39;[0-9]&#39;</span><span class="p">;</span><span class="w">  </span><span class="c1">-- true
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="范围类型函数"
+    >
+        范围类型函数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#范围类型函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 范围类型函数" aria-label="Anchor to: 范围类型函数" href="#%e8%8c%83%e5%9b%b4%e7%b1%bb%e5%9e%8b%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">int4range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">@&gt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="几何函数"
+    >
+        几何函数
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/built-in-functions/#几何函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 几何函数" aria-label="Anchor to: 几何函数" href="#%e5%87%a0%e4%bd%95%e5%87%bd%e6%95%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="n">box</span><span class="p">(</span><span class="n">point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)));</span><span class="w">
+</span></span></span></code></pre></div>
   </article>
 
 
@@ -2744,9 +3189,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3210,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +4068,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

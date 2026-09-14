@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="下面是一份从 0 到生产可用的 PostgreSQL 全文检索（Full-Text Search, FTS）完整教程，覆盖：原理 -&gt; 语法 -&gt; 中文 -&gt; 索引 -&gt; 排序 -&gt; 实战 -&gt; 性能优化。
+一、什么是 PostgreSQL 全文检索？ PostgreSQL 自带 全文检索引擎，不依赖外部组件（如 ES）：
+基于 词项（lexeme） 支持 权重、相关性排序 支持 GIN / GiST 索引 支持 布尔 / 短语 / 前缀查询 👉 适合：文章、日志、评论、公告、说明文档
+二、全文检索的 3 个核心对象（必须理解） 对象 类型 作用 tsvector 文本向量 被索引的数据 tsquery 查询条件 搜索表达式 to_tsvector() 函数 文本 -&gt; 向量 to_tsquery() 函数 字符串 -&gt; 查询 三、最基础的全文检索示例 1️⃣ 把文本转成 tsvector SELECT to_tsvector(&#39;english&#39;, &#39;PostgreSQL is very powerful&#39;); 结果（示意）：" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 全文检索 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 全文检索"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="下面是一份从 0 到生产可用的 PostgreSQL 全文检索（Full-Text Search, FTS）完整教程，覆盖：原理 -&gt; 语法 -&gt; 中文 -&gt; 索引 -&gt; 排序 -&gt; 实战 -&gt; 性能优化。
+一、什么是 PostgreSQL 全文检索？ PostgreSQL 自带 全文检索引擎，不依赖外部组件（如 ES）：
+基于 词项（lexeme） 支持 权重、相关性排序 支持 GIN / GiST 索引 支持 布尔 / 短语 / 前缀查询 👉 适合：文章、日志、评论、公告、说明文档
+二、全文检索的 3 个核心对象（必须理解） 对象 类型 作用 tsvector 文本向量 被索引的数据 tsquery 查询条件 搜索表达式 to_tsvector() 函数 文本 -&gt; 向量 to_tsquery() 函数 字符串 -&gt; 查询 三、最基础的全文检索示例 1️⃣ 把文本转成 tsvector SELECT to_tsvector(&#39;english&#39;, &#39;PostgreSQL is very powerful&#39;); 结果（示意）：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/fts/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 全文检索" />
+  <meta name="twitter:description" content="下面是一份从 0 到生产可用的 PostgreSQL 全文检索（Full-Text Search, FTS）完整教程，覆盖：原理 -&gt; 语法 -&gt; 中文 -&gt; 索引 -&gt; 排序 -&gt; 实战 -&gt; 性能优化。
+一、什么是 PostgreSQL 全文检索？ PostgreSQL 自带 全文检索引擎，不依赖外部组件（如 ES）：
+基于 词项（lexeme） 支持 权重、相关性排序 支持 GIN / GiST 索引 支持 布尔 / 短语 / 前缀查询 👉 适合：文章、日志、评论、公告、说明文档
+二、全文检索的 3 个核心对象（必须理解） 对象 类型 作用 tsvector 文本向量 被索引的数据 tsquery 查询条件 搜索表达式 to_tsvector() 函数 文本 -&gt; 向量 to_tsquery() 函数 字符串 -&gt; 查询 三、最基础的全文检索示例 1️⃣ 把文本转成 tsvector SELECT to_tsvector(&#39;english&#39;, &#39;PostgreSQL is very powerful&#39;); 结果（示意）：" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 全文检索",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/fts/",
+      "headline": "PostgreSQL 全文检索",
+      "description": "下面是一份从 0 到生产可用的 PostgreSQL 全文检索（Full-Text Search, FTS）完整教程，覆盖：原理 -\u003e 语法 -\u003e 中文 -\u003e 索引 -\u003e 排序 -\u003e 实战 -\u003e 性能优化。\n一、什么是 PostgreSQL 全文检索？ PostgreSQL 自带 全文检索引擎，不依赖外部组件（如 ES）：\n基于 词项（lexeme） 支持 权重、相关性排序 支持 GIN \/ GiST 索引 支持 布尔 \/ 短语 \/ 前缀查询 👉 适合：文章、日志、评论、公告、说明文档\n二、全文检索的 3 个核心对象（必须理解） 对象 类型 作用 tsvector 文本向量 被索引的数据 tsquery 查询条件 搜索表达式 to_tsvector() 函数 文本 -\u003e 向量 to_tsquery() 函数 字符串 -\u003e 查询 三、最基础的全文检索示例 1️⃣ 把文本转成 tsvector SELECT to_tsvector(\u0027english\u0027, \u0027PostgreSQL is very powerful\u0027); 结果（示意）：",
+      "wordCount": "361",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/fts/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/fts/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 全文检索</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,418 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 全文检索</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>下面是一份从 0 到生产可用的 PostgreSQL 全文检索（Full-Text Search, FTS）完整教程，覆盖：原理 -&gt; 语法 -&gt; 中文 -&gt; 索引 -&gt; 排序 -&gt; 实战 -&gt; 性能优化。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一什么是-postgresql-全文检索"
+    >
+        一、什么是 PostgreSQL 全文检索？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#一什么是-postgresql-全文检索" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、什么是 PostgreSQL 全文检索？" aria-label="Anchor to: 一、什么是 PostgreSQL 全文检索？" href="#%e4%b8%80%e4%bb%80%e4%b9%88%e6%98%af-postgresql-%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 自带 全文检索引擎，不依赖外部组件（如 ES）：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>基于 词项（lexeme）</li>
+<li>支持 权重、相关性排序</li>
+<li>支持 GIN / GiST 索引</li>
+<li>支持 布尔 / 短语 / 前缀查询</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>👉 适合：文章、日志、评论、公告、说明文档</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二全文检索的-3-个核心对象必须理解"
+    >
+        二、全文检索的 3 个核心对象（必须理解）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#二全文检索的-3-个核心对象必须理解" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、全文检索的 3 个核心对象（必须理解）" aria-label="Anchor to: 二、全文检索的 3 个核心对象（必须理解）" href="#%e4%ba%8c%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2%e7%9a%84-3-%e4%b8%aa%e6%a0%b8%e5%bf%83%e5%af%b9%e8%b1%a1%e5%bf%85%e9%a1%bb%e7%90%86%e8%a7%a3">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>对象</th>
+					<th>类型</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>tsvector</td>
+					<td>文本向量</td>
+					<td>被索引的数据</td>
+			</tr>
+			<tr>
+					<td>tsquery</td>
+					<td>查询条件</td>
+					<td>搜索表达式</td>
+			</tr>
+			<tr>
+					<td>to_tsvector()</td>
+					<td>函数</td>
+					<td>文本 -&gt; 向量</td>
+			</tr>
+			<tr>
+					<td>to_tsquery()</td>
+					<td>函数</td>
+					<td>字符串 -&gt; 查询</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三最基础的全文检索示例"
+    >
+        三、最基础的全文检索示例
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#三最基础的全文检索示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、最基础的全文检索示例" aria-label="Anchor to: 三、最基础的全文检索示例" href="#%e4%b8%89%e6%9c%80%e5%9f%ba%e7%a1%80%e7%9a%84%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-把文本转成-tsvector"
+    >
+        1️⃣ 把文本转成 tsvector
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#1-把文本转成-tsvector" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 把文本转成 tsvector" aria-label="Anchor to: 1️⃣ 把文本转成 tsvector" href="#1-%e6%8a%8a%e6%96%87%e6%9c%ac%e8%bd%ac%e6%88%90-tsvector">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;PostgreSQL is very powerful&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>结果（示意）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&#39;postgresql&#39;:1 &#39;power&#39;:4
+</span></span></code></pre></div><p>👉 自动：</p>
+<ul>
+<li>分词</li>
+<li>小写</li>
+<li>去停用词</li>
+<li>词干化</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-最基本的全文查询"
+    >
+        2️⃣ 最基本的全文查询
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#2-最基本的全文查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 最基本的全文查询" aria-label="Anchor to: 2️⃣ 最基本的全文查询" href="#2-%e6%9c%80%e5%9f%ba%e6%9c%ac%e7%9a%84%e5%85%a8%e6%96%87%e6%9f%a5%e8%af%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">articles</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">@@</span><span class="w"> </span><span class="n">to_tsquery</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;postgresql &amp; power&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四推荐的生产表结构设计重点"
+    >
+        四、推荐的生产表结构设计（重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#四推荐的生产表结构设计重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、推荐的生产表结构设计（重点）" aria-label="Anchor to: 四、推荐的生产表结构设计（重点）" href="#%e5%9b%9b%e6%8e%a8%e8%8d%90%e7%9a%84%e7%94%9f%e4%ba%a7%e8%a1%a8%e7%bb%93%e6%9e%84%e8%ae%be%e8%ae%a1%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>❌ 不要在 WHERE 里每次 to_tsvector()</p>
+<p>✅ 用“生成列 + 索引”</p>
+<p>✅ 推荐建表方式（PostgreSQL 12+）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">content</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">search_vector</span><span class="w"> </span><span class="n">tsvector</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">setweight</span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">setweight</span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="n">STORED</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>权重说明</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>权重</th>
+					<th>含义</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>A</td>
+					<td>非常重要（标题）</td>
+			</tr>
+			<tr>
+					<td>B</td>
+					<td>重要</td>
+			</tr>
+			<tr>
+					<td>C</td>
+					<td>一般</td>
+			</tr>
+			<tr>
+					<td>D</td>
+					<td>次要</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>建立索引（必须）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_articles_search</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">search_vector</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五全文检索查询实战"
+    >
+        五、全文检索查询（实战）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#五全文检索查询实战" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、全文检索查询（实战）" aria-label="Anchor to: 五、全文检索查询（实战）" href="#%e4%ba%94%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2%e6%9f%a5%e8%af%a2%e5%ae%9e%e6%88%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-普通查询"
+    >
+        1️⃣ 普通查询
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#1-普通查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 普通查询" aria-label="Anchor to: 1️⃣ 普通查询" href="#1-%e6%99%ae%e9%80%9a%e6%9f%a5%e8%af%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">title</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">articles</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">search_vector</span><span class="w"> </span><span class="o">@@</span><span class="w"> </span><span class="n">plainto_tsquery</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资 计划&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-带相关性排序非常重要"
+    >
+        2️⃣ 带相关性排序（非常重要）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#2-带相关性排序非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 带相关性排序（非常重要）" aria-label="Anchor to: 2️⃣ 带相关性排序（非常重要）" href="#2-%e5%b8%a6%e7%9b%b8%e5%85%b3%e6%80%a7%e6%8e%92%e5%ba%8f%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">title</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ts_rank</span><span class="p">(</span><span class="n">search_vector</span><span class="p">,</span><span class="w"> </span><span class="n">plainto_tsquery</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资 计划&#39;</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">rank</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">articles</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">search_vector</span><span class="w"> </span><span class="o">@@</span><span class="w"> </span><span class="n">plainto_tsquery</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资 计划&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">rank</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-支持前缀模糊搜索"
+    >
+        3️⃣ 支持前缀（模糊搜索）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#3-支持前缀模糊搜索" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ 支持前缀（模糊搜索）" aria-label="Anchor to: 3️⃣ 支持前缀（模糊搜索）" href="#3-%e6%94%af%e6%8c%81%e5%89%8d%e7%bc%80%e6%a8%a1%e7%b3%8a%e6%90%9c%e7%b4%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">search_vector</span><span class="w"> </span><span class="o">@@</span><span class="w"> </span><span class="n">to_tsquery</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融:*&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六中文全文检索重点"
+    >
+        六、中文全文检索（重点！）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#六中文全文检索重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、中文全文检索（重点！）" aria-label="Anchor to: 六、中文全文检索（重点！）" href="#%e5%85%ad%e4%b8%ad%e6%96%87%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>⚠️ PostgreSQL 默认 不支持中文分词</p>
+<p>解决方案对比</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>方案</th>
+					<th>推荐度</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>pg_jieba</td>
+					<td>⭐⭐⭐⭐⭐</td>
+					<td>最佳中文体验</td>
+			</tr>
+			<tr>
+					<td>zhparser</td>
+					<td>⭐⭐⭐⭐</td>
+					<td>官方支持好</td>
+			</tr>
+			<tr>
+					<td>simple + LIKE</td>
+					<td>⭐</td>
+					<td>勉强可用</td>
+			</tr>
+			<tr>
+					<td>pg_trgm</td>
+					<td>⭐⭐⭐</td>
+					<td>适合模糊</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>✅ 方案一：pg_jieba（最推荐）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_jieba</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">articles</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;jiebacfg&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">@@</span><span class="w"> </span><span class="n">to_tsquery</span><span class="p">(</span><span class="s1">&#39;jiebacfg&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>✅ 中文推荐建表方式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">search_vector</span><span class="w"> </span><span class="n">tsvector</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">setweight</span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;jiebacfg&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;A&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">setweight</span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;jiebacfg&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w"> </span><span class="n">STORED</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七全文检索-vs-like--pg_trgm"
+    >
+        七、全文检索 vs LIKE / pg_trgm
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#七全文检索-vs-like--pg_trgm" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、全文检索 vs LIKE / pg_trgm" aria-label="Anchor to: 七、全文检索 vs LIKE / pg_trgm" href="#%e4%b8%83%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2-vs-like--pg_trgm">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>推荐</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>关键词搜索</td>
+					<td>FTS</td>
+			</tr>
+			<tr>
+					<td>相关性排序</td>
+					<td>FTS</td>
+			</tr>
+			<tr>
+					<td>中文模糊包含</td>
+					<td>pg_trgm</td>
+			</tr>
+			<tr>
+					<td>%xxx%</td>
+					<td>pg_trgm</td>
+			</tr>
+			<tr>
+					<td>精确短语</td>
+					<td>FTS</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>👉 <strong>全文检索 ≠ 模糊搜索</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八全文检索常见函数速查"
+    >
+        八、全文检索常见函数速查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#八全文检索常见函数速查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、全文检索常见函数速查" aria-label="Anchor to: 八、全文检索常见函数速查" href="#%e5%85%ab%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2%e5%b8%b8%e8%a7%81%e5%87%bd%e6%95%b0%e9%80%9f%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>函数</th>
+					<th>用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>plainto_tsquery</td>
+					<td>自动 AND</td>
+			</tr>
+			<tr>
+					<td>to_tsquery</td>
+					<td>手写逻辑</td>
+			</tr>
+			<tr>
+					<td>phraseto_tsquery</td>
+					<td>短语</td>
+			</tr>
+			<tr>
+					<td>ts_rank</td>
+					<td>相关性</td>
+			</tr>
+			<tr>
+					<td>ts_rank_cd</td>
+					<td>覆盖密度</td>
+			</tr>
+			<tr>
+					<td>ts_headline</td>
+					<td>高亮</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>示例：高亮关键词</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">ts_headline</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">content</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">plainto_tsquery</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;融资&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="九性能最佳实践非常重要"
+    >
+        九、性能最佳实践（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#九性能最佳实践非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、性能最佳实践（非常重要）" aria-label="Anchor to: 九、性能最佳实践（非常重要）" href="#%e4%b9%9d%e6%80%a7%e8%83%bd%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 必须做</p>
+<ul>
+<li>用 GIN 索引</li>
+<li>用 生成列</li>
+<li>定期 ANALYZE</li>
+<li>热字段分区（时间）</li>
+</ul>
+<p>❌ 不要做</p>
+<ul>
+<li>WHERE 中直接 to_tsvector</li>
+<li>混用中文/英文配置</li>
+<li>在 OLTP 热表上高频全文检索</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十全文检索--timescaledb日志场景"
+    >
+        十、全文检索 + TimescaleDB（日志场景）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#十全文检索--timescaledb日志场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、全文检索 &#43; TimescaleDB（日志场景）" aria-label="Anchor to: 十、全文检索 &#43; TimescaleDB（日志场景）" href="#%e5%8d%81%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2--timescaledb%e6%97%a5%e5%bf%97%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">));</span><span class="w">
+</span></span></span></code></pre></div><p>适合：</p>
+<ul>
+<li>日志关键字搜索</li>
+<li>错误定位</li>
+<li>运维分析</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="十一总结必记"
+    >
+        十一、总结（必记）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/fts/#十一总结必记" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、总结（必记）" aria-label="Anchor to: 十一、总结（必记）" href="#%e5%8d%81%e4%b8%80%e6%80%bb%e7%bb%93%e5%bf%85%e8%ae%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 全文检索是 “结构化 + 相关性 + 高性能” 的搜索引擎</p>
+<p>LIKE 是字符串匹配</p>
+<p>FTS 是语义搜索</p>
 
   </article>
 
@@ -2744,9 +2991,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3012,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3870,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

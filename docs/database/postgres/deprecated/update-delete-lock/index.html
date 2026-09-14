@@ -12,12 +12,10 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="在 PostgreSQL 中，如果你希望在执行 UPDATE / DELETE 时，防止其他事务对这些行进行 INSERT/UPDATE/DELETE 的影响（确保一致、隔离、避免并发冲突），核心就是正确使用 锁 与 事务隔离级别。
+一、使用行级锁（Row-Level Locks） 1）SELECT … FOR UPDATE 锁住选中的行，使其他事务无法更新/删除这些行 防止别人 UPDATE / DELETE 但允许别人 SELECT BEGIN; SELECT * FROM table_name WHERE id = 100 FOR UPDATE; UPDATE table_name SET ... WHERE id = 100; COMMIT; 作用" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 在 UPDATE / DELETE 时防止其它操作 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +36,21 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 在 UPDATE / DELETE 时防止其它操作"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="在 PostgreSQL 中，如果你希望在执行 UPDATE / DELETE 时，防止其他事务对这些行进行 INSERT/UPDATE/DELETE 的影响（确保一致、隔离、避免并发冲突），核心就是正确使用 锁 与 事务隔离级别。
+一、使用行级锁（Row-Level Locks） 1）SELECT … FOR UPDATE 锁住选中的行，使其他事务无法更新/删除这些行 防止别人 UPDATE / DELETE 但允许别人 SELECT BEGIN; SELECT * FROM table_name WHERE id = 100 FOR UPDATE; UPDATE table_name SET ... WHERE id = 100; COMMIT; 作用" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 在 UPDATE / DELETE 时防止其它操作" />
+  <meta name="twitter:description" content="在 PostgreSQL 中，如果你希望在执行 UPDATE / DELETE 时，防止其他事务对这些行进行 INSERT/UPDATE/DELETE 的影响（确保一致、隔离、避免并发冲突），核心就是正确使用 锁 与 事务隔离级别。
+一、使用行级锁（Row-Level Locks） 1）SELECT … FOR UPDATE 锁住选中的行，使其他事务无法更新/删除这些行 防止别人 UPDATE / DELETE 但允许别人 SELECT BEGIN; SELECT * FROM table_name WHERE id = 100 FOR UPDATE; UPDATE table_name SET ... WHERE id = 100; COMMIT; 作用" />
 
 
   <script type="application/ld+json">
@@ -64,16 +58,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 在 UPDATE / DELETE 时防止其它操作",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/",
+      "headline": "PostgreSQL 在 UPDATE / DELETE 时防止其它操作",
+      "description": "在 PostgreSQL 中，如果你希望在执行 UPDATE \/ DELETE 时，防止其他事务对这些行进行 INSERT\/UPDATE\/DELETE 的影响（确保一致、隔离、避免并发冲突），核心就是正确使用 锁 与 事务隔离级别。\n一、使用行级锁（Row-Level Locks） 1）SELECT … FOR UPDATE 锁住选中的行，使其他事务无法更新\/删除这些行 防止别人 UPDATE \/ DELETE 但允许别人 SELECT BEGIN; SELECT * FROM table_name WHERE id = 100 FOR UPDATE; UPDATE table_name SET ... WHERE id = 100; COMMIT; 作用",
+      "wordCount": "298",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +151,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +813,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2133,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 在 UPDATE / DELETE 时防止其它操作</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2168,250 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 在 UPDATE / DELETE 时防止其它操作</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>在 PostgreSQL 中，如果你希望在执行 <strong>UPDATE</strong> / <strong>DELETE</strong> 时，<strong>防止其他事务对这些行进行 INSERT/UPDATE/DELETE 的影响</strong>（确保一致、隔离、避免并发冲突），核心就是正确使用 锁 与 事务隔离级别。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一使用行级锁row-level-locks"
+    >
+        一、使用行级锁（Row-Level Locks）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#一使用行级锁row-level-locks" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、使用行级锁（Row-Level Locks）" aria-label="Anchor to: 一、使用行级锁（Row-Level Locks）" href="#%e4%b8%80%e4%bd%bf%e7%94%a8%e8%a1%8c%e7%ba%a7%e9%94%81row-level-locks">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1select--for-update"
+    >
+        1）SELECT … FOR UPDATE
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#1select--for-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1）SELECT … FOR UPDATE" aria-label="Anchor to: 1）SELECT … FOR UPDATE" href="#1select--for-update">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>锁住选中的行，使其他事务无法更新/删除这些行</li>
+<li>防止别人 UPDATE / DELETE</li>
+<li>但允许别人 SELECT</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">table_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>作用</p>
+<ul>
+<li>其它事务对同一行执行 UPDATE / DELETE 会 等待 当前事务提交</li>
+<li>防止并发改写，保证你操作这一行的独占性</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2select--for-no-key-update"
+    >
+        2）SELECT … FOR NO KEY UPDATE
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#2select--for-no-key-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2）SELECT … FOR NO KEY UPDATE" aria-label="Anchor to: 2）SELECT … FOR NO KEY UPDATE" href="#2select--for-no-key-update">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>几乎等价于 FOR UPDATE，但允许别人在唯一键不变的前提下 UPDATE</li>
+<li>推荐用于普通 UPDATE</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3select--for-share--for-key-share"
+    >
+        3）SELECT … FOR SHARE / FOR KEY SHARE
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#3select--for-share--for-key-share" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3）SELECT … FOR SHARE / FOR KEY SHARE" aria-label="Anchor to: 3）SELECT … FOR SHARE / FOR KEY SHARE" href="#3select--for-share--for-key-share">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>用于读共享场景，允许你读取但阻止其他事务删除行。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二在-update--delete-语句中直接加锁"
+    >
+        二、在 UPDATE / DELETE 语句中直接加锁
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#二在-update--delete-语句中直接加锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、在 UPDATE / DELETE 语句中直接加锁" aria-label="Anchor to: 二、在 UPDATE / DELETE 语句中直接加锁" href="#%e4%ba%8c%e5%9c%a8-update--delete-%e8%af%ad%e5%8f%a5%e4%b8%ad%e7%9b%b4%e6%8e%a5%e5%8a%a0%e9%94%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>不一定要单独 SELECT，直接写：</p>
+<p><strong>UPDATE … RETURNING（自动加行锁）</strong></p>
+<p>PostgreSQL 的 UPDATE 会自动对更新行加上 <strong>RowExclusiveLock</strong>，但若你希望提前锁行，可加 CTE：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">WITH</span><span class="w"> </span><span class="n">lock_rows</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hello&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">lock_rows</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>好处：</p>
+<ul>
+<li>明确锁定目标行，避免更新时出现竞争或意外阻塞</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三使用更严格的隔离级别serializable"
+    >
+        三、使用更严格的隔离级别（Serializable）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#三使用更严格的隔离级别serializable" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、使用更严格的隔离级别（Serializable）" aria-label="Anchor to: 三、使用更严格的隔离级别（Serializable）" href="#%e4%b8%89%e4%bd%bf%e7%94%a8%e6%9b%b4%e4%b8%a5%e6%a0%bc%e7%9a%84%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%abserializable">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你想保证你的事务期间，数据不被别人改变，可使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="w"> </span><span class="k">ISOLATION</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="k">SERIALIZABLE</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>效果：</p>
+<ul>
+<li>防止脏读、不可重复读、幻读</li>
+<li>若检测到并发冲突，会报错 could not serialize access due to concurrent update</li>
+</ul>
+<p>适合防止并发写入时引发逻辑错误</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四使用表级锁不推荐但偶尔需要"
+    >
+        四、使用表级锁（不推荐但偶尔需要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#四使用表级锁不推荐但偶尔需要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、使用表级锁（不推荐但偶尔需要）" aria-label="Anchor to: 四、使用表级锁（不推荐但偶尔需要）" href="#%e5%9b%9b%e4%bd%bf%e7%94%a8%e8%a1%a8%e7%ba%a7%e9%94%81%e4%b8%8d%e6%8e%a8%e8%8d%90%e4%bd%86%e5%81%b6%e5%b0%94%e9%9c%80%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>仅当你需要 “整个表禁止写入” 时使用：</p>
+<p><strong>LOCK TABLE … IN SHARE MODE</strong></p>
+<p>允许查询，不允许更新/删除</p>
+<p><strong>LOCK TABLE … IN ACCESS EXCLUSIVE MODE</strong></p>
+<p>最强锁，阻止所有其他读/写</p>
+<p><strong>不推荐在高并发系统使用。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-实战场景总结你可以直接用"
+    >
+        ⭐ 实战场景总结（你可以直接用）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#-实战场景总结你可以直接用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⭐ 实战场景总结（你可以直接用）" aria-label="Anchor to: ⭐ 实战场景总结（你可以直接用）" href="#-%e5%ae%9e%e6%88%98%e5%9c%ba%e6%99%af%e6%80%bb%e7%bb%93%e4%bd%a0%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-1更新一行并防止别人修改这行"
+    >
+        场景 1：更新一行并防止别人修改这行
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#场景-1更新一行并防止别人修改这行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 1：更新一行并防止别人修改这行" aria-label="Anchor to: 场景 1：更新一行并防止别人修改这行" href="#%e5%9c%ba%e6%99%af-1%e6%9b%b4%e6%96%b0%e4%b8%80%e8%a1%8c%e5%b9%b6%e9%98%b2%e6%ad%a2%e5%88%ab%e4%ba%ba%e4%bf%ae%e6%94%b9%e8%bf%99%e8%a1%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;done&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-2逻辑删除期间禁止别人插入冲突数据如唯一键检查"
+    >
+        场景 2：逻辑删除，期间禁止别人插入冲突数据（如唯一键检查）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#场景-2逻辑删除期间禁止别人插入冲突数据如唯一键检查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 2：逻辑删除，期间禁止别人插入冲突数据（如唯一键检查）" aria-label="Anchor to: 场景 2：逻辑删除，期间禁止别人插入冲突数据（如唯一键检查）" href="#%e5%9c%ba%e6%99%af-2%e9%80%bb%e8%be%91%e5%88%a0%e9%99%a4%e6%9c%9f%e9%97%b4%e7%a6%81%e6%ad%a2%e5%88%ab%e4%ba%ba%e6%8f%92%e5%85%a5%e5%86%b2%e7%aa%81%e6%95%b0%e6%8d%ae%e5%a6%82%e5%94%af%e4%b8%80%e9%94%ae%e6%a3%80%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;a@b.com&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">deleted</span><span class="o">=</span><span class="k">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;a@b.com&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-3批量-update需要先锁定所有受影响的行"
+    >
+        场景 3：批量 UPDATE，需要先锁定所有受影响的行
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#场景-3批量-update需要先锁定所有受影响的行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 3：批量 UPDATE，需要先锁定所有受影响的行" aria-label="Anchor to: 场景 3：批量 UPDATE，需要先锁定所有受影响的行" href="#%e5%9c%ba%e6%99%af-3%e6%89%b9%e9%87%8f-update%e9%9c%80%e8%a6%81%e5%85%88%e9%94%81%e5%ae%9a%e6%89%80%e6%9c%89%e5%8f%97%e5%bd%b1%e5%93%8d%e7%9a%84%e8%a1%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FOR</span><span class="w"> </span><span class="k">UPDATE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景-4防止并发-update-引发逻辑错误"
+    >
+        场景 4：防止并发 Update 引发逻辑错误
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#场景-4防止并发-update-引发逻辑错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景 4：防止并发 Update 引发逻辑错误" aria-label="Anchor to: 场景 4：防止并发 Update 引发逻辑错误" href="#%e5%9c%ba%e6%99%af-4%e9%98%b2%e6%ad%a2%e5%b9%b6%e5%8f%91-update-%e5%bc%95%e5%8f%91%e9%80%bb%e8%be%91%e9%94%99%e8%af%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用 SERIALIZABLE：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="w"> </span><span class="k">ISOLATION</span><span class="w"> </span><span class="k">LEVEL</span><span class="w"> </span><span class="k">SERIALIZABLE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">accounts</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>如冲突会自动回滚，需要重新执行。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-最佳实践总结简明"
+    >
+        🎯 最佳实践总结（简明）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/update-delete-lock/#-最佳实践总结简明" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 最佳实践总结（简明）" aria-label="Anchor to: 🎯 最佳实践总结（简明）" href="#-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%80%bb%e7%bb%93%e7%ae%80%e6%98%8e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>推荐解决方案</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>防止别人 UPDATE / DELETE</td>
+					<td>SELECT … FOR UPDATE</td>
+			</tr>
+			<tr>
+					<td>防止别人删除</td>
+					<td>FOR SHARE / FOR KEY SHARE</td>
+			</tr>
+			<tr>
+					<td>确保更新期间数据不变</td>
+					<td>FOR UPDATE 或 SERIALIZABLE</td>
+			</tr>
+			<tr>
+					<td>保证批量 UPDATE 的一致性</td>
+					<td>先 SELECT FOR UPDATE 锁行，再 UPDATE</td>
+			</tr>
+			<tr>
+					<td>全表禁止写入</td>
+					<td>LOCK TABLE IN SHARE MODE</td>
+			</tr>
+	</tbody>
+</table> </div>
 
   </article>
 
@@ -2744,9 +2817,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2838,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3696,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

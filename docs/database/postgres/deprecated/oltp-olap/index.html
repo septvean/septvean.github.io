@@ -12,12 +12,16 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="下面是一份 最清晰、最易理解 的 OLTP 与 OLAP 区别与用途讲解（适用于实际工作、数据库设计、数据仓库、业务系统）。
+什么是 OLTP？ OLTP = Online Transaction Processing
+👉 在线事务处理系统
+你每天用的业务系统，99% 都是 OLTP，比如：
+App 登录、下单 后台管理系统 ERP、CRM 金融支付、交易 电商订单系统 用户账号系统 OLTP 主要特点：
+特性 说明 大量小事务 insert/update/delete 非常频繁 强一致性 必须保证事务正确（ACID） 响应时间极短 毫秒级响应 并发极高 大量用户同时访问 数据实时性高 立即读到最新数据 💡 本质：业务系统的实时读写数据库
+常用技术：
+PostgreSQL、MySQL、Oracle Redis（缓存层） 索引优化、分库分表、主从复制 什么是 OLAP？ OLAP = Online Analytical Processing" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>什么是 OLTP 和 OLAP ？ | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +42,33 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="什么是 OLTP 和 OLAP ？"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="下面是一份 最清晰、最易理解 的 OLTP 与 OLAP 区别与用途讲解（适用于实际工作、数据库设计、数据仓库、业务系统）。
+什么是 OLTP？ OLTP = Online Transaction Processing
+👉 在线事务处理系统
+你每天用的业务系统，99% 都是 OLTP，比如：
+App 登录、下单 后台管理系统 ERP、CRM 金融支付、交易 电商订单系统 用户账号系统 OLTP 主要特点：
+特性 说明 大量小事务 insert/update/delete 非常频繁 强一致性 必须保证事务正确（ACID） 响应时间极短 毫秒级响应 并发极高 大量用户同时访问 数据实时性高 立即读到最新数据 💡 本质：业务系统的实时读写数据库
+常用技术：
+PostgreSQL、MySQL、Oracle Redis（缓存层） 索引优化、分库分表、主从复制 什么是 OLAP？ OLAP = Online Analytical Processing" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="什么是 OLTP 和 OLAP ？" />
+  <meta name="twitter:description" content="下面是一份 最清晰、最易理解 的 OLTP 与 OLAP 区别与用途讲解（适用于实际工作、数据库设计、数据仓库、业务系统）。
+什么是 OLTP？ OLTP = Online Transaction Processing
+👉 在线事务处理系统
+你每天用的业务系统，99% 都是 OLTP，比如：
+App 登录、下单 后台管理系统 ERP、CRM 金融支付、交易 电商订单系统 用户账号系统 OLTP 主要特点：
+特性 说明 大量小事务 insert/update/delete 非常频繁 强一致性 必须保证事务正确（ACID） 响应时间极短 毫秒级响应 并发极高 大量用户同时访问 数据实时性高 立即读到最新数据 💡 本质：业务系统的实时读写数据库
+常用技术：
+PostgreSQL、MySQL、Oracle Redis（缓存层） 索引优化、分库分表、主从复制 什么是 OLAP？ OLAP = Online Analytical Processing" />
 
 
   <script type="application/ld+json">
@@ -64,16 +76,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "什么是 OLTP 和 OLAP ？",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/",
+      "headline": "什么是 OLTP 和 OLAP ？",
+      "description": "下面是一份 最清晰、最易理解 的 OLTP 与 OLAP 区别与用途讲解（适用于实际工作、数据库设计、数据仓库、业务系统）。\n什么是 OLTP？ OLTP = Online Transaction Processing\n👉 在线事务处理系统\n你每天用的业务系统，99% 都是 OLTP，比如：\nApp 登录、下单 后台管理系统 ERP、CRM 金融支付、交易 电商订单系统 用户账号系统 OLTP 主要特点：\n特性 说明 大量小事务 insert\/update\/delete 非常频繁 强一致性 必须保证事务正确（ACID） 响应时间极短 毫秒级响应 并发极高 大量用户同时访问 数据实时性高 立即读到最新数据 💡 本质：业务系统的实时读写数据库\n常用技术：\nPostgreSQL、MySQL、Oracle Redis（缓存层） 索引优化、分库分表、主从复制 什么是 OLAP？ OLAP = Online Analytical Processing",
+      "wordCount": "237",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +169,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +831,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2151,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>什么是 OLTP 和 OLAP ？</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2186,302 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>什么是 OLTP 和 OLAP ？</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>下面是一份 最清晰、最易理解 的 OLTP 与 OLAP 区别与用途讲解（适用于实际工作、数据库设计、数据仓库、业务系统）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="什么是-oltp"
+    >
+        什么是 OLTP？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#什么是-oltp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 什么是 OLTP？" aria-label="Anchor to: 什么是 OLTP？" href="#%e4%bb%80%e4%b9%88%e6%98%af-oltp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>OLTP = Online Transaction Processing</strong></p>
+<p>👉 在线事务处理系统</p>
+<p>你每天用的业务系统，99% 都是 OLTP，比如：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>App 登录、下单</li>
+<li>后台管理系统</li>
+<li>ERP、CRM</li>
+<li>金融支付、交易</li>
+<li>电商订单系统</li>
+<li>用户账号系统</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>OLTP 主要特点：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>大量小事务</strong></td>
+					<td>insert/update/delete 非常频繁</td>
+			</tr>
+			<tr>
+					<td><strong>强一致性</strong></td>
+					<td>必须保证事务正确（ACID）</td>
+			</tr>
+			<tr>
+					<td><strong>响应时间极短</strong></td>
+					<td>毫秒级响应</td>
+			</tr>
+			<tr>
+					<td><strong>并发极高</strong></td>
+					<td>大量用户同时访问</td>
+			</tr>
+			<tr>
+					<td><strong>数据实时性高</strong></td>
+					<td>立即读到最新数据</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p><strong>💡 本质：业务系统的实时读写数据库</strong></p>
+<p>常用技术：</p>
+<ul>
+<li>PostgreSQL、MySQL、Oracle</li>
+<li>Redis（缓存层）</li>
+<li>索引优化、分库分表、主从复制</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="什么是-olap"
+    >
+        什么是 OLAP？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#什么是-olap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 什么是 OLAP？" aria-label="Anchor to: 什么是 OLAP？" href="#%e4%bb%80%e4%b9%88%e6%98%af-olap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>OLAP = Online Analytical Processing</strong></p>
+<p>👉 在线分析处理系统</p>
+<p>你常见的 BI 分析系统、数据报表，大部分都是 OLAP：</p>
+<ul>
+<li>数据仓库（DWH）</li>
+<li>销售趋势分析</li>
+<li>用户画像</li>
+<li>经营分析大屏</li>
+<li>大数据分析平台</li>
+<li>离线报表</li>
+</ul>
+<p>OLAP 特点：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>大量读取</strong></td>
+					<td>几乎不写，只读大数据</td>
+			</tr>
+			<tr>
+					<td><strong>复杂查询</strong></td>
+					<td>分组、聚合、窗口函数、统计分析</td>
+			</tr>
+			<tr>
+					<td><strong>处理海量数据</strong></td>
+					<td>TB、PB 级</td>
+			</tr>
+			<tr>
+					<td><strong>延迟允许</strong></td>
+					<td>秒级、分钟级都可以</td>
+			</tr>
+			<tr>
+					<td><strong>数据非实时</strong></td>
+					<td>T+1、小时级同步</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p><strong>💡 本质：用来分析历史数据的数据仓库</strong></p>
+<p>常用技术：</p>
+<ul>
+<li>ClickHouse</li>
+<li>Doris</li>
+<li>DuckDB</li>
+<li>Snowflake</li>
+<li>PostgreSQL（外部表）</li>
+<li>Spark、Hive</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="oltp-和-olap-的本质区别最关键"
+    >
+        OLTP 和 OLAP 的本质区别（最关键）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#oltp-和-olap-的本质区别最关键" class="gdoc-page__anchor clip flex align-center" title="Anchor to: OLTP 和 OLAP 的本质区别（最关键）" aria-label="Anchor to: OLTP 和 OLAP 的本质区别（最关键）" href="#oltp-%e5%92%8c-olap-%e7%9a%84%e6%9c%ac%e8%b4%a8%e5%8c%ba%e5%88%ab%e6%9c%80%e5%85%b3%e9%94%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>项目</th>
+					<th>OLTP（业务库）</th>
+					<th>OLAP（分析库）</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>目的</td>
+					<td>支撑业务</td>
+					<td>做分析</td>
+			</tr>
+			<tr>
+					<td>操作</td>
+					<td>少量读写</td>
+					<td>大量读取</td>
+			</tr>
+			<tr>
+					<td>事务</td>
+					<td>要求强事务</td>
+					<td>弱事务甚至无事务</td>
+			</tr>
+			<tr>
+					<td>查询</td>
+					<td>简单、走索引</td>
+					<td>复杂、全表扫描</td>
+			</tr>
+			<tr>
+					<td>响应</td>
+					<td>毫秒</td>
+					<td>秒级、分钟</td>
+			</tr>
+			<tr>
+					<td>数据量</td>
+					<td>GB 级别</td>
+					<td>TB~PB 级别</td>
+			</tr>
+			<tr>
+					<td>模式</td>
+					<td>3NF 设计，避免冗余</td>
+					<td>Star Schema（维度模型）</td>
+			</tr>
+			<tr>
+					<td>易变性</td>
+					<td>不断变化</td>
+					<td>不常变化，批量导入</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p><strong>两者不是互斥，而是配合使用。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-为什么不能用-oltp-做-olap"
+    >
+        🧩 为什么不能用 OLTP 做 OLAP？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#-为什么不能用-oltp-做-olap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧩 为什么不能用 OLTP 做 OLAP？" aria-label="Anchor to: 🧩 为什么不能用 OLTP 做 OLAP？" href="#-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd%e7%94%a8-oltp-%e5%81%9a-olap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>因为 OLTP 是为实时业务设计的：</p>
+<ul>
+<li>有大量索引（写入慢）</li>
+<li>事务开销大</li>
+<li>操作小而频繁</li>
+<li>遇到大查询会堵业务 -&gt; 悲剧</li>
+</ul>
+<p>因此不能用 OLTP 做报表分析。</p>
+<p><strong>👉 典型事故：大 SQL 把业务库打爆。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-为什么不能用-olap-做-oltp"
+    >
+        🧩 为什么不能用 OLAP 做 OLTP？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#-为什么不能用-olap-做-oltp" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🧩 为什么不能用 OLAP 做 OLTP？" aria-label="Anchor to: 🧩 为什么不能用 OLAP 做 OLTP？" href="#-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd%e7%94%a8-olap-%e5%81%9a-oltp">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>因为 OLAP 是为分析设计的：</p>
+<ul>
+<li>涉及列式存储</li>
+<li>写入慢</li>
+<li>事务弱</li>
+<li>不适合频繁更新</li>
+</ul>
+<p>所以也不能用分析库抗业务流量。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-真实企业架构最推荐"
+    >
+        ⭐ 真实企业架构（最推荐）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#-真实企业架构最推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⭐ 真实企业架构（最推荐）" aria-label="Anchor to: ⭐ 真实企业架构（最推荐）" href="#-%e7%9c%9f%e5%ae%9e%e4%bc%81%e4%b8%9a%e6%9e%b6%e6%9e%84%e6%9c%80%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">        业务数据库 (OLTP)
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">              ▼
+</span></span><span class="line"><span class="cl">       (CDC、Binlog、WAL、ETL)
+</span></span><span class="line"><span class="cl">              ▼
+</span></span><span class="line"><span class="cl">        数据仓库 (OLAP)
+</span></span><span class="line"><span class="cl">              │
+</span></span><span class="line"><span class="cl">              ▼
+</span></span><span class="line"><span class="cl">           BI 报表
+</span></span></code></pre></div><p>例如：</p>
+<ul>
+<li>PostgreSQL / MySQL -&gt; ClickHouse / Doris</li>
+<li>PostgreSQL / MySQL s&gt; Snowflake</li>
+<li>PostgreSQL -&gt; TimescaleDB（时序 OLAP）</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="如何简单判断一个系统属于-oltp-还是-olap"
+    >
+        如何简单判断一个系统属于 OLTP 还是 OLAP？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#如何简单判断一个系统属于-oltp-还是-olap" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 如何简单判断一个系统属于 OLTP 还是 OLAP？" aria-label="Anchor to: 如何简单判断一个系统属于 OLTP 还是 OLAP？" href="#%e5%a6%82%e4%bd%95%e7%ae%80%e5%8d%95%e5%88%a4%e6%96%ad%e4%b8%80%e4%b8%aa%e7%b3%bb%e7%bb%9f%e5%b1%9e%e4%ba%8e-oltp-%e8%bf%98%e6%98%af-olap">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>只问 3 个问题：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1是否需要强事务一致性"
+    >
+        1）是否需要强事务、一致性？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#1是否需要强事务一致性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1）是否需要强事务、一致性？" aria-label="Anchor to: 1）是否需要强事务、一致性？" href="#1%e6%98%af%e5%90%a6%e9%9c%80%e8%a6%81%e5%bc%ba%e4%ba%8b%e5%8a%a1%e4%b8%80%e8%87%b4%e6%80%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>是 -&gt; OLTP</p>
+<p>否 -&gt; OLAP</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2是否需要复杂的聚合分析"
+    >
+        2）是否需要复杂的聚合分析？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#2是否需要复杂的聚合分析" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2）是否需要复杂的聚合分析？" aria-label="Anchor to: 2）是否需要复杂的聚合分析？" href="#2%e6%98%af%e5%90%a6%e9%9c%80%e8%a6%81%e5%a4%8d%e6%9d%82%e7%9a%84%e8%81%9a%e5%90%88%e5%88%86%e6%9e%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>是 -&gt; OLAP</p>
+<p>否 -&gt; OLTP</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3是否需要支撑大量实时业务"
+    >
+        3）是否需要支撑大量实时业务？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#3是否需要支撑大量实时业务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3）是否需要支撑大量实时业务？" aria-label="Anchor to: 3）是否需要支撑大量实时业务？" href="#3%e6%98%af%e5%90%a6%e9%9c%80%e8%a6%81%e6%94%af%e6%92%91%e5%a4%a7%e9%87%8f%e5%ae%9e%e6%97%b6%e4%b8%9a%e5%8a%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>是 -&gt; OLTP</p>
+<p>否 -&gt; OLAP</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-简短总结记住这-2-句话"
+    >
+        🎯 简短总结（记住这 2 句话）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/oltp-olap/#-简短总结记住这-2-句话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🎯 简短总结（记住这 2 句话）" aria-label="Anchor to: 🎯 简短总结（记住这 2 句话）" href="#-%e7%ae%80%e7%9f%ad%e6%80%bb%e7%bb%93%e8%ae%b0%e4%bd%8f%e8%bf%99-2-%e5%8f%a5%e8%af%9d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>OLTP = 业务数据库 = 小事务 &amp; 实时读写</strong></p>
+<p><strong>OLAP = 分析数据库 = 大查询 &amp; 批量分析</strong></p>
 
   </article>
 
@@ -2744,9 +2887,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2908,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3766,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

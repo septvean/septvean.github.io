@@ -12,12 +12,14 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。
+关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。
+拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。
+PostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。
+使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。
+举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL ANALYZE vs ANALYSE | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +40,29 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL ANALYZE vs ANALYSE"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。
+关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。
+拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。
+PostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。
+使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。
+举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/analyze-vs-analyse/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL ANALYZE vs ANALYSE" />
+  <meta name="twitter:description" content="在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。
+关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。
+拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。
+PostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。
+使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。
+举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +70,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL ANALYZE vs ANALYSE",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/analyze-vs-analyse/",
+      "headline": "PostgreSQL ANALYZE vs ANALYSE",
+      "description": "在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 EXPLAIN ANALYZE 和 EXPLAIN ANALYSE 效果一样。\n关键点 功能一致：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。\n拼写差异：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。\nPostgreSQL 兼容：PostgreSQL 的代码和系统都同时支持这两种拼写。\n使用场景：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。\n举例 ANALYZE my_table; ANALYSE my_table; EXPLAIN ANALYZE SELECT * FROM users WHERE id = 1; EXPLAIN ANALYSE SELECT * FROM users WHERE id = 1; 两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。",
+      "wordCount": "52",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/analyze-vs-analyse/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +163,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/analyze-vs-analyse/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +825,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2145,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL ANALYZE vs ANALYSE</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2180,46 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL ANALYZE vs ANALYSE</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>在 PostgreSQL 中，ANALYZE（美式拼写）和 ANALYSE（英式拼写）功能完全相同，都是用来收集表的统计信息（如行数、列值分布等），以便 查询优化器生成更高效的执行计划，它们只是拼写上的不同，支持了不同的英语习惯，在源码中都被兼容处理，用户可以任选其一使用，比如 <code>EXPLAIN ANALYZE</code> 和 <code>EXPLAIN ANALYSE</code> 效果一样。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="关键点"
+    >
+        关键点
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/analyze-vs-analyse/#关键点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 关键点" aria-label="Anchor to: 关键点" href="#%e5%85%b3%e9%94%ae%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>
+<p><strong>功能一致</strong>：它们都用于更新数据库的统计信息，是查询优化的重要组成部分。</p>
+</li>
+<li>
+<p><strong>拼写差异</strong>：ANALYZE 是美国英语的拼法，ANALYSE 是英国英语的拼法。</p>
+</li>
+<li>
+<p><strong>PostgreSQL 兼容</strong>：PostgreSQL 的代码和系统都同时支持这两种拼写。</p>
+</li>
+<li>
+<p><strong>使用场景</strong>：通常在 EXPLAIN 命令中一起使用（如 EXPLAIN ANALYZE），用于分析 SQL 语句的实际执行情况，发现性能瓶颈。</p>
+</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="举例"
+    >
+        举例
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/analyze-vs-analyse/#举例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 举例" aria-label="Anchor to: 举例" href="#%e4%b8%be%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="w"> </span><span class="n">my_table</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ANALYSE</span><span class="w"> </span><span class="n">my_table</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYZE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYSE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>两者效果相同，选择哪一个完全取决于个人或团队的习惯，系统都认得。</p>
 
   </article>
 
@@ -2744,9 +2625,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2646,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3504,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

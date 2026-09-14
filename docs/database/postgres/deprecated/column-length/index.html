@@ -12,12 +12,13 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content=" 统计字符长度 (Character Length) 使用 LENGTH() 函数：
+SELECT MAX(LENGTH(your_column)) AS max_char_length FROM your_table; 此方法计算字符数，对多字节字符（如中文）按一个字符计算。
+统计字节长度 (Byte Length) 使用 OCTET_LENGTH() 函数（或 LENGTH(column_name, &lsquo;bytes&rsquo;) 在较新版本中）：
+SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方法返回占用的字节数，更精确地反映存储大小。
+获取实际物理存储大小（包括TOAST开销） 使用 PG_COLUMN_SIZE() 函数：" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 统计字段最大长度的方法 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +39,27 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 统计字段最大长度的方法"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content=" 统计字符长度 (Character Length) 使用 LENGTH() 函数：
+SELECT MAX(LENGTH(your_column)) AS max_char_length FROM your_table; 此方法计算字符数，对多字节字符（如中文）按一个字符计算。
+统计字节长度 (Byte Length) 使用 OCTET_LENGTH() 函数（或 LENGTH(column_name, ‘bytes’) 在较新版本中）：
+SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方法返回占用的字节数，更精确地反映存储大小。
+获取实际物理存储大小（包括TOAST开销） 使用 PG_COLUMN_SIZE() 函数：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/column-length/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 统计字段最大长度的方法" />
+  <meta name="twitter:description" content=" 统计字符长度 (Character Length) 使用 LENGTH() 函数：
+SELECT MAX(LENGTH(your_column)) AS max_char_length FROM your_table; 此方法计算字符数，对多字节字符（如中文）按一个字符计算。
+统计字节长度 (Byte Length) 使用 OCTET_LENGTH() 函数（或 LENGTH(column_name, ‘bytes’) 在较新版本中）：
+SELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方法返回占用的字节数，更精确地反映存储大小。
+获取实际物理存储大小（包括TOAST开销） 使用 PG_COLUMN_SIZE() 函数：" />
 
 
   <script type="application/ld+json">
@@ -64,16 +67,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 统计字段最大长度的方法",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/column-length/",
+      "headline": "PostgreSQL 统计字段最大长度的方法",
+      "description": " 统计字符长度 (Character Length) 使用 LENGTH() 函数：\nSELECT MAX(LENGTH(your_column)) AS max_char_length FROM your_table; 此方法计算字符数，对多字节字符（如中文）按一个字符计算。\n统计字节长度 (Byte Length) 使用 OCTET_LENGTH() 函数（或 LENGTH(column_name, ‘bytes’) 在较新版本中）：\nSELECT MAX(OCTET_LENGTH(your_column)) AS max_byte_length FROM your_table; 此方法返回占用的字节数，更精确地反映存储大小。\n获取实际物理存储大小（包括TOAST开销） 使用 PG_COLUMN_SIZE() 函数：",
+      "wordCount": "61",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/column-length/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +160,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/column-length/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +822,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2142,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 统计字段最大长度的方法</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,188 +2177,61 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 统计字段最大长度的方法</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
-<ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
-</ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
-
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="统计字符长度-character-length"
+    >
+        统计字符长度 (Character Length)
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/column-length/#统计字符长度-character-length" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 统计字符长度 (Character Length)" aria-label="Anchor to: 统计字符长度 (Character Length)" href="#%e7%bb%9f%e8%ae%a1%e5%ad%97%e7%ac%a6%e9%95%bf%e5%ba%a6-character-length">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用 LENGTH() 函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="k">LENGTH</span><span class="p">(</span><span class="n">your_column</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_char_length</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">your_table</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>此方法计算字符数，对多字节字符（如中文）按一个字符计算。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="统计字节长度-byte-length"
+    >
+        统计字节长度 (Byte Length)
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/column-length/#统计字节长度-byte-length" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 统计字节长度 (Byte Length)" aria-label="Anchor to: 统计字节长度 (Byte Length)" href="#%e7%bb%9f%e8%ae%a1%e5%ad%97%e8%8a%82%e9%95%bf%e5%ba%a6-byte-length">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用 OCTET_LENGTH() 函数（或 LENGTH(column_name, &lsquo;bytes&rsquo;) 在较新版本中）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="k">OCTET_LENGTH</span><span class="p">(</span><span class="n">your_column</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_byte_length</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">your_table</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>此方法返回占用的字节数，更精确地反映存储大小。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="获取实际物理存储大小包括toast开销"
+    >
+        获取实际物理存储大小（包括TOAST开销）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/column-length/#获取实际物理存储大小包括toast开销" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 获取实际物理存储大小（包括TOAST开销）" aria-label="Anchor to: 获取实际物理存储大小（包括TOAST开销）" href="#%e8%8e%b7%e5%8f%96%e5%ae%9e%e9%99%85%e7%89%a9%e7%90%86%e5%ad%98%e5%82%a8%e5%a4%a7%e5%b0%8f%e5%8c%85%e6%8b%actoast%e5%bc%80%e9%94%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用 PG_COLUMN_SIZE() 函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">PG_COLUMN_SIZE</span><span class="p">(</span><span class="n">your_column</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_storage_size</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">your_table</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>这会返回该列值在磁盘上的实际大小（包括TOAST指针和压缩开销），是数据库管理中最接近真实物理存储的度量。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="示例"
+    >
+        示例
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/column-length/#示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 示例" aria-label="Anchor to: 示例" href="#%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 假设表 articles 有一个 varchar 类型的 title 列
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="k">LENGTH</span><span class="p">(</span><span class="n">title</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_chars</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="k">OCTET_LENGTH</span><span class="p">(</span><span class="n">title</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_bytes</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">PG_COLUMN_SIZE</span><span class="p">(</span><span class="n">title</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_physical_bytes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">articles</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div>
   </article>
 
 
@@ -2744,9 +2636,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2657,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3515,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

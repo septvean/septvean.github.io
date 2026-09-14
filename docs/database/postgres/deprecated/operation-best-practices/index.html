@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="下面是一份 体系化、生产可落地的 PostgreSQL 运维最佳实践，覆盖安装、配置、监控、备份、性能、容量、安全、高可用等关键内容。内容非常实用，适合新建生产集群或优化现有集群。
+目录：
+系统层面 安装与目录规划 配置文件最佳实践 连接管理 性能优化（CPU/内存/IO） 统计信息与 Vacuum 维护 监控与告警 日志管理 备份与恢复 安全 高可用（HA） 扩展与插件管理 常见运维命令 日常运维 checklist 1. 🖥️ 系统层面最佳实践 操作系统
+项 最佳实践 Linux 发行版 Debian/Ubuntu、RHEL/AlmaLinux/Rocky 运行用户 使用独立用户 postgres 时钟 chrony 同步时间，避免主备漂移 I/O 调度 deadline（SAS）、none（NVMe） 文件系统 xfs 或 ext4 Swappiness vm.swappiness = 1（避免换出） Hugepage 建议关闭（除非 PostgreSQL 大共享内存配置场景） 2. 📁 目录结构规划 /data/postgresql/ ├── data/ # PGDATA ├── wal/ # WAL 独立盘强烈建议 ├── backup/ # 备份 └── log/ # 日志 **WAL 强烈建议放独立 SSD/NVMe，**提升事务吞吐。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 运维最佳实践 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 运维最佳实践"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="下面是一份 体系化、生产可落地的 PostgreSQL 运维最佳实践，覆盖安装、配置、监控、备份、性能、容量、安全、高可用等关键内容。内容非常实用，适合新建生产集群或优化现有集群。
+目录：
+系统层面 安装与目录规划 配置文件最佳实践 连接管理 性能优化（CPU/内存/IO） 统计信息与 Vacuum 维护 监控与告警 日志管理 备份与恢复 安全 高可用（HA） 扩展与插件管理 常见运维命令 日常运维 checklist 1. 🖥️ 系统层面最佳实践 操作系统
+项 最佳实践 Linux 发行版 Debian/Ubuntu、RHEL/AlmaLinux/Rocky 运行用户 使用独立用户 postgres 时钟 chrony 同步时间，避免主备漂移 I/O 调度 deadline（SAS）、none（NVMe） 文件系统 xfs 或 ext4 Swappiness vm.swappiness = 1（避免换出） Hugepage 建议关闭（除非 PostgreSQL 大共享内存配置场景） 2. 📁 目录结构规划 /data/postgresql/ ├── data/ # PGDATA ├── wal/ # WAL 独立盘强烈建议 ├── backup/ # 备份 └── log/ # 日志 **WAL 强烈建议放独立 SSD/NVMe，**提升事务吞吐。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 运维最佳实践" />
+  <meta name="twitter:description" content="下面是一份 体系化、生产可落地的 PostgreSQL 运维最佳实践，覆盖安装、配置、监控、备份、性能、容量、安全、高可用等关键内容。内容非常实用，适合新建生产集群或优化现有集群。
+目录：
+系统层面 安装与目录规划 配置文件最佳实践 连接管理 性能优化（CPU/内存/IO） 统计信息与 Vacuum 维护 监控与告警 日志管理 备份与恢复 安全 高可用（HA） 扩展与插件管理 常见运维命令 日常运维 checklist 1. 🖥️ 系统层面最佳实践 操作系统
+项 最佳实践 Linux 发行版 Debian/Ubuntu、RHEL/AlmaLinux/Rocky 运行用户 使用独立用户 postgres 时钟 chrony 同步时间，避免主备漂移 I/O 调度 deadline（SAS）、none（NVMe） 文件系统 xfs 或 ext4 Swappiness vm.swappiness = 1（避免换出） Hugepage 建议关闭（除非 PostgreSQL 大共享内存配置场景） 2. 📁 目录结构规划 /data/postgresql/ ├── data/ # PGDATA ├── wal/ # WAL 独立盘强烈建议 ├── backup/ # 备份 └── log/ # 日志 **WAL 强烈建议放独立 SSD/NVMe，**提升事务吞吐。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 运维最佳实践",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/",
+      "headline": "PostgreSQL 运维最佳实践",
+      "description": "下面是一份 体系化、生产可落地的 PostgreSQL 运维最佳实践，覆盖安装、配置、监控、备份、性能、容量、安全、高可用等关键内容。内容非常实用，适合新建生产集群或优化现有集群。\n目录：\n系统层面 安装与目录规划 配置文件最佳实践 连接管理 性能优化（CPU\/内存\/IO） 统计信息与 Vacuum 维护 监控与告警 日志管理 备份与恢复 安全 高可用（HA） 扩展与插件管理 常见运维命令 日常运维 checklist 1. 🖥️ 系统层面最佳实践 操作系统\n项 最佳实践 Linux 发行版 Debian\/Ubuntu、RHEL\/AlmaLinux\/Rocky 运行用户 使用独立用户 postgres 时钟 chrony 同步时间，避免主备漂移 I\/O 调度 deadline（SAS）、none（NVMe） 文件系统 xfs 或 ext4 Swappiness vm.swappiness = 1（避免换出） Hugepage 建议关闭（除非 PostgreSQL 大共享内存配置场景） 2. 📁 目录结构规划 \/data\/postgresql\/ ├── data\/ # PGDATA ├── wal\/ # WAL 独立盘强烈建议 ├── backup\/ # 备份 └── log\/ # 日志 **WAL 强烈建议放独立 SSD\/NVMe，**提升事务吞吐。",
+      "wordCount": "444",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 运维最佳实践</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,517 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 运维最佳实践</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>下面是一份 体系化、生产可落地的 PostgreSQL 运维最佳实践，覆盖安装、配置、监控、备份、性能、容量、安全、高可用等关键内容。内容非常实用，适合新建生产集群或优化现有集群。</p>
+<p>目录：</p>
+<ol>
+<li>系统层面</li>
+<li>安装与目录规划</li>
+<li>配置文件最佳实践</li>
+<li>连接管理</li>
+<li>性能优化（CPU/内存/IO）</li>
+<li>统计信息与 Vacuum 维护</li>
+<li>监控与告警</li>
+<li>日志管理</li>
+<li>备份与恢复</li>
+<li>安全</li>
+<li>高可用（HA）</li>
+<li>扩展与插件管理</li>
+<li>常见运维命令</li>
+<li>日常运维 checklist</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="1--系统层面最佳实践"
+    >
+        1. 🖥️ 系统层面最佳实践
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#1--系统层面最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 🖥️ 系统层面最佳实践" aria-label="Anchor to: 1. 🖥️ 系统层面最佳实践" href="#1--%e7%b3%bb%e7%bb%9f%e5%b1%82%e9%9d%a2%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>操作系统</strong></p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>项</th>
+					<th>最佳实践</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Linux 发行版</td>
+					<td>Debian/Ubuntu、RHEL/AlmaLinux/Rocky</td>
+			</tr>
+			<tr>
+					<td>运行用户</td>
+					<td>使用独立用户 postgres</td>
+			</tr>
+			<tr>
+					<td>时钟</td>
+					<td>chrony 同步时间，避免主备漂移</td>
+			</tr>
+			<tr>
+					<td>I/O 调度</td>
+					<td>deadline（SAS）、none（NVMe）</td>
+			</tr>
+			<tr>
+					<td>文件系统</td>
+					<td>xfs 或 ext4</td>
+			</tr>
+			<tr>
+					<td>Swappiness</td>
+					<td>vm.swappiness = 1（避免换出）</td>
+			</tr>
+			<tr>
+					<td>Hugepage</td>
+					<td>建议关闭（除非 PostgreSQL 大共享内存配置场景）</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="2--目录结构规划"
+    >
+        2. 📁 目录结构规划
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#2--目录结构规划" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 📁 目录结构规划" aria-label="Anchor to: 2. 📁 目录结构规划" href="#2--%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84%e8%a7%84%e5%88%92">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/data/postgresql/
+</span></span><span class="line"><span class="cl">  ├── data/        # PGDATA
+</span></span><span class="line"><span class="cl">  ├── wal/         # WAL 独立盘强烈建议
+</span></span><span class="line"><span class="cl">  ├── backup/      # 备份
+</span></span><span class="line"><span class="cl">  └── log/         # 日志
+</span></span></code></pre></div><p>**WAL 强烈建议放独立 SSD/NVMe，**提升事务吞吐。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="3--postgresql-配置最佳实践"
+    >
+        3. ⚙️ PostgreSQL 配置最佳实践
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#3--postgresql-配置最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. ⚙️ PostgreSQL 配置最佳实践" aria-label="Anchor to: 3. ⚙️ PostgreSQL 配置最佳实践" href="#3--postgresql-%e9%85%8d%e7%bd%ae%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>以下以 PostgreSQL 14–17 通用配置为主。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="31-基础配置"
+    >
+        3.1 基础配置
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#31-基础配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.1 基础配置" aria-label="Anchor to: 3.1 基础配置" href="#31-%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">shared_buffers = 25% RAM
+</span></span><span class="line"><span class="cl">work_mem = 64MB
+</span></span><span class="line"><span class="cl">maintenance_work_mem = 1GB
+</span></span><span class="line"><span class="cl">wal_level = replica
+</span></span><span class="line"><span class="cl">max_wal_size = 8GB
+</span></span><span class="line"><span class="cl">checkpoint_timeout = 15min
+</span></span><span class="line"><span class="cl">effective_cache_size = 70% RAM
+</span></span></code></pre></div><p>解释：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>shared_buffers 25% 是经验值</li>
+<li>effective_cache_size 告诉优化器文件系统缓存容量</li>
+<li>work_mem 过大会导致 OOM（巨坑）</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="32-wal--checkpoint"
+    >
+        3.2 WAL &amp; checkpoint
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#32-wal--checkpoint" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.2 WAL &amp; checkpoint" aria-label="Anchor to: 3.2 WAL &amp; checkpoint" href="#32-wal--checkpoint">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">max_wal_size = 8GB
+</span></span><span class="line"><span class="cl">min_wal_size = 2GB
+</span></span><span class="line"><span class="cl">checkpoint_completion_target = 0.9
+</span></span></code></pre></div><p>保证 checkpoint 平滑，不阻塞。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="33-并发连接池"
+    >
+        3.3 并发/连接池
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#33-并发连接池" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.3 并发/连接池" aria-label="Anchor to: 3.3 并发/连接池" href="#33-%e5%b9%b6%e5%8f%91%e8%bf%9e%e6%8e%a5%e6%b1%a0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>不要用 PostgreSQL 作为连接池。</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">max_connections = 200
+</span></span></code></pre></div><p>如果业务很多：</p>
+<p><strong>使用 PGBouncer（强烈推荐）</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="34-autovacuum-配置"
+    >
+        3.4 Autovacuum 配置
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#34-autovacuum-配置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.4 Autovacuum 配置" aria-label="Anchor to: 3.4 Autovacuum 配置" href="#34-autovacuum-%e9%85%8d%e7%bd%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">autovacuum = on
+</span></span><span class="line"><span class="cl">autovacuum_vacuum_cost_limit = -1
+</span></span><span class="line"><span class="cl">autovacuum_max_workers = 4
+</span></span></code></pre></div><p>如果高更新量系统：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">autovacuum_vacuum_scale_factor = 0.1
+</span></span><span class="line"><span class="cl">autovacuum_analyze_scale_factor = 0.05
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="4--性能优化cpu--内存--磁盘"
+    >
+        4. ⚡ 性能优化（CPU / 内存 / 磁盘）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#4--性能优化cpu--内存--磁盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. ⚡ 性能优化（CPU / 内存 / 磁盘）" aria-label="Anchor to: 4. ⚡ 性能优化（CPU / 内存 / 磁盘）" href="#4--%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96cpu--%e5%86%85%e5%ad%98--%e7%a3%81%e7%9b%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="41-cpu"
+    >
+        4.1 CPU
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#41-cpu" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.1 CPU" aria-label="Anchor to: 4.1 CPU" href="#41-cpu">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PostgreSQL 是<strong>单线程执行查询</strong>，跨查询并行</li>
+<li>提升性能的方法：
+<ul>
+<li>提升 CPU 主频</li>
+<li>增加并行配置：</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">max_parallel_workers = 8
+</span></span><span class="line"><span class="cl">max_parallel_workers_per_gather = 4
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="42-内存"
+    >
+        4.2 内存
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#42-内存" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.2 内存" aria-label="Anchor to: 4.2 内存" href="#42-%e5%86%85%e5%ad%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>shared_buffers = 25%</li>
+<li>work_mem 不要设置太高（每个排序都用一次）</li>
+</ul>
+<p>大坑案例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">work_mem=512MB，SQL 同时 20 条并行 -&gt; 内存飙升至 10GB -&gt; OOM -&gt; PostgreSQL 崩溃。
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="43-磁盘"
+    >
+        4.3 磁盘
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#43-磁盘" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.3 磁盘" aria-label="Anchor to: 4.3 磁盘" href="#43-%e7%a3%81%e7%9b%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>WAL 写入吞吐较高：建议 NVMe</li>
+<li>数据目录可使用 RAID10 或 NVMe</li>
+<li>Filesystem：XFS &gt; EXT4</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="5--vacuum--autovacuum--freeze-维护"
+    >
+        5. 🧹 Vacuum / Autovacuum / Freeze 维护
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#5--vacuum--autovacuum--freeze-维护" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 🧹 Vacuum / Autovacuum / Freeze 维护" aria-label="Anchor to: 5. 🧹 Vacuum / Autovacuum / Freeze 维护" href="#5--vacuum--autovacuum--freeze-%e7%bb%b4%e6%8a%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>这部分是 PostgreSQL 运维核心。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="51-为什么需要-vacuum"
+    >
+        5.1 为什么需要 Vacuum？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#51-为什么需要-vacuum" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.1 为什么需要 Vacuum？" aria-label="Anchor to: 5.1 为什么需要 Vacuum？" href="#51-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-vacuum">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>PostgreSQL 是 MVCC</li>
+<li>update/delete 不立即删除旧数据</li>
+<li>长时间不 Vacuum -&gt; 表膨胀 -&gt; 性能暴跌</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="52-定期-vacuum-手动巡检"
+    >
+        5.2 定期 Vacuum 手动巡检
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#52-定期-vacuum-手动巡检" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.2 定期 Vacuum 手动巡检" aria-label="Anchor to: 5.2 定期 Vacuum 手动巡检" href="#52-%e5%ae%9a%e6%9c%9f-vacuum-%e6%89%8b%e5%8a%a8%e5%b7%a1%e6%a3%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">VACUUM</span><span class="w"> </span><span class="k">VERBOSE</span><span class="w"> </span><span class="k">table</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ANALYZE</span><span class="w"> </span><span class="k">table</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="53-检查膨胀率"
+    >
+        5.3 检查膨胀率
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#53-检查膨胀率" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.3 检查膨胀率" aria-label="Anchor to: 5.3 检查膨胀率" href="#53-%e6%a3%80%e6%9f%a5%e8%86%a8%e8%83%80%e7%8e%87">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>扩展：pgstattuple</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pgstattuple</span><span class="p">(</span><span class="s1">&#39;mytable&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="6--监控与告警"
+    >
+        6. 📈 监控与告警
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#6--监控与告警" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 📈 监控与告警" aria-label="Anchor to: 6. 📈 监控与告警" href="#6--%e7%9b%91%e6%8e%a7%e4%b8%8e%e5%91%8a%e8%ad%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>推荐监控系统：Prometheus + Grafana + postgres_exporter</p>
+<p>关键指标：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类别</th>
+					<th>指标</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>连接</td>
+					<td>active connections、idle in transaction</td>
+			</tr>
+			<tr>
+					<td>锁</td>
+					<td>lock time、deadlocks</td>
+			</tr>
+			<tr>
+					<td>WAL</td>
+					<td>write rate、replication lag</td>
+			</tr>
+			<tr>
+					<td>Autovacuum</td>
+					<td>freeze age、running workers</td>
+			</tr>
+			<tr>
+					<td>IO</td>
+					<td>read/write latency</td>
+			</tr>
+			<tr>
+					<td>事务</td>
+					<td>TPS、XID 使用情况</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="7--日志最佳实践"
+    >
+        7. 📜 日志最佳实践
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#7--日志最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 📜 日志最佳实践" aria-label="Anchor to: 7. 📜 日志最佳实践" href="#7--%e6%97%a5%e5%bf%97%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">logging_collector = on
+</span></span><span class="line"><span class="cl">log_directory = &#39;log&#39;
+</span></span><span class="line"><span class="cl">log_filename = &#39;postgresql-%Y-%m-%d.log&#39;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">log_min_duration_statement = 500ms
+</span></span><span class="line"><span class="cl">log_checkpoints = on
+</span></span><span class="line"><span class="cl">log_connections = on
+</span></span><span class="line"><span class="cl">log_disconnections = on
+</span></span><span class="line"><span class="cl">log_lock_waits = on
+</span></span></code></pre></div><p>日志必须轮转（logrotate）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="8--安全最佳实践"
+    >
+        8. 🔐 安全最佳实践
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#8--安全最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 🔐 安全最佳实践" aria-label="Anchor to: 8. 🔐 安全最佳实践" href="#8--%e5%ae%89%e5%85%a8%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="81-网络安全"
+    >
+        8.1 网络安全
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#81-网络安全" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.1 网络安全" aria-label="Anchor to: 8.1 网络安全" href="#81-%e7%bd%91%e7%bb%9c%e5%ae%89%e5%85%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">listen_addresses = &#39;0.0.0.0&#39;
+</span></span></code></pre></div><p>pg_hba.conf 配置基于 IP + SSL</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="82-权限管理"
+    >
+        8.2 权限管理
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#82-权限管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.2 权限管理" aria-label="Anchor to: 8.2 权限管理" href="#82-%e6%9d%83%e9%99%90%e7%ae%a1%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>业务库必须独立用户</li>
+<li>禁止使用超级用户操作业务</li>
+<li>重要表只读/写分离权限</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="9--备份与恢复核心"
+    >
+        9. 💾 备份与恢复（核心）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#9--备份与恢复核心" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 💾 备份与恢复（核心）" aria-label="Anchor to: 9. 💾 备份与恢复（核心）" href="#9--%e5%a4%87%e4%bb%bd%e4%b8%8e%e6%81%a2%e5%a4%8d%e6%a0%b8%e5%bf%83">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="91-全量备份"
+    >
+        9.1 全量备份
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#91-全量备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.1 全量备份" aria-label="Anchor to: 9.1 全量备份" href="#91-%e5%85%a8%e9%87%8f%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">pg_dump
+</span></span><span class="line"><span class="cl">pg_basebackup
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="92-增量备份wal"
+    >
+        9.2 增量备份（WAL）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#92-增量备份wal" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.2 增量备份（WAL）" aria-label="Anchor to: 9.2 增量备份（WAL）" href="#92-%e5%a2%9e%e9%87%8f%e5%a4%87%e4%bb%bdwal">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>使用：</p>
+<ul>
+<li>pgBackRest（最推荐）</li>
+<li>WAL-G</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="93-pitr按时间点恢复"
+    >
+        9.3 PITR（按时间点恢复）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#93-pitr按时间点恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.3 PITR（按时间点恢复）" aria-label="Anchor to: 9.3 PITR（按时间点恢复）" href="#93-pitr%e6%8c%89%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">restore_command = &#39;cp /backup/wal/%f %p&#39;
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="10--高可用ha最佳实践"
+    >
+        10. 💠 高可用（HA）最佳实践
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#10--高可用ha最佳实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 💠 高可用（HA）最佳实践" aria-label="Anchor to: 10. 💠 高可用（HA）最佳实践" href="#10--%e9%ab%98%e5%8f%af%e7%94%a8ha%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>推荐方案 （生产优先级排列）：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="101-patroni--etcdconsul最强推荐"
+    >
+        10.1 Patroni + Etcd/Consul（最强推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#101-patroni--etcdconsul最强推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.1 Patroni &#43; Etcd/Consul（最强推荐）" aria-label="Anchor to: 10.1 Patroni &#43; Etcd/Consul（最强推荐）" href="#101-patroni--etcdconsul%e6%9c%80%e5%bc%ba%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>自动 failover</li>
+<li>自动 leader 选举</li>
+<li>支持复制槽</li>
+<li>生产 BAT / 金融大量使用</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="102-stolon"
+    >
+        10.2 Stolon
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#102-stolon" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.2 Stolon" aria-label="Anchor to: 10.2 Stolon" href="#102-stolon">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>轻量级 HA 管理器</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="103-手工流复制适合小型系统"
+    >
+        10.3 手工流复制（适合小型系统）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#103-手工流复制适合小型系统" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.3 手工流复制（适合小型系统）" aria-label="Anchor to: 10.3 手工流复制（适合小型系统）" href="#103-%e6%89%8b%e5%b7%a5%e6%b5%81%e5%a4%8d%e5%88%b6%e9%80%82%e5%90%88%e5%b0%8f%e5%9e%8b%e7%b3%bb%e7%bb%9f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">primary_conninfo = &#39;host=... user=replica&#39;
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="11--扩展与插件管理"
+    >
+        11. 🧩 扩展与插件管理
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#11--扩展与插件管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 🧩 扩展与插件管理" aria-label="Anchor to: 11. 🧩 扩展与插件管理" href="#11--%e6%89%a9%e5%b1%95%e4%b8%8e%e6%8f%92%e4%bb%b6%e7%ae%a1%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>常用扩展：</p>
+<ul>
+<li>pg_stat_statements</li>
+<li>pgstattuple</li>
+<li>uuid-ossp</li>
+<li>citext</li>
+<li>hstore</li>
+<li>ltree</li>
+</ul>
+<p>启用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_stat_statements</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="12--常见运维命令"
+    >
+        12. 🔧 常见运维命令
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#12--常见运维命令" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. 🔧 常见运维命令" aria-label="Anchor to: 12. 🔧 常见运维命令" href="#12--%e5%b8%b8%e8%a7%81%e8%bf%90%e7%bb%b4%e5%91%bd%e4%bb%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>重载配置（不重启）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_reload_conf</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><p>查看当前配置</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SHOW</span><span class="w"> </span><span class="k">ALL</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>查看连接</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>终止连接</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_terminate_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="13--日常运维-checklist可直接用于生产-sop"
+    >
+        13. 📋 日常运维 Checklist（可直接用于生产 SOP）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/operation-best-practices/#13--日常运维-checklist可直接用于生产-sop" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. 📋 日常运维 Checklist（可直接用于生产 SOP）" aria-label="Anchor to: 13. 📋 日常运维 Checklist（可直接用于生产 SOP）" href="#13--%e6%97%a5%e5%b8%b8%e8%bf%90%e7%bb%b4-checklist%e5%8f%af%e7%9b%b4%e6%8e%a5%e7%94%a8%e4%ba%8e%e7%94%9f%e4%ba%a7-sop">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>每天</p>
+<ul>
+<li>检查连接数、锁</li>
+<li>检查复制延迟</li>
+<li>检查磁盘剩余空间</li>
+</ul>
+<p>每周</p>
+<ul>
+<li>手动 vacuum 大表</li>
+<li>检查 autovacuum 情况</li>
+<li>检查 XID wraparound 风险</li>
+</ul>
+<p>每月</p>
+<ul>
+<li>执行全库 ANALYZE</li>
+<li>清理旧 WAL、旧备份</li>
+<li>依赖扩展更新/版本检查</li>
+</ul>
 
   </article>
 
@@ -2744,9 +3090,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +3111,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3969,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

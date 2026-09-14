@@ -12,12 +12,15 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="参考文档：PostgreSQL 配置参数 wal_buffers = -1详细讲解
+PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（自动），这会根据 shared_buffers 的 1/32 自动调节（上限通常 16MB），适用于大多数工作负载。仅在极高并发写入、大型事务场景下，手动设为 16MB-64MB 的固定值可能带来轻微性能提升。
+具体分析与建议：
+默认值 (-1, 自动) 最佳： 自动管理会根据 shared_buffers 的大小自动分配 WAL 缓冲区大小。对于大多数应用，这能平衡性能与内存占用，不需要额外维护。
+手动固定值适用场景：
+高并发写操作： 许多客户端同时提交事务的繁忙服务器，适当增大该值（如 16MB-64MB）可能提升写入性能。 大事务： 处理大量 WAL 数据时，较大的缓冲区可减少 I/O 压力。 注意事项：
+该参数只能在服务器启动时设置。 即使设得非常大，性能增益也不会无限制增加，通常 16MB 到 64MB 足够了。 设置为 -1 通常能获得合理的结果。 总结： 默认使用自动配置 (-1)；如果服务器观察到大量的 WAL 等待或处于极高负载下，再考虑将其手动设为 16MB-64MB 的固定值。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>wal_buffers | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +41,31 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="wal_buffers"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="参考文档：PostgreSQL 配置参数 wal_buffers = -1详细讲解
+PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（自动），这会根据 shared_buffers 的 1/32 自动调节（上限通常 16MB），适用于大多数工作负载。仅在极高并发写入、大型事务场景下，手动设为 16MB-64MB 的固定值可能带来轻微性能提升。
+具体分析与建议：
+默认值 (-1, 自动) 最佳： 自动管理会根据 shared_buffers 的大小自动分配 WAL 缓冲区大小。对于大多数应用，这能平衡性能与内存占用，不需要额外维护。
+手动固定值适用场景：
+高并发写操作： 许多客户端同时提交事务的繁忙服务器，适当增大该值（如 16MB-64MB）可能提升写入性能。 大事务： 处理大量 WAL 数据时，较大的缓冲区可减少 I/O 压力。 注意事项：
+该参数只能在服务器启动时设置。 即使设得非常大，性能增益也不会无限制增加，通常 16MB 到 64MB 足够了。 设置为 -1 通常能获得合理的结果。 总结： 默认使用自动配置 (-1)；如果服务器观察到大量的 WAL 等待或处于极高负载下，再考虑将其手动设为 16MB-64MB 的固定值。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/wal-buffers/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="wal_buffers" />
+  <meta name="twitter:description" content="参考文档：PostgreSQL 配置参数 wal_buffers = -1详细讲解
+PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（自动），这会根据 shared_buffers 的 1/32 自动调节（上限通常 16MB），适用于大多数工作负载。仅在极高并发写入、大型事务场景下，手动设为 16MB-64MB 的固定值可能带来轻微性能提升。
+具体分析与建议：
+默认值 (-1, 自动) 最佳： 自动管理会根据 shared_buffers 的大小自动分配 WAL 缓冲区大小。对于大多数应用，这能平衡性能与内存占用，不需要额外维护。
+手动固定值适用场景：
+高并发写操作： 许多客户端同时提交事务的繁忙服务器，适当增大该值（如 16MB-64MB）可能提升写入性能。 大事务： 处理大量 WAL 数据时，较大的缓冲区可减少 I/O 压力。 注意事项：
+该参数只能在服务器启动时设置。 即使设得非常大，性能增益也不会无限制增加，通常 16MB 到 64MB 足够了。 设置为 -1 通常能获得合理的结果。 总结： 默认使用自动配置 (-1)；如果服务器观察到大量的 WAL 等待或处于极高负载下，再考虑将其手动设为 16MB-64MB 的固定值。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +73,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "wal_buffers",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/wal-buffers/",
+      "headline": "wal_buffers",
+      "description": "参考文档：PostgreSQL 配置参数 wal_buffers = -1详细讲解\nPostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（自动），这会根据 shared_buffers 的 1\/32 自动调节（上限通常 16MB），适用于大多数工作负载。仅在极高并发写入、大型事务场景下，手动设为 16MB-64MB 的固定值可能带来轻微性能提升。\n具体分析与建议：\n默认值 (-1, 自动) 最佳： 自动管理会根据 shared_buffers 的大小自动分配 WAL 缓冲区大小。对于大多数应用，这能平衡性能与内存占用，不需要额外维护。\n手动固定值适用场景：\n高并发写操作： 许多客户端同时提交事务的繁忙服务器，适当增大该值（如 16MB-64MB）可能提升写入性能。 大事务： 处理大量 WAL 数据时，较大的缓冲区可减少 I\/O 压力。 注意事项：\n该参数只能在服务器启动时设置。 即使设得非常大，性能增益也不会无限制增加，通常 16MB 到 64MB 足够了。 设置为 -1 通常能获得合理的结果。 总结： 默认使用自动配置 (-1)；如果服务器观察到大量的 WAL 等待或处于极高负载下，再考虑将其手动设为 16MB-64MB 的固定值。",
+      "wordCount": "54",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/wal-buffers/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +166,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/wal-buffers/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +828,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2148,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>wal_buffers</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2183,35 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>wal_buffers</h1>
     
-    <p>PostgreSQL 调优工具：<a
+    <p>参考文档：<a
   class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+  href="https://blog.csdn.net/liumangtuzi888/article/details/153477894"
+>PostgreSQL 配置参数 wal_buffers = -1详细讲解</a></p>
+<p>PostgreSQL 的 wal_buffers 参数绝大多数场景建议保持默认值 -1（自动），这会根据 shared_buffers 的 1/32 自动调节（上限通常 16MB），适用于大多数工作负载。仅在极高并发写入、大型事务场景下，手动设为 16MB-64MB 的固定值可能带来轻微性能提升。</p>
+<p>具体分析与建议：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>
+<p><strong>默认值 (-1, 自动) 最佳</strong>： 自动管理会根据 shared_buffers 的大小自动分配 WAL 缓冲区大小。对于大多数应用，这能平衡性能与内存占用，不需要额外维护。</p>
+</li>
+<li>
+<p>手动固定值适用场景：</p>
+<ul>
+<li>高并发写操作： 许多客户端同时提交事务的繁忙服务器，适当增大该值（如 16MB-64MB）可能提升写入性能。</li>
+<li>大事务： 处理大量 WAL 数据时，较大的缓冲区可减少 I/O 压力。</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+</li>
+<li>
+<p>注意事项：</p>
+<ul>
+<li>该参数只能在服务器启动时设置。</li>
+<li>即使设得非常大，性能增益也不会无限制增加，通常 16MB 到 64MB 足够了。</li>
+<li>设置为 -1 通常能获得合理的结果。</li>
+</ul>
+</li>
+</ul>
+<p>总结： 默认使用自动配置 (-1)；如果服务器观察到大量的 WAL 等待或处于极高负载下，再考虑将其手动设为 16MB-64MB 的固定值。</p>
 
   </article>
 
@@ -2744,9 +2617,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2638,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3496,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

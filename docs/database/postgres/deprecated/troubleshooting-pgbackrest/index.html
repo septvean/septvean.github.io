@@ -12,12 +12,12 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="/etc/pgbackrest.conf
+[global] repo1-path=/var/lib/pgbackrest [main] pg1-path=/var/lib/postgresql postgresql.conf:
+archive_command = &#39;pgbackrest --stanza=main archive-push %p&#39; 报错信息：
+Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.386 P00 ERROR: [103]: unable to find a valid repository: Dec 27 17:15:37 x podman[1707]: repo1: [FileMissingError] unable to load info file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; or &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39;: Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; for read Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39; for read Dec 27 17:15:37 x podman[1707]: HINT: archive.info cannot be opened but is required to push/get WAL segments. Dec 27 17:15:37 x podman[1707]: HINT: is archive_command configured correctly in postgresql.conf? Dec 27 17:15:37 x podman[1707]: HINT: has a stanza-create been performed? Dec 27 17:15:37 x podman[1707]: HINT: use --no-archive-check to disable archive checks during backup if you have an alternate archiving scheme. Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] LOG: archive command failed with exit code 103 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001 Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later 快速解决方法：" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 故障排查 -- pgbackrest | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +38,25 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 故障排查 -- pgbackrest"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="/etc/pgbackrest.conf
+[global] repo1-path=/var/lib/pgbackrest [main] pg1-path=/var/lib/postgresql postgresql.conf:
+archive_command = &#39;pgbackrest --stanza=main archive-push %p&#39; 报错信息：
+Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.386 P00 ERROR: [103]: unable to find a valid repository: Dec 27 17:15:37 x podman[1707]: repo1: [FileMissingError] unable to load info file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; or &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39;: Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; for read Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39; for read Dec 27 17:15:37 x podman[1707]: HINT: archive.info cannot be opened but is required to push/get WAL segments. Dec 27 17:15:37 x podman[1707]: HINT: is archive_command configured correctly in postgresql.conf? Dec 27 17:15:37 x podman[1707]: HINT: has a stanza-create been performed? Dec 27 17:15:37 x podman[1707]: HINT: use --no-archive-check to disable archive checks during backup if you have an alternate archiving scheme. Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] LOG: archive command failed with exit code 103 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001 Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later 快速解决方法：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 故障排查 -- pgbackrest" />
+  <meta name="twitter:description" content="/etc/pgbackrest.conf
+[global] repo1-path=/var/lib/pgbackrest [main] pg1-path=/var/lib/postgresql postgresql.conf:
+archive_command = &#39;pgbackrest --stanza=main archive-push %p&#39; 报错信息：
+Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.386 P00 ERROR: [103]: unable to find a valid repository: Dec 27 17:15:37 x podman[1707]: repo1: [FileMissingError] unable to load info file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; or &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39;: Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; for read Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39; for read Dec 27 17:15:37 x podman[1707]: HINT: archive.info cannot be opened but is required to push/get WAL segments. Dec 27 17:15:37 x podman[1707]: HINT: is archive_command configured correctly in postgresql.conf? Dec 27 17:15:37 x podman[1707]: HINT: has a stanza-create been performed? Dec 27 17:15:37 x podman[1707]: HINT: use --no-archive-check to disable archive checks during backup if you have an alternate archiving scheme. Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] LOG: archive command failed with exit code 103 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001 Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later 快速解决方法：" />
 
 
   <script type="application/ld+json">
@@ -64,16 +64,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 故障排查 -- pgbackrest",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/",
+      "headline": "PostgreSQL 故障排查 -- pgbackrest",
+      "description": "\/etc\/pgbackrest.conf\n[global] repo1-path=\/var\/lib\/pgbackrest [main] pg1-path=\/var\/lib\/postgresql postgresql.conf:\narchive_command = \u0027pgbackrest --stanza=main archive-push %p\u0027 报错信息：\nDec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.386 P00 ERROR: [103]: unable to find a valid repository: Dec 27 17:15:37 x podman[1707]: repo1: [FileMissingError] unable to load info file \u0027\/var\/lib\/pgbackrest\/archive\/main\/archive.info\u0027 or \u0027\/var\/lib\/pgbackrest\/archive\/main\/archive.info.copy\u0027: Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file \u0027\/var\/lib\/pgbackrest\/archive\/main\/archive.info\u0027 for read Dec 27 17:15:37 x podman[1707]: FileMissingError: unable to open missing file \u0027\/var\/lib\/pgbackrest\/archive\/main\/archive.info.copy\u0027 for read Dec 27 17:15:37 x podman[1707]: HINT: archive.info cannot be opened but is required to push\/get WAL segments. Dec 27 17:15:37 x podman[1707]: HINT: is archive_command configured correctly in postgresql.conf? Dec 27 17:15:37 x podman[1707]: HINT: has a stanza-create been performed? Dec 27 17:15:37 x podman[1707]: HINT: use --no-archive-check to disable archive checks during backup if you have an alternate archiving scheme. Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] LOG: archive command failed with exit code 103 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal\/000000010000000000000001 Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file \u0022000000010000000000000001\u0022 failed too many times, will try again later Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] DETAIL: The failed archive command was: pgbackrest --stanza=main archive-push pg_wal\/000000010000000000000001 Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] WARNING: archiving write-ahead log file \u0022000000010000000000000001\u0022 failed too many times, will try again later 快速解决方法：",
+      "wordCount": "528",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +819,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2139,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 故障排查 -- pgbackrest</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2174,342 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 故障排查 -- pgbackrest</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>/etc/pgbackrest.conf</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">[global]
+repo1-path=/var/lib/pgbackrest
+
+[main]
+pg1-path=/var/lib/postgresql
+</code></pre><p>postgresql.conf:</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">archive_command = &#39;pgbackrest --stanza=main archive-push %p&#39;
+</code></pre><p>报错信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.386 P00  ERROR: [103]: unable to find a valid repository:
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]:                                    repo1: [FileMissingError] unable to load info file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; or &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39;:
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]:                                    FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info&#39; for read
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]:                                    FileMissingError: unable to open missing file &#39;/var/lib/pgbackrest/archive/main/archive.info.copy&#39; for read
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]:                                    HINT: archive.info cannot be opened but is required to push/get WAL segments.
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]:                                    HINT: is archive_command configured correctly in postgresql.conf?
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]:                                    HINT: has a stanza-create been performed?
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]:                                    HINT: use --no-archive-check to disable archive checks during backup if you have an alternate archiving scheme.
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] LOG:  archive command failed with exit code 103
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] DETAIL:  The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x podman[1707]: 2025-12-27 09:15:37.387 PRC [29] WARNING:  archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] DETAIL:  The failed archive command was: pgbackrest --stanza=main archive-push pg_wal/000000010000000000000001
+</span></span><span class="line"><span class="cl">Dec 27 17:15:37 x postgres[1787]: 2025-12-27 09:15:37.387 PRC [29] WARNING:  archiving write-ahead log file &#34;000000010000000000000001&#34; failed too many times, will try again later
+</span></span></code></pre></div><p>快速解决方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it postgres bash
+</span></span><span class="line"><span class="cl">chown -R postgres:root /var/lib/pgbackrest /var/lib/postgresql
+</span></span><span class="line"><span class="cl">su - postgres -c <span class="s1">&#39;pgbackrest --stanza=main stanza-create&#39;</span>
+</span></span><span class="line"><span class="cl">su - postgres -c <span class="s1">&#39;pgbackrest --stanza=main check&#39;</span>
+</span></span></code></pre></div><p>这个报错信息其实<strong>非常典型</strong>，而且 pgBackRest 的提示已经把“正确答案”写出来了。按<strong>生产级排错流程</strong>来一步步解释和修复。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一错误本质一句话结论"
+    >
+        一、错误本质（一句话结论）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#一错误本质一句话结论" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、错误本质（一句话结论）" aria-label="Anchor to: 一、错误本质（一句话结论）" href="#%e4%b8%80%e9%94%99%e8%af%af%e6%9c%ac%e8%b4%a8%e4%b8%80%e5%8f%a5%e8%af%9d%e7%bb%93%e8%ae%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p><strong>你配置了 <code>archive_command</code>，但从未对 stanza <code>main</code> 执行过 <code>stanza-create</code>，
+导致 <code>archive.info</code> 不存在，WAL 无法归档。</strong></p>
+</blockquote>
+<p>所以 pgBackRest <strong>没有一个“合法的仓库（repository）”可以接收 WAL</strong>。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二错误逐行拆解理解原理"
+    >
+        二、错误逐行拆解（理解原理）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#二错误逐行拆解理解原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、错误逐行拆解（理解原理）" aria-label="Anchor to: 二、错误逐行拆解（理解原理）" href="#%e4%ba%8c%e9%94%99%e8%af%af%e9%80%90%e8%a1%8c%e6%8b%86%e8%a7%a3%e7%90%86%e8%a7%a3%e5%8e%9f%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-关键报错"
+    >
+        1️⃣ 关键报错
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#1-关键报错" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ 关键报错" aria-label="Anchor to: 1️⃣ 关键报错" href="#1-%e5%85%b3%e9%94%ae%e6%8a%a5%e9%94%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ERROR: [103]: unable to find a valid repository
+</span></span></code></pre></div><p>👉 pgBackRest <strong>没有找到可用 repo</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-核心原因"
+    >
+        2️⃣ 核心原因
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#2-核心原因" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 核心原因" aria-label="Anchor to: 2️⃣ 核心原因" href="#2-%e6%a0%b8%e5%bf%83%e5%8e%9f%e5%9b%a0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">unable to load info file
+</span></span><span class="line"><span class="cl">&#39;/var/lib/pgbackrest/archive/main/archive.info&#39;
+</span></span></code></pre></div><p>pgBackRest <strong>必须存在以下文件之一</strong> 才能归档 WAL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">repo1-path/archive/&lt;stanza&gt;/archive.info
+</span></span><span class="line"><span class="cl">repo1-path/archive/&lt;stanza&gt;/archive.info.copy
+</span></span></code></pre></div><p>而你的路径是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/var/lib/pgbackrest/archive/main/
+</span></span></code></pre></div><p>👉 <strong>目录 / 文件根本还没创建</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-postgresql-侧反应正常"
+    >
+        3️⃣ PostgreSQL 侧反应（正常）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#3-postgresql-侧反应正常" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3️⃣ PostgreSQL 侧反应（正常）" aria-label="Anchor to: 3️⃣ PostgreSQL 侧反应（正常）" href="#3-postgresql-%e4%be%a7%e5%8f%8d%e5%ba%94%e6%ad%a3%e5%b8%b8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">archive command failed with exit code 103
+</span></span><span class="line"><span class="cl">archiving write-ahead log file failed too many times
+</span></span></code></pre></div><p>PostgreSQL 只是如实汇报：</p>
+<blockquote>
+<p>我执行 archive_command 了，但命令失败了</p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三为什么会这样工作机制"
+    >
+        三、为什么会这样（工作机制）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#三为什么会这样工作机制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、为什么会这样（工作机制）" aria-label="Anchor to: 三、为什么会这样（工作机制）" href="#%e4%b8%89%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bc%9a%e8%bf%99%e6%a0%b7%e5%b7%a5%e4%bd%9c%e6%9c%ba%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="pgbackrest-的正确初始化顺序"
+    >
+        pgBackRest 的正确初始化顺序
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#pgbackrest-的正确初始化顺序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: pgBackRest 的正确初始化顺序" aria-label="Anchor to: pgBackRest 的正确初始化顺序" href="#pgbackrest-%e7%9a%84%e6%ad%a3%e7%a1%ae%e5%88%9d%e5%a7%8b%e5%8c%96%e9%a1%ba%e5%ba%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1️⃣ 配置 pgbackrest.conf
+</span></span><span class="line"><span class="cl">2️⃣ stanza-create   ← 你漏了这一步
+</span></span><span class="line"><span class="cl">3️⃣ 配置 archive_command
+</span></span><span class="line"><span class="cl">4️⃣ 启动 PostgreSQL
+</span></span></code></pre></div><p>而你现在是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1️⃣ 配置 pgbackrest.conf
+</span></span><span class="line"><span class="cl">2️⃣ 直接启用 archive_command ❌
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四正确修复步骤按顺序执行"
+    >
+        四、正确修复步骤（按顺序执行）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#四正确修复步骤按顺序执行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、正确修复步骤（按顺序执行）" aria-label="Anchor to: 四、正确修复步骤（按顺序执行）" href="#%e5%9b%9b%e6%ad%a3%e7%a1%ae%e4%bf%ae%e5%a4%8d%e6%ad%a5%e9%aa%a4%e6%8c%89%e9%a1%ba%e5%ba%8f%e6%89%a7%e8%a1%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<blockquote>
+<p>⚠️ <strong>下面命令必须用 PostgreSQL 运行用户（通常是 postgres）执行</strong></p>
+</blockquote>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-1确认目录权限"
+    >
+        ✅ Step 1：确认目录权限
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#-step-1确认目录权限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ Step 1：确认目录权限" aria-label="Anchor to: ✅ Step 1：确认目录权限" href="#-step-1%e7%a1%ae%e8%ae%a4%e7%9b%ae%e5%bd%95%e6%9d%83%e9%99%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls -ld /var/lib/pgbackrest
+</span></span><span class="line"><span class="cl">ls -ld /var/lib/postgresql
+</span></span></code></pre></div><p>确保：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>pgBackRest 和 PostgreSQL <strong>看到的是同一个数据目录</strong></li>
+<li>用户一致（容器里通常是 postgres）</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-2创建-stanza关键步骤"
+    >
+        ✅ Step 2：创建 stanza（关键步骤）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#-step-2创建-stanza关键步骤" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ Step 2：创建 stanza（关键步骤）" aria-label="Anchor to: ✅ Step 2：创建 stanza（关键步骤）" href="#-step-2%e5%88%9b%e5%bb%ba-stanza%e5%85%b3%e9%94%ae%e6%ad%a5%e9%aa%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main stanza-create
+</span></span></code></pre></div><p>成功后你应该看到：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">INFO: stanza-create for stanza &#39;main&#39; completed successfully
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-3确认-archiveinfo-已生成"
+    >
+        ✅ Step 3：确认 archive.info 已生成
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#-step-3确认-archiveinfo-已生成" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ Step 3：确认 archive.info 已生成" aria-label="Anchor to: ✅ Step 3：确认 archive.info 已生成" href="#-step-3%e7%a1%ae%e8%ae%a4-archiveinfo-%e5%b7%b2%e7%94%9f%e6%88%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls /var/lib/pgbackrest/archive/main/
+</span></span></code></pre></div><p>至少应有：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">archive.info
+</span></span><span class="line"><span class="cl">archive.info.copy
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-4检查-pgbackrest-是否能识别-postgresql"
+    >
+        ✅ Step 4：检查 pgBackRest 是否能识别 PostgreSQL
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#-step-4检查-pgbackrest-是否能识别-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ Step 4：检查 pgBackRest 是否能识别 PostgreSQL" aria-label="Anchor to: ✅ Step 4：检查 pgBackRest 是否能识别 PostgreSQL" href="#-step-4%e6%a3%80%e6%9f%a5-pgbackrest-%e6%98%af%e5%90%a6%e8%83%bd%e8%af%86%e5%88%ab-postgresql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pgbackrest --stanza<span class="o">=</span>main check
+</span></span></code></pre></div><p>正常输出类似：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">INFO: check command end: completed successfully
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-step-5重新触发-wal-归档可选"
+    >
+        ✅ Step 5：重新触发 WAL 归档（可选）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#-step-5重新触发-wal-归档可选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ Step 5：重新触发 WAL 归档（可选）" aria-label="Anchor to: ✅ Step 5：重新触发 WAL 归档（可选）" href="#-step-5%e9%87%8d%e6%96%b0%e8%a7%a6%e5%8f%91-wal-%e5%bd%92%e6%a1%a3%e5%8f%af%e9%80%89">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_switch_wal</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><p>然后查看日志是否还有 archive 错误。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五你的配置本身有没有问题"
+    >
+        五、你的配置本身有没有问题？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#五你的配置本身有没有问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、你的配置本身有没有问题？" aria-label="Anchor to: 五、你的配置本身有没有问题？" href="#%e4%ba%94%e4%bd%a0%e7%9a%84%e9%85%8d%e7%bd%ae%e6%9c%ac%e8%ba%ab%e6%9c%89%e6%b2%a1%e6%9c%89%e9%97%ae%e9%a2%98">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="etcpgbackrestconf"
+    >
+        <code>/etc/pgbackrest.conf</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#etcpgbackrestconf" class="gdoc-page__anchor clip flex align-center" title="Anchor to: /etc/pgbackrest.conf" aria-label="Anchor to: /etc/pgbackrest.conf" href="#etcpgbackrestconf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[global]</span>
+</span></span><span class="line"><span class="cl"><span class="na">repo1-path</span><span class="o">=</span><span class="s">/var/lib/pgbackrest</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[main]</span>
+</span></span><span class="line"><span class="cl"><span class="na">pg1-path</span><span class="o">=</span><span class="s">/var/lib/postgresql</span>
+</span></span></code></pre></div><p>✔ <strong>配置是正确的</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="postgresqlconf"
+    >
+        <code>postgresql.conf</code>
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#postgresqlconf" class="gdoc-page__anchor clip flex align-center" title="Anchor to: postgresql.conf" aria-label="Anchor to: postgresql.conf" href="#postgresqlconf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">archive_command = &#39;pgbackrest --stanza=main archive-push %p&#39;
+</code></pre><p>✔ <strong>写法正确</strong></p>
+<p>📌 建议补充（生产必备）：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf">archive_mode = on
+wal_level = replica
+</code></pre><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六podman--容器环境的特别提醒非常重要"
+    >
+        六、Podman / 容器环境的特别提醒（非常重要）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#六podman--容器环境的特别提醒非常重要" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、Podman / 容器环境的特别提醒（非常重要）" aria-label="Anchor to: 六、Podman / 容器环境的特别提醒（非常重要）" href="#%e5%85%adpodman--%e5%ae%b9%e5%99%a8%e7%8e%af%e5%a2%83%e7%9a%84%e7%89%b9%e5%88%ab%e6%8f%90%e9%86%92%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你是在 <strong>podman 容器中运行 PostgreSQL</strong>，请重点确认：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-repo1-path-和-pg1-path-是否都在容器内"
+    >
+        1️⃣ repo1-path 和 pg1-path 是否都在容器内
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#1-repo1-path-和-pg1-path-是否都在容器内" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1️⃣ repo1-path 和 pg1-path 是否都在容器内" aria-label="Anchor to: 1️⃣ repo1-path 和 pg1-path 是否都在容器内" href="#1-repo1-path-%e5%92%8c-pg1-path-%e6%98%af%e5%90%a6%e9%83%bd%e5%9c%a8%e5%ae%b9%e5%99%a8%e5%86%85">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">podman <span class="nb">exec</span> -it &lt;pg_container&gt; ls /var/lib/pgbackrest
+</span></span><span class="line"><span class="cl">podman <span class="nb">exec</span> -it &lt;pg_container&gt; ls /var/lib/postgresql
+</span></span></code></pre></div><p>👉 <strong>stanza-create 必须在 PostgreSQL 所在容器执行</strong></p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-是否使用-volume-挂载"
+    >
+        2️⃣ 是否使用 volume 挂载
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#2-是否使用-volume-挂载" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2️⃣ 是否使用 volume 挂载" aria-label="Anchor to: 2️⃣ 是否使用 volume 挂载" href="#2-%e6%98%af%e5%90%a6%e4%bd%bf%e7%94%a8-volume-%e6%8c%82%e8%bd%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>推荐结构（示例）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-v /data/pgdata:/var/lib/postgresql
+</span></span><span class="line"><span class="cl">-v /data/pgbackrest:/var/lib/pgbackrest
+</span></span></code></pre></div><p>否则：</p>
+<ul>
+<li>容器重启 = repo 消失</li>
+<li>WAL 无法恢复</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七常见误区总结你刚好踩中了"
+    >
+        七、常见误区总结（你刚好踩中了）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#七常见误区总结你刚好踩中了" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、常见误区总结（你刚好踩中了）" aria-label="Anchor to: 七、常见误区总结（你刚好踩中了）" href="#%e4%b8%83%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba%e6%80%bb%e7%bb%93%e4%bd%a0%e5%88%9a%e5%a5%bd%e8%b8%a9%e4%b8%ad%e4%ba%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>误区</th>
+					<th>后果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>未执行 stanza-create</td>
+					<td>archive.info 不存在</td>
+			</tr>
+			<tr>
+					<td>archive_command 先启用</td>
+					<td>PostgreSQL 启动即报错</td>
+			</tr>
+			<tr>
+					<td>repo 目录未持久化</td>
+					<td>归档看似成功，实际丢失</td>
+			</tr>
+			<tr>
+					<td>stanza 名拼错</td>
+					<td>repo 找不到</td>
+			</tr>
+	</tbody>
+</table> </div>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八最终一句话总结"
+    >
+        八、最终一句话总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/troubleshooting-pgbackrest/#八最终一句话总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、最终一句话总结" aria-label="Anchor to: 八、最终一句话总结" href="#%e5%85%ab%e6%9c%80%e7%bb%88%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>pgBackRest 的 archive 不是“即插即用”，stanza-create 是 WAL 归档的“生命起点”。</strong></p>
 
   </article>
 
@@ -2744,9 +2915,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2936,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3794,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

@@ -12,12 +12,11 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="PostgreSQL 是一个功能完整的开源关系型数据库，适合：
+Python、FastAPI、SQLAlchemy 后端项目 股票行情和财务数据存储 TimescaleDB 时序数据库 JSON、全文检索、数据分析 高并发事务系统 截至 2026 年 9 月，PostgreSQL 18 是当前稳定主版本，官方文档对应 18.6。PostgreSQL 18 官方文档
+一、建议学习路线 第一阶段：数据库基础 数据库、Schema、表、行、列 PostgreSQL 数据类型 表的创建、修改和删除 INSERT、SELECT、UPDATE、DELETE 条件、排序、分页 聚合函数与分组 多表连接 子查询和公共表表达式 第二阶段：表设计 主键与外键 唯一约束、非空约束、检查约束 一对一、一对多、多对多 数据规范化 自增主键与 UUID 日期、金额、JSON 数据建模 分区表 第三阶段：高级查询 窗口函数 CTE 与递归查询 CASE DISTINCT ON LATERAL 数组与 jsonb 全文检索 视图与物化视图 第四阶段：事务与并发 ACID BEGIN、COMMIT、ROLLBACK MVCC 事务隔离级别 行锁、表锁 死锁 乐观锁与悲观锁 SELECT ... FOR UPDATE 第五阶段：性能优化 B-tree、GIN、GiST、BRIN 索引 联合索引和覆盖索引 EXPLAIN EXPLAIN ANALYZE 查询计划 慢 SQL 定位 VACUUM、ANALYZE pg_stat_statements 表膨胀与索引膨胀 配置参数优化 第六阶段：运维管理 用户、角色与权限 pg_hba.conf 备份与恢复 WAL 流复制与逻辑复制 连接池 日志与监控 大版本升级 故障恢复 TimescaleDB 扩展管理 二、核心对象关系 PostgreSQL 实例 └── Database └── Schema ├── Table ├── View ├── Index ├── Sequence └── Function 连接 PostgreSQL 时，客户端首先连接某个数据库，然后访问该数据库内不同 Schema 中的对象。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 学习指南 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +37,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 学习指南"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="PostgreSQL 是一个功能完整的开源关系型数据库，适合：
+Python、FastAPI、SQLAlchemy 后端项目 股票行情和财务数据存储 TimescaleDB 时序数据库 JSON、全文检索、数据分析 高并发事务系统 截至 2026 年 9 月，PostgreSQL 18 是当前稳定主版本，官方文档对应 18.6。PostgreSQL 18 官方文档
+一、建议学习路线 第一阶段：数据库基础 数据库、Schema、表、行、列 PostgreSQL 数据类型 表的创建、修改和删除 INSERT、SELECT、UPDATE、DELETE 条件、排序、分页 聚合函数与分组 多表连接 子查询和公共表表达式 第二阶段：表设计 主键与外键 唯一约束、非空约束、检查约束 一对一、一对多、多对多 数据规范化 自增主键与 UUID 日期、金额、JSON 数据建模 分区表 第三阶段：高级查询 窗口函数 CTE 与递归查询 CASE DISTINCT ON LATERAL 数组与 jsonb 全文检索 视图与物化视图 第四阶段：事务与并发 ACID BEGIN、COMMIT、ROLLBACK MVCC 事务隔离级别 行锁、表锁 死锁 乐观锁与悲观锁 SELECT ... FOR UPDATE 第五阶段：性能优化 B-tree、GIN、GiST、BRIN 索引 联合索引和覆盖索引 EXPLAIN EXPLAIN ANALYZE 查询计划 慢 SQL 定位 VACUUM、ANALYZE pg_stat_statements 表膨胀与索引膨胀 配置参数优化 第六阶段：运维管理 用户、角色与权限 pg_hba.conf 备份与恢复 WAL 流复制与逻辑复制 连接池 日志与监控 大版本升级 故障恢复 TimescaleDB 扩展管理 二、核心对象关系 PostgreSQL 实例 └── Database └── Schema ├── Table ├── View ├── Index ├── Sequence └── Function 连接 PostgreSQL 时，客户端首先连接某个数据库，然后访问该数据库内不同 Schema 中的对象。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/01-learning-guide/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 学习指南" />
+  <meta name="twitter:description" content="PostgreSQL 是一个功能完整的开源关系型数据库，适合：
+Python、FastAPI、SQLAlchemy 后端项目 股票行情和财务数据存储 TimescaleDB 时序数据库 JSON、全文检索、数据分析 高并发事务系统 截至 2026 年 9 月，PostgreSQL 18 是当前稳定主版本，官方文档对应 18.6。PostgreSQL 18 官方文档
+一、建议学习路线 第一阶段：数据库基础 数据库、Schema、表、行、列 PostgreSQL 数据类型 表的创建、修改和删除 INSERT、SELECT、UPDATE、DELETE 条件、排序、分页 聚合函数与分组 多表连接 子查询和公共表表达式 第二阶段：表设计 主键与外键 唯一约束、非空约束、检查约束 一对一、一对多、多对多 数据规范化 自增主键与 UUID 日期、金额、JSON 数据建模 分区表 第三阶段：高级查询 窗口函数 CTE 与递归查询 CASE DISTINCT ON LATERAL 数组与 jsonb 全文检索 视图与物化视图 第四阶段：事务与并发 ACID BEGIN、COMMIT、ROLLBACK MVCC 事务隔离级别 行锁、表锁 死锁 乐观锁与悲观锁 SELECT ... FOR UPDATE 第五阶段：性能优化 B-tree、GIN、GiST、BRIN 索引 联合索引和覆盖索引 EXPLAIN EXPLAIN ANALYZE 查询计划 慢 SQL 定位 VACUUM、ANALYZE pg_stat_statements 表膨胀与索引膨胀 配置参数优化 第六阶段：运维管理 用户、角色与权限 pg_hba.conf 备份与恢复 WAL 流复制与逻辑复制 连接池 日志与监控 大版本升级 故障恢复 TimescaleDB 扩展管理 二、核心对象关系 PostgreSQL 实例 └── Database └── Schema ├── Table ├── View ├── Index ├── Sequence └── Function 连接 PostgreSQL 时，客户端首先连接某个数据库，然后访问该数据库内不同 Schema 中的对象。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +61,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 学习指南",
+      "url": "https://documents.v2ep.com/database/postgres/01-learning-guide/",
+      "headline": "PostgreSQL 学习指南",
+      "description": "PostgreSQL 是一个功能完整的开源关系型数据库，适合：\nPython、FastAPI、SQLAlchemy 后端项目 股票行情和财务数据存储 TimescaleDB 时序数据库 JSON、全文检索、数据分析 高并发事务系统 截至 2026 年 9 月，PostgreSQL 18 是当前稳定主版本，官方文档对应 18.6。PostgreSQL 18 官方文档\n一、建议学习路线 第一阶段：数据库基础 数据库、Schema、表、行、列 PostgreSQL 数据类型 表的创建、修改和删除 INSERT、SELECT、UPDATE、DELETE 条件、排序、分页 聚合函数与分组 多表连接 子查询和公共表表达式 第二阶段：表设计 主键与外键 唯一约束、非空约束、检查约束 一对一、一对多、多对多 数据规范化 自增主键与 UUID 日期、金额、JSON 数据建模 分区表 第三阶段：高级查询 窗口函数 CTE 与递归查询 CASE DISTINCT ON LATERAL 数组与 jsonb 全文检索 视图与物化视图 第四阶段：事务与并发 ACID BEGIN、COMMIT、ROLLBACK MVCC 事务隔离级别 行锁、表锁 死锁 乐观锁与悲观锁 SELECT ... FOR UPDATE 第五阶段：性能优化 B-tree、GIN、GiST、BRIN 索引 联合索引和覆盖索引 EXPLAIN EXPLAIN ANALYZE 查询计划 慢 SQL 定位 VACUUM、ANALYZE pg_stat_statements 表膨胀与索引膨胀 配置参数优化 第六阶段：运维管理 用户、角色与权限 pg_hba.conf 备份与恢复 WAL 流复制与逻辑复制 连接池 日志与监控 大版本升级 故障恢复 TimescaleDB 扩展管理 二、核心对象关系 PostgreSQL 实例 └── Database └── Schema ├── Table ├── View ├── Index ├── Sequence └── Function 连接 PostgreSQL 时，客户端首先连接某个数据库，然后访问该数据库内不同 Schema 中的对象。",
+      "wordCount": "433",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/01-learning-guide/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +154,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/01-learning-guide/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +816,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2136,15 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 学习指南</span><meta itemprop='position' content='4' /></li>
+  
+
   
 
   
@@ -2158,187 +2163,388 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 学习指南</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>PostgreSQL 是一个功能完整的开源关系型数据库，适合：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>Python、FastAPI、SQLAlchemy 后端项目</li>
+<li>股票行情和财务数据存储</li>
+<li>TimescaleDB 时序数据库</li>
+<li>JSON、全文检索、数据分析</li>
+<li>高并发事务系统</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>截至 2026 年 9 月，PostgreSQL 18 是当前稳定主版本，官方文档对应 <strong>18.6</strong>。<a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/"
+>PostgreSQL 18 官方文档</a></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="一建议学习路线"
+    >
+        一、建议学习路线
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#一建议学习路线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、建议学习路线" aria-label="Anchor to: 一、建议学习路线" href="#%e4%b8%80%e5%bb%ba%e8%ae%ae%e5%ad%a6%e4%b9%a0%e8%b7%af%e7%ba%bf">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="第一阶段数据库基础"
+    >
+        第一阶段：数据库基础
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#第一阶段数据库基础" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 第一阶段：数据库基础" aria-label="Anchor to: 第一阶段：数据库基础" href="#%e7%ac%ac%e4%b8%80%e9%98%b6%e6%ae%b5%e6%95%b0%e6%8d%ae%e5%ba%93%e5%9f%ba%e7%a1%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>数据库、Schema、表、行、列</li>
+<li>PostgreSQL 数据类型</li>
+<li>表的创建、修改和删除</li>
+<li><code>INSERT</code>、<code>SELECT</code>、<code>UPDATE</code>、<code>DELETE</code></li>
+<li>条件、排序、分页</li>
+<li>聚合函数与分组</li>
+<li>多表连接</li>
+<li>子查询和公共表表达式</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="第二阶段表设计"
+    >
+        第二阶段：表设计
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#第二阶段表设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 第二阶段：表设计" aria-label="Anchor to: 第二阶段：表设计" href="#%e7%ac%ac%e4%ba%8c%e9%98%b6%e6%ae%b5%e8%a1%a8%e8%ae%be%e8%ae%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>主键与外键</li>
+<li>唯一约束、非空约束、检查约束</li>
+<li>一对一、一对多、多对多</li>
+<li>数据规范化</li>
+<li>自增主键与 UUID</li>
+<li>日期、金额、JSON 数据建模</li>
+<li>分区表</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="第三阶段高级查询"
+    >
+        第三阶段：高级查询
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#第三阶段高级查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 第三阶段：高级查询" aria-label="Anchor to: 第三阶段：高级查询" href="#%e7%ac%ac%e4%b8%89%e9%98%b6%e6%ae%b5%e9%ab%98%e7%ba%a7%e6%9f%a5%e8%af%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>窗口函数</li>
+<li>CTE 与递归查询</li>
+<li><code>CASE</code></li>
+<li><code>DISTINCT ON</code></li>
+<li><code>LATERAL</code></li>
+<li>数组与 <code>jsonb</code></li>
+<li>全文检索</li>
+<li>视图与物化视图</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="第四阶段事务与并发"
+    >
+        第四阶段：事务与并发
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#第四阶段事务与并发" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 第四阶段：事务与并发" aria-label="Anchor to: 第四阶段：事务与并发" href="#%e7%ac%ac%e5%9b%9b%e9%98%b6%e6%ae%b5%e4%ba%8b%e5%8a%a1%e4%b8%8e%e5%b9%b6%e5%8f%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>ACID</li>
+<li><code>BEGIN</code>、<code>COMMIT</code>、<code>ROLLBACK</code></li>
+<li>MVCC</li>
+<li>事务隔离级别</li>
+<li>行锁、表锁</li>
+<li>死锁</li>
+<li>乐观锁与悲观锁</li>
+<li><code>SELECT ... FOR UPDATE</code></li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="第五阶段性能优化"
+    >
+        第五阶段：性能优化
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#第五阶段性能优化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 第五阶段：性能优化" aria-label="Anchor to: 第五阶段：性能优化" href="#%e7%ac%ac%e4%ba%94%e9%98%b6%e6%ae%b5%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>B-tree、GIN、GiST、BRIN 索引</li>
+<li>联合索引和覆盖索引</li>
+<li><code>EXPLAIN</code></li>
+<li><code>EXPLAIN ANALYZE</code></li>
+<li>查询计划</li>
+<li>慢 SQL 定位</li>
+<li><code>VACUUM</code>、<code>ANALYZE</code></li>
+<li><code>pg_stat_statements</code></li>
+<li>表膨胀与索引膨胀</li>
+<li>配置参数优化</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="第六阶段运维管理"
+    >
+        第六阶段：运维管理
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#第六阶段运维管理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 第六阶段：运维管理" aria-label="Anchor to: 第六阶段：运维管理" href="#%e7%ac%ac%e5%85%ad%e9%98%b6%e6%ae%b5%e8%bf%90%e7%bb%b4%e7%ae%a1%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>用户、角色与权限</li>
+<li><code>pg_hba.conf</code></li>
+<li>备份与恢复</li>
+<li>WAL</li>
+<li>流复制与逻辑复制</li>
+<li>连接池</li>
+<li>日志与监控</li>
+<li>大版本升级</li>
+<li>故障恢复</li>
+<li>TimescaleDB 扩展管理</li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="二核心对象关系"
+    >
+        二、核心对象关系
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#二核心对象关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、核心对象关系" aria-label="Anchor to: 二、核心对象关系" href="#%e4%ba%8c%e6%a0%b8%e5%bf%83%e5%af%b9%e8%b1%a1%e5%85%b3%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">PostgreSQL 实例
+</span></span><span class="line"><span class="cl">└── Database
+</span></span><span class="line"><span class="cl">    └── Schema
+</span></span><span class="line"><span class="cl">        ├── Table
+</span></span><span class="line"><span class="cl">        ├── View
+</span></span><span class="line"><span class="cl">        ├── Index
+</span></span><span class="line"><span class="cl">        ├── Sequence
+</span></span><span class="line"><span class="cl">        └── Function
+</span></span></code></pre></div><p>连接 PostgreSQL 时，客户端首先连接某个数据库，然后访问该数据库内不同 Schema 中的对象。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="三第一张表"
+    >
+        三、第一张表
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#三第一张表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、第一张表" aria-label="Anchor to: 三、第一张表" href="#%e4%b8%89%e7%ac%ac%e4%b8%80%e5%bc%a0%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>以 A 股股票信息为例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w">          </span><span class="nb">bigint</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">code</span><span class="w">        </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">name</span><span class="w">        </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">market</span><span class="w">      </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">industry</span><span class="w">    </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">is_st</span><span class="w">       </span><span class="nb">boolean</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">created_at</span><span class="w">  </span><span class="n">timestamptz</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">updated_at</span><span class="w">  </span><span class="n">timestamptz</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">now</span><span class="p">(),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">ck_stock_code</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s1">&#39;^[0-9]{6}$&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>这里包含：</p>
+<ul>
+<li>主键</li>
+<li>自动生成的 ID</li>
+<li>唯一约束</li>
+<li>非空约束</li>
+<li>默认值</li>
+<li>正则检查约束</li>
+<li>带时区时间类型</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="四基本增删改查"
+    >
+        四、基本增删改查
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#四基本增删改查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、基本增删改查" aria-label="Anchor to: 四、基本增删改查" href="#%e5%9b%9b%e5%9f%ba%e6%9c%ac%e5%a2%9e%e5%88%a0%e6%94%b9%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="插入"
+    >
+        插入
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#插入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 插入" aria-label="Anchor to: 插入" href="#%e6%8f%92%e5%85%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">market</span><span class="p">,</span><span class="w"> </span><span class="n">industry</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;600519&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;贵州茅台&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;主板&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;白酒&#39;</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="查询"
+    >
+        查询
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询" aria-label="Anchor to: 查询" href="#%e6%9f%a5%e8%af%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">industry</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">stock</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;60%&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">is_st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">code</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="更新"
+    >
+        更新
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#更新" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 更新" aria-label="Anchor to: 更新" href="#%e6%9b%b4%e6%96%b0">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">stock</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">industry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;食品饮料&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">updated_at</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;600519&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="删除"
+    >
+        删除
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 删除" aria-label="Anchor to: 删除" href="#%e5%88%a0%e9%99%a4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">stock</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;600519&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>生产环境执行 <code>UPDATE</code> 或 <code>DELETE</code> 前，建议先用同样的条件执行一次：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">stock</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;600519&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="五事务"
+    >
+        五、事务
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#五事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、事务" aria-label="Anchor to: 五、事务" href="#%e4%ba%94%e4%ba%8b%e5%8a%a1">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">account</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">account</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>出现异常时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ROLLBACK</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>事务解决的不是“SQL 能否执行”，而是“一组操作是否必须共同成功或共同失败”。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="六索引"
+    >
+        六、索引
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#六索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、索引" aria-label="Anchor to: 六、索引" href="#%e5%85%ad%e7%b4%a2%e5%bc%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_stock_industry</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="p">(</span><span class="n">industry</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>联合索引：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_stock_market_industry</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="p">(</span><span class="n">market</span><span class="p">,</span><span class="w"> </span><span class="n">industry</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>部分索引：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_stock_normal_code</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ON</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">is_st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>判断查询是否使用索引：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">EXPLAIN</span><span class="w"> </span><span class="p">(</span><span class="k">ANALYZE</span><span class="p">,</span><span class="w"> </span><span class="n">BUFFERS</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">stock</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;600519&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>索引不是越多越好。它能提高读取速度，但会增加写入、存储和维护成本。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="七postgresql-18-重要变化"
+    >
+        七、PostgreSQL 18 重要变化
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#七postgresql-18-重要变化" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、PostgreSQL 18 重要变化" aria-label="Anchor to: 七、PostgreSQL 18 重要变化" href="#%e4%b8%83postgresql-18-%e9%87%8d%e8%a6%81%e5%8f%98%e5%8c%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 18 的代表性改进包括：</p>
+<ul>
+<li>引入异步 I/O 子系统</li>
+<li>多列 B-tree 索引支持跳跃扫描</li>
+<li>新增时间有序的 <code>uuidv7()</code></li>
+<li>支持虚拟生成列，并成为生成列默认方式</li>
+<li>DML 的 <code>RETURNING</code> 支持 <code>OLD</code> 和 <code>NEW</code></li>
+<li>支持时态主键、唯一约束和外键</li>
+<li><code>pg_upgrade</code> 可以保留优化器统计信息</li>
+<li>新建集群默认启用数据校验和</li>
+<li>增强 <code>VACUUM</code>、I/O 和 WAL 监控</li>
+<li>支持 OAuth 身份认证</li>
+<li>MD5 密码认证被标记为弃用</li>
+</ul>
+<p>详见 <a
+  class="gdoc-markdown__link"
+  href="https://www.postgresql.org/docs/18/release-18.html"
+>PostgreSQL 18 发布说明</a>。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">uuidv7</span><span class="p">();</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">UPDATE</span><span class="w"> </span><span class="n">stock</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;新名称&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;600519&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="n">RETURNING</span><span class="w"> </span><span class="k">OLD</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">old_name</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="k">NEW</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">new_name</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="八与你现有技术栈的关系"
+    >
+        八、与你现有技术栈的关系
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/01-learning-guide/#八与你现有技术栈的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、与你现有技术栈的关系" aria-label="Anchor to: 八、与你现有技术栈的关系" href="#%e5%85%ab%e4%b8%8e%e4%bd%a0%e7%8e%b0%e6%9c%89%e6%8a%80%e6%9c%af%e6%a0%88%e7%9a%84%e5%85%b3%e7%b3%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>建议形成这一套结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">FastAPI
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">SQLAlchemy 2.0
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">psycopg 3 / asyncpg
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">PostgreSQL 18
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">TimescaleDB
+</span></span></code></pre></div><p>职责划分：</p>
+<ul>
+<li><strong>FastAPI</strong>：提供 HTTP API</li>
+<li><strong>SQLAlchemy 2.0</strong>：模型定义和数据库操作</li>
+<li><strong>Alembic</strong>：数据库迁移</li>
+<li><strong>psycopg 3 / asyncpg</strong>：数据库驱动</li>
+<li><strong>PostgreSQL 18</strong>：关系数据、事务和查询</li>
+<li><strong>TimescaleDB</strong>：行情等大规模时序数据</li>
+</ul>
+<p>建议接下来按以下顺序深入：</p>
+<ol>
+<li>PostgreSQL 数据类型</li>
+<li>PostgreSQL 表设计</li>
+<li>PostgreSQL 增删改查</li>
+<li>PostgreSQL 多表查询</li>
+<li>PostgreSQL 索引</li>
+<li>PostgreSQL 事务与锁</li>
+<li>PostgreSQL 性能优化</li>
+<li>PostgreSQL 备份恢复</li>
+<li>PostgreSQL 18 + TimescaleDB</li>
+<li>PostgreSQL 18 + SQLAlchemy 2.0 + FastAPI</li>
+</ol>
 
   </article>
 
@@ -2744,9 +2950,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2971,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3829,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

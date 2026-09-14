@@ -12,12 +12,13 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content=" 总结（最简单版） 差量备份（diff）：基于 最近的一次 full 备份 做变化对比 增量备份（incr）：基于 最近的一次 backup（full/diff/incr 都算） 做变化对比 图示理解（最直观） 假设做了一个全量备份：
+F1（Full） 📌 差量备份（Diff）
+F1 ---- D1 (Diff，相对于 F1) ---- D2 (Diff，相对于 F1) ---- D3 (Diff，相对于 F1) 每次差量备份都要和 最近一次 full 比较，所以 diff 会不断变大。
+📌 增量备份（Incr）
+F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3 (Incremental 相对于 I2) 每一次 incr 都是相对于 前一次备份，空间最小。" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>pgBackRest 差量备份 和 增量备份 有什么区别？ | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +39,27 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="pgBackRest 差量备份 和 增量备份 有什么区别？"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content=" 总结（最简单版） 差量备份（diff）：基于 最近的一次 full 备份 做变化对比 增量备份（incr）：基于 最近的一次 backup（full/diff/incr 都算） 做变化对比 图示理解（最直观） 假设做了一个全量备份：
+F1（Full） 📌 差量备份（Diff）
+F1 ---- D1 (Diff，相对于 F1) ---- D2 (Diff，相对于 F1) ---- D3 (Diff，相对于 F1) 每次差量备份都要和 最近一次 full 比较，所以 diff 会不断变大。
+📌 增量备份（Incr）
+F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3 (Incremental 相对于 I2) 每一次 incr 都是相对于 前一次备份，空间最小。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="pgBackRest 差量备份 和 增量备份 有什么区别？" />
+  <meta name="twitter:description" content=" 总结（最简单版） 差量备份（diff）：基于 最近的一次 full 备份 做变化对比 增量备份（incr）：基于 最近的一次 backup（full/diff/incr 都算） 做变化对比 图示理解（最直观） 假设做了一个全量备份：
+F1（Full） 📌 差量备份（Diff）
+F1 ---- D1 (Diff，相对于 F1) ---- D2 (Diff，相对于 F1) ---- D3 (Diff，相对于 F1) 每次差量备份都要和 最近一次 full 比较，所以 diff 会不断变大。
+📌 增量备份（Incr）
+F1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3 (Incremental 相对于 I2) 每一次 incr 都是相对于 前一次备份，空间最小。" />
 
 
   <script type="application/ld+json">
@@ -64,16 +67,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "pgBackRest 差量备份 和 增量备份 有什么区别？",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/",
+      "headline": "pgBackRest 差量备份 和 增量备份 有什么区别？",
+      "description": " 总结（最简单版） 差量备份（diff）：基于 最近的一次 full 备份 做变化对比 增量备份（incr）：基于 最近的一次 backup（full\/diff\/incr 都算） 做变化对比 图示理解（最直观） 假设做了一个全量备份：\nF1（Full） 📌 差量备份（Diff）\nF1 ---- D1 (Diff，相对于 F1) ---- D2 (Diff，相对于 F1) ---- D3 (Diff，相对于 F1) 每次差量备份都要和 最近一次 full 比较，所以 diff 会不断变大。\n📌 增量备份（Incr）\nF1 ---- I1 (Incremental 相对于 F1) ---- I2 (Incremental 相对于 I1) ---- I3 (Incremental 相对于 I2) 每一次 incr 都是相对于 前一次备份，空间最小。",
+      "wordCount": "168",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +160,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +822,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2142,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>pgBackRest 差量备份 和 增量备份 有什么区别？</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2177,174 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>pgBackRest 差量备份 和 增量备份 有什么区别？</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="总结最简单版"
+    >
+        总结（最简单版）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#总结最简单版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 总结（最简单版）" aria-label="Anchor to: 总结（最简单版）" href="#%e6%80%bb%e7%bb%93%e6%9c%80%e7%ae%80%e5%8d%95%e7%89%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>差量备份（diff）：基于 最近的一次 full 备份 做变化对比</li>
+<li>增量备份（incr）：基于 最近的一次 backup（full/diff/incr 都算） 做变化对比</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="图示理解最直观"
+    >
+        图示理解（最直观）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#图示理解最直观" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 图示理解（最直观）" aria-label="Anchor to: 图示理解（最直观）" href="#%e5%9b%be%e7%a4%ba%e7%90%86%e8%a7%a3%e6%9c%80%e7%9b%b4%e8%a7%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>假设做了一个全量备份：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">F1（Full）
+</span></span></code></pre></div><p>📌 差量备份（Diff）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">F1 ---- D1 (Diff，相对于 F1)
+</span></span><span class="line"><span class="cl">     ---- D2 (Diff，相对于 F1)
+</span></span><span class="line"><span class="cl">     ---- D3 (Diff，相对于 F1)
+</span></span></code></pre></div><p>每次差量备份都要和 <strong>最近一次 full 比较</strong>，所以 diff 会不断变大。</p>
+<p>📌 增量备份（Incr）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">F1 ---- I1 (Incremental 相对于 F1)
+</span></span><span class="line"><span class="cl">       ---- I2 (Incremental 相对于 I1)
+</span></span><span class="line"><span class="cl">             ---- I3 (Incremental 相对于 I2)
+</span></span></code></pre></div><p>每一次 incr 都是相对于 <strong>前一次备份</strong>，空间最小。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="实际区别生产角度"
+    >
+        实际区别（生产角度）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#实际区别生产角度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 实际区别（生产角度）" aria-label="Anchor to: 实际区别（生产角度）" href="#%e5%ae%9e%e9%99%85%e5%8c%ba%e5%88%ab%e7%94%9f%e4%ba%a7%e8%a7%92%e5%ba%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>diff（差量）</th>
+					<th>incr（增量）</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>对比基准</td>
+					<td>最近 full</td>
+					<td>最近任何备份</td>
+			</tr>
+			<tr>
+					<td>周期内大小</td>
+					<td>越来越大</td>
+					<td>通常很小</td>
+			</tr>
+			<tr>
+					<td>恢复链长度</td>
+					<td>Full + 1 个 diff</td>
+					<td>Full + 多个 incr</td>
+			</tr>
+			<tr>
+					<td>恢复速度</td>
+					<td>更快（链短）</td>
+					<td>更慢（链长）</td>
+			</tr>
+			<tr>
+					<td>存储空间</td>
+					<td>更多</td>
+					<td>更少</td>
+			</tr>
+			<tr>
+					<td>适用场景</td>
+					<td>恢复优先</td>
+					<td>空间优先</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="生产建议最常用策略"
+    >
+        生产建议（最常用策略）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#生产建议最常用策略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 生产建议（最常用策略）" aria-label="Anchor to: 生产建议（最常用策略）" href="#%e7%94%9f%e4%ba%a7%e5%bb%ba%e8%ae%ae%e6%9c%80%e5%b8%b8%e7%94%a8%e7%ad%96%e7%95%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>📌 推荐备份策略</strong></p>
+<p>最常见的企业生产策略是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">每天 1 次 full
+</span></span><span class="line"><span class="cl">每 6 小时 1 次 diff
+</span></span><span class="line"><span class="cl">每小时 1 次 incr
+</span></span></code></pre></div><p>原因：</p>
+<ul>
+<li>diff 让恢复不会太慢（链短）</li>
+<li>incr 让日常备份数据量最小</li>
+<li>full 让整个链不会无限长</li>
+</ul>
+<p>这也是 <strong>pgBackRest 官方推荐方案</strong>。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="为何需要-diff--incr-混合使用"
+    >
+        为何需要 diff + incr 混合使用？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#为何需要-diff--incr-混合使用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为何需要 diff &#43; incr 混合使用？" aria-label="Anchor to: 为何需要 diff &#43; incr 混合使用？" href="#%e4%b8%ba%e4%bd%95%e9%9c%80%e8%a6%81-diff--incr-%e6%b7%b7%e5%90%88%e4%bd%bf%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="diff-使恢复简单"
+    >
+        diff 使恢复简单
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#diff-使恢复简单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: diff 使恢复简单" aria-label="Anchor to: diff 使恢复简单" href="#diff-%e4%bd%bf%e6%81%a2%e5%a4%8d%e7%ae%80%e5%8d%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>恢复只需要：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Full + Diff + WAL
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="incr-节省大量存储空间"
+    >
+        incr 节省大量存储空间
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#incr-节省大量存储空间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: incr 节省大量存储空间" aria-label="Anchor to: incr 节省大量存储空间" href="#incr-%e8%8a%82%e7%9c%81%e5%a4%a7%e9%87%8f%e5%ad%98%e5%82%a8%e7%a9%ba%e9%97%b4">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>每天几十次 incr，但每次很小。</p>
+<p>两者结合，兼顾：</p>
+<ul>
+<li><strong>恢复速度快</strong></li>
+<li><strong>空间占用小</strong></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="恢复时到底会用哪几个备份"
+    >
+        恢复时到底会用哪几个备份？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#恢复时到底会用哪几个备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 恢复时到底会用哪几个备份？" aria-label="Anchor to: 恢复时到底会用哪几个备份？" href="#%e6%81%a2%e5%a4%8d%e6%97%b6%e5%88%b0%e5%ba%95%e4%bc%9a%e7%94%a8%e5%93%aa%e5%87%a0%e4%b8%aa%e5%a4%87%e4%bb%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>举例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">F1 -&gt; D1 -&gt; I1 -&gt; I2 -&gt; I3
+</span></span></code></pre></div><p>如果你恢复 I3：</p>
+<p>pgBackRest 会自动使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">F1 + D1 + I1 + I2 + I3 + WAL
+</span></span></code></pre></div><p>恢复链条越长，恢复越慢。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="结论便于记忆"
+    >
+        结论（便于记忆）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/pgbackrest-diff-vs-incr/#结论便于记忆" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 结论（便于记忆）" aria-label="Anchor to: 结论（便于记忆）" href="#%e7%bb%93%e8%ae%ba%e4%be%bf%e4%ba%8e%e8%ae%b0%e5%bf%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><strong>差量备份 Diff：永远基于 Full，备份内容越来越多；恢复时链短。</strong></p>
+<p><strong>增量备份 Incr：永远基于上一次备份，内容最小；恢复时链长。</strong></p>
 
   </article>
 
@@ -2744,9 +2750,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2771,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3629,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 

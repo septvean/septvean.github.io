@@ -12,12 +12,14 @@
 <meta name="generator" content="Hugo 0.166.0">
 
 
-  <meta name="description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta name="description" content="下面给你一份 PostgreSQL 字符类型（Character Types）最完整、最清晰、最实用的总结，包含：
+PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 最佳实践总结（重点） 内容简明但专业，适合实际后端开发使用（FastAPI &#43; PostgreSQL）。
+✅ PostgreSQL 字符类型总览 PostgreSQL 提供主要 5 类字符相关类型：
+类型 描述 char(n) 固定长度字符串 varchar(n) 可变长度，有长度限制 varchar / text 可变长度，无长度限制 text 超大文本 citext 不区分大小写的 text/varchar（扩展） 另外还有：
+类型 描述 bytea 二进制数据 json / jsonb JSON 文本类型 下面我们逐个讲解。
+1. char(n) —— 固定长度字符串 ✅ 场景" />
 
-    <title>PostgreSQL | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 字符类型 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,25 +40,29 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   <meta
     property="og:title"
-    content="PostgreSQL"
+    content="PostgreSQL 字符类型"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+  <meta property="og:description" content="下面给你一份 PostgreSQL 字符类型（Character Types）最完整、最清晰、最实用的总结，包含：
+PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 最佳实践总结（重点） 内容简明但专业，适合实际后端开发使用（FastAPI &#43; PostgreSQL）。
+✅ PostgreSQL 字符类型总览 PostgreSQL 提供主要 5 类字符相关类型：
+类型 描述 char(n) 固定长度字符串 varchar(n) 可变长度，有长度限制 varchar / text 可变长度，无长度限制 text 超大文本 citext 不区分大小写的 text/varchar（扩展） 另外还有：
+类型 描述 bytea 二进制数据 json / jsonb JSON 文本类型 下面我们逐个讲解。
+1. char(n) —— 固定长度字符串 ✅ 场景" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/character-types/" />
 
 <meta property="article:section" content="Database" />
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL" />
-  <meta name="twitter:description" content="PostgreSQL 调优工具：PGTune
-参考文档：
-PostgreSQL 17 中文手册 Document List:
-PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 " />
+<meta name="twitter:title" content="PostgreSQL 字符类型" />
+  <meta name="twitter:description" content="下面给你一份 PostgreSQL 字符类型（Character Types）最完整、最清晰、最实用的总结，包含：
+PostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 最佳实践总结（重点） 内容简明但专业，适合实际后端开发使用（FastAPI &#43; PostgreSQL）。
+✅ PostgreSQL 字符类型总览 PostgreSQL 提供主要 5 类字符相关类型：
+类型 描述 char(n) 固定长度字符串 varchar(n) 可变长度，有长度限制 varchar / text 可变长度，无长度限制 text 超大文本 citext 不区分大小写的 text/varchar（扩展） 另外还有：
+类型 描述 bytea 二进制数据 json / jsonb JSON 文本类型 下面我们逐个讲解。
+1. char(n) —— 固定长度字符串 ✅ 场景" />
 
 
   <script type="application/ld+json">
@@ -64,16 +70,16 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL",
-      "url": "https://documents.v2ep.com/database/postgres/",
-      "headline": "PostgreSQL",
-      "description": "PostgreSQL 调优工具：PGTune\n参考文档：\nPostgreSQL 17 中文手册 Document List:\nPostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL INSERT PostgreSQL DELETE PostgreSQL UPDATE PostgreSQL SELECT PostgreSQL 多表查询 PostgreSQL 索引 PostgreSQL 事务与锁 PostgreSQL 事务与锁 PostgreSQL 运维 ",
-      "wordCount": "32",
+      "name": "PostgreSQL 字符类型",
+      "url": "https://documents.v2ep.com/database/postgres/deprecated/character-types/",
+      "headline": "PostgreSQL 字符类型",
+      "description": "下面给你一份 PostgreSQL 字符类型（Character Types）最完整、最清晰、最实用的总结，包含：\nPostgreSQL 字符类型有哪些 适用场景 优缺点 性能与存储对比 最佳实践总结（重点） 内容简明但专业，适合实际后端开发使用（FastAPI \u002b PostgreSQL）。\n✅ PostgreSQL 字符类型总览 PostgreSQL 提供主要 5 类字符相关类型：\n类型 描述 char(n) 固定长度字符串 varchar(n) 可变长度，有长度限制 varchar \/ text 可变长度，无长度限制 text 超大文本 citext 不区分大小写的 text\/varchar（扩展） 另外还有：\n类型 描述 bytea 二进制数据 json \/ jsonb JSON 文本类型 下面我们逐个讲解。\n1. char(n) —— 固定长度字符串 ✅ 场景",
+      "wordCount": "323",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/"
+          "@id": "https://documents.v2ep.com/database/postgres/deprecated/character-types/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +163,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/deprecated/character-types/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -819,7 +825,7 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
                 <span class="flex">
                   <a
                     href="/database/postgres/"
-                    class="gdoc-nav__entry is-active"
+                    class="gdoc-nav__entry"
                   >
                     PostgreSQL
                   </a>
@@ -2139,7 +2145,23 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL</span><meta itemprop='position' content='3' /></li>
+    
+    
+    
+    
+  
+  
+    
+    
+    
+    
+  
+  
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='' href=''><span itemprop='name'>Deprecated</span></a><meta itemprop='position' content='4' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 字符类型</span><meta itemprop='position' content='5' /></li>
+  
+
+  
+
   
 
   
@@ -2158,187 +2180,353 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL</h1>
+    <h1>PostgreSQL 字符类型</h1>
     
-    <p>PostgreSQL 调优工具：<a
-  class="gdoc-markdown__link"
-  href="https://pgtune.leopard.in.ua/"
->PGTune</a></p>
-<p>参考文档：</p>
+    <p>下面给你一份 PostgreSQL 字符类型（Character Types）最完整、最清晰、最实用的总结，包含：</p>
 <ul>
-<li><a
-  class="gdoc-markdown__link"
-  href="http://www.postgres.cn/docs/17/index.html"
->PostgreSQL 17 中文手册</a></li>
+<li>PostgreSQL 字符类型有哪些</li>
+<li>适用场景</li>
+<li>优缺点</li>
+<li>性能与存储对比</li>
+<li>最佳实践总结（重点）</li>
 </ul>
-<p>Document List:</p>
-
-  <div class="gdoc-toc gdoc-toc__level--3">
-    
-  <ul>
-    
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/01-learning-guide/" class="gdoc-toc__entry">PostgreSQL 学习指南
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/02-data-types/" class="gdoc-toc__entry">PostgreSQL 数据类型
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/03-table-design/" class="gdoc-toc__entry">PostgreSQL 表设计
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/04-insert/" class="gdoc-toc__entry">PostgreSQL INSERT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/05-delete/" class="gdoc-toc__entry">PostgreSQL DELETE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/06-update/" class="gdoc-toc__entry">PostgreSQL UPDATE
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/07-select/" class="gdoc-toc__entry">PostgreSQL SELECT
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/08-multi-table-queries/" class="gdoc-toc__entry">PostgreSQL 多表查询
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/09-indexes/" class="gdoc-toc__entry">PostgreSQL 索引
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/10-transactions-and-locks/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/11-backup-and-recovery/" class="gdoc-toc__entry">PostgreSQL 事务与锁
-                </a>
-              </span>
-          </li>
-      
-
-      
-        
-      
-
-      
-          <li>
-              <span>
-                <a href="/database/postgres/12-operations/" class="gdoc-toc__entry">PostgreSQL 运维
-                </a>
-              </span>
-          </li>
-  </ul>
-  </div>
-
-
-
-
+<p>内容简明但专业，适合实际后端开发使用（FastAPI + PostgreSQL）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-postgresql-字符类型总览"
+    >
+        ✅ PostgreSQL 字符类型总览
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#-postgresql-字符类型总览" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ✅ PostgreSQL 字符类型总览" aria-label="Anchor to: ✅ PostgreSQL 字符类型总览" href="#-postgresql-%e5%ad%97%e7%ac%a6%e7%b1%bb%e5%9e%8b%e6%80%bb%e8%a7%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 提供主要 5 类字符相关类型：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>char(n)</td>
+					<td>固定长度字符串</td>
+			</tr>
+			<tr>
+					<td>varchar(n)</td>
+					<td>可变长度，有长度限制</td>
+			</tr>
+			<tr>
+					<td>varchar / text</td>
+					<td>可变长度，无长度限制</td>
+			</tr>
+			<tr>
+					<td>text</td>
+					<td>超大文本</td>
+			</tr>
+			<tr>
+					<td>citext</td>
+					<td>不区分大小写的 text/varchar（扩展）</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>另外还有：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>描述</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>bytea</td>
+					<td>二进制数据</td>
+			</tr>
+			<tr>
+					<td>json / jsonb</td>
+					<td>JSON 文本类型</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>下面我们逐个讲解。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="1-charn--固定长度字符串"
+    >
+        1. char(n) —— 固定长度字符串
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#1-charn--固定长度字符串" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. char(n) —— 固定长度字符串" aria-label="Anchor to: 1. char(n) —— 固定长度字符串" href="#1-charn--%e5%9b%ba%e5%ae%9a%e9%95%bf%e5%ba%a6%e5%ad%97%e7%ac%a6%e4%b8%b2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 场景</p>
+<ul>
+<li>格式固定的值，例如：</li>
+<li>性别：char(1) -&gt; &lsquo;M&rsquo;/&lsquo;F&rsquo;</li>
+<li>状态码：char(1)、char(2)</li>
+<li>ISO 国家代码：char(2)</li>
+<li>固定格式编码</li>
+</ul>
+<p>👍 优点</p>
+<ul>
+<li>长度固定的存储，某些场景中节省空间</li>
+<li>对齐优化（极少见，几乎用不到）</li>
+</ul>
+<p>👎 缺点</p>
+<ul>
+<li>PostgreSQL 会 自动补空格到固定长度</li>
+<li>查询时会被 trim 掉，但视觉上容易误导</li>
+<li>写入不合格的长度会报错</li>
+<li>维护麻烦</li>
+</ul>
+<p>❗ 结论</p>
+<p><strong>除非字段本来就是固定长度，否则不要使用 char(n)。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="2-varcharn--可变长度--限制长度"
+    >
+        2. varchar(n) —— 可变长度 + 限制长度
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#2-varcharn--可变长度--限制长度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. varchar(n) —— 可变长度 &#43; 限制长度" aria-label="Anchor to: 2. varchar(n) —— 可变长度 &#43; 限制长度" href="#2-varcharn--%e5%8f%af%e5%8f%98%e9%95%bf%e5%ba%a6--%e9%99%90%e5%88%b6%e9%95%bf%e5%ba%a6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 场景</p>
+<ul>
+<li>用户名 varchar(50)</li>
+<li>标题 title varchar(200)</li>
+<li>手机号（11 字符）varchar(20)</li>
+<li>标签 label varchar(100)</li>
+</ul>
+<p>👍 优点</p>
+<ul>
+<li>有长度限制，保证输入安全</li>
+<li>常用于输入字段</li>
+<li>对性能影响非常小，是常用类型</li>
+</ul>
+<p>👎 缺点</p>
+<ul>
+<li>设计不当时：乱用过小长度导致未来需要迁移</li>
+<li>大多数场景并不真的需要长度限制</li>
+</ul>
+<p>❗ 结论</p>
+<ul>
+<li>用于有 “业务约束长度” 的字段。</li>
+<li>例如：手机号码 email 用户名等。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="3-varchar无限制-和-text--可变长度无限制"
+    >
+        3. varchar（无限制） 和 text —— 可变长度，无限制
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#3-varchar无限制-和-text--可变长度无限制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. varchar（无限制） 和 text —— 可变长度，无限制" aria-label="Anchor to: 3. varchar（无限制） 和 text —— 可变长度，无限制" href="#3-varchar%e6%97%a0%e9%99%90%e5%88%b6-%e5%92%8c-text--%e5%8f%af%e5%8f%98%e9%95%bf%e5%ba%a6%e6%97%a0%e9%99%90%e5%88%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>※ 在 PostgreSQL 中，<strong>varchar 和 text 完全等价</strong>，性能也一样。
+这一点和 MySQL 完全不同。</p>
+<p>✅ 场景</p>
+<ul>
+<li>文章标题：title text（长标题）</li>
+<li>内容主体：content text</li>
+<li>URL / JSON 字符串</li>
+<li>不确定是否有长度上限的字段</li>
+</ul>
+<p>👍 优点</p>
+<ul>
+<li>无长度限制，灵活</li>
+<li>PostgreSQL 内部优化良好，无额外性能损耗</li>
+<li>与 varchar(n) 一样可建立索引</li>
+<li>是 PostgreSQL 中最常用字符类型</li>
+</ul>
+<p>👎 缺点</p>
+<ul>
+<li>无“硬限制”可能导致业务字段输入过长（可通过 check constraint 解决）</li>
+</ul>
+<p>❗ 结论</p>
+<p><strong>默认应该使用 text。</strong></p>
+<p>出于简单、灵活、易维护的原则，text 是最推荐的类型。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="4-citext不区分大小写"
+    >
+        4. citext（不区分大小写）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#4-citext不区分大小写" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. citext（不区分大小写）" aria-label="Anchor to: 4. citext（不区分大小写）" href="#4-citext%e4%b8%8d%e5%8c%ba%e5%88%86%e5%a4%a7%e5%b0%8f%e5%86%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>需要启用扩展：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">citext</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>✅ 场景</p>
+<ul>
+<li>需要大小写不敏感的字段：</li>
+<li>email</li>
+<li>username</li>
+<li>标签名</li>
+</ul>
+<p>👍 优点</p>
+<ul>
+<li>自动大小写不敏感比较（无需 LOWER()）</li>
+<li>建索引时自动大小写不敏感</li>
+<li>查询性能高于 lower(column)</li>
+</ul>
+<p>👎 缺点</p>
+<ul>
+<li>是扩展，不是内置</li>
+<li>与某些框架兼容性略差（FastAPI + SQLAlchemy 没问题）</li>
+</ul>
+<p>❗ 结论</p>
+<p>email / username 最佳类型：citext（而不是 varchar）</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="5-bytea--二进制数据"
+    >
+        5. bytea —— 二进制数据
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#5-bytea--二进制数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. bytea —— 二进制数据" aria-label="Anchor to: 5. bytea —— 二进制数据" href="#5-bytea--%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%95%b0%e6%8d%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>✅ 场景</p>
+<ul>
+<li>图片二进制</li>
+<li>文件内容</li>
+<li>加密数据</li>
+</ul>
+<p>❗ <strong>不推荐存储大文件，用对象存储替代（S3、OSS）。</strong></p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="6-json-类型json--jsonb"
+    >
+        6. JSON 类型（json / jsonb）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#6-json-类型json--jsonb" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. JSON 类型（json / jsonb）" aria-label="Anchor to: 6. JSON 类型（json / jsonb）" href="#6-json-%e7%b1%bb%e5%9e%8bjson--jsonb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>文本类结构化数据：</p>
+<ul>
+<li>用户设置</li>
+<li>扩展字段（无 schema）</li>
+<li>标签数组</li>
+<li>元数据</li>
+</ul>
+<p>推荐 jsonb（有索引、可查询）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-postgresql-字符类型性能对比重点"
+    >
+        📌 PostgreSQL 字符类型性能对比（重点）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#-postgresql-字符类型性能对比重点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 📌 PostgreSQL 字符类型性能对比（重点）" aria-label="Anchor to: 📌 PostgreSQL 字符类型性能对比（重点）" href="#-postgresql-%e5%ad%97%e7%ac%a6%e7%b1%bb%e5%9e%8b%e6%80%a7%e8%83%bd%e5%af%b9%e6%af%94%e9%87%8d%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>查询性能</th>
+					<th>存储效率</th>
+					<th>使用复杂度</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>char(n)</td>
+					<td>❌ 慢 &amp; 补空格</td>
+					<td>不一定省空间</td>
+					<td>高</td>
+			</tr>
+			<tr>
+					<td>varchar(n)</td>
+					<td>✅ 快</td>
+					<td>✅ 高</td>
+					<td>中</td>
+			</tr>
+			<tr>
+					<td>varchar</td>
+					<td>✅ 快</td>
+					<td>✅ 高</td>
+					<td>低</td>
+			</tr>
+			<tr>
+					<td>text</td>
+					<td>✅ 快</td>
+					<td>✅ 高</td>
+					<td>最低（最佳）</td>
+			</tr>
+			<tr>
+					<td>citext</td>
+					<td>✅ 中高</td>
+					<td>✅ 高</td>
+					<td>中</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>Postgres 中 varchar = text 性能和存储无差别，不像 MySQL。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-postgresql-字符类型最佳实践总结版"
+    >
+        ⭐ PostgreSQL 字符类型最佳实践（总结版）
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#-postgresql-字符类型最佳实践总结版" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⭐ PostgreSQL 字符类型最佳实践（总结版）" aria-label="Anchor to: ⭐ PostgreSQL 字符类型最佳实践（总结版）" href="#-postgresql-%e5%ad%97%e7%ac%a6%e7%b1%bb%e5%9e%8b%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%80%bb%e7%bb%93%e7%89%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>🔥 最推荐</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>场景</th>
+					<th>数据类型</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>长文本（文章、内容）</td>
+					<td>text</td>
+			</tr>
+			<tr>
+					<td>字符串（无固定长度）</td>
+					<td>text</td>
+			</tr>
+			<tr>
+					<td>email / username</td>
+					<td>citext</td>
+			</tr>
+			<tr>
+					<td>手机号、身份证、代码</td>
+					<td>varchar(n)</td>
+			</tr>
+			<tr>
+					<td>固定长度标识</td>
+					<td>char(n)（极少用）</td>
+			</tr>
+			<tr>
+					<td>JSON 数据</td>
+					<td>jsonb</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="-简你问我答title-和-content-用什么类型"
+    >
+        🔥 简）你问我答：title 和 content 用什么类型？
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/deprecated/character-types/#-简你问我答title-和-content-用什么类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 🔥 简）你问我答：title 和 content 用什么类型？" aria-label="Anchor to: 🔥 简）你问我答：title 和 content 用什么类型？" href="#-%e7%ae%80%e4%bd%a0%e9%97%ae%e6%88%91%e7%ad%94title-%e5%92%8c-content-%e7%94%a8%e4%bb%80%e4%b9%88%e7%b1%bb%e5%9e%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你问过类似问题：</p>
+<p>title 和 content 长度未知，但是 title 要比 content 很多，用什么类型？</p>
+<p>我的建议：</p>
+<ul>
+<li>title -&gt; varchar(255) 或 text</li>
+<li>content -&gt; text</li>
+</ul>
+<p>理由：</p>
+<ul>
+<li>Postgres 中 varchar 和 text 一样快</li>
+<li>content 是长文本，绝对用 text</li>
+</ul>
 
   </article>
 
@@ -2744,9 +2932,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
 
         
-          
-          
-        
 
         
           
@@ -2768,11 +2953,6 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
         
         
 
-        
-          
-            
-            
-          
         
 
         
@@ -3631,27 +3811,9 @@ PostgreSQL 学习指南 PostgreSQL 数据类型 PostgreSQL 表设计 PostgreSQL 
 
 
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--prev flex align-center"
-      href="/database/mysql/"
-      title="MySQL"
-    >
-      <i class="gdoc-icon">gdoc_arrow_left_alt</i>
-      MySQL
-    </a>
   
 </span>
 <span class="gdoc-page__nav">
-  
-    <a
-      class="gdoc-page__nav--next flex align-center"
-      href="/database/prometheus/"
-      title="Prometheus"
-    >
-      Prometheus
-      <i class="gdoc-icon">gdoc_arrow_right_alt</i>
-    </a>
   
 </span>
 
