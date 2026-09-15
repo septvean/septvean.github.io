@@ -50,7 +50,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
 CREATE TABLE market.daily_quote ( security_id bigint NOT NULL, trade_date date NOT NULL, open_price numeric(12, 4), close_price numeric(12, 4), volume bigint, change_rate numeric(10, 4), PRIMARY KEY (security_id, trade_date) ); 查询某只股票某天的行情：
 SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE &#39;2026-09-14&#39;; 由于主键会自动创建索引，PostgreSQL 可以直接定位目标行，而不必扫描整张表。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/09-indexes/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/10-indexes/" />
 
 <meta property="article:section" content="Database" />
 
@@ -71,7 +71,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 索引",
-      "url": "https://documents.v2ep.com/database/postgres/09-indexes/",
+      "url": "https://documents.v2ep.com/database/postgres/10-indexes/",
       "headline": "PostgreSQL 索引",
       "description": "索引可以理解为数据库的“目录”：它用额外的存储空间和写入成本，换取更快的查询、排序、连接和约束检查。\n核心原则只有一句：\n根据实际查询条件设计索引，而不是看到字段就创建索引。\n1. 索引能解决什么问题 假设有一张股票日行情表：\nCREATE TABLE market.daily_quote ( security_id bigint NOT NULL, trade_date date NOT NULL, open_price numeric(12, 4), close_price numeric(12, 4), volume bigint, change_rate numeric(10, 4), PRIMARY KEY (security_id, trade_date) ); 查询某只股票某天的行情：\nSELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE \u00272026-09-14\u0027; 由于主键会自动创建索引，PostgreSQL 可以直接定位目标行，而不必扫描整张表。",
       "wordCount": "1601",
@@ -79,7 +79,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/09-indexes/"
+          "@id": "https://documents.v2ep.com/database/postgres/10-indexes/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -163,7 +163,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/09-indexes/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/10-indexes/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2185,7 +2185,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         1. 索引能解决什么问题
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#1-索引能解决什么问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 索引能解决什么问题" aria-label="Anchor to: 1. 索引能解决什么问题" href="#1-%e7%b4%a2%e5%bc%95%e8%83%bd%e8%a7%a3%e5%86%b3%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#1-索引能解决什么问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 索引能解决什么问题" aria-label="Anchor to: 1. 索引能解决什么问题" href="#1-%e7%b4%a2%e5%bc%95%e8%83%bd%e8%a7%a3%e5%86%b3%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2235,7 +2235,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         2. 创建、查看和删除索引
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#2-创建查看和删除索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 创建、查看和删除索引" aria-label="Anchor to: 2. 创建、查看和删除索引" href="#2-%e5%88%9b%e5%bb%ba%e6%9f%a5%e7%9c%8b%e5%92%8c%e5%88%a0%e9%99%a4%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#2-创建查看和删除索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 创建、查看和删除索引" aria-label="Anchor to: 2. 创建、查看和删除索引" href="#2-%e5%88%9b%e5%bb%ba%e6%9f%a5%e7%9c%8b%e5%92%8c%e5%88%a0%e9%99%a4%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2244,7 +2244,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         2.1 创建普通索引
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#21-创建普通索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.1 创建普通索引" aria-label="Anchor to: 2.1 创建普通索引" href="#21-%e5%88%9b%e5%bb%ba%e6%99%ae%e9%80%9a%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#21-创建普通索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.1 创建普通索引" aria-label="Anchor to: 2.1 创建普通索引" href="#21-%e5%88%9b%e5%bb%ba%e6%99%ae%e9%80%9a%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2256,7 +2256,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         2.2 避免重复创建
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#22-避免重复创建" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.2 避免重复创建" aria-label="Anchor to: 2.2 避免重复创建" href="#22-%e9%81%bf%e5%85%8d%e9%87%8d%e5%a4%8d%e5%88%9b%e5%bb%ba">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#22-避免重复创建" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.2 避免重复创建" aria-label="Anchor to: 2.2 避免重复创建" href="#22-%e9%81%bf%e5%85%8d%e9%87%8d%e5%a4%8d%e5%88%9b%e5%bb%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2268,7 +2268,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         2.3 查看表上的索引
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#23-查看表上的索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.3 查看表上的索引" aria-label="Anchor to: 2.3 查看表上的索引" href="#23-%e6%9f%a5%e7%9c%8b%e8%a1%a8%e4%b8%8a%e7%9a%84%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#23-查看表上的索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.3 查看表上的索引" aria-label="Anchor to: 2.3 查看表上的索引" href="#23-%e6%9f%a5%e7%9c%8b%e8%a1%a8%e4%b8%8a%e7%9a%84%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2286,7 +2286,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         2.4 删除索引
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#24-删除索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.4 删除索引" aria-label="Anchor to: 2.4 删除索引" href="#24-%e5%88%a0%e9%99%a4%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#24-删除索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.4 删除索引" aria-label="Anchor to: 2.4 删除索引" href="#24-%e5%88%a0%e9%99%a4%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2299,7 +2299,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         3. PostgreSQL 的索引类型
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#3-postgresql-的索引类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. PostgreSQL 的索引类型" aria-label="Anchor to: 3. PostgreSQL 的索引类型" href="#3-postgresql-%e7%9a%84%e7%b4%a2%e5%bc%95%e7%b1%bb%e5%9e%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#3-postgresql-的索引类型" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. PostgreSQL 的索引类型" aria-label="Anchor to: 3. PostgreSQL 的索引类型" href="#3-postgresql-%e7%9a%84%e7%b4%a2%e5%bc%95%e7%b1%bb%e5%9e%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2354,7 +2354,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         4. B-tree 索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#4-b-tree-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. B-tree 索引" aria-label="Anchor to: 4. B-tree 索引" href="#4-b-tree-%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#4-b-tree-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. B-tree 索引" aria-label="Anchor to: 4. B-tree 索引" href="#4-b-tree-%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2369,7 +2369,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         4.1 等值查询
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#41-等值查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.1 等值查询" aria-label="Anchor to: 4.1 等值查询" href="#41-%e7%ad%89%e5%80%bc%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#41-等值查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.1 等值查询" aria-label="Anchor to: 4.1 等值查询" href="#41-%e7%ad%89%e5%80%bc%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2381,7 +2381,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         4.2 范围查询
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#42-范围查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.2 范围查询" aria-label="Anchor to: 4.2 范围查询" href="#42-%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#42-范围查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.2 范围查询" aria-label="Anchor to: 4.2 范围查询" href="#42-%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2399,7 +2399,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         4.3 排序
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#43-排序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.3 排序" aria-label="Anchor to: 4.3 排序" href="#43-%e6%8e%92%e5%ba%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#43-排序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4.3 排序" aria-label="Anchor to: 4.3 排序" href="#43-%e6%8e%92%e5%ba%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2425,7 +2425,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         5. 联合索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#5-联合索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 联合索引" aria-label="Anchor to: 5. 联合索引" href="#5-%e8%81%94%e5%90%88%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#5-联合索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 联合索引" aria-label="Anchor to: 5. 联合索引" href="#5-%e8%81%94%e5%90%88%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2438,7 +2438,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         5.1 最左列原则
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#51-最左列原则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.1 最左列原则" aria-label="Anchor to: 5.1 最左列原则" href="#51-%e6%9c%80%e5%b7%a6%e5%88%97%e5%8e%9f%e5%88%99">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#51-最左列原则" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.1 最左列原则" aria-label="Anchor to: 5.1 最左列原则" href="#51-%e6%9c%80%e5%b7%a6%e5%88%97%e5%8e%9f%e5%88%99">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2483,7 +2483,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         5.2 字段顺序怎么确定
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#52-字段顺序怎么确定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.2 字段顺序怎么确定" aria-label="Anchor to: 5.2 字段顺序怎么确定" href="#52-%e5%ad%97%e6%ae%b5%e9%a1%ba%e5%ba%8f%e6%80%8e%e4%b9%88%e7%a1%ae%e5%ae%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#52-字段顺序怎么确定" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.2 字段顺序怎么确定" aria-label="Anchor to: 5.2 字段顺序怎么确定" href="#52-%e5%ad%97%e6%ae%b5%e9%a1%ba%e5%ba%8f%e6%80%8e%e4%b9%88%e7%a1%ae%e5%ae%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2510,7 +2510,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         5.3 PostgreSQL 18 的 Skip Scan
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#53-postgresql-18-的-skip-scan" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.3 PostgreSQL 18 的 Skip Scan" aria-label="Anchor to: 5.3 PostgreSQL 18 的 Skip Scan" href="#53-postgresql-18-%e7%9a%84-skip-scan">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#53-postgresql-18-的-skip-scan" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5.3 PostgreSQL 18 的 Skip Scan" aria-label="Anchor to: 5.3 PostgreSQL 18 的 Skip Scan" href="#53-postgresql-18-%e7%9a%84-skip-scan">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2533,7 +2533,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         6. 覆盖索引与 INCLUDE
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#6-覆盖索引与-include" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 覆盖索引与 INCLUDE" aria-label="Anchor to: 6. 覆盖索引与 INCLUDE" href="#6-%e8%a6%86%e7%9b%96%e7%b4%a2%e5%bc%95%e4%b8%8e-include">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#6-覆盖索引与-include" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 覆盖索引与 INCLUDE" aria-label="Anchor to: 6. 覆盖索引与 INCLUDE" href="#6-%e8%a6%86%e7%9b%96%e7%b4%a2%e5%bc%95%e4%b8%8e-include">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2564,7 +2564,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         7. 唯一索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#7-唯一索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 唯一索引" aria-label="Anchor to: 7. 唯一索引" href="#7-%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#7-唯一索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 唯一索引" aria-label="Anchor to: 7. 唯一索引" href="#7-%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2581,7 +2581,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         7.1 NULL 的唯一性
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#71-null-的唯一性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.1 NULL 的唯一性" aria-label="Anchor to: 7.1 NULL 的唯一性" href="#71-null-%e7%9a%84%e5%94%af%e4%b8%80%e6%80%a7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#71-null-的唯一性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.1 NULL 的唯一性" aria-label="Anchor to: 7.1 NULL 的唯一性" href="#71-null-%e7%9a%84%e5%94%af%e4%b8%80%e6%80%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2600,7 +2600,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         8. 部分索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#8-部分索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 部分索引" aria-label="Anchor to: 8. 部分索引" href="#8-%e9%83%a8%e5%88%86%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#8-部分索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 部分索引" aria-label="Anchor to: 8. 部分索引" href="#8-%e9%83%a8%e5%88%86%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2632,7 +2632,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         8.1 部分唯一索引
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#81-部分唯一索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.1 部分唯一索引" aria-label="Anchor to: 8.1 部分唯一索引" href="#81-%e9%83%a8%e5%88%86%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#81-部分唯一索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.1 部分唯一索引" aria-label="Anchor to: 8.1 部分唯一索引" href="#81-%e9%83%a8%e5%88%86%e5%94%af%e4%b8%80%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2645,7 +2645,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         8.2 不要使用动态日期谓词
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#82-不要使用动态日期谓词" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.2 不要使用动态日期谓词" aria-label="Anchor to: 8.2 不要使用动态日期谓词" href="#82-%e4%b8%8d%e8%a6%81%e4%bd%bf%e7%94%a8%e5%8a%a8%e6%80%81%e6%97%a5%e6%9c%9f%e8%b0%93%e8%af%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#82-不要使用动态日期谓词" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.2 不要使用动态日期谓词" aria-label="Anchor to: 8.2 不要使用动态日期谓词" href="#82-%e4%b8%8d%e8%a6%81%e4%bd%bf%e7%94%a8%e5%8a%a8%e6%80%81%e6%97%a5%e6%9c%9f%e8%b0%93%e8%af%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2664,7 +2664,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         9. 表达式索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#9-表达式索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 表达式索引" aria-label="Anchor to: 9. 表达式索引" href="#9-%e8%a1%a8%e8%be%be%e5%bc%8f%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#9-表达式索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 表达式索引" aria-label="Anchor to: 9. 表达式索引" href="#9-%e8%a1%a8%e8%be%be%e5%bc%8f%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2674,7 +2674,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         9.1 忽略大小写查询
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#91-忽略大小写查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.1 忽略大小写查询" aria-label="Anchor to: 9.1 忽略大小写查询" href="#91-%e5%bf%bd%e7%95%a5%e5%a4%a7%e5%b0%8f%e5%86%99%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#91-忽略大小写查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.1 忽略大小写查询" aria-label="Anchor to: 9.1 忽略大小写查询" href="#91-%e5%bf%bd%e7%95%a5%e5%a4%a7%e5%b0%8f%e5%86%99%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2692,7 +2692,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         9.2 日期表达式
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#92-日期表达式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.2 日期表达式" aria-label="Anchor to: 9.2 日期表达式" href="#92-%e6%97%a5%e6%9c%9f%e8%a1%a8%e8%be%be%e5%bc%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#92-日期表达式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.2 日期表达式" aria-label="Anchor to: 9.2 日期表达式" href="#92-%e6%97%a5%e6%9c%9f%e8%a1%a8%e8%be%be%e5%bc%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2718,7 +2718,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         10. GIN 索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#10-gin-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. GIN 索引" aria-label="Anchor to: 10. GIN 索引" href="#10-gin-%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#10-gin-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. GIN 索引" aria-label="Anchor to: 10. GIN 索引" href="#10-gin-%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2728,7 +2728,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         10.1 JSONB 索引
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#101-jsonb-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.1 JSONB 索引" aria-label="Anchor to: 10.1 JSONB 索引" href="#101-jsonb-%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#101-jsonb-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.1 JSONB 索引" aria-label="Anchor to: 10.1 JSONB 索引" href="#101-jsonb-%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2763,7 +2763,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         10.2 数组索引
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#102-数组索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.2 数组索引" aria-label="Anchor to: 10.2 数组索引" href="#102-%e6%95%b0%e7%bb%84%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#102-数组索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.2 数组索引" aria-label="Anchor to: 10.2 数组索引" href="#102-%e6%95%b0%e7%bb%84%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2788,7 +2788,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         10.3 全文检索
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#103-全文检索" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.3 全文检索" aria-label="Anchor to: 10.3 全文检索" href="#103-%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#103-全文检索" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.3 全文检索" aria-label="Anchor to: 10.3 全文检索" href="#103-%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2821,7 +2821,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         11. 模糊搜索与 pg_trgm
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#11-模糊搜索与-pg_trgm" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 模糊搜索与 pg_trgm" aria-label="Anchor to: 11. 模糊搜索与 pg_trgm" href="#11-%e6%a8%a1%e7%b3%8a%e6%90%9c%e7%b4%a2%e4%b8%8e-pg_trgm">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#11-模糊搜索与-pg_trgm" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 模糊搜索与 pg_trgm" aria-label="Anchor to: 11. 模糊搜索与 pg_trgm" href="#11-%e6%a8%a1%e7%b3%8a%e6%90%9c%e7%b4%a2%e4%b8%8e-pg_trgm">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2854,7 +2854,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         12. GiST 和 SP-GiST
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#12-gist-和-sp-gist" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. GiST 和 SP-GiST" aria-label="Anchor to: 12. GiST 和 SP-GiST" href="#12-gist-%e5%92%8c-sp-gist">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#12-gist-和-sp-gist" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. GiST 和 SP-GiST" aria-label="Anchor to: 12. GiST 和 SP-GiST" href="#12-gist-%e5%92%8c-sp-gist">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2889,7 +2889,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         13. BRIN 索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#13-brin-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. BRIN 索引" aria-label="Anchor to: 13. BRIN 索引" href="#13-brin-%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#13-brin-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. BRIN 索引" aria-label="Anchor to: 13. BRIN 索引" href="#13-brin-%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2934,7 +2934,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         14. Hash 索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#14-hash-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. Hash 索引" aria-label="Anchor to: 14. Hash 索引" href="#14-hash-%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#14-hash-索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. Hash 索引" aria-label="Anchor to: 14. Hash 索引" href="#14-hash-%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2953,7 +2953,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         15. PostgreSQL 可以组合多个索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#15-postgresql-可以组合多个索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 15. PostgreSQL 可以组合多个索引" aria-label="Anchor to: 15. PostgreSQL 可以组合多个索引" href="#15-postgresql-%e5%8f%af%e4%bb%a5%e7%bb%84%e5%90%88%e5%a4%9a%e4%b8%aa%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#15-postgresql-可以组合多个索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 15. PostgreSQL 可以组合多个索引" aria-label="Anchor to: 15. PostgreSQL 可以组合多个索引" href="#15-postgresql-%e5%8f%af%e4%bb%a5%e7%bb%84%e5%90%88%e5%a4%9a%e4%b8%aa%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2990,7 +2990,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         16. 外键字段需要索引吗
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#16-外键字段需要索引吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16. 外键字段需要索引吗" aria-label="Anchor to: 16. 外键字段需要索引吗" href="#16-%e5%a4%96%e9%94%ae%e5%ad%97%e6%ae%b5%e9%9c%80%e8%a6%81%e7%b4%a2%e5%bc%95%e5%90%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#16-外键字段需要索引吗" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16. 外键字段需要索引吗" aria-label="Anchor to: 16. 外键字段需要索引吗" href="#16-%e5%a4%96%e9%94%ae%e5%ad%97%e6%ae%b5%e9%9c%80%e8%a6%81%e7%b4%a2%e5%bc%95%e5%90%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3030,7 +3030,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17. 为什么创建了索引却没有使用
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#17-为什么创建了索引却没有使用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17. 为什么创建了索引却没有使用" aria-label="Anchor to: 17. 为什么创建了索引却没有使用" href="#17-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%88%9b%e5%bb%ba%e4%ba%86%e7%b4%a2%e5%bc%95%e5%8d%b4%e6%b2%a1%e6%9c%89%e4%bd%bf%e7%94%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#17-为什么创建了索引却没有使用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17. 为什么创建了索引却没有使用" aria-label="Anchor to: 17. 为什么创建了索引却没有使用" href="#17-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%88%9b%e5%bb%ba%e4%ba%86%e7%b4%a2%e5%bc%95%e5%8d%b4%e6%b2%a1%e6%9c%89%e4%bd%bf%e7%94%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3040,7 +3040,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17.1 返回数据太多
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#171-返回数据太多" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.1 返回数据太多" aria-label="Anchor to: 17.1 返回数据太多" href="#171-%e8%bf%94%e5%9b%9e%e6%95%b0%e6%8d%ae%e5%a4%aa%e5%a4%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#171-返回数据太多" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.1 返回数据太多" aria-label="Anchor to: 17.1 返回数据太多" href="#171-%e8%bf%94%e5%9b%9e%e6%95%b0%e6%8d%ae%e5%a4%aa%e5%a4%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3053,7 +3053,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17.2 表太小
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#172-表太小" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.2 表太小" aria-label="Anchor to: 17.2 表太小" href="#172-%e8%a1%a8%e5%a4%aa%e5%b0%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#172-表太小" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.2 表太小" aria-label="Anchor to: 17.2 表太小" href="#172-%e8%a1%a8%e5%a4%aa%e5%b0%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3063,7 +3063,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17.3 查询表达式不匹配
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#173-查询表达式不匹配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.3 查询表达式不匹配" aria-label="Anchor to: 17.3 查询表达式不匹配" href="#173-%e6%9f%a5%e8%af%a2%e8%a1%a8%e8%be%be%e5%bc%8f%e4%b8%8d%e5%8c%b9%e9%85%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#173-查询表达式不匹配" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.3 查询表达式不匹配" aria-label="Anchor to: 17.3 查询表达式不匹配" href="#173-%e6%9f%a5%e8%af%a2%e8%a1%a8%e8%be%be%e5%bc%8f%e4%b8%8d%e5%8c%b9%e9%85%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3078,7 +3078,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17.4 隐式或显式类型转换
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#174-隐式或显式类型转换" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.4 隐式或显式类型转换" aria-label="Anchor to: 17.4 隐式或显式类型转换" href="#174-%e9%9a%90%e5%bc%8f%e6%88%96%e6%98%be%e5%bc%8f%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#174-隐式或显式类型转换" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.4 隐式或显式类型转换" aria-label="Anchor to: 17.4 隐式或显式类型转换" href="#174-%e9%9a%90%e5%bc%8f%e6%88%96%e6%98%be%e5%bc%8f%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3091,7 +3091,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17.5 前置通配符
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#175-前置通配符" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.5 前置通配符" aria-label="Anchor to: 17.5 前置通配符" href="#175-%e5%89%8d%e7%bd%ae%e9%80%9a%e9%85%8d%e7%ac%a6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#175-前置通配符" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.5 前置通配符" aria-label="Anchor to: 17.5 前置通配符" href="#175-%e5%89%8d%e7%bd%ae%e9%80%9a%e9%85%8d%e7%ac%a6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3102,7 +3102,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17.6 统计信息不准确
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#176-统计信息不准确" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.6 统计信息不准确" aria-label="Anchor to: 17.6 统计信息不准确" href="#176-%e7%bb%9f%e8%ae%a1%e4%bf%a1%e6%81%af%e4%b8%8d%e5%87%86%e7%a1%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#176-统计信息不准确" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.6 统计信息不准确" aria-label="Anchor to: 17.6 统计信息不准确" href="#176-%e7%bb%9f%e8%ae%a1%e4%bf%a1%e6%81%af%e4%b8%8d%e5%87%86%e7%a1%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3115,7 +3115,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         17.7 参数化查询与部分索引
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#177-参数化查询与部分索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.7 参数化查询与部分索引" aria-label="Anchor to: 17.7 参数化查询与部分索引" href="#177-%e5%8f%82%e6%95%b0%e5%8c%96%e6%9f%a5%e8%af%a2%e4%b8%8e%e9%83%a8%e5%88%86%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#177-参数化查询与部分索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17.7 参数化查询与部分索引" aria-label="Anchor to: 17.7 参数化查询与部分索引" href="#177-%e5%8f%82%e6%95%b0%e5%8c%96%e6%9f%a5%e8%af%a2%e4%b8%8e%e9%83%a8%e5%88%86%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3126,7 +3126,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         18. 使用 EXPLAIN 验证索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#18-使用-explain-验证索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 18. 使用 EXPLAIN 验证索引" aria-label="Anchor to: 18. 使用 EXPLAIN 验证索引" href="#18-%e4%bd%bf%e7%94%a8-explain-%e9%aa%8c%e8%af%81%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#18-使用-explain-验证索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 18. 使用 EXPLAIN 验证索引" aria-label="Anchor to: 18. 使用 EXPLAIN 验证索引" href="#18-%e4%bd%bf%e7%94%a8-explain-%e9%aa%8c%e8%af%81%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3196,7 +3196,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         19. 生产环境创建索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#19-生产环境创建索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19. 生产环境创建索引" aria-label="Anchor to: 19. 生产环境创建索引" href="#19-%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e5%88%9b%e5%bb%ba%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#19-生产环境创建索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19. 生产环境创建索引" aria-label="Anchor to: 19. 生产环境创建索引" href="#19-%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e5%88%9b%e5%bb%ba%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3237,7 +3237,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         20. 监控索引使用情况
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#20-监控索引使用情况" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 20. 监控索引使用情况" aria-label="Anchor to: 20. 监控索引使用情况" href="#20-%e7%9b%91%e6%8e%a7%e7%b4%a2%e5%bc%95%e4%bd%bf%e7%94%a8%e6%83%85%e5%86%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#20-监控索引使用情况" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 20. 监控索引使用情况" aria-label="Anchor to: 20. 监控索引使用情况" href="#20-%e7%9b%91%e6%8e%a7%e7%b4%a2%e5%bc%95%e4%bd%bf%e7%94%a8%e6%83%85%e5%86%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3277,7 +3277,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         21. 股票系统的推荐索引设计
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#21-股票系统的推荐索引设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 21. 股票系统的推荐索引设计" aria-label="Anchor to: 21. 股票系统的推荐索引设计" href="#21-%e8%82%a1%e7%a5%a8%e7%b3%bb%e7%bb%9f%e7%9a%84%e6%8e%a8%e8%8d%90%e7%b4%a2%e5%bc%95%e8%ae%be%e8%ae%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#21-股票系统的推荐索引设计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 21. 股票系统的推荐索引设计" aria-label="Anchor to: 21. 股票系统的推荐索引设计" href="#21-%e8%82%a1%e7%a5%a8%e7%b3%bb%e7%bb%9f%e7%9a%84%e6%8e%a8%e8%8d%90%e7%b4%a2%e5%bc%95%e8%ae%be%e8%ae%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3286,7 +3286,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         <code>market.security</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#marketsecurity" class="gdoc-page__anchor clip flex align-center" title="Anchor to: market.security" aria-label="Anchor to: market.security" href="#marketsecurity">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#marketsecurity" class="gdoc-page__anchor clip flex align-center" title="Anchor to: market.security" aria-label="Anchor to: market.security" href="#marketsecurity">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3309,7 +3309,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         <code>market.daily_quote</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#marketdaily_quote" class="gdoc-page__anchor clip flex align-center" title="Anchor to: market.daily_quote" aria-label="Anchor to: market.daily_quote" href="#marketdaily_quote">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#marketdaily_quote" class="gdoc-page__anchor clip flex align-center" title="Anchor to: market.daily_quote" aria-label="Anchor to: market.daily_quote" href="#marketdaily_quote">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3329,7 +3329,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         <code>market.security_concept</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#marketsecurity_concept" class="gdoc-page__anchor clip flex align-center" title="Anchor to: market.security_concept" aria-label="Anchor to: market.security_concept" href="#marketsecurity_concept">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#marketsecurity_concept" class="gdoc-page__anchor clip flex align-center" title="Anchor to: market.security_concept" aria-label="Anchor to: market.security_concept" href="#marketsecurity_concept">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3343,7 +3343,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         超大时序行情表
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#超大时序行情表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 超大时序行情表" aria-label="Anchor to: 超大时序行情表" href="#%e8%b6%85%e5%a4%a7%e6%97%b6%e5%ba%8f%e8%a1%8c%e6%83%85%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#超大时序行情表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 超大时序行情表" aria-label="Anchor to: 超大时序行情表" href="#%e8%b6%85%e5%a4%a7%e6%97%b6%e5%ba%8f%e8%a1%8c%e6%83%85%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3360,7 +3360,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         22. 常见索引误区
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#22-常见索引误区" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 22. 常见索引误区" aria-label="Anchor to: 22. 常见索引误区" href="#22-%e5%b8%b8%e8%a7%81%e7%b4%a2%e5%bc%95%e8%af%af%e5%8c%ba">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#22-常见索引误区" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 22. 常见索引误区" aria-label="Anchor to: 22. 常见索引误区" href="#22-%e5%b8%b8%e8%a7%81%e7%b4%a2%e5%bc%95%e8%af%af%e5%8c%ba">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3405,7 +3405,7 @@ SELECT * FROM market.daily_quote WHERE security_id = 1001 AND trade_date = DATE 
     >
         最终设计流程
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/09-indexes/#最终设计流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 最终设计流程" aria-label="Anchor to: 最终设计流程" href="#%e6%9c%80%e7%bb%88%e8%ae%be%e8%ae%a1%e6%b5%81%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-indexes/#最终设计流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 最终设计流程" aria-label="Anchor to: 最终设计流程" href="#%e6%9c%80%e7%bb%88%e8%ae%be%e8%ae%a1%e6%b5%81%e7%a8%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

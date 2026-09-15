@@ -52,7 +52,7 @@ SELECT 字段 FROM 表 WHERE 条件; “查”不仅是读取数据，还包括�
 market.security ├── security_id ├── exchange_code ├── code ├── name ├── board ├── industry ├── is_st ├── is_active ├── extra ├── created_at └── updated_at 日线行情：
 market.daily_quote ├── security_id ├── trade_date ├── open_price ├── high_price ├── low_price ├── close_price ├── pre_close ├── volume ├── amount ├── change_rate ├── turnover └── created_at 其中：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/07-select/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/08-select/" />
 
 <meta property="article:section" content="Database" />
 
@@ -74,7 +74,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL SELECT",
-      "url": "https://documents.v2ep.com/database/postgres/07-select/",
+      "url": "https://documents.v2ep.com/database/postgres/08-select/",
       "headline": "PostgreSQL SELECT",
       "description": "PostgreSQL 使用 SELECT 查询数据：\nSELECT 字段 FROM 表 WHERE 条件; “查”不仅是读取数据，还包括：\n字段选择与计算 条件筛选 排序和分页 去重 分组统计 多表关联 子查询与 CTE 窗口函数 JSONB、数组查询 行锁 执行计划和索引优化 完整语法见 PostgreSQL 18 SELECT。\n一、示例表结构 下面继续使用两张核心表。\n股票基本信息：\nmarket.security ├── security_id ├── exchange_code ├── code ├── name ├── board ├── industry ├── is_st ├── is_active ├── extra ├── created_at └── updated_at 日线行情：\nmarket.daily_quote ├── security_id ├── trade_date ├── open_price ├── high_price ├── low_price ├── close_price ├── pre_close ├── volume ├── amount ├── change_rate ├── turnover └── created_at 其中：",
       "wordCount": "3248",
@@ -82,7 +82,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/07-select/"
+          "@id": "https://documents.v2ep.com/database/postgres/08-select/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -166,7 +166,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/07-select/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/08-select/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2205,7 +2205,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         一、示例表结构
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#一示例表结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、示例表结构" aria-label="Anchor to: 一、示例表结构" href="#%e4%b8%80%e7%a4%ba%e4%be%8b%e8%a1%a8%e7%bb%93%e6%9e%84">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#一示例表结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、示例表结构" aria-label="Anchor to: 一、示例表结构" href="#%e4%b8%80%e7%a4%ba%e4%be%8b%e8%a1%a8%e7%bb%93%e6%9e%84">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2245,7 +2245,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二、最基本的查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二最基本的查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、最基本的查询" aria-label="Anchor to: 二、最基本的查询" href="#%e4%ba%8c%e6%9c%80%e5%9f%ba%e6%9c%ac%e7%9a%84%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二最基本的查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、最基本的查询" aria-label="Anchor to: 二、最基本的查询" href="#%e4%ba%8c%e6%9c%80%e5%9f%ba%e6%9c%ac%e7%9a%84%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2254,7 +2254,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         查询所有字段
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#查询所有字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询所有字段" aria-label="Anchor to: 查询所有字段" href="#%e6%9f%a5%e8%af%a2%e6%89%80%e6%9c%89%e5%ad%97%e6%ae%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#查询所有字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询所有字段" aria-label="Anchor to: 查询所有字段" href="#%e6%9f%a5%e8%af%a2%e6%89%80%e6%9c%89%e5%ad%97%e6%ae%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2283,7 +2283,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         查询单个字段
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#查询单个字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询单个字段" aria-label="Anchor to: 查询单个字段" href="#%e6%9f%a5%e8%af%a2%e5%8d%95%e4%b8%aa%e5%ad%97%e6%ae%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#查询单个字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询单个字段" aria-label="Anchor to: 查询单个字段" href="#%e6%9f%a5%e8%af%a2%e5%8d%95%e4%b8%aa%e5%ad%97%e6%ae%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2301,7 +2301,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三、字段别名
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三字段别名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、字段别名" aria-label="Anchor to: 三、字段别名" href="#%e4%b8%89%e5%ad%97%e6%ae%b5%e5%88%ab%e5%90%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三字段别名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、字段别名" aria-label="Anchor to: 三、字段别名" href="#%e4%b8%89%e5%ad%97%e6%ae%b5%e5%88%ab%e5%90%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2328,7 +2328,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         表别名
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#表别名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 表别名" aria-label="Anchor to: 表别名" href="#%e8%a1%a8%e5%88%ab%e5%90%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#表别名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 表别名" aria-label="Anchor to: 表别名" href="#%e8%a1%a8%e5%88%ab%e5%90%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2352,7 +2352,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         四、<code>SELECT</code> 的逻辑执行顺序
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#四select-的逻辑执行顺序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、SELECT 的逻辑执行顺序" aria-label="Anchor to: 四、SELECT 的逻辑执行顺序" href="#%e5%9b%9bselect-%e7%9a%84%e9%80%bb%e8%be%91%e6%89%a7%e8%a1%8c%e9%a1%ba%e5%ba%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#四select-的逻辑执行顺序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、SELECT 的逻辑执行顺序" aria-label="Anchor to: 四、SELECT 的逻辑执行顺序" href="#%e5%9b%9bselect-%e7%9a%84%e9%80%bb%e8%be%91%e6%89%a7%e8%a1%8c%e9%a1%ba%e5%ba%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2414,7 +2414,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         五、使用 <code>WHERE</code> 筛选
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#五使用-where-筛选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、使用 WHERE 筛选" aria-label="Anchor to: 五、使用 WHERE 筛选" href="#%e4%ba%94%e4%bd%bf%e7%94%a8-where-%e7%ad%9b%e9%80%89">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#五使用-where-筛选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、使用 WHERE 筛选" aria-label="Anchor to: 五、使用 WHERE 筛选" href="#%e4%ba%94%e4%bd%bf%e7%94%a8-where-%e7%ad%9b%e9%80%89">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2423,7 +2423,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         等于
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#等于" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 等于" aria-label="Anchor to: 等于" href="#%e7%ad%89%e4%ba%8e">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#等于" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 等于" aria-label="Anchor to: 等于" href="#%e7%ad%89%e4%ba%8e">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2440,7 +2440,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         不等于
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#不等于" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 不等于" aria-label="Anchor to: 不等于" href="#%e4%b8%8d%e7%ad%89%e4%ba%8e">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#不等于" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 不等于" aria-label="Anchor to: 不等于" href="#%e4%b8%8d%e7%ad%89%e4%ba%8e">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2455,7 +2455,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         数值比较
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#数值比较" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数值比较" aria-label="Anchor to: 数值比较" href="#%e6%95%b0%e5%80%bc%e6%af%94%e8%be%83">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#数值比较" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数值比较" aria-label="Anchor to: 数值比较" href="#%e6%95%b0%e5%80%bc%e6%af%94%e8%be%83">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2475,7 +2475,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         六、逻辑条件
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#六逻辑条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、逻辑条件" aria-label="Anchor to: 六、逻辑条件" href="#%e5%85%ad%e9%80%bb%e8%be%91%e6%9d%a1%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#六逻辑条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、逻辑条件" aria-label="Anchor to: 六、逻辑条件" href="#%e5%85%ad%e9%80%bb%e8%be%91%e6%9d%a1%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2484,7 +2484,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>AND</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#and" class="gdoc-page__anchor clip flex align-center" title="Anchor to: AND" aria-label="Anchor to: AND" href="#and">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#and" class="gdoc-page__anchor clip flex align-center" title="Anchor to: AND" aria-label="Anchor to: AND" href="#and">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2498,7 +2498,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>OR</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#or" class="gdoc-page__anchor clip flex align-center" title="Anchor to: OR" aria-label="Anchor to: OR" href="#or">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#or" class="gdoc-page__anchor clip flex align-center" title="Anchor to: OR" aria-label="Anchor to: OR" href="#or">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2512,7 +2512,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>NOT</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#not" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NOT" aria-label="Anchor to: NOT" href="#not">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#not" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NOT" aria-label="Anchor to: NOT" href="#not">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2544,7 +2544,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         七、<code>NULL</code> 查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#七null-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、NULL 查询" aria-label="Anchor to: 七、NULL 查询" href="#%e4%b8%83null-%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#七null-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、NULL 查询" aria-label="Anchor to: 七、NULL 查询" href="#%e4%b8%83null-%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2561,7 +2561,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         将 <code>NULL</code> 当作可比较值
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#将-null-当作可比较值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 将 NULL 当作可比较值" aria-label="Anchor to: 将 NULL 当作可比较值" href="#%e5%b0%86-null-%e5%bd%93%e4%bd%9c%e5%8f%af%e6%af%94%e8%be%83%e5%80%bc">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#将-null-当作可比较值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 将 NULL 当作可比较值" aria-label="Anchor to: 将 NULL 当作可比较值" href="#%e5%b0%86-null-%e5%bd%93%e4%bd%9c%e5%8f%af%e6%af%94%e8%be%83%e5%80%bc">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2586,7 +2586,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         布尔字段
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#布尔字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 布尔字段" aria-label="Anchor to: 布尔字段" href="#%e5%b8%83%e5%b0%94%e5%ad%97%e6%ae%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#布尔字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 布尔字段" aria-label="Anchor to: 布尔字段" href="#%e5%b8%83%e5%b0%94%e5%ad%97%e6%ae%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2606,7 +2606,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         八、范围查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#八范围查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、范围查询" aria-label="Anchor to: 八、范围查询" href="#%e5%85%ab%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#八范围查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、范围查询" aria-label="Anchor to: 八、范围查询" href="#%e5%85%ab%e8%8c%83%e5%9b%b4%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2615,7 +2615,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>BETWEEN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#between" class="gdoc-page__anchor clip flex align-center" title="Anchor to: BETWEEN" aria-label="Anchor to: BETWEEN" href="#between">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#between" class="gdoc-page__anchor clip flex align-center" title="Anchor to: BETWEEN" aria-label="Anchor to: BETWEEN" href="#between">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2632,7 +2632,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         日期范围
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#日期范围" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 日期范围" aria-label="Anchor to: 日期范围" href="#%e6%97%a5%e6%9c%9f%e8%8c%83%e5%9b%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#日期范围" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 日期范围" aria-label="Anchor to: 日期范围" href="#%e6%97%a5%e6%9c%9f%e8%8c%83%e5%9b%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2653,7 +2653,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         九、集合查询：<code>IN</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#九集合查询in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、集合查询：IN" aria-label="Anchor to: 九、集合查询：IN" href="#%e4%b9%9d%e9%9b%86%e5%90%88%e6%9f%a5%e8%af%a2in">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#九集合查询in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、集合查询：IN" aria-label="Anchor to: 九、集合查询：IN" href="#%e4%b9%9d%e9%9b%86%e5%90%88%e6%9f%a5%e8%af%a2in">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2679,7 +2679,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>NOT IN</code> 与 <code>NULL</code> 陷阱
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#not-in-与-null-陷阱" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NOT IN 与 NULL 陷阱" aria-label="Anchor to: NOT IN 与 NULL 陷阱" href="#not-in-%e4%b8%8e-null-%e9%99%b7%e9%98%b1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#not-in-与-null-陷阱" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NOT IN 与 NULL 陷阱" aria-label="Anchor to: NOT IN 与 NULL 陷阱" href="#not-in-%e4%b8%8e-null-%e9%99%b7%e9%98%b1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2700,7 +2700,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十、模糊查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十模糊查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、模糊查询" aria-label="Anchor to: 十、模糊查询" href="#%e5%8d%81%e6%a8%a1%e7%b3%8a%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十模糊查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、模糊查询" aria-label="Anchor to: 十、模糊查询" href="#%e5%8d%81%e6%a8%a1%e7%b3%8a%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2709,7 +2709,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>LIKE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#like" class="gdoc-page__anchor clip flex align-center" title="Anchor to: LIKE" aria-label="Anchor to: LIKE" href="#like">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#like" class="gdoc-page__anchor clip flex align-center" title="Anchor to: LIKE" aria-label="Anchor to: LIKE" href="#like">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2746,7 +2746,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>ILIKE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#ilike" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ILIKE" aria-label="Anchor to: ILIKE" href="#ilike">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#ilike" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ILIKE" aria-label="Anchor to: ILIKE" href="#ilike">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2761,7 +2761,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         正则表达式
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#正则表达式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 正则表达式" aria-label="Anchor to: 正则表达式" href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#正则表达式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 正则表达式" aria-label="Anchor to: 正则表达式" href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2805,7 +2805,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十一、条件表达式
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十一条件表达式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、条件表达式" aria-label="Anchor to: 十一、条件表达式" href="#%e5%8d%81%e4%b8%80%e6%9d%a1%e4%bb%b6%e8%a1%a8%e8%be%be%e5%bc%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十一条件表达式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、条件表达式" aria-label="Anchor to: 十一、条件表达式" href="#%e5%8d%81%e4%b8%80%e6%9d%a1%e4%bb%b6%e8%a1%a8%e8%be%be%e5%bc%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2814,7 +2814,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>CASE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#case" class="gdoc-page__anchor clip flex align-center" title="Anchor to: CASE" aria-label="Anchor to: CASE" href="#case">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#case" class="gdoc-page__anchor clip flex align-center" title="Anchor to: CASE" aria-label="Anchor to: CASE" href="#case">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2835,7 +2835,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>COALESCE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#coalesce" class="gdoc-page__anchor clip flex align-center" title="Anchor to: COALESCE" aria-label="Anchor to: COALESCE" href="#coalesce">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#coalesce" class="gdoc-page__anchor clip flex align-center" title="Anchor to: COALESCE" aria-label="Anchor to: COALESCE" href="#coalesce">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2856,7 +2856,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>NULLIF</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#nullif" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NULLIF" aria-label="Anchor to: NULLIF" href="#nullif">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#nullif" class="gdoc-page__anchor clip flex align-center" title="Anchor to: NULLIF" aria-label="Anchor to: NULLIF" href="#nullif">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2871,7 +2871,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>GREATEST</code> 和 <code>LEAST</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#greatest-和-least" class="gdoc-page__anchor clip flex align-center" title="Anchor to: GREATEST 和 LEAST" aria-label="Anchor to: GREATEST 和 LEAST" href="#greatest-%e5%92%8c-least">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#greatest-和-least" class="gdoc-page__anchor clip flex align-center" title="Anchor to: GREATEST 和 LEAST" aria-label="Anchor to: GREATEST 和 LEAST" href="#greatest-%e5%92%8c-least">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2885,7 +2885,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十二、排序：<code>ORDER BY</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十二排序order-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、排序：ORDER BY" aria-label="Anchor to: 十二、排序：ORDER BY" href="#%e5%8d%81%e4%ba%8c%e6%8e%92%e5%ba%8forder-by">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十二排序order-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、排序：ORDER BY" aria-label="Anchor to: 十二、排序：ORDER BY" href="#%e5%8d%81%e4%ba%8c%e6%8e%92%e5%ba%8forder-by">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2922,7 +2922,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         空值排序
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#空值排序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 空值排序" aria-label="Anchor to: 空值排序" href="#%e7%a9%ba%e5%80%bc%e6%8e%92%e5%ba%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#空值排序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 空值排序" aria-label="Anchor to: 空值排序" href="#%e7%a9%ba%e5%80%bc%e6%8e%92%e5%ba%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2938,7 +2938,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         稳定排序
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#稳定排序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 稳定排序" aria-label="Anchor to: 稳定排序" href="#%e7%a8%b3%e5%ae%9a%e6%8e%92%e5%ba%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#稳定排序" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 稳定排序" aria-label="Anchor to: 稳定排序" href="#%e7%a8%b3%e5%ae%9a%e6%8e%92%e5%ba%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2955,7 +2955,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十三、限制返回数量
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十三限制返回数量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、限制返回数量" aria-label="Anchor to: 十三、限制返回数量" href="#%e5%8d%81%e4%b8%89%e9%99%90%e5%88%b6%e8%bf%94%e5%9b%9e%e6%95%b0%e9%87%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十三限制返回数量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、限制返回数量" aria-label="Anchor to: 十三、限制返回数量" href="#%e5%8d%81%e4%b8%89%e9%99%90%e5%88%b6%e8%bf%94%e5%9b%9e%e6%95%b0%e9%87%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2985,7 +2985,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>WITH TIES</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#with-ties" class="gdoc-page__anchor clip flex align-center" title="Anchor to: WITH TIES" aria-label="Anchor to: WITH TIES" href="#with-ties">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#with-ties" class="gdoc-page__anchor clip flex align-center" title="Anchor to: WITH TIES" aria-label="Anchor to: WITH TIES" href="#with-ties">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3004,7 +3004,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十四、大分页问题
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十四大分页问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、大分页问题" aria-label="Anchor to: 十四、大分页问题" href="#%e5%8d%81%e5%9b%9b%e5%a4%a7%e5%88%86%e9%a1%b5%e9%97%ae%e9%a2%98">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十四大分页问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、大分页问题" aria-label="Anchor to: 十四、大分页问题" href="#%e5%8d%81%e5%9b%9b%e5%a4%a7%e5%88%86%e9%a1%b5%e9%97%ae%e9%a2%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3052,7 +3052,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十五、去重：<code>DISTINCT</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十五去重distinct" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、去重：DISTINCT" aria-label="Anchor to: 十五、去重：DISTINCT" href="#%e5%8d%81%e4%ba%94%e5%8e%bb%e9%87%8ddistinct">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十五去重distinct" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、去重：DISTINCT" aria-label="Anchor to: 十五、去重：DISTINCT" href="#%e5%8d%81%e4%ba%94%e5%8e%bb%e9%87%8ddistinct">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3074,7 +3074,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十六、PostgreSQL 特有的 <code>DISTINCT ON</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十六postgresql-特有的-distinct-on" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、PostgreSQL 特有的 DISTINCT ON" aria-label="Anchor to: 十六、PostgreSQL 特有的 DISTINCT ON" href="#%e5%8d%81%e5%85%adpostgresql-%e7%89%b9%e6%9c%89%e7%9a%84-distinct-on">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十六postgresql-特有的-distinct-on" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、PostgreSQL 特有的 DISTINCT ON" aria-label="Anchor to: 十六、PostgreSQL 特有的 DISTINCT ON" href="#%e5%8d%81%e5%85%adpostgresql-%e7%89%b9%e6%9c%89%e7%9a%84-distinct-on">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3104,7 +3104,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十七、聚合函数
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十七聚合函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、聚合函数" aria-label="Anchor to: 十七、聚合函数" href="#%e5%8d%81%e4%b8%83%e8%81%9a%e5%90%88%e5%87%bd%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十七聚合函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、聚合函数" aria-label="Anchor to: 十七、聚合函数" href="#%e5%8d%81%e4%b8%83%e8%81%9a%e5%90%88%e5%87%bd%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3160,7 +3160,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         行数统计
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#行数统计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 行数统计" aria-label="Anchor to: 行数统计" href="#%e8%a1%8c%e6%95%b0%e7%bb%9f%e8%ae%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#行数统计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 行数统计" aria-label="Anchor to: 行数统计" href="#%e8%a1%8c%e6%95%b0%e7%bb%9f%e8%ae%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3178,7 +3178,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         行情统计
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#行情统计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 行情统计" aria-label="Anchor to: 行情统计" href="#%e8%a1%8c%e6%83%85%e7%bb%9f%e8%ae%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#行情统计" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 行情统计" aria-label="Anchor to: 行情统计" href="#%e8%a1%8c%e6%83%85%e7%bb%9f%e8%ae%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3204,7 +3204,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十八、分组：<code>GROUP BY</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十八分组group-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十八、分组：GROUP BY" aria-label="Anchor to: 十八、分组：GROUP BY" href="#%e5%8d%81%e5%85%ab%e5%88%86%e7%bb%84group-by">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十八分组group-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十八、分组：GROUP BY" aria-label="Anchor to: 十八、分组：GROUP BY" href="#%e5%8d%81%e5%85%ab%e5%88%86%e7%bb%84group-by">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3245,7 +3245,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         十九、<code>WHERE</code> 和 <code>HAVING</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#十九where-和-having" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十九、WHERE 和 HAVING" aria-label="Anchor to: 十九、WHERE 和 HAVING" href="#%e5%8d%81%e4%b9%9dwhere-%e5%92%8c-having">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#十九where-和-having" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十九、WHERE 和 HAVING" aria-label="Anchor to: 十九、WHERE 和 HAVING" href="#%e5%8d%81%e4%b9%9dwhere-%e5%92%8c-having">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3274,7 +3274,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十、条件聚合：<code>FILTER</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十条件聚合filter" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十、条件聚合：FILTER" aria-label="Anchor to: 二十、条件聚合：FILTER" href="#%e4%ba%8c%e5%8d%81%e6%9d%a1%e4%bb%b6%e8%81%9a%e5%90%88filter">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十条件聚合filter" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十、条件聚合：FILTER" aria-label="Anchor to: 二十、条件聚合：FILTER" href="#%e4%ba%8c%e5%8d%81%e6%9d%a1%e4%bb%b6%e8%81%9a%e5%90%88filter">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3319,7 +3319,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十一、多表关联
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十一多表关联" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十一、多表关联" aria-label="Anchor to: 二十一、多表关联" href="#%e4%ba%8c%e5%8d%81%e4%b8%80%e5%a4%9a%e8%a1%a8%e5%85%b3%e8%81%94">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十一多表关联" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十一、多表关联" aria-label="Anchor to: 二十一、多表关联" href="#%e4%ba%8c%e5%8d%81%e4%b8%80%e5%a4%9a%e8%a1%a8%e5%85%b3%e8%81%94">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3328,7 +3328,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         1. <code>INNER JOIN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#1-inner-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. INNER JOIN" aria-label="Anchor to: 1. INNER JOIN" href="#1-inner-join">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#1-inner-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. INNER JOIN" aria-label="Anchor to: 1. INNER JOIN" href="#1-inner-join">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3353,7 +3353,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         2. <code>LEFT JOIN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#2-left-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. LEFT JOIN" aria-label="Anchor to: 2. LEFT JOIN" href="#2-left-join">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#2-left-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. LEFT JOIN" aria-label="Anchor to: 2. LEFT JOIN" href="#2-left-join">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3375,7 +3375,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>LEFT JOIN</code> 条件位置陷阱
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#left-join-条件位置陷阱" class="gdoc-page__anchor clip flex align-center" title="Anchor to: LEFT JOIN 条件位置陷阱" aria-label="Anchor to: LEFT JOIN 条件位置陷阱" href="#left-join-%e6%9d%a1%e4%bb%b6%e4%bd%8d%e7%bd%ae%e9%99%b7%e9%98%b1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#left-join-条件位置陷阱" class="gdoc-page__anchor clip flex align-center" title="Anchor to: LEFT JOIN 条件位置陷阱" aria-label="Anchor to: LEFT JOIN 条件位置陷阱" href="#left-join-%e6%9d%a1%e4%bb%b6%e4%bd%8d%e7%bd%ae%e9%99%b7%e9%98%b1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3399,7 +3399,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         3. <code>RIGHT JOIN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#3-right-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. RIGHT JOIN" aria-label="Anchor to: 3. RIGHT JOIN" href="#3-right-join">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#3-right-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. RIGHT JOIN" aria-label="Anchor to: 3. RIGHT JOIN" href="#3-right-join">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3415,7 +3415,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         4. <code>FULL JOIN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#4-full-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. FULL JOIN" aria-label="Anchor to: 4. FULL JOIN" href="#4-full-join">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#4-full-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. FULL JOIN" aria-label="Anchor to: 4. FULL JOIN" href="#4-full-join">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3436,7 +3436,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         5. <code>CROSS JOIN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#5-cross-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. CROSS JOIN" aria-label="Anchor to: 5. CROSS JOIN" href="#5-cross-join">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#5-cross-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. CROSS JOIN" aria-label="Anchor to: 5. CROSS JOIN" href="#5-cross-join">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3453,7 +3453,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         6. 不建议 <code>NATURAL JOIN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#6-不建议-natural-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 不建议 NATURAL JOIN" aria-label="Anchor to: 6. 不建议 NATURAL JOIN" href="#6-%e4%b8%8d%e5%bb%ba%e8%ae%ae-natural-join">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#6-不建议-natural-join" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 不建议 NATURAL JOIN" aria-label="Anchor to: 6. 不建议 NATURAL JOIN" href="#6-%e4%b8%8d%e5%bb%ba%e8%ae%ae-natural-join">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3472,7 +3472,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十二、<code>EXISTS</code> 子查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十二exists-子查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十二、EXISTS 子查询" aria-label="Anchor to: 二十二、EXISTS 子查询" href="#%e4%ba%8c%e5%8d%81%e4%ba%8cexists-%e5%ad%90%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十二exists-子查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十二、EXISTS 子查询" aria-label="Anchor to: 二十二、EXISTS 子查询" href="#%e4%ba%8c%e5%8d%81%e4%ba%8cexists-%e5%ad%90%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3505,7 +3505,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十三、标量子查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十三标量子查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十三、标量子查询" aria-label="Anchor to: 二十三、标量子查询" href="#%e4%ba%8c%e5%8d%81%e4%b8%89%e6%a0%87%e9%87%8f%e5%ad%90%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十三标量子查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十三、标量子查询" aria-label="Anchor to: 二十三、标量子查询" href="#%e4%ba%8c%e5%8d%81%e4%b8%89%e6%a0%87%e9%87%8f%e5%ad%90%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3532,7 +3532,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十四、<code>LATERAL</code> 查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十四lateral-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十四、LATERAL 查询" aria-label="Anchor to: 二十四、LATERAL 查询" href="#%e4%ba%8c%e5%8d%81%e5%9b%9blateral-%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十四lateral-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十四、LATERAL 查询" aria-label="Anchor to: 二十四、LATERAL 查询" href="#%e4%ba%8c%e5%8d%81%e5%9b%9blateral-%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3570,7 +3570,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十五、CTE：<code>WITH</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十五ctewith" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十五、CTE：WITH" aria-label="Anchor to: 二十五、CTE：WITH" href="#%e4%ba%8c%e5%8d%81%e4%ba%94ctewith">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十五ctewith" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十五、CTE：WITH" aria-label="Anchor to: 二十五、CTE：WITH" href="#%e4%ba%8c%e5%8d%81%e4%ba%94ctewith">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3626,7 +3626,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十六、集合运算
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十六集合运算" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十六、集合运算" aria-label="Anchor to: 二十六、集合运算" href="#%e4%ba%8c%e5%8d%81%e5%85%ad%e9%9b%86%e5%90%88%e8%bf%90%e7%ae%97">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十六集合运算" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十六、集合运算" aria-label="Anchor to: 二十六、集合运算" href="#%e4%ba%8c%e5%8d%81%e5%85%ad%e9%9b%86%e5%90%88%e8%bf%90%e7%ae%97">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3635,7 +3635,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>UNION</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#union" class="gdoc-page__anchor clip flex align-center" title="Anchor to: UNION" aria-label="Anchor to: UNION" href="#union">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#union" class="gdoc-page__anchor clip flex align-center" title="Anchor to: UNION" aria-label="Anchor to: UNION" href="#union">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3652,7 +3652,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>UNION ALL</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#union-all" class="gdoc-page__anchor clip flex align-center" title="Anchor to: UNION ALL" aria-label="Anchor to: UNION ALL" href="#union-all">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#union-all" class="gdoc-page__anchor clip flex align-center" title="Anchor to: UNION ALL" aria-label="Anchor to: UNION ALL" href="#union-all">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3670,7 +3670,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>INTERSECT</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#intersect" class="gdoc-page__anchor clip flex align-center" title="Anchor to: INTERSECT" aria-label="Anchor to: INTERSECT" href="#intersect">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#intersect" class="gdoc-page__anchor clip flex align-center" title="Anchor to: INTERSECT" aria-label="Anchor to: INTERSECT" href="#intersect">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3687,7 +3687,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         <code>EXCEPT</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#except" class="gdoc-page__anchor clip flex align-center" title="Anchor to: EXCEPT" aria-label="Anchor to: EXCEPT" href="#except">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#except" class="gdoc-page__anchor clip flex align-center" title="Anchor to: EXCEPT" aria-label="Anchor to: EXCEPT" href="#except">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3711,7 +3711,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十七、窗口函数
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十七窗口函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十七、窗口函数" aria-label="Anchor to: 二十七、窗口函数" href="#%e4%ba%8c%e5%8d%81%e4%b8%83%e7%aa%97%e5%8f%a3%e5%87%bd%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十七窗口函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十七、窗口函数" aria-label="Anchor to: 二十七、窗口函数" href="#%e4%ba%8c%e5%8d%81%e4%b8%83%e7%aa%97%e5%8f%a3%e5%87%bd%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3732,7 +3732,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         1. 行号
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#1-行号" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 行号" aria-label="Anchor to: 1. 行号" href="#1-%e8%a1%8c%e5%8f%b7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#1-行号" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 行号" aria-label="Anchor to: 1. 行号" href="#1-%e8%a1%8c%e5%8f%b7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3752,7 +3752,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         2. 每只股票最新行情
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#2-每只股票最新行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 每只股票最新行情" aria-label="Anchor to: 2. 每只股票最新行情" href="#2-%e6%af%8f%e5%8f%aa%e8%82%a1%e7%a5%a8%e6%9c%80%e6%96%b0%e8%a1%8c%e6%83%85">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#2-每只股票最新行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 每只股票最新行情" aria-label="Anchor to: 2. 每只股票最新行情" href="#2-%e6%af%8f%e5%8f%aa%e8%82%a1%e7%a5%a8%e6%9c%80%e6%96%b0%e8%a1%8c%e6%83%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3782,7 +3782,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         3. 排名
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#3-排名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 排名" aria-label="Anchor to: 3. 排名" href="#3-%e6%8e%92%e5%90%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#3-排名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 排名" aria-label="Anchor to: 3. 排名" href="#3-%e6%8e%92%e5%90%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3824,7 +3824,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         4. 上一交易日收盘价
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#4-上一交易日收盘价" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 上一交易日收盘价" aria-label="Anchor to: 4. 上一交易日收盘价" href="#4-%e4%b8%8a%e4%b8%80%e4%ba%a4%e6%98%93%e6%97%a5%e6%94%b6%e7%9b%98%e4%bb%b7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#4-上一交易日收盘价" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 上一交易日收盘价" aria-label="Anchor to: 4. 上一交易日收盘价" href="#4-%e4%b8%8a%e4%b8%80%e4%ba%a4%e6%98%93%e6%97%a5%e6%94%b6%e7%9b%98%e4%bb%b7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3863,7 +3863,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         5. 后一个交易日
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#5-后一个交易日" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 后一个交易日" aria-label="Anchor to: 5. 后一个交易日" href="#5-%e5%90%8e%e4%b8%80%e4%b8%aa%e4%ba%a4%e6%98%93%e6%97%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#5-后一个交易日" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 后一个交易日" aria-label="Anchor to: 5. 后一个交易日" href="#5-%e5%90%8e%e4%b8%80%e4%b8%aa%e4%ba%a4%e6%98%93%e6%97%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3877,7 +3877,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         6. 5日、20日、60日均线
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#6-5日20日60日均线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 5日、20日、60日均线" aria-label="Anchor to: 6. 5日、20日、60日均线" href="#6-5%e6%97%a520%e6%97%a560%e6%97%a5%e5%9d%87%e7%ba%bf">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#6-5日20日60日均线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 5日、20日、60日均线" aria-label="Anchor to: 6. 5日、20日、60日均线" href="#6-5%e6%97%a520%e6%97%a560%e6%97%a5%e5%9d%87%e7%ba%bf">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3944,7 +3944,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十八、日期与时间查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十八日期与时间查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十八、日期与时间查询" aria-label="Anchor to: 二十八、日期与时间查询" href="#%e4%ba%8c%e5%8d%81%e5%85%ab%e6%97%a5%e6%9c%9f%e4%b8%8e%e6%97%b6%e9%97%b4%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十八日期与时间查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十八、日期与时间查询" aria-label="Anchor to: 二十八、日期与时间查询" href="#%e4%ba%8c%e5%8d%81%e5%85%ab%e6%97%a5%e6%9c%9f%e4%b8%8e%e6%97%b6%e9%97%b4%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3978,7 +3978,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         保持索引友好的日期条件
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#保持索引友好的日期条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 保持索引友好的日期条件" aria-label="Anchor to: 保持索引友好的日期条件" href="#%e4%bf%9d%e6%8c%81%e7%b4%a2%e5%bc%95%e5%8f%8b%e5%a5%bd%e7%9a%84%e6%97%a5%e6%9c%9f%e6%9d%a1%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#保持索引友好的日期条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 保持索引友好的日期条件" aria-label="Anchor to: 保持索引友好的日期条件" href="#%e4%bf%9d%e6%8c%81%e7%b4%a2%e5%bc%95%e5%8f%8b%e5%a5%bd%e7%9a%84%e6%97%a5%e6%9c%9f%e6%9d%a1%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3995,7 +3995,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         二十九、JSONB 查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#二十九jsonb-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十九、JSONB 查询" aria-label="Anchor to: 二十九、JSONB 查询" href="#%e4%ba%8c%e5%8d%81%e4%b9%9djsonb-%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#二十九jsonb-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十九、JSONB 查询" aria-label="Anchor to: 二十九、JSONB 查询" href="#%e4%ba%8c%e5%8d%81%e4%b9%9djsonb-%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4010,7 +4010,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         获取 JSON 值
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#获取-json-值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 获取 JSON 值" aria-label="Anchor to: 获取 JSON 值" href="#%e8%8e%b7%e5%8f%96-json-%e5%80%bc">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#获取-json-值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 获取 JSON 值" aria-label="Anchor to: 获取 JSON 值" href="#%e8%8e%b7%e5%8f%96-json-%e5%80%bc">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4027,7 +4027,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         按 JSON 字段筛选
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#按-json-字段筛选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 按 JSON 字段筛选" aria-label="Anchor to: 按 JSON 字段筛选" href="#%e6%8c%89-json-%e5%ad%97%e6%ae%b5%e7%ad%9b%e9%80%89">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#按-json-字段筛选" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 按 JSON 字段筛选" aria-label="Anchor to: 按 JSON 字段筛选" href="#%e6%8c%89-json-%e5%ad%97%e6%ae%b5%e7%ad%9b%e9%80%89">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4053,7 +4053,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十、数组查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十数组查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十、数组查询" aria-label="Anchor to: 三十、数组查询" href="#%e4%b8%89%e5%8d%81%e6%95%b0%e7%bb%84%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十数组查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十、数组查询" aria-label="Anchor to: 三十、数组查询" href="#%e4%b8%89%e5%8d%81%e6%95%b0%e7%bb%84%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4082,7 +4082,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十一、行锁查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十一行锁查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十一、行锁查询" aria-label="Anchor to: 三十一、行锁查询" href="#%e4%b8%89%e5%8d%81%e4%b8%80%e8%a1%8c%e9%94%81%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十一行锁查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十一、行锁查询" aria-label="Anchor to: 三十一、行锁查询" href="#%e4%b8%89%e5%8d%81%e4%b8%80%e8%a1%8c%e9%94%81%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4121,7 +4121,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十二、执行计划：<code>EXPLAIN</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十二执行计划explain" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十二、执行计划：EXPLAIN" aria-label="Anchor to: 三十二、执行计划：EXPLAIN" href="#%e4%b8%89%e5%8d%81%e4%ba%8c%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92explain">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十二执行计划explain" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十二、执行计划：EXPLAIN" aria-label="Anchor to: 三十二、执行计划：EXPLAIN" href="#%e4%b8%89%e5%8d%81%e4%ba%8c%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92explain">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4213,7 +4213,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十三、常见查询与索引对应关系
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十三常见查询与索引对应关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十三、常见查询与索引对应关系" aria-label="Anchor to: 三十三、常见查询与索引对应关系" href="#%e4%b8%89%e5%8d%81%e4%b8%89%e5%b8%b8%e8%a7%81%e6%9f%a5%e8%af%a2%e4%b8%8e%e7%b4%a2%e5%bc%95%e5%af%b9%e5%ba%94%e5%85%b3%e7%b3%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十三常见查询与索引对应关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十三、常见查询与索引对应关系" aria-label="Anchor to: 三十三、常见查询与索引对应关系" href="#%e4%b8%89%e5%8d%81%e4%b8%89%e5%b8%b8%e8%a7%81%e6%9f%a5%e8%af%a2%e4%b8%8e%e7%b4%a2%e5%bc%95%e5%af%b9%e5%ba%94%e5%85%b3%e7%b3%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4222,7 +4222,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         根据交易所和代码查股票
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#根据交易所和代码查股票" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 根据交易所和代码查股票" aria-label="Anchor to: 根据交易所和代码查股票" href="#%e6%a0%b9%e6%8d%ae%e4%ba%a4%e6%98%93%e6%89%80%e5%92%8c%e4%bb%a3%e7%a0%81%e6%9f%a5%e8%82%a1%e7%a5%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#根据交易所和代码查股票" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 根据交易所和代码查股票" aria-label="Anchor to: 根据交易所和代码查股票" href="#%e6%a0%b9%e6%8d%ae%e4%ba%a4%e6%98%93%e6%89%80%e5%92%8c%e4%bb%a3%e7%a0%81%e6%9f%a5%e8%82%a1%e7%a5%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4235,7 +4235,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         查询一只股票的历史行情
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#查询一只股票的历史行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询一只股票的历史行情" aria-label="Anchor to: 查询一只股票的历史行情" href="#%e6%9f%a5%e8%af%a2%e4%b8%80%e5%8f%aa%e8%82%a1%e7%a5%a8%e7%9a%84%e5%8e%86%e5%8f%b2%e8%a1%8c%e6%83%85">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#查询一只股票的历史行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询一只股票的历史行情" aria-label="Anchor to: 查询一只股票的历史行情" href="#%e6%9f%a5%e8%af%a2%e4%b8%80%e5%8f%aa%e8%82%a1%e7%a5%a8%e7%9a%84%e5%8e%86%e5%8f%b2%e8%a1%8c%e6%83%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4249,7 +4249,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         查询某个交易日全部行情
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#查询某个交易日全部行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询某个交易日全部行情" aria-label="Anchor to: 查询某个交易日全部行情" href="#%e6%9f%a5%e8%af%a2%e6%9f%90%e4%b8%aa%e4%ba%a4%e6%98%93%e6%97%a5%e5%85%a8%e9%83%a8%e8%a1%8c%e6%83%85">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#查询某个交易日全部行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 查询某个交易日全部行情" aria-label="Anchor to: 查询某个交易日全部行情" href="#%e6%9f%a5%e8%af%a2%e6%9f%90%e4%b8%aa%e4%ba%a4%e6%98%93%e6%97%a5%e5%85%a8%e9%83%a8%e8%a1%8c%e6%83%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4262,7 +4262,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         日期和股票稳定分页
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#日期和股票稳定分页" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 日期和股票稳定分页" aria-label="Anchor to: 日期和股票稳定分页" href="#%e6%97%a5%e6%9c%9f%e5%92%8c%e8%82%a1%e7%a5%a8%e7%a8%b3%e5%ae%9a%e5%88%86%e9%a1%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#日期和股票稳定分页" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 日期和股票稳定分页" aria-label="Anchor to: 日期和股票稳定分页" href="#%e6%97%a5%e6%9c%9f%e5%92%8c%e8%82%a1%e7%a5%a8%e7%a8%b3%e5%ae%9a%e5%88%86%e9%a1%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4275,7 +4275,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         JSONB 包含查询
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#jsonb-包含查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: JSONB 包含查询" aria-label="Anchor to: JSONB 包含查询" href="#jsonb-%e5%8c%85%e5%90%ab%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#jsonb-包含查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: JSONB 包含查询" aria-label="Anchor to: JSONB 包含查询" href="#jsonb-%e5%8c%85%e5%90%ab%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4291,7 +4291,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十四、查询性能常见问题
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十四查询性能常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十四、查询性能常见问题" aria-label="Anchor to: 三十四、查询性能常见问题" href="#%e4%b8%89%e5%8d%81%e5%9b%9b%e6%9f%a5%e8%af%a2%e6%80%a7%e8%83%bd%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十四查询性能常见问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十四、查询性能常见问题" aria-label="Anchor to: 三十四、查询性能常见问题" href="#%e4%b8%89%e5%8d%81%e5%9b%9b%e6%9f%a5%e8%af%a2%e6%80%a7%e8%83%bd%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4300,7 +4300,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         1. <code>SELECT *</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#1-select-" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. SELECT *" aria-label="Anchor to: 1. SELECT *" href="#1-select-">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#1-select-" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. SELECT *" aria-label="Anchor to: 1. SELECT *" href="#1-select-">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4310,7 +4310,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         2. 没有 <code>ORDER BY</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#2-没有-order-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 没有 ORDER BY" aria-label="Anchor to: 2. 没有 ORDER BY" href="#2-%e6%b2%a1%e6%9c%89-order-by">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#2-没有-order-by" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 没有 ORDER BY" aria-label="Anchor to: 2. 没有 ORDER BY" href="#2-%e6%b2%a1%e6%9c%89-order-by">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4320,7 +4320,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         3. 深度 <code>OFFSET</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#3-深度-offset" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 深度 OFFSET" aria-label="Anchor to: 3. 深度 OFFSET" href="#3-%e6%b7%b1%e5%ba%a6-offset">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#3-深度-offset" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 深度 OFFSET" aria-label="Anchor to: 3. 深度 OFFSET" href="#3-%e6%b7%b1%e5%ba%a6-offset">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4330,7 +4330,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         4. 在索引字段上执行函数
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#4-在索引字段上执行函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 在索引字段上执行函数" aria-label="Anchor to: 4. 在索引字段上执行函数" href="#4-%e5%9c%a8%e7%b4%a2%e5%bc%95%e5%ad%97%e6%ae%b5%e4%b8%8a%e6%89%a7%e8%a1%8c%e5%87%bd%e6%95%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#4-在索引字段上执行函数" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 在索引字段上执行函数" aria-label="Anchor to: 4. 在索引字段上执行函数" href="#4-%e5%9c%a8%e7%b4%a2%e5%bc%95%e5%ad%97%e6%ae%b5%e4%b8%8a%e6%89%a7%e8%a1%8c%e5%87%bd%e6%95%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4343,7 +4343,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         5. 前置通配符
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#5-前置通配符" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 前置通配符" aria-label="Anchor to: 5. 前置通配符" href="#5-%e5%89%8d%e7%bd%ae%e9%80%9a%e9%85%8d%e7%ac%a6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#5-前置通配符" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 前置通配符" aria-label="Anchor to: 5. 前置通配符" href="#5-%e5%89%8d%e7%bd%ae%e9%80%9a%e9%85%8d%e7%ac%a6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4354,7 +4354,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         6. 类型不一致
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#6-类型不一致" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 类型不一致" aria-label="Anchor to: 6. 类型不一致" href="#6-%e7%b1%bb%e5%9e%8b%e4%b8%8d%e4%b8%80%e8%87%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#6-类型不一致" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 类型不一致" aria-label="Anchor to: 6. 类型不一致" href="#6-%e7%b1%bb%e5%9e%8b%e4%b8%8d%e4%b8%80%e8%87%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4365,7 +4365,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         7. 错误关联产生重复
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#7-错误关联产生重复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 错误关联产生重复" aria-label="Anchor to: 7. 错误关联产生重复" href="#7-%e9%94%99%e8%af%af%e5%85%b3%e8%81%94%e4%ba%a7%e7%94%9f%e9%87%8d%e5%a4%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#7-错误关联产生重复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 错误关联产生重复" aria-label="Anchor to: 7. 错误关联产生重复" href="#7-%e9%94%99%e8%af%af%e5%85%b3%e8%81%94%e4%ba%a7%e7%94%9f%e9%87%8d%e5%a4%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4375,7 +4375,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         8. <code>LEFT JOIN</code> 条件放错位置
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#8-left-join-条件放错位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. LEFT JOIN 条件放错位置" aria-label="Anchor to: 8. LEFT JOIN 条件放错位置" href="#8-left-join-%e6%9d%a1%e4%bb%b6%e6%94%be%e9%94%99%e4%bd%8d%e7%bd%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#8-left-join-条件放错位置" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. LEFT JOIN 条件放错位置" aria-label="Anchor to: 8. LEFT JOIN 条件放错位置" href="#8-left-join-%e6%9d%a1%e4%bb%b6%e6%94%be%e9%94%99%e4%bd%8d%e7%bd%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4385,7 +4385,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         9. 精确 <code>count(*)</code> 大表很慢
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#9-精确-count-大表很慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 精确 count(*) 大表很慢" aria-label="Anchor to: 9. 精确 count(*) 大表很慢" href="#9-%e7%b2%be%e7%a1%ae-count-%e5%a4%a7%e8%a1%a8%e5%be%88%e6%85%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#9-精确-count-大表很慢" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 精确 count(*) 大表很慢" aria-label="Anchor to: 9. 精确 count(*) 大表很慢" href="#9-%e7%b2%be%e7%a1%ae-count-%e5%a4%a7%e8%a1%a8%e5%be%88%e6%85%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4395,7 +4395,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         10. N+1 查询
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#10-n1-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. N&#43;1 查询" aria-label="Anchor to: 10. N&#43;1 查询" href="#10-n1-%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#10-n1-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. N&#43;1 查询" aria-label="Anchor to: 10. N&#43;1 查询" href="#10-n1-%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4413,7 +4413,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十五、Python psycopg 3 查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十五python-psycopg-3-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十五、Python psycopg 3 查询" aria-label="Anchor to: 三十五、Python psycopg 3 查询" href="#%e4%b8%89%e5%8d%81%e4%ba%94python-psycopg-3-%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十五python-psycopg-3-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十五、Python psycopg 3 查询" aria-label="Anchor to: 三十五、Python psycopg 3 查询" href="#%e4%b8%89%e5%8d%81%e4%ba%94python-psycopg-3-%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4468,7 +4468,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         大结果集不要直接 <code>fetchall()</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#大结果集不要直接-fetchall" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 大结果集不要直接 fetchall()" aria-label="Anchor to: 大结果集不要直接 fetchall()" href="#%e5%a4%a7%e7%bb%93%e6%9e%9c%e9%9b%86%e4%b8%8d%e8%a6%81%e7%9b%b4%e6%8e%a5-fetchall">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#大结果集不要直接-fetchall" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 大结果集不要直接 fetchall()" aria-label="Anchor to: 大结果集不要直接 fetchall()" href="#%e5%a4%a7%e7%bb%93%e6%9e%9c%e9%9b%86%e4%b8%8d%e8%a6%81%e7%9b%b4%e6%8e%a5-fetchall">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4496,7 +4496,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         禁止字符串拼接
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#禁止字符串拼接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 禁止字符串拼接" aria-label="Anchor to: 禁止字符串拼接" href="#%e7%a6%81%e6%ad%a2%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%8b%bc%e6%8e%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#禁止字符串拼接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 禁止字符串拼接" aria-label="Anchor to: 禁止字符串拼接" href="#%e7%a6%81%e6%ad%a2%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%8b%bc%e6%8e%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4534,7 +4534,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十六、SQLAlchemy 2.0 查询
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十六sqlalchemy-20-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十六、SQLAlchemy 2.0 查询" aria-label="Anchor to: 三十六、SQLAlchemy 2.0 查询" href="#%e4%b8%89%e5%8d%81%e5%85%adsqlalchemy-20-%e6%9f%a5%e8%af%a2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十六sqlalchemy-20-查询" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十六、SQLAlchemy 2.0 查询" aria-label="Anchor to: 三十六、SQLAlchemy 2.0 查询" href="#%e4%b8%89%e5%8d%81%e5%85%adsqlalchemy-20-%e6%9f%a5%e8%af%a2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4593,7 +4593,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十七、完整实战：最新行情与均线
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十七完整实战最新行情与均线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十七、完整实战：最新行情与均线" aria-label="Anchor to: 三十七、完整实战：最新行情与均线" href="#%e4%b8%89%e5%8d%81%e4%b8%83%e5%ae%8c%e6%95%b4%e5%ae%9e%e6%88%98%e6%9c%80%e6%96%b0%e8%a1%8c%e6%83%85%e4%b8%8e%e5%9d%87%e7%ba%bf">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十七完整实战最新行情与均线" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十七、完整实战：最新行情与均线" aria-label="Anchor to: 三十七、完整实战：最新行情与均线" href="#%e4%b8%89%e5%8d%81%e4%b8%83%e5%ae%8c%e6%95%b4%e5%ae%9e%e6%88%98%e6%9c%80%e6%96%b0%e8%a1%8c%e6%83%85%e4%b8%8e%e5%9d%87%e7%ba%bf">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -4689,7 +4689,7 @@ market.daily_quote ├── security_id ├── trade_date ├── open_pri
     >
         三十八、查询检查清单
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/07-select/#三十八查询检查清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十八、查询检查清单" aria-label="Anchor to: 三十八、查询检查清单" href="#%e4%b8%89%e5%8d%81%e5%85%ab%e6%9f%a5%e8%af%a2%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/08-select/#三十八查询检查清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三十八、查询检查清单" aria-label="Anchor to: 三十八、查询检查清单" href="#%e4%b8%89%e5%8d%81%e5%85%ab%e6%9f%a5%e8%af%a2%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

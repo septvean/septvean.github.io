@@ -44,7 +44,7 @@
 单行和多行插入 默认值与自动主键 返回插入结果 查询结果写入 冲突忽略 UPSERT：存在则更新，不存在则插入 事务批量写入 COPY 高性能导入 官方完整语法见 PostgreSQL 18 INSERT。
 一、准备示例表 CREATE SCHEMA IF NOT EXISTS market; CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, exchange_code varchar(8) NOT NULL, code varchar(6) NOT NULL, name text NOT NULL, industry text, is_st boolean NOT NULL DEFAULT false, is_active boolean NOT NULL DEFAULT true, extra jsonb NOT NULL DEFAULT &#39;{}&#39;::jsonb, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), CONSTRAINT uq_security_exchange_code UNIQUE (exchange_code, code), CONSTRAINT ck_security_code CHECK (code ~ &#39;^[0-9]{6}$&#39;), CONSTRAINT ck_security_name CHECK (btrim(name) &lt;&gt; &#39;&#39;) ); 日线行情表：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/04-insert/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/05-insert/" />
 
 <meta property="article:section" content="Database" />
 
@@ -62,7 +62,7 @@
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL INSERT",
-      "url": "https://documents.v2ep.com/database/postgres/04-insert/",
+      "url": "https://documents.v2ep.com/database/postgres/05-insert/",
       "headline": "PostgreSQL INSERT",
       "description": "PostgreSQL 使用 INSERT 向表中增加数据。它不仅能插入一条数据，还支持：\n单行和多行插入 默认值与自动主键 返回插入结果 查询结果写入 冲突忽略 UPSERT：存在则更新，不存在则插入 事务批量写入 COPY 高性能导入 官方完整语法见 PostgreSQL 18 INSERT。\n一、准备示例表 CREATE SCHEMA IF NOT EXISTS market; CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, exchange_code varchar(8) NOT NULL, code varchar(6) NOT NULL, name text NOT NULL, industry text, is_st boolean NOT NULL DEFAULT false, is_active boolean NOT NULL DEFAULT true, extra jsonb NOT NULL DEFAULT \u0027{}\u0027::jsonb, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), CONSTRAINT uq_security_exchange_code UNIQUE (exchange_code, code), CONSTRAINT ck_security_code CHECK (code ~ \u0027^[0-9]{6}$\u0027), CONSTRAINT ck_security_name CHECK (btrim(name) \u003c\u003e \u0027\u0027) ); 日线行情表：",
       "wordCount": "2244",
@@ -70,7 +70,7 @@
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/04-insert/"
+          "@id": "https://documents.v2ep.com/database/postgres/05-insert/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -154,7 +154,7 @@
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/04-insert/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/05-insert/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2186,7 +2186,7 @@
     >
         一、准备示例表
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#一准备示例表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、准备示例表" aria-label="Anchor to: 一、准备示例表" href="#%e4%b8%80%e5%87%86%e5%a4%87%e7%a4%ba%e4%be%8b%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#一准备示例表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、准备示例表" aria-label="Anchor to: 一、准备示例表" href="#%e4%b8%80%e5%87%86%e5%a4%87%e7%a4%ba%e4%be%8b%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2262,7 +2262,7 @@
     >
         二、<code>INSERT</code> 基本语法
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#二insert-基本语法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、INSERT 基本语法" aria-label="Anchor to: 二、INSERT 基本语法" href="#%e4%ba%8cinsert-%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#二insert-基本语法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、INSERT 基本语法" aria-label="Anchor to: 二、INSERT 基本语法" href="#%e4%ba%8cinsert-%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2290,7 +2290,7 @@
     >
         字段和值按位置对应
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#字段和值按位置对应" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 字段和值按位置对应" aria-label="Anchor to: 字段和值按位置对应" href="#%e5%ad%97%e6%ae%b5%e5%92%8c%e5%80%bc%e6%8c%89%e4%bd%8d%e7%bd%ae%e5%af%b9%e5%ba%94">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#字段和值按位置对应" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 字段和值按位置对应" aria-label="Anchor to: 字段和值按位置对应" href="#%e5%ad%97%e6%ae%b5%e5%92%8c%e5%80%bc%e6%8c%89%e4%bd%8d%e7%bd%ae%e5%af%b9%e5%ba%94">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2344,7 +2344,7 @@
     >
         三、必须显式写字段名
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#三必须显式写字段名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、必须显式写字段名" aria-label="Anchor to: 三、必须显式写字段名" href="#%e4%b8%89%e5%bf%85%e9%a1%bb%e6%98%be%e5%bc%8f%e5%86%99%e5%ad%97%e6%ae%b5%e5%90%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#三必须显式写字段名" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、必须显式写字段名" aria-label="Anchor to: 三、必须显式写字段名" href="#%e4%b8%89%e5%bf%85%e9%a1%bb%e6%98%be%e5%bc%8f%e5%86%99%e5%ad%97%e6%ae%b5%e5%90%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2393,7 +2393,7 @@
     >
         四、省略字段、<code>DEFAULT</code> 和 <code>NULL</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#四省略字段default-和-null" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、省略字段、DEFAULT 和 NULL" aria-label="Anchor to: 四、省略字段、DEFAULT 和 NULL" href="#%e5%9b%9b%e7%9c%81%e7%95%a5%e5%ad%97%e6%ae%b5default-%e5%92%8c-null">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#四省略字段default-和-null" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、省略字段、DEFAULT 和 NULL" aria-label="Anchor to: 四、省略字段、DEFAULT 和 NULL" href="#%e5%9b%9b%e7%9c%81%e7%95%a5%e5%ad%97%e6%ae%b5default-%e5%92%8c-null">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2403,7 +2403,7 @@
     >
         1. 省略字段
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#1-省略字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 省略字段" aria-label="Anchor to: 1. 省略字段" href="#1-%e7%9c%81%e7%95%a5%e5%ad%97%e6%ae%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#1-省略字段" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 省略字段" aria-label="Anchor to: 1. 省略字段" href="#1-%e7%9c%81%e7%95%a5%e5%ad%97%e6%ae%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2435,7 +2435,7 @@
     >
         2. 显式使用 <code>DEFAULT</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#2-显式使用-default" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 显式使用 DEFAULT" aria-label="Anchor to: 2. 显式使用 DEFAULT" href="#2-%e6%98%be%e5%bc%8f%e4%bd%bf%e7%94%a8-default">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#2-显式使用-default" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 显式使用 DEFAULT" aria-label="Anchor to: 2. 显式使用 DEFAULT" href="#2-%e6%98%be%e5%bc%8f%e4%bd%bf%e7%94%a8-default">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2472,7 +2472,7 @@
     >
         3. 显式插入 <code>NULL</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#3-显式插入-null" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 显式插入 NULL" aria-label="Anchor to: 3. 显式插入 NULL" href="#3-%e6%98%be%e5%bc%8f%e6%8f%92%e5%85%a5-null">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#3-显式插入-null" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 显式插入 NULL" aria-label="Anchor to: 3. 显式插入 NULL" href="#3-%e6%98%be%e5%bc%8f%e6%8f%92%e5%85%a5-null">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2533,7 +2533,7 @@
     >
         4. 全部使用默认值
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#4-全部使用默认值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 全部使用默认值" aria-label="Anchor to: 4. 全部使用默认值" href="#4-%e5%85%a8%e9%83%a8%e4%bd%bf%e7%94%a8%e9%bb%98%e8%ae%a4%e5%80%bc">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#4-全部使用默认值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 全部使用默认值" aria-label="Anchor to: 4. 全部使用默认值" href="#4-%e5%85%a8%e9%83%a8%e4%bd%bf%e7%94%a8%e9%bb%98%e8%ae%a4%e5%80%bc">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2552,7 +2552,7 @@
     >
         五、数据类型的正确写法
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#五数据类型的正确写法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、数据类型的正确写法" aria-label="Anchor to: 五、数据类型的正确写法" href="#%e4%ba%94%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e7%9a%84%e6%ad%a3%e7%a1%ae%e5%86%99%e6%b3%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#五数据类型的正确写法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、数据类型的正确写法" aria-label="Anchor to: 五、数据类型的正确写法" href="#%e4%ba%94%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e7%9a%84%e6%ad%a3%e7%a1%ae%e5%86%99%e6%b3%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2561,7 +2561,7 @@
     >
         1. 字符串
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#1-字符串" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 字符串" aria-label="Anchor to: 1. 字符串" href="#1-%e5%ad%97%e7%ac%a6%e4%b8%b2">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#1-字符串" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 字符串" aria-label="Anchor to: 1. 字符串" href="#1-%e5%ad%97%e7%ac%a6%e4%b8%b2">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2579,7 +2579,7 @@
     >
         2. 股票代码
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#2-股票代码" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 股票代码" aria-label="Anchor to: 2. 股票代码" href="#2-%e8%82%a1%e7%a5%a8%e4%bb%a3%e7%a0%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#2-股票代码" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 股票代码" aria-label="Anchor to: 2. 股票代码" href="#2-%e8%82%a1%e7%a5%a8%e4%bb%a3%e7%a0%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2594,7 +2594,7 @@
     >
         3. 日期
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#3-日期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 日期" aria-label="Anchor to: 3. 日期" href="#3-%e6%97%a5%e6%9c%9f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#3-日期" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 日期" aria-label="Anchor to: 3. 日期" href="#3-%e6%97%a5%e6%9c%9f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2630,7 +2630,7 @@
     >
         4. 时间
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#4-时间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 时间" aria-label="Anchor to: 4. 时间" href="#4-%e6%97%b6%e9%97%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#4-时间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 时间" aria-label="Anchor to: 4. 时间" href="#4-%e6%97%b6%e9%97%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2644,7 +2644,7 @@
     >
         5. 布尔值
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#5-布尔值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 布尔值" aria-label="Anchor to: 5. 布尔值" href="#5-%e5%b8%83%e5%b0%94%e5%80%bc">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#5-布尔值" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 布尔值" aria-label="Anchor to: 5. 布尔值" href="#5-%e5%b8%83%e5%b0%94%e5%80%bc">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2670,7 +2670,7 @@
     >
         6. JSONB
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#6-jsonb" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. JSONB" aria-label="Anchor to: 6. JSONB" href="#6-jsonb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#6-jsonb" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. JSONB" aria-label="Anchor to: 6. JSONB" href="#6-jsonb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2711,7 +2711,7 @@
     >
         六、一次插入多行
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#六一次插入多行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、一次插入多行" aria-label="Anchor to: 六、一次插入多行" href="#%e5%85%ad%e4%b8%80%e6%ac%a1%e6%8f%92%e5%85%a5%e5%a4%9a%e8%a1%8c">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#六一次插入多行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、一次插入多行" aria-label="Anchor to: 六、一次插入多行" href="#%e5%85%ad%e4%b8%80%e6%ac%a1%e6%8f%92%e5%85%a5%e5%a4%9a%e8%a1%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2754,7 +2754,7 @@
     >
         七、使用表达式插入数据
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#七使用表达式插入数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、使用表达式插入数据" aria-label="Anchor to: 七、使用表达式插入数据" href="#%e4%b8%83%e4%bd%bf%e7%94%a8%e8%a1%a8%e8%be%be%e5%bc%8f%e6%8f%92%e5%85%a5%e6%95%b0%e6%8d%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#七使用表达式插入数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、使用表达式插入数据" aria-label="Anchor to: 七、使用表达式插入数据" href="#%e4%b8%83%e4%bd%bf%e7%94%a8%e8%a1%a8%e8%be%be%e5%bc%8f%e6%8f%92%e5%85%a5%e6%95%b0%e6%8d%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2791,7 +2791,7 @@
     >
         八、自动主键与 Identity
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#八自动主键与-identity" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、自动主键与 Identity" aria-label="Anchor to: 八、自动主键与 Identity" href="#%e5%85%ab%e8%87%aa%e5%8a%a8%e4%b8%bb%e9%94%ae%e4%b8%8e-identity">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#八自动主键与-identity" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、自动主键与 Identity" aria-label="Anchor to: 八、自动主键与 Identity" href="#%e5%85%ab%e8%87%aa%e5%8a%a8%e4%b8%bb%e9%94%ae%e4%b8%8e-identity">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2847,7 +2847,7 @@
     >
         九、使用 <code>RETURNING</code> 返回插入结果
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#九使用-returning-返回插入结果" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、使用 RETURNING 返回插入结果" aria-label="Anchor to: 九、使用 RETURNING 返回插入结果" href="#%e4%b9%9d%e4%bd%bf%e7%94%a8-returning-%e8%bf%94%e5%9b%9e%e6%8f%92%e5%85%a5%e7%bb%93%e6%9e%9c">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#九使用-returning-返回插入结果" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、使用 RETURNING 返回插入结果" aria-label="Anchor to: 九、使用 RETURNING 返回插入结果" href="#%e4%b9%9d%e4%bd%bf%e7%94%a8-returning-%e8%bf%94%e5%9b%9e%e6%8f%92%e5%85%a5%e7%bb%93%e6%9e%9c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2915,7 +2915,7 @@
     >
         十、PostgreSQL 18 的 <code>OLD</code> 和 <code>NEW</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十postgresql-18-的-old-和-new" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、PostgreSQL 18 的 OLD 和 NEW" aria-label="Anchor to: 十、PostgreSQL 18 的 OLD 和 NEW" href="#%e5%8d%81postgresql-18-%e7%9a%84-old-%e5%92%8c-new">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十postgresql-18-的-old-和-new" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、PostgreSQL 18 的 OLD 和 NEW" aria-label="Anchor to: 十、PostgreSQL 18 的 OLD 和 NEW" href="#%e5%8d%81postgresql-18-%e7%9a%84-old-%e5%92%8c-new">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2949,7 +2949,7 @@
     >
         十一、插入查询结果：<code>INSERT ... SELECT</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十一插入查询结果insert--select" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、插入查询结果：INSERT ... SELECT" aria-label="Anchor to: 十一、插入查询结果：INSERT ... SELECT" href="#%e5%8d%81%e4%b8%80%e6%8f%92%e5%85%a5%e6%9f%a5%e8%af%a2%e7%bb%93%e6%9e%9cinsert--select">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十一插入查询结果insert--select" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、插入查询结果：INSERT ... SELECT" aria-label="Anchor to: 十一、插入查询结果：INSERT ... SELECT" href="#%e5%8d%81%e4%b8%80%e6%8f%92%e5%85%a5%e6%9f%a5%e8%af%a2%e7%bb%93%e6%9e%9cinsert--select">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3003,7 +3003,7 @@
     >
         插入时清洗数据
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#插入时清洗数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 插入时清洗数据" aria-label="Anchor to: 插入时清洗数据" href="#%e6%8f%92%e5%85%a5%e6%97%b6%e6%b8%85%e6%b4%97%e6%95%b0%e6%8d%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#插入时清洗数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 插入时清洗数据" aria-label="Anchor to: 插入时清洗数据" href="#%e6%8f%92%e5%85%a5%e6%97%b6%e6%b8%85%e6%b4%97%e6%95%b0%e6%8d%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3033,7 +3033,7 @@
     >
         十二、重复数据：为什么会插入失败
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十二重复数据为什么会插入失败" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、重复数据：为什么会插入失败" aria-label="Anchor to: 十二、重复数据：为什么会插入失败" href="#%e5%8d%81%e4%ba%8c%e9%87%8d%e5%a4%8d%e6%95%b0%e6%8d%ae%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bc%9a%e6%8f%92%e5%85%a5%e5%a4%b1%e8%b4%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十二重复数据为什么会插入失败" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、重复数据：为什么会插入失败" aria-label="Anchor to: 十二、重复数据：为什么会插入失败" href="#%e5%8d%81%e4%ba%8c%e9%87%8d%e5%a4%8d%e6%95%b0%e6%8d%ae%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bc%9a%e6%8f%92%e5%85%a5%e5%a4%b1%e8%b4%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3076,7 +3076,7 @@
     >
         十三、冲突时忽略：<code>DO NOTHING</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十三冲突时忽略do-nothing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、冲突时忽略：DO NOTHING" aria-label="Anchor to: 十三、冲突时忽略：DO NOTHING" href="#%e5%8d%81%e4%b8%89%e5%86%b2%e7%aa%81%e6%97%b6%e5%bf%bd%e7%95%a5do-nothing">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十三冲突时忽略do-nothing" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、冲突时忽略：DO NOTHING" aria-label="Anchor to: 十三、冲突时忽略：DO NOTHING" href="#%e5%8d%81%e4%b8%89%e5%86%b2%e7%aa%81%e6%97%b6%e5%bf%bd%e7%95%a5do-nothing">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3116,7 +3116,7 @@
     >
         <code>DO NOTHING</code> 与 <code>RETURNING</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#do-nothing-与-returning" class="gdoc-page__anchor clip flex align-center" title="Anchor to: DO NOTHING 与 RETURNING" aria-label="Anchor to: DO NOTHING 与 RETURNING" href="#do-nothing-%e4%b8%8e-returning">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#do-nothing-与-returning" class="gdoc-page__anchor clip flex align-center" title="Anchor to: DO NOTHING 与 RETURNING" aria-label="Anchor to: DO NOTHING 与 RETURNING" href="#do-nothing-%e4%b8%8e-returning">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3141,7 +3141,7 @@
     >
         十四、存在则更新：UPSERT
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十四存在则更新upsert" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、存在则更新：UPSERT" aria-label="Anchor to: 十四、存在则更新：UPSERT" href="#%e5%8d%81%e5%9b%9b%e5%ad%98%e5%9c%a8%e5%88%99%e6%9b%b4%e6%96%b0upsert">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十四存在则更新upsert" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、存在则更新：UPSERT" aria-label="Anchor to: 十四、存在则更新：UPSERT" href="#%e5%8d%81%e5%9b%9b%e5%ad%98%e5%9c%a8%e5%88%99%e6%9b%b4%e6%96%b0upsert">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3189,7 +3189,7 @@
     >
         <code>EXCLUDED</code> 的含义
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#excluded-的含义" class="gdoc-page__anchor clip flex align-center" title="Anchor to: EXCLUDED 的含义" aria-label="Anchor to: EXCLUDED 的含义" href="#excluded-%e7%9a%84%e5%90%ab%e4%b9%89">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#excluded-的含义" class="gdoc-page__anchor clip flex align-center" title="Anchor to: EXCLUDED 的含义" aria-label="Anchor to: EXCLUDED 的含义" href="#excluded-%e7%9a%84%e5%90%ab%e4%b9%89">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3213,7 +3213,7 @@
     >
         十五、只在数据发生变化时更新
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十五只在数据发生变化时更新" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、只在数据发生变化时更新" aria-label="Anchor to: 十五、只在数据发生变化时更新" href="#%e5%8d%81%e4%ba%94%e5%8f%aa%e5%9c%a8%e6%95%b0%e6%8d%ae%e5%8f%91%e7%94%9f%e5%8f%98%e5%8c%96%e6%97%b6%e6%9b%b4%e6%96%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十五只在数据发生变化时更新" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、只在数据发生变化时更新" aria-label="Anchor to: 十五、只在数据发生变化时更新" href="#%e5%8d%81%e4%ba%94%e5%8f%aa%e5%9c%a8%e6%95%b0%e6%8d%ae%e5%8f%91%e7%94%9f%e5%8f%98%e5%8c%96%e6%97%b6%e6%9b%b4%e6%96%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3267,7 +3267,7 @@
     >
         十六、行情数据 UPSERT
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十六行情数据-upsert" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、行情数据 UPSERT" aria-label="Anchor to: 十六、行情数据 UPSERT" href="#%e5%8d%81%e5%85%ad%e8%a1%8c%e6%83%85%e6%95%b0%e6%8d%ae-upsert">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十六行情数据-upsert" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、行情数据 UPSERT" aria-label="Anchor to: 十六、行情数据 UPSERT" href="#%e5%8d%81%e5%85%ad%e8%a1%8c%e6%83%85%e6%95%b0%e6%8d%ae-upsert">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3332,7 +3332,7 @@
     >
         十七、UPSERT 返回新旧数据
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十七upsert-返回新旧数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、UPSERT 返回新旧数据" aria-label="Anchor to: 十七、UPSERT 返回新旧数据" href="#%e5%8d%81%e4%b8%83upsert-%e8%bf%94%e5%9b%9e%e6%96%b0%e6%97%a7%e6%95%b0%e6%8d%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十七upsert-返回新旧数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、UPSERT 返回新旧数据" aria-label="Anchor to: 十七、UPSERT 返回新旧数据" href="#%e5%8d%81%e4%b8%83upsert-%e8%bf%94%e5%9b%9e%e6%96%b0%e6%97%a7%e6%95%b0%e6%8d%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3374,7 +3374,7 @@
     >
         十八、<code>ON CONFLICT</code> 不能处理所有错误
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十八on-conflict-不能处理所有错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十八、ON CONFLICT 不能处理所有错误" aria-label="Anchor to: 十八、ON CONFLICT 不能处理所有错误" href="#%e5%8d%81%e5%85%abon-conflict-%e4%b8%8d%e8%83%bd%e5%a4%84%e7%90%86%e6%89%80%e6%9c%89%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十八on-conflict-不能处理所有错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十八、ON CONFLICT 不能处理所有错误" aria-label="Anchor to: 十八、ON CONFLICT 不能处理所有错误" href="#%e5%8d%81%e5%85%abon-conflict-%e4%b8%8d%e8%83%bd%e5%a4%84%e7%90%86%e6%89%80%e6%9c%89%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3410,7 +3410,7 @@
     >
         十九、一批 UPSERT 数据内部不能重复
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#十九一批-upsert-数据内部不能重复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十九、一批 UPSERT 数据内部不能重复" aria-label="Anchor to: 十九、一批 UPSERT 数据内部不能重复" href="#%e5%8d%81%e4%b9%9d%e4%b8%80%e6%89%b9-upsert-%e6%95%b0%e6%8d%ae%e5%86%85%e9%83%a8%e4%b8%8d%e8%83%bd%e9%87%8d%e5%a4%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#十九一批-upsert-数据内部不能重复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十九、一批 UPSERT 数据内部不能重复" aria-label="Anchor to: 十九、一批 UPSERT 数据内部不能重复" href="#%e5%8d%81%e4%b9%9d%e4%b8%80%e6%89%b9-upsert-%e6%95%b0%e6%8d%ae%e5%86%85%e9%83%a8%e4%b8%8d%e8%83%bd%e9%87%8d%e5%a4%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3462,7 +3462,7 @@
     >
         二十、在事务中插入
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#二十在事务中插入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十、在事务中插入" aria-label="Anchor to: 二十、在事务中插入" href="#%e4%ba%8c%e5%8d%81%e5%9c%a8%e4%ba%8b%e5%8a%a1%e4%b8%ad%e6%8f%92%e5%85%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#二十在事务中插入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十、在事务中插入" aria-label="Anchor to: 二十、在事务中插入" href="#%e4%ba%8c%e5%8d%81%e5%9c%a8%e4%ba%8b%e5%8a%a1%e4%b8%ad%e6%8f%92%e5%85%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3471,7 +3471,7 @@
     >
         1. 单条语句本身具有原子性
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#1-单条语句本身具有原子性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 单条语句本身具有原子性" aria-label="Anchor to: 1. 单条语句本身具有原子性" href="#1-%e5%8d%95%e6%9d%a1%e8%af%ad%e5%8f%a5%e6%9c%ac%e8%ba%ab%e5%85%b7%e6%9c%89%e5%8e%9f%e5%ad%90%e6%80%a7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#1-单条语句本身具有原子性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 单条语句本身具有原子性" aria-label="Anchor to: 1. 单条语句本身具有原子性" href="#1-%e5%8d%95%e6%9d%a1%e8%af%ad%e5%8f%a5%e6%9c%ac%e8%ba%ab%e5%85%b7%e6%9c%89%e5%8e%9f%e5%ad%90%e6%80%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3481,7 +3481,7 @@
     >
         2. 多条语句组成一个事务
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#2-多条语句组成一个事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 多条语句组成一个事务" aria-label="Anchor to: 2. 多条语句组成一个事务" href="#2-%e5%a4%9a%e6%9d%a1%e8%af%ad%e5%8f%a5%e7%bb%84%e6%88%90%e4%b8%80%e4%b8%aa%e4%ba%8b%e5%8a%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#2-多条语句组成一个事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 多条语句组成一个事务" aria-label="Anchor to: 2. 多条语句组成一个事务" href="#2-%e5%a4%9a%e6%9d%a1%e8%af%ad%e5%8f%a5%e7%bb%84%e6%88%90%e4%b8%80%e4%b8%aa%e4%ba%8b%e5%8a%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3521,7 +3521,7 @@
     >
         使用保存点
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#使用保存点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 使用保存点" aria-label="Anchor to: 使用保存点" href="#%e4%bd%bf%e7%94%a8%e4%bf%9d%e5%ad%98%e7%82%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#使用保存点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 使用保存点" aria-label="Anchor to: 使用保存点" href="#%e4%bd%bf%e7%94%a8%e4%bf%9d%e5%ad%98%e7%82%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3577,7 +3577,7 @@
     >
         二十一、大批量导入：<code>INSERT</code> 还是 <code>COPY</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#二十一大批量导入insert-还是-copy" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十一、大批量导入：INSERT 还是 COPY" aria-label="Anchor to: 二十一、大批量导入：INSERT 还是 COPY" href="#%e4%ba%8c%e5%8d%81%e4%b8%80%e5%a4%a7%e6%89%b9%e9%87%8f%e5%af%bc%e5%85%a5insert-%e8%bf%98%e6%98%af-copy">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#二十一大批量导入insert-还是-copy" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十一、大批量导入：INSERT 还是 COPY" aria-label="Anchor to: 二十一、大批量导入：INSERT 还是 COPY" href="#%e4%ba%8c%e5%8d%81%e4%b8%80%e5%a4%a7%e6%89%b9%e9%87%8f%e5%af%bc%e5%85%a5insert-%e8%bf%98%e6%98%af-copy">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3653,7 +3653,7 @@
     >
         推荐的大批量导入流程
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#推荐的大批量导入流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 推荐的大批量导入流程" aria-label="Anchor to: 推荐的大批量导入流程" href="#%e6%8e%a8%e8%8d%90%e7%9a%84%e5%a4%a7%e6%89%b9%e9%87%8f%e5%af%bc%e5%85%a5%e6%b5%81%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#推荐的大批量导入流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 推荐的大批量导入流程" aria-label="Anchor to: 推荐的大批量导入流程" href="#%e6%8e%a8%e8%8d%90%e7%9a%84%e5%a4%a7%e6%89%b9%e9%87%8f%e5%af%bc%e5%85%a5%e6%b5%81%e7%a8%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3706,7 +3706,7 @@
     >
         二十二、Python psycopg 3 插入
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#二十二python-psycopg-3-插入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十二、Python psycopg 3 插入" aria-label="Anchor to: 二十二、Python psycopg 3 插入" href="#%e4%ba%8c%e5%8d%81%e4%ba%8cpython-psycopg-3-%e6%8f%92%e5%85%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#二十二python-psycopg-3-插入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十二、Python psycopg 3 插入" aria-label="Anchor to: 二十二、Python psycopg 3 插入" href="#%e4%ba%8c%e5%8d%81%e4%ba%8cpython-psycopg-3-%e6%8f%92%e5%85%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3765,7 +3765,7 @@
     >
         二十三、SQLAlchemy 2.0 插入
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#二十三sqlalchemy-20-插入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十三、SQLAlchemy 2.0 插入" aria-label="Anchor to: 二十三、SQLAlchemy 2.0 插入" href="#%e4%ba%8c%e5%8d%81%e4%b8%89sqlalchemy-20-%e6%8f%92%e5%85%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#二十三sqlalchemy-20-插入" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十三、SQLAlchemy 2.0 插入" aria-label="Anchor to: 二十三、SQLAlchemy 2.0 插入" href="#%e4%ba%8c%e5%8d%81%e4%b8%89sqlalchemy-20-%e6%8f%92%e5%85%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3830,7 +3830,7 @@
     >
         二十四、常见插入错误
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#二十四常见插入错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十四、常见插入错误" aria-label="Anchor to: 二十四、常见插入错误" href="#%e4%ba%8c%e5%8d%81%e5%9b%9b%e5%b8%b8%e8%a7%81%e6%8f%92%e5%85%a5%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#二十四常见插入错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十四、常见插入错误" aria-label="Anchor to: 二十四、常见插入错误" href="#%e4%ba%8c%e5%8d%81%e5%9b%9b%e5%b8%b8%e8%a7%81%e6%8f%92%e5%85%a5%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3839,7 +3839,7 @@
     >
         1. 字段和值数量不一致
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#1-字段和值数量不一致" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 字段和值数量不一致" aria-label="Anchor to: 1. 字段和值数量不一致" href="#1-%e5%ad%97%e6%ae%b5%e5%92%8c%e5%80%bc%e6%95%b0%e9%87%8f%e4%b8%8d%e4%b8%80%e8%87%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#1-字段和值数量不一致" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 字段和值数量不一致" aria-label="Anchor to: 1. 字段和值数量不一致" href="#1-%e5%ad%97%e6%ae%b5%e5%92%8c%e5%80%bc%e6%95%b0%e9%87%8f%e4%b8%8d%e4%b8%80%e8%87%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3857,7 +3857,7 @@
     >
         2. 数据类型错误
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#2-数据类型错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 数据类型错误" aria-label="Anchor to: 2. 数据类型错误" href="#2-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#2-数据类型错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 数据类型错误" aria-label="Anchor to: 2. 数据类型错误" href="#2-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3886,7 +3886,7 @@
     >
         3. 非空约束错误
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#3-非空约束错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 非空约束错误" aria-label="Anchor to: 3. 非空约束错误" href="#3-%e9%9d%9e%e7%a9%ba%e7%ba%a6%e6%9d%9f%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#3-非空约束错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 非空约束错误" aria-label="Anchor to: 3. 非空约束错误" href="#3-%e9%9d%9e%e7%a9%ba%e7%ba%a6%e6%9d%9f%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3905,7 +3905,7 @@
     >
         4. 唯一约束错误
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#4-唯一约束错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 唯一约束错误" aria-label="Anchor to: 4. 唯一约束错误" href="#4-%e5%94%af%e4%b8%80%e7%ba%a6%e6%9d%9f%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#4-唯一约束错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 唯一约束错误" aria-label="Anchor to: 4. 唯一约束错误" href="#4-%e5%94%af%e4%b8%80%e7%ba%a6%e6%9d%9f%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3916,7 +3916,7 @@
     >
         5. 检查约束错误
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#5-检查约束错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 检查约束错误" aria-label="Anchor to: 5. 检查约束错误" href="#5-%e6%a3%80%e6%9f%a5%e7%ba%a6%e6%9d%9f%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#5-检查约束错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 检查约束错误" aria-label="Anchor to: 5. 检查约束错误" href="#5-%e6%a3%80%e6%9f%a5%e7%ba%a6%e6%9d%9f%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3928,7 +3928,7 @@
     >
         6. 外键错误
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#6-外键错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 外键错误" aria-label="Anchor to: 6. 外键错误" href="#6-%e5%a4%96%e9%94%ae%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#6-外键错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 外键错误" aria-label="Anchor to: 6. 外键错误" href="#6-%e5%a4%96%e9%94%ae%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3939,7 +3939,7 @@
     >
         7. 字符串超长
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#7-字符串超长" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 字符串超长" aria-label="Anchor to: 7. 字符串超长" href="#7-%e5%ad%97%e7%ac%a6%e4%b8%b2%e8%b6%85%e9%95%bf">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#7-字符串超长" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 字符串超长" aria-label="Anchor to: 7. 字符串超长" href="#7-%e5%ad%97%e7%ac%a6%e4%b8%b2%e8%b6%85%e9%95%bf">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3951,7 +3951,7 @@
     >
         8. 把数字当成字符串拼接
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#8-把数字当成字符串拼接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 把数字当成字符串拼接" aria-label="Anchor to: 8. 把数字当成字符串拼接" href="#8-%e6%8a%8a%e6%95%b0%e5%ad%97%e5%bd%93%e6%88%90%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%8b%bc%e6%8e%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#8-把数字当成字符串拼接" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 把数字当成字符串拼接" aria-label="Anchor to: 8. 把数字当成字符串拼接" href="#8-%e6%8a%8a%e6%95%b0%e5%ad%97%e5%bd%93%e6%88%90%e5%ad%97%e7%ac%a6%e4%b8%b2%e6%8b%bc%e6%8e%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3962,7 +3962,7 @@
     >
         二十五、“增”的推荐实践
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/04-insert/#二十五增的推荐实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十五、“增”的推荐实践" aria-label="Anchor to: 二十五、“增”的推荐实践" href="#%e4%ba%8c%e5%8d%81%e4%ba%94%e5%a2%9e%e7%9a%84%e6%8e%a8%e8%8d%90%e5%ae%9e%e8%b7%b5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-insert/#二十五增的推荐实践" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十五、“增”的推荐实践" aria-label="Anchor to: 二十五、“增”的推荐实践" href="#%e4%ba%8c%e5%8d%81%e4%ba%94%e5%a2%9e%e7%9a%84%e6%8e%a8%e8%8d%90%e5%ae%9e%e8%b7%b5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

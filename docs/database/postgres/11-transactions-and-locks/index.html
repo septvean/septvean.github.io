@@ -52,7 +52,7 @@ MVCC 负责让读写尽量互不阻塞，锁负责处理真正冲突的数据操
 扣减持仓 写入成交记录 更新账户资金 写入资金流水 这些操作必须全部成功，否则全部撤销。
 BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 1 AND security_id = 1001; INSERT INTO trading.trade_log ( account_id, security_id, trade_type, quantity ) VALUES (1, 1001, &#39;SELL&#39;, 100); UPDATE trading.account SET available_cash = available_cash &#43; 150000 WHERE account_id = 1; COMMIT; 如果中间出错：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/" />
 
 <meta property="article:section" content="Database" />
 
@@ -74,7 +74,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 事务与锁",
-      "url": "https://documents.v2ep.com/database/postgres/10-transactions-and-locks/",
+      "url": "https://documents.v2ep.com/database/postgres/11-transactions-and-locks/",
       "headline": "PostgreSQL 事务与锁",
       "description": "事务解决的是“多个操作必须一起成功或一起失败”，锁解决的是“多个事务同时操作数据时，谁先执行、谁等待”。\nPostgreSQL 的并发控制核心是：\nMVCC 负责让读写尽量互不阻塞，锁负责处理真正冲突的数据操作，隔离级别负责决定事务能够看到什么。\n1. 什么是事务 事务是一组不可分割的数据库操作。\n例如卖出股票需要：\n扣减持仓 写入成交记录 更新账户资金 写入资金流水 这些操作必须全部成功，否则全部撤销。\nBEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 1 AND security_id = 1001; INSERT INTO trading.trade_log ( account_id, security_id, trade_type, quantity ) VALUES (1, 1001, \u0027SELL\u0027, 100); UPDATE trading.account SET available_cash = available_cash \u002b 150000 WHERE account_id = 1; COMMIT; 如果中间出错：",
       "wordCount": "1878",
@@ -82,7 +82,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/10-transactions-and-locks/"
+          "@id": "https://documents.v2ep.com/database/postgres/11-transactions-and-locks/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -166,7 +166,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2188,7 +2188,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         1. 什么是事务
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#1-什么是事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 什么是事务" aria-label="Anchor to: 1. 什么是事务" href="#1-%e4%bb%80%e4%b9%88%e6%98%af%e4%ba%8b%e5%8a%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#1-什么是事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 什么是事务" aria-label="Anchor to: 1. 什么是事务" href="#1-%e4%bb%80%e4%b9%88%e6%98%af%e4%ba%8b%e5%8a%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2233,7 +2233,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         2. ACID 特性
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#2-acid-特性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. ACID 特性" aria-label="Anchor to: 2. ACID 特性" href="#2-acid-%e7%89%b9%e6%80%a7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#2-acid-特性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. ACID 特性" aria-label="Anchor to: 2. ACID 特性" href="#2-acid-%e7%89%b9%e6%80%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2242,7 +2242,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         2.1 原子性 Atomicity
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#21-原子性-atomicity" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.1 原子性 Atomicity" aria-label="Anchor to: 2.1 原子性 Atomicity" href="#21-%e5%8e%9f%e5%ad%90%e6%80%a7-atomicity">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#21-原子性-atomicity" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.1 原子性 Atomicity" aria-label="Anchor to: 2.1 原子性 Atomicity" href="#21-%e5%8e%9f%e5%ad%90%e6%80%a7-atomicity">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2257,7 +2257,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         2.2 一致性 Consistency
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#22-一致性-consistency" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.2 一致性 Consistency" aria-label="Anchor to: 2.2 一致性 Consistency" href="#22-%e4%b8%80%e8%87%b4%e6%80%a7-consistency">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#22-一致性-consistency" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.2 一致性 Consistency" aria-label="Anchor to: 2.2 一致性 Consistency" href="#22-%e4%b8%80%e8%87%b4%e6%80%a7-consistency">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2278,7 +2278,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         2.3 隔离性 Isolation
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#23-隔离性-isolation" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.3 隔离性 Isolation" aria-label="Anchor to: 2.3 隔离性 Isolation" href="#23-%e9%9a%94%e7%a6%bb%e6%80%a7-isolation">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#23-隔离性-isolation" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.3 隔离性 Isolation" aria-label="Anchor to: 2.3 隔离性 Isolation" href="#23-%e9%9a%94%e7%a6%bb%e6%80%a7-isolation">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2288,7 +2288,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         2.4 持久性 Durability
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#24-持久性-durability" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.4 持久性 Durability" aria-label="Anchor to: 2.4 持久性 Durability" href="#24-%e6%8c%81%e4%b9%85%e6%80%a7-durability">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#24-持久性-durability" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2.4 持久性 Durability" aria-label="Anchor to: 2.4 持久性 Durability" href="#24-%e6%8c%81%e4%b9%85%e6%80%a7-durability">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2299,7 +2299,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         3. 基本事务控制
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#3-基本事务控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 基本事务控制" aria-label="Anchor to: 3. 基本事务控制" href="#3-%e5%9f%ba%e6%9c%ac%e4%ba%8b%e5%8a%a1%e6%8e%a7%e5%88%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#3-基本事务控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 基本事务控制" aria-label="Anchor to: 3. 基本事务控制" href="#3-%e5%9f%ba%e6%9c%ac%e4%ba%8b%e5%8a%a1%e6%8e%a7%e5%88%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2308,7 +2308,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         3.1 提交事务
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#31-提交事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.1 提交事务" aria-label="Anchor to: 3.1 提交事务" href="#31-%e6%8f%90%e4%ba%a4%e4%ba%8b%e5%8a%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#31-提交事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.1 提交事务" aria-label="Anchor to: 3.1 提交事务" href="#31-%e6%8f%90%e4%ba%a4%e4%ba%8b%e5%8a%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2329,7 +2329,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         3.2 回滚事务
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#32-回滚事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.2 回滚事务" aria-label="Anchor to: 3.2 回滚事务" href="#32-%e5%9b%9e%e6%bb%9a%e4%ba%8b%e5%8a%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#32-回滚事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.2 回滚事务" aria-label="Anchor to: 3.2 回滚事务" href="#32-%e5%9b%9e%e6%bb%9a%e4%ba%8b%e5%8a%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2346,7 +2346,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         3.3 事务出错后的状态
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#33-事务出错后的状态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.3 事务出错后的状态" aria-label="Anchor to: 3.3 事务出错后的状态" href="#33-%e4%ba%8b%e5%8a%a1%e5%87%ba%e9%94%99%e5%90%8e%e7%9a%84%e7%8a%b6%e6%80%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#33-事务出错后的状态" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3.3 事务出错后的状态" aria-label="Anchor to: 3.3 事务出错后的状态" href="#33-%e4%ba%8b%e5%8a%a1%e5%87%ba%e9%94%99%e5%90%8e%e7%9a%84%e7%8a%b6%e6%80%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2374,7 +2374,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         4. SAVEPOINT 保存点
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#4-savepoint-保存点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. SAVEPOINT 保存点" aria-label="Anchor to: 4. SAVEPOINT 保存点" href="#4-savepoint-%e4%bf%9d%e5%ad%98%e7%82%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#4-savepoint-保存点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. SAVEPOINT 保存点" aria-label="Anchor to: 4. SAVEPOINT 保存点" href="#4-savepoint-%e4%bf%9d%e5%ad%98%e7%82%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2423,7 +2423,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         5. 序列不会随事务回滚
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#5-序列不会随事务回滚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 序列不会随事务回滚" aria-label="Anchor to: 5. 序列不会随事务回滚" href="#5-%e5%ba%8f%e5%88%97%e4%b8%8d%e4%bc%9a%e9%9a%8f%e4%ba%8b%e5%8a%a1%e5%9b%9e%e6%bb%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#5-序列不会随事务回滚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 序列不会随事务回滚" aria-label="Anchor to: 5. 序列不会随事务回滚" href="#5-%e5%ba%8f%e5%88%97%e4%b8%8d%e4%bc%9a%e9%9a%8f%e4%ba%8b%e5%8a%a1%e5%9b%9e%e6%bb%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2449,7 +2449,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         6. MVCC：多版本并发控制
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#6-mvcc多版本并发控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. MVCC：多版本并发控制" aria-label="Anchor to: 6. MVCC：多版本并发控制" href="#6-mvcc%e5%a4%9a%e7%89%88%e6%9c%ac%e5%b9%b6%e5%8f%91%e6%8e%a7%e5%88%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#6-mvcc多版本并发控制" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. MVCC：多版本并发控制" aria-label="Anchor to: 6. MVCC：多版本并发控制" href="#6-mvcc%e5%a4%9a%e7%89%88%e6%9c%ac%e5%b9%b6%e5%8f%91%e6%8e%a7%e5%88%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2490,7 +2490,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         7. 事务隔离级别
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#7-事务隔离级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 事务隔离级别" aria-label="Anchor to: 7. 事务隔离级别" href="#7-%e4%ba%8b%e5%8a%a1%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#7-事务隔离级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 事务隔离级别" aria-label="Anchor to: 7. 事务隔离级别" href="#7-%e4%ba%8b%e5%8a%a1%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2531,7 +2531,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         7.1 并发现象
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#71-并发现象" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.1 并发现象" aria-label="Anchor to: 7.1 并发现象" href="#71-%e5%b9%b6%e5%8f%91%e7%8e%b0%e8%b1%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#71-并发现象" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.1 并发现象" aria-label="Anchor to: 7.1 并发现象" href="#71-%e5%b9%b6%e5%8f%91%e7%8e%b0%e8%b1%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2606,7 +2606,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         7.2 Read Committed
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#72-read-committed" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.2 Read Committed" aria-label="Anchor to: 7.2 Read Committed" href="#72-read-committed">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#72-read-committed" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.2 Read Committed" aria-label="Anchor to: 7.2 Read Committed" href="#72-read-committed">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2657,7 +2657,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         7.3 Repeatable Read
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#73-repeatable-read" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.3 Repeatable Read" aria-label="Anchor to: 7.3 Repeatable Read" href="#73-repeatable-read">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#73-repeatable-read" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.3 Repeatable Read" aria-label="Anchor to: 7.3 Repeatable Read" href="#73-repeatable-read">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2693,7 +2693,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         7.4 Serializable
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#74-serializable" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.4 Serializable" aria-label="Anchor to: 7.4 Serializable" href="#74-serializable">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#74-serializable" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.4 Serializable" aria-label="Anchor to: 7.4 Serializable" href="#74-serializable">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2723,7 +2723,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         7.5 稳定的只读报表
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#75-稳定的只读报表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.5 稳定的只读报表" aria-label="Anchor to: 7.5 稳定的只读报表" href="#75-%e7%a8%b3%e5%ae%9a%e7%9a%84%e5%8f%aa%e8%af%bb%e6%8a%a5%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#75-稳定的只读报表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7.5 稳定的只读报表" aria-label="Anchor to: 7.5 稳定的只读报表" href="#75-%e7%a8%b3%e5%ae%9a%e7%9a%84%e5%8f%aa%e8%af%bb%e6%8a%a5%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2738,7 +2738,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         8. 丢失更新问题
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#8-丢失更新问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 丢失更新问题" aria-label="Anchor to: 8. 丢失更新问题" href="#8-%e4%b8%a2%e5%a4%b1%e6%9b%b4%e6%96%b0%e9%97%ae%e9%a2%98">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#8-丢失更新问题" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 丢失更新问题" aria-label="Anchor to: 8. 丢失更新问题" href="#8-%e4%b8%a2%e5%a4%b1%e6%9b%b4%e6%96%b0%e9%97%ae%e9%a2%98">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2760,7 +2760,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         8.1 使用原子更新
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#81-使用原子更新" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.1 使用原子更新" aria-label="Anchor to: 8.1 使用原子更新" href="#81-%e4%bd%bf%e7%94%a8%e5%8e%9f%e5%ad%90%e6%9b%b4%e6%96%b0">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#81-使用原子更新" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.1 使用原子更新" aria-label="Anchor to: 8.1 使用原子更新" href="#81-%e4%bd%bf%e7%94%a8%e5%8e%9f%e5%ad%90%e6%9b%b4%e6%96%b0">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2789,7 +2789,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         8.2 使用悲观锁
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#82-使用悲观锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.2 使用悲观锁" aria-label="Anchor to: 8.2 使用悲观锁" href="#82-%e4%bd%bf%e7%94%a8%e6%82%b2%e8%a7%82%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#82-使用悲观锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.2 使用悲观锁" aria-label="Anchor to: 8.2 使用悲观锁" href="#82-%e4%bd%bf%e7%94%a8%e6%82%b2%e8%a7%82%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2817,7 +2817,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         8.3 使用乐观锁
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#83-使用乐观锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.3 使用乐观锁" aria-label="Anchor to: 8.3 使用乐观锁" href="#83-%e4%bd%bf%e7%94%a8%e4%b9%90%e8%a7%82%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#83-使用乐观锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8.3 使用乐观锁" aria-label="Anchor to: 8.3 使用乐观锁" href="#83-%e4%bd%bf%e7%94%a8%e4%b9%90%e8%a7%82%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2838,7 +2838,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         9. 行级锁
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#9-行级锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 行级锁" aria-label="Anchor to: 9. 行级锁" href="#9-%e8%a1%8c%e7%ba%a7%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#9-行级锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 行级锁" aria-label="Anchor to: 9. 行级锁" href="#9-%e8%a1%8c%e7%ba%a7%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2883,7 +2883,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         9.1 FOR UPDATE
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#91-for-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.1 FOR UPDATE" aria-label="Anchor to: 9.1 FOR UPDATE" href="#91-for-update">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#91-for-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.1 FOR UPDATE" aria-label="Anchor to: 9.1 FOR UPDATE" href="#91-for-update">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2904,7 +2904,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         9.2 FOR NO KEY UPDATE
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#92-for-no-key-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.2 FOR NO KEY UPDATE" aria-label="Anchor to: 9.2 FOR NO KEY UPDATE" href="#92-for-no-key-update">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#92-for-no-key-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.2 FOR NO KEY UPDATE" aria-label="Anchor to: 9.2 FOR NO KEY UPDATE" href="#92-for-no-key-update">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2919,7 +2919,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         9.3 FOR SHARE
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#93-for-share" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.3 FOR SHARE" aria-label="Anchor to: 9.3 FOR SHARE" href="#93-for-share">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#93-for-share" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.3 FOR SHARE" aria-label="Anchor to: 9.3 FOR SHARE" href="#93-for-share">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2933,7 +2933,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         9.4 FOR KEY SHARE
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#94-for-key-share" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.4 FOR KEY SHARE" aria-label="Anchor to: 9.4 FOR KEY SHARE" href="#94-for-key-share">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#94-for-key-share" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9.4 FOR KEY SHARE" aria-label="Anchor to: 9.4 FOR KEY SHARE" href="#94-for-key-share">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2953,7 +2953,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         10. NOWAIT 与 SKIP LOCKED
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#10-nowait-与-skip-locked" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. NOWAIT 与 SKIP LOCKED" aria-label="Anchor to: 10. NOWAIT 与 SKIP LOCKED" href="#10-nowait-%e4%b8%8e-skip-locked">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#10-nowait-与-skip-locked" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. NOWAIT 与 SKIP LOCKED" aria-label="Anchor to: 10. NOWAIT 与 SKIP LOCKED" href="#10-nowait-%e4%b8%8e-skip-locked">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2962,7 +2962,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         10.1 NOWAIT
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#101-nowait" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.1 NOWAIT" aria-label="Anchor to: 10.1 NOWAIT" href="#101-nowait">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#101-nowait" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.1 NOWAIT" aria-label="Anchor to: 10.1 NOWAIT" href="#101-nowait">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2984,7 +2984,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         10.2 SKIP LOCKED
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#102-skip-locked" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.2 SKIP LOCKED" aria-label="Anchor to: 10.2 SKIP LOCKED" href="#102-skip-locked">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#102-skip-locked" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10.2 SKIP LOCKED" aria-label="Anchor to: 10.2 SKIP LOCKED" href="#102-skip-locked">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3025,7 +3025,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         11. 多表查询时只锁指定表
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#11-多表查询时只锁指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 多表查询时只锁指定表" aria-label="Anchor to: 11. 多表查询时只锁指定表" href="#11-%e5%a4%9a%e8%a1%a8%e6%9f%a5%e8%af%a2%e6%97%b6%e5%8f%aa%e9%94%81%e6%8c%87%e5%ae%9a%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#11-多表查询时只锁指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 11. 多表查询时只锁指定表" aria-label="Anchor to: 11. 多表查询时只锁指定表" href="#11-%e5%a4%9a%e8%a1%a8%e6%9f%a5%e8%af%a2%e6%97%b6%e5%8f%aa%e9%94%81%e6%8c%87%e5%ae%9a%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3047,7 +3047,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         12. 表级锁
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#12-表级锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. 表级锁" aria-label="Anchor to: 12. 表级锁" href="#12-%e8%a1%a8%e7%ba%a7%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#12-表级锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12. 表级锁" aria-label="Anchor to: 12. 表级锁" href="#12-%e8%a1%a8%e7%ba%a7%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3115,7 +3115,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         12.1 显式锁表
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#121-显式锁表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12.1 显式锁表" aria-label="Anchor to: 12.1 显式锁表" href="#121-%e6%98%be%e5%bc%8f%e9%94%81%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#121-显式锁表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 12.1 显式锁表" aria-label="Anchor to: 12.1 显式锁表" href="#121-%e6%98%be%e5%bc%8f%e9%94%81%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3140,7 +3140,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         13. 死锁
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#13-死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. 死锁" aria-label="Anchor to: 13. 死锁" href="#13-%e6%ad%bb%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#13-死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13. 死锁" aria-label="Anchor to: 13. 死锁" href="#13-%e6%ad%bb%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3181,7 +3181,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         13.1 防止死锁
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#131-防止死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13.1 防止死锁" aria-label="Anchor to: 13.1 防止死锁" href="#131-%e9%98%b2%e6%ad%a2%e6%ad%bb%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#131-防止死锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 13.1 防止死锁" aria-label="Anchor to: 13.1 防止死锁" href="#131-%e9%98%b2%e6%ad%a2%e6%ad%bb%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3190,7 +3190,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         所有事务按相同顺序加锁
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#所有事务按相同顺序加锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 所有事务按相同顺序加锁" aria-label="Anchor to: 所有事务按相同顺序加锁" href="#%e6%89%80%e6%9c%89%e4%ba%8b%e5%8a%a1%e6%8c%89%e7%9b%b8%e5%90%8c%e9%a1%ba%e5%ba%8f%e5%8a%a0%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#所有事务按相同顺序加锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 所有事务按相同顺序加锁" aria-label="Anchor to: 所有事务按相同顺序加锁" href="#%e6%89%80%e6%9c%89%e4%ba%8b%e5%8a%a1%e6%8c%89%e7%9b%b8%e5%90%8c%e9%a1%ba%e5%ba%8f%e5%8a%a0%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3205,7 +3205,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         缩短事务
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#缩短事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 缩短事务" aria-label="Anchor to: 缩短事务" href="#%e7%bc%a9%e7%9f%ad%e4%ba%8b%e5%8a%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#缩短事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 缩短事务" aria-label="Anchor to: 缩短事务" href="#%e7%bc%a9%e7%9f%ad%e4%ba%8b%e5%8a%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3222,7 +3222,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         一开始取得需要的锁强度
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#一开始取得需要的锁强度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一开始取得需要的锁强度" aria-label="Anchor to: 一开始取得需要的锁强度" href="#%e4%b8%80%e5%bc%80%e5%a7%8b%e5%8f%96%e5%be%97%e9%9c%80%e8%a6%81%e7%9a%84%e9%94%81%e5%bc%ba%e5%ba%a6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#一开始取得需要的锁强度" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一开始取得需要的锁强度" aria-label="Anchor to: 一开始取得需要的锁强度" href="#%e4%b8%80%e5%bc%80%e5%a7%8b%e5%8f%96%e5%be%97%e9%9c%80%e8%a6%81%e7%9a%84%e9%94%81%e5%bc%ba%e5%ba%a6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3232,7 +3232,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         对死锁进行整体重试
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#对死锁进行整体重试" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 对死锁进行整体重试" aria-label="Anchor to: 对死锁进行整体重试" href="#%e5%af%b9%e6%ad%bb%e9%94%81%e8%bf%9b%e8%a1%8c%e6%95%b4%e4%bd%93%e9%87%8d%e8%af%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#对死锁进行整体重试" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 对死锁进行整体重试" aria-label="Anchor to: 对死锁进行整体重试" href="#%e5%af%b9%e6%ad%bb%e9%94%81%e8%bf%9b%e8%a1%8c%e6%95%b4%e4%bd%93%e9%87%8d%e8%af%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3247,7 +3247,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         14. 锁等待超时
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#14-锁等待超时" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. 锁等待超时" aria-label="Anchor to: 14. 锁等待超时" href="#14-%e9%94%81%e7%ad%89%e5%be%85%e8%b6%85%e6%97%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#14-锁等待超时" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 14. 锁等待超时" aria-label="Anchor to: 14. 锁等待超时" href="#14-%e9%94%81%e7%ad%89%e5%be%85%e8%b6%85%e6%97%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3312,7 +3312,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         15. Advisory Lock 咨询锁
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#15-advisory-lock-咨询锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 15. Advisory Lock 咨询锁" aria-label="Anchor to: 15. Advisory Lock 咨询锁" href="#15-advisory-lock-%e5%92%a8%e8%af%a2%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#15-advisory-lock-咨询锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 15. Advisory Lock 咨询锁" aria-label="Anchor to: 15. Advisory Lock 咨询锁" href="#15-advisory-lock-%e5%92%a8%e8%af%a2%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3353,7 +3353,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         16. 查看当前锁等待
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#16-查看当前锁等待" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16. 查看当前锁等待" aria-label="Anchor to: 16. 查看当前锁等待" href="#16-%e6%9f%a5%e7%9c%8b%e5%bd%93%e5%89%8d%e9%94%81%e7%ad%89%e5%be%85">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#16-查看当前锁等待" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16. 查看当前锁等待" aria-label="Anchor to: 16. 查看当前锁等待" href="#16-%e6%9f%a5%e7%9c%8b%e5%bd%93%e5%89%8d%e9%94%81%e7%ad%89%e5%be%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3362,7 +3362,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         16.1 查看正在等待锁的会话
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#161-查看正在等待锁的会话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.1 查看正在等待锁的会话" aria-label="Anchor to: 16.1 查看正在等待锁的会话" href="#161-%e6%9f%a5%e7%9c%8b%e6%ad%a3%e5%9c%a8%e7%ad%89%e5%be%85%e9%94%81%e7%9a%84%e4%bc%9a%e8%af%9d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#161-查看正在等待锁的会话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.1 查看正在等待锁的会话" aria-label="Anchor to: 16.1 查看正在等待锁的会话" href="#161-%e6%9f%a5%e7%9c%8b%e6%ad%a3%e5%9c%a8%e7%ad%89%e5%be%85%e9%94%81%e7%9a%84%e4%bc%9a%e8%af%9d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3389,7 +3389,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         16.2 查看等待者与阻塞者
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#162-查看等待者与阻塞者" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.2 查看等待者与阻塞者" aria-label="Anchor to: 16.2 查看等待者与阻塞者" href="#162-%e6%9f%a5%e7%9c%8b%e7%ad%89%e5%be%85%e8%80%85%e4%b8%8e%e9%98%bb%e5%a1%9e%e8%80%85">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#162-查看等待者与阻塞者" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.2 查看等待者与阻塞者" aria-label="Anchor to: 16.2 查看等待者与阻塞者" href="#162-%e6%9f%a5%e7%9c%8b%e7%ad%89%e5%be%85%e8%80%85%e4%b8%8e%e9%98%bb%e5%a1%9e%e8%80%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3421,7 +3421,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         16.3 查看未取得的锁
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#163-查看未取得的锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.3 查看未取得的锁" aria-label="Anchor to: 16.3 查看未取得的锁" href="#163-%e6%9f%a5%e7%9c%8b%e6%9c%aa%e5%8f%96%e5%be%97%e7%9a%84%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#163-查看未取得的锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.3 查看未取得的锁" aria-label="Anchor to: 16.3 查看未取得的锁" href="#163-%e6%9f%a5%e7%9c%8b%e6%9c%aa%e5%8f%96%e5%be%97%e7%9a%84%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3446,7 +3446,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         16.4 查看死锁累计数量
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#164-查看死锁累计数量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.4 查看死锁累计数量" aria-label="Anchor to: 16.4 查看死锁累计数量" href="#164-%e6%9f%a5%e7%9c%8b%e6%ad%bb%e9%94%81%e7%b4%af%e8%ae%a1%e6%95%b0%e9%87%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#164-查看死锁累计数量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 16.4 查看死锁累计数量" aria-label="Anchor to: 16.4 查看死锁累计数量" href="#164-%e6%9f%a5%e7%9c%8b%e6%ad%bb%e9%94%81%e7%b4%af%e8%ae%a1%e6%95%b0%e9%87%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3465,7 +3465,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         17. 取消阻塞会话
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#17-取消阻塞会话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17. 取消阻塞会话" aria-label="Anchor to: 17. 取消阻塞会话" href="#17-%e5%8f%96%e6%b6%88%e9%98%bb%e5%a1%9e%e4%bc%9a%e8%af%9d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#17-取消阻塞会话" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 17. 取消阻塞会话" aria-label="Anchor to: 17. 取消阻塞会话" href="#17-%e5%8f%96%e6%b6%88%e9%98%bb%e5%a1%9e%e4%bc%9a%e8%af%9d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3489,7 +3489,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         18. 索引与锁的关系
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#18-索引与锁的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 18. 索引与锁的关系" aria-label="Anchor to: 18. 索引与锁的关系" href="#18-%e7%b4%a2%e5%bc%95%e4%b8%8e%e9%94%81%e7%9a%84%e5%85%b3%e7%b3%bb">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#18-索引与锁的关系" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 18. 索引与锁的关系" aria-label="Anchor to: 18. 索引与锁的关系" href="#18-%e7%b4%a2%e5%bc%95%e4%b8%8e%e9%94%81%e7%9a%84%e5%85%b3%e7%b3%bb">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3517,7 +3517,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         19. SQLAlchemy 2.0 中使用事务
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#19-sqlalchemy-20-中使用事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19. SQLAlchemy 2.0 中使用事务" aria-label="Anchor to: 19. SQLAlchemy 2.0 中使用事务" href="#19-sqlalchemy-20-%e4%b8%ad%e4%bd%bf%e7%94%a8%e4%ba%8b%e5%8a%a1">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#19-sqlalchemy-20-中使用事务" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19. SQLAlchemy 2.0 中使用事务" aria-label="Anchor to: 19. SQLAlchemy 2.0 中使用事务" href="#19-sqlalchemy-20-%e4%b8%ad%e4%bd%bf%e7%94%a8%e4%ba%8b%e5%8a%a1">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3526,7 +3526,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         19.1 推荐使用上下文管理器
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#191-推荐使用上下文管理器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.1 推荐使用上下文管理器" aria-label="Anchor to: 19.1 推荐使用上下文管理器" href="#191-%e6%8e%a8%e8%8d%90%e4%bd%bf%e7%94%a8%e4%b8%8a%e4%b8%8b%e6%96%87%e7%ae%a1%e7%90%86%e5%99%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#191-推荐使用上下文管理器" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.1 推荐使用上下文管理器" aria-label="Anchor to: 19.1 推荐使用上下文管理器" href="#191-%e6%8e%a8%e8%8d%90%e4%bd%bf%e7%94%a8%e4%b8%8a%e4%b8%8b%e6%96%87%e7%ae%a1%e7%90%86%e5%99%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3557,7 +3557,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         19.2 FOR UPDATE
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#192-for-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.2 FOR UPDATE" aria-label="Anchor to: 19.2 FOR UPDATE" href="#192-for-update">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#192-for-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.2 FOR UPDATE" aria-label="Anchor to: 19.2 FOR UPDATE" href="#192-for-update">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3600,7 +3600,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         19.3 设置隔离级别
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#193-设置隔离级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.3 设置隔离级别" aria-label="Anchor to: 19.3 设置隔离级别" href="#193-%e8%ae%be%e7%bd%ae%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#193-设置隔离级别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.3 设置隔离级别" aria-label="Anchor to: 19.3 设置隔离级别" href="#193-%e8%ae%be%e7%bd%ae%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3622,7 +3622,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         19.4 重试死锁和串行化失败
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#194-重试死锁和串行化失败" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.4 重试死锁和串行化失败" aria-label="Anchor to: 19.4 重试死锁和串行化失败" href="#194-%e9%87%8d%e8%af%95%e6%ad%bb%e9%94%81%e5%92%8c%e4%b8%b2%e8%a1%8c%e5%8c%96%e5%a4%b1%e8%b4%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#194-重试死锁和串行化失败" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 19.4 重试死锁和串行化失败" aria-label="Anchor to: 19.4 重试死锁和串行化失败" href="#194-%e9%87%8d%e8%af%95%e6%ad%bb%e9%94%81%e5%92%8c%e4%b8%b2%e8%a1%8c%e5%8c%96%e5%a4%b1%e8%b4%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3667,7 +3667,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         20. 股票及时序系统的实用选择
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#20-股票及时序系统的实用选择" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 20. 股票及时序系统的实用选择" aria-label="Anchor to: 20. 股票及时序系统的实用选择" href="#20-%e8%82%a1%e7%a5%a8%e5%8f%8a%e6%97%b6%e5%ba%8f%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%ae%9e%e7%94%a8%e9%80%89%e6%8b%a9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#20-股票及时序系统的实用选择" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 20. 股票及时序系统的实用选择" aria-label="Anchor to: 20. 股票及时序系统的实用选择" href="#20-%e8%82%a1%e7%a5%a8%e5%8f%8a%e6%97%b6%e5%ba%8f%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%ae%9e%e7%94%a8%e9%80%89%e6%8b%a9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3724,7 +3724,7 @@ BEGIN; UPDATE trading.position SET quantity = quantity - 100 WHERE account_id = 
     >
         21. 最佳实践总结
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/10-transactions-and-locks/#21-最佳实践总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 21. 最佳实践总结" aria-label="Anchor to: 21. 最佳实践总结" href="#21-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%80%bb%e7%bb%93">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-transactions-and-locks/#21-最佳实践总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 21. 最佳实践总结" aria-label="Anchor to: 21. 最佳实践总结" href="#21-%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5%e6%80%bb%e7%bb%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

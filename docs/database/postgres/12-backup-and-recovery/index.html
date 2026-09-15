@@ -46,7 +46,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
 一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：
 方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 &#43; WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/" />
 
 <meta property="article:section" content="Database" />
 
@@ -65,7 +65,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL 事务与锁",
-      "url": "https://documents.v2ep.com/database/postgres/11-backup-and-recovery/",
+      "url": "https://documents.v2ep.com/database/postgres/12-backup-and-recovery/",
       "headline": "PostgreSQL 事务与锁",
       "description": "PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：\npg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解决整个实例的快速恢复。 基础备份 \u002b WAL 归档：解决时间点恢复，即 PITR。 定期恢复演练：确认备份真的可用。 PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。PostgreSQL 18 备份文档\n一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：\n方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 \u002b WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例\/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。",
       "wordCount": "910",
@@ -73,7 +73,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/11-backup-and-recovery/"
+          "@id": "https://documents.v2ep.com/database/postgres/12-backup-and-recovery/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -157,7 +157,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2184,7 +2184,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         一、先理解 RPO 与 RTO
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#一先理解-rpo-与-rto" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先理解 RPO 与 RTO" aria-label="Anchor to: 一、先理解 RPO 与 RTO" href="#%e4%b8%80%e5%85%88%e7%90%86%e8%a7%a3-rpo-%e4%b8%8e-rto">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#一先理解-rpo-与-rto" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、先理解 RPO 与 RTO" aria-label="Anchor to: 一、先理解 RPO 与 RTO" href="#%e4%b8%80%e5%85%88%e7%90%86%e8%a7%a3-rpo-%e4%b8%8e-rto">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2276,7 +2276,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         二、逻辑备份：pg_dump
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#二逻辑备份pg_dump" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、逻辑备份：pg_dump" aria-label="Anchor to: 二、逻辑备份：pg_dump" href="#%e4%ba%8c%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bdpg_dump">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#二逻辑备份pg_dump" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、逻辑备份：pg_dump" aria-label="Anchor to: 二、逻辑备份：pg_dump" href="#%e4%ba%8c%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bdpg_dump">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2285,7 +2285,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         1. 推荐使用自定义格式
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-推荐使用自定义格式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 推荐使用自定义格式" aria-label="Anchor to: 1. 推荐使用自定义格式" href="#1-%e6%8e%a8%e8%8d%90%e4%bd%bf%e7%94%a8%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a0%bc%e5%bc%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#1-推荐使用自定义格式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 推荐使用自定义格式" aria-label="Anchor to: 1. 推荐使用自定义格式" href="#1-%e6%8e%a8%e8%8d%90%e4%bd%bf%e7%94%a8%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a0%bc%e5%bc%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2338,7 +2338,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         2. 大库并行备份
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-大库并行备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 大库并行备份" aria-label="Anchor to: 2. 大库并行备份" href="#2-%e5%a4%a7%e5%ba%93%e5%b9%b6%e8%a1%8c%e5%a4%87%e4%bb%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#2-大库并行备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 大库并行备份" aria-label="Anchor to: 2. 大库并行备份" href="#2-%e5%a4%a7%e5%ba%93%e5%b9%b6%e8%a1%8c%e5%a4%87%e4%bb%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2357,7 +2357,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         3. 备份指定 Schema
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-备份指定-schema" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 备份指定 Schema" aria-label="Anchor to: 3. 备份指定 Schema" href="#3-%e5%a4%87%e4%bb%bd%e6%8c%87%e5%ae%9a-schema">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#3-备份指定-schema" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 备份指定 Schema" aria-label="Anchor to: 3. 备份指定 Schema" href="#3-%e5%a4%87%e4%bb%bd%e6%8c%87%e5%ae%9a-schema">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2372,7 +2372,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         4. 备份指定表
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#4-备份指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 备份指定表" aria-label="Anchor to: 4. 备份指定表" href="#4-%e5%a4%87%e4%bb%bd%e6%8c%87%e5%ae%9a%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#4-备份指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 备份指定表" aria-label="Anchor to: 4. 备份指定表" href="#4-%e5%a4%87%e4%bb%bd%e6%8c%87%e5%ae%9a%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2398,7 +2398,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         5. 备份角色和表空间
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#5-备份角色和表空间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 备份角色和表空间" aria-label="Anchor to: 5. 备份角色和表空间" href="#5-%e5%a4%87%e4%bb%bd%e8%a7%92%e8%89%b2%e5%92%8c%e8%a1%a8%e7%a9%ba%e9%97%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#5-备份角色和表空间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 备份角色和表空间" aria-label="Anchor to: 5. 备份角色和表空间" href="#5-%e5%a4%87%e4%bb%bd%e8%a7%92%e8%89%b2%e5%92%8c%e8%a1%a8%e7%a9%ba%e9%97%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2425,7 +2425,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         三、逻辑恢复：pg_restore
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#三逻辑恢复pg_restore" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、逻辑恢复：pg_restore" aria-label="Anchor to: 三、逻辑恢复：pg_restore" href="#%e4%b8%89%e9%80%bb%e8%be%91%e6%81%a2%e5%a4%8dpg_restore">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#三逻辑恢复pg_restore" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、逻辑恢复：pg_restore" aria-label="Anchor to: 三、逻辑恢复：pg_restore" href="#%e4%b8%89%e9%80%bb%e8%be%91%e6%81%a2%e5%a4%8dpg_restore">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2434,7 +2434,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         1. 查看备份内容
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-查看备份内容" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 查看备份内容" aria-label="Anchor to: 1. 查看备份内容" href="#1-%e6%9f%a5%e7%9c%8b%e5%a4%87%e4%bb%bd%e5%86%85%e5%ae%b9">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#1-查看备份内容" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 查看备份内容" aria-label="Anchor to: 1. 查看备份内容" href="#1-%e6%9f%a5%e7%9c%8b%e5%a4%87%e4%bb%bd%e5%86%85%e5%ae%b9">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2451,7 +2451,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         2. 恢复到新数据库
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-恢复到新数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 恢复到新数据库" aria-label="Anchor to: 2. 恢复到新数据库" href="#2-%e6%81%a2%e5%a4%8d%e5%88%b0%e6%96%b0%e6%95%b0%e6%8d%ae%e5%ba%93">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#2-恢复到新数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 恢复到新数据库" aria-label="Anchor to: 2. 恢复到新数据库" href="#2-%e6%81%a2%e5%a4%8d%e5%88%b0%e6%96%b0%e6%95%b0%e6%8d%ae%e5%ba%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2485,7 +2485,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         3. 不保留原所有者和权限
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-不保留原所有者和权限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 不保留原所有者和权限" aria-label="Anchor to: 3. 不保留原所有者和权限" href="#3-%e4%b8%8d%e4%bf%9d%e7%95%99%e5%8e%9f%e6%89%80%e6%9c%89%e8%80%85%e5%92%8c%e6%9d%83%e9%99%90">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#3-不保留原所有者和权限" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 不保留原所有者和权限" aria-label="Anchor to: 3. 不保留原所有者和权限" href="#3-%e4%b8%8d%e4%bf%9d%e7%95%99%e5%8e%9f%e6%89%80%e6%9c%89%e8%80%85%e5%92%8c%e6%9d%83%e9%99%90">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2508,7 +2508,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         4. 覆盖原数据库
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#4-覆盖原数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 覆盖原数据库" aria-label="Anchor to: 4. 覆盖原数据库" href="#4-%e8%a6%86%e7%9b%96%e5%8e%9f%e6%95%b0%e6%8d%ae%e5%ba%93">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#4-覆盖原数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 覆盖原数据库" aria-label="Anchor to: 4. 覆盖原数据库" href="#4-%e8%a6%86%e7%9b%96%e5%8e%9f%e6%95%b0%e6%8d%ae%e5%ba%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2532,7 +2532,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         5. 恢复指定表
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#5-恢复指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 恢复指定表" aria-label="Anchor to: 5. 恢复指定表" href="#5-%e6%81%a2%e5%a4%8d%e6%8c%87%e5%ae%9a%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#5-恢复指定表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 恢复指定表" aria-label="Anchor to: 5. 恢复指定表" href="#5-%e6%81%a2%e5%a4%8d%e6%8c%87%e5%ae%9a%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2555,7 +2555,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         6. 恢复普通 SQL 文件
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#6-恢复普通-sql-文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 恢复普通 SQL 文件" aria-label="Anchor to: 6. 恢复普通 SQL 文件" href="#6-%e6%81%a2%e5%a4%8d%e6%99%ae%e9%80%9a-sql-%e6%96%87%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#6-恢复普通-sql-文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 恢复普通 SQL 文件" aria-label="Anchor to: 6. 恢复普通 SQL 文件" href="#6-%e6%81%a2%e5%a4%8d%e6%99%ae%e9%80%9a-sql-%e6%96%87%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2580,7 +2580,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         四、工具版本兼容性
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#四工具版本兼容性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、工具版本兼容性" aria-label="Anchor to: 四、工具版本兼容性" href="#%e5%9b%9b%e5%b7%a5%e5%85%b7%e7%89%88%e6%9c%ac%e5%85%bc%e5%ae%b9%e6%80%a7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#四工具版本兼容性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、工具版本兼容性" aria-label="Anchor to: 四、工具版本兼容性" href="#%e5%9b%9b%e5%b7%a5%e5%85%b7%e7%89%88%e6%9c%ac%e5%85%bc%e5%ae%b9%e6%80%a7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2606,7 +2606,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         五、物理备份：pg_basebackup
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#五物理备份pg_basebackup" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、物理备份：pg_basebackup" aria-label="Anchor to: 五、物理备份：pg_basebackup" href="#%e4%ba%94%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bdpg_basebackup">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#五物理备份pg_basebackup" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、物理备份：pg_basebackup" aria-label="Anchor to: 五、物理备份：pg_basebackup" href="#%e4%ba%94%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bdpg_basebackup">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2644,7 +2644,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         验证物理备份
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#验证物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 验证物理备份" aria-label="Anchor to: 验证物理备份" href="#%e9%aa%8c%e8%af%81%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#验证物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 验证物理备份" aria-label="Anchor to: 验证物理备份" href="#%e9%aa%8c%e8%af%81%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2666,7 +2666,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     >
         六、PostgreSQL 18 增量物理备份
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#六postgresql-18-增量物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、PostgreSQL 18 增量物理备份" aria-label="Anchor to: 六、PostgreSQL 18 增量物理备份" href="#%e5%85%adpostgresql-18-%e5%a2%9e%e9%87%8f%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#六postgresql-18-增量物理备份" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、PostgreSQL 18 增量物理备份" aria-label="Anchor to: 六、PostgreSQL 18 增量物理备份" href="#%e5%85%adpostgresql-18-%e5%a2%9e%e9%87%8f%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2709,7 +2709,7 @@ wal_summary_keep_time = &#39;14d&#39;
     >
         七、WAL 归档与时间点恢复 PITR
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#七wal-归档与时间点恢复-pitr" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、WAL 归档与时间点恢复 PITR" aria-label="Anchor to: 七、WAL 归档与时间点恢复 PITR" href="#%e4%b8%83wal-%e5%bd%92%e6%a1%a3%e4%b8%8e%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d-pitr">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#七wal-归档与时间点恢复-pitr" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、WAL 归档与时间点恢复 PITR" aria-label="Anchor to: 七、WAL 归档与时间点恢复 PITR" href="#%e4%b8%83wal-%e5%bd%92%e6%a1%a3%e4%b8%8e%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d-pitr">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2723,7 +2723,7 @@ wal_summary_keep_time = &#39;14d&#39;
     >
         1. 开启 WAL 归档
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-开启-wal-归档" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 开启 WAL 归档" aria-label="Anchor to: 1. 开启 WAL 归档" href="#1-%e5%bc%80%e5%90%af-wal-%e5%bd%92%e6%a1%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#1-开启-wal-归档" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 开启 WAL 归档" aria-label="Anchor to: 1. 开启 WAL 归档" href="#1-%e5%bc%80%e5%90%af-wal-%e5%bd%92%e6%a1%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2757,7 +2757,7 @@ archive_command =
     >
         2. 恢复到指定时间
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-恢复到指定时间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 恢复到指定时间" aria-label="Anchor to: 2. 恢复到指定时间" href="#2-%e6%81%a2%e5%a4%8d%e5%88%b0%e6%8c%87%e5%ae%9a%e6%97%b6%e9%97%b4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#2-恢复到指定时间" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 恢复到指定时间" aria-label="Anchor to: 2. 恢复到指定时间" href="#2-%e6%81%a2%e5%a4%8d%e5%88%b0%e6%8c%87%e5%ae%9a%e6%97%b6%e9%97%b4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2788,7 +2788,7 @@ recovery_target_action = &#39;pause&#39;
     >
         3. PITR 不能直接恢复单表
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-pitr-不能直接恢复单表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. PITR 不能直接恢复单表" aria-label="Anchor to: 3. PITR 不能直接恢复单表" href="#3-pitr-%e4%b8%8d%e8%83%bd%e7%9b%b4%e6%8e%a5%e6%81%a2%e5%a4%8d%e5%8d%95%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#3-pitr-不能直接恢复单表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. PITR 不能直接恢复单表" aria-label="Anchor to: 3. PITR 不能直接恢复单表" href="#3-pitr-%e4%b8%8d%e8%83%bd%e7%9b%b4%e6%8e%a5%e6%81%a2%e5%a4%8d%e5%8d%95%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2816,7 +2816,7 @@ recovery_target_action = &#39;pause&#39;
     >
         八、TimescaleDB 备份恢复
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#八timescaledb-备份恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、TimescaleDB 备份恢复" aria-label="Anchor to: 八、TimescaleDB 备份恢复" href="#%e5%85%abtimescaledb-%e5%a4%87%e4%bb%bd%e6%81%a2%e5%a4%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#八timescaledb-备份恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、TimescaleDB 备份恢复" aria-label="Anchor to: 八、TimescaleDB 备份恢复" href="#%e5%85%abtimescaledb-%e5%a4%87%e4%bb%bd%e6%81%a2%e5%a4%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2826,7 +2826,7 @@ recovery_target_action = &#39;pause&#39;
     >
         1. 备份整个数据库
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#1-备份整个数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 备份整个数据库" aria-label="Anchor to: 1. 备份整个数据库" href="#1-%e5%a4%87%e4%bb%bd%e6%95%b4%e4%b8%aa%e6%95%b0%e6%8d%ae%e5%ba%93">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#1-备份整个数据库" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 备份整个数据库" aria-label="Anchor to: 1. 备份整个数据库" href="#1-%e5%a4%87%e4%bb%bd%e6%95%b4%e4%b8%aa%e6%95%b0%e6%8d%ae%e5%ba%93">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2841,7 +2841,7 @@ recovery_target_action = &#39;pause&#39;
     >
         2. 创建目标数据库并加载扩展
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#2-创建目标数据库并加载扩展" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 创建目标数据库并加载扩展" aria-label="Anchor to: 2. 创建目标数据库并加载扩展" href="#2-%e5%88%9b%e5%bb%ba%e7%9b%ae%e6%a0%87%e6%95%b0%e6%8d%ae%e5%ba%93%e5%b9%b6%e5%8a%a0%e8%bd%bd%e6%89%a9%e5%b1%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#2-创建目标数据库并加载扩展" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 创建目标数据库并加载扩展" aria-label="Anchor to: 2. 创建目标数据库并加载扩展" href="#2-%e5%88%9b%e5%bb%ba%e7%9b%ae%e6%a0%87%e6%95%b0%e6%8d%ae%e5%ba%93%e5%b9%b6%e5%8a%a0%e8%bd%bd%e6%89%a9%e5%b1%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2855,7 +2855,7 @@ recovery_target_action = &#39;pause&#39;
     >
         3. 恢复
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#3-恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 恢复" aria-label="Anchor to: 3. 恢复" href="#3-%e6%81%a2%e5%a4%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#3-恢复" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 恢复" aria-label="Anchor to: 3. 恢复" href="#3-%e6%81%a2%e5%a4%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2887,7 +2887,7 @@ recovery_target_action = &#39;pause&#39;
     >
         九、股票系统推荐方案
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/11-backup-and-recovery/#九股票系统推荐方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、股票系统推荐方案" aria-label="Anchor to: 九、股票系统推荐方案" href="#%e4%b9%9d%e8%82%a1%e7%a5%a8%e7%b3%bb%e7%bb%9f%e6%8e%a8%e8%8d%90%e6%96%b9%e6%a1%88">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/12-backup-and-recovery/#九股票系统推荐方案" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、股票系统推荐方案" aria-label="Anchor to: 九、股票系统推荐方案" href="#%e4%b9%9d%e8%82%a1%e7%a5%a8%e7%b3%bb%e7%bb%9f%e6%8e%a8%e8%8d%90%e6%96%b9%e6%a1%88">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>

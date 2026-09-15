@@ -48,7 +48,7 @@ DELETE FROM 表名 WHERE 条件; 删除操作的核心不在于会写 DELETE，�
 一、准备示例表 股票基本信息：
 CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, exchange_code varchar(8) NOT NULL, code varchar(6) NOT NULL, name text NOT NULL, is_active boolean NOT NULL DEFAULT true, delisted_on date, deleted_at timestamptz, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), CONSTRAINT uq_security_exchange_code UNIQUE (exchange_code, code) ); 日线行情：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://documents.v2ep.com/database/postgres/05-delete/" />
+<meta property="og:url" content="https://documents.v2ep.com/database/postgres/06-delete/" />
 
 <meta property="article:section" content="Database" />
 
@@ -68,7 +68,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
       "@type": "TechArticle",
       "articleSection": "Database",
       "name": "PostgreSQL DELETE",
-      "url": "https://documents.v2ep.com/database/postgres/05-delete/",
+      "url": "https://documents.v2ep.com/database/postgres/06-delete/",
       "headline": "PostgreSQL DELETE",
       "description": "PostgreSQL 使用 DELETE 删除表中的行：\nDELETE FROM 表名 WHERE 条件; 删除操作的核心不在于会写 DELETE，而在于确认：\n删除哪张表 删除哪些行 是否有关联数据 能否恢复 是否会产生大锁、WAL 和表膨胀 应该物理删除还是软删除 完整语法见 PostgreSQL 18 DELETE。\n一、准备示例表 股票基本信息：\nCREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, exchange_code varchar(8) NOT NULL, code varchar(6) NOT NULL, name text NOT NULL, is_active boolean NOT NULL DEFAULT true, delisted_on date, deleted_at timestamptz, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), CONSTRAINT uq_security_exchange_code UNIQUE (exchange_code, code) ); 日线行情：",
       "wordCount": "1805",
@@ -76,7 +76,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://documents.v2ep.com/database/postgres/05-delete/"
+          "@id": "https://documents.v2ep.com/database/postgres/06-delete/"
       },
       "copyrightHolder": "Septvean\u0027s Documents",
       "copyrightYear": "0001",
@@ -160,7 +160,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
   href="/custom.css"
   media="all"
 />
-  <link href="https://documents.v2ep.com/database/postgres/05-delete/" rel="canonical" type="text/html" />
+  <link href="https://documents.v2ep.com/database/postgres/06-delete/" rel="canonical" type="text/html" />
 
 <!-- Made with Geekdoc theme https://github.com/thegeeklab/hugo-geekdoc -->
 
@@ -2193,7 +2193,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         一、准备示例表
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#一准备示例表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、准备示例表" aria-label="Anchor to: 一、准备示例表" href="#%e4%b8%80%e5%87%86%e5%a4%87%e7%a4%ba%e4%be%8b%e8%a1%a8">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#一准备示例表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 一、准备示例表" aria-label="Anchor to: 一、准备示例表" href="#%e4%b8%80%e5%87%86%e5%a4%87%e7%a4%ba%e4%be%8b%e8%a1%a8">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2245,7 +2245,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         二、按主键删除一行
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#二按主键删除一行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、按主键删除一行" aria-label="Anchor to: 二、按主键删除一行" href="#%e4%ba%8c%e6%8c%89%e4%b8%bb%e9%94%ae%e5%88%a0%e9%99%a4%e4%b8%80%e8%a1%8c">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#二按主键删除一行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二、按主键删除一行" aria-label="Anchor to: 二、按主键删除一行" href="#%e4%ba%8c%e6%8c%89%e4%b8%bb%e9%94%ae%e5%88%a0%e9%99%a4%e4%b8%80%e8%a1%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2264,7 +2264,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         使用业务唯一键删除
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#使用业务唯一键删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 使用业务唯一键删除" aria-label="Anchor to: 使用业务唯一键删除" href="#%e4%bd%bf%e7%94%a8%e4%b8%9a%e5%8a%a1%e5%94%af%e4%b8%80%e9%94%ae%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#使用业务唯一键删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 使用业务唯一键删除" aria-label="Anchor to: 使用业务唯一键删除" href="#%e4%bd%bf%e7%94%a8%e4%b8%9a%e5%8a%a1%e5%94%af%e4%b8%80%e9%94%ae%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2280,7 +2280,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         三、按条件删除多行
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#三按条件删除多行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、按条件删除多行" aria-label="Anchor to: 三、按条件删除多行" href="#%e4%b8%89%e6%8c%89%e6%9d%a1%e4%bb%b6%e5%88%a0%e9%99%a4%e5%a4%9a%e8%a1%8c">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#三按条件删除多行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 三、按条件删除多行" aria-label="Anchor to: 三、按条件删除多行" href="#%e4%b8%89%e6%8c%89%e6%9d%a1%e4%bb%b6%e5%88%a0%e9%99%a4%e5%a4%9a%e8%a1%8c">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2300,7 +2300,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         多个条件
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#多个条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 多个条件" aria-label="Anchor to: 多个条件" href="#%e5%a4%9a%e4%b8%aa%e6%9d%a1%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#多个条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 多个条件" aria-label="Anchor to: 多个条件" href="#%e5%a4%9a%e4%b8%aa%e6%9d%a1%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2322,7 +2322,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         四、最危险的写法：没有 <code>WHERE</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#四最危险的写法没有-where" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、最危险的写法：没有 WHERE" aria-label="Anchor to: 四、最危险的写法：没有 WHERE" href="#%e5%9b%9b%e6%9c%80%e5%8d%b1%e9%99%a9%e7%9a%84%e5%86%99%e6%b3%95%e6%b2%a1%e6%9c%89-where">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#四最危险的写法没有-where" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 四、最危险的写法：没有 WHERE" aria-label="Anchor to: 四、最危险的写法：没有 WHERE" href="#%e5%9b%9b%e6%9c%80%e5%8d%b1%e9%99%a9%e7%9a%84%e5%86%99%e6%b3%95%e6%b2%a1%e6%9c%89-where">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2362,7 +2362,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         五、安全删除标准流程
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#五安全删除标准流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、安全删除标准流程" aria-label="Anchor to: 五、安全删除标准流程" href="#%e4%ba%94%e5%ae%89%e5%85%a8%e5%88%a0%e9%99%a4%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#五安全删除标准流程" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 五、安全删除标准流程" aria-label="Anchor to: 五、安全删除标准流程" href="#%e4%ba%94%e5%ae%89%e5%85%a8%e5%88%a0%e9%99%a4%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2408,7 +2408,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         六、使用 <code>RETURNING</code> 返回被删数据
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#六使用-returning-返回被删数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、使用 RETURNING 返回被删数据" aria-label="Anchor to: 六、使用 RETURNING 返回被删数据" href="#%e5%85%ad%e4%bd%bf%e7%94%a8-returning-%e8%bf%94%e5%9b%9e%e8%a2%ab%e5%88%a0%e6%95%b0%e6%8d%ae">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#六使用-returning-返回被删数据" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 六、使用 RETURNING 返回被删数据" aria-label="Anchor to: 六、使用 RETURNING 返回被删数据" href="#%e5%85%ad%e4%bd%bf%e7%94%a8-returning-%e8%bf%94%e5%9b%9e%e8%a2%ab%e5%88%a0%e6%95%b0%e6%8d%ae">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2436,7 +2436,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         PostgreSQL 18 的 <code>OLD</code> 和 <code>NEW</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#postgresql-18-的-old-和-new" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL 18 的 OLD 和 NEW" aria-label="Anchor to: PostgreSQL 18 的 OLD 和 NEW" href="#postgresql-18-%e7%9a%84-old-%e5%92%8c-new">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#postgresql-18-的-old-和-new" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL 18 的 OLD 和 NEW" aria-label="Anchor to: PostgreSQL 18 的 OLD 和 NEW" href="#postgresql-18-%e7%9a%84-old-%e5%92%8c-new">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2465,7 +2465,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         只返回删除数量
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#只返回删除数量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 只返回删除数量" aria-label="Anchor to: 只返回删除数量" href="#%e5%8f%aa%e8%bf%94%e5%9b%9e%e5%88%a0%e9%99%a4%e6%95%b0%e9%87%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#只返回删除数量" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 只返回删除数量" aria-label="Anchor to: 只返回删除数量" href="#%e5%8f%aa%e8%bf%94%e5%9b%9e%e5%88%a0%e9%99%a4%e6%95%b0%e9%87%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2484,7 +2484,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         七、根据另一张表删除：<code>USING</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#七根据另一张表删除using" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、根据另一张表删除：USING" aria-label="Anchor to: 七、根据另一张表删除：USING" href="#%e4%b8%83%e6%a0%b9%e6%8d%ae%e5%8f%a6%e4%b8%80%e5%bc%a0%e8%a1%a8%e5%88%a0%e9%99%a4using">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#七根据另一张表删除using" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 七、根据另一张表删除：USING" aria-label="Anchor to: 七、根据另一张表删除：USING" href="#%e4%b8%83%e6%a0%b9%e6%8d%ae%e5%8f%a6%e4%b8%80%e5%bc%a0%e8%a1%a8%e5%88%a0%e9%99%a4using">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2508,7 +2508,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         返回股票代码和已删行情
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#返回股票代码和已删行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 返回股票代码和已删行情" aria-label="Anchor to: 返回股票代码和已删行情" href="#%e8%bf%94%e5%9b%9e%e8%82%a1%e7%a5%a8%e4%bb%a3%e7%a0%81%e5%92%8c%e5%b7%b2%e5%88%a0%e8%a1%8c%e6%83%85">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#返回股票代码和已删行情" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 返回股票代码和已删行情" aria-label="Anchor to: 返回股票代码和已删行情" href="#%e8%bf%94%e5%9b%9e%e8%82%a1%e7%a5%a8%e4%bb%a3%e7%a0%81%e5%92%8c%e5%b7%b2%e5%88%a0%e8%a1%8c%e6%83%85">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2535,7 +2535,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         八、使用子查询删除
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#八使用子查询删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、使用子查询删除" aria-label="Anchor to: 八、使用子查询删除" href="#%e5%85%ab%e4%bd%bf%e7%94%a8%e5%ad%90%e6%9f%a5%e8%af%a2%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#八使用子查询删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 八、使用子查询删除" aria-label="Anchor to: 八、使用子查询删除" href="#%e5%85%ab%e4%bd%bf%e7%94%a8%e5%ad%90%e6%9f%a5%e8%af%a2%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2544,7 +2544,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         1. <code>IN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#1-in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. IN" aria-label="Anchor to: 1. IN" href="#1-in">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#1-in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. IN" aria-label="Anchor to: 1. IN" href="#1-in">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2559,7 +2559,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         2. <code>EXISTS</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#2-exists" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. EXISTS" aria-label="Anchor to: 2. EXISTS" href="#2-exists">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#2-exists" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. EXISTS" aria-label="Anchor to: 2. EXISTS" href="#2-exists">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2580,7 +2580,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         3. <code>NOT EXISTS</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#3-not-exists" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. NOT EXISTS" aria-label="Anchor to: 3. NOT EXISTS" href="#3-not-exists">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#3-not-exists" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. NOT EXISTS" aria-label="Anchor to: 3. NOT EXISTS" href="#3-not-exists">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2598,7 +2598,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         谨慎使用 <code>NOT IN</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#谨慎使用-not-in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 谨慎使用 NOT IN" aria-label="Anchor to: 谨慎使用 NOT IN" href="#%e8%b0%a8%e6%85%8e%e4%bd%bf%e7%94%a8-not-in">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#谨慎使用-not-in" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 谨慎使用 NOT IN" aria-label="Anchor to: 谨慎使用 NOT IN" href="#%e8%b0%a8%e6%85%8e%e4%bd%bf%e7%94%a8-not-in">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2622,7 +2622,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         九、<code>NULL</code> 条件
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#九null-条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、NULL 条件" aria-label="Anchor to: 九、NULL 条件" href="#%e4%b9%9dnull-%e6%9d%a1%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#九null-条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 九、NULL 条件" aria-label="Anchor to: 九、NULL 条件" href="#%e4%b9%9dnull-%e6%9d%a1%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2653,7 +2653,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十、外键对删除的影响
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十外键对删除的影响" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、外键对删除的影响" aria-label="Anchor to: 十、外键对删除的影响" href="#%e5%8d%81%e5%a4%96%e9%94%ae%e5%af%b9%e5%88%a0%e9%99%a4%e7%9a%84%e5%bd%b1%e5%93%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十外键对删除的影响" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十、外键对删除的影响" aria-label="Anchor to: 十、外键对删除的影响" href="#%e5%8d%81%e5%a4%96%e9%94%ae%e5%af%b9%e5%88%a0%e9%99%a4%e7%9a%84%e5%bd%b1%e5%93%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2672,7 +2672,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         外键删除策略
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#外键删除策略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 外键删除策略" aria-label="Anchor to: 外键删除策略" href="#%e5%a4%96%e9%94%ae%e5%88%a0%e9%99%a4%e7%ad%96%e7%95%a5">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#外键删除策略" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 外键删除策略" aria-label="Anchor to: 外键删除策略" href="#%e5%a4%96%e9%94%ae%e5%88%a0%e9%99%a4%e7%ad%96%e7%95%a5">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2711,7 +2711,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         适合 <code>CASCADE</code>
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#适合-cascade" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 适合 CASCADE" aria-label="Anchor to: 适合 CASCADE" href="#%e9%80%82%e5%90%88-cascade">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#适合-cascade" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 适合 CASCADE" aria-label="Anchor to: 适合 CASCADE" href="#%e9%80%82%e5%90%88-cascade">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2733,7 +2733,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         不适合随意 <code>CASCADE</code>
     </h4>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#不适合随意-cascade" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 不适合随意 CASCADE" aria-label="Anchor to: 不适合随意 CASCADE" href="#%e4%b8%8d%e9%80%82%e5%90%88%e9%9a%8f%e6%84%8f-cascade">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#不适合随意-cascade" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 不适合随意 CASCADE" aria-label="Anchor to: 不适合随意 CASCADE" href="#%e4%b8%8d%e9%80%82%e5%90%88%e9%9a%8f%e6%84%8f-cascade">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2756,7 +2756,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十一、物理删除与软删除
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十一物理删除与软删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、物理删除与软删除" aria-label="Anchor to: 十一、物理删除与软删除" href="#%e5%8d%81%e4%b8%80%e7%89%a9%e7%90%86%e5%88%a0%e9%99%a4%e4%b8%8e%e8%bd%af%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十一物理删除与软删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十一、物理删除与软删除" aria-label="Anchor to: 十一、物理删除与软删除" href="#%e5%8d%81%e4%b8%80%e7%89%a9%e7%90%86%e5%88%a0%e9%99%a4%e4%b8%8e%e8%bd%af%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2765,7 +2765,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         1. 物理删除
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#1-物理删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 物理删除" aria-label="Anchor to: 1. 物理删除" href="#1-%e7%89%a9%e7%90%86%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#1-物理删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 物理删除" aria-label="Anchor to: 1. 物理删除" href="#1-%e7%89%a9%e7%90%86%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2785,7 +2785,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         2. 软删除
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#2-软删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 软删除" aria-label="Anchor to: 2. 软删除" href="#2-%e8%bd%af%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#2-软删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 软删除" aria-label="Anchor to: 2. 软删除" href="#2-%e8%bd%af%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2814,7 +2814,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         3. A股退市不等于删除
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#3-a股退市不等于删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. A股退市不等于删除" aria-label="Anchor to: 3. A股退市不等于删除" href="#3-a%e8%82%a1%e9%80%80%e5%b8%82%e4%b8%8d%e7%ad%89%e4%ba%8e%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#3-a股退市不等于删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. A股退市不等于删除" aria-label="Anchor to: 3. A股退市不等于删除" href="#3-a%e8%82%a1%e9%80%80%e5%b8%82%e4%b8%8d%e7%ad%89%e4%ba%8e%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2835,7 +2835,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         4. 软删除的代价
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#4-软删除的代价" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 软删除的代价" aria-label="Anchor to: 4. 软删除的代价" href="#4-%e8%bd%af%e5%88%a0%e9%99%a4%e7%9a%84%e4%bb%a3%e4%bb%b7">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#4-软删除的代价" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 软删除的代价" aria-label="Anchor to: 4. 软删除的代价" href="#4-%e8%bd%af%e5%88%a0%e9%99%a4%e7%9a%84%e4%bb%a3%e4%bb%b7">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2863,7 +2863,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十二、删除前归档
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十二删除前归档" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、删除前归档" aria-label="Anchor to: 十二、删除前归档" href="#%e5%8d%81%e4%ba%8c%e5%88%a0%e9%99%a4%e5%89%8d%e5%bd%92%e6%a1%a3">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十二删除前归档" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十二、删除前归档" aria-label="Anchor to: 十二、删除前归档" href="#%e5%8d%81%e4%ba%8c%e5%88%a0%e9%99%a4%e5%89%8d%e5%bd%92%e6%a1%a3">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2934,7 +2934,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十三、<code>DELETE</code> 没有 <code>LIMIT</code>
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十三delete-没有-limit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、DELETE 没有 LIMIT" aria-label="Anchor to: 十三、DELETE 没有 LIMIT" href="#%e5%8d%81%e4%b8%89delete-%e6%b2%a1%e6%9c%89-limit">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十三delete-没有-limit" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十三、DELETE 没有 LIMIT" aria-label="Anchor to: 十三、DELETE 没有 LIMIT" href="#%e5%8d%81%e4%b8%89delete-%e6%b2%a1%e6%9c%89-limit">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -2968,7 +2968,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十四、为什么大表要分批删除
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十四为什么大表要分批删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、为什么大表要分批删除" aria-label="Anchor to: 十四、为什么大表要分批删除" href="#%e5%8d%81%e5%9b%9b%e4%b8%ba%e4%bb%80%e4%b9%88%e5%a4%a7%e8%a1%a8%e8%a6%81%e5%88%86%e6%89%b9%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十四为什么大表要分批删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十四、为什么大表要分批删除" aria-label="Anchor to: 十四、为什么大表要分批删除" href="#%e5%8d%81%e5%9b%9b%e4%b8%ba%e4%bb%80%e4%b9%88%e5%a4%a7%e8%a1%a8%e8%a6%81%e5%88%86%e6%89%b9%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3006,7 +3006,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十五、删除后为什么磁盘没有立即变小
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十五删除后为什么磁盘没有立即变小" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、删除后为什么磁盘没有立即变小" aria-label="Anchor to: 十五、删除后为什么磁盘没有立即变小" href="#%e5%8d%81%e4%ba%94%e5%88%a0%e9%99%a4%e5%90%8e%e4%b8%ba%e4%bb%80%e4%b9%88%e7%a3%81%e7%9b%98%e6%b2%a1%e6%9c%89%e7%ab%8b%e5%8d%b3%e5%8f%98%e5%b0%8f">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十五删除后为什么磁盘没有立即变小" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十五、删除后为什么磁盘没有立即变小" aria-label="Anchor to: 十五、删除后为什么磁盘没有立即变小" href="#%e5%8d%81%e4%ba%94%e5%88%a0%e9%99%a4%e5%90%8e%e4%b8%ba%e4%bb%80%e4%b9%88%e7%a3%81%e7%9b%98%e6%b2%a1%e6%9c%89%e7%ab%8b%e5%8d%b3%e5%8f%98%e5%b0%8f">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3032,7 +3032,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         <code>VACUUM FULL</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#vacuum-full" class="gdoc-page__anchor clip flex align-center" title="Anchor to: VACUUM FULL" aria-label="Anchor to: VACUUM FULL" href="#vacuum-full">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#vacuum-full" class="gdoc-page__anchor clip flex align-center" title="Anchor to: VACUUM FULL" aria-label="Anchor to: VACUUM FULL" href="#vacuum-full">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3055,7 +3055,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十六、分区表的历史数据删除
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十六分区表的历史数据删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、分区表的历史数据删除" aria-label="Anchor to: 十六、分区表的历史数据删除" href="#%e5%8d%81%e5%85%ad%e5%88%86%e5%8c%ba%e8%a1%a8%e7%9a%84%e5%8e%86%e5%8f%b2%e6%95%b0%e6%8d%ae%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十六分区表的历史数据删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十六、分区表的历史数据删除" aria-label="Anchor to: 十六、分区表的历史数据删除" href="#%e5%8d%81%e5%85%ad%e5%88%86%e5%8c%ba%e8%a1%a8%e7%9a%84%e5%8e%86%e5%8f%b2%e6%95%b0%e6%8d%ae%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3087,7 +3087,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十七、<code>DELETE</code>、<code>TRUNCATE</code>、<code>DROP</code> 区别
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十七deletetruncatedrop-区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、DELETE、TRUNCATE、DROP 区别" aria-label="Anchor to: 十七、DELETE、TRUNCATE、DROP 区别" href="#%e5%8d%81%e4%b8%83deletetruncatedrop-%e5%8c%ba%e5%88%ab">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十七deletetruncatedrop-区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十七、DELETE、TRUNCATE、DROP 区别" aria-label="Anchor to: 十七、DELETE、TRUNCATE、DROP 区别" href="#%e5%8d%81%e4%b8%83deletetruncatedrop-%e5%8c%ba%e5%88%ab">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3131,7 +3131,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         1. <code>DELETE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#1-delete" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. DELETE" aria-label="Anchor to: 1. DELETE" href="#1-delete">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#1-delete" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. DELETE" aria-label="Anchor to: 1. DELETE" href="#1-delete">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3152,7 +3152,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         2. <code>TRUNCATE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#2-truncate" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. TRUNCATE" aria-label="Anchor to: 2. TRUNCATE" href="#2-truncate">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#2-truncate" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. TRUNCATE" aria-label="Anchor to: 2. TRUNCATE" href="#2-truncate">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3180,7 +3180,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         3. <code>TRUNCATE ... CASCADE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#3-truncate--cascade" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. TRUNCATE ... CASCADE" aria-label="Anchor to: 3. TRUNCATE ... CASCADE" href="#3-truncate--cascade">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#3-truncate--cascade" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. TRUNCATE ... CASCADE" aria-label="Anchor to: 3. TRUNCATE ... CASCADE" href="#3-truncate--cascade">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3196,7 +3196,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         4. <code>DROP TABLE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#4-drop-table" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. DROP TABLE" aria-label="Anchor to: 4. DROP TABLE" href="#4-drop-table">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#4-drop-table" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. DROP TABLE" aria-label="Anchor to: 4. DROP TABLE" href="#4-drop-table">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3218,7 +3218,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十八、删除操作与索引
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十八删除操作与索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十八、删除操作与索引" aria-label="Anchor to: 十八、删除操作与索引" href="#%e5%8d%81%e5%85%ab%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c%e4%b8%8e%e7%b4%a2%e5%bc%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十八删除操作与索引" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十八、删除操作与索引" aria-label="Anchor to: 十八、删除操作与索引" href="#%e5%8d%81%e5%85%ab%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c%e4%b8%8e%e7%b4%a2%e5%bc%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3254,7 +3254,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         十九、并发与锁
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#十九并发与锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十九、并发与锁" aria-label="Anchor to: 十九、并发与锁" href="#%e5%8d%81%e4%b9%9d%e5%b9%b6%e5%8f%91%e4%b8%8e%e9%94%81">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#十九并发与锁" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 十九、并发与锁" aria-label="Anchor to: 十九、并发与锁" href="#%e5%8d%81%e4%b9%9d%e5%b9%b6%e5%8f%91%e4%b8%8e%e9%94%81">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3283,7 +3283,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         二十、触发器对删除结果的影响
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#二十触发器对删除结果的影响" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十、触发器对删除结果的影响" aria-label="Anchor to: 二十、触发器对删除结果的影响" href="#%e4%ba%8c%e5%8d%81%e8%a7%a6%e5%8f%91%e5%99%a8%e5%af%b9%e5%88%a0%e9%99%a4%e7%bb%93%e6%9e%9c%e7%9a%84%e5%bd%b1%e5%93%8d">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#二十触发器对删除结果的影响" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十、触发器对删除结果的影响" aria-label="Anchor to: 二十、触发器对删除结果的影响" href="#%e4%ba%8c%e5%8d%81%e8%a7%a6%e5%8f%91%e5%99%a8%e5%af%b9%e5%88%a0%e9%99%a4%e7%bb%93%e6%9e%9c%e7%9a%84%e5%bd%b1%e5%93%8d">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3308,7 +3308,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         二十一、Python psycopg 3 删除
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#二十一python-psycopg-3-删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十一、Python psycopg 3 删除" aria-label="Anchor to: 二十一、Python psycopg 3 删除" href="#%e4%ba%8c%e5%8d%81%e4%b8%80python-psycopg-3-%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#二十一python-psycopg-3-删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十一、Python psycopg 3 删除" aria-label="Anchor to: 二十一、Python psycopg 3 删除" href="#%e4%ba%8c%e5%8d%81%e4%b8%80python-psycopg-3-%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3355,7 +3355,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         事务和异常处理
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#事务和异常处理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 事务和异常处理" aria-label="Anchor to: 事务和异常处理" href="#%e4%ba%8b%e5%8a%a1%e5%92%8c%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#事务和异常处理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 事务和异常处理" aria-label="Anchor to: 事务和异常处理" href="#%e4%ba%8b%e5%8a%a1%e5%92%8c%e5%bc%82%e5%b8%b8%e5%a4%84%e7%90%86">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3387,7 +3387,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         二十二、SQLAlchemy 2.0 删除
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#二十二sqlalchemy-20-删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十二、SQLAlchemy 2.0 删除" aria-label="Anchor to: 二十二、SQLAlchemy 2.0 删除" href="#%e4%ba%8c%e5%8d%81%e4%ba%8csqlalchemy-20-%e5%88%a0%e9%99%a4">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#二十二sqlalchemy-20-删除" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十二、SQLAlchemy 2.0 删除" aria-label="Anchor to: 二十二、SQLAlchemy 2.0 删除" href="#%e4%ba%8c%e5%8d%81%e4%ba%8csqlalchemy-20-%e5%88%a0%e9%99%a4">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3444,7 +3444,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         二十三、常见删除错误
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#二十三常见删除错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十三、常见删除错误" aria-label="Anchor to: 二十三、常见删除错误" href="#%e4%ba%8c%e5%8d%81%e4%b8%89%e5%b8%b8%e8%a7%81%e5%88%a0%e9%99%a4%e9%94%99%e8%af%af">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#二十三常见删除错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十三、常见删除错误" aria-label="Anchor to: 二十三、常见删除错误" href="#%e4%ba%8c%e5%8d%81%e4%b8%89%e5%b8%b8%e8%a7%81%e5%88%a0%e9%99%a4%e9%94%99%e8%af%af">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3453,7 +3453,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         1. 漏写 <code>WHERE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#1-漏写-where" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 漏写 WHERE" aria-label="Anchor to: 1. 漏写 WHERE" href="#1-%e6%bc%8f%e5%86%99-where">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#1-漏写-where" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 漏写 WHERE" aria-label="Anchor to: 1. 漏写 WHERE" href="#1-%e6%bc%8f%e5%86%99-where">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3464,7 +3464,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         2. 条件范围过宽
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#2-条件范围过宽" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 条件范围过宽" aria-label="Anchor to: 2. 条件范围过宽" href="#2-%e6%9d%a1%e4%bb%b6%e8%8c%83%e5%9b%b4%e8%bf%87%e5%ae%bd">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#2-条件范围过宽" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 条件范围过宽" aria-label="Anchor to: 2. 条件范围过宽" href="#2-%e6%9d%a1%e4%bb%b6%e8%8c%83%e5%9b%b4%e8%bf%87%e5%ae%bd">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3475,7 +3475,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         3. 把 <code>AND</code> 写成 <code>OR</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#3-把-and-写成-or" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 把 AND 写成 OR" aria-label="Anchor to: 3. 把 AND 写成 OR" href="#3-%e6%8a%8a-and-%e5%86%99%e6%88%90-or">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#3-把-and-写成-or" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 把 AND 写成 OR" aria-label="Anchor to: 3. 把 AND 写成 OR" href="#3-%e6%8a%8a-and-%e5%86%99%e6%88%90-or">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3487,7 +3487,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         4. 使用 <code>= NULL</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#4-使用--null" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 使用 = NULL" aria-label="Anchor to: 4. 使用 = NULL" href="#4-%e4%bd%bf%e7%94%a8--null">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#4-使用--null" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 4. 使用 = NULL" aria-label="Anchor to: 4. 使用 = NULL" href="#4-%e4%bd%bf%e7%94%a8--null">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3499,7 +3499,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         5. 忽略外键级联
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#5-忽略外键级联" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 忽略外键级联" aria-label="Anchor to: 5. 忽略外键级联" href="#5-%e5%bf%bd%e7%95%a5%e5%a4%96%e9%94%ae%e7%ba%a7%e8%81%94">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#5-忽略外键级联" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 5. 忽略外键级联" aria-label="Anchor to: 5. 忽略外键级联" href="#5-%e5%bf%bd%e7%95%a5%e5%a4%96%e9%94%ae%e7%ba%a7%e8%81%94">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3509,7 +3509,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         6. 认为 <code>DELETE</code> 会立即缩小磁盘文件
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#6-认为-delete-会立即缩小磁盘文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 认为 DELETE 会立即缩小磁盘文件" aria-label="Anchor to: 6. 认为 DELETE 会立即缩小磁盘文件" href="#6-%e8%ae%a4%e4%b8%ba-delete-%e4%bc%9a%e7%ab%8b%e5%8d%b3%e7%bc%a9%e5%b0%8f%e7%a3%81%e7%9b%98%e6%96%87%e4%bb%b6">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#6-认为-delete-会立即缩小磁盘文件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 6. 认为 DELETE 会立即缩小磁盘文件" aria-label="Anchor to: 6. 认为 DELETE 会立即缩小磁盘文件" href="#6-%e8%ae%a4%e4%b8%ba-delete-%e4%bc%9a%e7%ab%8b%e5%8d%b3%e7%bc%a9%e5%b0%8f%e7%a3%81%e7%9b%98%e6%96%87%e4%bb%b6">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3519,7 +3519,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         7. 用 <code>DELETE</code> 表示股票退市
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#7-用-delete-表示股票退市" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 用 DELETE 表示股票退市" aria-label="Anchor to: 7. 用 DELETE 表示股票退市" href="#7-%e7%94%a8-delete-%e8%a1%a8%e7%a4%ba%e8%82%a1%e7%a5%a8%e9%80%80%e5%b8%82">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#7-用-delete-表示股票退市" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 7. 用 DELETE 表示股票退市" aria-label="Anchor to: 7. 用 DELETE 表示股票退市" href="#7-%e7%94%a8-delete-%e8%a1%a8%e7%a4%ba%e8%82%a1%e7%a5%a8%e9%80%80%e5%b8%82">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3529,7 +3529,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         8. 大表一次删除全部历史记录
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#8-大表一次删除全部历史记录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 大表一次删除全部历史记录" aria-label="Anchor to: 8. 大表一次删除全部历史记录" href="#8-%e5%a4%a7%e8%a1%a8%e4%b8%80%e6%ac%a1%e5%88%a0%e9%99%a4%e5%85%a8%e9%83%a8%e5%8e%86%e5%8f%b2%e8%ae%b0%e5%bd%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#8-大表一次删除全部历史记录" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 8. 大表一次删除全部历史记录" aria-label="Anchor to: 8. 大表一次删除全部历史记录" href="#8-%e5%a4%a7%e8%a1%a8%e4%b8%80%e6%ac%a1%e5%88%a0%e9%99%a4%e5%85%a8%e9%83%a8%e5%8e%86%e5%8f%b2%e8%ae%b0%e5%bd%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3539,7 +3539,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         9. 使用 <code>EXPLAIN ANALYZE DELETE</code>
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#9-使用-explain-analyze-delete" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 使用 EXPLAIN ANALYZE DELETE" aria-label="Anchor to: 9. 使用 EXPLAIN ANALYZE DELETE" href="#9-%e4%bd%bf%e7%94%a8-explain-analyze-delete">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#9-使用-explain-analyze-delete" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 9. 使用 EXPLAIN ANALYZE DELETE" aria-label="Anchor to: 9. 使用 EXPLAIN ANALYZE DELETE" href="#9-%e4%bd%bf%e7%94%a8-explain-analyze-delete">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3549,7 +3549,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         10. 应用捕获异常后没有回滚
     </h3>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#10-应用捕获异常后没有回滚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 应用捕获异常后没有回滚" aria-label="Anchor to: 10. 应用捕获异常后没有回滚" href="#10-%e5%ba%94%e7%94%a8%e6%8d%95%e8%8e%b7%e5%bc%82%e5%b8%b8%e5%90%8e%e6%b2%a1%e6%9c%89%e5%9b%9e%e6%bb%9a">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#10-应用捕获异常后没有回滚" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 10. 应用捕获异常后没有回滚" aria-label="Anchor to: 10. 应用捕获异常后没有回滚" href="#10-%e5%ba%94%e7%94%a8%e6%8d%95%e8%8e%b7%e5%bc%82%e5%b8%b8%e5%90%8e%e6%b2%a1%e6%9c%89%e5%9b%9e%e6%bb%9a">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
@@ -3560,7 +3560,7 @@ CREATE TABLE market.security ( security_id bigint GENERATED ALWAYS AS IDENTITY P
     >
         二十四、安全删除检查清单
     </h2>
-    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/05-delete/#二十四安全删除检查清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十四、安全删除检查清单" aria-label="Anchor to: 二十四、安全删除检查清单" href="#%e4%ba%8c%e5%8d%81%e5%9b%9b%e5%ae%89%e5%85%a8%e5%88%a0%e9%99%a4%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95">
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/06-delete/#二十四安全删除检查清单" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 二十四、安全删除检查清单" aria-label="Anchor to: 二十四、安全删除检查清单" href="#%e4%ba%8c%e5%8d%81%e5%9b%9b%e5%ae%89%e5%85%a8%e5%88%a0%e9%99%a4%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95">
         <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
     </a>
 </div>
