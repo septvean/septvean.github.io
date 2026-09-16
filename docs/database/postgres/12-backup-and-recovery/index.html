@@ -17,7 +17,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
 一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：
 方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 &#43; WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。" />
 
-    <title>PostgreSQL 事务与锁 | Septvean&#39;s Documents</title>
+    <title>PostgreSQL 备份恢复 | Septvean&#39;s Documents</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 <link
@@ -38,7 +38,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     
   <meta
     property="og:title"
-    content="PostgreSQL 事务与锁"
+    content="PostgreSQL 备份恢复"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
   <meta property="og:description" content="PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：
@@ -52,7 +52,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
 
 
   <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="PostgreSQL 事务与锁" />
+<meta name="twitter:title" content="PostgreSQL 备份恢复" />
   <meta name="twitter:description" content="PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：
 pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解决整个实例的快速恢复。 基础备份 &#43; WAL 归档：解决时间点恢复，即 PITR。 定期恢复演练：确认备份真的可用。 PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。PostgreSQL 18 备份文档
 一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：
@@ -64,9 +64,9 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
       "@context": "http://schema.org",
       "@type": "TechArticle",
       "articleSection": "Database",
-      "name": "PostgreSQL 事务与锁",
+      "name": "PostgreSQL 备份恢复",
       "url": "https://documents.v2ep.com/database/postgres/12-backup-and-recovery/",
-      "headline": "PostgreSQL 事务与锁",
+      "headline": "PostgreSQL 备份恢复",
       "description": "PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：\npg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解决整个实例的快速恢复。 基础备份 \u002b WAL 归档：解决时间点恢复，即 PITR。 定期恢复演练：确认备份真的可用。 PostgreSQL 官方将备份分为 SQL 转储、文件系统备份、连续 WAL 归档三类。PostgreSQL 18 备份文档\n一、先理解 RPO 与 RTO 指标 含义 示例 RPO 最多允许丢失多少数据 RPO 5 分钟：灾难时最多丢 5 分钟数据 RTO 最长允许多久恢复服务 RTO 30 分钟：必须在 30 分钟内恢复 保留期 能恢复到多早以前 保留 30 天：可恢复最近 30 天状态 不同备份方式的能力：\n方式 工具 备份粒度 PITR 跨大版本 适用场景 逻辑备份 pg_dump 库、Schema、表 否 较好 日常备份、迁移、单表恢复 全实例逻辑备份 pg_dumpall 整个实例 否 较好 角色、表空间、多个数据库 物理基础备份 pg_basebackup 整个实例 配合 WAL 否 大型生产库快速恢复 连续归档 基础备份 \u002b WAL 整个实例 是 否 生产灾备、误操作恢复 冷备份 停库后复制文件 整个实例 否 否 简单离线场景 这里的“实例\/数据库集群”指一个 PostgreSQL 数据目录，其中可以包含多个数据库。",
       "wordCount": "910",
       "inLanguage": "en",
@@ -2145,7 +2145,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     
   
   
-    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 事务与锁</span><meta itemprop='position' content='4' /></li>
+    <li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/' href='/'><span itemprop='name'>Documents</span></a><meta itemprop='position' content='1' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/' href='/database/'><span itemprop='name'>Database</span></a><meta itemprop='position' content='2' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><a itemscope itemtype='https://schema.org/WebPage' itemprop='item' itemid='/database/postgres/' href='/database/postgres/'><span itemprop='name'>PostgreSQL</span></a><meta itemprop='position' content='3' /></li><li> / </li><li itemprop='itemListElement' itemscope itemtype='https://schema.org/ListItem'><span itemprop='name'>PostgreSQL 备份恢复</span><meta itemprop='position' content='4' /></li>
   
 
   
@@ -2166,7 +2166,7 @@ pg_dump：解决单库、单表恢复和跨版本迁移。 pg_basebackup：解�
     class="gdoc-markdown gdoc-markdown__align--left"
     id="main-content" tabindex="-1"
   >
-    <h1>PostgreSQL 事务与锁</h1>
+    <h1>PostgreSQL 备份恢复</h1>
     
     <p>PostgreSQL 的备份方案通常不是“选一个工具”，而是组合使用：</p>
 <ul>
