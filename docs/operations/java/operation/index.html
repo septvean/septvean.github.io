@@ -9,14 +9,15 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.166.0">
+<meta name="generator" content="Hugo 0.169.0">
 
 
   <meta name="description" content="内容：部署、监控、日志、排错、性能、JVM、容器化、CI/CD、运维工具等。
 1. 生产环境部署策略 ✅ 推荐部署方式
 优先顺序（从强到弱）：
 容器化 &#43; Kubernetes（最佳） systemd 方式部署 JAR Supervisor 直接 nohup 后台跑（不推荐生产） 示例：systemd 运行 Java 程序
-[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=/opt/myapp ExecStart=/usr/bin/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=&#34; -Xms1024m -Xmx1024m -XX:&#43;UseG1GC -XX:MaxGCPauseMillis=200 -XX:&#43;HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/logs/heapdump.hprof -XX:&#43;PrintGCDetails -XX:&#43;PrintGCDateStamps -Xloggc:/opt/logs/gc.log &#34; 内存大小规则 容器环境：" />
+[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=/opt/myapp ExecStart=/usr/bin/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=&#34; -Xms1024m -Xmx1024m -XX:&#43;UseG1GC -XX:MaxGCPauseMillis=200 -XX:&#43;HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/logs/heapdump.hprof -XX:&#43;PrintGCDetails -XX:&#43;PrintGCDateStamps -Xloggc:/opt/logs/gc.log &#34; 内存大小规则 容器环境：
+Xms = Xmx = container_limit * 80% `` 物理机：按内存 50%-70%" />
 
     <title>Java 运维 | Septvean&#39;s Documents</title>
 
@@ -46,7 +47,8 @@
 1. 生产环境部署策略 ✅ 推荐部署方式
 优先顺序（从强到弱）：
 容器化 &#43; Kubernetes（最佳） systemd 方式部署 JAR Supervisor 直接 nohup 后台跑（不推荐生产） 示例：systemd 运行 Java 程序
-[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=/opt/myapp ExecStart=/usr/bin/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=&#34; -Xms1024m -Xmx1024m -XX:&#43;UseG1GC -XX:MaxGCPauseMillis=200 -XX:&#43;HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/logs/heapdump.hprof -XX:&#43;PrintGCDetails -XX:&#43;PrintGCDateStamps -Xloggc:/opt/logs/gc.log &#34; 内存大小规则 容器环境：" />
+[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=/opt/myapp ExecStart=/usr/bin/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=&#34; -Xms1024m -Xmx1024m -XX:&#43;UseG1GC -XX:MaxGCPauseMillis=200 -XX:&#43;HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/logs/heapdump.hprof -XX:&#43;PrintGCDetails -XX:&#43;PrintGCDateStamps -Xloggc:/opt/logs/gc.log &#34; 内存大小规则 容器环境：
+Xms = Xmx = container_limit * 80% `` 物理机：按内存 50%-70%" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/java/operation/" />
 
@@ -59,7 +61,8 @@
 1. 生产环境部署策略 ✅ 推荐部署方式
 优先顺序（从强到弱）：
 容器化 &#43; Kubernetes（最佳） systemd 方式部署 JAR Supervisor 直接 nohup 后台跑（不推荐生产） 示例：systemd 运行 Java 程序
-[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=/opt/myapp ExecStart=/usr/bin/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=&#34; -Xms1024m -Xmx1024m -XX:&#43;UseG1GC -XX:MaxGCPauseMillis=200 -XX:&#43;HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/logs/heapdump.hprof -XX:&#43;PrintGCDetails -XX:&#43;PrintGCDateStamps -Xloggc:/opt/logs/gc.log &#34; 内存大小规则 容器环境：" />
+[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=/opt/myapp ExecStart=/usr/bin/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=&#34; -Xms1024m -Xmx1024m -XX:&#43;UseG1GC -XX:MaxGCPauseMillis=200 -XX:&#43;HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/logs/heapdump.hprof -XX:&#43;PrintGCDetails -XX:&#43;PrintGCDateStamps -Xloggc:/opt/logs/gc.log &#34; 内存大小规则 容器环境：
+Xms = Xmx = container_limit * 80% `` 物理机：按内存 50%-70%" />
 
 
   <script type="application/ld+json">
@@ -70,7 +73,7 @@
       "name": "Java 运维",
       "url": "https://documents.v2ep.com/operations/java/operation/",
       "headline": "Java 运维",
-      "description": "内容：部署、监控、日志、排错、性能、JVM、容器化、CI\/CD、运维工具等。\n1. 生产环境部署策略 ✅ 推荐部署方式\n优先顺序（从强到弱）：\n容器化 \u002b Kubernetes（最佳） systemd 方式部署 JAR Supervisor 直接 nohup 后台跑（不推荐生产） 示例：systemd 运行 Java 程序\n[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=\/opt\/myapp ExecStart=\/usr\/bin\/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=\u0022 -Xms1024m -Xmx1024m -XX:\u002bUseG1GC -XX:MaxGCPauseMillis=200 -XX:\u002bHeapDumpOnOutOfMemoryError -XX:HeapDumpPath=\/opt\/logs\/heapdump.hprof -XX:\u002bPrintGCDetails -XX:\u002bPrintGCDateStamps -Xloggc:\/opt\/logs\/gc.log \u0022 内存大小规则 容器环境：",
+      "description": "内容：部署、监控、日志、排错、性能、JVM、容器化、CI\/CD、运维工具等。\n1. 生产环境部署策略 ✅ 推荐部署方式\n优先顺序（从强到弱）：\n容器化 \u002b Kubernetes（最佳） systemd 方式部署 JAR Supervisor 直接 nohup 后台跑（不推荐生产） 示例：systemd 运行 Java 程序\n[Unit] Description=My Java App After=network.target [Service] User=www WorkingDirectory=\/opt\/myapp ExecStart=\/usr\/bin\/java -Xms512m -Xmx512m -jar myapp.jar --spring.profiles.active=prod SuccessExitStatus=143 Restart=always RestartSec=5 [Install] WantedBy=multi-user.target 2. Java 运维必备：JVM 参数标准规范 标准可用于生产的 JVM 参数 JAVA_OPTS=\u0022 -Xms1024m -Xmx1024m -XX:\u002bUseG1GC -XX:MaxGCPauseMillis=200 -XX:\u002bHeapDumpOnOutOfMemoryError -XX:HeapDumpPath=\/opt\/logs\/heapdump.hprof -XX:\u002bPrintGCDetails -XX:\u002bPrintGCDateStamps -Xloggc:\/opt\/logs\/gc.log \u0022 内存大小规则 容器环境：\nXms = Xmx = container_limit * 80% \u0060\u0060 物理机：按内存 50%-70%",
       "wordCount": "300",
       "inLanguage": "en",
       "isFamilyFriendly": "true",

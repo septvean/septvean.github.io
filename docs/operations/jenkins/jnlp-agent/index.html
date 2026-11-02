@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.166.0">
+<meta name="generator" content="Hugo 0.169.0">
 
 
   <meta name="description" content="JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent/Slave）连接到 Jenkins 主节点（Master/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。
@@ -17,7 +17,11 @@
 在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。
 也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。
 ✅ 适合场景：
-你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -&gt; Nodes -&gt; New node -&gt; Type: Permanent Agent 创建一个永久节点。" />
+你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -&gt; Nodes -&gt; New node -&gt; Type: Permanent Agent 创建一个永久节点。
+Jenkins 为主机生成一个唯一的 Agent 名称 和 密钥（secret）。
+在目标机器上执行以下命令启动 Agent。
+Agent 通过 HTTP/HTTPS 连接到 Jenkins 主节点，建立持久连接。
+Jenkins 主节点可向该 Agent 分配 Job 构建任务。" />
 
     <title>Jenkins JNLP Agent | Septvean&#39;s Documents</title>
 
@@ -48,7 +52,11 @@
 在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。
 也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。
 ✅ 适合场景：
-你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -&gt; Nodes -&gt; New node -&gt; Type: Permanent Agent 创建一个永久节点。" />
+你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -&gt; Nodes -&gt; New node -&gt; Type: Permanent Agent 创建一个永久节点。
+Jenkins 为主机生成一个唯一的 Agent 名称 和 密钥（secret）。
+在目标机器上执行以下命令启动 Agent。
+Agent 通过 HTTP/HTTPS 连接到 Jenkins 主节点，建立持久连接。
+Jenkins 主节点可向该 Agent 分配 Job 构建任务。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/jenkins/jnlp-agent/" />
 
@@ -62,7 +70,11 @@
 在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。
 也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。
 ✅ 适合场景：
-你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -&gt; Nodes -&gt; New node -&gt; Type: Permanent Agent 创建一个永久节点。" />
+你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -&gt; Nodes -&gt; New node -&gt; Type: Permanent Agent 创建一个永久节点。
+Jenkins 为主机生成一个唯一的 Agent 名称 和 密钥（secret）。
+在目标机器上执行以下命令启动 Agent。
+Agent 通过 HTTP/HTTPS 连接到 Jenkins 主节点，建立持久连接。
+Jenkins 主节点可向该 Agent 分配 Job 构建任务。" />
 
 
   <script type="application/ld+json">
@@ -73,7 +85,7 @@
       "name": "Jenkins JNLP Agent",
       "url": "https://documents.v2ep.com/operations/jenkins/jnlp-agent/",
       "headline": "Jenkins JNLP Agent",
-      "description": "JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent\/Slave）连接到 Jenkins 主节点（Master\/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。\n🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。\n在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。\n也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。\n✅ 适合场景：\n你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙\/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -\u003e Nodes -\u003e New node -\u003e Type: Permanent Agent 创建一个永久节点。",
+      "description": "JNLP Agent（Java Network Launch Protocol Agent）是 Jenkins 中一种将 远程节点（Agent\/Slave）连接到 Jenkins 主节点（Master\/Controller）的方式。它允许你将构建任务分发到其他机器上执行，实现分布式构建，提升并发能力和资源利用率。\n🔧 一、什么是 JNLP Agent？ JNLP（Java Network Launch Protocol）是 Java 提供的一种机制，允许通过 Web 启动远程 Java 应用程序。\n在 Jenkins 中，JNLP Agent 是一个运行在远程机器上的 Java 进程，通过 JNLP 协议连接到 Jenkins 主节点，并接收构建任务。\n也称为 “Inbound Agent”（入站代理），因为是 Agent 主动连接 Master（与 SSH Agent 的“出站”方式相对）。\n✅ 适合场景：\n你无法从 Jenkins 主机直接 SSH 到构建机器（如 Windows 机器、容器、受限网络环境）。 构建节点在防火墙\/NAT 后，只能主动向外连接。 需要临时启动的 Agent（如 Kubernetes Pod、Docker 容器）。 📦 二、JNLP Agent 的工作原理 通过 Manage Jenkins -\u003e Nodes -\u003e New node -\u003e Type: Permanent Agent 创建一个永久节点。\nJenkins 为主机生成一个唯一的 Agent 名称 和 密钥（secret）。\n在目标机器上执行以下命令启动 Agent。\nAgent 通过 HTTP\/HTTPS 连接到 Jenkins 主节点，建立持久连接。\nJenkins 主节点可向该 Agent 分配 Job 构建任务。",
       "wordCount": "677",
       "inLanguage": "en",
       "isFamilyFriendly": "true",

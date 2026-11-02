@@ -9,13 +9,16 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.166.0">
+<meta name="generator" content="Hugo 0.169.0">
 
 
   <meta name="description" content="原文：Linux挂载磁盘mount参数优化
 一、Linux 文件属性时间戳理解 Linux 文件有三种重要时间戳：
 时间类型 描述 修改条件 Access Time (atime) 文件最后访问时间 读取文件时改变 Modify Time (mtime) 文件内容最后修改时间 修改文件内容时改变 Change Time (ctime) 文件属性最后修改时间 修改文件权限或内容时改变 示例操作 创建文件并查看时间戳：
-echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：" />
+echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：
+chmod 600 hello.txt stat hello.txt 结果：Change Time 改变，Access/Modify Time 不变 修改文件内容：
+echo &#34;World&#34; &gt;&gt; hello.txt stat hello.txt 结果：Modify 和 Change 改变，Access 不一定改变（取决于是否读取文件） 读取文件内容：
+cat hello.txt stat hello.txt 结果：Access 改变 " />
 
     <title>Linux 磁盘挂载与性能优化 | Septvean&#39;s Documents</title>
 
@@ -44,7 +47,10 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
   <meta property="og:description" content="原文：Linux挂载磁盘mount参数优化
 一、Linux 文件属性时间戳理解 Linux 文件有三种重要时间戳：
 时间类型 描述 修改条件 Access Time (atime) 文件最后访问时间 读取文件时改变 Modify Time (mtime) 文件内容最后修改时间 修改文件内容时改变 Change Time (ctime) 文件属性最后修改时间 修改文件权限或内容时改变 示例操作 创建文件并查看时间戳：
-echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：" />
+echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：
+chmod 600 hello.txt stat hello.txt 结果：Change Time 改变，Access/Modify Time 不变 修改文件内容：
+echo &#34;World&#34; &gt;&gt; hello.txt stat hello.txt 结果：Modify 和 Change 改变，Access 不一定改变（取决于是否读取文件） 读取文件内容：
+cat hello.txt stat hello.txt 结果：Access 改变 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/operations/linux/mount/" />
 
@@ -56,7 +62,10 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
   <meta name="twitter:description" content="原文：Linux挂载磁盘mount参数优化
 一、Linux 文件属性时间戳理解 Linux 文件有三种重要时间戳：
 时间类型 描述 修改条件 Access Time (atime) 文件最后访问时间 读取文件时改变 Modify Time (mtime) 文件内容最后修改时间 修改文件内容时改变 Change Time (ctime) 文件属性最后修改时间 修改文件权限或内容时改变 示例操作 创建文件并查看时间戳：
-echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：" />
+echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：
+chmod 600 hello.txt stat hello.txt 结果：Change Time 改变，Access/Modify Time 不变 修改文件内容：
+echo &#34;World&#34; &gt;&gt; hello.txt stat hello.txt 结果：Modify 和 Change 改变，Access 不一定改变（取决于是否读取文件） 读取文件内容：
+cat hello.txt stat hello.txt 结果：Access 改变 " />
 
 
   <script type="application/ld+json">
@@ -67,7 +76,7 @@ echo &#34;Hello&#34; &gt; hello.txt stat hello.txt ls -l --time=atime # 查看�
       "name": "Linux 磁盘挂载与性能优化",
       "url": "https://documents.v2ep.com/operations/linux/mount/",
       "headline": "Linux 磁盘挂载与性能优化",
-      "description": "原文：Linux挂载磁盘mount参数优化\n一、Linux 文件属性时间戳理解 Linux 文件有三种重要时间戳：\n时间类型 描述 修改条件 Access Time (atime) 文件最后访问时间 读取文件时改变 Modify Time (mtime) 文件内容最后修改时间 修改文件内容时改变 Change Time (ctime) 文件属性最后修改时间 修改文件权限或内容时改变 示例操作 创建文件并查看时间戳：\necho \u0022Hello\u0022 \u003e hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：",
+      "description": "原文：Linux挂载磁盘mount参数优化\n一、Linux 文件属性时间戳理解 Linux 文件有三种重要时间戳：\n时间类型 描述 修改条件 Access Time (atime) 文件最后访问时间 读取文件时改变 Modify Time (mtime) 文件内容最后修改时间 修改文件内容时改变 Change Time (ctime) 文件属性最后修改时间 修改文件权限或内容时改变 示例操作 创建文件并查看时间戳：\necho \u0022Hello\u0022 \u003e hello.txt stat hello.txt ls -l --time=atime # 查看访问时间 ls -l --time=ctime # 查看改变时间 修改权限：\nchmod 600 hello.txt stat hello.txt 结果：Change Time 改变，Access\/Modify Time 不变 修改文件内容：\necho \u0022World\u0022 \u003e\u003e hello.txt stat hello.txt 结果：Modify 和 Change 改变，Access 不一定改变（取决于是否读取文件） 读取文件内容：\ncat hello.txt stat hello.txt 结果：Access 改变 ",
       "wordCount": "382",
       "inLanguage": "en",
       "isFamilyFriendly": "true",

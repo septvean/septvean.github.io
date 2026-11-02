@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="generator" content="Hugo 0.166.0">
+<meta name="generator" content="Hugo 0.169.0">
 
 
   <meta name="description" content=" PostgreSQL 查询最近 3 天数据的示例 使用 CURRENT_DATE (精确到天)
@@ -18,7 +18,9 @@ SELECT * FROM Table WHERE Timestamp_Column &gt;= CURRENT_DATE - INTERVAL &#39;3 
 更精确，包含过去72小时内的数据
 SELECT * FROM Table WHERE Timestamp_Column &gt;= NOW() - INTERVAL &#39;3 days&#39;; 查询具体时间范围 (更严谨)
 明确定义了3天前到现在的时间段
-SELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL &#39;3 days&#39;) AND NOW(); 针对日期类型列 (DATE)" />
+SELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL &#39;3 days&#39;) AND NOW(); 针对日期类型列 (DATE)
+适用于 DATE 类型，而不是 TIMESTAMP
+SELECT * FROM your_table WHERE your_date_column &gt;= CURRENT_DATE - INTERVAL &#39;3 days&#39; AND your_date_column &lt;= CURRENT_DATE; " />
 
     <title>PostgreSQL Datetime | Septvean&#39;s Documents</title>
 
@@ -50,7 +52,9 @@ SELECT * FROM Table WHERE Timestamp_Column &gt;= CURRENT_DATE - INTERVAL &#39;3 
 更精确，包含过去72小时内的数据
 SELECT * FROM Table WHERE Timestamp_Column &gt;= NOW() - INTERVAL &#39;3 days&#39;; 查询具体时间范围 (更严谨)
 明确定义了3天前到现在的时间段
-SELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL &#39;3 days&#39;) AND NOW(); 针对日期类型列 (DATE)" />
+SELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL &#39;3 days&#39;) AND NOW(); 针对日期类型列 (DATE)
+适用于 DATE 类型，而不是 TIMESTAMP
+SELECT * FROM your_table WHERE your_date_column &gt;= CURRENT_DATE - INTERVAL &#39;3 days&#39; AND your_date_column &lt;= CURRENT_DATE; " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/database/postgres/deprecated/datetime/" />
 
@@ -65,7 +69,9 @@ SELECT * FROM Table WHERE Timestamp_Column &gt;= CURRENT_DATE - INTERVAL &#39;3 
 更精确，包含过去72小时内的数据
 SELECT * FROM Table WHERE Timestamp_Column &gt;= NOW() - INTERVAL &#39;3 days&#39;; 查询具体时间范围 (更严谨)
 明确定义了3天前到现在的时间段
-SELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL &#39;3 days&#39;) AND NOW(); 针对日期类型列 (DATE)" />
+SELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL &#39;3 days&#39;) AND NOW(); 针对日期类型列 (DATE)
+适用于 DATE 类型，而不是 TIMESTAMP
+SELECT * FROM your_table WHERE your_date_column &gt;= CURRENT_DATE - INTERVAL &#39;3 days&#39; AND your_date_column &lt;= CURRENT_DATE; " />
 
 
   <script type="application/ld+json">
@@ -76,7 +82,7 @@ SELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL &
       "name": "PostgreSQL Datetime",
       "url": "https://documents.v2ep.com/database/postgres/deprecated/datetime/",
       "headline": "PostgreSQL Datetime",
-      "description": " PostgreSQL 查询最近 3 天数据的示例 使用 CURRENT_DATE (精确到天)\n查找从3天前开始到当前时刻的所有记录\nSELECT * FROM Table WHERE Timestamp_Column \u003e= CURRENT_DATE - INTERVAL \u00273 days\u0027; 使用 NOW() 或 CURRENT_TIMESTAMP (精确到秒)\n更精确，包含过去72小时内的数据\nSELECT * FROM Table WHERE Timestamp_Column \u003e= NOW() - INTERVAL \u00273 days\u0027; 查询具体时间范围 (更严谨)\n明确定义了3天前到现在的时间段\nSELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL \u00273 days\u0027) AND NOW(); 针对日期类型列 (DATE)",
+      "description": " PostgreSQL 查询最近 3 天数据的示例 使用 CURRENT_DATE (精确到天)\n查找从3天前开始到当前时刻的所有记录\nSELECT * FROM Table WHERE Timestamp_Column \u003e= CURRENT_DATE - INTERVAL \u00273 days\u0027; 使用 NOW() 或 CURRENT_TIMESTAMP (精确到秒)\n更精确，包含过去72小时内的数据\nSELECT * FROM Table WHERE Timestamp_Column \u003e= NOW() - INTERVAL \u00273 days\u0027; 查询具体时间范围 (更严谨)\n明确定义了3天前到现在的时间段\nSELECT * FROM your_table WHERE your_timestamp_column BETWEEN (NOW() - INTERVAL \u00273 days\u0027) AND NOW(); 针对日期类型列 (DATE)\n适用于 DATE 类型，而不是 TIMESTAMP\nSELECT * FROM your_table WHERE your_date_column \u003e= CURRENT_DATE - INTERVAL \u00273 days\u0027 AND your_date_column \u003c= CURRENT_DATE; ",
       "wordCount": "77",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
