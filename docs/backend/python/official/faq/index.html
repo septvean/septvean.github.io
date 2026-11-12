@@ -12,9 +12,8 @@
 <meta name="generator" content="Hugo 0.169.0">
 
 
-  <meta name="description" content=" Python try &hellip; except Exception as e 是不是可以输出任何错误？ 不是，try &hellip; except Exception as e 并不能捕获和输出所有的错误。
-虽然它能捕获绝大多数在程序运行过程中发生的常见错误（如 ValueError, KeyError, TypeError 等），但它有两个重大的盲区：
-1. 无法捕获严重系统级错误（非 Exception 子类） 在 Python 的异常体系中，Exception 并不是最顶层的基类，BaseException 才是。有几种特殊的控制流和系统级错误直接继承自 BaseException，从而绕过了 Exception：" />
+  <meta name="description" content=" 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：
+使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try &hellip; except Exception as e 是不是可以输出任何错误？ 不是，try &hellip; except Exception as e 并不能捕获和输出所有的错误。" />
 
     <title>FAQ | Septvean&#39;s Documents</title>
 
@@ -40,9 +39,8 @@
     content="FAQ"
   />
   <meta property="og:site_name" content="Septvean's Documents" />
-  <meta property="og:description" content=" Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。
-虽然它能捕获绝大多数在程序运行过程中发生的常见错误（如 ValueError, KeyError, TypeError 等），但它有两个重大的盲区：
-1. 无法捕获严重系统级错误（非 Exception 子类） 在 Python 的异常体系中，Exception 并不是最顶层的基类，BaseException 才是。有几种特殊的控制流和系统级错误直接继承自 BaseException，从而绕过了 Exception：" />
+  <meta property="og:description" content=" 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：
+使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://documents.v2ep.com/backend/python/official/faq/" />
 
@@ -51,9 +49,8 @@
 
   <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="FAQ" />
-  <meta name="twitter:description" content=" Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。
-虽然它能捕获绝大多数在程序运行过程中发生的常见错误（如 ValueError, KeyError, TypeError 等），但它有两个重大的盲区：
-1. 无法捕获严重系统级错误（非 Exception 子类） 在 Python 的异常体系中，Exception 并不是最顶层的基类，BaseException 才是。有几种特殊的控制流和系统级错误直接继承自 BaseException，从而绕过了 Exception：" />
+  <meta name="twitter:description" content=" 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：
+使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。" />
 
 
   <script type="application/ld+json">
@@ -64,8 +61,8 @@
       "name": "FAQ",
       "url": "https://documents.v2ep.com/backend/python/official/faq/",
       "headline": "FAQ",
-      "description": " Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。\n虽然它能捕获绝大多数在程序运行过程中发生的常见错误（如 ValueError, KeyError, TypeError 等），但它有两个重大的盲区：\n1. 无法捕获严重系统级错误（非 Exception 子类） 在 Python 的异常体系中，Exception 并不是最顶层的基类，BaseException 才是。有几种特殊的控制流和系统级错误直接继承自 BaseException，从而绕过了 Exception：",
-      "wordCount": "1567",
+      "description": " 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：\n使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。",
+      "wordCount": "1585",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2210,6 +2207,22 @@
     <h1>FAQ</h1>
     
     <div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="总结"
+    >
+        总结
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#总结" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 总结" aria-label="Anchor to: 总结" href="#%e6%80%bb%e7%bb%93">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>为了让代码容易排查异常，使用以下模式来编写健壮的代码：</p>
+<ul>
+<li>使用 <code>try ... except Exception as e</code> 捕获错误</li>
+<li>函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。</li>
+<li>错误优先，遇到错误时，不在向下继续执行。</li>
+</ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
     <h2 id="python-try--except-exception-as-e-是不是可以输出任何错误"
     >
         Python try &hellip; except Exception as e 是不是可以输出任何错误？
