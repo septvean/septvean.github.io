@@ -62,7 +62,7 @@
       "url": "https://documents.v2ep.com/backend/python/official/faq/",
       "headline": "FAQ",
       "description": " 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：\n使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。",
-      "wordCount": "1585",
+      "wordCount": "1671",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -3194,7 +3194,64 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 使用时：</span>
 </span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">read_large_file</span><span class="p">(</span><span class="s2">&#34;huge_log.txt&#34;</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">process</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>  <span class="c1"># 完美支持百 GB 级别的大文件</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="python--u-参数的作用"
+    >
+        python -u 参数的作用
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#python--u-参数的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: python -u 参数的作用" aria-label="Anchor to: python -u 参数的作用" href="#python--u-%e5%8f%82%e6%95%b0%e7%9a%84%e4%bd%9c%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><code>python -u</code> 参数的作用是强制标准输出（stdout）和标准错误（stderr）采用无缓冲（unbuffered）模式运行。 加上该参数后，程序中的 <code>print()</code> 或日志输出会立刻显示在终端或写入文件，而不会先暂存在内存缓冲区中。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="核心工作原理"
+    >
+        核心工作原理
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#核心工作原理" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心工作原理" aria-label="Anchor to: 核心工作原理" href="#%e6%a0%b8%e5%bf%83%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>
+<p>默认缓冲机制。 在没有加 <code>-u</code> 时，Python 会根据输出目标决定缓冲策略。如果直接输出到交互式终端，通常是“行缓冲”（遇到换行符 <code>\n</code> 才输出）。如果将输出重定向到文件或管道，则会变成“块缓冲”（必须等缓冲区攒满几 KB 数据或程序结束才一次性写入）。</p>
+</li>
+<li>
+<p>无缓冲强制刷新。 使用 <code>python -u script.py</code> 会跳过上述缓冲阶段，确保每一条输出都在产生瞬间立即刷新并展示出来。</p>
+</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="常见使用场景"
+    >
+        常见使用场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#常见使用场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见使用场景" aria-label="Anchor to: 常见使用场景" href="#%e5%b8%b8%e8%a7%81%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>后台运行与日志重定向。 使用 <code>nohup python -u app.py &gt; run.log 2&gt;&amp;1 &amp;</code> 在后台运行脚本时，可以实时通过 <code>tail -f run.log</code> 查看最新日志，避免日志文件长时间为空。</li>
+<li>Docker 容器部署。 在 Dockerfile 中通常配置 <code>CMD [&quot;python&quot;, &quot;-u&quot;, &quot;main.py&quot;]</code>，这样能够保证 docker logs 实时捕获容器内的应用输出，方便排查线上故障。</li>
+<li>CI/CD 流水线与远程调度。 在 Jenkins、GitLab CI 或 SSH 远程执行任务时，该参数能确保构建进度和报错信息实时回传，防止界面长时间卡死无响应。</li>
+<li>实时进度条与交互反馈。 在循环中使用 <code>print(&quot;.&quot;, end=&quot;&quot;)</code> 打印同一行的动态加载进度时，不加 <code>-u</code> 往往会导致所有点在循环彻底结束后才一起蹦出来。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="替代实现方式"
+    >
+        替代实现方式
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#替代实现方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 替代实现方式" aria-label="Anchor to: 替代实现方式" href="#%e6%9b%bf%e4%bb%a3%e5%ae%9e%e7%8e%b0%e6%96%b9%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>除了在命令行添加 <code>-u</code> 参数，还可以通过以下方式达到相同效果：</p>
+<ul>
+<li>环境变量控制。 在运行前设置环境变量 <code>export PYTHONUNBUFFERED=1</code>（Linux/macOS）或 <code>set PYTHONUNBUFFERED=1</code>（Windows），效果与全局开启 -u 完全一致。</li>
+<li>代码内部强制刷新。 在特定的打印语句中添加参数 <code>print(&quot;正在处理...&quot;, flush=True)</code>，或者手动调用 <code>sys.stdout.flush()</code> 来精准控制单次输出。</li>
+</ul>
+
   </article>
 
 
