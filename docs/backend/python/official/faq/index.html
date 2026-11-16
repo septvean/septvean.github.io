@@ -62,7 +62,7 @@
       "url": "https://documents.v2ep.com/backend/python/official/faq/",
       "headline": "FAQ",
       "description": " 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：\n使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。",
-      "wordCount": "1671",
+      "wordCount": "1732",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -3251,6 +3251,48 @@
 <li>环境变量控制。 在运行前设置环境变量 <code>export PYTHONUNBUFFERED=1</code>（Linux/macOS）或 <code>set PYTHONUNBUFFERED=1</code>（Windows），效果与全局开启 -u 完全一致。</li>
 <li>代码内部强制刷新。 在特定的打印语句中添加参数 <code>print(&quot;正在处理...&quot;, flush=True)</code>，或者手动调用 <code>sys.stdout.flush()</code> 来精准控制单次输出。</li>
 </ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="以下这段-python-代码是并发还是并行"
+    >
+        以下这段 Python 代码是并发还是并行
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#以下这段-python-代码是并发还是并行" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 以下这段 Python 代码是并发还是并行" aria-label="Anchor to: 以下这段 Python 代码是并发还是并行" href="#%e4%bb%a5%e4%b8%8b%e8%bf%99%e6%ae%b5-python-%e4%bb%a3%e7%a0%81%e6%98%af%e5%b9%b6%e5%8f%91%e8%bf%98%e6%98%af%e5%b9%b6%e8%a1%8c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span> <span class="k">if</span> <span class="n">thread</span> <span class="k">else</span> <span class="n">ProcessPoolExecutor</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">pool</span><span class="p">(</span><span class="n">workers</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">data_chunks</span><span class="p">)</span>
+</span></span></code></pre></div><p>这段代码既支持并发（Concurrency），也支持并行（Parallelism），具体属于哪一种，完全取决于运行时 thread 参数的值以及底层硬件环境。</p>
+<p>两种模式的执行机制对比：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th style="text-align: left">运行分支</th>
+					<th style="text-align: left">ThreadPoolExecutor</th>
+					<th style="text-align: left">ProcessPoolExecutor</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">执行模型</td>
+					<td style="text-align: left">并发 (Concurrency)</td>
+					<td style="text-align: left">并行 (Parallelism)</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">底层机制</td>
+					<td style="text-align: left">使用多线程。受限于标准 Python 的全局解释器锁（GIL），同一时刻通常只有一个线程在执行 Python 字节码，线程间通过快速切换（I/O 等待时）实现交替执行。</td>
+					<td style="text-align: left">使用多进程。每个进程拥有独立的 Python 解释器和内存空间，绕过了 GIL 限制。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">适用场景</td>
+					<td style="text-align: left">I/O 密集型任务（如网络请求、读写文件、数据库查询）。</td>
+					<td style="text-align: left">CPU 密集型任务（如大量数学计算、图像处理、数据解析）。</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>注：在极少数情况下，如果 thread = False 但运行在单核 CPU 机器上，多进程也只能通过时间片轮转退化为“并发”。另外，Python 3.13+ 引入的实验性自由线程模式 Free-threaded Python 若被启用，多线程也能实现真并行，但在标准 Python 环境下依然遵循上述规则。</p>
 
   </article>
 
