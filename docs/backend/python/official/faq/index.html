@@ -62,7 +62,7 @@
       "url": "https://documents.v2ep.com/backend/python/official/faq/",
       "headline": "FAQ",
       "description": " 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：\n使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。",
-      "wordCount": "1732",
+      "wordCount": "2190",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -3293,6 +3293,350 @@
 	</tbody>
 </table> </div>
 <p>注：在极少数情况下，如果 thread = False 但运行在单核 CPU 机器上，多进程也只能通过时间片轮转退化为“并发”。另外，Python 3.13+ 引入的实验性自由线程模式 Free-threaded Python 若被启用，多线程也能实现真并行，但在标准 Python 环境下依然遵循上述规则。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="python-subprocessrun-的结果"
+    >
+        Python subprocess.run 的结果
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#python-subprocessrun-的结果" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Python subprocess.run 的结果" aria-label="Anchor to: Python subprocess.run 的结果" href="#python-subprocessrun-%e7%9a%84%e7%bb%93%e6%9e%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 Python 中，<code>subprocess.run()</code> 执行后会返回一个 CompletedProcess 对象，里面包含了命令执行的全部结果信息。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-completedprocess-核心属性"
+    >
+        1. CompletedProcess 核心属性
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#1-completedprocess-核心属性" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. CompletedProcess 核心属性" aria-label="Anchor to: 1. CompletedProcess 核心属性" href="#1-completedprocess-%e6%a0%b8%e5%bf%83%e5%b1%9e%e6%80%a7">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>你可以通过访问返回对象的以下属性来获取执行结果：</p>
+<ul>
+<li><strong>result.returncode</strong>：进程退出状态码（整数）。0 通常表示执行成功，非 0 表示执行出错。</li>
+<li><strong>result.stdout</strong>：命令的标准输出结果。默认是 None（除非指定了捕获参数），捕获后默认返回 bytes 字节串，加上 text=True 后返回 str 字符串。</li>
+<li><strong>result.stderr</strong>：命令的标准错误输出。规则与 stdout 相同。</li>
+<li><strong>result.args</strong>：实际启动进程时传入的命令参数（列表或字符串）。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-获取输出的常用写法"
+    >
+        2. 获取输出的常用写法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#2-获取输出的常用写法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 获取输出的常用写法" aria-label="Anchor to: 2. 获取输出的常用写法" href="#2-%e8%8e%b7%e5%8f%96%e8%be%93%e5%87%ba%e7%9a%84%e5%b8%b8%e7%94%a8%e5%86%99%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>默认情况下，<code>subprocess.run()</code> 只会把输出直接打印在终端上，而不会保存到变量中。要获取结果，必须配合 capture_output=True 和 text=True：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="n">python</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 执行命令并捕获文本形式的输出</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="s2">&#34;python&#34;</span><span class="p">,</span> <span class="s2">&#34;--version&#34;</span><span class="p">],</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 同时捕获 stdout 和 stderr</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span><span class="o">=</span><span class="kc">True</span>             <span class="c1"># 自动将字节解码为字符串（等价于 encoding=&#39;utf-8&#39;）</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;状态码:&#34;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;标准输出:&#34;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;错误输出:&#34;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-处理执行失败的两种方式"
+    >
+        3. 处理执行失败的两种方式
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#3-处理执行失败的两种方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 处理执行失败的两种方式" aria-label="Anchor to: 3. 处理执行失败的两种方式" href="#3-%e5%a4%84%e7%90%86%e6%89%a7%e8%a1%8c%e5%a4%b1%e8%b4%a5%e7%9a%84%e4%b8%a4%e7%a7%8d%e6%96%b9%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>手动检查状态码（默认）。通过判断 <code>result.returncode != 0</code> 来处理异常情况。</li>
+<li>自动抛出异常（推荐）。传入参数 <code>check=True</code>。如果命令返回码非 0，Python 会直接抛出 subprocess.CalledProcessError 异常，你可以从异常对象 e 中获取 e.returncode、e.stdout 和 e.stderr。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="s2">&#34;ls&#34;</span><span class="p">,</span> <span class="s2">&#34;/不存在的路径&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">check</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># 失败时直接报错</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;命令失败，退出码: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">returncode</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;错误信息: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>更详细的参数说明可以参考 Python 官方文档 subprocess 模块。</p>
+<ul>
+<li><a
+  class="gdoc-markdown__link"
+  href="https://docs.python.org/zh-cn/3/library/subprocess.html"
+>https://docs.python.org/zh-cn/3/library/subprocess.html</a></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="check-参数的作用"
+    >
+        check 参数的作用
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#check-参数的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: check 参数的作用" aria-label="Anchor to: check 参数的作用" href="#check-%e5%8f%82%e6%95%b0%e7%9a%84%e4%bd%9c%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p><code>subprocess.run()</code> 中的 check 参数用于决定当外部命令执行失败（返回非零状态码）时，Python 是否自动抛出异常。</p>
+<p>它的默认值是 False。以下是两种设置的具体区别：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-checkfalse默认行为静默忽略错误"
+    >
+        1. check=False（默认行为：静默忽略错误）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#1-checkfalse默认行为静默忽略错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. check=False（默认行为：静默忽略错误）" aria-label="Anchor to: 1. check=False（默认行为：静默忽略错误）" href="#1-checkfalse%e9%bb%98%e8%ae%a4%e8%a1%8c%e4%b8%ba%e9%9d%99%e9%bb%98%e5%bf%bd%e7%95%a5%e9%94%99%e8%af%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>表现：即使外部命令运行出错（例如文件不存在、命令语法错误），<code>subprocess.run()</code> 也不会报错，而是正常返回一个 CompletedProcess 对象。</li>
+<li>后续处理：你需要自己手动检查 result.returncode 是否为 0 来判断成功与否。如果忘记检查，程序会带着错误的结果继续往下运行。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 即使命令失败，Python 也不会报错</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&#34;ls&#34;</span><span class="p">,</span> <span class="s2">&#34;不存在的文件&#34;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;程序还在继续运行，状态码为:&#34;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>  <span class="c1"># 输出非 0 数字</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-checktrue推荐失败即报错"
+    >
+        2. check=True（推荐：失败即报错）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#2-checktrue推荐失败即报错" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. check=True（推荐：失败即报错）" aria-label="Anchor to: 2. check=True（推荐：失败即报错）" href="#2-checktrue%e6%8e%a8%e8%8d%90%e5%a4%b1%e8%b4%a5%e5%8d%b3%e6%8a%a5%e9%94%99">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>表现：一旦外部命令的退出状态码（returncode）不为 0，<code>subprocess.run()</code> 会立刻抛出 subprocess.CalledProcessError 异常并中断当前流程。</li>
+<li>优势：防止错误被悄悄吞掉。你可以直接用 <code>try ... except ...</code> 捕获这个异常，并从异常对象中提取出失败的命令、状态码和错误输出。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="s2">&#34;ls&#34;</span><span class="p">,</span> <span class="s2">&#34;不存在的文件&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">check</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># 只要状态码 != 0，立刻抛出异常</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;捕获到命令执行失败！&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;失败命令:&#34;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;退出状态码:&#34;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;错误详情:&#34;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+</span></span></code></pre></div><p>什么时候该用哪个？</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th style="text-align: left">设置</th>
+					<th style="text-align: left">适用场景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left">check=True</td>
+					<td style="text-align: left">绝大多数自动化脚本。当后续步骤依赖当前命令的成功执行时（如编译代码、部署文件），确保出错时能第一时间中断并报警。</td>
+			</tr>
+			<tr>
+					<td style="text-align: left">check=False</td>
+					<td style="text-align: left">探测性命令。当“命令返回非零”本身就是你预期内的正常分支时（例如用 grep 查找关键词，找不到会返回状态码 1，但这并不是程序崩溃）。</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="subprocessrun-执行失败后如何获得状态码和标准错误"
+    >
+        subprocess.run 执行失败后，如何获得状态码和标准错误
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#subprocessrun-执行失败后如何获得状态码和标准错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: subprocess.run 执行失败后，如何获得状态码和标准错误" aria-label="Anchor to: subprocess.run 执行失败后，如何获得状态码和标准错误" href="#subprocessrun-%e6%89%a7%e8%a1%8c%e5%a4%b1%e8%b4%a5%e5%90%8e%e5%a6%82%e4%bd%95%e8%8e%b7%e5%be%97%e7%8a%b6%e6%80%81%e7%a0%81%e5%92%8c%e6%a0%87%e5%87%86%e9%94%99%e8%af%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>获取失败后的状态码和标准错误有两种方式，具体取决于你是否开启了 <code>check=True</code>：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方式一开启-checktrue-时从异常对象中获取"
+    >
+        方式一：开启 check=True 时（从异常对象中获取）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#方式一开启-checktrue-时从异常对象中获取" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式一：开启 check=True 时（从异常对象中获取）" aria-label="Anchor to: 方式一：开启 check=True 时（从异常对象中获取）" href="#%e6%96%b9%e5%bc%8f%e4%b8%80%e5%bc%80%e5%90%af-checktrue-%e6%97%b6%e4%bb%8e%e5%bc%82%e5%b8%b8%e5%af%b9%e8%b1%a1%e4%b8%ad%e8%8e%b7%e5%8f%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>当 <code>check=True</code> 且命令失败时，<code>subprocess.run()</code> 不会返回结果对象，而是直接抛出 subprocess.CalledProcessError 异常。你需要用 <code>try ... except ...</code> 捕获它，并从异常变量（如 e）中读取 e.returncode 和 e.stderr。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">[</span><span class="s2">&#34;ls&#34;</span><span class="p">,</span> <span class="s2">&#34;/不存在的目录&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 必须加上，否则 e.stderr 为 None</span>
+</span></span><span class="line"><span class="cl">        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>            <span class="c1"># 自动解码为字符串，否则返回 bytes</span>
+</span></span><span class="line"><span class="cl">        <span class="n">check</span><span class="o">=</span><span class="kc">True</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;退出状态码:&#34;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;标准错误:&#34;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 顺带一提，如果需要失败时的标准输出，可以用 e.stdout</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方式二默认-checkfalse-时从返回对象中获取"
+    >
+        方式二：默认 check=False 时（从返回对象中获取）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#方式二默认-checkfalse-时从返回对象中获取" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方式二：默认 check=False 时（从返回对象中获取）" aria-label="Anchor to: 方式二：默认 check=False 时（从返回对象中获取）" href="#%e6%96%b9%e5%bc%8f%e4%ba%8c%e9%bb%98%e8%ae%a4-checkfalse-%e6%97%b6%e4%bb%8e%e8%bf%94%e5%9b%9e%e5%af%b9%e8%b1%a1%e4%b8%ad%e8%8e%b7%e5%8f%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果没有设置 <code>check=True</code>，命令失败后程序不会报错，而是正常返回 CompletedProcess 对象。你直接从返回结果（如 result）中读取 result.returncode 和 result.stderr 即可。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="s2">&#34;ls&#34;</span><span class="p">,</span> <span class="s2">&#34;/不存在的目录&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># 必须加上，否则 result.stderr 为 None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;命令执行失败！&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;退出状态码:&#34;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;标准错误:&#34;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="-两个容易踩的坑"
+    >
+        ⚠️ 两个容易踩的坑
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#-两个容易踩的坑" class="gdoc-page__anchor clip flex align-center" title="Anchor to: ⚠️ 两个容易踩的坑" aria-label="Anchor to: ⚠️ 两个容易踩的坑" href="#-%e4%b8%a4%e4%b8%aa%e5%ae%b9%e6%98%93%e8%b8%a9%e7%9a%84%e5%9d%91">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>必须加 <code>capture_output=True</code>（或 <code>stderr=subprocess.PIPE</code>）。如果不加，错误信息会直接打印在控制台上，e.stderr 或 result.stderr 的值都会是 None。</li>
+<li>有些程序会把报错打在 stdout 里。部分非标准的命令行工具在出错时，会把错误提示输出到标准输出而不是标准错误。如果发现 stderr 为空，建议把 stdout 也一并打印出来排查。</li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="如何将标准输出转换为-liststr"
+    >
+        如何将标准输出转换为 list[str]
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#如何将标准输出转换为-liststr" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 如何将标准输出转换为 list[str]" aria-label="Anchor to: 如何将标准输出转换为 list[str]" href="#%e5%a6%82%e4%bd%95%e5%b0%86%e6%a0%87%e5%87%86%e8%be%93%e5%87%ba%e8%bd%ac%e6%8d%a2%e4%b8%ba-liststr">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>要将标准输出转换为 <code>list[str]</code>（字符串列表），最直接的方法是在获取字符串输出后，使用 <code>.splitlines()</code> 方法按行分割。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-基础写法推荐"
+    >
+        1. 基础写法（推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#1-基础写法推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 基础写法（推荐）" aria-label="Anchor to: 1. 基础写法（推荐）" href="#1-%e5%9f%ba%e7%a1%80%e5%86%99%e6%b3%95%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>先通过 <code>capture_output=True</code> 和 <code>text=True</code> 拿到完整的字符串，再调用 <code>.splitlines()</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="s2">&#34;ls&#34;</span><span class="p">,</span> <span class="s2">&#34;-1&#34;</span><span class="p">],</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 将标准输出按行切分为 list[str]</span>
+</span></span><span class="line"><span class="cl"><span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例输出: [&#39;file1.txt&#39;, &#39;file2.py&#39;, &#39;README.md&#39;]</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-常见数据清洗需求"
+    >
+        2. 常见数据清洗需求
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#2-常见数据清洗需求" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 常见数据清洗需求" aria-label="Anchor to: 2. 常见数据清洗需求" href="#2-%e5%b8%b8%e8%a7%81%e6%95%b0%e6%8d%ae%e6%b8%85%e6%b4%97%e9%9c%80%e6%b1%82">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>实际处理命令行输出时，经常会遇到末尾空行或多余空格，可以结合列表推导式进行过滤：</p>
+<ul>
+<li>
+<p>过滤掉所有空行（包括纯空格行）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+</span></span></code></pre></div></li>
+<li>
+<p>去掉每行首尾的空白字符，同时过滤空行</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+</span></span></code></pre></div></li>
+<li>
+<p>按空格或特定分隔符切分（例如输出是一行空格分隔的单词）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 默认按任意空白字符（空格、制表符、换行符）切分</span>
+</span></span><span class="line"><span class="cl"><span class="n">words</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span></span></code></pre></div></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="3-为什么推荐-splitlines-而不是-splitn"
+    >
+        3. 为什么推荐 .splitlines() 而不是 .split(&rsquo;\n&rsquo;)？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#3-为什么推荐-splitlines-而不是-splitn" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 3. 为什么推荐 .splitlines() 而不是 .split(&rsquo;\n&rsquo;)？" aria-label="Anchor to: 3. 为什么推荐 .splitlines() 而不是 .split(&rsquo;\n&rsquo;)？" href="#3-%e4%b8%ba%e4%bb%80%e4%b9%88%e6%8e%a8%e8%8d%90-splitlines-%e8%80%8c%e4%b8%8d%e6%98%af-splitn">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>跨平台兼容性好：<code>.splitlines()</code> 能自动识别 Linux/macOS 的 <code>\n</code> 和 Windows 的 <code>\r\n</code>，不会在行尾留下多余的 <code>\r</code> 字符。</li>
+<li>不会在末尾产生空字符串：如果输出以换行符结尾（绝大多数命令行工具都会这样），<code>&quot;a\nb\n&quot;.split('\n')</code> 会得到 <code>['a', 'b', '']</code>，而 <code>&quot;a\nb\n&quot;.splitlines()</code> 会干净地得到 <code>['a', 'b']</code>。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="标准错误多行的情况多不多"
+    >
+        标准错误，多行的情况多不多
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#标准错误多行的情况多不多" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 标准错误，多行的情况多不多" aria-label="Anchor to: 标准错误，多行的情况多不多" href="#%e6%a0%87%e5%87%86%e9%94%99%e8%af%af%e5%a4%9a%e8%a1%8c%e7%9a%84%e6%83%85%e5%86%b5%e5%a4%9a%e4%b8%8d%e5%a4%9a">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>非常多，甚至可以说是常态。 命令行工具在出错时，往往不仅输出一句话，而是会附带详细的上下文、用法提示或堆栈追踪。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-常见的多行-stderr-场景"
+    >
+        1. 常见的多行 stderr 场景
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#1-常见的多行-stderr-场景" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 常见的多行 stderr 场景" aria-label="Anchor to: 1. 常见的多行 stderr 场景" href="#1-%e5%b8%b8%e8%a7%81%e7%9a%84%e5%a4%9a%e8%a1%8c-stderr-%e5%9c%ba%e6%99%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>编程与脚本运行时（如 Python、Java、Node.js）。一旦崩溃，会把完整的 Traceback（调用栈追踪） 输出到 stderr，少则几行，多则几十上百行。</li>
+<li>编译器与构建工具（如 GCC、Cargo、Maven、Webpack）。语法或类型错误通常会包含文件路径、行号、错误代码片段以及 <code>^</code> 指示符，每个错误至少占 3~5 行。</li>
+<li>CLI 工具参数错误（如 git、docker、ffmpeg）。除了报出具体原因，很多工具还会在后面附带一长段 <code>Usage: ...</code> 帮助信息；像 ffmpeg 甚至会把正常的运行日志和进度信息也全部输出到 stderr。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-处理多行-stderr-的实用建议"
+    >
+        2. 处理多行 stderr 的实用建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#2-处理多行-stderr-的实用建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 处理多行 stderr 的实用建议" aria-label="Anchor to: 2. 处理多行 stderr 的实用建议" href="#2-%e5%a4%84%e7%90%86%e5%a4%9a%e8%a1%8c-stderr-%e7%9a%84%e5%ae%9e%e7%94%a8%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>因为 stderr 经常是多行的，直接全部打印在紧凑的日志或前端界面里可能会刷屏，你可以按需采用以下处理方式：</p>
+<ul>
+<li>
+<p>转换成列表逐行筛选（如只提取包含 Error 的关键行）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">error_lines</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 只提取包含 error 或 fatal 的行（忽略大小写）</span>
+</span></span><span class="line"><span class="cl"><span class="n">key_errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">error_lines</span> <span class="k">if</span> <span class="s2">&#34;error&#34;</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&#34;fatal&#34;</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+</span></span></code></pre></div></li>
+<li>
+<p>只取最后几行（通常最核心的报错原因在堆栈的最后面）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">lines</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 取最后 3 行作为摘要</span>
+</span></span><span class="line"><span class="cl"><span class="n">summary</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:])</span>
+</span></span></code></pre></div></li>
+<li>
+<p>作为完整文本记录到日志文件</p>
+<p>如果是后台排查问题，建议直接保留完整的 e.stderr，不要截断，否则会丢失定位问题最关键的上下文行号。</p>
+</li>
+</ul>
 
   </article>
 

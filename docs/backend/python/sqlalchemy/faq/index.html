@@ -62,7 +62,7 @@
       "url": "https://documents.v2ep.com/backend/python/sqlalchemy/faq/",
       "headline": "FAQ",
       "description": " 总结 SELECT 优先使用原生 SQL INSERT\/UPDATE\/DELETE 可以考虑使用 ORM (目前来看，ORM 更方便一些) Result 常用方法： .all() 获取的是一个列表 .mapping.all() 获取的是一个字典(列表中的元素是字典) sqlalchemy 中，sessionmaker 如何不使用 with，直接调用 db_engine = create_engine(url=db_url, future=True) db_session = sessionmaker(bind=db_engine) with db_session() as session: sqlalchemy 中，sessionmaker 如何不使用 with，直接调用?\n在 SQLAlchemy 中，如果不使用 with 上下文管理器，你需要手动管理 Session 的开启与关闭（特别是通过 try...finally 块确保连接最终被释放）。",
-      "wordCount": "2197",
+      "wordCount": "3465",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -3526,6 +3526,732 @@
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="s2">&#34;created_at&#34;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">    <span class="n">df</span><span class="p">[</span><span class="s2">&#34;created_at&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&#34;created_at&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 </span></span></code></pre></div><p>不想引入庞大的 pandas 库：如果你的项目环境对安装包体积敏感，只想用轻量级的纯 openpyxl 导出，也可以直接遍历 <code>result.all()</code> 逐行写入工作表（<code>ws.append(list(row))</code>）。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="以下-update-哪里错了"
+    >
+        以下 update 哪里错了
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#以下-update-哪里错了" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 以下 update 哪里错了" aria-label="Anchor to: 以下 update 哪里错了" href="#%e4%bb%a5%e4%b8%8b-update-%e5%93%aa%e9%87%8c%e9%94%99%e4%ba%86">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="n">where_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;王五&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">values_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;李四&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">**</span><span class="n">where_stmt</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">values_stmt</span><span class="p">)</span><span class="o">.</span><span class="n">returning</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># TypeError: DMLWhereBase.where() got an unexpected keyword argument &#39;name&#39;</span>
+</span></span></code></pre></div><p>报错是因为 <code>.where()</code> 方法不接收关键字参数（<code>**kwargs</code>），它需要的是条件表达式（或者直接传入布尔表达式），而你的代码里把字典解包（<code>**where_stmt</code>）传给了 <code>.where()</code>。</p>
+<p>相比之下，<code>.values(**values_stmt)</code> 是支持字典解包的，所以报错只出在 <code>.where()</code> 上。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="解决方法"
+    >
+        解决方法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#解决方法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 解决方法" aria-label="Anchor to: 解决方法" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>根据你的实际使用场景，有以下三种改法：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="方法一最推荐的常规写法直接写条件表达式"
+    >
+        方法一：最推荐的常规写法（直接写条件表达式）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#方法一最推荐的常规写法直接写条件表达式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法一：最推荐的常规写法（直接写条件表达式）" aria-label="Anchor to: 方法一：最推荐的常规写法（直接写条件表达式）" href="#%e6%96%b9%e6%b3%95%e4%b8%80%e6%9c%80%e6%8e%a8%e8%8d%90%e7%9a%84%e5%b8%b8%e8%a7%84%e5%86%99%e6%b3%95%e7%9b%b4%e6%8e%a5%e5%86%99%e6%9d%a1%e4%bb%b6%e8%a1%a8%e8%be%be%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果查询条件是固定的，直接用 <code>Model.字段 == 值</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&#34;王五&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">values_stmt</span><span class="p">)</span><span class="o">.</span><span class="n">returning</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="方法二如果必须用字典动态构造-where-条件"
+    >
+        方法二：如果必须用字典动态构造 where 条件
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#方法二如果必须用字典动态构造-where-条件" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法二：如果必须用字典动态构造 where 条件" aria-label="Anchor to: 方法二：如果必须用字典动态构造 where 条件" href="#%e6%96%b9%e6%b3%95%e4%ba%8c%e5%a6%82%e6%9e%9c%e5%bf%85%e9%a1%bb%e7%94%a8%e5%ad%97%e5%85%b8%e5%8a%a8%e6%80%81%e6%9e%84%e9%80%a0-where-%e6%9d%a1%e4%bb%b6">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你的 where_stmt 是动态传进来的字典，可以用 filter_by() 替代 where()，因为 filter_by() 专门用于接收关键字参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">where_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;王五&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">values_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;李四&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="o">**</span><span class="n">where_stmt</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">values_stmt</span><span class="p">)</span><span class="o">.</span><span class="n">returning</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="方法三动态生成条件列表传给-where"
+    >
+        方法三：动态生成条件列表传给 where()
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#方法三动态生成条件列表传给-where" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法三：动态生成条件列表传给 where()" aria-label="Anchor to: 方法三：动态生成条件列表传给 where()" href="#%e6%96%b9%e6%b3%95%e4%b8%89%e5%8a%a8%e6%80%81%e7%94%9f%e6%88%90%e6%9d%a1%e4%bb%b6%e5%88%97%e8%a1%a8%e4%bc%a0%e7%bb%99-where">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果坚持要用 where() 且条件是动态字典，需要通过 getattr 把字典转换成 SQLAlchemy 的表达式列表后再解包（*）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">where_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;王五&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">values_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;李四&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">where_stmt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+</span></span><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">*</span><span class="n">conditions</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">values_stmt</span><span class="p">)</span><span class="o">.</span><span class="n">returning</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span></code></pre></div><p>提示：执行完 session.execute(stmt) 后，别忘了调用 session.commit()，否则更新不会真正写入数据库。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="where_stmt-数据是-name-王五-age-20where-条件关系是-and即-name--王五-and-age--20如何写-update"
+    >
+        where_stmt 数据是 {&ldquo;name&rdquo;: &ldquo;王五&rdquo;, &ldquo;age&rdquo;: 20},where 条件关系是 and,即 name = &lsquo;王五&rsquo; and age = 20,如何写 update
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#where_stmt-数据是-name-王五-age-20where-条件关系是-and即-name--王五-and-age--20如何写-update" class="gdoc-page__anchor clip flex align-center" title="Anchor to: where_stmt 数据是 {&ldquo;name&rdquo;: &ldquo;王五&rdquo;, &ldquo;age&rdquo;: 20},where 条件关系是 and,即 name = &lsquo;王五&rsquo; and age = 20,如何写 update" aria-label="Anchor to: where_stmt 数据是 {&ldquo;name&rdquo;: &ldquo;王五&rdquo;, &ldquo;age&rdquo;: 20},where 条件关系是 and,即 name = &lsquo;王五&rsquo; and age = 20,如何写 update" href="#where_stmt-%e6%95%b0%e6%8d%ae%e6%98%af-name-%e7%8e%8b%e4%ba%94-age-20where-%e6%9d%a1%e4%bb%b6%e5%85%b3%e7%b3%bb%e6%98%af-and%e5%8d%b3-name--%e7%8e%8b%e4%ba%94-and-age--20%e5%a6%82%e4%bd%95%e5%86%99-update">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 SQLAlchemy 中，多个条件默认就是 AND 关系，直接传入多个参数即可。</p>
+<p>针对你提供的字典 <code>where_stmt = {&quot;name&quot;: &quot;王五&quot;, &quot;age&quot;: 20}</code>，推荐以下两种写法：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="写法一使用-filter_by最简洁推荐"
+    >
+        写法一：使用 filter_by（最简洁，推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#写法一使用-filter_by最简洁推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 写法一：使用 filter_by（最简洁，推荐）" aria-label="Anchor to: 写法一：使用 filter_by（最简洁，推荐）" href="#%e5%86%99%e6%b3%95%e4%b8%80%e4%bd%bf%e7%94%a8-filter_by%e6%9c%80%e7%ae%80%e6%b4%81%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>filter_by() 天然支持字典解包，且多个键值对之间默认用 AND 连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">update</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">where_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;王五&#34;</span><span class="p">,</span> <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">values_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;李四&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">update</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="o">**</span><span class="n">where_stmt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">values_stmt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">returning</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成的 SQL 相当于: UPDATE users SET name=&#39;李四&#39; WHERE name = &#39;王五&#39; AND age = 20 RETURNING id</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="写法二使用-where-动态解包列表"
+    >
+        写法二：使用 where 动态解包列表
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#写法二使用-where-动态解包列表" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 写法二：使用 where 动态解包列表" aria-label="Anchor to: 写法二：使用 where 动态解包列表" href="#%e5%86%99%e6%b3%95%e4%ba%8c%e4%bd%bf%e7%94%a8-where-%e5%8a%a8%e6%80%81%e8%a7%a3%e5%8c%85%e5%88%97%e8%a1%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你更习惯用 where()，可以把字典转成条件列表再用 * 解包（where() 接收多个位置参数时，默认也是 AND 关系）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">update</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">where_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;王五&#34;</span><span class="p">,</span> <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">values_stmt</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;李四&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">where_stmt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">update</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">*</span><span class="n">conditions</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">values_stmt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="n">returning</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><p>(注：如果你需要显式表达，也可以导入 <code>from sqlalchemy import and_</code>，写成 <code>.where(and_(*conditions))</code>，效果完全一样。)</p>
+<p>完整执行示例</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">result</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">updated_ids</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>  <span class="c1"># 获取所有被更新记录的 id 列表</span>
+</span></span><span class="line"><span class="cl">  <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>  <span class="c1"># 提交事务</span>
+</span></span></code></pre></div><hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="model-和-schema-的区别"
+    >
+        model 和 schema 的区别
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#model-和-schema-的区别" class="gdoc-page__anchor clip flex align-center" title="Anchor to: model 和 schema 的区别" aria-label="Anchor to: model 和 schema 的区别" href="#model-%e5%92%8c-schema-%e7%9a%84%e5%8c%ba%e5%88%ab">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 Python 后端开发（尤其是 FastAPI + SQLAlchemy 的组合）中，Model（数据库模型）负责跟数据库打交道，而 Schema（数据模式，通常用 Pydantic 定义）负责接口层的数据校验和序列化。</p>
+<p>简单来说：Model 管“怎么存”，Schema 管“怎么传”。</p>
+<p>核心区别对比</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>Model (SQLAlchemy)</th>
+					<th>Schema (Pydantic)</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>核心职责</td>
+					<td>映射数据库表结构，执行增删改查 (ORM)</td>
+					<td>校验前端传入的请求数据，格式化返回给前端的响应数据</td>
+			</tr>
+			<tr>
+					<td>作用边界</td>
+					<td>后端内部与数据库之间</td>
+					<td>后端 API 与外部客户端（前端/App）之间</td>
+			</tr>
+			<tr>
+					<td>常见基类</td>
+					<td>DeclarativeBase</td>
+					<td>pydantic.BaseModel</td>
+			</tr>
+			<tr>
+					<td>包含字段</td>
+					<td>包含所有表字段（如自增 id、密码哈希 hashed_password、内部状态等）</td>
+					<td>按需裁剪（如创建用户时不需要 id，返回用户信息时过滤掉 password）</td>
+			</tr>
+			<tr>
+					<td>校验能力</td>
+					<td>依赖数据库约束（如 nullable=False、String(50)），报错较晚</td>
+					<td>在代码层直接拦截非法数据（如邮箱格式错误、年龄小于 0），自动返回 422 错误</td>
+			</tr>
+	</tbody>
+</table> </div>
+<p>代码示例对比</p>
+<p>以“用户（User）”为例，看看它们在项目中的配合方式：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-model定义数据库表modelspy"
+    >
+        1. Model：定义数据库表（models.py）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#1-model定义数据库表modelspy" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Model：定义数据库表（models.py）" aria-label="Anchor to: 1. Model：定义数据库表（models.py）" href="#1-model%e5%ae%9a%e4%b9%89%e6%95%b0%e6%8d%ae%e5%ba%93%e8%a1%a8modelspy">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>它严格对应数据库里的 users 表结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">String</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">DeclarativeBase</span><span class="p">,</span> <span class="n">Mapped</span><span class="p">,</span> <span class="n">mapped_column</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">DeclarativeBase</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&#34;users&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nb">id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">email</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">hashed_password</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>  <span class="c1"># 数据库存加密后的密码</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-schema定义接口契约schemaspy"
+    >
+        2. Schema：定义接口契约（schemas.py）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#2-schema定义接口契约schemaspy" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. Schema：定义接口契约（schemas.py）" aria-label="Anchor to: 2. Schema：定义接口契约（schemas.py）" href="#2-schema%e5%ae%9a%e4%b9%89%e6%8e%a5%e5%8f%a3%e5%a5%91%e7%ba%a6schemaspy">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>通常一个业务对象会拆分出多个 Schema，分别对应不同的接口场景：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">EmailStr</span><span class="p">,</span> <span class="n">Field</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 场景 A：前端注册时传给后端的数据（不需要 id，需要明文 password，且要校验格式）</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">UserCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">email</span><span class="p">:</span> <span class="n">EmailStr</span>
+</span></span><span class="line"><span class="cl">  <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 场景 B：后端返回给前端的数据（有 id，但绝对不能把 password 返回去）</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">UserResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">  <span class="n">email</span><span class="p">:</span> <span class="n">EmailStr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># 允许 Pydantic 直接从 SQLAlchemy 的 Model 对象中读取属性</span>
+</span></span><span class="line"><span class="cl">  <span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;from_attributes&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="为什么不能合二为一"
+    >
+        为什么不能合二为一？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#为什么不能合二为一" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 为什么不能合二为一？" aria-label="Anchor to: 为什么不能合二为一？" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd%e5%90%88%e4%ba%8c%e4%b8%ba%e4%b8%80">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>安全性（防字段泄露/越权）：如果直接用 Model 接收前端参数，恶意用户可能直接传入 is_admin=True 或篡改 id；直接返回 Model 则可能把 password 等敏感字段暴露给前端。</li>
+<li>灵活性（视图与存储解耦）：前端展示的一个页面数据，可能需要组合多张表的数据，或者把数据库的 first_name 和 last_name 拼成 full_name 返回。Schema 可以自由组合输出格式，而不影响底层数据库设计。</li>
+<li>前后端校验隔离：Pydantic 可以在数据进入数据库之前就完成正则、长度、邮箱格式等复杂校验，减轻数据库压力并给出友好的报错提示。</li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="select-查询的结果是-usermodel-modelsuserusermodel-object-at-0x10c026120如何转换"
+    >
+        select 查询的结果是 <code>[{'UserModel': &lt;models.user.UserModel object at 0x10c026120&gt;}]</code>，如何转换
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#select-查询的结果是-usermodel-modelsuserusermodel-object-at-0x10c026120如何转换" class="gdoc-page__anchor clip flex align-center" title="Anchor to: select 查询的结果是 [{&#39;UserModel&#39;: &lt;models.user.UserModel object at 0x10c026120&gt;}]，如何转换" aria-label="Anchor to: select 查询的结果是 [{&#39;UserModel&#39;: &lt;models.user.UserModel object at 0x10c026120&gt;}]，如何转换" href="#select-%e6%9f%a5%e8%af%a2%e7%9a%84%e7%bb%93%e6%9e%9c%e6%98%af-usermodel-modelsuserusermodel-object-at-0x10c026120%e5%a6%82%e4%bd%95%e8%bd%ac%e6%8d%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>出现 <code>[{'UserModel': &lt;models.user.UserModel object&gt;}]</code> 这种结构，通常是因为你用了 <code>result.mappings().all()</code>，它把每一行包装成了包含模型类名的字典。</p>
+<p>根据你的最终目的（是想解决根源、转成纯字典，还是转成 Pydantic Schema），有以下三种处理方式：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方法一从根源改查询写法最推荐"
+    >
+        方法一：从根源改查询写法（最推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#方法一从根源改查询写法最推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法一：从根源改查询写法（最推荐）" aria-label="Anchor to: 方法一：从根源改查询写法（最推荐）" href="#%e6%96%b9%e6%b3%95%e4%b8%80%e4%bb%8e%e6%a0%b9%e6%ba%90%e6%94%b9%e6%9f%a5%e8%af%a2%e5%86%99%e6%b3%95%e6%9c%80%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你只查询单张表（<code>select(UserModel)</code>），不要用 <code>.mappings()</code>，改用 <code>.scalars()</code>，这样查出来的直接就是 <code>[&lt;UserModel&gt;, &lt;UserModel&gt;]</code> 对象列表，省去解包字典的麻烦：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">UserModel</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ✅ 推荐：直接拿到 UserModel 实例列表</span>
+</span></span><span class="line"><span class="cl"><span class="n">users</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">scalars</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 结果: [&lt;models.user.UserModel object at 0x...&gt;]</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方法二转换成-pydantic-schema用于接口返回"
+    >
+        方法二：转换成 Pydantic Schema（用于接口返回）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#方法二转换成-pydantic-schema用于接口返回" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法二：转换成 Pydantic Schema（用于接口返回）" aria-label="Anchor to: 方法二：转换成 Pydantic Schema（用于接口返回）" href="#%e6%96%b9%e6%b3%95%e4%ba%8c%e8%bd%ac%e6%8d%a2%e6%88%90-pydantic-schema%e7%94%a8%e4%ba%8e%e6%8e%a5%e5%8f%a3%e8%bf%94%e5%9b%9e">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你已经拿到了当前这个列表 <code>rows = [{'UserModel': &lt;UserModel&gt;}]</code>，想转成 Pydantic 模型（假设叫 UserSchema）：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-确保-schema-开启了-from_attributestruepydantic-v2-写法"
+    >
+        1. 确保 Schema 开启了 from_attributes=True（Pydantic v2 写法）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#1-确保-schema-开启了-from_attributestruepydantic-v2-写法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 确保 Schema 开启了 from_attributes=True（Pydantic v2 写法）" aria-label="Anchor to: 1. 确保 Schema 开启了 from_attributes=True（Pydantic v2 写法）" href="#1-%e7%a1%ae%e4%bf%9d-schema-%e5%bc%80%e5%90%af%e4%ba%86-from_attributestruepydantic-v2-%e5%86%99%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">UserSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;from_attributes&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-使用列表推导式提取并转换"
+    >
+        2. 使用列表推导式提取并转换
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#2-使用列表推导式提取并转换" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 使用列表推导式提取并转换" aria-label="Anchor to: 2. 使用列表推导式提取并转换" href="#2-%e4%bd%bf%e7%94%a8%e5%88%97%e8%a1%a8%e6%8e%a8%e5%af%bc%e5%bc%8f%e6%8f%90%e5%8f%96%e5%b9%b6%e8%bd%ac%e6%8d%a2">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;UserModel&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">models</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">UserModel</span> <span class="nb">object</span><span class="o">&gt;</span><span class="p">}]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 提取 row[&#39;UserModel&#39;] 并转为 Schema 实例（或加上 .model_dump() 直接变纯字典）</span>
+</span></span><span class="line"><span class="cl"><span class="n">schema_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">UserSchema</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;UserModel&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="方法三直接转成-python-纯字典-dict"
+    >
+        方法三：直接转成 Python 纯字典 dict
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#方法三直接转成-python-纯字典-dict" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法三：直接转成 Python 纯字典 dict" aria-label="Anchor to: 方法三：直接转成 Python 纯字典 dict" href="#%e6%96%b9%e6%b3%95%e4%b8%89%e7%9b%b4%e6%8e%a5%e8%bd%ac%e6%88%90-python-%e7%ba%af%e5%ad%97%e5%85%b8-dict">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果不想定义 Pydantic Schema，只想快速把 ORM 对象变成普通字典（例如 <code>{'id': 1, 'name': '王五'}</code>）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy.inspection</span> <span class="kn">import</span> <span class="n">inspect</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">orm_to_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 动态读取模型的所有列属性并转为字典</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">{</span><span class="n">c</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">inspect</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">column_attrs</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">rows</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;UserModel&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">models</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">UserModel</span> <span class="nb">object</span><span class="o">&gt;</span><span class="p">}]</span>
+</span></span><span class="line"><span class="cl"><span class="n">dict_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">orm_to_dict</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;UserModel&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+</span></span></code></pre></div><p>如果你使用的是 FastAPI，只要在路由装饰器上加上 <code>response_model=list[UserSchema]</code>，配合方法一查出来的对象列表，FastAPI 会自动帮你完成序列化，连手动转换的代码都不用写。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="如何将-selectorm-转换为标准的文本-sql"
+    >
+        如何将 select(ORM) 转换为标准的文本 SQL
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#如何将-selectorm-转换为标准的文本-sql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 如何将 select(ORM) 转换为标准的文本 SQL" aria-label="Anchor to: 如何将 select(ORM) 转换为标准的文本 SQL" href="#%e5%a6%82%e4%bd%95%e5%b0%86-selectorm-%e8%bd%ac%e6%8d%a2%e4%b8%ba%e6%a0%87%e5%87%86%e7%9a%84%e6%96%87%e6%9c%ac-sql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>将 <code>select(ORM)</code> 语句转换为标准的文本 SQL 字符串，最常用的方法是调用语句对象的 <code>.compile()</code> 方法，并配合 <code>compile_kwargs={&quot;literal_binds&quot;: True}</code> 参数将具体数值直接内联进去。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-完整-sql-文本含具体参数值适合直接复制去数据库执行调试"
+    >
+        1. 完整 SQL 文本（含具体参数值，适合直接复制去数据库执行调试）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#1-完整-sql-文本含具体参数值适合直接复制去数据库执行调试" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 完整 SQL 文本（含具体参数值，适合直接复制去数据库执行调试）" aria-label="Anchor to: 1. 完整 SQL 文本（含具体参数值，适合直接复制去数据库执行调试）" href="#1-%e5%ae%8c%e6%95%b4-sql-%e6%96%87%e6%9c%ac%e5%90%ab%e5%85%b7%e4%bd%93%e5%8f%82%e6%95%b0%e5%80%bc%e9%80%82%e5%90%88%e7%9b%b4%e6%8e%a5%e5%a4%8d%e5%88%b6%e5%8e%bb%e6%95%b0%e6%8d%ae%e5%ba%93%e6%89%a7%e8%a1%8c%e8%b0%83%e8%af%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>直接传入你的数据库方言（如 MySQL、PostgreSQL 或 SQLite）并开启 literal_binds=True：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">select</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy.dialects</span> <span class="kn">import</span> <span class="n">mysql</span><span class="p">,</span> <span class="n">postgresql</span><span class="p">,</span> <span class="n">sqlite</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&#34;王五&#34;</span><span class="p">,</span> <span class="n">User</span><span class="o">.</span><span class="n">age</span> <span class="o">==</span> <span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 传入对应数据库方言并启用 literal_binds=True 将参数内联</span>
+</span></span><span class="line"><span class="cl"><span class="n">compiled</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dialect</span><span class="o">=</span><span class="n">mysql</span><span class="o">.</span><span class="n">dialect</span><span class="p">(),</span>  <span class="c1"># 可替换为 postgresql.dialect() 或 sqlite.dialect()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">compile_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;literal_binds&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">compiled</span><span class="p">))</span>
+</span></span></code></pre></div><p>提示：若已有 engine 对象，可直接传入 dialect=engine.dialect 免去手动导入方言的步骤。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-带占位符的预编译-sql查看参数绑定结构"
+    >
+        2. 带占位符的预编译 SQL（查看参数绑定结构）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#2-带占位符的预编译-sql查看参数绑定结构" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 带占位符的预编译 SQL（查看参数绑定结构）" aria-label="Anchor to: 2. 带占位符的预编译 SQL（查看参数绑定结构）" href="#2-%e5%b8%a6%e5%8d%a0%e4%bd%8d%e7%ac%a6%e7%9a%84%e9%a2%84%e7%bc%96%e8%af%91-sql%e6%9f%a5%e7%9c%8b%e5%8f%82%e6%95%b0%e7%bb%91%e5%ae%9a%e7%bb%93%e6%9e%84">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>当查询包含列表（如 <code>in_()</code>）或复杂类型导致 literal_binds=True 报错时，可省略该参数以获取占位符 SQL 与参数字典：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">compiled</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">dialect</span><span class="o">=</span><span class="n">engine</span><span class="o">.</span><span class="n">dialect</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;SQL 语句:&#34;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">compiled</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;绑定参数:&#34;</span><span class="p">,</span> <span class="n">compiled</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="将-stmtcompile-写成一个公用函数使其支持-mysql-和-postgresql"
+    >
+        将 stmt.compile 写成一个公用函数，使其支持 mysql 和 postgresql
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#将-stmtcompile-写成一个公用函数使其支持-mysql-和-postgresql" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 将 stmt.compile 写成一个公用函数，使其支持 mysql 和 postgresql" aria-label="Anchor to: 将 stmt.compile 写成一个公用函数，使其支持 mysql 和 postgresql" href="#%e5%b0%86-stmtcompile-%e5%86%99%e6%88%90%e4%b8%80%e4%b8%aa%e5%85%ac%e7%94%a8%e5%87%bd%e6%95%b0%e4%bd%bf%e5%85%b6%e6%94%af%e6%8c%81-mysql-%e5%92%8c-postgresql">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>可以直接封装一个通用函数，通过 dialect 参数动态切换 MySQL 和 PostgreSQL 方言，并利用 literal_binds=True 将参数直接内联渲染进 SQL 字符串中，方便打印调试或日志记录。</p>
+<p>通用函数实现</p>
+<p>可以通过 sqlalchemy.dialects 导入 MySQL 和 PostgreSQL 的方言对象，并根据传入的 db_type 动态编译语句：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy.dialects</span> <span class="kn">import</span> <span class="n">mysql</span><span class="p">,</span> <span class="n">postgresql</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">Executable</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">compile_sql</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stmt</span><span class="p">:</span> <span class="n">Executable</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">db_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&#34;mysql&#34;</span><span class="p">,</span> <span class="s2">&#34;postgresql&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;postgresql&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">literal_binds</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">dialects</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;mysql&#34;</span><span class="p">:</span> <span class="n">mysql</span><span class="o">.</span><span class="n">dialect</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;postgresql&#34;</span><span class="p">:</span> <span class="n">postgresql</span><span class="o">.</span><span class="n">dialect</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">target_dialect</span> <span class="o">=</span> <span class="n">dialects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">db_type</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="ow">not</span> <span class="n">target_dialect</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;不支持的数据库类型: </span><span class="si">{</span><span class="n">db_type</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">compiled</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">dialect</span><span class="o">=</span><span class="n">target_dialect</span><span class="p">,</span> <span class="n">compile_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;literal_binds&#34;</span><span class="p">:</span> <span class="n">literal_binds</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">compiled</span><span class="p">)</span>
+</span></span></code></pre></div><p>使用示例与注意事项</p>
+<ul>
+<li>基本用法：传入 select、update 等 SQLAlchemy 语句对象及目标数据库类型（&ldquo;mysql&rdquo; 或 &ldquo;postgresql&rdquo;）即可获取对应方言的 SQL 字符串。不同方言对特定语法（如 RETURNING 子句）的支持存在差异。</li>
+<li>异常情况：当 literal_binds=True 且查询包含复杂数据类型（如 IN 列表、JSON 或特殊日期）时，部分方言可能会抛出 CompileError，此时可将 literal_binds 设为 False。</li>
+<li>安全提示：内联参数后的 SQL 字符串主要用于调试与日志记录，请勿直接拼接并用于执行，以防范 SQL 注入风险。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="literal_binds-的作用"
+    >
+        literal_binds 的作用
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#literal_binds-的作用" class="gdoc-page__anchor clip flex align-center" title="Anchor to: literal_binds 的作用" aria-label="Anchor to: literal_binds 的作用" href="#literal_binds-%e7%9a%84%e4%bd%9c%e7%94%a8">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>literal_binds 的作用是：将 SQL 语句中的参数占位符（如 <code>:name_1</code>、<code>%s</code>）直接替换成具体的字面量值（如 <code>'王五'</code>、<code>20</code>）。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="对比效果"
+    >
+        对比效果
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#对比效果" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 对比效果" aria-label="Anchor to: 对比效果" href="#%e5%af%b9%e6%af%94%e6%95%88%e6%9e%9c">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>假设有这样一条查询：<code>stmt = select(User).where(User.name == &quot;王五&quot;, User.age == 20)</code></p>
+<ul>
+<li>
+<p>默认情况 (literal_binds=False)：</p>
+<p>编译出的是参数化 SQL（包含占位符，也是 SQLAlchemy 实际发给数据库执行的格式）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">age</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">(</span><span class="n">name_1</span><span class="p">)</span><span class="n">s</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">%</span><span class="p">(</span><span class="n">age_1</span><span class="p">)</span><span class="n">s</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>开启后 (literal_binds=True)：</p>
+<p>编译出的是完整可执行 SQL（参数直接内联填入，方便你复制到数据库客户端如 Navicat/DBeaver 里直接运行调试）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">age</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;王五&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w">
+</span></span></span></code></pre></div></li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="核心注意点"
+    >
+        核心注意点
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#核心注意点" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心注意点" aria-label="Anchor to: 核心注意点" href="#%e6%a0%b8%e5%bf%83%e6%b3%a8%e6%84%8f%e7%82%b9">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ol>
+<li>仅限调试与日志：SQLAlchemy 自己不会为复杂数据类型（如 IN 列表、JSON、二进制流）做全方位的安全转义，强行开启可能报 CompileError，且直接执行内联 SQL 有 SQL 注入风险。</li>
+<li>实际执行靠数据库驱动：正常执行业务代码时，SQLAlchemy 始终使用 literal_binds=False 的占位符形式，把参数交给底层驱动（如 psycopg2、pymysql）安全绑定。</li>
+</ol>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="数据库查询参数使用-fastapi-depends-做过滤好还是由数据库自己执行时判断好"
+    >
+        数据库查询参数，使用 fastapi Depends 做过滤好，还是由数据库自己执行时判断好
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#数据库查询参数使用-fastapi-depends-做过滤好还是由数据库自己执行时判断好" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 数据库查询参数，使用 fastapi Depends 做过滤好，还是由数据库自己执行时判断好" aria-label="Anchor to: 数据库查询参数，使用 fastapi Depends 做过滤好，还是由数据库自己执行时判断好" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e6%9f%a5%e8%af%a2%e5%8f%82%e6%95%b0%e4%bd%bf%e7%94%a8-fastapi-depends-%e5%81%9a%e8%bf%87%e6%bb%a4%e5%a5%bd%e8%bf%98%e6%98%af%e7%94%b1%e6%95%b0%e6%8d%ae%e5%ba%93%e8%87%aa%e5%b7%b1%e6%89%a7%e8%a1%8c%e6%97%b6%e5%88%a4%e6%96%ad%e5%a5%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>我建议采用“分层职责分离”的方案：用 FastAPI 的 Depends（配合 Pydantic Schema）做外层的参数校验与清洗，再用数据库/ORM 封装层（Repository）做动态 SQL 条件拼接。</p>
+<p>不要把所有逻辑全塞进其中一方，两者的职责边界应当非常明确。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="核心方案对比"
+    >
+        核心方案对比
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#核心方案对比" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 核心方案对比" aria-label="Anchor to: 核心方案对比" href="#%e6%a0%b8%e5%bf%83%e6%96%b9%e6%a1%88%e5%af%b9%e6%af%94">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>放在 FastAPI Depends（接口层）</th>
+					<th>放在数据库封装层（数据访问层）</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>核心职责</td>
+					<td>接收 HTTP 请求、类型转换、合法性校验（如 age &gt; 0）、过滤 None 值、自动生成 Swagger 文档</td>
+					<td>将干净的字典或条件对象翻译成 SQLAlchemy 的 where / filter_by 表达式</td>
+			</tr>
+			<tr>
+					<td>优势</td>
+					<td>拦截非法请求早（直接返回 422），与 Web 框架高度契合，前端文档友好</td>
+					<td>与 Web 框架解耦，定时任务、消息队列、单元测试也能直接复用查询方法</td>
+			</tr>
+			<tr>
+					<td>局限性</td>
+					<td>强依赖 FastAPI 上下文，写死 select(User) 会导致代码难以在非 HTTP 场景复用</td>
+					<td>如果不做前置校验，直接把前端原始字典丢进来容易触发字段不存在等运行时异常</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="推荐的标准配合写法"
+    >
+        推荐的标准配合写法
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#推荐的标准配合写法" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 推荐的标准配合写法" aria-label="Anchor to: 推荐的标准配合写法" href="#%e6%8e%a8%e8%8d%90%e7%9a%84%e6%a0%87%e5%87%86%e9%85%8d%e5%90%88%e5%86%99%e6%b3%95">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>第一步：用 Pydantic + Depends 过滤和清洗 HTTP 参数（接口层）</p>
+<p>这一步只负责把前端乱七八糟的 Query 参数变成干净的字典：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">UserFilterParams</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">age</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">to_clean_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 自动剔除值为 None（前端未传）的字段</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@app.get</span><span class="p">(</span><span class="s2">&#34;/users&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_users</span><span class="p">(</span><span class="n">filters</span><span class="p">:</span> <span class="n">UserFilterParams</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">clean_params</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">to_clean_dict</span><span class="p">()</span>  <span class="c1"># 例如得到 {&#34;name&#34;: &#34;王五&#34;}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">user_repo</span><span class="o">.</span><span class="n">find_users</span><span class="p">(</span><span class="n">clean_params</span><span class="p">)</span>
+</span></span></code></pre></div><p>第二步：数据库执行层只负责“安全地拼 SQL”（数据层）</p>
+<p>这一步不关心参数是从 HTTP 还是定时任务来的，只判断字段是否合法并拼接条件：</p>
+<p>在数据访问层（Repository），通过遍历清洗后的参数字典动态拼接 SQLAlchemy 查询语句，并在拼接前校验字段合法性，随后执行查询并返回结果。这种分工既能利用 Pydantic 在接口层早期拦截错误，又确保了查询逻辑在后台任务或单元测试中的高度复用与安全性。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="declarativebase-创建的-class类型是什么"
+    >
+        DeclarativeBase 创建的 class，类型是什么
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#declarativebase-创建的-class类型是什么" class="gdoc-page__anchor clip flex align-center" title="Anchor to: DeclarativeBase 创建的 class，类型是什么" aria-label="Anchor to: DeclarativeBase 创建的 class，类型是什么" href="#declarativebase-%e5%88%9b%e5%bb%ba%e7%9a%84-class%e7%b1%bb%e5%9e%8b%e6%98%af%e4%bb%80%e4%b9%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 Python 和 SQLAlchemy 2.0+ 中，继承自 DeclarativeBase 创建的模型类（例如 <code>class User(Base):</code>），它的类型体系分为运行时元类（Metaclass）和静态类型注解（Type Hint）两个层面：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-运行时的真实类型元类declarativeattributeintercept"
+    >
+        1. 运行时的真实类型（元类）：DeclarativeAttributeIntercept
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#1-运行时的真实类型元类declarativeattributeintercept" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 运行时的真实类型（元类）：DeclarativeAttributeIntercept" aria-label="Anchor to: 1. 运行时的真实类型（元类）：DeclarativeAttributeIntercept" href="#1-%e8%bf%90%e8%a1%8c%e6%97%b6%e7%9a%84%e7%9c%9f%e5%ae%9e%e7%b1%bb%e5%9e%8b%e5%85%83%e7%b1%bbdeclarativeattributeintercept">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你在代码中对模型类本身调用 type(User)，得到的是 SQLAlchemy 的内部元类 DeclarativeAttributeIntercept（它是 type 的子类）。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">DeclarativeBase</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">DeclarativeBase</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&#34;users&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">User</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出: &lt;class &#39;sqlalchemy.orm.decl_api.DeclarativeAttributeIntercept&#39;&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">type</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出: True（它本身依然是一个标准的 Python 类对象）</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-写代码时的静态类型注解type-hint"
+    >
+        2. 写代码时的静态类型注解（Type Hint）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#2-写代码时的静态类型注解type-hint" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 写代码时的静态类型注解（Type Hint）" aria-label="Anchor to: 2. 写代码时的静态类型注解（Type Hint）" href="#2-%e5%86%99%e4%bb%a3%e7%a0%81%e6%97%b6%e7%9a%84%e9%9d%99%e6%80%81%e7%b1%bb%e5%9e%8b%e6%b3%a8%e8%a7%a3type-hint">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在封装通用数据库操作函数（如 <code>def get_all(model: ...)</code>）时，为了获得 IDE（VSCode / PyCharm）的代码补全和 Mypy / Pyright 类型检查，通常使用以下三种写法：</p>
+<p>写法一：<code>type[Base]</code>（最推荐，约束必须是你项目里的 ORM 模型类）</p>
+<p>如果你定义了自己的基类 Base，直接用 <code>type[Base]</code>（Python 3.9+ 写法）或 <code>Type[Base]</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">select_all</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Base</span><span class="p">]):</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 传入 User 类时完美通过类型检查；传入 User() 实例则会报错提示</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">select</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</span></span></code></pre></div><p>写法二：<code>type[DeclarativeBase]</code>（适用于跨多个 Base 的通用工具库）</p>
+<p>如果你的封装函数要给多个不同项目的 Base 复用，可以直接指向 SQLAlchemy 的根基类 DeclarativeBase：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">DeclarativeBase</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">select_all</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">DeclarativeBase</span><span class="p">]):</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">select</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</span></span></code></pre></div><p>写法三：使用 TypeVar 泛型（需要精准推导返回值类型时）</p>
+<p>如果你想让函数根据传入的 User 类，自动推导出返回值为 <code>list[User]</code>，需要结合泛型 TypeVar：</p>
+<p>写法三示例与总结</p>
+<p>通过 <code>TypeVar(&quot;ModelType&quot;, bound=DeclarativeBase)</code> 结合 <code>type[ModelType]</code> 作为参数类型，可以实现传入 User 类时，IDE 自动推导返回类型为 <code>list[User]</code> 的效果。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="async_session-如何获取-engine"
+    >
+        async_session 如何获取 engine
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#async_session-如何获取-engine" class="gdoc-page__anchor clip flex align-center" title="Anchor to: async_session 如何获取 engine" aria-label="Anchor to: async_session 如何获取 engine" href="#async_session-%e5%a6%82%e4%bd%95%e8%8e%b7%e5%8f%96-engine">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 SQLAlchemy 中，要从 async_session 实例获取对应的 AsyncEngine，最直接的方法是访问 async_session.bind 属性。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="获取方式"
+    >
+        获取方式
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#获取方式" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 获取方式" aria-label="Anchor to: 获取方式" href="#%e8%8e%b7%e5%8f%96%e6%96%b9%e5%bc%8f">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>根据你使用 AsyncSession 的方式，写法略有不同：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="1-如果你已经有一个-async_session-实例"
+    >
+        1. 如果你已经有一个 async_session 实例
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#1-如果你已经有一个-async_session-实例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 如果你已经有一个 async_session 实例" aria-label="Anchor to: 1. 如果你已经有一个 async_session 实例" href="#1-%e5%a6%82%e6%9e%9c%e4%bd%a0%e5%b7%b2%e7%bb%8f%e6%9c%89%e4%b8%80%e4%b8%aa-async_session-%e5%ae%9e%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>直接读取它的 <code>.bind</code> 属性即可（在常规单库配置下，它返回的就是 AsyncEngine 对象）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">with</span> <span class="n">async_session_maker</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 直接获取绑定的 AsyncEngine</span>
+</span></span><span class="line"><span class="cl">  <span class="n">engine</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">bind</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">print</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>  <span class="c1"># &lt;sqlalchemy.ext.asyncio.engine.AsyncEngine object at ...&gt;</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="2-如果你通过-sessionget_bind-获取"
+    >
+        2. 如果你通过 session.get_bind() 获取
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#2-如果你通过-sessionget_bind-获取" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 如果你通过 session.get_bind() 获取" aria-label="Anchor to: 2. 如果你通过 session.get_bind() 获取" href="#2-%e5%a6%82%e6%9e%9c%e4%bd%a0%e9%80%9a%e8%bf%87-sessionget_bind-%e8%8e%b7%e5%8f%96">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>调用 session.get_bind() 也可以获取绑定对象，但注意：get_bind() 返回的是底层同步包装的 Engine（sqlalchemy.engine.Engine），而不是 AsyncEngine：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">with</span> <span class="n">async_session_maker</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">sync_engine</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get_bind</span><span class="p">()</span>  <span class="c1"># 返回的是同步 Engine 对象</span>
+</span></span><span class="line"><span class="cl">  <span class="n">dialect_name</span> <span class="o">=</span> <span class="n">sync_engine</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># 例如获取方言名称: &#39;postgresql&#39; 或 &#39;mysql&#39;</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="常见用途示例"
+    >
+        常见用途示例
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#常见用途示例" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 常见用途示例" aria-label="Anchor to: 常见用途示例" href="#%e5%b8%b8%e8%a7%81%e7%94%a8%e9%80%94%e7%a4%ba%e4%be%8b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你获取 engine 是为了判断当前连接的数据库类型（方言）（例如配合之前写的 compile_sql 动态切换 MySQL / PostgreSQL），推荐直接这样写：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">with</span> <span class="n">async_session_maker</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 方式 A：通过 session.bind 获取</span>
+</span></span><span class="line"><span class="cl">  <span class="n">db_type</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">bind</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">name</span>  <span class="c1"># &#39;postgresql&#39; 或 &#39;mysql&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># 方式 B：通过 get_bind() 获取（同样适用）</span>
+</span></span><span class="line"><span class="cl">  <span class="n">db_type</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get_bind</span><span class="p">()</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">name</span>
+</span></span></code></pre></div><p>注意：如果你的项目配置了多数据库读写分离（即 async_sessionmaker 初始化时没有传单一的 bind，而是用 <code>binds={User: engine1, Order: engine2}</code> 绑定多个引擎），那么 session.bind 会返回 None，此时必须使用 <code>session.get_bind(mapper=User)</code> 来获取特定模型对应的引擎。</p>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="orm-delete-删除-listdict"
+    >
+        orm delete 删除 <code>list[dict]</code>
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#orm-delete-删除-listdict" class="gdoc-page__anchor clip flex align-center" title="Anchor to: orm delete 删除 list[dict]" aria-label="Anchor to: orm delete 删除 list[dict]" href="#orm-delete-%e5%88%a0%e9%99%a4-listdict">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 SQLAlchemy ORM 中，如果要根据一个 <code>list[dict]</code>（例如 <code>[{'id': 1, 'name': '王五'}, {'id': 2, 'name': '李四'}]</code>）批量删除数据，最标准、安全的做法是使用 <code>or_()</code> 组合多组 <code>and_()</code> 条件，或者在仅根据主键/单字段删除时使用 <code>.in_()</code>。</p>
+<p>以下是三种最常用的实现方式：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景一多字段组合条件批量删除通用写法推荐"
+    >
+        场景一：多字段组合条件批量删除（通用写法，推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#场景一多字段组合条件批量删除通用写法推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景一：多字段组合条件批量删除（通用写法，推荐）" aria-label="Anchor to: 场景一：多字段组合条件批量删除（通用写法，推荐）" href="#%e5%9c%ba%e6%99%af%e4%b8%80%e5%a4%9a%e5%ad%97%e6%ae%b5%e7%bb%84%e5%90%88%e6%9d%a1%e4%bb%b6%e6%89%b9%e9%87%8f%e5%88%a0%e9%99%a4%e9%80%9a%e7%94%a8%e5%86%99%e6%b3%95%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果列表里的每个字典包含多个条件（例如必须同时满足 name 和 age 才删除），可以用 <code>and_()</code> 组合单个字典的条件，再用 <code>or_()</code> 把所有字典连起来：</p>
+<p>通过遍历 <code>list[dict]</code>，将每个字典的多个字段用 <code>and_()</code> 组装、再用 <code>or_()</code> 组合成一条 DELETE 语句进行批量执行（需注意防范空列表误删）。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">and_</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">or_</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">delete_list</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;王五&#34;</span><span class="p">,</span> <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;李四&#34;</span><span class="p">,</span> <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">25</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">delete_list</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="n">and_</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">delete_list</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stmt</span> <span class="o">=</span> <span class="n">delete</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">or_</span><span class="p">(</span><span class="o">*</span><span class="n">conditions</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="场景二列表里只包含主键或单一字段最高效"
+    >
+        场景二：列表里只包含主键或单一字段（最高效）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/sqlalchemy/faq/#场景二列表里只包含主键或单一字段最高效" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 场景二：列表里只包含主键或单一字段（最高效）" aria-label="Anchor to: 场景二：列表里只包含主键或单一字段（最高效）" href="#%e5%9c%ba%e6%99%af%e4%ba%8c%e5%88%97%e8%a1%a8%e9%87%8c%e5%8f%aa%e5%8c%85%e5%90%ab%e4%b8%bb%e9%94%ae%e6%88%96%e5%8d%95%e4%b8%80%e5%ad%97%e6%ae%b5%e6%9c%80%e9%ab%98%e6%95%88">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>若 <code>list[dict]</code> 仅含主键等单一字段，可直接提取为列表并使用 <code>.in_()</code> 查询删除，执行效率最高：</p>
+<p>若针对联合主键或更复杂的批量删除场景，可通过提取主键列表或使用 <code>tuple_().in_()</code> 语法进行高效匹配与删除。</p>
 
   </article>
 

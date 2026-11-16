@@ -71,7 +71,7 @@
       "url": "https://documents.v2ep.com/database/postgres/faq/",
       "headline": "Faq",
       "description": " PostgreSQL 目前常见的问题有哪些？如何解决？ PostgreSQL 常见的问题主要包括 表和索引膨胀、连接数过多、以及 Autovacuum（自动清理）调优不当。\n针对 RDS for PostgreSQL 中常见 PostgreSQL 性能问题的初始故障排除 表和索引膨胀 (Bloat) 表现：表中的数据删除或更新后，占用的物理磁盘空间没有释放，导致查询变慢、磁盘空间耗尽。\n原因：PostgreSQL 采用 MVCC（多版本并发控制）机制，旧版本数据不会立即擦除。\n解决办法：\n定期执行 VACUUM FULL 或使用 pg_repack 工具在线重建表和索引，避免锁表。 调整 autovacuum 参数，使其更积极地清理死行。 连接数过多与瓶颈 表现：报 FATAL: sorry, too many clients already 错误，或者 CPU 与内存资源被连接耗尽。",
-      "wordCount": "83",
+      "wordCount": "327",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2299,6 +2299,148 @@
 <li>将 shared_buffers 设置为系统内存的 25% 左右。</li>
 <li>适当调大 work_mem（针对单个排序/哈希操作的内存），避免复杂查询落盘。</li>
 </ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="postgresql-18-中为什么表名为-user-无法创建成功使用-users-就可以"
+    >
+        PostgreSQL 18 中，为什么表名为 user 无法创建成功，使用 users 就可以
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#postgresql-18-中为什么表名为-user-无法创建成功使用-users-就可以" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL 18 中，为什么表名为 user 无法创建成功，使用 users 就可以" aria-label="Anchor to: PostgreSQL 18 中，为什么表名为 user 无法创建成功，使用 users 就可以" href="#postgresql-18-%e4%b8%ad%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a1%a8%e5%90%8d%e4%b8%ba-user-%e6%97%a0%e6%b3%95%e5%88%9b%e5%bb%ba%e6%88%90%e5%8a%9f%e4%bd%bf%e7%94%a8-users-%e5%b0%b1%e5%8f%af%e4%bb%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>在 PostgreSQL（包括最新的 PostgreSQL 18）中，user 无法直接作为表名创建成功，核心原因是因为 user 是 SQL 标准和 PostgreSQL 的保留关键字（Reserved Keyword），而 users 只是普通标识符。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-为什么-user-会报错users-可以"
+    >
+        1. 为什么 user 会报错，users 可以？
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#1-为什么-user-会报错users-可以" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 为什么 user 会报错，users 可以？" aria-label="Anchor to: 1. 为什么 user 会报错，users 可以？" href="#1-%e4%b8%ba%e4%bb%80%e4%b9%88-user-%e4%bc%9a%e6%8a%a5%e9%94%99users-%e5%8f%af%e4%bb%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<ul>
+<li>系统保留函数冲突。 在 PostgreSQL 中，USER（等同于 CURRENT_USER）是一个内置的系统信息函数，用于返回当前执行查询的数据库角色名（例如执行 SELECT user; 会直接返回当前用户名）。</li>
+<li>语法解析歧义。 当你不加引号直接写 CREATE TABLE IF NOT EXISTS user 时，SQL 解析器会优先将其识别为关键字/系统函数而非表名，从而抛出 ERROR: syntax error at or near &ldquo;user&rdquo;。</li>
+<li>users 无冲突。 复数形式的 users 不在保留字列表中，数据库会直接将其当作常规表名处理。</li>
+</ul>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-正确的写法与建议"
+    >
+        2. 正确的写法与建议
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#2-正确的写法与建议" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 正确的写法与建议" aria-label="Anchor to: 2. 正确的写法与建议" href="#2-%e6%ad%a3%e7%a1%ae%e7%9a%84%e5%86%99%e6%b3%95%e4%b8%8e%e5%bb%ba%e8%ae%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在修正表名的同时，需要把 PRIMARY KEY 后面的逗号删掉：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="方案-a使用-users-或语义化表名最推荐"
+    >
+        方案 A：使用 users 或语义化表名（最推荐）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#方案-a使用-users-或语义化表名最推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方案 A：使用 users 或语义化表名（最推荐）" aria-label="Anchor to: 方案 A：使用 users 或语义化表名（最推荐）" href="#%e6%96%b9%e6%a1%88-a%e4%bd%bf%e7%94%a8-users-%e6%88%96%e8%af%ad%e4%b9%89%e5%8c%96%e8%a1%a8%e5%90%8d%e6%9c%80%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 社区和绝大多数 ORM 框架的命名最佳实践都是避免使用保留字，推荐直接使用复数或业务前缀（如 users、sys_user、app_user）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h4 id="方案-b强制使用双引号包裹-user不推荐"
+    >
+        方案 B：强制使用双引号包裹 &ldquo;user&rdquo;（不推荐）
+    </h4>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#方案-b强制使用双引号包裹-user不推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方案 B：强制使用双引号包裹 &ldquo;user&rdquo;（不推荐）" aria-label="Anchor to: 方案 B：强制使用双引号包裹 &ldquo;user&rdquo;（不推荐）" href="#%e6%96%b9%e6%a1%88-b%e5%bc%ba%e5%88%b6%e4%bd%bf%e7%94%a8%e5%8f%8c%e5%bc%95%e5%8f%b7%e5%8c%85%e8%a3%b9-user%e4%b8%8d%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果你因为历史遗留系统必须叫 user，在 PostgreSQL 中需要使用英文双引号（注意不是 MySQL 的反引号 `）将其强制转义为普通标识符：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="s2">&#34;user&#34;</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><p>注意： 一旦使用了双引号，后续所有的增删改查（如 SELECT * FROM &ldquo;user&rdquo;;）都必须严格加上双引号，否则依然会报错，非常容易在手写 SQL 时踩坑。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="postgresql-的保留关键字有哪些"
+    >
+        PostgreSQL 的保留关键字有哪些
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#postgresql-的保留关键字有哪些" class="gdoc-page__anchor clip flex align-center" title="Anchor to: PostgreSQL 的保留关键字有哪些" aria-label="Anchor to: PostgreSQL 的保留关键字有哪些" href="#postgresql-%e7%9a%84%e4%bf%9d%e7%95%99%e5%85%b3%e9%94%ae%e5%ad%97%e6%9c%89%e5%93%aa%e4%ba%9b">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>PostgreSQL 的关键字总数有数百个，其中真正不能直接用作表名或列名的“完全保留关键字（Reserved）”大约有 80 多个。</p>
+<p>你可以直接通过 SQL 语句查询当前数据库版本的完整列表，也可以参考下面整理的高频避坑清单。</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="1-用-sql-直接查询完整列表最准确"
+    >
+        1. 用 SQL 直接查询完整列表（最准确）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#1-用-sql-直接查询完整列表最准确" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. 用 SQL 直接查询完整列表（最准确）" aria-label="Anchor to: 1. 用 SQL 直接查询完整列表（最准确）" href="#1-%e7%94%a8-sql-%e7%9b%b4%e6%8e%a5%e6%9f%a5%e8%af%a2%e5%ae%8c%e6%95%b4%e5%88%97%e8%a1%a8%e6%9c%80%e5%87%86%e7%a1%ae">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>在 PostgreSQL 18 中，直接运行内置的系统函数 <code>pg_get_keywords()</code> 即可获取精确的保留字列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="c1">-- 查询所有绝对不能直接作为表名/列名的保留关键字
+</span></span></span><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">word</span><span class="p">,</span><span class="w"> </span><span class="n">catdesc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">FROM</span><span class="w"> </span><span class="n">pg_get_keywords</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">WHERE</span><span class="w"> </span><span class="n">catcode</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;T&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">word</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>PostgreSQL 将关键字分为 4 类（catcode）：</p>
+<div class="table-wrap"> <table>
+	<thead>
+			<tr>
+					<th>类别代码 (catcode)</th>
+					<th>含义说明</th>
+					<th>能否直接作表名/列名</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>R (Reserved)</td>
+					<td>完全保留关键字（如 user, order, select）</td>
+					<td>不能（必须加双引号）</td>
+			</tr>
+			<tr>
+					<td>T (Type/Function)</td>
+					<td>保留但可作函数/类型名（如 join, like, freeze）</td>
+					<td>不能（必须加双引号）</td>
+			</tr>
+			<tr>
+					<td>C (Column)</td>
+					<td>非保留，但不可作函数/类型名（如 substring, int）</td>
+					<td>可以</td>
+			</tr>
+			<tr>
+					<td>U (Unreserved)</td>
+					<td>非保留关键字（如 status, type, name, id）</td>
+					<td>可以</td>
+			</tr>
+	</tbody>
+</table> </div>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="2-开发中最容易踩坑的高频保留关键字r-和-t-类"
+    >
+        2. 开发中最容易踩坑的高频保留关键字（R 和 T 类）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/database/postgres/faq/#2-开发中最容易踩坑的高频保留关键字r-和-t-类" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 2. 开发中最容易踩坑的高频保留关键字（R 和 T 类）" aria-label="Anchor to: 2. 开发中最容易踩坑的高频保留关键字（R 和 T 类）" href="#2-%e5%bc%80%e5%8f%91%e4%b8%ad%e6%9c%80%e5%ae%b9%e6%98%93%e8%b8%a9%e5%9d%91%e7%9a%84%e9%ab%98%e9%a2%91%e4%bf%9d%e7%95%99%e5%85%b3%e9%94%ae%e5%ad%97r-%e5%92%8c-t-%e7%b1%bb">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>日常建表或定义字段时，最容易与业务词汇撞车的保留关键字集中在以下几类（完整列表可查阅 PostgreSQL 官方文档附录 C）：</p>
+<ul>
+<li>业务实体与权限类。 user、group、role（注：role 在部分版本为 U 类，但建议避开）、authorization、session_user、current_user、current_role。</li>
+<li>排序、分页与位置类。 order、limit、offset、top、end、leading、trailing、both。</li>
+<li>逻辑与查询结构类。 all、any、some、and、or、not、in、is、like、ilike、similar、between、case、when、then、else、select、from、where、having、join、union、except、intersect。</li>
+<li>对象与约束定义类。 table、column、constraint、primary、foreign、references、unique、check、default、index、create、grant、to、on、as。</li>
+<li>特殊值与时间函数类。 null、true、false、current_date、current_time、current_timestamp、localtime、localtimestamp。</li>
+<li>其他常见业务冲突词。 desc（常用于“描述 description”，但与降序关键字冲突）、analyze、analyse、binary、cast、collate、do、fetch、for、full、into、natural、only、overlaps、placing、returning、symmetric、using、variadic、verbose、window、with。</li>
+</ul>
+<p>避坑建议： 命名表或字段时，尽量使用复数形式（如 users、orders、groups）、完整单词（如用 description 代替 desc），或者加上业务前缀（如 sys_user、order_info），就能避开 99% 的保留字冲突。</p>
 
   </article>
 
