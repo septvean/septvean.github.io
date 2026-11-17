@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>ProxySQL on Septvean&#39;s Documents</title>
+		<link>https://documents.v2ep.com/operations/proxysql/</link>
+		<description>Recent content in ProxySQL on Septvean&#39;s Documents</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+		
+			<atom:link href="https://documents.v2ep.com/operations/proxysql/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>ProxySQL PostgreSQL 配置</title>
+				<link>https://documents.v2ep.com/operations/proxysql/postgres/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://documents.v2ep.com/operations/proxysql/postgres/</guid>
+				<description>&lt;p&gt;在 ProxySQL（3.0+ 版本）中配置 PostgreSQL，需要通过专用管理端口 6132 操作 &lt;code&gt;pgsql_*&lt;/code&gt; 系列配置表，并执行 LOAD 和 SAVE 使配置生效。以下为标准的读写分离与代理配置步骤：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a&#xA;  class=&#34;gdoc-markdown__link&#34;&#xA;  href=&#34;https://proxysql.com/documentation/proxysql-configuration-postgresql/&#34;&#xA;&gt;https://proxysql.com/documentation/proxysql-configuration-postgresql/&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;div class=&#34;flex align-center gdoc-page__anchorwrap&#34;&gt;&#xA;    &lt;h2 id=&#34;1-登录管理界面&#34;&#xA;    &gt;&#xA;        1. 登录管理界面&#xA;    &lt;/h2&gt;&#xA;    &lt;a data-clipboard-text=&#34;https://documents.v2ep.com/operations/proxysql/postgres/#1-登录管理界面&#34; class=&#34;gdoc-page__anchor clip flex align-center&#34; title=&#34;Anchor to: 1. 登录管理界面&#34; aria-label=&#34;Anchor to: 1. 登录管理界面&#34; href=&#34;#1-%e7%99%bb%e5%bd%95%e7%ae%a1%e7%90%86%e7%95%8c%e9%9d%a2&#34;&gt;&#xA;        &lt;svg class=&#34;gdoc-icon gdoc_link&#34;&gt;&lt;use xlink:href=&#34;#gdoc_link&#34;&gt;&lt;/use&gt;&lt;/svg&gt;&#xA;    &lt;/a&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;ProxySQL 为 PostgreSQL 提供了独立的管理端口（默认 6132）和业务代理端口（默认 6133）。使用 psql 客户端连接管理界面：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;psql -h 127.0.0.1 -p &lt;span class=&#34;m&#34;&gt;6132&lt;/span&gt; -U admin&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 默认密码为 admin&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;flex align-center gdoc-page__anchorwrap&#34;&gt;&#xA;    &lt;h2 id=&#34;2-配置后端-postgresql-节点&#34;&#xA;    &gt;&#xA;        2. 配置后端 PostgreSQL 节点&#xA;    &lt;/h2&gt;&#xA;    &lt;a data-clipboard-text=&#34;https://documents.v2ep.com/operations/proxysql/postgres/#2-配置后端-postgresql-节点&#34; class=&#34;gdoc-page__anchor clip flex align-center&#34; title=&#34;Anchor to: 2. 配置后端 PostgreSQL 节点&#34; aria-label=&#34;Anchor to: 2. 配置后端 PostgreSQL 节点&#34; href=&#34;#2-%e9%85%8d%e7%bd%ae%e5%90%8e%e7%ab%af-postgresql-%e8%8a%82%e7%82%b9&#34;&gt;&#xA;        &lt;svg class=&#34;gdoc-icon gdoc_link&#34;&gt;&lt;use xlink:href=&#34;#gdoc_link&#34;&gt;&lt;/use&gt;&lt;/svg&gt;&#xA;    &lt;/a&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;在 pgsql_servers 表中添加主库（写组，例如 &lt;code&gt;hostgroup_id = 10&lt;/code&gt;）和从库（读组，例如 &lt;code&gt;hostgroup_id = 20&lt;/code&gt;）：&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

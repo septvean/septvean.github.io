@@ -62,7 +62,7 @@
       "url": "https://documents.v2ep.com/backend/python/official/faq/",
       "headline": "FAQ",
       "description": " 总结 为了让代码容易排查异常，使用以下模式来编写健壮的代码：\n使用 try ... except Exception as e 捕获错误 函数必须有返回值，至少是 bool 或 None。调用函数后，首先判断返回值是否为 bool 或 None。 错误优先，遇到错误时，不在向下继续执行。 Python try … except Exception as e 是不是可以输出任何错误？ 不是，try … except Exception as e 并不能捕获和输出所有的错误。",
-      "wordCount": "2190",
+      "wordCount": "2325",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -1922,6 +1922,42 @@
               
                 <span class="flex">
                   <a
+                    href="/operations/proxysql/"
+                    class="gdoc-nav__entry"
+                  >
+                    ProxySQL
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
                     href="/operations/vscode/"
                     class="gdoc-nav__entry"
                   >
@@ -1998,6 +2034,104 @@
                     class="gdoc-nav__entry"
                   >
                     Zabbix
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+          </li>
+        
+      
+    
+  </ul>
+
+            
+          </li>
+        
+      
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/ai/"
+                    class="gdoc-nav__entry"
+                  >
+                    AI
+                  </a>
+                </span>
+              
+              
+            </label>
+
+            
+              
+  
+
+
+  <ul class="gdoc-nav__list">
+    
+    
+      
+
+      
+        
+      
+
+      
+        
+          
+          
+          
+          
+          
+          
+
+
+          <li>
+            <input
+              type="checkbox"
+              
+                class="hidden"
+              
+            />
+            <label
+              
+            >
+              
+                <span class="flex">
+                  <a
+                    href="/ai/core/"
+                    class="gdoc-nav__entry"
+                  >
+                    AI 核心概念
                   </a>
                 </span>
               
@@ -3637,6 +3771,89 @@
 <p>如果是后台排查问题，建议直接保留完整的 e.stderr，不要截断，否则会丢失定位问题最关键的上下文行号。</p>
 </li>
 </ul>
+<hr>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="调用-orjsondumps-时vscode-提示-e1101-错误"
+    >
+        调用 orjson.dumps 时，VSCode 提示 E1101 错误
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#调用-orjsondumps-时vscode-提示-e1101-错误" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 调用 orjson.dumps 时，VSCode 提示 E1101 错误" aria-label="Anchor to: 调用 orjson.dumps 时，VSCode 提示 E1101 错误" href="#%e8%b0%83%e7%94%a8-orjsondumps-%e6%97%b6vscode-%e6%8f%90%e7%a4%ba-e1101-%e9%94%99%e8%af%af">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>该错误（E1101: Module &lsquo;orjson&rsquo; has no &lsquo;dumps&rsquo; member）是由 Pylint 无法静态解析 Rust/C 编译的二进制扩展模块（.so 或 .pyd）引起的，代码本身可以正常运行。</p>
+<p>以下是推荐的几种解决方式，按推荐程度排序：</p>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方法一在项目配置中将-orjson-加入白名单推荐"
+    >
+        方法一：在项目配置中将 orjson 加入白名单（推荐）
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#方法一在项目配置中将-orjson-加入白名单推荐" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法一：在项目配置中将 orjson 加入白名单（推荐）" aria-label="Anchor to: 方法一：在项目配置中将 orjson 加入白名单（推荐）" href="#%e6%96%b9%e6%b3%95%e4%b8%80%e5%9c%a8%e9%a1%b9%e7%9b%ae%e9%85%8d%e7%bd%ae%e4%b8%ad%e5%b0%86-orjson-%e5%8a%a0%e5%85%a5%e7%99%bd%e5%90%8d%e5%8d%95%e6%8e%a8%e8%8d%90">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>允许 Pylint 加载 orjson 的 C/Rust 扩展以获取动态成员信息，彻底消除整个项目中的同类警告。</p>
+<ol>
+<li>
+<p>如果你使用 pyproject.toml（现代 Python 项目推荐）：</p>
+<p>在项目根目录的 pyproject.toml 中添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">pylint</span><span class="p">.</span><span class="nx">main</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">extension-pkg-allow-list</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;orjson&#34;</span><span class="p">]</span>
+</span></span></code></pre></div></li>
+<li>
+<p>如果你使用 .pylintrc 文件：</p>
+<p>在 .pylintrc 中找到或添加 extension-pkg-allow-list：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[MAIN]</span>
+</span></span><span class="line"><span class="cl"><span class="na">extension-pkg-allow-list</span><span class="o">=</span><span class="s">orjson</span>
+</span></span></code></pre></div></li>
+<li>
+<p>如果你仅想在 VSCode 全局设置中配置：</p>
+<p>打开 VSCode 设置（Ctrl + , 或 Cmd + ,），搜索 pylint.args，点击“在 settings.json 中编辑”，添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;pylint.args&#34;</span><span class="err">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;--extension-pkg-allow-list=orjson&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div></li>
+</ol>
+<div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方法二全局忽略-orjson-生成的成员检查"
+    >
+        方法二：全局忽略 orjson 生成的成员检查
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#方法二全局忽略-orjson-生成的成员检查" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法二：全局忽略 orjson 生成的成员检查" aria-label="Anchor to: 方法二：全局忽略 orjson 生成的成员检查" href="#%e6%96%b9%e6%b3%95%e4%ba%8c%e5%85%a8%e5%b1%80%e5%bf%bd%e7%95%a5-orjson-%e7%94%9f%e6%88%90%e7%9a%84%e6%88%90%e5%91%98%e6%a3%80%e6%9f%a5">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果上述白名单方式因虚拟环境路径不一致仍未生效，可直接让 Pylint 忽略对 orjson 模块的属性检查：</p>
+<p>在 pyproject.toml 中添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">pylint</span><span class="p">.</span><span class="nx">typecheck</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">generated-members</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;orjson.*&#34;</span><span class="p">]</span>
+</span></span></code></pre></div><p>或在 .pylintrc 中添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[TYPECHECK]</span>
+</span></span><span class="line"><span class="cl"><span class="na">generated-members</span><span class="o">=</span><span class="s">orjson.*</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h3 id="方法三单行注释临时屏蔽"
+    >
+        方法三：单行注释临时屏蔽
+    </h3>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#方法三单行注释临时屏蔽" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 方法三：单行注释临时屏蔽" aria-label="Anchor to: 方法三：单行注释临时屏蔽" href="#%e6%96%b9%e6%b3%95%e4%b8%89%e5%8d%95%e8%a1%8c%e6%b3%a8%e9%87%8a%e4%b8%b4%e6%97%b6%e5%b1%8f%e8%94%bd">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>如果只是在极少数文件中使用，可以在报错那一行末尾添加 Pylint 忽略注释：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">orjson</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="n">orjson</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&#34;key&#34;</span><span class="p">:</span> <span class="s2">&#34;value&#34;</span><span class="p">})</span>  <span class="c1"># pylint: disable=no-member</span>
+</span></span></code></pre></div><div class="flex align-center gdoc-page__anchorwrap">
+    <h2 id="额外排查提示"
+    >
+        额外排查提示
+    </h2>
+    <a data-clipboard-text="https://documents.v2ep.com/backend/python/official/faq/#额外排查提示" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 额外排查提示" aria-label="Anchor to: 额外排查提示" href="#%e9%a2%9d%e5%a4%96%e6%8e%92%e6%9f%a5%e6%8f%90%e7%a4%ba">
+        <svg class="gdoc-icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+    </a>
+</div>
+<p>检查解释器路径：确保 VSCode 右下角选中的 Python 解释器，正是你执行 pip install orjson 的那个虚拟环境（venv / conda）。如果解释器选错，不仅 Pylint 会报错，Pylance 也会提示无法解析导入。</p>
+<p>重启服务：修改配置文件后，可在 VSCode 中按 Ctrl + Shift + P（Mac 为 Cmd + Shift + P），运行 Pylint: Restart Server 使配置立即生效。</p>
 
   </article>
 
@@ -4841,6 +5058,104 @@
         
         
       
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+      
+    
+
+  
+
+        
+      
+    
+
+  
+    
+
+    
+      
+    
+
+    
+      
+      
+
+      
+        
+        
+        
+        
+
+        
+        
+
+        
+
+        
+
+        
+          
+        
+
+        
+        
+          
+  
+  
+
+  
+  
+    
+
+    
+      
+    
+
     
       
       
