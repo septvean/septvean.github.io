@@ -1,0 +1,9 @@
+# synchronize module
+# https://docs.ansible.com/ansible/latest/collections/ansible/posix/synchronize_module.html
+---
+- hosts: el8
+  tasks:
+    - name: data synchronization
+      ansible.posix.synchronize:
+        src: /tmp/test.txt
+        dest: /tmp/test.txt
