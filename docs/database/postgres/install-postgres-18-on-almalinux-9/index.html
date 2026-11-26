@@ -71,7 +71,7 @@ percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）�
       "url": "https://documents.v2ep.com/database/postgres/install-postgres-18-on-almalinux-9/",
       "headline": "在 AlmaLinux 9 上安装 PostgreSQL 18",
       "description": "官方文档：Linux downloads (Red Hat family)\n运维环境：\n操作系统：AlmaLinux 9.9 数据库版本：PostgreSQL 18 准备工作 安装 Percona 官方 YUM 仓库 dnf install -y https:\/\/repo.percona.com\/yum\/percona-release-latest.noarch.rpm 验证仓库状态：\npercona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）或 MySQL Oracle 官方仓库，避免版本冲突。\n安装 Percona PostgreSQL 18 启用 PostgreSQL 18 仓库 dnf -qy module disable postgresql percona-release setup ppg-18 说明：",
-      "wordCount": "433",
+      "wordCount": "454",
       "inLanguage": "en",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -2559,11 +2559,17 @@ percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）�
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">mkdir conf.d
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">sudo tee conf.d/99-low-memory.conf &gt; /dev/null <span class="s">&lt;&lt; &#39;EOF&#39;
+</span></span><span class="line"><span class="cl"><span class="c1"># 小内存优化</span>
+</span></span><span class="line"><span class="cl">tee conf.d/99-low-memory.conf &gt; /dev/null <span class="s">&lt;&lt; &#39;EOF&#39;
 </span></span></span><span class="line"><span class="cl"><span class="s">maintenance_work_mem = 16MB
 </span></span></span><span class="line"><span class="cl"><span class="s">max_connections = 20
 </span></span></span><span class="line"><span class="cl"><span class="s">shared_buffers = 64MB
 </span></span></span><span class="line"><span class="cl"><span class="s">work_mem = 2MB
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 绑定 IP (可选)</span>
+</span></span><span class="line"><span class="cl">tee conf.d/98-listen-local.conf &gt; /dev/null <span class="s">&lt;&lt; &#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">listen_addresses = &#39;127.0.0.1&#39;
 </span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">chown -R postgres:postgres /data/pgsql/18/data
@@ -2583,7 +2589,8 @@ percona-release show ⚠️ 建议不要同时启用官方 PostgreSQL（PGDG）�
 </span></span><span class="line"><span class="cl">systemctl status postgresql-18
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># 查看端口</span>
-</span></span><span class="line"><span class="cl">ss -netlap <span class="p">|</span> grep postgres
+</span></span><span class="line"><span class="cl"><span class="c1"># ss -netlap | grep postgres</span>
+</span></span><span class="line"><span class="cl">ss -ntlp <span class="p">|</span> grep postgres
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># psql: symbol lookup error: psql: undefined symbol: PQpipelineStatus</span>
 </span></span><span class="line"><span class="cl"><span class="c1">#</span>
